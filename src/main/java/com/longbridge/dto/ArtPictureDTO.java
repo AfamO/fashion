@@ -1,0 +1,23 @@
+package com.longbridge.dto;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Longbridge on 11/12/2017.
+ */
+public class ArtPictureDTO {
+    public Long id;
+    public Long productId;
+    public String artWorkPicture;
+
+
+
+    public ArtPictureDTO() {
+    }
+
+    public ArtPictureDTO(Long id, Long productId, String artWorkPicture) {
+        this.id = id;
+        this.productId = productId;
+        this.artWorkPicture = artWorkPicture;
+    }
+}

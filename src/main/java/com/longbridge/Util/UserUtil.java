@@ -1,0 +1,310 @@
+package com.longbridge.Util;
+import com.longbridge.dto.UserDTO;
+import com.longbridge.exception.PasswordException;
+import com.longbridge.exception.WawoohException;
+import com.longbridge.models.*;
+import com.longbridge.repository.DesignerRepository;
+import com.longbridge.repository.TokenRepository;
+import com.longbridge.security.JwtTokenUtil;
+import com.longbridge.security.JwtUser;
+import com.longbridge.security.repository.UserRepository;
+import com.longbridge.security.service.JwtAuthenticationResponse;
+import com.longbridge.services.MailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
+import org.springframework.mobile.device.Device;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.*;
+
+/**
+ * Created by longbridge on 11/5/17.
+ */
+@Service
+public class UserUtil {
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    DesignerRepository designerRepository;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    MailService mailService;
+
+    @Autowired
+    MessageSource messageSource;
+
+    @Autowired
+    TokenRepository tokenRepository;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    private Locale locale = LocaleContextHolder.getLocale();
+
+    @Value("${s.designer.logo.folder}")
+    private String designerLogoFolder;
+
+    public Object registerUser(User passedUser){
+        Map<String,Object> responseMap = new HashMap();
+        try {
+            Date date = new Date();
+            Address address = Address.createAddress(passedUser,passedUser.address,"Y");
+            List<Address> addresses = new ArrayList<>();
+            User user = userRepository.findByEmail(passedUser.email);
+            if(user==null){
+                passedUser.addresses = addresses;
+                passedUser.addresses.add(address);
+                passedUser.password = Hash.createPassword(passedUser.password);
+
+                System.out.println("this is"+passedUser.designer);
+                if(passedUser.designer!=null){
+                    passedUser.designer.setCreatedOn(date);
+                    passedUser.designer.setUpdatedOn(date);
+                    //passedUser.designer.userId = passedUser.id;
+                    passedUser.designer.user=passedUser;
+                    if(passedUser.designer.logo != null) {
+                        try {
+                            String fileName = passedUser.email.substring(0, 3) + getCurrentTime();
+                            String base64Img = passedUser.designer.logo.split(",")[1];
+                            byte[] imgBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Img);
+                            ByteArrayInputStream bs = new ByteArrayInputStream(imgBytes);
+                            File imgfilee = new File(designerLogoFolder + fileName);
+                            passedUser.designer.logo = fileName;
+                            FileOutputStream f = new FileOutputStream(imgfilee);
+                            int rd = 0;
+                            final byte[] byt = new byte[1024];
+                            while ((rd = bs.read(byt)) != -1) {
+                                f.write(byt, 0, rd);
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            Response response = new Response("99","Error occured internally",responseMap);
+                            return response;
+                        }
+                    }
+                    designerRepository.save(passedUser.designer);
+
+                }
+                userRepository.save(passedUser);
+                //todo later generate unique token for new user and send to email
+                //todo later for now i am sending hardcoded token
+                String tokenGen = "ABC009";
+                String name = passedUser.firstName + passedUser.lastName;
+                String mail = passedUser.email;
+
+                Token token= new Token();
+                token.setToken(tokenGen);
+                token.setUser(passedUser);
+                tokenRepository.save(token);
+
+                Email email = new Email.Builder()
+                        .setRecipient(mail)
+                        .setSubject(messageSource.getMessage("host.sendtoken.subject", null, locale))
+                        .setBody(String.format(messageSource.getMessage("host.sendtoken.message", null, locale),name, tokenGen))
+                        .build();
+                //mailService.send(email);
+
+                //responseMap.put("userId",passedUser.id);
+                Response response = new Response("00","Registration successful",responseMap);
+                return response;
+            }else{
+                Response response = new Response("99","Email already exists",responseMap);
+                return response;
+            }
+        }catch (MailException me) {
+            me.printStackTrace();
+            Response response = new Response("99","Email not sent",responseMap);
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Response response = new Response("99","Error occured internally",responseMap);
+        return response;
+    }
+
+
+    public Object validateUser(User passedUser, Device device){
+        Map<String,Object> responseMap = new HashMap();
+        try {
+            User user = userRepository.findByEmail(passedUser.email);
+            boolean valid = false;
+            if(user!=null){
+                try{
+                    valid = Hash.checkPassword(passedUser.password,user.password);
+                }catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            if(user!=null && valid){
+                /*
+                    Generating Token for user and this will be required for all request.
+                 */
+                final UserDetails userDetails = userDetailsService.loadUserByUsername(passedUser.email);
+                System.out.println("userdetails is "+userDetails.toString());
+                final String token = jwtTokenUtil.generateToken(userDetails, device);
+                System.out.println("Token is "+token);
+                //implement sessionid
+                responseMap.put("token",token);
+                Response response = new Response("00","Login successful",responseMap);
+                return response;
+            }else{
+                Response response = new Response("99","Invalid username/password",responseMap);
+                return response;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Response response = new Response("99","Error occured internally",responseMap);
+        return response;
+    }
+
+
+
+    public User fetchUserDetails2(String token){
+        JwtUser user = getAuthenticationDetails(token);
+        if(user!=null){
+            return userRepository.findByEmail(user.getUsername());
+        }
+        else{
+            return null;
+        }
+    }
+
+
+    public List<User> getUsers(){
+            return userRepository.findByDesignerIsNull();
+    }
+
+
+    public Object fetchUserDetails(String email, String token){
+        Map<String,Object> responseMap = new HashMap();
+        try {
+            User user = userRepository.findByEmail(email);
+            if(user!=null){
+                if(user.addresses!=null) {
+                    user.addresses.forEach(address ->
+                    {
+                        if (address.user != null) {
+                            address.user = null;
+                        }
+                    });
+                }
+                /*
+                todo : refreshing token needs to be discussed if necessary
+                 */
+//                refreshAuthenticationDetails(user,token);
+                responseMap.put("userDetails",user);
+                Response response = new Response("00","User found",responseMap);
+                return response;
+            }else{
+                Response response = new Response("99","User not found",responseMap);
+                return response;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Response response = new Response("99","Error occurred internally",responseMap);
+        return response;
+    }
+
+    public User getUserByEmail(String email){
+        User user = userRepository.findByEmail(email);
+        return  user;
+    }
+
+
+    public JwtUser getAuthenticationDetails(String token){
+        JwtUser user = null;
+        if(token!=null) {
+            String username = jwtTokenUtil.getUsernameFromToken(token.replace("Bearer ", ""));
+            user = (JwtUser) userDetailsService.loadUserByUsername(username);
+        }
+        return user;
+    }
+
+    public Response tokenNullOrInvalidResponse(String token){
+        Map<String,Object> responseMap = new HashMap();
+        if(token!=null){
+            responseMap.put("passed_token",token.replace("Bearer ", ""));
+        }else{
+            responseMap.put("passed_token",null);
+        }
+        Response response = new Response("99","Invalid token passed",responseMap);
+        return response;
+    }
+
+    public void refreshAuthenticationDetails(User passedUser, String token){
+        JwtUser user = null;
+        if(token!=null) {
+            passedUser.passed_token = token.replace("Bearer ","");
+            String username = jwtTokenUtil.getUsernameFromToken(token.replace("Bearer ", ""));
+            user = (JwtUser) userDetailsService.loadUserByUsername(username);
+            if (user!=null) {
+                if (jwtTokenUtil.canTokenBeRefreshed(token.replace("Bearer ",""), user.getLastPasswordResetDate())) {
+                    String refreshedToken = jwtTokenUtil.refreshToken(token.replace("Bearer ", ""));
+                    ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
+                    passedUser.refreshed_token = refreshedToken;
+                }
+                else{
+                    System.out.println("Token cannot be refreshed");
+                }
+            }
+        }
+    }
+
+public void updateUser(UserDTO passedUser, User userTemp){
+    try {
+        Date date = new Date();
+        userTemp.phoneNo=passedUser.getPhoneNo();
+        userTemp.lastName = passedUser.getLastName();
+        userTemp.firstName=passedUser.getFirstName();
+        System.out.println(passedUser.getOldPassword());
+        System.out.println(passedUser.getNewPassword());
+        System.out.println(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password));
+        if(passedUser.getNewPassword() != null && passedUser.getNewPassword() != "") {
+            if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password)) {
+                userTemp.password = Hash.createPassword(passedUser.getNewPassword());
+            }
+            else {
+                throw new PasswordException("password mismatch");
+            }
+        }
+
+        userTemp.setUpdatedOn(date);
+        userRepository.save(userTemp);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        throw new WawoohException();
+    }
+
+}
+
+
+    private String getCurrentTime(){
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH) + 1;
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
+        int second = now.get(Calendar.SECOND);
+        int millis = now.get(Calendar.MILLISECOND);
+        String cTime = year+""+month+""+day+""+hour+""+minute+""+second+""+millis;
+        return cTime;
+    }
+}
