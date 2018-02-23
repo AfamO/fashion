@@ -132,7 +132,7 @@ public class DesignerServiceImpl implements DesignerService{
 //                        byte[] imgBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Img);
 //                        ByteArrayInputStream bs = new ByteArrayInputStream(imgBytes);
 //                        File imgfilee = new File(designerLogoFolder + fileName);
-                        CloudinaryResponse c = generalUtil.uploadToCloud(base64Img,fileName);
+                        CloudinaryResponse c = generalUtil.uploadToCloud(base64Img,fileName,"designerlogos");
                         d.logo = c.getUrl();
                         d.publicId=c.getPublicId();
 //                        FileOutputStream f = new FileOutputStream(imgfilee);

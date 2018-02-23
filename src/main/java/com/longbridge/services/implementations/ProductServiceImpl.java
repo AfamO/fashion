@@ -311,7 +311,7 @@ public class ProductServiceImpl implements ProductService {
             for(String p:pics){
                 ProductPicture productPicture = new ProductPicture();
                 String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
-                    CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName);
+                    CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName,"productpictures");
 
                     //productPicture.pictureName = productPictureName;
                     productPicture.pictureName=c.getUrl();
@@ -326,7 +326,7 @@ public class ProductServiceImpl implements ProductService {
                 MaterialPicture materialPicture = new MaterialPicture();
                 String matName= generalUtil.getPicsName("materialpic",products.name);
                     //materialPicture.pictureName = matName;
-                CloudinaryResponse c= generalUtil.uploadToCloud(mp,matName);
+                CloudinaryResponse c= generalUtil.uploadToCloud(mp,matName,"materialpictures");
                     materialPicture.pictureName = c.getUrl();
                     materialPicture.picture = c.getPublicId();
                     materialPicture.products = products;
@@ -341,7 +341,7 @@ public class ProductServiceImpl implements ProductService {
                     ArtWorkPicture artWorkPicture = new ArtWorkPicture();
                     String artName= generalUtil.getPicsName("artworkpic",products.name);
                     //artWorkPicture.pictureName = artName;
-                CloudinaryResponse c = generalUtil.uploadToCloud(ap,artName);
+                CloudinaryResponse c = generalUtil.uploadToCloud(ap,artName,"artworkpictures");
                 artWorkPicture.pictureName = c.getUrl();
                 artWorkPicture.picture = c.getPublicId();
                     artWorkPicture.products = products;
@@ -400,7 +400,7 @@ public class ProductServiceImpl implements ProductService {
 
                 generalUtil.deleteFromCloud(productPicture.picture,productPicture.pictureName);
 
-                CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture,generalUtil.getPicsName("prodpic",products.name));
+                CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture,generalUtil.getPicsName("prodpic",products.name),"productpictures");
                 productPicture.pictureName = c.getUrl();
                 productPicture.picture = c.getPublicId();
 
@@ -428,7 +428,7 @@ public class ProductServiceImpl implements ProductService {
 
                 generalUtil.deleteFromCloud(artWorkPicture.picture,artWorkPicture.pictureName);
 
-                CloudinaryResponse c = generalUtil.uploadToCloud(pp.artWorkPicture,generalUtil.getPicsName("artworkpic",products.name));
+                CloudinaryResponse c = generalUtil.uploadToCloud(pp.artWorkPicture,generalUtil.getPicsName("artworkpic",products.name),"artworkpictures");
                 artWorkPicture.pictureName = c.getUrl();
                 artWorkPicture.picture = c.getPublicId();
 
@@ -456,7 +456,7 @@ public class ProductServiceImpl implements ProductService {
                 //materialPicture.pictureName = generalUtil.getPicsName(pp.materialPicture, "materialpic", materialPicturesFolder, products.name);
                 generalUtil.deleteFromCloud(materialPicture.picture,materialPicture.pictureName);
 
-                CloudinaryResponse c = generalUtil.uploadToCloud(pp.materialPicture,generalUtil.getPicsName("materialpic",products.name));
+                CloudinaryResponse c = generalUtil.uploadToCloud(pp.materialPicture,generalUtil.getPicsName("materialpic",products.name),"materialpictures");
                 materialPicture.pictureName = c.getUrl();
                 materialPicture.picture = c.getPublicId();
 

@@ -82,7 +82,7 @@ public class EventServiceImpl implements EventService {
         try {
             String time = "evtmpic" +getCurrentTime();
             String fileName = e.eventName.replaceAll("\\s","") + time;
-            CloudinaryResponse c = generalUtil.uploadToCloud(e.mainPicture,fileName);
+            CloudinaryResponse c = generalUtil.uploadToCloud(e.mainPicture,fileName,"eventmainpictures");
             e.setMainPictureName(c.getUrl());
             e.setMainPicture(c.getPublicId());
 
@@ -97,7 +97,7 @@ public class EventServiceImpl implements EventService {
                 try {
                 String timeStamp = "evtpic" + getCurrentTime();
                 String fName = e.eventName.replaceAll("\\s","") + timeStamp;
-                CloudinaryResponse cc = generalUtil.uploadToCloud(pictures.picture,fName);
+                CloudinaryResponse cc = generalUtil.uploadToCloud(pictures.picture,fName,"eventpictures");
                 pictures.pictureName=cc.getUrl();
                 pictures.picture = cc.getPublicId();
 
