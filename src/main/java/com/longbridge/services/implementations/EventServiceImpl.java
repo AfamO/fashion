@@ -64,18 +64,18 @@ public class EventServiceImpl implements EventService {
         this.modelMapper = modelMapper;
     }
 
-
-    @Value("${event.mainpicture.folder}")
-    private String eventMainPictureImagePath;
-
-    @Value("${event.picture.folder}")
-    private String eventPicturesImagePath;
-
-    @Value("${s.event.mainpicture.folder}")
-    private String eventMainPictureFolder;
-
-    @Value("${s.event.picture.folder}")
-    private String eventPicturesFolder;
+//
+//    @Value("${event.mainpicture.folder}")
+//    private String eventMainPictureImagePath;
+//
+//    @Value("${event.picture.folder}")
+//    private String eventPicturesImagePath;
+//
+//    @Value("${s.event.mainpicture.folder}")
+//    private String eventMainPictureFolder;
+//
+//    @Value("${s.event.picture.folder}")
+//    private String eventPicturesFolder;
 
     @Override
     public void createEvent(Events e) {
@@ -463,7 +463,7 @@ public class EventServiceImpl implements EventService {
         List<PictureTag> pictureTags = pictureTagRepository.findPictureTagsByEventPictures(eventPictures);
         List<PicTagDTO> pictureTagDTOS = convertPictureTagEntityToDTO(pictureTags);
         eventPicturesDTO.setTags(pictureTagDTOS);
-        eventPicturesDTO.setPicture(eventPicturesImagePath+eventPictures.pictureName);
+        eventPicturesDTO.setPicture(eventPictures.pictureName);
         return eventPicturesDTO;
 
     }
