@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 public class MaterialPicture extends CommonFields{
     public Long id;
     public String pictureName;
+    public String picture;
     @JsonIgnore
     @ManyToOne
     public Products products;

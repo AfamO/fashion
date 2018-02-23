@@ -11,7 +11,6 @@ public class ArtPictureDTO {
     public String artWorkPicture;
 
 
-
     public ArtPictureDTO() {
     }
 

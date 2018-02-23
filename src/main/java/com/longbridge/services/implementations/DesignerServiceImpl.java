@@ -1,6 +1,7 @@
 package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
+import com.longbridge.dto.CloudinaryResponse;
 import com.longbridge.dto.DesignerDTO;
 import com.longbridge.dto.DesignerRatingDTO;
 import com.longbridge.exception.ObjectNotFoundException;
@@ -43,11 +44,11 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     private GeneralUtil generalUtil;
 
-    @Value("${s.designer.logo.folder}")
-    private String designerLogoFolder;
-
-    @Value("${designer.logo.folder}")
-    private String designerLogoPath;
+//    @Value("${s.designer.logo.folder}")
+//    private String designerLogoFolder;
+//
+//    @Value("${designer.logo.folder}")
+//    private String designerLogoPath;
 
     @Autowired
     public DesignerServiceImpl(GeneralUtil generalUtil) {
@@ -124,22 +125,24 @@ public class DesignerServiceImpl implements DesignerService{
 
                 if(passedDesigner.logo != null) {
                     Designer d = designerRepository.findOne(userTemp.designer.id);
-                    generalUtil.deletePics(userTemp.designer.logo,designerLogoFolder);
+                    generalUtil.deleteFromCloud(userTemp.designer.publicId,userTemp.designer.logo);
                     try {
                         String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
-                        String base64Img = passedDesigner.logo.split(",")[1];
-                        byte[] imgBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Img);
-                        ByteArrayInputStream bs = new ByteArrayInputStream(imgBytes);
-                        File imgfilee = new File(designerLogoFolder + fileName);
-                        d.logo = fileName;
-                        FileOutputStream f = new FileOutputStream(imgfilee);
-                        int rd = 0;
-                        final byte[] byt = new byte[1024];
-                        while ((rd = bs.read(byt)) != -1) {
-                            f.write(byt, 0, rd);
-                        }
+                        String base64Img = passedDesigner.logo;
+//                        byte[] imgBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Img);
+//                        ByteArrayInputStream bs = new ByteArrayInputStream(imgBytes);
+//                        File imgfilee = new File(designerLogoFolder + fileName);
+                        CloudinaryResponse c = generalUtil.uploadToCloud(base64Img,fileName);
+                        d.logo = c.getUrl();
+                        d.publicId=c.getPublicId();
+//                        FileOutputStream f = new FileOutputStream(imgfilee);
+//                        int rd = 0;
+//                        final byte[] byt = new byte[1024];
+//                        while ((rd = bs.read(byt)) != -1) {
+//                            f.write(byt, 0, rd);
+//                        }
                         designerRepository.save(d);
-                    } catch (IOException ex) {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                         throw new WawoohException();
                     }
@@ -245,7 +248,7 @@ public class DesignerServiceImpl implements DesignerService{
         dto.id=d.id;
 //        dto.userId=d.userId;
         dto.userId = d.user.id;
-        dto.logo=designerLogoPath+d.logo;
+        dto.logo=d.logo;
         dto.storeName=d.storeName;
         dto.address=d.address;
         //User u = userRepository.findById(d.userId);

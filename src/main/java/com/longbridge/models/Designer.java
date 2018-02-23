@@ -14,6 +14,8 @@ public class Designer extends CommonFields {
 //    public Long userId;
     @Lob
     public String logo;
+
+    public String publicId;
     public String storeName;
     public String address;
     public String status;

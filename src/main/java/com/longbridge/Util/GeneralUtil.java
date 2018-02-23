@@ -1,9 +1,9 @@
 package com.longbridge.Util;
 
-import com.longbridge.dto.ArtPictureDTO;
-import com.longbridge.dto.EventPicturesDTO;
-import com.longbridge.dto.MaterialPictureDTO;
-import com.longbridge.dto.ProductPictureDTO;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.longbridge.dto.*;
+import com.longbridge.exception.WawoohException;
 import com.longbridge.exception.WriteFileException;
 import com.longbridge.models.*;
 import com.longbridge.respbodydto.ProductRespDTO;
@@ -20,6 +20,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Longbridge on 24/01/2018.
@@ -27,27 +28,27 @@ import java.util.List;
 @Service
 public class GeneralUtil {
 
-    @Value("${event.picture.folder}")
-    private String eventPicturesImagePath;
-
-
-    @Value("${artwork.picture.folder}")
-    private String artworkPictureImagePath;
-
-    @Value("${material.picture.folder}")
-    private String materialPicturesImagePath;
-
-    @Value("${product.picture.folder}")
-    private String productPicturesImagePath;
-
-    @Value("${s.artwork.picture.folder}")
-    private String artworkPictureFolder;
-
-    @Value("${s.material.picture.folder}")
-    private String materialPicturesFolder;
-
-    @Value("${s.product.picture.folder}")
-    private String productPicturesFolder;
+//    @Value("${event.picture.folder}")
+//    private String eventPicturesImagePath;
+//
+//
+//    @Value("${artwork.picture.folder}")
+//    private String artworkPictureImagePath;
+//
+//    @Value("${material.picture.folder}")
+//    private String materialPicturesImagePath;
+//
+//    @Value("${product.picture.folder}")
+//    private String productPicturesImagePath;
+//
+//    @Value("${s.artwork.picture.folder}")
+//    private String artworkPictureFolder;
+//
+//    @Value("${s.material.picture.folder}")
+//    private String materialPicturesFolder;
+//
+//    @Value("${s.product.picture.folder}")
+//    private String productPicturesFolder;
 
     public List<ProductPictureDTO> convertProdPictureEntitiesToDTO(List<ProductPicture> productPictures){
         List<ProductPictureDTO> productPictureDTOS = new ArrayList<ProductPictureDTO>();
@@ -63,7 +64,7 @@ public class GeneralUtil {
         ProductPictureDTO pictureDTO = new ProductPictureDTO();
         pictureDTO.id=picture.id;
         pictureDTO.productId=picture.products.id;
-        pictureDTO.picture=productPicturesImagePath+picture.pictureName;
+        pictureDTO.picture=picture.pictureName;
         return pictureDTO;
 
     }
@@ -82,7 +83,7 @@ public class GeneralUtil {
         ArtPictureDTO pictureDTO = new ArtPictureDTO();
         pictureDTO.id=picture.id;
         pictureDTO.productId=picture.products.id;
-        pictureDTO.artWorkPicture=artworkPictureImagePath+picture.pictureName;
+        pictureDTO.artWorkPicture=picture.pictureName;
         return pictureDTO;
 
     }
@@ -101,7 +102,7 @@ public class GeneralUtil {
         MaterialPictureDTO pictureDTO = new MaterialPictureDTO();
         pictureDTO.id=picture.id;
         pictureDTO.productId=picture.products.id;
-        pictureDTO.materialPicture=materialPicturesImagePath+picture.pictureName;
+        pictureDTO.materialPicture=picture.pictureName;
         return pictureDTO;
 
     }
@@ -166,22 +167,11 @@ public class GeneralUtil {
         }
     }
 
-    public String getPicsName(String pics, String picsArrayType, String folder, String productName){
+    public String getPicsName(String picsArrayType, String productName){
 
         String timeStamp = picsArrayType + getCurrentTime();
         System.out.println(productName);
         String fName = productName.replaceAll("\\s","") + timeStamp;
-
-        try {
-            String base64Img = pics.split(",")[1];
-            byte[] imgBytes = Base64.getMimeDecoder().decode(base64Img);
-            Path path = Paths.get(folder+fName);
-            Files.write(path, imgBytes);
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-            throw new WriteFileException();
-        }
         return  fName;
     }
 
@@ -212,9 +202,49 @@ public class GeneralUtil {
         EventPicturesDTO eventPicturesDTO = new EventPicturesDTO();
 
         eventPicturesDTO.setId(eventPictures.id);
-        eventPicturesDTO.setPicture(eventPicturesImagePath+eventPictures.pictureName);
+        eventPicturesDTO.setPicture(eventPictures.pictureName);
         return eventPicturesDTO;
 
     }
+
+
+    public CloudinaryResponse uploadToCloud(String base64Image, String fileName){
+        CloudinaryResponse cloudinaryResponse = new CloudinaryResponse();
+        try {
+
+            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                    "cloud_name", "har9qnw3d",
+                    "api_key", "629146977531321",
+                    "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
+            Map uploadResult = cloudinary.uploader().upload(base64Image, ObjectUtils.asMap("public_id",fileName));
+
+           cloudinaryResponse.setPublicId(uploadResult.get("public_id").toString());
+           cloudinaryResponse.setUrl(uploadResult.get("url").toString());
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+
+        return cloudinaryResponse;
+    }
+
+
+    public Map deleteFromCloud(String publicId, String fileName){
+
+        try {
+
+            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                    "cloud_name", "har9qnw3d",
+                    "api_key", "629146977531321",
+                    "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
+            Map result = cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+            return result;
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+
+    }
+
 
 }

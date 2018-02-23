@@ -47,15 +47,15 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     AddressRepository addressRepository;
 
-
-    @Value("${product.picture.folder}")
-    private String productPicturesFolder;
-
-    @Value("${artwork.picture.folder}")
-    private String artWorkPictureFolder;
-
-    @Value("${material.picture.folder}")
-    private String materialPictureFolder;
+//
+//    @Value("${product.picture.folder}")
+//    private String productPicturesFolder;
+//
+//    @Value("${artwork.picture.folder}")
+//    private String artWorkPictureFolder;
+//
+//    @Value("${material.picture.folder}")
+//    private String materialPictureFolder;
 
     @Override
     public String addOrder(OrderReqDTO orderReq, User user) {
@@ -231,17 +231,17 @@ public class OrderServiceImpl implements OrderService {
         cartDTO.setProductName(products.name);
 
         ProductPicture p = productPictureRepository.findFirst1ByProducts(products);
-        cartDTO.setProductPicture(productPicturesFolder+p.pictureName);
+        cartDTO.setProductPicture(p.pictureName);
 
         if(cart.getArtWorkPictureId() != null) {
             ArtWorkPicture a = artWorkPictureRepository.findOne(cart.getArtWorkPictureId());
-            cartDTO.setArtWorkPicture(artWorkPictureFolder + a.pictureName);
+            cartDTO.setArtWorkPicture(a.pictureName);
             cartDTO.setArtWorkPictureId(cart.getArtWorkPictureId());
         }
 
         if(cart.getMaterialPictureId() != null) {
             MaterialPicture m = materialPictureRepository.findOne(cart.getMaterialPictureId());
-            cartDTO.setMaterialPicture(materialPictureFolder+m.pictureName);
+            cartDTO.setMaterialPicture(m.pictureName);
             cartDTO.setMaterialPictureId(cart.getMaterialPictureId());
         }
 
@@ -270,16 +270,16 @@ public class OrderServiceImpl implements OrderService {
         itemsDTO.setQuantity(items.getQuantity());
 
         ProductPicture p = productPictureRepository.findFirst1ByProducts(productRepository.findOne(itemsDTO.getProductId()));
-        itemsDTO.setProductPicture(productPicturesFolder+p.pictureName);
+        itemsDTO.setProductPicture(p.pictureName);
 
         if(items.getArtWorkPictureId() != null) {
             ArtWorkPicture a = artWorkPictureRepository.findOne(items.getArtWorkPictureId());
-            itemsDTO.setArtWorkPicture(artWorkPictureFolder + a.pictureName);
+            itemsDTO.setArtWorkPicture(a.pictureName);
         }
 
         if(items.getMaterialPictureId() != null) {
             MaterialPicture m = materialPictureRepository.findOne(items.getMaterialPictureId());
-            itemsDTO.setMaterialPicture(materialPictureFolder+m.pictureName);
+            itemsDTO.setMaterialPicture(m.pictureName);
         }
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

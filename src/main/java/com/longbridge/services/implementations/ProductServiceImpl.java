@@ -16,12 +16,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.standard.expression.Each;
 
 import java.io.File;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.SecureRandom;
+
 import java.util.*;
 
 /**
@@ -69,27 +64,27 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     PictureTagRepository pictureTagRepository;
 
-    @Value("${event.picture.folder}")
-    private String eventPicturesImagePath;
-
-
-    @Value("${artwork.picture.folder}")
-    private String artworkPictureImagePath;
-
-    @Value("${material.picture.folder}")
-    private String materialPicturesImagePath;
-
-    @Value("${product.picture.folder}")
-    private String productPicturesImagePath;
-
-    @Value("${s.artwork.picture.folder}")
-    private String artworkPictureFolder;
-
-    @Value("${s.material.picture.folder}")
-    private String materialPicturesFolder;
-
-    @Value("${s.product.picture.folder}")
-    private String productPicturesFolder;
+//    @Value("${event.picture.folder}")
+//    private String eventPicturesImagePath;
+//
+//
+//    @Value("${artwork.picture.folder}")
+//    private String artworkPictureImagePath;
+//
+//    @Value("${material.picture.folder}")
+//    private String materialPicturesImagePath;
+//
+//    @Value("${product.picture.folder}")
+//    private String productPicturesImagePath;
+//
+//    @Value("${s.artwork.picture.folder}")
+//    private String artworkPictureFolder;
+//
+//    @Value("${s.material.picture.folder}")
+//    private String materialPicturesFolder;
+//
+//    @Value("${s.product.picture.folder}")
+//    private String productPicturesFolder;
 
 
     @Override
@@ -315,8 +310,12 @@ public class ProductServiceImpl implements ProductService {
 
             for(String p:pics){
                 ProductPicture productPicture = new ProductPicture();
-                String  productPictureName= generalUtil.getPicsName(p,"prodpic",productPicturesFolder,products.name);
-                    productPicture.pictureName = productPictureName;
+                String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
+                    CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName);
+
+                    //productPicture.pictureName = productPictureName;
+                    productPicture.pictureName=c.getUrl();
+                    productPicture.picture = c.getPublicId();
                     productPicture.products = products;
                     productPicture.createdOn = date;
                     productPicture.setUpdatedOn(date);
@@ -325,8 +324,11 @@ public class ProductServiceImpl implements ProductService {
 
             for(String mp:materialPics){
                 MaterialPicture materialPicture = new MaterialPicture();
-                String matName= generalUtil.getPicsName(mp,"materialpic",materialPicturesFolder,products.name);
-                    materialPicture.pictureName = matName;
+                String matName= generalUtil.getPicsName("materialpic",products.name);
+                    //materialPicture.pictureName = matName;
+                CloudinaryResponse c= generalUtil.uploadToCloud(mp,matName);
+                    materialPicture.pictureName = c.getUrl();
+                    materialPicture.picture = c.getPublicId();
                     materialPicture.products = products;
                     materialPicture.createdOn = date;
                     materialPicture.setUpdatedOn(date);
@@ -337,8 +339,11 @@ public class ProductServiceImpl implements ProductService {
 
             for(String ap:artWorkPics){
                     ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-                    String artName= generalUtil.getPicsName(ap,"artworkpic",artworkPictureFolder,products.name);
-                    artWorkPicture.pictureName = artName;
+                    String artName= generalUtil.getPicsName("artworkpic",products.name);
+                    //artWorkPicture.pictureName = artName;
+                CloudinaryResponse c = generalUtil.uploadToCloud(ap,artName);
+                artWorkPicture.pictureName = c.getUrl();
+                artWorkPicture.picture = c.getPublicId();
                     artWorkPicture.products = products;
                     artWorkPicture.createdOn = date;
                     artWorkPicture.setUpdatedOn(date);
@@ -392,9 +397,13 @@ public class ProductServiceImpl implements ProductService {
 
                Long id = pp.id;
                 ProductPicture productPicture = productPictureRepository.findOne(id);
-                deletePics(productPicture.pictureName,productPicturesFolder);
 
-                productPicture.pictureName = generalUtil.getPicsName(pp.picture,"prodpic",productPicturesFolder,products.name);
+                generalUtil.deleteFromCloud(productPicture.picture,productPicture.pictureName);
+
+                CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture,generalUtil.getPicsName("prodpic",products.name));
+                productPicture.pictureName = c.getUrl();
+                productPicture.picture = c.getPublicId();
+
                 productPictureRepository.save(productPicture);
 
             }
@@ -416,9 +425,13 @@ public class ProductServiceImpl implements ProductService {
 
                 Long id = pp.id;
                 ArtWorkPicture artWorkPicture = artWorkPictureRepository.findOne(id);
-                deletePics(artWorkPicture.pictureName,artworkPictureFolder);
 
-                artWorkPicture.pictureName = generalUtil.getPicsName(pp.artWorkPicture,"artworkpic",artworkPictureFolder,products.name);
+                generalUtil.deleteFromCloud(artWorkPicture.picture,artWorkPicture.pictureName);
+
+                CloudinaryResponse c = generalUtil.uploadToCloud(pp.artWorkPicture,generalUtil.getPicsName("artworkpic",products.name));
+                artWorkPicture.pictureName = c.getUrl();
+                artWorkPicture.picture = c.getPublicId();
+
                 artWorkPictureRepository.save(artWorkPicture);
 
             }
@@ -438,9 +451,16 @@ public class ProductServiceImpl implements ProductService {
             for (MaterialPictureDTO pp : matPicReqDTO.materialPicture) {
                 Long id = pp.id;
                 MaterialPicture materialPicture = materialPictureRepository.findOne(id);
-                deletePics(materialPicture.pictureName, materialPicturesFolder);
+                //deletePics(materialPicture.pictureName, materialPicturesFolder);
 
-                materialPicture.pictureName = generalUtil.getPicsName(pp.materialPicture, "materialpic", materialPicturesFolder, products.name);
+                //materialPicture.pictureName = generalUtil.getPicsName(pp.materialPicture, "materialpic", materialPicturesFolder, products.name);
+                generalUtil.deleteFromCloud(materialPicture.picture,materialPicture.pictureName);
+
+                CloudinaryResponse c = generalUtil.uploadToCloud(pp.materialPicture,generalUtil.getPicsName("materialpic",products.name));
+                materialPicture.pictureName = c.getUrl();
+                materialPicture.picture = c.getPublicId();
+
+
                 materialPictureRepository.save(materialPicture);
             }
 
@@ -471,15 +491,18 @@ public class ProductServiceImpl implements ProductService {
         try {
             Products p = productRepository.findOne(id);
             productPictureRepository.findByProducts(p).forEach(pictures -> {
-             deletePics(pictures.pictureName,productPicturesFolder);
+                generalUtil.deleteFromCloud(pictures.picture,pictures.pictureName);
+             //deletePics(pictures.pictureName,productPicturesFolder);
             });
 
             artWorkPictureRepository.findByProducts(p).forEach(pictures -> {
-                deletePics(pictures.pictureName,artworkPictureFolder);
+                generalUtil.deleteFromCloud(pictures.picture,pictures.pictureName);
+                //deletePics(pictures.pictureName,artworkPictureFolder);
             });
 
             materialPictureRepository.findByProducts(p).forEach(pictures -> {
-                deletePics(pictures.pictureName,artworkPictureFolder);
+                generalUtil.deleteFromCloud(pictures.picture,pictures.pictureName);
+                //deletePics(pictures.pictureName,artworkPictureFolder);
             });
 
             productRepository.delete(id);

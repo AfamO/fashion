@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class Events extends CommonFields {
 
-    @Lob
+
     public String mainPicture;
 
     public String mainPictureName;

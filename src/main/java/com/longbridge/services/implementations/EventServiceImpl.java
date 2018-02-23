@@ -1,30 +1,26 @@
 package com.longbridge.services.implementations;
 
+import com.longbridge.Util.GeneralUtil;
 import com.longbridge.dto.*;
+
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.EventService;
-import com.longbridge.services.ProductService;
-import org.hibernate.type.descriptor.sql.SmallIntTypeDescriptor;
+
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
+
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DateFormat;
+
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -57,6 +53,9 @@ public class EventServiceImpl implements EventService {
     @Autowired
     PictureTagRepository pictureTagRepository;
 
+    @Autowired
+    GeneralUtil generalUtil;
+
 
     private ModelMapper modelMapper;
 
@@ -80,55 +79,31 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void createEvent(Events e) {
-       // Map<String,Object> responseMap = new HashMap();
         try {
-
             String time = "evtmpic" +getCurrentTime();
             String fileName = e.eventName.replaceAll("\\s","") + time;
-            //fileName = fileName.replaceAll("\\s","");
-
-            String base64Image = e.mainPicture.split(",")[1];
-            byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-            ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
-            File imgfile =new File(eventMainPictureFolder + fileName);
-            FileOutputStream ff = new FileOutputStream(imgfile);
-            int read = 0;
-            final byte[] bytes = new byte[3072];
-            while ((read = bis.read(bytes)) != -1) {
-                ff.write(bytes, 0, read);
-            }
+            CloudinaryResponse c = generalUtil.uploadToCloud(e.mainPicture,fileName);
+            e.setMainPictureName(c.getUrl());
+            e.setMainPicture(c.getPublicId());
 
             Date date = new Date();
             e.setCreatedOn(date);
             e.setUpdatedOn(date);
-            e.setMainPictureName(fileName);
+
             e.getEventPictures().forEach(pictures -> {
                 pictures.events=e;
                 pictures.createdOn=date;
                 pictures.setUpdatedOn(date);
+                try {
                 String timeStamp = "evtpic" + getCurrentTime();
                 String fName = e.eventName.replaceAll("\\s","") + timeStamp;
-                //fName = fName.replaceAll("\\s","");
-                while (!nameExists(fName)){
-                    try {
-                    String base64Img = pictures.picture.split(",")[1];
-                    byte[] imgBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Img);
-                    ByteArrayInputStream bs = new ByteArrayInputStream(imgBytes);
-                    File imgfilee =new File(eventPicturesFolder + fName);
-                    pictures.pictureName=fName;
-                    FileOutputStream f = new FileOutputStream(imgfilee);
-                    int rd = 0;
-                    final byte[] byt = new byte[1024];
-                    while ((rd = bs.read(byt)) != -1) {
-                        f.write(byt, 0, rd);
-                    }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+                CloudinaryResponse cc = generalUtil.uploadToCloud(pictures.picture,fName);
+                pictures.pictureName=cc.getUrl();
+                pictures.picture = cc.getPublicId();
 
-                    break;
-                }
-
+                } catch (Exception ex) {
+                        throw new WawoohException();
+                    }
             });
             eventRepository.save(e);
         }
@@ -409,7 +384,7 @@ public class EventServiceImpl implements EventService {
         eventsDTO.setEventName(events.getEventName());
         eventsDTO.setLocation(events.location);
 
-        eventsDTO.setMainPicture(eventMainPictureImagePath+events.mainPictureName);
+        eventsDTO.setMainPicture(events.mainPictureName);
         eventsDTO.setEventPictures(convertEvtPicEntToDTOsMin(eventPictureRepository.findFirst6ByEvents(events)));
 
         return eventsDTO;
@@ -498,7 +473,7 @@ public class EventServiceImpl implements EventService {
         EventPicturesDTO eventPicturesDTO = new EventPicturesDTO();
         eventPicturesDTO.setEventName(eventPictures.events.eventName);
         eventPicturesDTO.setId(eventPictures.id);
-        eventPicturesDTO.setPicture(eventPicturesImagePath+eventPictures.pictureName);
+        eventPicturesDTO.setPicture(eventPictures.pictureName);
         eventPicturesDTO.setPictureDesc(eventPictures.getPictureDesc());
         return eventPicturesDTO;
 
@@ -543,5 +518,7 @@ public class EventServiceImpl implements EventService {
         return pictureTagDTO;
 
     }
+
+
 
 }
