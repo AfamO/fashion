@@ -1,4 +1,5 @@
 package com.longbridge.Util;
+import com.longbridge.dto.CloudinaryResponse;
 import com.longbridge.dto.UserDTO;
 import com.longbridge.exception.PasswordException;
 import com.longbridge.exception.WawoohException;
@@ -47,6 +48,9 @@ public class UserUtil {
     MessageSource messageSource;
 
     @Autowired
+    GeneralUtil generalUtil;
+
+    @Autowired
     TokenRepository tokenRepository;
 
     @Autowired
@@ -77,19 +81,13 @@ public class UserUtil {
                     passedUser.designer.user=passedUser;
                     if(passedUser.designer.logo != null) {
                         try {
+
                             String fileName = passedUser.email.substring(0, 3) + getCurrentTime();
-                            String base64Img = passedUser.designer.logo.split(",")[1];
-                            byte[] imgBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Img);
-                            ByteArrayInputStream bs = new ByteArrayInputStream(imgBytes);
-                            File imgfilee = new File(designerLogoFolder + fileName);
-                            passedUser.designer.logo = fileName;
-                            FileOutputStream f = new FileOutputStream(imgfilee);
-                            int rd = 0;
-                            final byte[] byt = new byte[1024];
-                            while ((rd = bs.read(byt)) != -1) {
-                                f.write(byt, 0, rd);
-                            }
-                        } catch (IOException ex) {
+                            String base64Img = passedUser.designer.logo;
+                            CloudinaryResponse c = generalUtil.uploadToCloud(base64Img,fileName,"designerlogos");
+                            passedUser.designer.logo = c.getUrl();
+                            passedUser.designer.publicId=c.getPublicId();
+                        } catch (Exception ex) {
                             ex.printStackTrace();
                             Response response = new Response("99","Error occured internally",responseMap);
                             return response;
