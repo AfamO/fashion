@@ -216,7 +216,7 @@ public class GeneralUtil {
                     "cloud_name", "har9qnw3d",
                     "api_key", "629146977531321",
                     "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
-            Map uploadResult = cloudinary.uploader().upload(base64Image,  ObjectUtils.asMap("public_id",fileName,"folder"));
+            Map uploadResult = cloudinary.uploader().upload(base64Image,  ObjectUtils.asMap("public_id",fileName,"folder",folder));
 
            cloudinaryResponse.setPublicId(uploadResult.get("public_id").toString());
            cloudinaryResponse.setUrl(uploadResult.get("url").toString());
@@ -236,7 +236,7 @@ public class GeneralUtil {
                     "cloud_name", "har9qnw3d",
                     "api_key", "629146977531321",
                     "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
-            Map uploadResult = cloudinary.uploader().upload(base64Image,  ObjectUtils.asMap("public_id",fileName,"folder"));
+            Map uploadResult = cloudinary.uploader().upload(base64Image,  ObjectUtils.asMap("public_id",fileName,"folder",folder));
 
             cloudinaryResponse.setPublicId(uploadResult.get("public_id").toString());
             cloudinaryResponse.setUrl(uploadResult.get("url").toString());
