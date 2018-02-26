@@ -8,6 +8,7 @@ import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.services.ProductService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.standard.expression.Each;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
 import java.util.*;
@@ -311,6 +313,17 @@ public class ProductServiceImpl implements ProductService {
             for(String p:pics){
                 ProductPicture productPicture = new ProductPicture();
                 String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
+
+
+//                String base64Image = p.split(",")[1];
+//
+//                    byte[] imageByte = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+//                    ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+////
+//                    File imgfile = File.createTempFile(productPictureName,"tmp");
+//                    FileUtils.copyInputStreamToFile(bis,imgfile);
+//                    bis.close();
+
                     CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName,"productpictures");
 
                     //productPicture.pictureName = productPictureName;

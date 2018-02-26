@@ -216,10 +216,30 @@ public class GeneralUtil {
                     "cloud_name", "har9qnw3d",
                     "api_key", "629146977531321",
                     "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
-            Map uploadResult = cloudinary.uploader().upload(base64Image,  ObjectUtils.asMap("public_id",fileName,"folder",folder));
+            Map uploadResult = cloudinary.uploader().upload(base64Image,  ObjectUtils.asMap("public_id",fileName,"folder"));
 
            cloudinaryResponse.setPublicId(uploadResult.get("public_id").toString());
            cloudinaryResponse.setUrl(uploadResult.get("url").toString());
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+
+        return cloudinaryResponse;
+    }
+
+    public CloudinaryResponse uploadFileToCloud(File base64Image, String fileName, String folder){
+        CloudinaryResponse cloudinaryResponse = new CloudinaryResponse();
+        try {
+
+            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                    "cloud_name", "har9qnw3d",
+                    "api_key", "629146977531321",
+                    "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
+            Map uploadResult = cloudinary.uploader().upload(base64Image,  ObjectUtils.asMap("public_id",fileName,"folder"));
+
+            cloudinaryResponse.setPublicId(uploadResult.get("public_id").toString());
+            cloudinaryResponse.setUrl(uploadResult.get("url").toString());
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
