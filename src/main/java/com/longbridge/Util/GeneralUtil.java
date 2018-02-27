@@ -7,12 +7,15 @@ import com.longbridge.exception.WawoohException;
 import com.longbridge.exception.WriteFileException;
 import com.longbridge.models.*;
 import com.longbridge.respbodydto.ProductRespDTO;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -212,14 +215,27 @@ public class GeneralUtil {
         CloudinaryResponse cloudinaryResponse = new CloudinaryResponse();
         try {
 
+
+            String image = base64Image.split(",")[1];
+
+            byte[] imageByte = javax.xml.bind.DatatypeConverter.parseBase64Binary(image);
+            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+//
+            File imgfile = File.createTempFile(fileName, "tmp");
+            FileUtils.copyInputStreamToFile(bis, imgfile);
+            bis.close();
             Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
                     "cloud_name", "har9qnw3d",
                     "api_key", "629146977531321",
                     "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
-            Map uploadResult = cloudinary.uploader().upload(base64Image,  ObjectUtils.asMap("public_id",fileName,"folder",folder));
+            Map uploadResult = cloudinary.uploader().upload(base64Image, ObjectUtils.asMap("public_id", fileName, "folder", folder));
 
-           cloudinaryResponse.setPublicId(uploadResult.get("public_id").toString());
-           cloudinaryResponse.setUrl(uploadResult.get("url").toString());
+            cloudinaryResponse.setPublicId(uploadResult.get("public_id").toString());
+            cloudinaryResponse.setUrl(uploadResult.get("url").toString());
+        }catch (UnknownHostException ex){
+                ex.printStackTrace();
+                throw new WawoohException();
+
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();

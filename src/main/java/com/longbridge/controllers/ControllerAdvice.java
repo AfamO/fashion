@@ -2,6 +2,7 @@ package com.longbridge.controllers;
 
 import com.longbridge.exception.ObjectNotFoundException;
 import com.longbridge.exception.PasswordException;
+import com.longbridge.exception.UnknownHostException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.Response;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +28,13 @@ public class ControllerAdvice {
     public Response passwordException() {
         Map<String, Object> responseMap = new HashMap();
         Response response = new Response("99", "Password mismatch   ", responseMap);
+        return response;
+    }
+
+    @ExceptionHandler(UnknownHostException.class)
+    public Response unknownHostException() {
+        Map<String, Object> responseMap = new HashMap();
+        Response response = new Response("99", "Cloudinary server not available   ", responseMap);
         return response;
     }
 

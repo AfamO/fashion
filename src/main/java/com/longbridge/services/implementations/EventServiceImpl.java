@@ -82,6 +82,9 @@ public class EventServiceImpl implements EventService {
         try {
             String time = "evtmpic" +getCurrentTime();
             String fileName = e.eventName.replaceAll("\\s","") + time;
+
+
+
             CloudinaryResponse c = generalUtil.uploadToCloud(e.mainPicture,fileName,"eventmainpictures");
             e.setMainPictureName(c.getUrl());
             e.setMainPicture(c.getPublicId());
