@@ -13,4 +13,6 @@ public interface MailService {
 
 
     void send(Email email) throws MailException;
+
+    void prepareAndSend(String message, String recipient, String subject) throws MailException;
 }

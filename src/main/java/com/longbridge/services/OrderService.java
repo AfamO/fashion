@@ -28,6 +28,8 @@ public interface OrderService {
 
     void deleteCart(Long id);
 
+    void emptyCart(User user);
+
     List<CartDTO> getCarts(User user);
 
     OrderDTO getOrdersById(Long id);

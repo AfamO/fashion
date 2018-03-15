@@ -1,10 +1,12 @@
 package com.longbridge.Util;
 import com.longbridge.dto.CloudinaryResponse;
 import com.longbridge.dto.UserDTO;
+import com.longbridge.exception.AppException;
 import com.longbridge.exception.PasswordException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.DesignerRepository;
+import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.repository.TokenRepository;
 import com.longbridge.security.JwtTokenUtil;
 import com.longbridge.security.JwtUser;
@@ -21,6 +23,8 @@ import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
@@ -40,9 +44,15 @@ public class UserUtil {
     DesignerRepository designerRepository;
 
     @Autowired
+    MailErrorRepository mailErrorRepository;
+
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     MailService mailService;
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
     @Autowired
     MessageSource messageSource;
@@ -134,6 +144,90 @@ public class UserUtil {
     }
 
 
+    public Object forgotPassword(User passedUser){
+        Map<String,Object> responseMap = new HashMap();
+        String newPassword="";
+        String name = "";
+        String mail = "";
+        try {
+
+            User user = userRepository.findByEmail(passedUser.email);
+            if(user!=null){
+                newPassword = generalUtil.getCurrentTime();
+                passedUser.password = Hash.createPassword(newPassword);
+
+                name = passedUser.firstName + passedUser.lastName;
+                mail = passedUser.email;
+
+                Context context = new Context();
+                context.setVariable("password", newPassword);
+                context.setVariable("name", name);
+                String message = templateEngine.process("emailtemplate", context);
+
+                mailService.prepareAndSend(message,mail,messageSource.getMessage("password.reset.subject", null, locale));
+
+                userRepository.save(passedUser);
+                Response response = new Response("00","Operation Successful",responseMap);
+                return response;
+            }else{
+                Response response = new Response("99","Error occurred",responseMap);
+                return response;
+            }
+        }catch (MailException me) {
+            me.printStackTrace();
+            throw new AppException(newPassword,name,mail,messageSource.getMessage("password.reset.subject", null, locale));
+
+        } catch (AppException e) {
+            e.printStackTrace();
+            String recipient = e.getRecipient();
+            String subject = e.getSubject();
+
+            MailError mailError = new MailError();
+            mailError.setNewPassword(e.getNewPassword());
+            mailError.setName(e.getName());
+            mailError.setRecipient(recipient);
+            mailError.setSubject(subject);
+            mailErrorRepository.save(mailError);
+            Response response = new Response("00","Operation Successful",responseMap);
+            return response;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Response response = new Response("99", "Error occured internally", responseMap);
+            return response;
+        }
+    }
+
+
+
+    public Object validatePassword(User passedUser){
+        Map<String,Object> responseMap = new HashMap();
+
+        try {
+
+            User user = userRepository.findByEmail(passedUser.email);
+            if (user != null) {
+
+                if (passedUser.password == user.password) {
+                    Response response = new Response("00", "Operation Successful", responseMap);
+                    return response;
+                } else {
+                    Response response = new Response("99", "Error occurred", responseMap);
+                    return response;
+                }
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            Response response = new Response("99", "Error occured internally", responseMap);
+            return response;
+        }
+        Response response = new Response("99", "Error occurred", responseMap);
+        return response;
+    }
+
+
+
     public Object validateUser(User passedUser, Device device){
         Map<String,Object> responseMap = new HashMap();
         try {
@@ -141,7 +235,14 @@ public class UserUtil {
             boolean valid = false;
             if(user!=null){
                 try{
-                    valid = Hash.checkPassword(passedUser.password,user.password);
+                   // check if(user.socialFlag) is Y
+                    if(user.socialFlag.equalsIgnoreCase("Y")){
+                        valid=true;
+                    }
+                    else {
+                        //If N, carry go
+                        valid = Hash.checkPassword(passedUser.password, user.password);
+                    }
                 }catch(Exception e)
                 {
                     e.printStackTrace();

@@ -43,6 +43,10 @@ public class Items extends CommonFields{
 
     private String materialPickupDate;
 
+    private Long measurementId;
+
+//    private String measurementName;
+
 
     public Long getProductId() {
         return productId;
@@ -155,6 +159,22 @@ public class Items extends CommonFields{
     public void setOrders(Orders orders) {
         this.orders = orders;
     }
+
+    public Long getMeasurementId() {
+        return measurementId;
+    }
+
+    public void setMeasurementId(Long measurementId) {
+        this.measurementId = measurementId;
+    }
+
+//    public String getMeasurementName() {
+//        return measurementName;
+//    }
+//
+//    public void setMeasurementName(String measurementName) {
+//        this.measurementName = measurementName;
+//    }
 
     public Items() {
     }

@@ -42,6 +42,8 @@ public class Cart extends CommonFields {
 
     private Date expiryDate;
 
+    private Long measurementId;
+
 
     public Cart(User user, Long productId, int quantity, Long designerId, String size, String amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, Date expiryDate) {
         this.user = user;
@@ -164,6 +166,14 @@ public class Cart extends CommonFields {
 
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public Long getMeasurementId() {
+        return measurementId;
+    }
+
+    public void setMeasurementId(Long measurementId) {
+        this.measurementId = measurementId;
     }
 
     public Cart() {

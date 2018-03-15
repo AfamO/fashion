@@ -84,6 +84,18 @@ public class OrderController {
     }
 
 
+    @GetMapping(value = "/emptycart")
+    public Response emptyCart(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        orderService.emptyCart(userTemp);
+        Response response = new Response("00","Operation Successful", "success");
+        return response;
+    }
+
 
 
     @GetMapping(value = "/getuserorder")

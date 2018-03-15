@@ -38,6 +38,9 @@ public class OrderServiceImpl implements OrderService {
     ProductPictureRepository productPictureRepository;
 
     @Autowired
+    MeasurementRepository measurementRepository;
+
+    @Autowired
     CartRepository cartRepository;
 
 
@@ -159,6 +162,23 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void emptyCart(User user) {
+        try {
+
+
+        List<Cart> carts = cartRepository.findByUser(user);
+        cartRepository.delete(carts);
+//        for (Cart c: carts) {
+//            cartRepository.delete(c);
+//        }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+
+    }
+
+    @Override
     public List<ItemsDTO> getOrdersByDesigner(User user) {
         try {
 
@@ -253,6 +273,7 @@ public class OrderServiceImpl implements OrderService {
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
         cartDTO.setMaterialStatus(cart.getMaterialStatus());
         cartDTO.setDesignerId(cart.getDesignerId());
+        cartDTO.setMeasurementName(measurementRepository.findOne(cart.getMeasurementId()).getName());
 
         return cartDTO;
 
@@ -296,6 +317,7 @@ public class OrderServiceImpl implements OrderService {
         itemsDTO.setDesignerId(items.getDesignerId());
         itemsDTO.setOrderNumber(orders.getOrderNum());
         itemsDTO.setOrderId(orders.id);
+        itemsDTO.setMeasurementName(measurementRepository.findOne(items.getMeasurementId()).getName());
         return itemsDTO;
 
     }

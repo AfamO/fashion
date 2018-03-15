@@ -46,6 +46,8 @@ public class CartDTO {
 
     private Date expiryDate;
 
+    private String measurementName;
+
     public CartDTO(User user, Long id, Long productId, String productName, int quantity, Long designerId, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, Date expiryDate) {
         this.user = user;
         this.id = id;
@@ -209,6 +211,14 @@ public class CartDTO {
 
     public void setMaterialPictureId(Long materialPictureId) {
         this.materialPictureId = materialPictureId;
+    }
+
+    public String getMeasurementName() {
+        return measurementName;
+    }
+
+    public void setMeasurementName(String measurementId) {
+        this.measurementName = measurementName;
     }
 
     public CartDTO() {

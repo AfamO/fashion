@@ -2,9 +2,12 @@ package com.longbridge.controllers;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.UserDTO;
 import com.longbridge.dto.UserEmailTokenDTO;
+import com.longbridge.exception.AppException;
+import com.longbridge.models.MailError;
 import com.longbridge.models.Response;
 import com.longbridge.models.Token;
 import com.longbridge.models.User;
+import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.TokenService;
@@ -36,6 +39,9 @@ public class UserController {
 
     @Autowired
     UserUtil userUtil;
+
+    @Autowired
+    MailErrorRepository mailErrorRepository;
 
     @Autowired
     TokenService tokenService;
@@ -81,6 +87,41 @@ public class UserController {
         return userUtil.fetchUserDetails(user.getUsername(),token);
     }
 
+
+    @PostMapping(value = "/forgotpassword")
+    public Object forgotPassword(HttpServletRequest request){
+        /*
+        This is needed on any Endpoint that requires authorization.
+         Any method you want to implement this should
+        have the HttpServletRequest as param.
+         */
+        //======================================================
+
+            String token = request.getHeader(tokenHeader);
+            User user = userUtil.fetchUserDetails2(token);
+            if (token == null || user == null) {
+                return userUtil.tokenNullOrInvalidResponse(token);
+            }
+            return userUtil.forgotPassword(user);
+
+        //======================================================
+
+    }
+
+    @PostMapping(value = "/validatepassword")
+    public Object validatePassword(HttpServletRequest request, @RequestBody User user){
+
+
+        String token = request.getHeader(tokenHeader);
+        if (token == null || user == null) {
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return userUtil.validatePassword(user);
+
+
+    }
+
+
     @GetMapping(value = "/getusers")
     public List<User> getUsers(HttpServletRequest request){
 
@@ -92,6 +133,9 @@ public class UserController {
         User user = userUtil.getUserByEmail(userEmailTokenDTO.getEmail());
         return tokenService.validateToken(user,userEmailTokenDTO.getToken());
     }
+
+
+
 
 //
 //    @PostMapping(value = "/getUserDetailsByToken")

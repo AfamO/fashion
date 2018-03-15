@@ -50,6 +50,8 @@ public class ItemsDTO {
 
     private String orderNumber;
 
+    private String measurementName;
+
     private Long orderId;
 
 
@@ -236,5 +238,13 @@ public class ItemsDTO {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
+    }
+
+    public String getMeasurementName() {
+        return measurementName;
+    }
+
+    public void setMeasurementName(String measurementName) {
+        this.measurementName = measurementName;
     }
 }

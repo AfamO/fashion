@@ -20,6 +20,8 @@ public class User extends CommonFields{
     public String phoneNo;
     public String role;
 
+    public String socialFlag;
+
     @OneToOne(cascade = CascadeType.ALL)
     public Designer designer;
 
@@ -31,6 +33,11 @@ public class User extends CommonFields{
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     public List<Cart> carts;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    public List<Measurement> measurements;
+
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore

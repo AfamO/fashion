@@ -17,4 +17,6 @@ public class MaterialPicture extends CommonFields{
     @ManyToOne
     public Products products;
 
+
+
 }

@@ -1,5 +1,6 @@
 package com.longbridge.services.implementations;
 
+import com.longbridge.exception.AppException;
 import com.longbridge.models.Email;
 import com.longbridge.services.MailService;
 import org.slf4j.Logger;
@@ -56,5 +57,34 @@ public class MailServiceImpl implements MailService {
         mailSender.send(messagePreparator);
 
         logger.info("Email successfully sent to {}", email.getReceiverEmail());
+    }
+
+
+
+    @Override
+    public void prepareAndSend(String message, String recipient, String subject) throws MailException {
+        MimeMessagePreparator messagePreparator = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setFrom(sender);
+            messageHelper.setTo(recipient);
+            messageHelper.setSubject(subject);
+            messageHelper.setText(message, true);
+//         messageHelper.addCc("farooq.ayoade@longbridgetech.com");
+
+        };
+
+        try {
+            logger.info("...trying to send mail from {}", sender);
+            logger.info("...trying to send mail to {}", recipient);
+
+            mailSender.send(messagePreparator);
+            logger.info("Email successfully sent to {}", recipient);
+
+        } catch (AppException e) {
+
+            e.printStackTrace();
+//            throw new AppException(message, recipient, subject);
+            // runtime exception; compiler will not force you to handle it
+        }
     }
 }
