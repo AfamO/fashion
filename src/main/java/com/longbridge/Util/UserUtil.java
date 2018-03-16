@@ -13,6 +13,7 @@ import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.security.service.JwtAuthenticationResponse;
 import com.longbridge.services.MailService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -150,14 +151,16 @@ public class UserUtil {
         String name = "";
         String mail = "";
         try {
-            System.out.println(passedUser.email);
-            User user = userRepository.findByEmail(passedUser.email);
-            System.out.println(user);
-            if(user!=null){
-                newPassword = generalUtil.getCurrentTime();
-                passedUser.password = Hash.createPassword(newPassword);
 
-                name = passedUser.firstName + passedUser.lastName;
+            User user = userRepository.findByEmail(passedUser.email);
+
+            if(user!=null){
+                //newPassword = generalUtil.getCurrentTime();
+                //newPassword = RandomStringUtils.randomAlphanumeric(10);
+                newPassword=UUID.randomUUID().toString().substring(0,10);
+                user.password = Hash.createPassword(newPassword);
+
+                name = passedUser.firstName +" " + passedUser.lastName;
                 mail = passedUser.email;
 
                 Context context = new Context();
@@ -167,8 +170,8 @@ public class UserUtil {
 
                 mailService.prepareAndSend(message,mail,messageSource.getMessage("password.reset.subject", null, locale));
 
-                userRepository.save(passedUser);
-                Response response = new Response("00","Operation Successful",responseMap);
+                userRepository.save(user);
+                Response response = new Response("00","Operation Successful, Password successfully sent to email",responseMap);
                 return response;
             }else{
                 Response response = new Response("99","Error occurred",responseMap);
@@ -178,19 +181,7 @@ public class UserUtil {
             me.printStackTrace();
             throw new AppException(newPassword,name,mail,messageSource.getMessage("password.reset.subject", null, locale));
 
-        } catch (AppException e) {
-            e.printStackTrace();
-            String recipient = e.getRecipient();
-            String subject = e.getSubject();
 
-            MailError mailError = new MailError();
-            mailError.setNewPassword(e.getNewPassword());
-            mailError.setName(e.getName());
-            mailError.setRecipient(recipient);
-            mailError.setSubject(subject);
-            mailErrorRepository.save(mailError);
-            Response response = new Response("00","Operation Successful",responseMap);
-            return response;
         }
         catch (Exception e) {
             e.printStackTrace();

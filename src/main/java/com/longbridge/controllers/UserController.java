@@ -20,7 +20,9 @@ import org.springframework.mobile.device.Device;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by longbridge on 11/4/17.
@@ -89,7 +91,7 @@ public class UserController {
 
 
     @PostMapping(value = "/forgotpassword")
-    public Object forgotPassword(@RequestBody User user){
+    public Object forgotPassword(@RequestBody User user) {
         /*
         This is needed on any Endpoint that requires authorization.
          Any method you want to implement this should
@@ -97,16 +99,31 @@ public class UserController {
          */
         //======================================================
 
-            //String token = request.getHeader(tokenHeader);
-           // User user = userUtil.fetchUserDetails2(token);
-            //if (token == null || user == null) {
-               // return userUtil.tokenNullOrInvalidResponse(token);
-           // }
-        System.out.println(user);
+        //String token = request.getHeader(tokenHeader);
+        // User user = userUtil.fetchUserDetails2(token);
+        //if (token == null || user == null) {
+        // return userUtil.tokenNullOrInvalidResponse(token);
+        // }
+        Map<String, Object> responseMap = new HashMap();
+        try {
+            System.out.println(user);
             return userUtil.forgotPassword(user);
+        } catch (AppException e) {
+            e.printStackTrace();
+            String recipient = e.getRecipient();
+            String subject = e.getSubject();
 
-        //======================================================
+            MailError mailError = new MailError();
+            mailError.setNewPassword(e.getNewPassword());
+            mailError.setName(e.getName());
+            mailError.setRecipient(recipient);
+            mailError.setSubject(subject);
+            mailErrorRepository.save(mailError);
+            Response response = new Response("00", "Operation Successful, Trying to send password to email", responseMap);
+            return response;
+            //======================================================
 
+        }
     }
 
     @PostMapping(value = "/validatepassword")
