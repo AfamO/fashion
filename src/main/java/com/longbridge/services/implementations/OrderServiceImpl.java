@@ -273,8 +273,9 @@ public class OrderServiceImpl implements OrderService {
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
         cartDTO.setMaterialStatus(cart.getMaterialStatus());
         cartDTO.setDesignerId(cart.getDesignerId());
-        cartDTO.setMeasurementName(measurementRepository.findOne(cart.getMeasurementId()).getName());
-
+        if(cart.getMaterialPictureId() != null) {
+            cartDTO.setMeasurementName(measurementRepository.findOne(cart.getMeasurementId()).getName());
+        }
         return cartDTO;
 
     }

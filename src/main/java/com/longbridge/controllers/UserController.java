@@ -89,7 +89,7 @@ public class UserController {
 
 
     @PostMapping(value = "/forgotpassword")
-    public Object forgotPassword(User user){
+    public Object forgotPassword(@RequestBody User user){
         /*
         This is needed on any Endpoint that requires authorization.
          Any method you want to implement this should
@@ -102,6 +102,7 @@ public class UserController {
             //if (token == null || user == null) {
                // return userUtil.tokenNullOrInvalidResponse(token);
            // }
+        System.out.println(user);
             return userUtil.forgotPassword(user);
 
         //======================================================

@@ -150,8 +150,9 @@ public class UserUtil {
         String name = "";
         String mail = "";
         try {
-
+            System.out.println(passedUser.email);
             User user = userRepository.findByEmail(passedUser.email);
+            System.out.println(user);
             if(user!=null){
                 newPassword = generalUtil.getCurrentTime();
                 passedUser.password = Hash.createPassword(newPassword);

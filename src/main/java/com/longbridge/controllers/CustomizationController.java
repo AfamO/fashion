@@ -56,6 +56,33 @@ public class CustomizationController {
         return response;
     }
 
+    @GetMapping(value = "/{id}/delete")
+    public Response deleteCustomization(@PathVariable Long measurementId, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        measurementService.deleteMeasurement(userTemp, measurementId);
+        Response response = new Response("00","Operation Successful","success");
+        return response;
+    }
+
+
+
+    @GetMapping(value = "/getusermeasurements")
+    public Response getUserCustomization(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        measurementService.getUserMeasurement(userTemp);
+        Response response = new Response("00","Operation Successful","success");
+        return response;
+    }
 //    @GetMapping(value = "/{name}/getcustomizationbyname")
 //    public Response getCustomizationByName(@PathVariable Long measurementId, HttpServletRequest request){
 //        String token = request.getHeader(tokenHeader);

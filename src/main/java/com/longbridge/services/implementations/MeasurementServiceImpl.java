@@ -8,6 +8,7 @@ import com.longbridge.services.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,6 +33,19 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     @Override
+    public void deleteMeasurement(User userTemp, Long measurementId) {
+        try {
+           // Measurement m = measurementRepository.findOne(measurementId);
+            measurementRepository.delete(measurementId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+    }
+
+    @Override
     public Measurement getMeasurementById(User user, Long measurementId) {
         try {
             Measurement m = measurementRepository.findOne(measurementId);
@@ -42,6 +56,18 @@ public class MeasurementServiceImpl implements MeasurementService {
             throw new WawoohException();
         }
 
+    }
+
+    @Override
+    public List<Measurement> getUserMeasurement(User user) {
+        try {
+            List<Measurement> m = measurementRepository.findByUser(user);
+            return m;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
     }
 
     @Override
