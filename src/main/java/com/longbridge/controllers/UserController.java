@@ -89,7 +89,7 @@ public class UserController {
 
 
     @PostMapping(value = "/forgotpassword")
-    public Object forgotPassword(HttpServletRequest request){
+    public Object forgotPassword(User user){
         /*
         This is needed on any Endpoint that requires authorization.
          Any method you want to implement this should
@@ -97,11 +97,11 @@ public class UserController {
          */
         //======================================================
 
-            String token = request.getHeader(tokenHeader);
-            User user = userUtil.fetchUserDetails2(token);
-            if (token == null || user == null) {
-                return userUtil.tokenNullOrInvalidResponse(token);
-            }
+            //String token = request.getHeader(tokenHeader);
+           // User user = userUtil.fetchUserDetails2(token);
+            //if (token == null || user == null) {
+               // return userUtil.tokenNullOrInvalidResponse(token);
+           // }
             return userUtil.forgotPassword(user);
 
         //======================================================

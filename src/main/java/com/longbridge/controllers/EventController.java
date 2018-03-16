@@ -7,6 +7,7 @@ import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.EventService;
+import com.longbridge.services.HibernateSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,9 @@ public class EventController {
     @Autowired
     UserUtil userUtil;
 
+    @Autowired
+    private HibernateSearchService searchservice;
+
     @Value("${jwt.header}")
     private String tokenHeader;
 
@@ -52,6 +56,17 @@ public class EventController {
             responseMap.put("firstFiveEvent",eventsDTOS);
             Response response = new Response("00","Operation Successful",responseMap);
             return response;
+    }
+
+
+
+    @GetMapping(value = "/{search}/searchevent")
+    public Response searchEvents(@PathVariable String search){
+        Map<String,Object> responseMap = new HashMap();
+        List<EventsDTO> eventsDTOS=searchservice.eventsFuzzySearch(search);
+        responseMap.put("result",eventsDTOS);
+        Response response = new Response("00","Operation Successful",responseMap);
+        return response;
     }
 
     @PostMapping(value = "/geteventbydate")

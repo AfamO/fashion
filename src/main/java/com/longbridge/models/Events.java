@@ -1,5 +1,8 @@
 package com.longbridge.models;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +10,7 @@ import java.util.List;
 /**
  * Created by longbridge on 10/18/17.
  */
+@Indexed
 @Entity
 public class Events extends CommonFields {
 
@@ -20,6 +24,7 @@ public class Events extends CommonFields {
 
     public String location;
 
+    @Field
     public String eventName;
 
     public Date eventDate;

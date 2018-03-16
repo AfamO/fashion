@@ -1,6 +1,8 @@
 package com.longbridge.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,9 +12,12 @@ import java.util.List;
 /**
  * Created by longbridge on 10/18/17.
  */
+@Indexed
 @Entity
 public class Products extends CommonFields implements Serializable {
+    @Field
     public String name;
+
     public double amount;
 
     @OneToOne

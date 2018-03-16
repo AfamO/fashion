@@ -622,7 +622,7 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
 
-            List<EventPicturesDTO> picturesDTOS = generalUtil.convertEntitiesToDTOs(ev);
+            List<EventPicturesDTO> picturesDTOS = generalUtil.convertEntsToDTOs(ev);
             return picturesDTOS;
 
         } catch (Exception ex) {

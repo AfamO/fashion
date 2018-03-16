@@ -6,8 +6,10 @@ import com.longbridge.dto.*;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.exception.WriteFileException;
 import com.longbridge.models.*;
+import com.longbridge.repository.EventPictureRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -52,6 +56,9 @@ public class GeneralUtil {
 //
 //    @Value("${s.product.picture.folder}")
 //    private String productPicturesFolder;
+
+    @Autowired
+    EventPictureRepository eventPictureRepository;
 
     public List<ProductPictureDTO> convertProdPictureEntitiesToDTO(List<ProductPicture> productPictures){
         List<ProductPictureDTO> productPictureDTOS = new ArrayList<ProductPictureDTO>();
@@ -190,16 +197,6 @@ public class GeneralUtil {
     }
 
 
-    public List<EventPicturesDTO> convertEntitiesToDTOs(List<EventPictures> events){
-
-        List<EventPicturesDTO> picturesDTOS = new ArrayList<EventPicturesDTO>();
-
-        for(EventPictures eventsp: events){
-            EventPicturesDTO picturesDTO = convertEntityToDTO(eventsp);
-            picturesDTOS.add(picturesDTO);
-        }
-        return picturesDTOS;
-    }
 
     public EventPicturesDTO convertEntityToDTO(EventPictures eventPictures){
         EventPicturesDTO eventPicturesDTO = new EventPicturesDTO();
@@ -209,6 +206,10 @@ public class GeneralUtil {
         return eventPicturesDTO;
 
     }
+
+
+
+
 
 
     public CloudinaryResponse uploadToCloud(String base64Image, String fileName, String folder){
@@ -281,6 +282,72 @@ public class GeneralUtil {
         }
 
     }
+
+
+    public List<EventsDTO> convertEntitiesToDTOs(List<Events> events){
+
+        List<EventsDTO> eventsDTOS = new ArrayList<EventsDTO>();
+
+        for(Events events1: events){
+            EventsDTO eventsDTO = convertEntityToDTO(events1);
+            eventsDTOS.add(eventsDTO);
+        }
+        return eventsDTOS;
+    }
+
+
+    public List<EventPicturesDTO> convertEntsToDTOs(List<EventPictures> events){
+
+        List<EventPicturesDTO> picturesDTOS = new ArrayList<EventPicturesDTO>();
+
+        for(EventPictures eventsp: events){
+            EventPicturesDTO picturesDTO = convertEntityToDTO(eventsp);
+            picturesDTOS.add(picturesDTO);
+        }
+        return picturesDTOS;
+    }
+
+    public EventsDTO convertEntityToDTO(Events events){
+        EventsDTO eventsDTO = new EventsDTO();
+        eventsDTO.setId(events.id);
+        eventsDTO.setDescription(events.description);
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String stringDate = formatter.format(events.eventDate);
+        eventsDTO.setEventDate(stringDate);
+        eventsDTO.setEventName(events.getEventName());
+        eventsDTO.setLocation(events.location);
+
+        eventsDTO.setMainPicture(events.mainPictureName);
+        eventsDTO.setEventPictures(convertEvtPicEntToDTOsMin(eventPictureRepository.findFirst6ByEvents(events)));
+
+        return eventsDTO;
+
+    }
+
+    public List<EventPicturesDTO> convertEvtPicEntToDTOsMin(List<EventPictures> eventPictures){
+
+        List<EventPicturesDTO> eventPicturesDTOS = new ArrayList<EventPicturesDTO>();
+
+        for(EventPictures eventPictures1: eventPictures){
+            EventPicturesDTO eventPicturesDTO = convertEntityToDTOMin(eventPictures1);
+            eventPicturesDTOS.add(eventPicturesDTO);
+        }
+        return eventPicturesDTOS;
+    }
+
+
+    public EventPicturesDTO convertEntityToDTOMin(EventPictures eventPictures){
+        EventPicturesDTO eventPicturesDTO = new EventPicturesDTO();
+        eventPicturesDTO.setEventName(eventPictures.events.eventName);
+        eventPicturesDTO.setId(eventPictures.id);
+        eventPicturesDTO.setPicture(eventPictures.pictureName);
+        eventPicturesDTO.setPictureDesc(eventPictures.getPictureDesc());
+        return eventPicturesDTO;
+
+    }
+
+
 
 
 }
