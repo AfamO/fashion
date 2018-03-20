@@ -161,7 +161,7 @@ public class UserUtil {
                 newPassword=UUID.randomUUID().toString().substring(0,10);
                 user.password = Hash.createPassword(newPassword);
 
-                name = passedUser.firstName +" " + passedUser.lastName;
+                name = user.firstName +" " + user.lastName;
                 mail = passedUser.email;
                 String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
                 //String encryptedMail = Hash.createEncryptedLink(mail);
