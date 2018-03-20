@@ -79,8 +79,8 @@ public class CustomizationController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        measurementService.getUserMeasurement(userTemp);
-        Response response = new Response("00","Operation Successful","success");
+        //measurementService.getUserMeasurement(userTemp);
+        Response response = new Response("00","Operation Successful",measurementService.getUserMeasurement(userTemp));
         return response;
     }
 //    @GetMapping(value = "/{name}/getcustomizationbyname")
