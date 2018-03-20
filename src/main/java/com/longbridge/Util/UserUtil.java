@@ -163,8 +163,8 @@ public class UserUtil {
 
                 name = passedUser.firstName +" " + passedUser.lastName;
                 mail = passedUser.email;
-
-                String encryptedMail = Hash.createEncryptedLink(mail);
+                String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
+                //String encryptedMail = Hash.createEncryptedLink(mail);
                 changePasswordLink = messageSource.getMessage("change.password.link",null,locale)+encryptedMail;
                 System.out.println(changePasswordLink);
 
