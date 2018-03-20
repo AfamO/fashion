@@ -150,6 +150,7 @@ public class UserUtil {
         String newPassword="";
         String name = "";
         String mail = "";
+        String changePasswordLink="";
         try {
 
             User user = userRepository.findByEmail(passedUser.email);
@@ -163,9 +164,14 @@ public class UserUtil {
                 name = passedUser.firstName +" " + passedUser.lastName;
                 mail = passedUser.email;
 
+                String encryptedMail = Hash.createEncryptedLink(mail);
+                changePasswordLink = messageSource.getMessage("change.password.link",null,locale)+encryptedMail;
+                System.out.println(changePasswordLink);
+
                 Context context = new Context();
                 context.setVariable("password", newPassword);
                 context.setVariable("name", name);
+                context.setVariable("link", changePasswordLink);
                 String message = templateEngine.process("emailtemplate", context);
 
                 mailService.prepareAndSend(message,mail,messageSource.getMessage("password.reset.subject", null, locale));
@@ -179,7 +185,7 @@ public class UserUtil {
             }
         }catch (MailException me) {
             me.printStackTrace();
-            throw new AppException(newPassword,name,mail,messageSource.getMessage("password.reset.subject", null, locale));
+            throw new AppException(newPassword,name,mail,messageSource.getMessage("password.reset.subject", null, locale),changePasswordLink);
 
 
         }
@@ -334,7 +340,7 @@ public class UserUtil {
         }else{
             responseMap.put("passed_token",null);
         }
-        Response response = new Response("99","Invalid token passed",responseMap);
+        Response response = new Response("56","Invalid token passed",responseMap);
         return response;
     }
 
@@ -363,9 +369,7 @@ public void updateUser(UserDTO passedUser, User userTemp){
         userTemp.phoneNo=passedUser.getPhoneNo();
         userTemp.lastName = passedUser.getLastName();
         userTemp.firstName=passedUser.getFirstName();
-        System.out.println(passedUser.getOldPassword());
-        System.out.println(passedUser.getNewPassword());
-        System.out.println(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password));
+
         if(passedUser.getNewPassword() != null && passedUser.getNewPassword() != "") {
             if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password)) {
                 userTemp.password = Hash.createPassword(passedUser.getNewPassword());
@@ -384,6 +388,30 @@ public void updateUser(UserDTO passedUser, User userTemp){
     }
 
 }
+
+
+    public void updatePassword(UserDTO passedUser){
+        try {
+            Date date = new Date();
+            User userTemp = userRepository.findByEmail(passedUser.getEmail());
+            if(passedUser.getNewPassword() != null && passedUser.getNewPassword() != "") {
+                if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password)) {
+                    userTemp.password = Hash.createPassword(passedUser.getNewPassword());
+                }
+                else {
+                    throw new PasswordException("password mismatch");
+                }
+            }
+
+            userTemp.setUpdatedOn(date);
+            userRepository.save(userTemp);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+    }
 
 
     private String getCurrentTime(){

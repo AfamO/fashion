@@ -25,6 +25,13 @@ public class Hash {
     }
 
 
+    public static String createEncryptedLink(String clearString) throws Exception {
+        if (clearString == null) {
+        }
+        return BCrypt.hashpw(clearString, BCrypt.gensalt());
+    }
+
+
     /**
      * @param candidate         the clear text
      * @param encryptedPassword the encrypted password string to check.

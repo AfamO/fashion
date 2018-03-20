@@ -44,9 +44,12 @@ public class ResendMailUtil {
 
                 String subject = mailError.getSubject();
 
+                String link = mailError.getLink();
+
                 Context context = new Context();
                 context.setVariable("password", newPassword);
                 context.setVariable("name", name);
+                context.setVariable("link", link);
                 String message = templateEngine.process("emailtemplate", context);
                 try {
                     mailService.prepareAndSend(message,mail,subject);
@@ -55,7 +58,7 @@ public class ResendMailUtil {
 
                 }catch (MailException me) {
                     me.printStackTrace();
-                    throw new AppException(newPassword,name,mail,subject);
+                    throw new AppException(newPassword,name,mail,subject,link);
 
                 }
             }

@@ -21,6 +21,7 @@ public class MailError {
     private String name;
     private String recipient;
     private String subject;
+    private String link;
 
 
     public MailError() {
@@ -80,5 +81,13 @@ public class MailError {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }

@@ -71,6 +71,14 @@ public class UserController {
         return response;
     }
 
+    @PostMapping(value = "/editpassword")
+    public Response updateUser(@RequestBody UserDTO passedUser){
+        //======================================================
+
+        userUtil.updatePassword(passedUser);
+        Response response = new Response("00", "Operation Successful", "success");
+        return response;
+    }
 
     @GetMapping(value = "/getuserdetails")
     public Object fetchUserDetails(HttpServletRequest request){
@@ -118,6 +126,7 @@ public class UserController {
             mailError.setName(e.getName());
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);
+            mailError.setLink(e.getLink());
             mailErrorRepository.save(mailError);
             Response response = new Response("00", "Operation Successful, Trying to send password to email", responseMap);
             return response;
