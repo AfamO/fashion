@@ -1,5 +1,7 @@
 package com.longbridge.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -53,6 +55,7 @@ public class Measurement extends CommonFields{
 
     private String shoulderToWaist;
 
+    @JsonIgnore
     @ManyToOne
     private User user;
 

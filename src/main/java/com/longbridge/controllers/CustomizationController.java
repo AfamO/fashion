@@ -44,15 +44,15 @@ public class CustomizationController {
 
 
     @GetMapping(value = "/{id}/get")
-    public Response getCustomization(@PathVariable Long measurementId, HttpServletRequest request){
+    public Response getCustomization(@PathVariable Long id, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
 
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        measurementService.getMeasurementById(userTemp, measurementId);
-        Response response = new Response("00","Operation Successful","success");
+
+        Response response = new Response("00","Operation Successful",measurementService.getMeasurementById(userTemp, id));
         return response;
     }
 

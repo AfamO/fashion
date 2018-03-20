@@ -8,6 +8,7 @@ import com.longbridge.services.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,10 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Override
     public void customize(User userTemp, Measurement measurement) {
         try {
+            Date date = new Date();
             measurement.setUser(userTemp);
+            measurement.setCreatedOn(date);
+            measurement.setUpdatedOn(date);
             measurementRepository.save(measurement);
 
         } catch (Exception e) {
