@@ -39,7 +39,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Override
     public void deleteMeasurement(User userTemp, Long measurementId) {
         try {
-           // Measurement m = measurementRepository.findOne(measurementId);
+           //Measurement measurement = measurementRepository.findOne(measurementId);
             measurementRepository.delete(measurementId);
 
         } catch (Exception e) {

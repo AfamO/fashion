@@ -56,6 +56,8 @@ public class Products extends CommonFields implements Serializable {
 
     public String availability;
 
+    public int numOfTimesOrdered = 0;
+
     @OneToMany(mappedBy = "products",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     public List<WishList> wishLists;
 //    @OneToMany(mappedBy = "products",fetch = FetchType.LAZY,cascade = CascadeType.ALL)

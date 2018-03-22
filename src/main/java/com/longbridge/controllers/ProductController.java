@@ -270,7 +270,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/getuntagged")
-    public Object getUntaggedPictures(@RequestBody PageableDetailsDTO pageableDetailsDTO){
+    public Response getUntaggedPictures(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<EventPicturesDTO> eventpictures = productService.getUntaggedPictures(pageableDetailsDTO);
         Response response = new Response("00", "Operation Successful", eventpictures);
         return response;
@@ -279,6 +279,20 @@ public class ProductController {
 
     //todo later
     //get top products based on the number of orders
+
+    @GetMapping(value = "/gettopproducts")
+    public Response getTopProducts(HttpServletRequest request){
+        Response response = new Response("00", "Operation Successful", productService.getTopProducts());
+        return response;
+    }
+
+    @GetMapping(value = "/getfeaturedproducts")
+    public Response getFeaturedProducts(HttpServletRequest request){
+        Response response = new Response("00", "Operation Successful", productService.getTopProducts());
+        return response;
+    }
+
+
 
     @RequestMapping(
             value = "/**",

@@ -23,6 +23,8 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
 
     List<Products> findFirst8ByDesigner(Designer designer);
 
+    List<Products> findTop10ByOrderByNumOfTimesOrderedDesc();
+
    // @Query("select p from Products p where p.picture like %:pictureName%")
     //Products findByPicture(String pictureName);
 

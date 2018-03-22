@@ -37,4 +37,6 @@ public class ProductRespDTO {
 
     public String verifiedFlag;
 
+    public Long numOfTimesOrdered;
+
 }

@@ -89,6 +89,10 @@ public class OrderServiceImpl implements OrderService {
                 items.setCreatedOn(date);
                 items.setUpdatedOn(date);
                 itemRepository.save(items);
+                Products p = productRepository.findOne(items.getProductId());
+                p.numOfTimesOrdered = p.numOfTimesOrdered+1;
+                productRepository.save(p);
+
             }
 
             List<Cart> carts = cartRepository.findByUser(user);

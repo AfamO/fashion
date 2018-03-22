@@ -16,6 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.standard.expression.Each;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 
@@ -29,6 +32,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Autowired
     ProductPictureRepository productPictureRepository;
 
@@ -38,6 +44,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     MaterialPictureRepository materialPictureRepository;
 
+    @Autowired
+    ItemRepository itemRepository;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -575,6 +583,36 @@ public class ProductServiceImpl implements ProductService {
         } catch (Exception e) {
             e.printStackTrace();
            throw new WawoohException();
+        }
+    }
+
+
+    @Override
+    public List<ProductRespDTO> getTopProducts() {
+
+        try {
+            List<Products> products= productRepository.findTop10ByOrderByNumOfTimesOrderedDesc();
+
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
+            return productDTOS;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public List<ProductRespDTO> getFeaturedProducts() {
+        try {
+            List<Products> products= productRepository.findTop10ByOrderByNumOfTimesOrderedDesc();
+
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
+            return productDTOS;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
         }
     }
 

@@ -33,6 +33,10 @@ public interface ProductService {
 
     List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p);
 
+    List<ProductRespDTO> getTopProducts();
+
+    List<ProductRespDTO> getFeaturedProducts();
+
     List<ProductRespDTO> getDesignerProductsBySubCatId(ProdSubCategoryDTO p, User user);
 
     void addCategory(CategoryDTO categoryDTO);
