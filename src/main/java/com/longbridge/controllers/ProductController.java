@@ -5,6 +5,7 @@ import com.longbridge.dto.*;
 import com.longbridge.models.*;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.JwtUser;
+import com.longbridge.services.HibernateSearchService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,9 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    HibernateSearchService searchService;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -192,6 +196,15 @@ public class ProductController {
         return response;
     }
 
+
+    @GetMapping(value = "/{search}/searchproduct")
+    public Response searchEvents(@PathVariable String search){
+        Map<String,Object> responseMap = new HashMap();
+        List<ProductRespDTO> products=searchService.productsFuzzySearch(search);
+        responseMap.put("result",products);
+        Response response = new Response("00","Operation Successful",responseMap);
+        return response;
+    }
 
 
     @PostMapping(value = "/updateproduct")

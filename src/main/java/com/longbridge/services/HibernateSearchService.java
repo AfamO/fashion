@@ -3,6 +3,7 @@ import com.longbridge.Util.GeneralUtil;
 import com.longbridge.dto.EventsDTO;
 import com.longbridge.models.Events;
 import com.longbridge.models.Products;
+import com.longbridge.respbodydto.ProductRespDTO;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
@@ -72,7 +73,7 @@ import java.util.List;
 
 
     @Transactional
-    public List<Products> productsFuzzySearch(String searchTerm) {
+    public List<ProductRespDTO> productsFuzzySearch(String searchTerm) {
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
         QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Products.class).get();
@@ -83,9 +84,9 @@ import java.util.List;
 
         // execute search
 
-        List<Products> products = null;
+        List<ProductRespDTO> products = null;
         try {
-            products = jpaQuery.getResultList();
+            products = generalUtil.convertProdEntToProdRespDTOs(jpaQuery.getResultList());
         } catch (NoResultException nre) {
             ;// do nothing
 

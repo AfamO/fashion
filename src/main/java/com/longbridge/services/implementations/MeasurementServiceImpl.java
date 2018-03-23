@@ -5,6 +5,7 @@ import com.longbridge.models.Measurement;
 import com.longbridge.models.User;
 import com.longbridge.repository.MeasurementRepository;
 import com.longbridge.services.MeasurementService;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,25 @@ public class MeasurementServiceImpl implements MeasurementService {
             throw new WawoohException();
         }
 
+    }
+
+    @Override
+    public void updateCustomization(User userTemp, Measurement measurement) {
+        try {
+            Date date = new Date();
+            measurement.setUser(userTemp);
+            Measurement measurementTemp = measurementRepository.findOne(measurement.id);
+            System.out.println(measurement);
+            System.out.println(measurementTemp);
+            BeanUtils.copyProperties(measurement,measurementTemp);
+
+            measurement.setUpdatedOn(date);
+            measurementRepository.save(measurement);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
     }
 
     @Override

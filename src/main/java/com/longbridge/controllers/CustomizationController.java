@@ -29,6 +29,7 @@ public class CustomizationController {
 
     @Value("${jwt.header}")
     private String tokenHeader;
+
     @PostMapping(value = "/add")
     public Response customize(@RequestBody Measurement measurement, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
@@ -37,6 +38,21 @@ public class CustomizationController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
+        measurementService.customize(userTemp, measurement);
+        Response response = new Response("00","Operation Successful","success");
+        return response;
+    }
+
+
+    @PostMapping(value = "/update")
+    public Response updateCustomize(@RequestBody Measurement measurement, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
         measurementService.customize(userTemp, measurement);
         Response response = new Response("00","Operation Successful","success");
         return response;

@@ -147,6 +147,7 @@ public class GeneralUtil {
         productDTO.verifiedFlag=products.verifiedFlag;
         productDTO.subCategoryId=products.subCategory.id.toString();
         productDTO.categoryId=products.subCategory.category.id.toString();
+        productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
 
         List<ProductPicture> productPictures = products.picture;
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
