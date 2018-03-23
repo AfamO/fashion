@@ -1,6 +1,7 @@
 package com.longbridge.services.implementations;
 
 import com.longbridge.dto.CartDTO;
+import com.longbridge.dto.CartListDTO;
 import com.longbridge.dto.ItemsDTO;
 import com.longbridge.dto.OrderReqDTO;
 import com.longbridge.exception.WawoohException;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -134,6 +136,52 @@ public class OrderServiceImpl implements OrderService {
             cartRepository.save(cart);
             String carts=cartRepository.countByUser(user).toString();
             return carts;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public String updateCart(Cart cart, User user) {
+        try{
+            Date date = new Date();
+            String amount = cartRepository.findOne(cart.id).getAmount();
+            int qty = cart.getQuantity();
+            cart.setQuantity(cart.getQuantity());
+            Double newAmount = Double.parseDouble(amount)*qty;
+            cart.setAmount(newAmount.toString());
+            cart.setUpdatedOn(date);
+            cart.setExpiryDate(DateUtils.addDays(date,7));
+            cart.setUser(user);
+            cartRepository.save(cart);
+            //String amount=cartRepository.findOne(user).toString();
+            String currentAmount = cart.getAmount();
+            return currentAmount;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public String addItemsToCart(CartListDTO carts, User user) {
+        try{
+            Date date = new Date();
+
+            for (Cart cart: carts.getCarts()) {
+                cart.setCreatedOn(date);
+                cart.setUpdatedOn(date);
+                cart.setExpiryDate(DateUtils.addDays(date,7));
+                cart.setUser(user);
+                cartRepository.save(cart);
+
+            }
+
+            return cartRepository.countByUser(user).toString();
+
 
         }catch (Exception ex){
             ex.printStackTrace();

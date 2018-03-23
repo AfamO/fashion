@@ -104,6 +104,7 @@ public class UserUtil {
                             return response;
                         }
                     }
+
                     designerRepository.save(passedUser.designer);
 
                 }

@@ -1,6 +1,7 @@
 package com.longbridge.controllers;
 
 import com.longbridge.Util.UserUtil;
+import com.longbridge.dto.CartListDTO;
 import com.longbridge.dto.OrderReqDTO;
 import com.longbridge.models.*;
 import com.longbridge.services.OrderService;
@@ -13,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Created by Longbridge on 21/12/2017.
@@ -59,6 +59,30 @@ public class OrderController {
         return response;
     }
 
+
+    //todo later
+    @PostMapping(value = "/updatecart")
+    public Response updateCart(@RequestBody Cart cart, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.updateCart(cart,userTemp));
+        return response;
+    }
+
+
+    @PostMapping(value = "/additemstocart")
+    public Response addCartToCart(@RequestBody CartListDTO cartListDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.addItemsToCart(cartListDTO,userTemp));
+        return response;
+    }
 
     @GetMapping(value = "/getcart")
     public Response getCart(HttpServletRequest request){
