@@ -53,7 +53,7 @@ public class CustomizationController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        measurementService.customize(userTemp, measurement);
+        measurementService.updateCustomization(userTemp, measurement);
         Response response = new Response("00","Operation Successful","success");
         return response;
     }

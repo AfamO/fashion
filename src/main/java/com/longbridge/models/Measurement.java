@@ -250,6 +250,32 @@ public class Measurement extends CommonFields{
         this.user = user;
     }
 
+    @Override
+    public String toString() {
+        return "Measurement{" +
+                "name='" + name + '\'' +
+                ", neck='" + neck + '\'' +
+                ", overBust='" + overBust + '\'' +
+                ", bust='" + bust + '\'' +
+                ", armHole='" + armHole + '\'' +
+                ", neckToHeel='" + neckToHeel + '\'' +
+                ", neckToAboveHeel='" + neckToAboveHeel + '\'' +
+                ", vNeckCut='" + vNeckCut + '\'' +
+                ", underBust='" + underBust + '\'' +
+                ", hips='" + hips + '\'' +
+                ", waist='" + waist + '\'' +
+                ", armsLength='" + armsLength + '\'' +
+                ", shoulderSeam='" + shoulderSeam + '\'' +
+                ", kneeToAnkle='" + kneeToAnkle + '\'' +
+                ", foreArm='" + foreArm + '\'' +
+                ", wrist='" + wrist + '\'' +
+                ", bicep='" + bicep + '\'' +
+                ", waistToKnee='" + waistToKnee + '\'' +
+                ", shoulderToWaist='" + shoulderToWaist + '\'' +
+                ", user=" + user +
+                '}';
+    }
+
     public Measurement() {
     }
 

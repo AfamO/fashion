@@ -6,12 +6,13 @@ import com.longbridge.models.User;
 import com.longbridge.repository.MeasurementRepository;
 import com.longbridge.services.MeasurementService;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+
 
 /**
  * Created by Longbridge on 12/03/2018.
@@ -43,12 +44,12 @@ public class MeasurementServiceImpl implements MeasurementService {
             Date date = new Date();
             measurement.setUser(userTemp);
             Measurement measurementTemp = measurementRepository.findOne(measurement.id);
-            System.out.println(measurement);
-            System.out.println(measurementTemp);
-            BeanUtils.copyProperties(measurement,measurementTemp);
-
-            measurement.setUpdatedOn(date);
-            measurementRepository.save(measurement);
+            System.out.println(measurement.toString());
+            System.out.println(measurementTemp.toString());
+            BeanUtilsBean.getInstance().getConvertUtils().register(false, false, 0);
+            BeanUtils.copyProperties(measurementTemp,measurement);
+            measurementTemp.setUpdatedOn(date);
+            measurementRepository.save(measurementTemp);
 
         } catch (Exception e) {
             e.printStackTrace();
