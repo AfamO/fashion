@@ -159,9 +159,9 @@ public class OrderServiceImpl implements OrderService {
             cartTemp.setExpiryDate(DateUtils.addDays(date,7));
             cartTemp.setUser(user);
             cartRepository.save(cartTemp);
-
-            String currentAmount = cartTemp.getAmount();
-            return currentAmount;
+//
+//            String currentAmount = cartTemp.getAmount();
+           return "success";
 
         }catch (Exception ex){
             ex.printStackTrace();

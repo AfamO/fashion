@@ -21,4 +21,7 @@ public class CartListDTO {
     public void setCarts(List<Cart> carts) {
         this.carts = carts;
     }
+
+    public CartListDTO() {
+    }
 }
