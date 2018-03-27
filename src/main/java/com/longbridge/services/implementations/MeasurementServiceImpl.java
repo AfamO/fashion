@@ -44,8 +44,6 @@ public class MeasurementServiceImpl implements MeasurementService {
             Date date = new Date();
             measurement.setUser(userTemp);
             Measurement measurementTemp = measurementRepository.findOne(measurement.id);
-            System.out.println(measurement.toString());
-            System.out.println(measurementTemp.toString());
             BeanUtilsBean.getInstance().getConvertUtils().register(false, false, 0);
             BeanUtils.copyProperties(measurementTemp,measurement);
             measurementTemp.setUpdatedOn(date);

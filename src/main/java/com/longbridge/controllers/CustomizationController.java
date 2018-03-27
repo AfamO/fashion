@@ -73,14 +73,14 @@ public class CustomizationController {
     }
 
     @GetMapping(value = "/{id}/delete")
-    public Response deleteCustomization(@PathVariable Long measurementId, HttpServletRequest request){
+    public Response deleteCustomization(@PathVariable Long id, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
 
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        measurementService.deleteMeasurement(userTemp, measurementId);
+        measurementService.deleteMeasurement(userTemp, id);
         Response response = new Response("00","Operation Successful","success");
         return response;
     }

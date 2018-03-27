@@ -147,10 +147,10 @@ public class OrderServiceImpl implements OrderService {
     public String updateCart(Cart cart, User user) {
         try{
             Date date = new Date();
-            String amount = cartRepository.findOne(cart.id).getAmount();
+            double amount =productRepository.findOne(cartRepository.findOne(cart.id).getProductId()).amount;
             int qty = cart.getQuantity();
             cart.setQuantity(cart.getQuantity());
-            Double newAmount = Double.parseDouble(amount)*qty;
+            Double newAmount = amount*qty;
             cart.setAmount(newAmount.toString());
             cart.setUpdatedOn(date);
             cart.setExpiryDate(DateUtils.addDays(date,7));
