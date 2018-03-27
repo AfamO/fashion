@@ -160,7 +160,7 @@ public class OrderServiceImpl implements OrderService {
             cartTemp.setUser(user);
             cartRepository.save(cartTemp);
 
-            String currentAmount = cart.getAmount();
+            String currentAmount = cartTemp.getAmount();
             return currentAmount;
 
         }catch (Exception ex){
