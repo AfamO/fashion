@@ -93,6 +93,7 @@ public class OrderServiceImpl implements OrderService {
                 itemRepository.save(items);
                 Products p = productRepository.findOne(items.getProductId());
                 p.numOfTimesOrdered = p.numOfTimesOrdered+1;
+                p.stockNo=p.stockNo-items.getQuantity();
                 productRepository.save(p);
 
             }
@@ -304,6 +305,7 @@ public class OrderServiceImpl implements OrderService {
 
         ProductPicture p = productPictureRepository.findFirst1ByProducts(products);
         cartDTO.setProductPicture(p.pictureName);
+        cartDTO.setStockNo(products.stockNo);
 
         if(cart.getArtWorkPictureId() != null) {
             ArtWorkPicture a = artWorkPictureRepository.findOne(cart.getArtWorkPictureId());
@@ -325,6 +327,7 @@ public class OrderServiceImpl implements OrderService {
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
         cartDTO.setMaterialStatus(cart.getMaterialStatus());
         cartDTO.setDesignerId(cart.getDesignerId());
+
         if(cart.getMaterialPictureId() != null) {
             cartDTO.setMeasurementName(measurementRepository.findOne(cart.getMeasurementId()).getName());
         }

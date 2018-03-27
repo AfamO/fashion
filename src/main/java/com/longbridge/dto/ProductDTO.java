@@ -27,7 +27,7 @@ public class ProductDTO {
 
     public ArrayList<String> materialPicture;
 
-    public Long stockNo;
+    public int stockNo;
 
     public String inStock;
 

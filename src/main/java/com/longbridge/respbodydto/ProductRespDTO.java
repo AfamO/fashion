@@ -29,7 +29,7 @@ public class ProductRespDTO {
 
     public List<MaterialPictureDTO> materialPicture;
 
-    public Long stockNo;
+    public int stockNo;
 
     public String inStock;
 

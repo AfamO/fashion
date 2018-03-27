@@ -46,7 +46,7 @@ public class Products extends CommonFields implements Serializable {
     @OneToOne
     public Style style;
 
-    public Long stockNo;
+    public int stockNo;
 
     public String inStock;
 

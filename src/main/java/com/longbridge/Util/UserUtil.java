@@ -111,7 +111,7 @@ public class UserUtil {
                 userRepository.save(passedUser);
                 //todo later generate unique token for new user and send to email
                 //todo later for now i am sending hardcoded token
-                String tokenGen = "ABC009";
+                String tokenGen = UUID.randomUUID().toString().substring(0,10);
                 String name = passedUser.firstName + passedUser.lastName;
                 String mail = passedUser.email;
 

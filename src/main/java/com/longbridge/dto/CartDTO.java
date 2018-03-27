@@ -48,6 +48,8 @@ public class CartDTO {
 
     private String measurementName;
 
+    private int stockNo;
+
     public CartDTO(User user, Long id, Long productId, String productName, int quantity, Long designerId, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, Date expiryDate) {
         this.user = user;
         this.id = id;
@@ -219,6 +221,14 @@ public class CartDTO {
 
     public void setMeasurementName(String measurementId) {
         this.measurementName = measurementName;
+    }
+
+    public int getStockNo() {
+        return stockNo;
+    }
+
+    public void setStockNo(int stockNo) {
+        this.stockNo = stockNo;
     }
 
     public CartDTO() {
