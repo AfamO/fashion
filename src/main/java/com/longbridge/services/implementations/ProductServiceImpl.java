@@ -421,7 +421,7 @@ Date date = new Date();
                     ProductPicture productPicture = productPictureRepository.findOne(id);
 
                     generalUtil.deleteFromCloud(productPicture.picture, productPicture.pictureName);
-                    
+
                     CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
                     productPicture.pictureName = c.getUrl();
                     productPicture.picture = c.getPublicId();
@@ -439,8 +439,6 @@ Date date = new Date();
                     productPictureRepository.save(productPicture);
                 }
 
-
-
             }
 
         }catch (Exception e){
@@ -454,20 +452,31 @@ Date date = new Date();
     public void updateArtWorkImages(ArtPicReqDTO artPicReqDTO) {
 
         try {
-
+            Date date = new Date();
             Products products = productRepository.findOne(artPicReqDTO.productId);
             for(ArtPictureDTO pp : artPicReqDTO.artWorkPicture){
 
-                Long id = pp.id;
-                ArtWorkPicture artWorkPicture = artWorkPictureRepository.findOne(id);
+                if(pp.id != null) {
+                    Long id = pp.id;
+                    ArtWorkPicture artWorkPicture = artWorkPictureRepository.findOne(id);
 
-                generalUtil.deleteFromCloud(artWorkPicture.picture,artWorkPicture.pictureName);
+                    generalUtil.deleteFromCloud(artWorkPicture.picture, artWorkPicture.pictureName);
 
-                CloudinaryResponse c = generalUtil.uploadToCloud(pp.artWorkPicture,generalUtil.getPicsName("artworkpic",products.name),"artworkpictures");
-                artWorkPicture.pictureName = c.getUrl();
-                artWorkPicture.picture = c.getPublicId();
+                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.name), "artworkpictures");
+                    artWorkPicture.pictureName = c.getUrl();
+                    artWorkPicture.picture = c.getPublicId();
 
-                artWorkPictureRepository.save(artWorkPicture);
+                    artWorkPictureRepository.save(artWorkPicture);
+                }else {
+                    ArtWorkPicture artWorkPicture = new ArtWorkPicture();
+                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.name), "artworkpictures");
+                    artWorkPicture.pictureName = c.getUrl();
+                    artWorkPicture.picture = c.getPublicId();
+                    artWorkPicture.products = products;
+                    artWorkPicture.createdOn = date;
+                    artWorkPicture.setUpdatedOn(date);
+                    artWorkPictureRepository.save(artWorkPicture);
+                }
 
             }
 
@@ -479,24 +488,32 @@ Date date = new Date();
 
     @Override
     public void updateMaterialImages(MatPicReqDTO matPicReqDTO) {
-
+        Date date = new Date();
         try {
 
             Products products = productRepository.findOne(matPicReqDTO.productId);
             for (MaterialPictureDTO pp : matPicReqDTO.materialPicture) {
-                Long id = pp.id;
-                MaterialPicture materialPicture = materialPictureRepository.findOne(id);
-                //deletePics(materialPicture.pictureName, materialPicturesFolder);
-
-                //materialPicture.pictureName = generalUtil.getPicsName(pp.materialPicture, "materialpic", materialPicturesFolder, products.name);
-                generalUtil.deleteFromCloud(materialPicture.picture,materialPicture.pictureName);
-
-                CloudinaryResponse c = generalUtil.uploadToCloud(pp.materialPicture,generalUtil.getPicsName("materialpic",products.name),"materialpictures");
-                materialPicture.pictureName = c.getUrl();
-                materialPicture.picture = c.getPublicId();
+                if(pp.id != null) {
+                    Long id = pp.id;
+                    MaterialPicture materialPicture = materialPictureRepository.findOne(id);
+                    generalUtil.deleteFromCloud(materialPicture.picture, materialPicture.pictureName);
+                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.materialPicture, generalUtil.getPicsName("materialpic", products.name), "materialpictures");
+                    materialPicture.pictureName = c.getUrl();
+                    materialPicture.picture = c.getPublicId();
 
 
-                materialPictureRepository.save(materialPicture);
+                    materialPictureRepository.save(materialPicture);
+                }else {
+                    MaterialPicture materialPicture = new MaterialPicture();
+
+                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.materialPicture, generalUtil.getPicsName("materialpic", products.name), "materialpictures");
+                    materialPicture.pictureName = c.getUrl();
+                    materialPicture.picture = c.getPublicId();
+                    materialPicture.products = products;
+                    materialPicture.createdOn = date;
+                    materialPicture.setUpdatedOn(date);
+                    materialPictureRepository.save(materialPicture);
+                }
             }
 
         }catch (Exception e){
