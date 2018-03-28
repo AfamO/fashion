@@ -411,21 +411,35 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void updateProductImages(ProdPicReqDTO p) {
-
+Date date = new Date();
         try {
             Products products = productRepository.findOne(p.productId);
             for(ProductPictureDTO pp : p.picture){
 
-               Long id = pp.id;
-                ProductPicture productPicture = productPictureRepository.findOne(id);
+                if(pp.id != null) {
+                    Long id = pp.id;
+                    ProductPicture productPicture = productPictureRepository.findOne(id);
 
-                generalUtil.deleteFromCloud(productPicture.picture,productPicture.pictureName);
+                    generalUtil.deleteFromCloud(productPicture.picture, productPicture.pictureName);
+                    
+                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
+                    productPicture.pictureName = c.getUrl();
+                    productPicture.picture = c.getPublicId();
+                    productPicture.setUpdatedOn(date);
+                    productPictureRepository.save(productPicture);
+                }
+                else {
+                    ProductPicture productPicture = new ProductPicture();
+                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
+                    productPicture.pictureName = c.getUrl();
+                    productPicture.picture = c.getPublicId();
+                    productPicture.products = products;
+                    productPicture.createdOn = date;
+                    productPicture.setUpdatedOn(date);
+                    productPictureRepository.save(productPicture);
+                }
 
-                CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture,generalUtil.getPicsName("prodpic",products.name),"productpictures");
-                productPicture.pictureName = c.getUrl();
-                productPicture.picture = c.getPublicId();
 
-                productPictureRepository.save(productPicture);
 
             }
 
