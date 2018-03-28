@@ -1,6 +1,7 @@
 package com.longbridge.services;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.dto.EventsDTO;
+import com.longbridge.models.Designer;
 import com.longbridge.models.Events;
 import com.longbridge.models.Products;
 import com.longbridge.respbodydto.ProductRespDTO;
@@ -74,6 +75,34 @@ import java.util.List;
 
     @Transactional
     public List<ProductRespDTO> productsFuzzySearch(String searchTerm) {
+
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
+        QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Products.class).get();
+        Query luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1).onFields("name")
+                .matching(searchTerm).createQuery();
+
+        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Products.class);
+
+        // execute search
+
+        List<ProductRespDTO> products = null;
+        try {
+            products = generalUtil.convertProdEntToProdRespDTOs(jpaQuery.getResultList());
+        } catch (NoResultException nre) {
+            ;// do nothing
+
+        }
+
+        return products;
+
+
+    }
+
+
+
+
+    @Transactional
+    public List<ProductRespDTO> designerProductsFuzzySearch(String searchTerm, Designer designer) {
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
         QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Products.class).get();

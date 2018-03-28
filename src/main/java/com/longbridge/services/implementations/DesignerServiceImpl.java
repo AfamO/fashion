@@ -125,7 +125,9 @@ public class DesignerServiceImpl implements DesignerService{
 
                 if(passedDesigner.logo != null) {
                     Designer d = designerRepository.findOne(userTemp.designer.id);
-                    generalUtil.deleteFromCloud(userTemp.designer.publicId,userTemp.designer.logo);
+                    if(userTemp.designer.publicId != null) {
+                        generalUtil.deleteFromCloud(userTemp.designer.publicId, userTemp.designer.logo);
+                    }
                     try {
                         String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
                         String base64Img = passedDesigner.logo;

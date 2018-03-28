@@ -95,6 +95,21 @@ public class ProductController {
     }
 
 
+    @GetMapping(value = "/{search}/designerprodsearch")
+    public Response searchProductsByDesigner(@PathVariable String search, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+        Designer designer = user.designer;
+        if(token==null || user==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        List<ProductRespDTO> products=searchService.designerProductsFuzzySearch(search,designer);
+
+        Response response = new Response("00","Operation Successful",products);
+        return response;
+    }
+
+
     @GetMapping(value = "/{designerId}/getdesignerproducts")
     public Object getProductsByDesignerId(@PathVariable Long designerId){
 //        String token = request.getHeader(tokenHeader);

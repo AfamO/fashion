@@ -315,7 +315,9 @@ public class OrderServiceImpl implements OrderService {
             cartDTO.setArtWorkPictureId(cart.getArtWorkPictureId());
         }
 
+        System.out.println(cart.getMaterialPictureId());
         if(cart.getMaterialPictureId() != null) {
+            System.out.println(cart.getMaterialPictureId());
             MaterialPicture m = materialPictureRepository.findOne(cart.getMaterialPictureId());
             cartDTO.setMaterialPicture(m.pictureName);
             cartDTO.setMaterialPictureId(cart.getMaterialPictureId());

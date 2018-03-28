@@ -27,6 +27,7 @@ public class Products extends CommonFields implements Serializable {
     @ManyToOne
     public Designer designer;
 
+    @Lob
     public String prodDesc;
 
     public ArrayList<String> color;
