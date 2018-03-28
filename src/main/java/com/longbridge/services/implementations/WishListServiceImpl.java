@@ -151,7 +151,7 @@ public class WishListServiceImpl implements WishListService{
         ProductPictureDTO pictureDTO = new ProductPictureDTO();
         pictureDTO.id=picture.id;
         pictureDTO.productId=picture.products.id;
-        pictureDTO.picture=productPicturesImagePath+picture.pictureName;
+        pictureDTO.picture=picture.pictureName;
         return pictureDTO;
 
     }
@@ -170,7 +170,7 @@ public class WishListServiceImpl implements WishListService{
         ArtPictureDTO pictureDTO = new ArtPictureDTO();
         pictureDTO.id=picture.id;
         pictureDTO.productId=picture.products.id;
-        pictureDTO.artWorkPicture=artworkPictureImagePath+picture.pictureName;
+        pictureDTO.artWorkPicture=picture.pictureName;
         return pictureDTO;
 
     }
@@ -189,7 +189,7 @@ public class WishListServiceImpl implements WishListService{
         MaterialPictureDTO pictureDTO = new MaterialPictureDTO();
         pictureDTO.id=picture.id;
         pictureDTO.productId=picture.products.id;
-        pictureDTO.materialPicture=materialPicturesImagePath+picture.pictureName;
+        pictureDTO.materialPicture=picture.pictureName;
         return pictureDTO;
 
     }

@@ -234,12 +234,12 @@ public class UserUtil {
             boolean valid = false;
             if(user!=null){
                 try{
-                   // check if(user.socialFlag) is Y
+                   // check if(user.socialFlag) is Y and set valid as true
                     if(user.socialFlag.equalsIgnoreCase("Y")){
                         valid=true;
                     }
                     else {
-                        //If N, carry go
+                        //If N, validate password
                         valid = Hash.checkPassword(passedUser.password, user.password);
                     }
                 }catch(Exception e)
