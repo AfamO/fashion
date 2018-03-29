@@ -343,42 +343,43 @@ public class OrderServiceImpl implements OrderService {
 
     private ItemsDTO convertEntityToDTO(Items items){
         ItemsDTO itemsDTO = new ItemsDTO();
+        if(items != null) {
+            itemsDTO.setProductId(items.getProductId());
+            itemsDTO.setProductName(productRepository.getProductName(items.getProductId()));
+            itemsDTO.setAmount(items.getAmount());
+            itemsDTO.setColor(items.getColor());
+            itemsDTO.setQuantity(items.getQuantity());
 
-        itemsDTO.setProductId(items.getProductId());
-        itemsDTO.setProductName(productRepository.getProductName(items.getProductId()));
-        itemsDTO.setAmount(items.getAmount());
-        itemsDTO.setColor(items.getColor());
-        itemsDTO.setQuantity(items.getQuantity());
+            ProductPicture p = productPictureRepository.findFirst1ByProducts(productRepository.findOne(itemsDTO.getProductId()));
+            itemsDTO.setProductPicture(p.pictureName);
 
-        ProductPicture p = productPictureRepository.findFirst1ByProducts(productRepository.findOne(itemsDTO.getProductId()));
-        itemsDTO.setProductPicture(p.pictureName);
+            if (items.getArtWorkPictureId() != null) {
+                ArtWorkPicture a = artWorkPictureRepository.findOne(items.getArtWorkPictureId());
+                itemsDTO.setArtWorkPicture(a.pictureName);
+            }
 
-        if(items.getArtWorkPictureId() != null) {
-            ArtWorkPicture a = artWorkPictureRepository.findOne(items.getArtWorkPictureId());
-            itemsDTO.setArtWorkPicture(a.pictureName);
-        }
+            if (items.getMaterialPictureId() != null) {
+                MaterialPicture m = materialPictureRepository.findOne(items.getMaterialPictureId());
+                itemsDTO.setMaterialPicture(m.pictureName);
+            }
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        if(items.getMaterialPictureId() != null) {
-            MaterialPicture m = materialPictureRepository.findOne(items.getMaterialPictureId());
-            itemsDTO.setMaterialPicture(m.pictureName);
-        }
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        Orders orders = items.getOrders();
-        itemsDTO.setArtWorkPictureId(items.getArtWorkPictureId());
-        itemsDTO.setSize(items.getSize());
-        //itemsDTO.setDeliveryDate(formatter.format(orders.getDeliveryDate()));
-        itemsDTO.setOrderDate(formatter.format(orders.getOrderDate()));
-        itemsDTO.setDeliveryStatus(orders.getDeliveryStatus());
-        itemsDTO.setMaterialLocation(items.getMaterialLocation());
-        itemsDTO.setMaterialPickupDate(items.getMaterialPickupDate());
-        itemsDTO.setMaterialStatus(items.getMaterialStatus());
-        itemsDTO.setMaterialPictureId(items.getMaterialPictureId());
-        itemsDTO.setDesignerId(items.getDesignerId());
-        itemsDTO.setOrderNumber(orders.getOrderNum());
-        itemsDTO.setOrderId(orders.id);
-        if(items.getMeasurementId() != null) {
-            itemsDTO.setMeasurementName(measurementRepository.findOne(items.getMeasurementId()).getName());
+            Orders orders = items.getOrders();
+            itemsDTO.setArtWorkPictureId(items.getArtWorkPictureId());
+            itemsDTO.setSize(items.getSize());
+            //itemsDTO.setDeliveryDate(formatter.format(orders.getDeliveryDate()));
+            itemsDTO.setOrderDate(formatter.format(orders.getOrderDate()));
+            itemsDTO.setDeliveryStatus(orders.getDeliveryStatus());
+            itemsDTO.setMaterialLocation(items.getMaterialLocation());
+            itemsDTO.setMaterialPickupDate(items.getMaterialPickupDate());
+            itemsDTO.setMaterialStatus(items.getMaterialStatus());
+            itemsDTO.setMaterialPictureId(items.getMaterialPictureId());
+            itemsDTO.setDesignerId(items.getDesignerId());
+            itemsDTO.setOrderNumber(orders.getOrderNum());
+            itemsDTO.setOrderId(orders.id);
+            if (items.getMeasurementId() != null) {
+                itemsDTO.setMeasurementName(measurementRepository.findOne(items.getMeasurementId()).getName());
+            }
         }
         return itemsDTO;
 
