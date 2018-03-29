@@ -377,7 +377,9 @@ public class OrderServiceImpl implements OrderService {
         itemsDTO.setDesignerId(items.getDesignerId());
         itemsDTO.setOrderNumber(orders.getOrderNum());
         itemsDTO.setOrderId(orders.id);
-        itemsDTO.setMeasurementName(measurementRepository.findOne(items.getMeasurementId()).getName());
+        if(items.getMeasurementId() != null) {
+            itemsDTO.setMeasurementName(measurementRepository.findOne(items.getMeasurementId()).getName());
+        }
         return itemsDTO;
 
     }
