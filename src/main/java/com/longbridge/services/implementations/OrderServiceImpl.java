@@ -391,7 +391,7 @@ public class OrderServiceImpl implements OrderService {
             itemsDTO.setOrderNumber(orders.getOrderNum());
             itemsDTO.setOrderId(orders.id);
             if (items.getMeasurementId() != null) {
-                itemsDTO.setMeasurementName(measurementRepository.findOne(items.getMeasurementId()).getName());
+                itemsDTO.setMeasurement(measurementRepository.findOne(items.getMeasurementId()));
             }
         }
         return itemsDTO;

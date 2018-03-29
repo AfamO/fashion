@@ -1,6 +1,7 @@
 package com.longbridge.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.longbridge.models.Measurement;
 import com.longbridge.models.Orders;
 
 import javax.persistence.ManyToOne;
@@ -51,7 +52,7 @@ public class ItemsDTO {
 
     private String orderNumber;
 
-    private String measurementName;
+    private Measurement measurement;
 
     private Long orderId;
 
@@ -249,11 +250,11 @@ public class ItemsDTO {
         this.orderId = orderId;
     }
 
-    public String getMeasurementName() {
-        return measurementName;
+    public Measurement getMeasurement() {
+        return measurement;
     }
 
-    public void setMeasurementName(String measurementName) {
-        this.measurementName = measurementName;
+    public void setMeasurement(Measurement measurement) {
+        this.measurement = measurement;
     }
 }

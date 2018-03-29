@@ -2,10 +2,7 @@ package com.longbridge.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by Longbridge on 12/03/2018.
@@ -58,6 +55,10 @@ public class Measurement extends CommonFields{
     @JsonIgnore
     @ManyToOne
     private User user;
+
+    @JsonIgnore
+    @OneToOne
+    private Items items;
 
 
 //    public Long getId() {
