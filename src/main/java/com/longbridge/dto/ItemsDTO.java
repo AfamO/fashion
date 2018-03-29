@@ -11,6 +11,7 @@ import java.util.Date;
  */
 public class ItemsDTO {
 
+    private Long id;
 
     private Long productId;
 
@@ -78,6 +79,14 @@ public class ItemsDTO {
         this.materialLocation = materialLocation;
         this.materialPickupDate = materialPickupDate;
         this.orderNumber = orderNumber;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getProductId() {

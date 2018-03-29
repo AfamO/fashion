@@ -258,6 +258,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public ItemsDTO getOrderItemById(Long id) {
+        try {
+
+            return convertEntityToDTO(itemRepository.findOne(id));
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public Boolean orderNumExists(String orderNum) {
         Orders orders = orderRepository.findByOrderNum(orderNum);
         return (orders != null) ? true : false;
@@ -344,6 +356,7 @@ public class OrderServiceImpl implements OrderService {
     private ItemsDTO convertEntityToDTO(Items items){
         ItemsDTO itemsDTO = new ItemsDTO();
         if(items != null) {
+            itemsDTO.setId(items.id);
             itemsDTO.setProductId(items.getProductId());
             itemsDTO.setProductName(productRepository.getProductName(items.getProductId()));
             itemsDTO.setAmount(items.getAmount());

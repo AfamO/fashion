@@ -144,6 +144,20 @@ public class OrderController {
         return response;
     }
 
+
+    @GetMapping(value = "/{id}/getorderitemdetails")
+    public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getOrderItemById(id));
+        return response;
+    }
+
+
+
     @GetMapping(value = "/getdesignerorders")
     public Response getdesignerOrder(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

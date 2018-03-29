@@ -39,4 +39,6 @@ public interface OrderService {
 
     OrderDTO getOrdersById(Long id);
 
+    ItemsDTO getOrderItemById(Long id);
+
 }
