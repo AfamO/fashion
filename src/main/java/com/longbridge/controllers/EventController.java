@@ -78,6 +78,7 @@ public class EventController {
         return response;
     }
 
+
     @PostMapping(value = "/getevents")
     public Response getEvents(@RequestBody EventDateDTO eventDateDTO, HttpServletRequest request){
         Map<String,Object> responseMap = new HashMap();

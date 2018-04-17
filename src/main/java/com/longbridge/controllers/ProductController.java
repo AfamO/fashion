@@ -349,6 +349,13 @@ public class ProductController {
         return response;
     }
 
+    @PostMapping(value = "/{eventname}/getuntagged")
+    public Response getUntaggedPicturesByEvent(@RequestBody PageableDetailsDTO pageableDetailsDTO,@PathVariable String eventname){
+        List<EventPicturesDTO> eventpictures = productService.getUntaggedPicturesByEvents(pageableDetailsDTO, eventname);
+        Response response = new Response("00", "Operation Successful", eventpictures);
+        return response;
+    }
+
 
     //todo later
     //get top products based on the number of orders

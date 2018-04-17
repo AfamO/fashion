@@ -7,6 +7,7 @@ import com.longbridge.exception.WriteFileException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
+import com.longbridge.services.HibernateSearchService;
 import com.longbridge.services.ProductService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    HibernateSearchService searchService;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -721,9 +725,37 @@ Date date = new Date();
         }
     }
 
+    @Override
+    public List<EventPicturesDTO> getUntaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, String search) {
+        int page = pageableDetailsDTO.getPage();
+        int size = pageableDetailsDTO.getSize();
+        List<EventPicturesDTO> ev = new ArrayList<>();
+        Page<EventPictures> e = null;
+        try {
+            List<Events> events=searchService.eventsTagFuzzySearch(search);
+            if(events != null) {
+                for (Events events1 : events) {
+                    e = eventPictureRepository.findByEvents(new PageRequest(page, size), events1);
+                }
 
+                if(e!=null) {
+                    for (EventPictures pictures : e) {
+                        if (pictureTagRepository.findByEventPictures(pictures).size() < 1) {
+                            EventPicturesDTO picturesDTO = generalUtil.convertEntityToDTO(pictures);
+                            ev.add(picturesDTO);
+                        }
 
+                    }
+                }
+                return ev;
+            }
+            return ev;
 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
 
     private List<PicTagDTO> convertPictureTagEntityToDTO(List<PictureTag> pictureTags){
 
