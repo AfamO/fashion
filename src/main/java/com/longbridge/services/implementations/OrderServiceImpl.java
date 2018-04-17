@@ -359,7 +359,7 @@ public class OrderServiceImpl implements OrderService {
             itemsDTO.setId(items.id);
             itemsDTO.setProductId(items.getProductId());
             itemsDTO.setProductName(productRepository.getProductName(items.getProductId()));
-            itemsDTO.setAmount(items.getAmount());
+            itemsDTO.setAmount(items.getAmount().toString());
             itemsDTO.setColor(items.getColor());
             itemsDTO.setQuantity(items.getQuantity());
 

@@ -566,6 +566,27 @@ Date date = new Date();
     }
 
     @Override
+    public void deleteProductImages(Long id) {
+        ProductPicture p = productPictureRepository.findOne(id);
+            generalUtil.deleteFromCloud(p.picture,p.pictureName);
+            productPictureRepository.delete(id);
+    }
+
+    @Override
+    public void deleteArtWorkImages(Long id) {
+        ArtWorkPicture p = artWorkPictureRepository.findOne(id);
+        generalUtil.deleteFromCloud(p.picture,p.pictureName);
+        artWorkPictureRepository.delete(id);
+    }
+
+    @Override
+    public void deleteMaterialImages(Long id) {
+        MaterialPicture p = materialPictureRepository.findOne(id);
+        generalUtil.deleteFromCloud(p.picture,p.pictureName);
+        materialPictureRepository.delete(id);
+    }
+
+    @Override
     public List<ProductRespDTO> getProductsByDesigner(Long designerId) {
 
 

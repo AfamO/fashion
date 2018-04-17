@@ -181,7 +181,7 @@ public class UserUtil {
                 Response response = new Response("00","Operation Successful, Password successfully sent to email",responseMap);
                 return response;
             }else{
-                Response response = new Response("99","Error occurred",responseMap);
+                Response response = new Response("99","Email does not exist",responseMap);
                 return response;
             }
         }catch (MailException me) {

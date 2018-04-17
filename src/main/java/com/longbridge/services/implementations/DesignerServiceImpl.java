@@ -7,10 +7,7 @@ import com.longbridge.dto.DesignerRatingDTO;
 import com.longbridge.exception.ObjectNotFoundException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
-import com.longbridge.repository.DesignerRepository;
-import com.longbridge.repository.ProductPictureRepository;
-import com.longbridge.repository.ProductRepository;
-import com.longbridge.repository.RatingRepository;
+import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.DesignerService;
@@ -57,6 +54,9 @@ public class DesignerServiceImpl implements DesignerService{
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
 
     @Override
     public List<DesignerDTO> getDesigners() {
@@ -221,7 +221,7 @@ public class DesignerServiceImpl implements DesignerService{
     public DesignerDTO getDesigner(User user) {
         try {
             Designer designer = user.designer;
-            DesignerDTO dto = convertDesignerEntToDTO(designer);
+            DesignerDTO dto = convertDesigner2EntToDTO(designer);
             return dto;
 
         } catch (Exception e){
@@ -245,6 +245,38 @@ public class DesignerServiceImpl implements DesignerService{
         }
     }
 
+    private DesignerDTO convertDesigner2EntToDTO(Designer d){
+        DesignerDTO dto = new DesignerDTO();
+        dto.id=d.id;
+//        dto.userId=d.userId;
+        dto.userId = d.user.id;
+        dto.logo=d.logo;
+        dto.storeName=d.storeName;
+        dto.address=d.address;
+        //User u = userRepository.findById(d.userId);
+        User u = d.user;
+        dto.firstName=u.firstName;
+        dto.lastName=u.lastName;
+        dto.phoneNo=u.phoneNo;
+        dto.email=u.email;
+        dto.gender=u.gender;
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dto.createdDate = formatter.format(d.createdOn);
+        List<ProductRespDTO> products= generalUtil.convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesigner(d));
+        dto.setProducts(products);
+        dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"P");
+        dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
+        dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id, "X");
+        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
+        dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"R");
+        dto.noOfShippedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"S");
+        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
+        return dto;
+
+    }
+
+
+
     private DesignerDTO convertDesignerEntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
@@ -264,9 +296,17 @@ public class DesignerServiceImpl implements DesignerService{
         dto.createdDate = formatter.format(d.createdOn);
         List<ProductRespDTO> products= generalUtil.convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesigner(d));
         dto.setProducts(products);
+//        dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"P");
+//        dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
+//        dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id, "X");
+//        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
+//        dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"R");
+//        dto.noOfShippedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"S");
+//        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
         return dto;
 
     }
+
 
 
 

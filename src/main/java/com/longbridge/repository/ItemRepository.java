@@ -20,9 +20,12 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Items, Long> {
 
     List<Items> findByDesignerId(Long designerId);
-
+    int countByDesignerIdAndDeliveryStatus(Long designerId, String status);
 
 //    @Query("select productId, count(productId) as 'mcount', productId from Items group by productId order by 'mcount' desc")
 //    Page<Long> findTopByCustomQuery(Pageable pageable);
+
+    @Query("select sum(amount) from Items where designerId = designerId and deliveryStatus = deliveryStatus")
+    Double findSumOfPendingOrders(Long designerId, String status);
 
 }

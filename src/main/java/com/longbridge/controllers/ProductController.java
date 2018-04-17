@@ -212,6 +212,51 @@ public class ProductController {
     }
 
 
+
+    @PostMapping(value = "/{id}/deleteproductimage")
+    public Object deleteProductImages(@PathVariable Long id, HttpServletRequest request){
+        Map<String,Object> responseMap = new HashMap();
+        String token = request.getHeader(tokenHeader);
+        JwtUser user = userUtil.getAuthenticationDetails(token);
+        if(token==null || user.getUsername()==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        productService.deleteProductImages(id);
+        responseMap.put("success","success");
+        Response response = new Response("00","Operation Successful",responseMap);
+        return response;
+    }
+
+
+    @PostMapping(value = "/{id}/deleteartworkimage")
+    public Object deleteArtWorkImages(@PathVariable Long id, HttpServletRequest request){
+        Map<String,Object> responseMap = new HashMap();
+        String token = request.getHeader(tokenHeader);
+        JwtUser user = userUtil.getAuthenticationDetails(token);
+        if(token==null || user.getUsername()==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        productService.deleteArtWorkImages(id);
+        responseMap.put("success","success");
+        Response response = new Response("00","Operation Successful",responseMap);
+        return response;
+    }
+
+    @PostMapping(value = "/{id}/deletematerialimage")
+    public Object deleteMaterialImages(@PathVariable Long id, HttpServletRequest request){
+        Map<String,Object> responseMap = new HashMap();
+        String token = request.getHeader(tokenHeader);
+        JwtUser user = userUtil.getAuthenticationDetails(token);
+        if(token==null || user.getUsername()==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        productService.deleteMaterialImages(id);
+        responseMap.put("success","success");
+        Response response = new Response("00","Operation Successful",responseMap);
+        return response;
+    }
+
+
     @GetMapping(value = "/{search}/searchproduct")
     public Response searchEvents(@PathVariable String search){
         Map<String,Object> responseMap = new HashMap();

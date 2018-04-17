@@ -20,7 +20,6 @@ public class Designer extends CommonFields {
     public String address;
     public String status;
 
-
     @OneToOne(cascade = CascadeType.ALL)
     public User user;
 

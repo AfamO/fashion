@@ -23,15 +23,15 @@ import java.util.List;
     public class HibernateSearchService {
 
 
-        @Autowired
-        private final EntityManager centityManager;
+    @Autowired
+    private final EntityManager centityManager;
 
     @Autowired
     private GeneralUtil generalUtil;
 
 
-        @Autowired
-        public HibernateSearchService(EntityManager entityManager) {
+    @Autowired
+    public HibernateSearchService(EntityManager entityManager) {
             super();
             this.centityManager = entityManager;
         }

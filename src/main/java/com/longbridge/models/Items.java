@@ -29,7 +29,7 @@ public class Items extends CommonFields{
 
     private String size;
 
-    private String amount;
+    private Double amount;
 
     private Long artWorkPictureId;
 
@@ -97,11 +97,11 @@ public class Items extends CommonFields{
         this.size = size;
     }
 
-    public String getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -180,7 +180,8 @@ public class Items extends CommonFields{
     public Items() {
     }
 
-    public Items(Long productId, int quantity, Long designerId, String deliveryStatus, Date deliveryDate, String size, String amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate) {
+    public Items(Orders orders, Long productId, int quantity, Long designerId, String deliveryStatus, Date deliveryDate, String size, Double amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, Long measurementId) {
+        this.orders = orders;
         this.productId = productId;
         this.quantity = quantity;
         this.designerId = designerId;
@@ -194,8 +195,8 @@ public class Items extends CommonFields{
         this.materialStatus = materialStatus;
         this.materialLocation = materialLocation;
         this.materialPickupDate = materialPickupDate;
+        this.measurementId = measurementId;
     }
-
 
     @Override
     public String toString() {

@@ -20,6 +20,13 @@ public class DesignerDTO {
     public String phoneNo;
     public String gender;
     public String createdDate;
+    public int noOfPendingOders;
+    public int noOfConfirmedOrders;
+    public int noOfReadyToShipOrders;
+    public int noOfShippedOrders;
+    public int noOfCancelledOrders;
+    public int noOfDeliveredOrders;
+    public Double amountOfPendingOrders;
     private List<ProductRespDTO> products;
 
     public DesignerDTO() {
@@ -143,5 +150,61 @@ public class DesignerDTO {
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public int getNoOfPendingOders() {
+        return noOfPendingOders;
+    }
+
+    public void setNoOfPendingOders(int noOfPendingOders) {
+        this.noOfPendingOders = noOfPendingOders;
+    }
+
+    public int getNoOfConfirmedOrders() {
+        return noOfConfirmedOrders;
+    }
+
+    public void setNoOfConfirmedOrders(int noOfConfirmedOrders) {
+        this.noOfConfirmedOrders = noOfConfirmedOrders;
+    }
+
+    public int getNoOfReadyToShipOrders() {
+        return noOfReadyToShipOrders;
+    }
+
+    public void setNoOfReadyToShipOrders(int noOfReadyToShipOrders) {
+        this.noOfReadyToShipOrders = noOfReadyToShipOrders;
+    }
+
+    public int getNoOfShippedOrders() {
+        return noOfShippedOrders;
+    }
+
+    public void setNoOfShippedOrders(int noOfShippedOrders) {
+        this.noOfShippedOrders = noOfShippedOrders;
+    }
+
+    public int getNoOfCancelledOrders() {
+        return noOfCancelledOrders;
+    }
+
+    public void setNoOfCancelledOrders(int noOfCancelledOrders) {
+        this.noOfCancelledOrders = noOfCancelledOrders;
+    }
+
+    public int getNoOfDeliveredOrders() {
+        return noOfDeliveredOrders;
+    }
+
+    public void setNoOfDeliveredOrders(int noOfDeliveredOrders) {
+        this.noOfDeliveredOrders = noOfDeliveredOrders;
+    }
+
+    public Double getAmountOfPendingOrders() {
+        return amountOfPendingOrders;
+    }
+
+    public void setAmountOfPendingOrders(Double amountOfPendingOrders) {
+        this.amountOfPendingOrders = amountOfPendingOrders;
     }
 }

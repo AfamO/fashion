@@ -114,7 +114,6 @@ public class UserController {
         // }
         Map<String, Object> responseMap = new HashMap();
         try {
-            System.out.println(user);
             return userUtil.forgotPassword(user);
         } catch (AppException e) {
             e.printStackTrace();

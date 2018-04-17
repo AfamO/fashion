@@ -27,6 +27,12 @@ public interface ProductService {
 
     void deleteProduct(Long id);
 
+    void deleteProductImages(Long id);
+
+    void deleteArtWorkImages(Long id);
+
+    void deleteMaterialImages(Long id);
+
     List<ProductRespDTO> getProductsByDesigner(Long designerId);
 
     List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO);
