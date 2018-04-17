@@ -1,7 +1,10 @@
 package com.longbridge.models;
 
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.standard.StandardFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +17,12 @@ import java.util.List;
 @Entity
 public class Events extends CommonFields {
 
+    @AnalyzerDef(name = "eventTextAnalyzer",
+            tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+            filters = {
+                    @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                    @TokenFilterDef(factory = StandardFilterFactory.class)
+            })
 
     public String mainPicture;
 
@@ -24,7 +33,8 @@ public class Events extends CommonFields {
 
     public String location;
 
-    @Field
+    @Field(index= Index.YES, analyze=Analyze.YES, store=Store.NO,
+            analyzer=@Analyzer(definition = "eventTextAnalyzer"))
     public String eventName;
 
     public Date eventDate;
