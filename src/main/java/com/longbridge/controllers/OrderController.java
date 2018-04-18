@@ -3,8 +3,11 @@ package com.longbridge.controllers;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.CartListDTO;
 import com.longbridge.dto.OrderReqDTO;
+import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
+import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.services.OrderService;
+import org.omg.CORBA.portable.ApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,9 @@ public class OrderController {
     @Autowired
     UserUtil userUtil;
 
+    @Autowired
+    MailErrorRepository mailErrorRepository;
+
     @Value("${jwt.header}")
     private String tokenHeader;
 
@@ -38,13 +44,30 @@ public class OrderController {
     public Response createOrder(@RequestBody OrderReqDTO orders, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
+        String orderNumber = "";
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        String orderNumber = orderService.addOrder(orders,userTemp);
-        logger.info(orderNumber);
-        Response response = new Response("00","Operation Successful",orderNumber);
-        return response;
+        try {
+            orderNumber = orderService.addOrder(orders,userTemp);
+            logger.info(orderNumber);
+            Response response = new Response("00","Operation Successful",orderNumber);
+            return response;
+        }catch (AppException e){
+            e.printStackTrace();
+            String recipient = e.getRecipient();
+            String subject = e.getSubject();
+            MailError mailError = new MailError();
+            mailError.setName(e.getName());
+            mailError.setOrderNum(e.getOrderNum());
+            mailError.setRecipient(recipient);
+            mailError.setSubject(subject);
+            mailError.setMailType("order");
+            mailErrorRepository.save(mailError);
+            Response response = new Response("00", "Operation Successful, Trying to send password to email", orderNumber);
+            return response;
+        }
+
     }
 
 

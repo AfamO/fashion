@@ -34,6 +34,7 @@ public class ResendMailUtil {
     @Scheduled(cron = "${wawooh.status.check.rate}")
     private String resendMail(){
         List<MailError> mailErrorList = mailErrorRepository.findByDelFlag("N");
+        String message = null;
         if (mailErrorList.size() > 0) {
             for (MailError mailError:mailErrorList) {
                 String newPassword =mailError.getNewPassword();
@@ -46,11 +47,20 @@ public class ResendMailUtil {
 
                 String link = mailError.getLink();
 
+                String orderNum = mailError.getOrderNum();
+
                 Context context = new Context();
                 context.setVariable("password", newPassword);
                 context.setVariable("name", name);
                 context.setVariable("link", link);
-                String message = templateEngine.process("emailtemplate", context);
+                context.setVariable("orderNum", orderNum);
+
+                if(mailError.getMailType().equalsIgnoreCase("user")) {
+                    message = templateEngine.process("emailtemplate", context);
+                }
+                else {
+                    message = templateEngine.process("orderemailtemplate", context);
+                }
                 try {
                     mailService.prepareAndSend(message,mail,subject);
                     mailError.setDelFlag("Y");

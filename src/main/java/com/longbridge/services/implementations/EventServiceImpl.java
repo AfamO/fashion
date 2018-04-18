@@ -189,10 +189,11 @@ public class EventServiceImpl implements EventService {
             }
             else if(eventDateDTO.eventType.equalsIgnoreCase("T")){
                 //todo later;
-                events = eventRepository.findAll(new PageRequest(page, size));
+                events = eventRepository.findAllByOrderByTrendingCountDesc(new PageRequest(page, size));
+
             }
             else {
-                events = eventRepository.findAllByOrderByTrendingCountDesc(new PageRequest(page, size));
+                events = eventRepository.findAll(new PageRequest(page, size));
             }
 
             if(page > events.getTotalPages()){

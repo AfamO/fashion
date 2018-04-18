@@ -22,7 +22,9 @@ public class MailError {
     private String recipient;
     private String subject;
     private String link;
+    private String orderNum;
 
+    private String mailType;
 
     public MailError() {
     }
@@ -89,5 +91,21 @@ public class MailError {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public String getMailType() {
+        return mailType;
+    }
+
+    public void setMailType(String mailType) {
+        this.mailType = mailType;
     }
 }

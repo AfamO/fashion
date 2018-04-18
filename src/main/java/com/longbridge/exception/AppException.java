@@ -9,6 +9,7 @@ public class AppException extends RuntimeException{
     private String recipient;
     private String subject;
     private String link;
+    private String orderNum;
 
     public String getNewPassword() {
         return newPassword;
@@ -50,6 +51,14 @@ public class AppException extends RuntimeException{
         this.link = link;
     }
 
+    public String getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum;
+    }
+
     public AppException(String newPassword, String name, String recipient, String subject, String link) {
 //        super("Failed to perform the requested action");
         System.out.println("i got here");
@@ -58,6 +67,17 @@ public class AppException extends RuntimeException{
         this.recipient=recipient;
         this.subject=subject;
         this.link=link;
+    }
+
+    public AppException(String name, String recipient, String subject, String orderNum) {
+//        super("Failed to perform the requested action");
+        System.out.println("i got here");
+
+        this.name=name;
+        this.recipient=recipient;
+        this.subject=subject;
+        this.orderNum=orderNum;
+
     }
 
     public AppException(Throwable cause) {

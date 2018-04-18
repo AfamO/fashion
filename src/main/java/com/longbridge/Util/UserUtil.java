@@ -169,7 +169,7 @@ public class UserUtil {
                 String currentPageUrl = passedUser.getCurrentUrl();
                 String encryptedNewPassword=Base64.getEncoder().encodeToString(newPassword.getBytes());
                 //String encryptedMail = Hash.createEncryptedLink(mail);
-                changePasswordLink = messageSource.getMessage("change.password.link",null,locale)+encryptedMail+"?url="+currentPageUrl+"?newpassWord="+encryptedNewPassword;
+                changePasswordLink = messageSource.getMessage("change.password.link",null,locale)+encryptedMail+"&url="+currentPageUrl+"&newpassWord="+encryptedNewPassword;
                 System.out.println(changePasswordLink);
 
                 Context context = new Context();
@@ -190,7 +190,6 @@ public class UserUtil {
         }catch (MailException me) {
             me.printStackTrace();
             throw new AppException(newPassword,name,mail,messageSource.getMessage("password.reset.subject", null, locale),changePasswordLink);
-
 
         }
         catch (Exception e) {

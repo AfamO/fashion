@@ -4,15 +4,22 @@ import com.longbridge.dto.CartDTO;
 import com.longbridge.dto.CartListDTO;
 import com.longbridge.dto.ItemsDTO;
 import com.longbridge.dto.OrderReqDTO;
+import com.longbridge.exception.AppException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.OrderDTO;
+import com.longbridge.services.MailService;
 import com.longbridge.services.OrderService;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
 import java.text.Format;
@@ -44,6 +51,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     CartRepository cartRepository;
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    @Autowired
+    MessageSource messageSource;
+
+    @Autowired
+    MailService mailService;
+
+    private Locale locale = LocaleContextHolder.getLocale();
 
 
     @Autowired
@@ -102,6 +120,20 @@ public class OrderServiceImpl implements OrderService {
             for (Cart c: carts) {
                 cartRepository.delete(c);
             }
+
+            try {
+                Context context = new Context();
+                context.setVariable("name", user.firstName + user.lastName);
+                context.setVariable("orderNum",orderNumber);
+                String message = templateEngine.process("orderemailtemplate", context);
+                mailService.prepareAndSend(message,user.email,messageSource.getMessage("order.success.subject", null, locale));
+
+            }catch (MailException me){
+                me.printStackTrace();
+                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.success.subject", null, locale),orderNumber);
+
+            }
+
 
             return orderNumber;
 
