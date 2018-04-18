@@ -99,7 +99,7 @@ public class UserController {
 
 
     @PostMapping(value = "/forgotpassword")
-    public Object forgotPassword(@RequestBody User user) {
+    public Object forgotPassword(@RequestBody UserDTO user) {
         /*
         This is needed on any Endpoint that requires authorization.
          Any method you want to implement this should

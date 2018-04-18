@@ -49,6 +49,15 @@ public class EventController {
     }
 
 
+    @GetMapping(value = "/{id}/delete")
+    public Response deleteEvent(@PathVariable Long id){
+        eventService.deleteEvent(id);
+        Response response = new Response("00", "Operation Successful", "success");
+        return response;
+
+    }
+
+
     @GetMapping(value = "/getTopFiveEventMainPictures")
     public Response getTopFiveEventMainPictures(){
         Map<String,Object> responseMap = new HashMap();

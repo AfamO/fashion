@@ -18,4 +18,5 @@ public interface EventPictureRepository extends JpaRepository<EventPictures,Long
     EventPictures findByPictureName(String pictureName);
     List<EventPictures> findFirst6ByEvents(Events events);
     Page<EventPictures> findByEvents(Pageable pageable, Events events);
+    List<EventPictures> findByEvents(Events events);
 }

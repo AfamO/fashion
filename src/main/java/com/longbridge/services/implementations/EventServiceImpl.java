@@ -117,6 +117,20 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public void deleteEvent(Long id) {
+        try {
+            Events events = eventRepository.findOne(id);
+            eventPictureRepository.findByEvents(events).forEach(eventPicture1 -> {
+               generalUtil.deleteFromCloud(eventPicture1.getPicture(),eventPicture1.getPictureName());
+            });
+
+            eventRepository.delete(id);
+        }catch (Exception e){
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public List<EventsDTO> getTopFiveEventMainPictures() {
             try {
                 List<Events> firstFiveEvent = eventRepository.findTop5ByOrderByEventDateDesc();

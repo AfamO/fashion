@@ -16,6 +16,8 @@ public class UserDTO {
     private String oldPassword;
     private String newPassword;
 
+    private String currentUrl;
+
 
     public Long getId() {
         return id;
@@ -88,6 +90,14 @@ public class UserDTO {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getCurrentUrl() {
+        return currentUrl;
+    }
+
+    public void setCurrentUrl(String currentUrl) {
+        this.currentUrl = currentUrl;
     }
 
     public UserDTO(Long id, String firstName, String lastName, String email, String gender, String phoneNo, String role) {

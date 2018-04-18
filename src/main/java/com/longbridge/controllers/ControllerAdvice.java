@@ -1,9 +1,6 @@
 package com.longbridge.controllers;
 
-import com.longbridge.exception.ObjectNotFoundException;
-import com.longbridge.exception.PasswordException;
-import com.longbridge.exception.UnknownHostException;
-import com.longbridge.exception.WawoohException;
+import com.longbridge.exception.*;
 import com.longbridge.models.Response;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,6 +27,14 @@ public class ControllerAdvice {
         Response response = new Response("99", "Password mismatch   ", responseMap);
         return response;
     }
+
+    @ExceptionHandler(LinkExpiredException.class)
+    public Response linkExpiredException() {
+        Map<String, Object> responseMap = new HashMap();
+        Response response = new Response("99", "Link expired", responseMap);
+        return response;
+    }
+
 
     @ExceptionHandler(UnknownHostException.class)
     public Response unknownHostException() {

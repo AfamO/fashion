@@ -25,6 +25,8 @@ public class User extends CommonFields{
     @OneToOne(cascade = CascadeType.ALL)
     public Designer designer;
 
+    public String linkClicked = "N";
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     public List<Address> addresses;

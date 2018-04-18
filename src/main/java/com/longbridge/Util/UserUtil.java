@@ -146,7 +146,7 @@ public class UserUtil {
     }
 
 
-    public Object forgotPassword(User passedUser){
+    public Object forgotPassword(UserDTO passedUser){
         Map<String,Object> responseMap = new HashMap();
         String newPassword="";
         String name = "";
@@ -154,19 +154,22 @@ public class UserUtil {
         String changePasswordLink="";
         try {
 
-            User user = userRepository.findByEmail(passedUser.email);
+            User user = userRepository.findByEmail(passedUser.getEmail());
 
             if(user!=null){
                 //newPassword = generalUtil.getCurrentTime();
                 //newPassword = RandomStringUtils.randomAlphanumeric(10);
                 newPassword=UUID.randomUUID().toString().substring(0,10);
                 user.password = Hash.createPassword(newPassword);
+                user.linkClicked = "N";
 
                 name = user.firstName +" " + user.lastName;
-                mail = passedUser.email;
+                mail = passedUser.getEmail();
                 String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
+                String currentPageUrl = passedUser.getCurrentUrl();
+                String encryptedNewPassword=Base64.getEncoder().encodeToString(newPassword.getBytes());
                 //String encryptedMail = Hash.createEncryptedLink(mail);
-                changePasswordLink = messageSource.getMessage("change.password.link",null,locale)+encryptedMail;
+                changePasswordLink = messageSource.getMessage("change.password.link",null,locale)+encryptedMail+"?url="+currentPageUrl+"?newpassWord="+encryptedNewPassword;
                 System.out.println(changePasswordLink);
 
                 Context context = new Context();
@@ -398,6 +401,10 @@ public void updateUser(UserDTO passedUser, User userTemp){
             if(passedUser.getNewPassword() != null && passedUser.getNewPassword() != "") {
                 if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password)) {
                     userTemp.password = Hash.createPassword(passedUser.getNewPassword());
+                }
+                else if (userTemp.linkClicked.equalsIgnoreCase( "Y")){
+
+                    throw new PasswordException("Link expired");
                 }
                 else {
                     throw new PasswordException("password mismatch");

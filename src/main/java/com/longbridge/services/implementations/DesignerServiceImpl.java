@@ -270,7 +270,7 @@ public class DesignerServiceImpl implements DesignerService{
         dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
         dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"R");
         dto.noOfShippedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"S");
-        //dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
+        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
         return dto;
 
     }

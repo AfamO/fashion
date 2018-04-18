@@ -16,6 +16,8 @@ public interface EventService {
 
     void createEvent(Events events);
 
+    void deleteEvent(Long id);
+
     List<EventsDTO> getTopFiveEventMainPictures();
 
     List<EventsDTO> getEventByDate(EventDateDTO eventDateDTO);

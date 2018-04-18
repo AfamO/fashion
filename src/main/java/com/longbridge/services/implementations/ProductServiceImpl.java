@@ -543,7 +543,6 @@ Date date = new Date();
 
     @Override
     public void deleteProduct(Long id) {
-        Map<String,Object> responseMap = new HashMap();
         try {
             Products p = productRepository.findOne(id);
             productPictureRepository.findByProducts(p).forEach(pictures -> {
