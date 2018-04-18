@@ -400,6 +400,7 @@ public void updateUser(UserDTO passedUser, User userTemp){
             if(passedUser.getNewPassword() != null && passedUser.getNewPassword() != "") {
                 if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password)) {
                     userTemp.password = Hash.createPassword(passedUser.getNewPassword());
+                    userTemp.linkClicked="Y";
                 }
                 else if (userTemp.linkClicked.equalsIgnoreCase( "Y")){
 
