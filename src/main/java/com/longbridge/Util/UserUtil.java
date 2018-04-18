@@ -169,7 +169,7 @@ public class UserUtil {
                 String currentPageUrl = passedUser.getCurrentUrl();
                 String encryptedNewPassword=Base64.getEncoder().encodeToString(newPassword.getBytes());
                 //String encryptedMail = Hash.createEncryptedLink(mail);
-                changePasswordLink = messageSource.getMessage("change.password.link",null,locale)+encryptedMail+"&url="+currentPageUrl+"&newpassWord="+encryptedNewPassword;
+                changePasswordLink = messageSource.getMessage("change.password.link",null,locale)+encryptedMail+"&url="+currentPageUrl+"&newPassword="+encryptedNewPassword;
                 System.out.println(changePasswordLink);
 
                 Context context = new Context();
