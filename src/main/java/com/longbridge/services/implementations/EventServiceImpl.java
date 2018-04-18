@@ -192,7 +192,7 @@ public class EventServiceImpl implements EventService {
                 events = eventRepository.findAll(new PageRequest(page, size));
             }
             else {
-                events = eventRepository.findAll(new PageRequest(page, size));
+                events = eventRepository.findAllByOrderByTrendingCountDesc(new PageRequest(page, size));
             }
 
             if(page > events.getTotalPages()){
@@ -360,12 +360,19 @@ public class EventServiceImpl implements EventService {
         try {
             Long eventPictureId = Long.parseLong(commentLikesDTO.getEventPictureId());
             EventPictures e = eventPictureRepository.findOne(eventPictureId);
+            Events events = e.events;
+
             if(user != null && e !=null){
                 Likes likes = likeRepository.findByUserAndEventPictures(user,e);
                 if(likes != null){
                     likeRepository.delete(likes);
                     Long count = likeRepository.countByEventPictures(e);
+                    if(events.trendingCount != 0) {
+                        events.trendingCount = events.trendingCount - 1;
+                    }
+                    eventRepository.save(events);
                     return count.toString();
+
                 }
                 else {
                     Likes l = new Likes();
@@ -375,8 +382,12 @@ public class EventServiceImpl implements EventService {
                     l.setUpdatedOn(date);
                     likeRepository.save(l);
                     Long count = likeRepository.countByEventPictures(e);
+                    events.trendingCount = events.trendingCount + 1;
+                    eventRepository.save(events);
                     return count.toString();
                 }
+
+
             }
 
         } catch (Exception e) {

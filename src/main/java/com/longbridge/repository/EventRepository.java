@@ -17,7 +17,9 @@ import java.util.List;
 @Repository
 public interface EventRepository extends PagingAndSortingRepository<Events,Long> {
     List<Events> findTop5ByOrderByEventDateDesc();
+    Page<Events> findAllByOrderByTrendingCountDesc(Pageable pageable);
     Page<Events> findByEventDateBetween(Date startDate, Date endDate, Pageable pageData);
     Page<Events> findByEventType(String eventType, Pageable pageable);
+
 
 }

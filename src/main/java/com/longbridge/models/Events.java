@@ -41,6 +41,8 @@ public class Events extends CommonFields {
 
     public String eventType = "E";
 
+    public int trendingCount = 0;
+
     @OneToMany(mappedBy = "events", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     public List<EventPictures> eventPictures;
 
