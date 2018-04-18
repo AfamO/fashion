@@ -168,8 +168,10 @@ public class ProductController {
 
 
     @PostMapping(value = "/addTag")
-    public void addTag(@RequestBody PictureTagDTO pictureTagDTO){
+    public Response addTag(@RequestBody PictureTagDTO pictureTagDTO){
         productService.addPictureTag(pictureTagDTO);
+        Response response = new Response("00","Operation Successful","success");
+        return response;
 
     }
 
