@@ -83,8 +83,6 @@ public class EventServiceImpl implements EventService {
             String time = "evtmpic" +getCurrentTime();
             String fileName = e.eventName.replaceAll("\\s","") + time;
 
-
-
             CloudinaryResponse c = generalUtil.uploadToCloud(e.mainPicture,fileName,"eventmainpictures");
             e.setMainPictureName(c.getUrl());
             e.setMainPicture(c.getPublicId());
@@ -180,9 +178,22 @@ public class EventServiceImpl implements EventService {
         int page = Integer.parseInt(eventDateDTO.getPage());
         int size = Integer.parseInt(eventDateDTO.getSize());
         List<EventsDTO> eventsDTOS = new ArrayList<>();
+        Page<Events> events = null;
 
         try {
-            Page<Events> events = eventRepository.findAll(new PageRequest(page,size));
+            if(eventDateDTO.eventType.equalsIgnoreCase("A")) {
+                events = eventRepository.findAll(new PageRequest(page, size));
+            }
+            else if(eventDateDTO.eventType.equalsIgnoreCase("S")){
+              events = eventRepository.findByEventType(eventDateDTO.eventType, new PageRequest(page,size));
+            }
+            else if(eventDateDTO.eventType.equalsIgnoreCase("T")){
+                //todo later;
+                events = eventRepository.findAll(new PageRequest(page, size));
+            }
+            else {
+                events = eventRepository.findAll(new PageRequest(page, size));
+            }
 
             if(page > events.getTotalPages()){
                // throw new WawoohException("events not found");

@@ -180,7 +180,6 @@ public class OrderServiceImpl implements OrderService {
                 cart.setExpiryDate(DateUtils.addDays(date,7));
                 cart.setUser(user);
                 cartRepository.save(cart);
-
             }
 
             return cartRepository.countByUser(user).toString();

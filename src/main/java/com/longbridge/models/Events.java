@@ -39,6 +39,8 @@ public class Events extends CommonFields {
 
     public Date eventDate;
 
+    public String eventType = "E";
+
     @OneToMany(mappedBy = "events", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     public List<EventPictures> eventPictures;
 

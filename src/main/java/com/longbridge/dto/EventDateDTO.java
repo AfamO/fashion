@@ -11,6 +11,8 @@ public class EventDateDTO {
 
     public String size;
 
+    public String eventType;
+
     public String getMonth() {
         return month;
     }
