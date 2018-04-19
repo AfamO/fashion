@@ -48,6 +48,32 @@ public class EventController {
 
     }
 
+    @PostMapping(value = "/updateevent")
+    public Response updateEvent(@RequestBody Events events){
+        Map<String, Object> responseMap = new HashMap();
+        eventService.updateEvent(events);
+        Response response = new Response("00", "Operation Successful", responseMap);
+        return response;
+
+    }
+
+    @PostMapping(value = "/updateeventpictures")
+    public Response updateEventPictures(@RequestBody Events events){
+        Map<String, Object> responseMap = new HashMap();
+        eventService.updateEventPictures(events);
+        Response response = new Response("00", "Operation Successful", responseMap);
+        return response;
+
+    }
+
+    @PostMapping(value = "/deleteeventpictures")
+    public Response updateEventPictures(@RequestBody List<Long> ids){
+        Map<String, Object> responseMap = new HashMap();
+        eventService.deleteEventPictures(ids);
+        Response response = new Response("00", "Operation Successful", responseMap);
+        return response;
+
+    }
 
     @GetMapping(value = "/{id}/delete")
     public Response deleteEvent(@PathVariable Long id){

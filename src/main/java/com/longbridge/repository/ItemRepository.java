@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -25,7 +26,7 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 //    @Query("select productId, count(productId) as 'mcount', productId from Items group by productId order by 'mcount' desc")
 //    Page<Long> findTopByCustomQuery(Pageable pageable);
 
-    @Query("select sum(amount) from Items where designerId = designerId and deliveryStatus = deliveryStatus")
-    Double findSumOfPendingOrders(Long designerId, String deliveryStatus);
+    @Query("select sum(amount) from Items where designerId = :designerId and deliveryStatus = :deliveryStatus")
+    Double findSumOfPendingOrders(@Param("designerId") Long designerId, @Param("deliveryStatus") String deliveryStatus);
 
 }
