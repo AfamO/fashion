@@ -55,7 +55,21 @@ public class UserController {
 
     @PostMapping(value = "/Register")
     public Object Register(@RequestBody User passedUser){
-        return userUtil.registerUser(passedUser);
+        try {
+            return userUtil.registerUser(passedUser);
+        }catch (AppException e){
+            e.printStackTrace();
+            String recipient = e.getRecipient();
+            String subject = e.getSubject();
+            MailError mailError = new MailError();
+            mailError.setName(e.getName());
+            mailError.setRecipient(recipient);
+            mailError.setSubject(subject);
+            mailError.setMailType("welcome");
+            mailErrorRepository.save(mailError);
+            Response response = new Response("00", "Registration successful, Trying to send welcome email", "success");
+            return response;
+        }
     }
 
     @PostMapping(value = "/edituser")

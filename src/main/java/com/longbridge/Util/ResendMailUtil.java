@@ -58,8 +58,11 @@ public class ResendMailUtil {
                 if(mailError.getMailType().equalsIgnoreCase("user")) {
                     message = templateEngine.process("emailtemplate", context);
                 }
-                else {
+                else if (mailError.getMailType().equalsIgnoreCase("order")){
                     message = templateEngine.process("orderemailtemplate", context);
+                }
+                else if (mailError.getMailType().equalsIgnoreCase("welcome")){
+                    message = templateEngine.process("welcomeemail", context);
                 }
                 try {
                     mailService.prepareAndSend(message,mail,subject);

@@ -144,6 +144,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    //todo later
+    @Override
+    public void updateOrder(Orders orders, User user) {
+        try{
+            Orders orders1 = orderRepository.findOne(orders.id);
+            Date date = new Date();
+
+            orders.setCreatedOn(date);
+            orders.setUpdatedOn(date);
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
     @Override
     public List<Orders> getOrdersByUser(User user) {
         try {

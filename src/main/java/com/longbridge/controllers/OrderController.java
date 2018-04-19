@@ -70,6 +70,17 @@ public class OrderController {
 
     }
 
+//    @PostMapping(value = "/updateorder")
+//    public Response updateOrderStatus(@RequestBody Orders orders, HttpServletRequest request){
+//        String token = request.getHeader(tokenHeader);
+//        User userTemp = userUtil.fetchUserDetails2(token);
+//        if(token==null || userTemp==null){
+//            return userUtil.tokenNullOrInvalidResponse(token);
+//        }
+//        Response response = new Response("00","Operation Successful",orderService.updateOrder(orders,userTemp););
+//        return response;
+//    }
+
 
     @PostMapping(value = "/addtocart")
     public Response addToCart(@RequestBody Cart cart, HttpServletRequest request){

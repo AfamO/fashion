@@ -72,9 +72,11 @@ public class UserUtil {
     @Value("${s.designer.logo.folder}")
     private String designerLogoFolder;
 
-    public Object registerUser(User passedUser){
+    public Response registerUser(User passedUser){
         Map<String,Object> responseMap = new HashMap();
         try {
+
+            System.out.println("i got here");
             Date date = new Date();
             Address address = Address.createAddress(passedUser,passedUser.address,"Y");
             List<Address> addresses = new ArrayList<>();
@@ -111,38 +113,41 @@ public class UserUtil {
                 userRepository.save(passedUser);
                 //todo later generate unique token for new user and send to email
                 //todo later for now i am sending hardcoded token
-                String tokenGen = UUID.randomUUID().toString().substring(0,10);
-                String name = passedUser.firstName + passedUser.lastName;
+                //String tokenGen = UUID.randomUUID().toString().substring(0,10);
+                String name = passedUser.firstName + " " + passedUser.lastName;
                 String mail = passedUser.email;
 
-                Token token= new Token();
-                token.setToken(tokenGen);
-                token.setUser(passedUser);
-                tokenRepository.save(token);
+//                Token token= new Token();
+//                token.setToken(tokenGen);
+//                token.setUser(passedUser);
+//                tokenRepository.save(token);
 
-                Email email = new Email.Builder()
-                        .setRecipient(mail)
-                        .setSubject(messageSource.getMessage("host.sendtoken.subject", null, locale))
-                        .setBody(String.format(messageSource.getMessage("host.sendtoken.message", null, locale),name, tokenGen))
-                        .build();
-                //mailService.send(email);
+                try {
+                    Context context = new Context();
+                    context.setVariable("name", name);
+                    //context.setVariable("orderNum",orderNumber);
+                    String message = templateEngine.process("welcomeemail", context);
+                    mailService.prepareAndSend(message,mail,messageSource.getMessage("user.welcome.subject", null, locale));
 
-                //responseMap.put("userId",passedUser.id);
+                }catch (MailException me){
+                    me.printStackTrace();
+                    throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale));
+
+                }
                 Response response = new Response("00","Registration successful",responseMap);
                 return response;
             }else{
                 Response response = new Response("99","Email already exists",responseMap);
                 return response;
             }
-        }catch (MailException me) {
-            me.printStackTrace();
-            Response response = new Response("99","Email not sent",responseMap);
-            return response;
+
         } catch (Exception e) {
             e.printStackTrace();
+            Response response = new Response("99","Error occured internally",responseMap);
+            return response;
+
         }
-        Response response = new Response("99","Error occured internally",responseMap);
-        return response;
+
     }
 
 
