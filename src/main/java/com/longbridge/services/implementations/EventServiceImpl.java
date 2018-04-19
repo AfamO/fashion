@@ -10,6 +10,8 @@ import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.EventService;
 
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -107,6 +109,84 @@ public class EventServiceImpl implements EventService {
                     }
             });
             eventRepository.save(e);
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+    @Override
+    public void updateEvent(Events events) {
+        try {
+            Events eventsTemp = eventRepository.findOne(events.id);
+            Date date = new Date();
+            BeanUtilsBean.getInstance().getConvertUtils().register(false, false, 0);
+            BeanUtils.copyProperties(eventsTemp,events);
+            eventsTemp.setUpdatedOn(date);
+            eventRepository.save(eventsTemp);
+
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public void deleteEventPictures(List<Long> ids) {
+
+        try {
+            for (Long id:ids) {
+                EventPictures eventPictures = eventPictureRepository.findOne(id);
+                generalUtil.deleteFromCloud(eventPictures.getPicture(),eventPictures.getPictureName());
+                eventPictureRepository.delete(eventPictures);
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public void updateEventPictures(Events events) {
+        try {
+            Date date = new Date();
+            Events events1 = eventRepository.findOne(events.id);
+
+            for(EventPictures eventPictures:events.eventPictures) {
+                try {
+
+                if (eventPictures.id != null) {
+                    EventPictures eventPictures1 = eventPictureRepository.findOne(eventPictures.id);
+                    generalUtil.deleteFromCloud(eventPictures.picture, eventPictures.pictureName);
+                    String timeStamp = "evtpic" + getCurrentTime();
+                    String fName = events1.eventName.replaceAll("\\s", "") + timeStamp;
+                    CloudinaryResponse c = generalUtil.uploadToCloud(eventPictures.picture, fName, "eventpictures");
+                    eventPictures1.pictureName = c.getUrl();
+                    eventPictures1.picture = c.getPublicId();
+                    eventPictures1.setUpdatedOn(date);
+                    eventPictureRepository.save(eventPictures1);
+                }
+                else {
+                    EventPictures eventPictures1 = new EventPictures();
+                    String timeStamp = "evtpic" + getCurrentTime();
+                    String fName = events1.eventName.replaceAll("\\s", "") + timeStamp;
+                    CloudinaryResponse c = generalUtil.uploadToCloud(eventPictures.picture, fName, "eventpictures");
+                    eventPictures1.pictureName = c.getUrl();
+                    eventPictures1.picture = c.getPublicId();
+                    eventPictures1.events=events1;
+                    eventPictures1.setCreatedOn(date);
+                    eventPictures1.setUpdatedOn(date);
+                    eventPictureRepository.save(eventPictures1);
+                }
+
+                } catch (Exception ex) {
+                    throw new WawoohException();
+                }
+            }
         }
         catch (Exception ex){
             ex.printStackTrace();

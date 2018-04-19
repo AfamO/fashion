@@ -26,6 +26,6 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 //    Page<Long> findTopByCustomQuery(Pageable pageable);
 
     @Query("select sum(amount) from Items where designerId = designerId and deliveryStatus = deliveryStatus")
-    Double findSumOfPendingOrders(Long designerId, String status);
+    Double findSumOfPendingOrders(Long designerId, String deliveryStatus);
 
 }

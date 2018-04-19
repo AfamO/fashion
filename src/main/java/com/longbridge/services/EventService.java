@@ -16,6 +16,12 @@ public interface EventService {
 
     void createEvent(Events events);
 
+    void updateEvent(Events events);
+
+    void deleteEventPictures(List<Long> ids);
+
+    void updateEventPictures(Events events);
+
     void deleteEvent(Long id);
 
     List<EventsDTO> getTopFiveEventMainPictures();
