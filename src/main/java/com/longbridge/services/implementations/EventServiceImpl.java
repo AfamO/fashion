@@ -102,6 +102,7 @@ public class EventServiceImpl implements EventService {
                 String fName = e.eventName.replaceAll("\\s","") + timeStamp;
                 CloudinaryResponse cc = generalUtil.uploadToCloud(pictures.picture,fName,"eventpictures");
                 pictures.pictureName=cc.getUrl();
+                //pictures.pictureDesc=p
                 pictures.picture = cc.getPublicId();
 
                 } catch (Exception ex) {
@@ -181,6 +182,7 @@ public class EventServiceImpl implements EventService {
                     eventPictures1.pictureName = c.getUrl();
                     eventPictures1.picture = c.getPublicId();
                     eventPictures1.events=events1;
+                    eventPictures1.pictureDesc=eventPictures.getPictureDesc();
                     eventPictures1.setCreatedOn(date);
                     eventPictures1.setUpdatedOn(date);
                     eventPictureRepository.save(eventPictures1);
