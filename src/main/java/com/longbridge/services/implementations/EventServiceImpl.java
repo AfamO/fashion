@@ -122,7 +122,6 @@ public class EventServiceImpl implements EventService {
         try {
             Events eventsTemp = eventRepository.findOne(events.id);
             Date date = new Date();
-
             eventsTemp.setUpdatedOn(date);
             eventsTemp.eventType = events.eventType;
             eventsTemp.eventName = events.eventName;
@@ -139,10 +138,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void deleteEventPictures(List<Long> ids) {
+    public void deleteEventPictures(ProductPictureIdListDTO pictureIdListDTO) {
 
         try {
-            for (Long id:ids) {
+            for (Long id:pictureIdListDTO.getIds()) {
                 EventPictures eventPictures = eventPictureRepository.findOne(id);
                 generalUtil.deleteFromCloud(eventPictures.getPicture(),eventPictures.getPictureName());
                 eventPictureRepository.delete(eventPictures);

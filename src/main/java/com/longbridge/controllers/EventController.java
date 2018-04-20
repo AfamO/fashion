@@ -67,9 +67,9 @@ public class EventController {
     }
 
     @PostMapping(value = "/deleteeventpictures")
-    public Response updateEventPictures(@RequestBody List<Long> ids){
+    public Response updateEventPictures(@RequestBody ProductPictureIdListDTO pictureIdListDTO){
         Map<String, Object> responseMap = new HashMap();
-        eventService.deleteEventPictures(ids);
+        eventService.deleteEventPictures(pictureIdListDTO);
         Response response = new Response("00", "Operation Successful", responseMap);
         return response;
 

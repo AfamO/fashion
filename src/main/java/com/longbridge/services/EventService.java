@@ -18,7 +18,7 @@ public interface EventService {
 
     void updateEvent(Events events);
 
-    void deleteEventPictures(List<Long> ids);
+    void deleteEventPictures(ProductPictureIdListDTO ids);
 
     void updateEventPictures(Events events);
 
