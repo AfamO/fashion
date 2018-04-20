@@ -15,6 +15,8 @@ public interface ProductService {
 
     void addProduct(ProductDTO productDTO, Designer designer);
 
+    void updateProductVisibility(Long id, String status);
+
     void updateProductStatus(Long id, String status);
 
     void updateProduct(ProductDTO productDTO, Designer designer);

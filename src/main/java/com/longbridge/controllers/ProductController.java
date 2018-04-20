@@ -285,6 +285,8 @@ public class ProductController {
     }
 
 
+
+
     @PostMapping(value = "/updateproductimage")
     public Object updateProductImage(@RequestBody ProdPicReqDTO prodPicReqDTO, HttpServletRequest request){
         Map<String,Object> responseMap = new HashMap();
@@ -331,6 +333,20 @@ public class ProductController {
 
 
     @GetMapping(value = "/{id}/productvisibility/{status}")
+    public Object updateProductVisibility(@PathVariable Long id, @PathVariable String status, HttpServletRequest request){
+        Map<String,Object> responseMap = new HashMap();
+        String token = request.getHeader(tokenHeader);
+        JwtUser user = userUtil.getAuthenticationDetails(token);
+        if(token==null || user.getUsername()==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        productService.updateProductVisibility(id,status);
+        responseMap.put("success", "success");
+        Response response = new Response("00", "Operation Successful", responseMap);
+        return response;
+    }
+
+    @GetMapping(value = "/{id}/updatestatus/{status}")
     public Object updateProductStatus(@PathVariable Long id, @PathVariable String status, HttpServletRequest request){
         Map<String,Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);

@@ -528,11 +528,25 @@ Date date = new Date();
     }
 
     @Override
-    public void updateProductStatus(Long id, String status) {
+    public void updateProductVisibility(Long id, String status) {
         Map<String,Object> responseMap = new HashMap();
         try {
             Products products = productRepository.findOne(id);
             products.status=status;
+            productRepository.save(products);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public void updateProductStatus(Long id, String status) {
+        Map<String,Object> responseMap = new HashMap();
+        try {
+            Products products = productRepository.findOne(id);
+            products.verifiedFlag=status;
             productRepository.save(products);
 
         }catch (Exception e) {

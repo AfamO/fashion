@@ -503,6 +503,7 @@ public class EventServiceImpl implements EventService {
         eventsDTO.setEventDate(stringDate);
         eventsDTO.setEventName(events.getEventName());
         eventsDTO.setLocation(events.location);
+        eventsDTO.eventType=events.eventType;
 
         eventsDTO.setMainPicture(events.mainPictureName);
         eventsDTO.setEventPictures(convertEvtPicEntToDTOsMin(eventPictureRepository.findFirst6ByEvents(events)));

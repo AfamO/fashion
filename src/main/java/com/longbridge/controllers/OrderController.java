@@ -64,7 +64,7 @@ public class OrderController {
             mailError.setSubject(subject);
             mailError.setMailType("order");
             mailErrorRepository.save(mailError);
-            Response response = new Response("00", "Operation Successful, Trying to send password to email", orderNumber);
+            Response response = new Response("00", "Operation Successful, Trying to send email", orderNumber);
             return response;
         }
 
