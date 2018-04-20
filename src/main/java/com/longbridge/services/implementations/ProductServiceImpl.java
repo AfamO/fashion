@@ -610,7 +610,7 @@ Date date = new Date();
 
 
         try {
-            List<Products> products = productRepository.findByDesignerAndVerifiedFlag(designerRepository.findOne(designerId),"Y");
+            List<Products> products = productRepository.findByDesigner(designerRepository.findOne(designerId));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
             return productDTOS;
 

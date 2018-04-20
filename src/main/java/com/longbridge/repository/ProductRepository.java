@@ -20,6 +20,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Products,Long> {
     List<Products> findByDesignerAndVerifiedFlag(Designer designer, String flag);
+    List<Products> findByDesigner(Designer designer);
     Page<Products> findBySubCategoryAndVerifiedFlag(Pageable pageable, SubCategory subCategory,String flag);
     Page<Products> findByDesignerAndSubCategoryAndVerifiedFlag(Pageable pageable, Designer designer, SubCategory subCategory, String flag);
 
