@@ -138,6 +138,14 @@ public class ProductController {
         return response;
     }
 
+    @PostMapping(value = "/gettagproducts")
+    public Object getProductsBySub(@RequestBody PicTagDTO picTagDTO){
+        List<ProductRespDTO> products= productService.getTagProducts(picTagDTO);
+        Response response = new Response("00","Operation Successful",products);
+        return response;
+    }
+
+
     @PostMapping(value = "/getdesignerproductsbysub")
     public Object getDesignerProductsBySub(@RequestBody ProdSubCategoryDTO p, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

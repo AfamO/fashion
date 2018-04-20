@@ -11,6 +11,7 @@ public class PicTagDTO {
     public Long subcategoryId;
     public Long designerId;
     public String designerName;
+    public Long productId;
 
     public PicTagDTO() {
     }

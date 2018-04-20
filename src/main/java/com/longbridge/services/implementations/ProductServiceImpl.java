@@ -659,13 +659,36 @@ Date date = new Date();
 
 
     @Override
+    public List<ProductRespDTO> getTagProducts(PicTagDTO p) {
+
+        List<Products> products= null;
+        try {
+            PictureTag pictureTag = pictureTagRepository.findOne(p.id);
+            SubCategory subCategory = subCategoryRepository.findOne(p.subcategoryId);
+            if(pictureTag.products != null){
+                products = productRepository.findFirst9BySubCategoryAndVerifiedFlag(subCategory, "Y");
+                products.add(pictureTag.products);
+            }
+            else {
+                products = productRepository.findFirst10BySubCategoryAndVerifiedFlag(subCategory, "Y");
+            }
+            return generalUtil.convertProdEntToProdRespDTOs(products);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public List<ProductRespDTO> getTopProducts() {
 
         try {
             List<Products> products= productRepository.findTop10ByOrderByNumOfTimesOrderedDesc();
 
-            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
-            return productDTOS;
+            return generalUtil.convertProdEntToProdRespDTOs(products);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -678,8 +701,8 @@ Date date = new Date();
         try {
             List<Products> products= productRepository.findTop10ByOrderByNumOfTimesOrderedDesc();
 
-            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
-            return productDTOS;
+            return generalUtil.convertProdEntToProdRespDTOs(products);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -707,8 +730,8 @@ Date date = new Date();
 
             products = productRepository.findByDesignerAndSubCategoryAndVerifiedFlag(new PageRequest(page,size),designer,subCategory,"Y");
 
-            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
-            return productDTOS;
+            return generalUtil.convertProdEntToProdRespDTOs(products.getContent());
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -731,8 +754,8 @@ Date date = new Date();
                 }
             }
 
-            List<EventPicturesDTO> picturesDTOS = generalUtil.convertEntsToDTOs(ev);
-            return picturesDTOS;
+            return generalUtil.convertEntsToDTOs(ev);
+
 
         } catch (Exception ex) {
             ex.printStackTrace();
