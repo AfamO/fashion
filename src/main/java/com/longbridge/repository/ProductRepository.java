@@ -10,18 +10,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by Longbridge on 06/11/2017.
  */
+@Repository
 public interface ProductRepository extends JpaRepository<Products,Long> {
-    List<Products> findByDesigner(Designer designer);
-    Page<Products> findBySubCategory(Pageable pageable, SubCategory subCategory);
-    Page<Products> findByDesignerAndSubCategory(Pageable pageable, Designer designer, SubCategory subCategory);
+    List<Products> findByDesignerAndVerifiedFlag(Designer designer, String flag);
+    Page<Products> findBySubCategoryAndVerifiedFlag(Pageable pageable, SubCategory subCategory,String flag);
+    Page<Products> findByDesignerAndSubCategoryAndVerifiedFlag(Pageable pageable, Designer designer, SubCategory subCategory, String flag);
 
-    List<Products> findFirst8ByDesigner(Designer designer);
+    List<Products> findFirst8ByDesignerAndVerifiedFlag(Designer designer,String flag);
 
     List<Products> findTop10ByOrderByNumOfTimesOrderedDesc();
 

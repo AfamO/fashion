@@ -543,10 +543,12 @@ Date date = new Date();
 
     @Override
     public void updateProductStatus(Long id, String status) {
-        Map<String,Object> responseMap = new HashMap();
+
         try {
+            Date date = new Date();
             Products products = productRepository.findOne(id);
             products.verifiedFlag=status;
+            products.setVerfiedOn(date);
             productRepository.save(products);
 
         }catch (Exception e) {
@@ -608,7 +610,7 @@ Date date = new Date();
 
 
         try {
-            List<Products> products = productRepository.findByDesigner(designerRepository.findOne(designerId));
+            List<Products> products = productRepository.findByDesignerAndVerifiedFlag(designerRepository.findOne(designerId),"Y");
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
             return productDTOS;
 
@@ -644,7 +646,7 @@ Date date = new Date();
             SubCategory subCategory = subCategoryRepository.findOne(p.subcategoryId);
 
 
-                products = productRepository.findBySubCategory(new PageRequest(page, size), subCategory);
+                products = productRepository.findBySubCategoryAndVerifiedFlag(new PageRequest(page, size), subCategory, "Y");
 
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
@@ -703,7 +705,7 @@ Date date = new Date();
                 designer=user.designer;
             }
 
-            products = productRepository.findByDesignerAndSubCategory(new PageRequest(page,size),designer,subCategory);
+            products = productRepository.findByDesignerAndSubCategoryAndVerifiedFlag(new PageRequest(page,size),designer,subCategory,"Y");
 
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;

@@ -122,9 +122,13 @@ public class EventServiceImpl implements EventService {
         try {
             Events eventsTemp = eventRepository.findOne(events.id);
             Date date = new Date();
-            BeanUtilsBean.getInstance().getConvertUtils().register(false, false, 0);
-            BeanUtils.copyProperties(eventsTemp,events);
+
             eventsTemp.setUpdatedOn(date);
+            eventsTemp.eventType = events.eventType;
+            eventsTemp.eventName = events.eventName;
+            eventsTemp.location=events.location;
+            eventsTemp.eventDate=events.eventDate;
+            eventsTemp.description=events.description;
             eventRepository.save(eventsTemp);
 
         }
