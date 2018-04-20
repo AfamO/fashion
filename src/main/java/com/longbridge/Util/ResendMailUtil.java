@@ -56,24 +56,45 @@ public class ResendMailUtil {
                 context.setVariable("orderNum", orderNum);
 
                 if(mailError.getMailType().equalsIgnoreCase("user")) {
-                    message = templateEngine.process("emailtemplate", context);
+                    try {
+                        message = templateEngine.process("emailtemplate", context);
+                        mailService.prepareAndSend(message,mail,subject);
+                        mailError.setDelFlag("Y");
+                        mailErrorRepository.save(mailError);
+
+                    }catch (MailException me) {
+                        me.printStackTrace();
+                        throw new AppException(newPassword,name,mail,subject,link);
+
+                    }
+
                 }
                 else if (mailError.getMailType().equalsIgnoreCase("order")){
-                    message = templateEngine.process("orderemailtemplate", context);
+                    try{
+                        message = templateEngine.process("orderemailtemplate", context);
+                        mailService.prepareAndSend(message,mail,subject);
+                        mailError.setDelFlag("Y");
+                        mailErrorRepository.save(mailError);
+                    }catch (MailException me) {
+                        me.printStackTrace();
+                        throw new AppException(name,mail,subject,orderNum);
+
+                    }
+
                 }
                 else if (mailError.getMailType().equalsIgnoreCase("welcome")){
+                    try{
                     message = templateEngine.process("welcomeemail", context);
-                }
-                try {
-                    mailService.prepareAndSend(message,mail,subject);
-                    mailError.setDelFlag("Y");
-                    mailErrorRepository.save(mailError);
+                        mailService.prepareAndSend(message,mail,subject);
+                        mailError.setDelFlag("Y");
+                        mailErrorRepository.save(mailError);
+                    }catch (MailException me){
+                        me.printStackTrace();
+                        throw new AppException(name, mail, subject);
 
-                }catch (MailException me) {
-                    me.printStackTrace();
-                    throw new AppException(newPassword,name,mail,subject,link);
-
+                    }
                 }
+
             }
 
         }

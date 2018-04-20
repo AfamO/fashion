@@ -664,13 +664,14 @@ Date date = new Date();
         List<Products> products= null;
         try {
             PictureTag pictureTag = pictureTagRepository.findOne(p.id);
-            SubCategory subCategory = subCategoryRepository.findOne(p.subcategoryId);
+
+            //SubCategory subCategory = subCategoryRepository.findOne(pictureTag.subCategory.id);
             if(pictureTag.products != null){
-                products = productRepository.findFirst9BySubCategoryAndVerifiedFlag(subCategory, "Y");
+                products = productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
                 products.add(pictureTag.products);
             }
             else {
-                products = productRepository.findFirst10BySubCategoryAndVerifiedFlag(subCategory, "Y");
+                products = productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
             }
             return generalUtil.convertProdEntToProdRespDTOs(products);
 
