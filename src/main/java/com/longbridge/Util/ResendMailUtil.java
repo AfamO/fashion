@@ -33,6 +33,7 @@ public class ResendMailUtil {
 
     @Scheduled(cron = "${wawooh.status.check.rate}")
     private String resendMail(){
+        //System.out.println("i got here");
         List<MailError> mailErrorList = mailErrorRepository.findByDelFlag("N");
         String message = null;
         if (mailErrorList.size() > 0) {

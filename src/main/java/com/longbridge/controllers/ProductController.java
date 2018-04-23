@@ -131,12 +131,22 @@ public class ProductController {
         return response;
     }
 
+
+    @PostMapping(value = "/filterbyprice")
+    public Object filterProductsByPrice(@RequestBody FilterPriceDTO filterPriceDTO){
+        List<ProductRespDTO> products= productService.filterProductsByPrice(filterPriceDTO);
+        Response response = new Response("00","Operation Successful",products);
+        return response;
+    }
+
+
     @PostMapping(value = "/getproductsbysub")
     public Object getProductsBySub(@RequestBody ProdSubCategoryDTO p){
         List<ProductRespDTO> products= productService.getProductsBySubCatId(p);
         Response response = new Response("00","Operation Successful",products);
         return response;
     }
+
 
     @PostMapping(value = "/gettagproducts")
     public Object getProductsBySub(@RequestBody PicTagDTO picTagDTO){

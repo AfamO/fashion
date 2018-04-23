@@ -35,4 +35,6 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
 
     @Query(value = "select p.name from Products p where p.id =:id", nativeQuery = true)
     String getProductName(@Param("id") Long id);
+
+    Page<Products> findByVerifiedFlagAndAmountBetween(String verifiedFlag, Double fromAmount, Double toAmount, Pageable pageable);
 }

@@ -10,28 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
-//@SpringBootApplication
-//@EnableConfigurationProperties
-//public class FashionApplication extends SpringBootServletInitializer {
-//
-//	@Override
-//	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-//		return application.sources(FashionApplication.class);
-//	}
-//
-//
-//	public static void main(String[] args) {
-//		SpringApplication.run(FashionApplication.class, args);
-//	}
-//
-//	@Bean()
-//	public ModelMapper modelMapper() {
-//		return new ModelMapper();
-//	}
-//
-//
-//}
-
 @SpringBootApplication
 @EnableConfigurationProperties
 @EnableScheduling

@@ -637,6 +637,23 @@ Date date = new Date();
     }
 
     @Override
+    public List<ProductRespDTO> filterProductsByPrice(FilterPriceDTO filterPriceDTO) {
+        int page = filterPriceDTO.getPage();
+        int size = filterPriceDTO.getSize();
+        Double fromAmount = Double.parseDouble(filterPriceDTO.getFromPrice());
+        Double toAmount = Double.parseDouble(filterPriceDTO.getToPrice());
+        try {
+            Page<Products> products = productRepository.findByVerifiedFlagAndAmountBetween("Y",fromAmount,toAmount,new PageRequest(page,size));
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
+            return productDTOS;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p) {
 
         int page = Integer.parseInt(p.page);
@@ -666,9 +683,15 @@ Date date = new Date();
             PictureTag pictureTag = pictureTagRepository.findOne(p.id);
 
             //SubCategory subCategory = subCategoryRepository.findOne(pictureTag.subCategory.id);
-            if(pictureTag.products != null){
-                products = productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
+            if(pictureTag.products != null) {
+                //
                 products.add(pictureTag.products);
+                List<Products> prod = productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
+                if(prod.size() > 0) {
+                    for (Products pp : prod) {
+                        products.add(pp);
+                    }
+                }
             }
             else {
                 products = productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");

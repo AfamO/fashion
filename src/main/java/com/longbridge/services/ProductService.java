@@ -39,6 +39,8 @@ public interface ProductService {
 
     List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO);
 
+    List<ProductRespDTO> filterProductsByPrice(FilterPriceDTO filterPriceDTO);
+
     List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p);
 
     List<ProductRespDTO> getTagProducts(PicTagDTO p);

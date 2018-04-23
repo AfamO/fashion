@@ -6,6 +6,21 @@
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/java/com/longbridge/Spring-bean-config.xml</file>
         </fileset>
+        <fileset id="fileset2" name="Spring Application Context (2)" removed="false">
+          <dependency>fileset</dependency>
+          <file>file://$MODULE_DIR$/src/main/java/com/longbridge/FashionApplication.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/longbridge/config/HibernateSearchConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/longbridge/config/ResourceConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/longbridge/config/WebMvcConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/longbridge/config/WebSecurityConfig.java</file>
+        </fileset>
+        <fileset id="fileset3" name="Spring Application Context (3)" removed="false">
+          <file>file://$MODULE_DIR$/src/main/java/com/longbridge/FashionApplication.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/longbridge/config/HibernateSearchConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/longbridge/config/ResourceConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/longbridge/config/WebMvcConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/longbridge/config/WebSecurityConfig.java</file>
+        </fileset>
       </configuration>
     </facet>
     <facet type="web" name="Web">
