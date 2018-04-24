@@ -8,7 +8,7 @@ import javax.persistence.OneToOne;
  * Created by Longbridge on 24/04/2018.
  */
 @Entity
-public class ProductRating {
+public class ProductRating extends CommonFields{
     @OneToOne
     private User user;
     private int deliveryTimeRating;
