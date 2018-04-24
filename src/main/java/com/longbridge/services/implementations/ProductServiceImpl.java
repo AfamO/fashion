@@ -682,16 +682,17 @@ Date date = new Date();
         try {
             PictureTag pictureTag = pictureTagRepository.findOne(p.id);
 
-            //SubCategory subCategory = subCategoryRepository.findOne(pictureTag.subCategory.id);
             if(pictureTag.products != null) {
-                Products first = pictureTag.products;
-                products.add(first);
+               products.add(pictureTag.products);
+                System.out.println(products.size());
                 List<Products> prod = productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
                 if(prod.size() > 0) {
+                    System.out.println(prod.size());
                     for (Products pp : prod) {
-                        if(pp != first)
+                        if(pp != pictureTag.products)
                         products.add(pp);
                     }
+                    System.out.println(products.size());
                 }
                     Collections.reverse(products);
             }
