@@ -41,6 +41,7 @@ public class EventController {
 
     @PostMapping(value = "/createevent")
     public Response createEvent(@RequestBody Events events){
+
         Map<String, Object> responseMap = new HashMap();
             eventService.createEvent(events);
             Response response = new Response("00", "Operation Successful", responseMap);
