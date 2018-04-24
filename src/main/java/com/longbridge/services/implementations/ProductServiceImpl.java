@@ -684,17 +684,16 @@ Date date = new Date();
 
             //SubCategory subCategory = subCategoryRepository.findOne(pictureTag.subCategory.id);
             if(pictureTag.products != null) {
-
+                Products first = pictureTag.products;
+                products.add(first);
                 List<Products> prod = productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
                 if(prod.size() > 0) {
-                    products.addAll(prod);
+                    for (Products pp : prod) {
+                        if(pp != first)
+                        products.add(pp);
+                    }
                 }
-                Products first = pictureTag.products;
-                if (!products.contains(first)){
-                    products.add(first);
-                }
-                Collections.reverse(products);
-
+                
             }
             else {
                 products = productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
