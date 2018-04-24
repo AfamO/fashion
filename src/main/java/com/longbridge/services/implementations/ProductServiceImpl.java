@@ -683,8 +683,8 @@ Date date = new Date();
             PictureTag pictureTag = pictureTagRepository.findOne(p.id);
 
             if(pictureTag.products != null) {
-               products.add(pictureTag.products);
-                System.out.println(products.size());
+
+
                 List<Products> prod = productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
                 if(prod.size() > 0) {
                     System.out.println(prod.size());
@@ -694,6 +694,8 @@ Date date = new Date();
                     }
                     System.out.println(products.size());
                 }
+                products.add(pictureTag.products);
+                System.out.println(products.size());
                     Collections.reverse(products);
             }
             else {
