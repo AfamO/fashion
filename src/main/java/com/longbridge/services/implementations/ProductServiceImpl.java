@@ -693,7 +693,7 @@ Date date = new Date();
                         products.add(pp);
                     }
                 }
-
+                    Collections.reverse(products);
             }
             else {
                 products = productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
