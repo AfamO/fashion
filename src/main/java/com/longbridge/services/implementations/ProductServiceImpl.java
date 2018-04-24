@@ -693,7 +693,7 @@ Date date = new Date();
                 if (!products.contains(first)){
                     products.add(first);
                 }
-                
+                Collections.reverse(products);
 
             }
             else {
