@@ -111,7 +111,12 @@ public class OrderServiceImpl implements OrderService {
                 itemRepository.save(items);
                 Products p = productRepository.findOne(items.getProductId());
                 p.numOfTimesOrdered = p.numOfTimesOrdered+1;
-                p.stockNo=p.stockNo-items.getQuantity();
+                if(p.stockNo != 0){
+                    p.stockNo=p.stockNo-items.getQuantity();
+                }
+                else {
+                    p.inStock = "N";
+                }
                 productRepository.save(p);
 
             }

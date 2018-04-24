@@ -687,15 +687,15 @@ Date date = new Date();
 
                 List<Products> prod = productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
                 if(prod.size() > 0) {
-                    System.out.println(prod.size());
+
                     for (Products pp : prod) {
                         if(pp != pictureTag.products)
                         products.add(pp);
                     }
-                    System.out.println(products.size());
+
                 }
                 products.add(pictureTag.products);
-                System.out.println(products.size());
+
                     Collections.reverse(products);
             }
             else {
