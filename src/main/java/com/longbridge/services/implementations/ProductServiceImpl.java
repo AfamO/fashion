@@ -678,7 +678,7 @@ Date date = new Date();
     @Override
     public List<ProductRespDTO> getTagProducts(PicTagDTO p) {
 
-        List<Products> products= null;
+        List<Products> products= new ArrayList<>();
         try {
             PictureTag pictureTag = pictureTagRepository.findOne(p.id);
 
@@ -693,7 +693,7 @@ Date date = new Date();
                         products.add(pp);
                     }
                 }
-                
+
             }
             else {
                 products = productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
