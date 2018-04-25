@@ -76,7 +76,6 @@ public class UserUtil {
         Map<String,Object> responseMap = new HashMap();
         try {
 
-            System.out.println("i got here");
             Date date = new Date();
             Address address = Address.createAddress(passedUser,passedUser.address,"Y");
             List<Address> addresses = new ArrayList<>();
@@ -102,7 +101,7 @@ public class UserUtil {
                             passedUser.designer.publicId=c.getPublicId();
                         } catch (Exception ex) {
                             ex.printStackTrace();
-                            Response response = new Response("99","Error occured internally",responseMap);
+                            Response response = new Response("99","Error occurred internally",responseMap);
                             return response;
                         }
                     }
@@ -111,22 +110,19 @@ public class UserUtil {
 
                 }
                 userRepository.save(passedUser);
-                //todo later generate unique token for new user and send to email
-                //todo later for now i am sending hardcoded token
-                //String tokenGen = UUID.randomUUID().toString().substring(0,10);
                 String name = passedUser.firstName + " " + passedUser.lastName;
                 String mail = passedUser.email;
-
-//                Token token= new Token();
-//                token.setToken(tokenGen);
-//                token.setUser(passedUser);
-//                tokenRepository.save(token);
-
+                String message="";
                 try {
                     Context context = new Context();
                     context.setVariable("name", name);
                     //context.setVariable("orderNum",orderNumber);
-                    String message = templateEngine.process("welcomeemail", context);
+                    if(passedUser.designer != null) {
+                        message = templateEngine.process("designerwelcomeemail", context);
+                    }
+                    else {
+                        message = templateEngine.process("welcomeemail", context);
+                    }
                     mailService.prepareAndSend(message,mail,messageSource.getMessage("user.welcome.subject", null, locale));
 
                 }catch (MailException me){

@@ -2,6 +2,7 @@ package com.longbridge.controllers;
 
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.CartListDTO;
+import com.longbridge.dto.DesignerOrderDTO;
 import com.longbridge.dto.OrderReqDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
@@ -57,12 +58,19 @@ public class OrderController {
             e.printStackTrace();
             String recipient = e.getRecipient();
             String subject = e.getSubject();
+
             MailError mailError = new MailError();
-            mailError.setName(e.getName());
+            if(e.getDesignerOrderDTO() != null){
+                mailError.setName(e.getDesignerOrderDTO().getStoreName());
+                mailError.setProductName(e.getDesignerOrderDTO().getProductName());
+                mailError.setMailType("designerorder");
+            }else {
+                mailError.setName(e.getName());
+                mailError.setMailType("order");
+            }
             mailError.setOrderNum(e.getOrderNum());
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);
-            mailError.setMailType("order");
             mailErrorRepository.save(mailError);
             Response response = new Response("00", "Operation Successful, Trying to send email", orderNumber);
             return response;

@@ -23,6 +23,7 @@ public class MailError {
     private String subject;
     private String link;
     private String orderNum;
+    private String productName;
 
     private String mailType;
 
@@ -107,5 +108,13 @@ public class MailError {
 
     public void setMailType(String mailType) {
         this.mailType = mailType;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }

@@ -1,9 +1,11 @@
 package com.longbridge.Util;
 
 
+import com.longbridge.dto.DesignerOrderDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.MailError;
 import com.longbridge.repository.MailErrorRepository;
+import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -25,6 +27,9 @@ public class ResendMailUtil {
 
     @Autowired
     private MailErrorRepository mailErrorRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Autowired
@@ -50,11 +55,14 @@ public class ResendMailUtil {
 
                 String orderNum = mailError.getOrderNum();
 
+                String productName = mailError.getProductName();
+
                 Context context = new Context();
                 context.setVariable("password", newPassword);
                 context.setVariable("name", name);
                 context.setVariable("link", link);
                 context.setVariable("orderNum", orderNum);
+                context.setVariable("password", newPassword);
 
                 if(mailError.getMailType().equalsIgnoreCase("user")) {
                     try {
@@ -83,9 +91,34 @@ public class ResendMailUtil {
                     }
 
                 }
+                else if (mailError.getMailType().equalsIgnoreCase("designerorder")){
+                    DesignerOrderDTO designerOrderDTO = new DesignerOrderDTO();
+                    try{
+
+                        designerOrderDTO.setProductName(productName);
+                        designerOrderDTO.setStoreName(name);
+                        message = templateEngine.process("designerorderemailtemplate", context);
+                        mailService.prepareAndSend(message,mail,subject);
+                        mailError.setDelFlag("Y");
+                        mailErrorRepository.save(mailError);
+                    }catch (MailException me) {
+                        me.printStackTrace();
+                        throw new AppException(designerOrderDTO,mail,subject,orderNum);
+
+                    }
+
+                }
                 else if (mailError.getMailType().equalsIgnoreCase("welcome")){
                     try{
-                    message = templateEngine.process("welcomeemail", context);
+                        if(userRepository.findByEmail(mail).designer != null)
+                        {
+                        message = templateEngine.process("welcomeemail", context);
+                        }
+                        else
+                        {
+                            message = templateEngine.process("welcomeemail", context);
+                        }
+
                         mailService.prepareAndSend(message,mail,subject);
                         mailError.setDelFlag("Y");
                         mailErrorRepository.save(mailError);

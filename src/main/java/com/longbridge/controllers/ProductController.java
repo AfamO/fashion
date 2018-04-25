@@ -385,6 +385,13 @@ public class ProductController {
         return response;
     }
 
+    @PostMapping(value = "/gettagged")
+    public Response getTaggedPictures(@RequestBody PageableDetailsDTO pageableDetailsDTO){
+        List<EventPicturesDTO> eventpictures = productService.getTaggedPictures(pageableDetailsDTO);
+        Response response = new Response("00", "Operation Successful", eventpictures);
+        return response;
+    }
+
     @PostMapping(value = "/{eventname}/getuntagged")
     public Response getUntaggedPicturesByEvent(@RequestBody PageableDetailsDTO pageableDetailsDTO,@PathVariable String eventname){
         List<EventPicturesDTO> eventpictures = productService.getUntaggedPicturesByEvents(pageableDetailsDTO, eventname);
@@ -392,6 +399,12 @@ public class ProductController {
         return response;
     }
 
+    @PostMapping(value = "/{eventname}/gettagged")
+    public Response getTaggedPicturesByEvent(@RequestBody PageableDetailsDTO pageableDetailsDTO,@PathVariable String eventname){
+        List<EventPicturesDTO> eventpictures = productService.getTaggedPicturesByEvents(pageableDetailsDTO, eventname);
+        Response response = new Response("00", "Operation Successful", eventpictures);
+        return response;
+    }
 
     //todo later
     //get top products based on the number of orders

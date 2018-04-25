@@ -1,5 +1,7 @@
 package com.longbridge.exception;
 
+import com.longbridge.dto.DesignerOrderDTO;
+
 /**
  * Created by Longbridge on 28/02/2018.
  */
@@ -10,6 +12,7 @@ public class AppException extends RuntimeException{
     private String subject;
     private String link;
     private String orderNum;
+    private DesignerOrderDTO designerOrderDTO;
 
     public String getNewPassword() {
         return newPassword;
@@ -59,6 +62,14 @@ public class AppException extends RuntimeException{
         this.orderNum = orderNum;
     }
 
+    public DesignerOrderDTO getDesignerOrderDTO() {
+        return designerOrderDTO;
+    }
+
+    public void setDesignerOrderDTO(DesignerOrderDTO designerOrderDTO) {
+        this.designerOrderDTO = designerOrderDTO;
+    }
+
     public AppException(String newPassword, String name, String recipient, String subject, String link) {
 //        super("Failed to perform the requested action");
         System.out.println("i got here");
@@ -79,6 +90,18 @@ public class AppException extends RuntimeException{
         this.orderNum=orderNum;
 
     }
+
+    public AppException(DesignerOrderDTO designerOrderDTO, String recipient, String subject, String orderNum) {
+//        super("Failed to perform the requested action");
+        System.out.println("i got here");
+        this.designerOrderDTO=designerOrderDTO;
+        this.recipient=recipient;
+        this.subject=subject;
+        this.orderNum=orderNum;
+
+    }
+
+
 
     public AppException(String name, String recipient, String subject) {
 //        super("Failed to perform the requested action");

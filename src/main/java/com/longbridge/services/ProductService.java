@@ -71,7 +71,11 @@ public interface ProductService {
 
     List<EventPicturesDTO> getUntaggedPictures(PageableDetailsDTO pageableDetailsDTO);
 
+    List<EventPicturesDTO> getTaggedPictures(PageableDetailsDTO pageableDetailsDTO);
+
     List<EventPicturesDTO> getUntaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, String search);
+
+    List<EventPicturesDTO> getTaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, String search);
 
     //Boolean nameExists(String fileName);
 

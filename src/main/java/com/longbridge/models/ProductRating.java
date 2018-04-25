@@ -13,7 +13,7 @@ public class ProductRating extends CommonFields{
     private User user;
     private int deliveryTimeRating;
     private int productQualityRating;
-    private double serviceRating;
+    private int serviceRating;
     private String subject;
 
     @Lob
@@ -47,11 +47,11 @@ public class ProductRating extends CommonFields{
         this.productQualityRating = productQualityRating;
     }
 
-    public double getServiceRating() {
+    public int getServiceRating() {
         return serviceRating;
     }
 
-    public void setServiceRating(double serviceRating) {
+    public void setServiceRating(int serviceRating) {
         this.serviceRating = serviceRating;
     }
 
@@ -71,7 +71,7 @@ public class ProductRating extends CommonFields{
         this.review = review;
     }
 
-    public ProductRating(User user, int deliveryTimeRating, int productQualityRating, double serviceRating, String subject, String review) {
+    public ProductRating(User user, int deliveryTimeRating, int productQualityRating, int serviceRating, String subject, String review) {
         this.user = user;
         this.deliveryTimeRating = deliveryTimeRating;
         this.productQualityRating = productQualityRating;
