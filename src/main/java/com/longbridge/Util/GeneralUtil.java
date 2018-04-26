@@ -158,6 +158,8 @@ public class GeneralUtil {
         List<MaterialPicture> materialPictures = products.materialPicture;
         productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
 
+        productDTO.reviews=products.reviews;
+
         return productDTO;
 
     }
