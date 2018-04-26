@@ -157,8 +157,17 @@ public class GeneralUtil {
 
         List<MaterialPicture> materialPictures = products.materialPicture;
         productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
-
-        productDTO.reviews=products.reviews;
+        int sum = 0;
+        int noOfUsers = products.reviews.size();
+        for (ProductRating productrating: products.reviews) {
+            sum = sum+productrating.getProductQualityRating();
+        }
+        if(sum != 0){
+            productDTO.productQualityRating = (sum/(noOfUsers*5))*5;
+        }
+        else {
+            productDTO.productQualityRating=0;
+        }
 
         return productDTO;
 

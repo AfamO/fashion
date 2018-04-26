@@ -42,4 +42,6 @@ public class ProductRespDTO {
 
     public int numOfTimesOrdered;
 
+    public int productQualityRating;
+
 }
