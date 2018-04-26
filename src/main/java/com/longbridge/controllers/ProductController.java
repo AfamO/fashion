@@ -138,7 +138,7 @@ public class ProductController {
     }
 
 
-    @PostMapping(value = "/filterbyprice")
+    @PostMapping(value = "/filter")
     public Object filterProductsByPrice(@RequestBody FilterPriceDTO filterPriceDTO){
         List<ProductRespDTO> products= productService.filterProductsByPrice(filterPriceDTO);
         Response response = new Response("00","Operation Successful",products);
@@ -194,6 +194,14 @@ public class ProductController {
     @PostMapping(value = "/addTag")
     public Response addTag(@RequestBody PictureTagDTO pictureTagDTO){
         productService.addPictureTag(pictureTagDTO);
+        Response response = new Response("00","Operation Successful","success");
+        return response;
+
+    }
+
+    @PostMapping(value = "/{id}/deletetag")
+    public Response deleteTag(@PathVariable Long id){
+        productService.deletePictureTag(id);
         Response response = new Response("00","Operation Successful","success");
         return response;
 
@@ -398,16 +406,16 @@ public class ProductController {
         return response;
     }
 
-    @PostMapping(value = "/{eventname}/getuntagged")
-    public Response getUntaggedPicturesByEvent(@RequestBody PageableDetailsDTO pageableDetailsDTO,@PathVariable String eventname){
-        List<EventPicturesDTO> eventpictures = productService.getUntaggedPicturesByEvents(pageableDetailsDTO, eventname);
+    @PostMapping(value = "/{eventid}/getuntagged")
+    public Response getUntaggedPicturesByEvent(@RequestBody PageableDetailsDTO pageableDetailsDTO,@PathVariable Long eventid){
+        List<EventPicturesDTO> eventpictures = productService.getUntaggedPicturesByEvents(pageableDetailsDTO, eventid);
         Response response = new Response("00", "Operation Successful", eventpictures);
         return response;
     }
 
-    @PostMapping(value = "/{eventname}/gettagged")
-    public Response getTaggedPicturesByEvent(@RequestBody PageableDetailsDTO pageableDetailsDTO,@PathVariable String eventname){
-        List<EventPicturesDTO> eventpictures = productService.getTaggedPicturesByEvents(pageableDetailsDTO, eventname);
+    @PostMapping(value = "/{eventid}/gettagged")
+    public Response getTaggedPicturesByEvent(@RequestBody PageableDetailsDTO pageableDetailsDTO,@PathVariable Long eventid){
+        List<EventPicturesDTO> eventpictures = productService.getTaggedPicturesByEvents(pageableDetailsDTO, eventid);
         Response response = new Response("00", "Operation Successful", eventpictures);
         return response;
     }

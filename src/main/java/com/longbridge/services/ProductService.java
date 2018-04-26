@@ -61,6 +61,8 @@ public interface ProductService {
 
     void addPictureTag(PictureTagDTO pictureTagDTO);
 
+    void deletePictureTag(Long id);
+
     List<PicTagDTO> getPictureTags(Long eventPictureId);
 
     void addStyle(StyleDTO styleDTO);
@@ -75,9 +77,9 @@ public interface ProductService {
 
     List<EventPicturesDTO> getTaggedPictures(PageableDetailsDTO pageableDetailsDTO);
 
-    List<EventPicturesDTO> getUntaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, String search);
+    List<EventPicturesDTO> getUntaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, Long id);
 
-    List<EventPicturesDTO> getTaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, String search);
+    List<EventPicturesDTO> getTaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, Long id);
 
     int getTotalProducts(User user);
 

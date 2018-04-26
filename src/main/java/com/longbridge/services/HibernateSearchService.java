@@ -53,7 +53,7 @@ import java.util.List;
             FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
             QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Events.class).get();
             Query luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1).onFields("eventName")
-                    .matching(searchTerm).createQuery();
+                    .matching(searchTerm+"*").createQuery();
 
             javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Events.class);
 

@@ -55,6 +55,9 @@ public class ProductServiceImpl implements ProductService {
     CategoryRepository categoryRepository;
 
     @Autowired
+    EventRepository eventRepository;
+
+    @Autowired
     GeneralUtil generalUtil;
 
     @Autowired
@@ -228,8 +231,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void deletePictureTag(Long id) {
+        try {
+            productPictureRepository.delete(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public List<PicTagDTO> getPictureTags(Long eventPictureId) {
-        Map<String,Object> responseMap = new HashMap();
+
         try {
             List<PictureTag> pictureTags = pictureTagRepository.findPictureTagsByEventPictures(eventPictureRepository.findOne(eventPictureId));
 
@@ -827,17 +840,17 @@ Date date = new Date();
     }
 
     @Override
-    public List<EventPicturesDTO> getUntaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, String search) {
+    public List<EventPicturesDTO> getUntaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, Long id) {
         int page = pageableDetailsDTO.getPage();
         int size = pageableDetailsDTO.getSize();
         List<EventPicturesDTO> ev = new ArrayList<>();
         Page<EventPictures> e = null;
         try {
-            List<Events> events=searchService.eventsTagFuzzySearch(search);
-            if(events != null) {
-                for (Events events1 : events) {
-                    e = eventPictureRepository.findByEvents(new PageRequest(page, size), events1);
-                }
+//            List<Events> events=eventRepository.eventsTagFuzzySearch(search);
+//            if(events != null) {
+//                for (Events events1 : events) {
+             e = eventPictureRepository.findByEvents(new PageRequest(page, size), eventRepository.findOne(id));
+//                }
 
                 if(e!=null) {
                     for (EventPictures pictures : e) {
@@ -849,8 +862,8 @@ Date date = new Date();
                     }
                 }
                 return ev;
-            }
-            return ev;
+//            }
+//            return ev;
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -859,17 +872,17 @@ Date date = new Date();
     }
 
     @Override
-    public List<EventPicturesDTO> getTaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, String search) {
+    public List<EventPicturesDTO> getTaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, Long id) {
         int page = pageableDetailsDTO.getPage();
         int size = pageableDetailsDTO.getSize();
         List<EventPicturesDTO> ev = new ArrayList<>();
         Page<EventPictures> e = null;
         try {
-            List<Events> events=searchService.eventsTagFuzzySearch(search);
-            if(events != null) {
-                for (Events events1 : events) {
-                    e = eventPictureRepository.findByEvents(new PageRequest(page, size), events1);
-                }
+//            List<Events> events=searchService.eventsTagFuzzySearch(search);
+//            if(events != null) {
+//                for (Events events1 : events) {
+                    e = eventPictureRepository.findByEvents(new PageRequest(page, size), eventRepository.findOne(id));
+//                }
 
                 if(e!=null) {
                     for (EventPictures pictures : e) {
@@ -881,8 +894,8 @@ Date date = new Date();
                     }
                 }
                 return ev;
-            }
-            return ev;
+//            }
+//            return ev;
 
         } catch (Exception ex) {
             ex.printStackTrace();

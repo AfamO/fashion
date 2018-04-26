@@ -159,24 +159,19 @@ public class GeneralUtil {
         productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
         int sum = 0;
         int noOfUsers = products.reviews.size();
-        System.out.println(noOfUsers);
-        System.out.println(products.reviews.size());
+
         for (ProductRating productrating: products.reviews) {
             sum = sum+productrating.getProductQualityRating();
         }
-        System.out.println(sum);
         if(sum != 0){
             Double pQualityRating= ((double) sum/(noOfUsers*5))*5;
             productDTO.productQualityRating = pQualityRating.intValue();
-
-            System.out.println(productDTO.productQualityRating);
         }
         else {
             productDTO.productQualityRating=0;
         }
 
         return productDTO;
-
     }
 
     public ProductRespDTO convertEntityToDTOWithReviews(Products products){
