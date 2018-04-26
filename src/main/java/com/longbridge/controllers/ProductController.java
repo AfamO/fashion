@@ -68,8 +68,8 @@ public class ProductController {
     }
 
 
-    @GetMapping(value = "/{id}/getproductbyid/{reviews}")
-    public Object getEventById(@PathVariable Long id, HttpServletRequest request, @PathVariable Optional<String> reviews){
+    @GetMapping(value = {"/{id}/getproductbyid/{reviews}","/{id}/getproductbyid"})
+    public Object getEventById(@PathVariable Long id, HttpServletRequest request, @PathVariable("reviews") Optional<String> reviews){
 //        String token = request.getHeader(tokenHeader);
 //        JwtUser user = userUtil.getAuthenticationDetails(token);
 //        if(token==null || user==null){
