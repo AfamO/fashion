@@ -65,7 +65,9 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void deleteAddress(Long id) {
         try {
-            addressRepository.delete(id);
+            Address address = addressRepository.findOne(id);
+            address.setDelFlag("Y");
+            addressRepository.save(address);
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
@@ -75,7 +77,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public List<Address> getAddress(User user) {
         try {
-            return addressRepository.findByUser(user);
+            return addressRepository.findByUserAndDelFlag(user,"N");
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();

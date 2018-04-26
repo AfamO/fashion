@@ -12,6 +12,6 @@ import java.util.List;
  */
 @Repository
 public interface AddressRepository extends PagingAndSortingRepository<Address,Long>{
-    List<Address> findByUser(User user);
+    List<Address> findByUserAndDelFlag(User user, String delFlag);
 
 }
