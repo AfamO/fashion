@@ -166,8 +166,8 @@ public class GeneralUtil {
         }
         System.out.println(sum);
         if(sum != 0){
-            Double pQualityRating= (double) sum/(noOfUsers*5)
-            productDTO.productQualityRating = (sum/(noOfUsers*5))*5;
+            Double pQualityRating= ((double) sum/(noOfUsers*5))*5;
+            productDTO.productQualityRating = pQualityRating.intValue();
 
             System.out.println(productDTO.productQualityRating);
         }
