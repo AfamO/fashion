@@ -159,6 +159,8 @@ public class GeneralUtil {
         productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
         int sum = 0;
         int noOfUsers = products.reviews.size();
+        System.out.println(noOfUsers);
+        System.out.println(products.reviews.size());
         for (ProductRating productrating: products.reviews) {
             sum = sum+productrating.getProductQualityRating();
         }
