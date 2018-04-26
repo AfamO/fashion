@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by Longbridge on 06/11/2017.
@@ -68,14 +69,14 @@ public class ProductController {
 
 
     @GetMapping(value = "/{id}/getproductbyid/{reviews}")
-    public Object getEventById(@PathVariable Long id, HttpServletRequest request, @PathVariable String reviews){
+    public Object getEventById(@PathVariable Long id, HttpServletRequest request, @PathVariable Optional<String> reviews){
 //        String token = request.getHeader(tokenHeader);
 //        JwtUser user = userUtil.getAuthenticationDetails(token);
 //        if(token==null || user==null){
 //            return userUtil.tokenNullOrInvalidResponse(token);
 //        }
         ProductRespDTO products = null;
-        if(reviews != null){
+        if(reviews.isPresent()){
            products = productService.getProductByIdWithReviews(id);
         }else {
             products = productService.getProductById(id);
