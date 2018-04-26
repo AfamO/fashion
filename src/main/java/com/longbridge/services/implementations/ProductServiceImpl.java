@@ -9,18 +9,13 @@ import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.services.HibernateSearchService;
 import com.longbridge.services.ProductService;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.standard.expression.Each;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 
 import java.util.*;
@@ -661,14 +656,69 @@ Date date = new Date();
     }
 
     @Override
-    public List<ProductRespDTO> filterProductsByPrice(FilterPriceDTO filterPriceDTO) {
-        int page = filterPriceDTO.getPage();
-        int size = filterPriceDTO.getSize();
-        Double fromAmount = Double.parseDouble(filterPriceDTO.getFromPrice());
-        Double toAmount = Double.parseDouble(filterPriceDTO.getToPrice());
+    public List<ProductRespDTO> filterProductsByPrice(FilterProductDTO filterProductDTO) {
+        int page = filterProductDTO.getPage();
+        int size = filterProductDTO.getSize();
+        Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
+        Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
         try {
             Page<Products> products = productRepository.findByVerifiedFlagAndAmountBetween("Y",fromAmount,toAmount,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
+            return productDTOS;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+
+
+
+    @Override
+    public List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO) {
+        int page = filterProductDTO.getPage();
+        int size = filterProductDTO.getSize();
+        String name = "";
+        Double fromAmount = 0.0;
+        Double toAmount=0.0;
+        int productQualityRating = 0;
+        Page<Products> products = null;
+        List<Products> products2 = new ArrayList<>();
+        name = filterProductDTO.getProductName();
+        List<ProductRespDTO> productDTOS=new ArrayList<>();
+        if(filterProductDTO.getFromPrice() != null) {
+            fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
+        }
+        if(filterProductDTO.getToPrice() != null) {
+            toAmount = Double.parseDouble(filterProductDTO.getToPrice());
+        }
+//        if(filterProductDTO.getProductQualityRating() != 0) {
+            productQualityRating=filterProductDTO.getProductQualityRating();
+        System.out.println(productQualityRating);
+//        }
+
+
+
+        try {
+            if(!name.equalsIgnoreCase("") && toAmount !=  0.0) {
+                products = productRepository.findByVerifiedFlagAndNameLikeAndAmountBetween("Y", name,fromAmount, toAmount, new PageRequest(page, size));
+               productDTOS = generalUtil.convertProdEntToProdRespDTOs(products.getContent());
+            }
+            if(!name.equalsIgnoreCase("") && productQualityRating != 0) {
+                System.out.println(productQualityRating);
+                Page<Products> products1=productRepository.findByVerifiedFlagAndNameLike("Y", name,new PageRequest(page, size));
+                for (Products p:products1) {
+                    for (ProductRating pr:p.reviews) {
+                        if(pr.getProductQualityRating() == productQualityRating){
+                            products2.add(p);
+                        }
+                    }
+                }
+                productDTOS = generalUtil.convertProdEntToProdRespDTOs(products2);
+            }
+
             return productDTOS;
 
         } catch (Exception e) {

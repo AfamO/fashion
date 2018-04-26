@@ -9,7 +9,6 @@ public class PageableDetailsDTO {
 
     public int size;
 
-
     public int getPage() {
         return page;
     }

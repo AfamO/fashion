@@ -41,13 +41,16 @@ public interface ProductService {
 
     List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO);
 
-    List<ProductRespDTO> filterProductsByPrice(FilterPriceDTO filterPriceDTO);
+    List<ProductRespDTO> filterProductsByPrice(FilterProductDTO filterProductDTO);
+
+    List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO);
 
     List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p);
 
     List<ProductRespDTO> getTagProducts(PicTagDTO p);
 
     List<ProductRespDTO> getTopProducts();
+
 
     List<ProductRespDTO> getFeaturedProducts();
 

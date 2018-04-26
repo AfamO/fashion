@@ -139,8 +139,8 @@ public class ProductController {
 
 
     @PostMapping(value = "/filter")
-    public Object filterProductsByPrice(@RequestBody FilterPriceDTO filterPriceDTO){
-        List<ProductRespDTO> products= productService.filterProductsByPrice(filterPriceDTO);
+    public Object filterProductsByPrice(@RequestBody FilterProductDTO filterProductDTO){
+        List<ProductRespDTO> products= productService.filterProductsByPrice(filterProductDTO);
         Response response = new Response("00","Operation Successful",products);
         return response;
     }
@@ -292,7 +292,7 @@ public class ProductController {
 
 
     @GetMapping(value = "/{search}/searchproduct")
-    public Response searchEvents(@PathVariable String search){
+    public Response searchProducts(@PathVariable String search){
         Map<String,Object> responseMap = new HashMap();
         List<ProductRespDTO> products=searchService.productsFuzzySearch(search);
         responseMap.put("result",products);
@@ -300,6 +300,14 @@ public class ProductController {
         return response;
     }
 
+    @PostMapping(value = "/filterproduct")
+    public Response filterProduct(@RequestBody FilterProductDTO filterProductDTO){
+        Map<String,Object> responseMap = new HashMap();
+        List<ProductRespDTO> products=productService.filterProducts(filterProductDTO);
+        responseMap.put("result",products);
+        Response response = new Response("00","Operation Successful",responseMap);
+        return response;
+    }
 
     @PostMapping(value = "/updateproduct")
     public Object updateProduct(@RequestBody ProductDTO productDTO, HttpServletRequest request){

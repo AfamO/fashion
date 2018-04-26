@@ -37,4 +37,12 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
     String getProductName(@Param("id") Long id);
 
     Page<Products> findByVerifiedFlagAndAmountBetween(String verifiedFlag, Double fromAmount, Double toAmount, Pageable pageable);
+
+    Page<Products> findByVerifiedFlagAndNameLikeAndAmountBetween(String verifiedFlag, String name, Double fromAmount, Double toAmount, Pageable pageable);
+
+    Page<Products> findByVerifiedFlagAndNameLike(String verifiedFlag, String name,Pageable pageable);
+
+    //Page<Products> findByVerifiedFlagAndNameLikeAndp(String verifiedFlag, String name, Double fromAmount, Double toAmount, Pageable pageable);
+
+
 }

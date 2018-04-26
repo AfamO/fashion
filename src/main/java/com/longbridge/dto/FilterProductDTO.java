@@ -3,7 +3,7 @@ package com.longbridge.dto;
 /**
  * Created by Longbridge on 23/04/2018.
  */
-public class FilterPriceDTO {
+public class FilterProductDTO {
 
     private int page;
 
@@ -13,8 +13,11 @@ public class FilterPriceDTO {
 
     private String toPrice;
 
+    private int productQualityRating;
 
-    public FilterPriceDTO() {
+    private String productName;
+
+    public FilterProductDTO() {
     }
 
     public String getFromPrice() {
@@ -47,5 +50,21 @@ public class FilterPriceDTO {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public int getProductQualityRating() {
+        return productQualityRating;
+    }
+
+    public void setProductQualityRating(int productQualityRating) {
+        this.productQualityRating = productQualityRating;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }
