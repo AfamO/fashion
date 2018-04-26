@@ -45,7 +45,7 @@ public class SendEmailAsync {
 
             try {
                 Context context = new Context();
-                context.setVariable("name", user.firstName + user.lastName);
+                context.setVariable("name", user.firstName + " "+ user.lastName);
                 context.setVariable("orderNum",orderNumber);
                 String message = templateEngine.process("orderemailtemplate", context);
                 mailService.prepareAndSend(message,user.email,messageSource.getMessage("order.success.subject", null, locale));

@@ -1,7 +1,10 @@
 package com.longbridge.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
@@ -15,9 +18,14 @@ public class ProductRating extends CommonFields{
     private int productQualityRating;
     private int serviceRating;
     private String subject;
-
     @Lob
     private String review;
+
+    private String verifiedFlag="N";
+
+    @JsonIgnore
+    @ManyToOne
+    private Products products;
 
 
     public ProductRating() {
@@ -69,6 +77,22 @@ public class ProductRating extends CommonFields{
 
     public void setReview(String review) {
         this.review = review;
+    }
+
+    public String getVerifiedFlag() {
+        return verifiedFlag;
+    }
+
+    public void setVerifiedFlag(String verifiedFlag) {
+        this.verifiedFlag = verifiedFlag;
+    }
+
+    public Products getProducts() {
+        return products;
+    }
+
+    public void setProducts(Products products) {
+        this.products = products;
     }
 
     public ProductRating(User user, int deliveryTimeRating, int productQualityRating, int serviceRating, String subject, String review) {

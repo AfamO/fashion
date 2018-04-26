@@ -169,6 +169,12 @@ public class UserController {
         return userUtil.getUsers();
     }
 
+    @GetMapping(value = "/getallusers")
+    public List<User> getAllUsers(HttpServletRequest request){
+
+        return userUtil.getAllUsers();
+    }
+
     @PostMapping(value = "/validateToken")
     public Object validateToken(@RequestBody UserEmailTokenDTO userEmailTokenDTO){
         User user = userUtil.getUserByEmail(userEmailTokenDTO.getEmail());

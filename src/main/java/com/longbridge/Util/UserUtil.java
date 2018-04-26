@@ -290,6 +290,9 @@ public class UserUtil {
             return userRepository.findByDesignerIsNull();
     }
 
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
 
     public Object fetchUserDetails(String email, String token){
         Map<String,Object> responseMap = new HashMap();

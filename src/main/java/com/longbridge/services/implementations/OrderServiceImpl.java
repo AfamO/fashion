@@ -146,8 +146,10 @@ public class OrderServiceImpl implements OrderService {
 //                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.success.subject", null, locale),orderNumber);
 //
 //            }
+
             sendEmailAsync.sendEmailToUser(user,orderNumber);
             sendEmailAsync.sendEmailToDesigner(dtos,orderNumber);
+
 
             return orderNumber;
 
@@ -305,6 +307,30 @@ public class OrderServiceImpl implements OrderService {
             throw new WawoohException();
         }
     }
+
+    @Override
+    public int getSuccessfulSales(User user) {
+        try {
+            int count = 0;
+            if(user.designer !=null) {
+                List<Items> items = itemRepository.findByDesignerId(user.designer.id);
+                for (Items item : items) {
+                    if (item.getOrders().getDeliveryStatus().equalsIgnoreCase("C")) {
+                        count = count + 1;
+                    }
+                }
+            }else {
+                throw new WawoohException();
+            }
+           return count;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
 
     @Override
     public OrderDTO getOrdersById(Long id) {

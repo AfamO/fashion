@@ -29,19 +29,57 @@ public class ProductRatingController {
     @Value("${jwt.header}")
     private String tokenHeader;
 
-    @PostMapping(value = "/rateproduct")
-    public Response addCategory(@RequestBody ProductRating productRating, HttpServletRequest request){
+    @PostMapping(value = "/{productid}/rateproduct")
+    public Response rateProduct(@RequestBody ProductRating productRating, @PathVariable Long productid, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
 
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        productRatingService.RateProduct(user,productRating);
+        productRatingService.RateProduct(user,productid,productRating);
         Response response = new Response("00","Operation Successful","success");
         return response;
     }
 
+    @PostMapping(value = "/{id}/verifyrating")
+    public Response verifyRating(HttpServletRequest request, @PathVariable Long id){
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+
+        if(token==null || user==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        productRatingService.verifyRating(user,id);
+        Response response = new Response("00","Operation Successful","success");
+        return response;
+    }
+
+    @PostMapping(value = "/getverifiedratings")
+    public Response getVerifiedRatings(HttpServletRequest request){
+//        String token = request.getHeader(tokenHeader);
+//        User user = userUtil.fetchUserDetails2(token);
+//
+//        if(token==null || user==null){
+//            return userUtil.tokenNullOrInvalidResponse(token);
+//        }
+
+        Response response = new Response("00","Operation Successful",productRatingService.getVerifiedRatings());
+        return response;
+    }
+
+
+    @PostMapping(value = "/getallratings")
+    public Response getAllRatings(HttpServletRequest request){
+//        String token = request.getHeader(tokenHeader);
+//        User user = userUtil.fetchUserDetails2(token);
+//
+//        if(token==null || user==null){
+//            return userUtil.tokenNullOrInvalidResponse(token);
+//        }
+        Response response = new Response("00","Operation Successful",productRatingService.getAllRatings());
+        return response;
+    }
 
 
 

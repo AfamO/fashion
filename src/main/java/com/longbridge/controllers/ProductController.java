@@ -67,14 +67,19 @@ public class ProductController {
     }
 
 
-    @GetMapping(value = "/{id}/getproductbyid")
-    public Object getEventById(@PathVariable Long id, HttpServletRequest request){
+    @GetMapping(value = "/{id}/getproductbyid/{reviews}")
+    public Object getEventById(@PathVariable Long id, HttpServletRequest request, @PathVariable String reviews){
 //        String token = request.getHeader(tokenHeader);
 //        JwtUser user = userUtil.getAuthenticationDetails(token);
 //        if(token==null || user==null){
 //            return userUtil.tokenNullOrInvalidResponse(token);
 //        }
-        ProductRespDTO products = productService.getProductById(id);
+        ProductRespDTO products = null;
+        if(reviews != null){
+           products = productService.getProductByIdWithReviews(id);
+        }else {
+            products = productService.getProductById(id);
+        }
         Response response = new Response("00","Operation Successful",products);
         return response;
 

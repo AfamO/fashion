@@ -13,6 +13,8 @@ public interface ProductService {
 
     ProductRespDTO getProductById(Long id);
 
+    ProductRespDTO getProductByIdWithReviews(Long id);
+
     void addProduct(ProductDTO productDTO, Designer designer);
 
     void updateProductVisibility(Long id, String status);
@@ -77,6 +79,6 @@ public interface ProductService {
 
     List<EventPicturesDTO> getTaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, String search);
 
-    //Boolean nameExists(String fileName);
+    int getTotalProducts(User user);
 
 }

@@ -27,6 +27,8 @@ public class Products extends CommonFields implements Serializable {
     @ManyToOne
     public Designer designer;
 
+
+
     @Lob
     public String prodDesc;
 
@@ -63,4 +65,8 @@ public class Products extends CommonFields implements Serializable {
     public List<WishList> wishLists;
 //    @OneToMany(mappedBy = "products",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 //    public List<Orders> orders;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    public List<ProductRating> reviews;
 }

@@ -27,6 +27,9 @@ public interface OrderService {
 
     List<ItemsDTO> getOrdersByDesigner(User user);
 
+    int getSuccessfulSales(User user);
+
+
     String addToCart(Cart cart, User user);
 
     String updateCart(Cart cart, User user);

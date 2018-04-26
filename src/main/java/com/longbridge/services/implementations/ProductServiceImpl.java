@@ -115,6 +115,17 @@ public class ProductServiceImpl implements ProductService {
        throw new WawoohException();
     }
 
+    @Override
+    public ProductRespDTO getProductByIdWithReviews(Long id) {
+        try {
+            Products products = productRepository.findOne(id);
+            ProductRespDTO productDTO = generalUtil.convertEntityToDTOWithReviews(products);
+            return productDTO;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        throw new WawoohException();
+    }
 
     @Override
     public void addCategory(CategoryDTO categoryDTO) {
@@ -879,6 +890,24 @@ Date date = new Date();
         }
     }
 
+
+    @Override
+    public int getTotalProducts(User user) {
+        int count = 0;
+        try {
+
+            if(user.designer !=null) {
+
+                count= productRepository.countByDesigner(user.designer);
+            }
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+        return count;
+    }
+
     private List<PicTagDTO> convertPictureTagEntityToDTO(List<PictureTag> pictureTags){
 
         List<PicTagDTO> pictureTagDTOS = new ArrayList<PicTagDTO>();
@@ -923,5 +952,6 @@ Date date = new Date();
                 throw new WriteFileException("Delete operation is failed");
             }
     }
+
 
 }

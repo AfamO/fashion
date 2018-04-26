@@ -9,6 +9,8 @@ import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.DesignerService;
+import com.longbridge.services.OrderService;
+import com.longbridge.services.ProductService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -38,6 +40,12 @@ public class DesignerController {
     private String tokenHeader;
     @Autowired
     DesignerService designerService;
+
+    @Autowired
+    OrderService orderService;
+
+    @Autowired
+    ProductService productService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -116,6 +124,28 @@ public class DesignerController {
         return response;
     }
 
+    @GetMapping(value = "/getsuccessfulsales")
+    public Response getSuccessfulSales(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getSuccessfulSales(userTemp));
+        return response;
+    }
+
+
+    @GetMapping(value = "/gettotalproducts")
+    public Response getTotalProducts(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",productService.getTotalProducts(userTemp));
+        return response;
+    }
 
     @RequestMapping(
             value = "/**",

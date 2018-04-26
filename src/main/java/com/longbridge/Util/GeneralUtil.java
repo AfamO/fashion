@@ -162,6 +162,41 @@ public class GeneralUtil {
 
     }
 
+    public ProductRespDTO convertEntityToDTOWithReviews(Products products){
+        ProductRespDTO productDTO = new ProductRespDTO();
+        productDTO.id=products.id;
+        productDTO.amount=products.amount;
+        productDTO.color=products.color;
+        productDTO.description=products.prodDesc;
+        productDTO.name=products.name;
+        productDTO.sizes=products.sizes;
+        productDTO.styleId=products.style.id.toString();
+        productDTO.designerId=products.designer.id.toString();
+        productDTO.stockNo=products.stockNo;
+        productDTO.inStock=products.inStock;
+        productDTO.designerName=products.designer.storeName;
+        productDTO.status=products.status;
+        productDTO.verifiedFlag=products.verifiedFlag;
+        productDTO.subCategoryId=products.subCategory.id.toString();
+        productDTO.categoryId=products.subCategory.category.id.toString();
+        productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
+
+        List<ProductPicture> productPictures = products.picture;
+        productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
+
+        List<ArtWorkPicture> artWorkPictures = products.artWorkPicture;
+        productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
+
+        List<MaterialPicture> materialPictures = products.materialPicture;
+        productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
+
+        productDTO.reviews=products.reviews;
+
+        return productDTO;
+
+    }
+
+
 
     public void deletePics(String pics, String folder){
 

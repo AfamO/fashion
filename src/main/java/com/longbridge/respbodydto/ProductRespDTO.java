@@ -3,6 +3,7 @@ package com.longbridge.respbodydto;
 import com.longbridge.dto.ArtPictureDTO;
 import com.longbridge.dto.MaterialPictureDTO;
 import com.longbridge.dto.ProductPictureDTO;
+import com.longbridge.models.ProductRating;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class ProductRespDTO {
     public List<ArtPictureDTO> artWorkPicture;
 
     public List<MaterialPictureDTO> materialPicture;
+
+    public List<ProductRating> reviews;
 
     public int stockNo;
 
