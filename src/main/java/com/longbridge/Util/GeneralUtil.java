@@ -164,8 +164,11 @@ public class GeneralUtil {
         for (ProductRating productrating: products.reviews) {
             sum = sum+productrating.getProductQualityRating();
         }
+        System.out.println(sum);
         if(sum != 0){
             productDTO.productQualityRating = (sum/(noOfUsers*5))*5;
+
+            System.out.println(productDTO.productQualityRating);
         }
         else {
             productDTO.productQualityRating=0;
