@@ -193,7 +193,7 @@ public class OrderServiceImpl implements OrderService {
     public String addToCart(Cart cart, User user) {
         try{
             Date date = new Date();
-            if(cart.getMaterialLocation().id == null){
+            if(cart.getMaterialLocation().getAddress() != null){
                 cart.setMaterialLocation(addressRepository.save(cart.getMaterialLocation()));
 
             }else {
