@@ -9,6 +9,8 @@ import com.longbridge.repository.*;
 import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.services.MailService;
 import com.longbridge.services.OrderService;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -194,7 +196,11 @@ public class OrderServiceImpl implements OrderService {
         try{
             Date date = new Date();
             if(cart.getMaterialLocation().getAddress() != null){
-                Address address=addressRepository.save(cart.getMaterialLocation());
+                Address address=new Address();
+                address.setUser(user);
+                BeanUtilsBean.getInstance().getConvertUtils().register(false, false, 0);
+                BeanUtils.copyProperties(address,cart.getMaterialLocation());
+                addressRepository.save(address);
                 cart.setMaterialLocation(address);
 
             }else if(cart.getMaterialPickUpAddressId() != null){
