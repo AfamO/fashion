@@ -36,7 +36,9 @@ public class Cart extends CommonFields {
 
     private String materialStatus; //Y-Yes, N-No
 
-    private String materialLocation;
+    private Address materialLocation;
+
+    private Long materialPickUpAddressId;
 
     private String materialPickupDate;
 
@@ -45,13 +47,11 @@ public class Cart extends CommonFields {
     private Long measurementId;
 
 
-    public Cart(User user, Long productId, int quantity, Long designerId, String size, String amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, Date expiryDate) {
+    public Cart(User user, Long productId, int quantity, Long designerId, String size, String amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, Long materialPickUpAddressId, String materialPickupDate, Date expiryDate, Long measurementId) {
         this.user = user;
         this.productId = productId;
         this.quantity = quantity;
         this.designerId = designerId;
-       // this.deliveryStatus = deliveryStatus;
-       // this.deliveryDate = deliveryDate;
         this.size = size;
         this.amount = amount;
         this.artWorkPictureId = artWorkPictureId;
@@ -59,8 +59,10 @@ public class Cart extends CommonFields {
         this.color = color;
         this.materialStatus = materialStatus;
         this.materialLocation = materialLocation;
+        this.materialPickUpAddressId = materialPickUpAddressId;
         this.materialPickupDate = materialPickupDate;
         this.expiryDate = expiryDate;
+        this.measurementId = measurementId;
     }
 
     public User getUser() {
@@ -144,11 +146,11 @@ public class Cart extends CommonFields {
         this.materialStatus = materialStatus;
     }
 
-    public String getMaterialLocation() {
+    public Address getMaterialLocation() {
         return materialLocation;
     }
 
-    public void setMaterialLocation(String materialLocation) {
+    public void setMaterialLocation(Address materialLocation) {
         this.materialLocation = materialLocation;
     }
 
@@ -174,6 +176,14 @@ public class Cart extends CommonFields {
 
     public void setMeasurementId(Long measurementId) {
         this.measurementId = measurementId;
+    }
+
+    public Long getMaterialPickUpAddressId() {
+        return materialPickUpAddressId;
+    }
+
+    public void setMaterialPickUpAddressId(Long materialPickUpAddressId) {
+        this.materialPickUpAddressId = materialPickUpAddressId;
     }
 
     public Cart() {

@@ -1,5 +1,6 @@
 package com.longbridge.dto;
 
+import com.longbridge.models.Address;
 import com.longbridge.models.ArtWorkPicture;
 import com.longbridge.models.MaterialPicture;
 import com.longbridge.models.User;
@@ -40,7 +41,7 @@ public class CartDTO {
 
     private String materialStatus; //Y-Yes, N-No
 
-    private String materialLocation;
+    private Address materialLocation;
 
     private String materialPickupDate;
 
@@ -50,7 +51,7 @@ public class CartDTO {
 
     private int stockNo;
 
-    public CartDTO(User user, Long id, Long productId, String productName, int quantity, Long designerId, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, Date expiryDate) {
+    public CartDTO(User user, Long id, Long productId, String productName, int quantity, Long designerId, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, String materialPickupDate, Date expiryDate, String measurementName, int stockNo) {
         this.user = user;
         this.id = id;
         this.productId = productId;
@@ -69,6 +70,8 @@ public class CartDTO {
         this.materialLocation = materialLocation;
         this.materialPickupDate = materialPickupDate;
         this.expiryDate = expiryDate;
+        this.measurementName = measurementName;
+        this.stockNo = stockNo;
     }
 
     public User getUser() {
@@ -159,11 +162,11 @@ public class CartDTO {
         this.materialStatus = materialStatus;
     }
 
-    public String getMaterialLocation() {
+    public Address getMaterialLocation() {
         return materialLocation;
     }
 
-    public void setMaterialLocation(String materialLocation) {
+    public void setMaterialLocation(Address materialLocation) {
         this.materialLocation = materialLocation;
     }
 

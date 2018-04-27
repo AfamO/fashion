@@ -193,7 +193,12 @@ public class OrderServiceImpl implements OrderService {
     public String addToCart(Cart cart, User user) {
         try{
             Date date = new Date();
+            if(cart.getMaterialLocation().id == null){
+                cart.setMaterialLocation(addressRepository.save(cart.getMaterialLocation()));
 
+            }else {
+            cart.setMaterialLocation(addressRepository.findOne(cart.getMaterialPickUpAddressId()));
+            }
             cart.setCreatedOn(date);
             cart.setUpdatedOn(date);
             cart.setExpiryDate(DateUtils.addDays(date,7));
