@@ -36,6 +36,7 @@ public class Cart extends CommonFields {
 
     private String materialStatus; //Y-Yes, N-No
 
+    @ManyToOne
     private Address materialLocation;
 
     private Long materialPickUpAddressId;

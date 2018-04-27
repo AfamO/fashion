@@ -32,6 +32,10 @@ public class Address extends CommonFields {
     @OneToMany(mappedBy = "deliveryAddress")
     private List<Orders> orders;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "materialLocation")
+    private List<Cart> carts;
+
     public Address(){
 
     }
