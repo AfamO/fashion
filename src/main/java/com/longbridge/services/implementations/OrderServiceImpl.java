@@ -194,9 +194,10 @@ public class OrderServiceImpl implements OrderService {
         try{
             Date date = new Date();
             if(cart.getMaterialLocation().getAddress() != null){
-                cart.setMaterialLocation(addressRepository.save(cart.getMaterialLocation()));
+                Address address=addressRepository.save(cart.getMaterialLocation());
+                cart.setMaterialLocation(address);
 
-            }else {
+            }else if(cart.getMaterialPickUpAddressId() != null){
             cart.setMaterialLocation(addressRepository.findOne(cart.getMaterialPickUpAddressId()));
             }
             cart.setCreatedOn(date);
