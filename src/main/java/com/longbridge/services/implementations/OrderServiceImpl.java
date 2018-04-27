@@ -197,9 +197,9 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
             if(cart.getMaterialLocation().getAddress() != null){
                 Address address=new Address();
-                address.setUser(user);
                 BeanUtilsBean.getInstance().getConvertUtils().register(false, false, 0);
                 BeanUtils.copyProperties(address,cart.getMaterialLocation());
+                address.setUser(user);
                 addressRepository.save(address);
                 cart.setMaterialLocation(address);
 
