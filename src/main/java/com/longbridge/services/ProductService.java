@@ -31,11 +31,13 @@ public interface ProductService {
 
     void deleteProduct(Long id);
 
-    void deleteProductImages(Long id);
+    void deleteProductImages(ProductPictureIdListDTO pictureIdListDTO);
 
-    void deleteArtWorkImages(Long id);
+    void deleteProductImage(Long id);
 
-    void deleteMaterialImages(Long id);
+    void deleteArtWorkImages(ProductPictureIdListDTO pictureIdListDTO);
+
+    void deleteMaterialImages(ProductPictureIdListDTO pictureIdListDTO);
 
     List<ProductRespDTO> getProductsByDesigner(Long designerId);
 
@@ -65,6 +67,8 @@ public interface ProductService {
     void addPictureTag(PictureTagDTO pictureTagDTO);
 
     void deletePictureTag(Long id);
+
+    PictureTag getPictureTagById(Long id);
 
     List<PicTagDTO> getPictureTags(Long eventPictureId);
 

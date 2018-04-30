@@ -207,6 +207,15 @@ public class ProductController {
 
     }
 
+    @PostMapping(value = "/{id}/gettag")
+    public Response getTag(@PathVariable Long id){
+        productService.getPictureTagById(id);
+        Response response = new Response("00","Operation Successful","success");
+        return response;
+
+    }
+
+
     @GetMapping(value = "/{eventPictureId}/gettags")
     public Object getTags(@PathVariable Long eventPictureId){
         List<PicTagDTO> pictureTags=productService.getPictureTags(eventPictureId);
@@ -255,36 +264,50 @@ public class ProductController {
         if(token==null || user.getUsername()==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        productService.deleteProductImages(id);
+        productService.deleteProductImage(id);
         responseMap.put("success","success");
         Response response = new Response("00","Operation Successful",responseMap);
         return response;
     }
 
-
-    @PostMapping(value = "/{id}/deleteartworkimage")
-    public Object deleteArtWorkImages(@PathVariable Long id, HttpServletRequest request){
+    @PostMapping(value = "/deleteproductimage")
+    public Object deleteProductImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO, HttpServletRequest request){
         Map<String,Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);
         JwtUser user = userUtil.getAuthenticationDetails(token);
         if(token==null || user.getUsername()==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        productService.deleteArtWorkImages(id);
+        productService.deleteProductImages(pictureIdListDTO);
         responseMap.put("success","success");
         Response response = new Response("00","Operation Successful",responseMap);
         return response;
     }
 
-    @PostMapping(value = "/{id}/deletematerialimage")
-    public Object deleteMaterialImages(@PathVariable Long id, HttpServletRequest request){
+
+    @PostMapping(value = "/deleteartworkimage")
+    public Object deleteArtWorkImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO, HttpServletRequest request){
         Map<String,Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);
         JwtUser user = userUtil.getAuthenticationDetails(token);
         if(token==null || user.getUsername()==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        productService.deleteMaterialImages(id);
+        productService.deleteArtWorkImages(pictureIdListDTO);
+        responseMap.put("success","success");
+        Response response = new Response("00","Operation Successful",responseMap);
+        return response;
+    }
+
+    @PostMapping(value = "/deletematerialimage")
+    public Object deleteMaterialImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO, HttpServletRequest request){
+        Map<String,Object> responseMap = new HashMap();
+        String token = request.getHeader(tokenHeader);
+        JwtUser user = userUtil.getAuthenticationDetails(token);
+        if(token==null || user.getUsername()==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        productService.deleteMaterialImages(pictureIdListDTO);
         responseMap.put("success","success");
         Response response = new Response("00","Operation Successful",responseMap);
         return response;

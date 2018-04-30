@@ -228,11 +228,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deletePictureTag(Long id) {
         try {
-            productPictureRepository.delete(id);
+            pictureTagRepository.delete(id);
         }catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
         }
+    }
+
+
+    @Override
+    public PictureTag getPictureTagById(Long id) {
+        return pictureTagRepository.findOne(id);
     }
 
     @Override
@@ -604,24 +610,56 @@ Date date = new Date();
     }
 
     @Override
-    public void deleteProductImages(Long id) {
-        ProductPicture p = productPictureRepository.findOne(id);
-            generalUtil.deleteFromCloud(p.picture,p.pictureName);
+    public void deleteProductImages(ProductPictureIdListDTO ids) {
+        try {
+        for (Long id:ids.getIds()) {
+            ProductPicture p = productPictureRepository.findOne(id);
+            generalUtil.deleteFromCloud(p.picture, p.pictureName);
+            productPictureRepository.delete(p);
+        }
+        }
+         catch (Exception ex){
+                ex.printStackTrace();
+                throw new WawoohException();
+            }
+    }
+
+    @Override
+    public void deleteProductImage(Long id) {
+        try{
             productPictureRepository.delete(id);
+        }catch (Exception ex){
+            ex.printStackTrace();;
+            throw new WawoohException();
+        }
     }
 
     @Override
-    public void deleteArtWorkImages(Long id) {
-        ArtWorkPicture p = artWorkPictureRepository.findOne(id);
-        generalUtil.deleteFromCloud(p.picture,p.pictureName);
-        artWorkPictureRepository.delete(id);
+    public void deleteArtWorkImages(ProductPictureIdListDTO ids) {
+        try {
+            for (Long id:ids.getIds()) {
+                ArtWorkPicture p = artWorkPictureRepository.findOne(id);
+                generalUtil.deleteFromCloud(p.picture, p.pictureName);
+                artWorkPictureRepository.delete(id);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
     }
 
     @Override
-    public void deleteMaterialImages(Long id) {
-        MaterialPicture p = materialPictureRepository.findOne(id);
-        generalUtil.deleteFromCloud(p.picture,p.pictureName);
-        materialPictureRepository.delete(id);
+    public void deleteMaterialImages(ProductPictureIdListDTO ids) {
+        try {
+            for (Long id:ids.getIds()) {
+                MaterialPicture p = materialPictureRepository.findOne(id);
+                generalUtil.deleteFromCloud(p.picture, p.pictureName);
+                materialPictureRepository.delete(id);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
     }
 
     @Override
