@@ -437,14 +437,14 @@ public class ProductController {
         return response;
     }
 
-    @PostMapping(value = "/{eventid}/getuntagged")
+    @GetMapping(value = "/{eventid}/getuntagged")
     public Response getUntaggedPicturesByEvent(@PathVariable Long eventid){
         List<EventPicturesDTO> eventpictures = productService.getUntaggedPicturesByEvents(eventid);
         Response response = new Response("00", "Operation Successful", eventpictures);
         return response;
     }
 
-    @PostMapping(value = "/{eventid}/gettagged")
+    @GetMapping(value = "/{eventid}/gettagged")
     public Response getTaggedPicturesByEvent(@PathVariable Long eventid){
         List<EventPicturesDTO> eventpictures = productService.getTaggedPicturesByEvents(eventid);
         Response response = new Response("00", "Operation Successful", eventpictures);
