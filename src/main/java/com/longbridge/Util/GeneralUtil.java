@@ -140,6 +140,7 @@ public class GeneralUtil {
         productDTO.sizes=products.sizes;
         productDTO.styleId=products.style.id.toString();
         productDTO.designerId=products.designer.id.toString();
+        productDTO.designerStatus=products.designer.status;
         productDTO.stockNo=products.stockNo;
         productDTO.inStock=products.inStock;
         productDTO.designerName=products.designer.storeName;

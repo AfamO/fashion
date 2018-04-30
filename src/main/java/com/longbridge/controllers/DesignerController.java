@@ -124,6 +124,14 @@ public class DesignerController {
         return response;
     }
 
+
+    @GetMapping(value = "/{designerId}/deactivateDesigner")
+    public Object deactivateDesigner(@PathVariable Long designerId){
+        designerService.deactivateDesigner(designerId);
+        Response response = new Response("00","Operation Successful","success");
+        return response;
+    }
+
     @GetMapping(value = "/getsuccessfulsales")
     public Response getSuccessfulSales(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

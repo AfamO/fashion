@@ -22,6 +22,8 @@ public interface DesignerService {
 
     void deleteDesigner(Long id);
 
+    void deactivateDesigner(Long id);
+
     Designer getDesignerById(Long designerId);
 
     Designer getDesignrById(Long designerId);

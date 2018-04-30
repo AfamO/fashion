@@ -16,6 +16,7 @@ public class ProductRespDTO {
     public String name;
     public double amount;
     public String designerId;
+    public String designerStatus;
     public String designerName;
     public String description;
     public ArrayList<String> color;

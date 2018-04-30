@@ -218,6 +218,20 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
+    public void deactivateDesigner(Long id) {
+        try {
+            Designer designer = designerRepository.findOne(id);
+            designer.status = "D";
+            designerRepository.save(designer);
+
+
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public DesignerDTO getDesigner(User user) {
         try {
             Designer designer = user.designer;
@@ -294,8 +308,10 @@ public class DesignerServiceImpl implements DesignerService{
         dto.gender=u.gender;
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.createdDate = formatter.format(d.createdOn);
-        List<ProductRespDTO> products= generalUtil.convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d,"Y"));
-        dto.setProducts(products);
+        if(d.status.equalsIgnoreCase("A")) {
+            List<ProductRespDTO> products = generalUtil.convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d, "Y"));
+            dto.setProducts(products);
+        }
 //        dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"P");
 //        dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
 //        dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id, "X");
@@ -303,6 +319,8 @@ public class DesignerServiceImpl implements DesignerService{
 //        dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"R");
 //        dto.noOfShippedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"S");
 //        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
+        //dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
+       // dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
         return dto;
 
     }
