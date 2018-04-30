@@ -218,10 +218,10 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void deactivateDesigner(Long id) {
+    public void updateDesignerStatus(Long id,String status) {
         try {
             Designer designer = designerRepository.findOne(id);
-            designer.status = "D";
+            designer.status = status;
             designerRepository.save(designer);
 
 

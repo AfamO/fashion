@@ -22,7 +22,7 @@ public interface DesignerService {
 
     void deleteDesigner(Long id);
 
-    void deactivateDesigner(Long id);
+    void updateDesignerStatus(Long id,String status);
 
     Designer getDesignerById(Long designerId);
 

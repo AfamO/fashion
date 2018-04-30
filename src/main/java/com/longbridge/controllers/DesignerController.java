@@ -125,9 +125,9 @@ public class DesignerController {
     }
 
 
-    @GetMapping(value = "/{designerId}/deactivateDesigner")
-    public Object deactivateDesigner(@PathVariable Long designerId){
-        designerService.deactivateDesigner(designerId);
+    @GetMapping(value = "/{designerId}/{status}/changestatus")
+    public Object updateDesignerStatus(@PathVariable Long designerId, @PathVariable String status){
+        designerService.updateDesignerStatus(designerId,status);
         Response response = new Response("00","Operation Successful","success");
         return response;
     }
