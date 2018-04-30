@@ -274,6 +274,7 @@ public class DesignerServiceImpl implements DesignerService{
         dto.phoneNo=u.phoneNo;
         dto.email=u.email;
         dto.gender=u.gender;
+        dto.setStatus(d.status);
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.createdDate = formatter.format(d.createdOn);
         List<ProductRespDTO> products= generalUtil.convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d,"Y"));
@@ -306,6 +307,7 @@ public class DesignerServiceImpl implements DesignerService{
         dto.phoneNo=u.phoneNo;
         dto.email=u.email;
         dto.gender=u.gender;
+        dto.setStatus(d.status);
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.createdDate = formatter.format(d.createdOn);
         if(d.status.equalsIgnoreCase("A")) {

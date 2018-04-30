@@ -28,6 +28,7 @@ public class DesignerDTO {
     public int noOfDeliveredOrders;
     public Double amountOfPendingOrders;
     private List<ProductRespDTO> products;
+    private String status;
 
     public DesignerDTO() {
     }
@@ -206,5 +207,13 @@ public class DesignerDTO {
 
     public void setAmountOfPendingOrders(Double amountOfPendingOrders) {
         this.amountOfPendingOrders = amountOfPendingOrders;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
