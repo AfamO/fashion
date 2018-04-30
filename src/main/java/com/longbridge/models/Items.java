@@ -39,7 +39,7 @@ public class Items extends CommonFields{
 
     private String materialStatus; //Y-Yes, N-No
 
-    private String materialLocation;
+    private Long materialLocation;
 
     private String materialPickupDate;
 
@@ -137,11 +137,11 @@ public class Items extends CommonFields{
         this.materialStatus = materialStatus;
     }
 
-    public String getMaterialLocation() {
+    public Long getMaterialLocation() {
         return materialLocation;
     }
 
-    public void setMaterialLocation(String materialLocation) {
+    public void setMaterialLocation(Long materialLocation) {
         this.materialLocation = materialLocation;
     }
 
@@ -180,7 +180,7 @@ public class Items extends CommonFields{
     public Items() {
     }
 
-    public Items(Orders orders, Long productId, int quantity, Long designerId, String deliveryStatus, Date deliveryDate, String size, Double amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, Long measurementId) {
+    public Items(Orders orders, Long productId, int quantity, Long designerId, String deliveryStatus, Date deliveryDate, String size, Double amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Long materialLocation, String materialPickupDate, Long measurementId) {
         this.orders = orders;
         this.productId = productId;
         this.quantity = quantity;
