@@ -44,4 +44,6 @@ public class ProductRespDTO {
 
     public int productQualityRating;
 
+    public int wishListFlag;
+
 }

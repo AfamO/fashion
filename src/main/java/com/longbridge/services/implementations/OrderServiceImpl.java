@@ -195,7 +195,7 @@ public class OrderServiceImpl implements OrderService {
     public String addToCart(Cart cart, User user) {
         try{
             Date date = new Date();
-            if(cart.getMaterialLocation().getAddress() != null){
+            if(cart.getMaterialLocation() != null){
                 Address address=new Address();
                 BeanUtilsBean.getInstance().getConvertUtils().register(false, false, 0);
                 BeanUtils.copyProperties(address,cart.getMaterialLocation());

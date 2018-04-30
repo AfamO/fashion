@@ -256,7 +256,7 @@ public class ProductController {
 
 
 
-    @PostMapping(value = "/{id}/deleteproductimage")
+    @GetMapping(value = "/{id}/deleteproductimage")
     public Object deleteProductImages(@PathVariable Long id, HttpServletRequest request){
         Map<String,Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);
