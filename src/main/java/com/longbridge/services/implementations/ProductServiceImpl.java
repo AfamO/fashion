@@ -826,7 +826,7 @@ Date date = new Date();
     public List<ProductRespDTO> getTopProducts() {
 
         try {
-            List<Products> products= productRepository.findTop10ByOrderByNumOfTimesOrderedDesc();
+            List<Products> products= productRepository.findTop10ByDesignerStatusOrderByNumOfTimesOrderedDesc("A");
 
             return generalUtil.convertProdEntToProdRespDTOs(products);
 
@@ -840,7 +840,7 @@ Date date = new Date();
     @Override
     public List<ProductRespDTO> getFeaturedProducts() {
         try {
-            List<Products> products= productRepository.findTop10ByOrderByNumOfTimesOrderedDesc();
+            List<Products> products= productRepository.findTop10ByDesignerStatusOrderByNumOfTimesOrderedDesc("A");
 
             return generalUtil.convertProdEntToProdRespDTOs(products);
 

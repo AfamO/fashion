@@ -28,6 +28,8 @@ public class Products extends CommonFields implements Serializable {
     public Designer designer;
 
 
+    public String designerStatus="A";
+
 
     @Lob
     public String prodDesc;

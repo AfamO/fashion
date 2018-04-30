@@ -14,6 +14,7 @@ public class ProductDTO {
     public double amount;
     public String designerId;
     public String designerName;
+    public String designerStatus;
     public String description;
     public ArrayList<String> color;
     public ArrayList<String> sizes;
