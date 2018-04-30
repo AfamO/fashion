@@ -8,6 +8,7 @@ import com.longbridge.models.*;
 import com.longbridge.repository.DesignerRepository;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.repository.TokenRepository;
+import com.longbridge.respbodydto.LogInResp;
 import com.longbridge.security.JwtTokenUtil;
 import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
@@ -230,8 +231,9 @@ public class UserUtil {
 
 
 
-    public Object validateUser(User passedUser, Device device){
-        Map<String,Object> responseMap = new HashMap();
+    public Response validateUser(User passedUser, Device device){
+       // Map<String,Object> responseMap = new HashMap();
+        LogInResp logInResp=new LogInResp();
         try {
             User user = userRepository.findByEmail(passedUser.email);
             boolean valid = false;
@@ -251,6 +253,12 @@ public class UserUtil {
                 }
             }
             if(user!=null && valid){
+                if(user.designer != null){
+                    logInResp.setRole(2);
+                }
+                else {
+                    logInResp.setRole(1);
+                }
                 /*
                     Generating Token for user and this will be required for all request.
                  */
@@ -259,17 +267,19 @@ public class UserUtil {
                 final String token = jwtTokenUtil.generateToken(userDetails, device);
                 System.out.println("Token is "+token);
                 //implement sessionid
-                responseMap.put("token",token);
-                Response response = new Response("00","Login successful",responseMap);
+
+                logInResp.setToken(token);
+               // responseMap.put("token",token);
+                Response response = new Response("00","Login successful",logInResp);
                 return response;
             }else{
-                Response response = new Response("99","Invalid username/password",responseMap);
+                Response response = new Response("99","Invalid username/password",logInResp);
                 return response;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Response response = new Response("99","Error occured internally",responseMap);
+        Response response = new Response("99","Error occurred internally",logInResp);
         return response;
     }
 
