@@ -928,16 +928,15 @@ Date date = new Date();
     }
 
     @Override
-    public List<EventPicturesDTO> getUntaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, Long id) {
-        int page = pageableDetailsDTO.getPage();
-        int size = pageableDetailsDTO.getSize();
+    public List<EventPicturesDTO> getUntaggedPicturesByEvents(Long id) {
+
         List<EventPicturesDTO> ev = new ArrayList<>();
-        Page<EventPictures> e = null;
+        List<EventPictures> e = null;
         try {
 //            List<Events> events=eventRepository.eventsTagFuzzySearch(search);
 //            if(events != null) {
 //                for (Events events1 : events) {
-             e = eventPictureRepository.findByEvents(new PageRequest(page, size), eventRepository.findOne(id));
+             e = eventPictureRepository.findByEvents(eventRepository.findOne(id));
 //                }
 
                 if(e!=null) {
@@ -960,16 +959,15 @@ Date date = new Date();
     }
 
     @Override
-    public List<EventPicturesDTO> getTaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, Long id) {
-        int page = pageableDetailsDTO.getPage();
-        int size = pageableDetailsDTO.getSize();
+    public List<EventPicturesDTO> getTaggedPicturesByEvents(Long id) {
+
         List<EventPicturesDTO> ev = new ArrayList<>();
-        Page<EventPictures> e = null;
+        List<EventPictures> e = null;
         try {
 //            List<Events> events=searchService.eventsTagFuzzySearch(search);
 //            if(events != null) {
 //                for (Events events1 : events) {
-                    e = eventPictureRepository.findByEvents(new PageRequest(page, size), eventRepository.findOne(id));
+                    e = eventPictureRepository.findByEvents(eventRepository.findOne(id));
 //                }
 
                 if(e!=null) {

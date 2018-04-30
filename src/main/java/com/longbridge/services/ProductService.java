@@ -84,9 +84,9 @@ public interface ProductService {
 
     List<EventPicturesDTO> getTaggedPictures(PageableDetailsDTO pageableDetailsDTO);
 
-    List<EventPicturesDTO> getUntaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, Long id);
+    List<EventPicturesDTO> getUntaggedPicturesByEvents(Long id);
 
-    List<EventPicturesDTO> getTaggedPicturesByEvents(PageableDetailsDTO pageableDetailsDTO, Long id);
+    List<EventPicturesDTO> getTaggedPicturesByEvents(Long id);
 
     int getTotalProducts(User user);
 
