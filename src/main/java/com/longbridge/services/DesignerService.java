@@ -24,7 +24,7 @@ public interface DesignerService {
 
     void updateDesignerStatus(Long id,String status);
 
-    Designer getDesignerById(Long designerId);
+    DesignerDTO getDesignerById(Long designerId);
 
     Designer getDesignrById(Long designerId);
 

@@ -73,11 +73,11 @@ public class DesignerServiceImpl implements DesignerService{
 
 
     @Override
-    public Designer getDesignerById(Long designerId) {
+    public DesignerDTO getDesignerById(Long designerId) {
         try {
 
             Designer designer = designerRepository.findOne(designerId);
-            return designer;
+            return convertDesigner2EntToDTO(designer);
         } catch (Exception e){
             e.printStackTrace();
            throw new WawoohException();

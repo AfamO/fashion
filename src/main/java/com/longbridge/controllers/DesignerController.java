@@ -79,6 +79,13 @@ public class DesignerController {
         return response;
     }
 
+    @GetMapping(value = "/{id}/getdesignerbyid")
+    public Response getDesignerById(HttpServletRequest request, @PathVariable Long id){
+        DesignerDTO designer = designerService.getDesignerById(id);
+        Response response = new Response("00","Operation Successful",designer);
+        return response;
+    }
+
     @PostMapping(value = "/updatedesigner")
     public Response updateDesigner(@RequestBody User passedUser,HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
