@@ -222,6 +222,9 @@ public class DesignerServiceImpl implements DesignerService{
         try {
             Designer designer = designerRepository.findOne(id);
             designer.status = status;
+            designer.products.forEach(products -> {
+                products.designerStatus="D";
+            });
             designerRepository.save(designer);
 
 
