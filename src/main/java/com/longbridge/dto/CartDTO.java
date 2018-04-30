@@ -49,9 +49,11 @@ public class CartDTO {
 
     private String measurementName;
 
+    private Long measurementId;
+
     private int stockNo;
 
-    public CartDTO(User user, Long id, Long productId, String productName, int quantity, Long designerId, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, String materialPickupDate, Date expiryDate, String measurementName, int stockNo) {
+    public CartDTO(User user, Long id, Long productId, String productName, int quantity, Long designerId, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, String materialPickupDate, Date expiryDate, String measurementName, Long measurementId, int stockNo) {
         this.user = user;
         this.id = id;
         this.productId = productId;
@@ -71,6 +73,7 @@ public class CartDTO {
         this.materialPickupDate = materialPickupDate;
         this.expiryDate = expiryDate;
         this.measurementName = measurementName;
+        this.measurementId = measurementId;
         this.stockNo = stockNo;
     }
 
@@ -232,6 +235,14 @@ public class CartDTO {
 
     public void setStockNo(int stockNo) {
         this.stockNo = stockNo;
+    }
+
+    public Long getMeasurementId() {
+        return measurementId;
+    }
+
+    public void setMeasurementId(Long measurementId) {
+        this.measurementId = measurementId;
     }
 
     public CartDTO() {
