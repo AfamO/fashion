@@ -443,10 +443,10 @@ public class OrderServiceImpl implements OrderService {
         cartDTO.setMaterialStatus(cart.getMaterialStatus());
         cartDTO.setDesignerId(cart.getDesignerId());
 
-        if(cart.getMaterialPictureId() != null) {
+        if(cart.getMeasurementId() != null) {
             Measurement m = measurementRepository.findOne(cart.getMeasurementId());
             cartDTO.setMeasurementName(m.getName());
-            cartDTO.setMeasurementId(m.id);
+            cartDTO.setMeasurementId(cart.getMeasurementId());
         }
         return cartDTO;
 
