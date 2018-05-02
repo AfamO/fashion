@@ -94,7 +94,6 @@ public class UserUtil {
                     passedUser.designer.user=passedUser;
                     if(passedUser.designer.logo != null) {
                         try {
-
                             String fileName = passedUser.email.substring(0, 3) + getCurrentTime();
                             String base64Img = passedUser.designer.logo;
                             CloudinaryResponse c = generalUtil.uploadToCloud(base64Img,fileName,"designerlogos");
@@ -255,6 +254,9 @@ public class UserUtil {
             if(user!=null && valid){
                 if(user.designer != null){
                     logInResp.setRole(2);
+                }
+                else if(user.role.equalsIgnoreCase("admin")){
+                    logInResp.setRole(3);
                 }
                 else {
                     logInResp.setRole(1);

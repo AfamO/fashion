@@ -4,6 +4,7 @@ import com.longbridge.Util.CustomBeanUtilsBean;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.DesignerDTO;
 import com.longbridge.dto.DesignerRatingDTO;
+import com.longbridge.dto.SalesChart;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
@@ -79,12 +80,22 @@ public class DesignerController {
         return response;
     }
 
+
+
     @GetMapping(value = "/{id}/getdesignerbyid")
     public Response getDesignerById(HttpServletRequest request, @PathVariable Long id){
         DesignerDTO designer = designerService.getDesignerById(id);
         Response response = new Response("00","Operation Successful",designer);
         return response;
     }
+
+    @GetMapping(value = "/{id}/getsaleschart")
+    public Response getSalesChart(HttpServletRequest request, @PathVariable Long id){
+        List<SalesChart> salesChart = designerService.getSalesChart(id);
+        Response response = new Response("00","Operation Successful",salesChart);
+        return response;
+    }
+
 
     @PostMapping(value = "/updatedesigner")
     public Response updateDesigner(@RequestBody User passedUser,HttpServletRequest request){

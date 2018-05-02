@@ -2,6 +2,8 @@ package com.longbridge.dto;
 
 import com.longbridge.respbodydto.ProductRespDTO;
 
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.List;
 
 /**
@@ -29,6 +31,8 @@ public class DesignerDTO {
     public Double amountOfPendingOrders;
     private List<ProductRespDTO> products;
     private String status;
+
+    private List<SalesChart> salesChart;
 
     public DesignerDTO() {
     }
@@ -215,5 +219,13 @@ public class DesignerDTO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<SalesChart> getSalesChart() {
+        return salesChart;
+    }
+
+    public void setSalesChart(List<SalesChart> salesChart) {
+        this.salesChart = salesChart;
     }
 }

@@ -4,6 +4,7 @@ import com.longbridge.Util.GeneralUtil;
 import com.longbridge.dto.CloudinaryResponse;
 import com.longbridge.dto.DesignerDTO;
 import com.longbridge.dto.DesignerRatingDTO;
+import com.longbridge.dto.SalesChart;
 import com.longbridge.exception.ObjectNotFoundException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
@@ -82,6 +83,46 @@ public class DesignerServiceImpl implements DesignerService{
             e.printStackTrace();
            throw new WawoohException();
         }
+
+    }
+
+    @Override
+    public List<SalesChart> getSalesChart(Long designerId) {
+        try {
+
+            Date current = new Date();
+            List<SalesChart> salesCharts = new ArrayList<>();
+//            List<Date> months = new ArrayList<>();
+//            for(int i= 0; i < 6; i++ ){
+//                Calendar cal = Calendar.getInstance();
+//                cal.setTime(current);
+//                cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-i));
+//                months.add(cal.getTime());
+//            }
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(current);
+            cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-6));
+
+            Date lastSixMonthDate = cal.getTime();
+            List<Object[]> salesChart = itemRepository.getSalesChart(designerId,lastSixMonthDate,current);
+            for (Object[] s: salesChart) {
+                SalesChart salesChart1 = new SalesChart();
+                salesChart1.setAmount((Double)s[0]);
+                Date date = (Date)s[1];
+                Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                salesChart1.setDate(formatter.format(date));
+                salesChart1.setMonth((Integer.toString(date.getMonth()+1)));
+                salesCharts.add(salesChart1);
+            }
+
+
+            return salesCharts;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
 
     }
 
@@ -289,6 +330,7 @@ public class DesignerServiceImpl implements DesignerService{
         dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"R");
         dto.noOfShippedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"S");
        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
+        dto.setSalesChart(getSalesChart(d.id));
         return dto;
 
     }

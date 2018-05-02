@@ -1,5 +1,6 @@
 package com.longbridge.repository;
 
+import com.longbridge.dto.SalesChart;
 import com.longbridge.models.Items;
 import com.longbridge.models.Products;
 import org.hibernate.sql.Select;
@@ -12,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,5 +30,16 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 
     @Query("select sum(amount) from Items where designerId = :designerId and deliveryStatus = :deliveryStatus")
     Double findSumOfPendingOrders(@Param("designerId") Long designerId, @Param("deliveryStatus") String deliveryStatus);
+
+
+    @Query(value = "SELECT SUM(amount) as amount, created_on as date FROM items WHERE designer_id =:designerid and created_on between :lastSixMonths and :current GROUP BY cast(created_on AS DATE)",nativeQuery = true)
+    List<Object[]> getSalesChart(@Param("designerid") Long designerId, @Param("lastSixMonths") Date lastSixMonths, @Param("current")Date current);
+
+
+//    @Query(value = "SELECT NEW com.longbridge.dto.SalesChart(SUM(s.amount), s.created_on) FROM items s WHERE s.designer_id =:designerid and s.created_on between :lastSixMonths and :current GROUP BY created_on", nativeQuery = true)
+//    List<SalesChart> getSalesChart(@Param("designerid") Long designerId, @Param("lastSixMonths") Date lastSixMonths, @Param("current")Date current);
+
+
+
 
 }
