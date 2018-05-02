@@ -7,6 +7,7 @@ import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.OrderDTO;
+import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.MailService;
 import com.longbridge.services.OrderService;
 import org.apache.commons.beanutils.BeanUtils;
@@ -55,6 +56,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     CartRepository cartRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -151,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
 
             sendEmailAsync.sendEmailToUser(user,orderNumber);
             sendEmailAsync.sendEmailToDesigner(dtos,orderNumber);
-
+//            sendEmailAsync.sendEmailToAdmin(userRepository.findByRole("admin"),orderNumber);
 
             return orderNumber;
 

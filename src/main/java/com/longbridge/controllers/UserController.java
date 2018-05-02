@@ -50,6 +50,7 @@ public class UserController {
 
     @PostMapping(value = "/Signin")
     public Object Signin(@RequestBody User passedUser,Device device){
+        System.out.println("i got hr");
         return userUtil.validateUser(passedUser,device);
     }
 

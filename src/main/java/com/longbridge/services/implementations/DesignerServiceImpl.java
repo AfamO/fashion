@@ -1,10 +1,7 @@
 package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
-import com.longbridge.dto.CloudinaryResponse;
-import com.longbridge.dto.DesignerDTO;
-import com.longbridge.dto.DesignerRatingDTO;
-import com.longbridge.dto.SalesChart;
+import com.longbridge.dto.*;
 import com.longbridge.exception.ObjectNotFoundException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
@@ -22,6 +19,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -85,46 +85,46 @@ public class DesignerServiceImpl implements DesignerService{
         }
 
     }
-
-    @Override
-    public List<SalesChart> getSalesChart(Long designerId) {
-        try {
-
-            Date current = new Date();
-            List<SalesChart> salesCharts = new ArrayList<>();
-//            List<Date> months = new ArrayList<>();
-//            for(int i= 0; i < 6; i++ ){
-//                Calendar cal = Calendar.getInstance();
-//                cal.setTime(current);
-//                cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-i));
-//                months.add(cal.getTime());
+//
+//    @Override
+//    public List<SalesChart> getSalesChart(Long designerId) {
+//        try {
+//
+//            Date current = new Date();
+//            List<SalesChart> salesCharts = new ArrayList<>();
+////            List<Date> months = new ArrayList<>();
+////            for(int i= 0; i < 6; i++ ){
+////                Calendar cal = Calendar.getInstance();
+////                cal.setTime(current);
+////                cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-i));
+////                months.add(cal.getTime());
+////            }
+//
+//            Calendar cal = Calendar.getInstance();
+//            cal.setTime(current);
+//            cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-6));
+//
+//            Date lastSixMonthDate = cal.getTime();
+//            List<Object[]> salesChart = itemRepository.getSalesChart(designerId,lastSixMonthDate,current);
+//            for (Object[] s: salesChart) {
+//                SalesChart salesChart1 = new SalesChart();
+//                salesChart1.setAmount((Double)s[0]);
+//                Date date = (Date)s[1];
+//                Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                salesChart1.setDate(formatter.format(date));
+//                salesChart1.setMonth((Integer.toString(date.getMonth()+1)));
+//                salesCharts.add(salesChart1);
 //            }
-
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(current);
-            cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-6));
-
-            Date lastSixMonthDate = cal.getTime();
-            List<Object[]> salesChart = itemRepository.getSalesChart(designerId,lastSixMonthDate,current);
-            for (Object[] s: salesChart) {
-                SalesChart salesChart1 = new SalesChart();
-                salesChart1.setAmount((Double)s[0]);
-                Date date = (Date)s[1];
-                Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                salesChart1.setDate(formatter.format(date));
-                salesChart1.setMonth((Integer.toString(date.getMonth()+1)));
-                salesCharts.add(salesChart1);
-            }
-
-
-            return salesCharts;
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-
-
-    }
+//
+//
+//            return salesCharts;
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            throw new WawoohException();
+//        }
+//
+//
+//    }
 
     @Override
     public Designer getDesignrById(Long designerId) {
@@ -288,6 +288,46 @@ public class DesignerServiceImpl implements DesignerService{
         }
     }
 
+    @Override
+    public DesignerDTO getDesigner(User user, MonthsDTO months) {
+        try {
+            Designer designer = user.designer;
+            List<SalesChart> salesCharts = new ArrayList<>();
+            DesignerDTO dto = convertDesigner2EntToDTO(designer);
+            for (String month:months.getMonths()) {
+
+                YearMonth d = YearMonth.parse(month);
+                LocalDate startDateMonth = d.atDay(1);
+                LocalDate endDateMonth = d.atEndOfMonth();
+                //converting local date to date format
+                Date date1 = Date.from(startDateMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date date2 = Date.from(endDateMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                SalesChart salesChart = new SalesChart();
+//                Calendar calendar = Calendar.getInstance();
+//                calendar.setTime(date1);
+//                salesChart.setMonth(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ));
+                    salesChart.setMonth(month.split("-")[1]);
+                    salesChart.setYear(month.split("-")[0]);
+                Double amnt = itemRepository.getSalesChart(designer.id,date1,date2);
+                if(amnt != null){
+                salesChart.setAmount(amnt);
+                }
+                else {
+                    salesChart.setAmount(0.0);
+                }
+                salesCharts.add(salesChart);
+
+            }
+
+           dto.setSalesChart(salesCharts);
+            return dto;
+
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
 
     @Override
     public DesignerDTO getDesignerByStoreName(String storeName) {
@@ -330,7 +370,7 @@ public class DesignerServiceImpl implements DesignerService{
         dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"R");
         dto.noOfShippedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"S");
        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
-        dto.setSalesChart(getSalesChart(d.id));
+       // dto.setSalesChart(getSalesChart(d.id));
         return dto;
 
     }

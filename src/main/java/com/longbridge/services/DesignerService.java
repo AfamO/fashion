@@ -2,6 +2,7 @@ package com.longbridge.services;
 
 import com.longbridge.dto.DesignerDTO;
 import com.longbridge.dto.DesignerRatingDTO;
+import com.longbridge.dto.MonthsDTO;
 import com.longbridge.dto.SalesChart;
 import com.longbridge.models.Designer;
 import com.longbridge.models.User;
@@ -27,11 +28,13 @@ public interface DesignerService {
 
     DesignerDTO getDesignerById(Long designerId);
 
-    List<SalesChart> getSalesChart(Long designerId);
+//    List<SalesChart> getSalesChart(Long designerId);
 
     Designer getDesignrById(Long designerId);
 
     DesignerDTO getDesigner(User user);
+
+    DesignerDTO getDesigner(User user, MonthsDTO months);
 
     DesignerDTO getDesignerByStoreName(String storeName);
 

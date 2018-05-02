@@ -4,6 +4,7 @@ import com.longbridge.Util.CustomBeanUtilsBean;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.DesignerDTO;
 import com.longbridge.dto.DesignerRatingDTO;
+import com.longbridge.dto.MonthsDTO;
 import com.longbridge.dto.SalesChart;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
@@ -60,18 +61,35 @@ public class DesignerController {
     }
 
 
-    @GetMapping(value = "/getdesigner")
-    public Response getDesignerById(HttpServletRequest request){
+//    @GetMapping(value = "/getdesigner")
+//    public Response getDesignerById(HttpServletRequest request){
+//        String token = request.getHeader(tokenHeader);
+//        User user1 = userUtil.fetchUserDetails2(token);
+//        if(token==null || user1==null) {
+//            return userUtil.tokenNullOrInvalidResponse(token);
+//        }
+//        DesignerDTO designer = designerService.getDesigner(user1);
+//        Response response = new Response("00","Operation Successful",designer);
+//        return response;
+//    }
+
+    @PostMapping(value = "/getdesigner")
+    public Response getDesignerById(HttpServletRequest request,@RequestBody MonthsDTO months){
+        System.out.println("i got here");
         String token = request.getHeader(tokenHeader);
         User user1 = userUtil.fetchUserDetails2(token);
         if(token==null || user1==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-
-        DesignerDTO designer = designerService.getDesigner(user1);
+        System.out.println(months);
+        DesignerDTO designer = designerService.getDesigner(user1,months);
         Response response = new Response("00","Operation Successful",designer);
         return response;
     }
+
+
+
+
 
     @GetMapping(value = "/getdesignerbystorename/{storename}")
     public Response getDesignerByStoreName(HttpServletRequest request, @PathVariable String storename){
@@ -89,12 +107,12 @@ public class DesignerController {
         return response;
     }
 
-    @GetMapping(value = "/{id}/getsaleschart")
-    public Response getSalesChart(HttpServletRequest request, @PathVariable Long id){
-        List<SalesChart> salesChart = designerService.getSalesChart(id);
-        Response response = new Response("00","Operation Successful",salesChart);
-        return response;
-    }
+//    @GetMapping(value = "/{id}/getsaleschart")
+//    public Response getSalesChart(HttpServletRequest request, @PathVariable Long id){
+//        List<SalesChart> salesChart = designerService.getSalesChart(id);
+//        Response response = new Response("00","Operation Successful",salesChart);
+//        return response;
+//    }
 
 
     @PostMapping(value = "/updatedesigner")

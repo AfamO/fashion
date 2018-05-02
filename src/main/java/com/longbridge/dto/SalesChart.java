@@ -9,7 +9,7 @@ public class SalesChart {
 
     private Double amount;
 
-    private String date;
+    private String year;
 
     private String month;
 
@@ -21,15 +21,15 @@ public class SalesChart {
         this.amount = amount;
     }
 
-    public String getDate() {
-        return date;
+    public String getYear() {
+        return year;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setYear(String year) {
+        this.year = year;
     }
 
-        public String getMonth() {
+    public String getMonth() {
         return month;
     }
 
@@ -40,9 +40,9 @@ public class SalesChart {
     public SalesChart() {
     }
 
-    public SalesChart(Double amount, String date, String month) {
+    public SalesChart(Double amount, String year, String month) {
         this.amount = amount;
-        this.date = date;
+        this.year = year;
         this.month = month;
     }
 }

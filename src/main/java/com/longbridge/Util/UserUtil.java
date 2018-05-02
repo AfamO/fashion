@@ -232,6 +232,7 @@ public class UserUtil {
 
     public Response validateUser(User passedUser, Device device){
        // Map<String,Object> responseMap = new HashMap();
+        System.out.println("i got hr");
         LogInResp logInResp=new LogInResp();
         try {
             User user = userRepository.findByEmail(passedUser.email);
