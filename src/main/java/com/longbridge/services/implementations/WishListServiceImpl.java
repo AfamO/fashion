@@ -46,10 +46,17 @@ public class WishListServiceImpl implements WishListService{
     @Override
     public String addToWishList(WishListDTO wishListDTO, User user) {
         try {
-            WishList wishList = new WishList();
-            wishList.setProducts(productRepository.findOne(wishListDTO.getProductId()));
-            wishList.setUser(user);
-            wishListRepository.save(wishList);
+
+            WishList wishList1 = wishListRepository.findByUserAndProducts(user,productRepository.findOne(wishListDTO.getProductId()));
+            if(wishList1 != null) {
+                wishListRepository.delete(wishList1);
+            }
+            else {
+                WishList wishList = new WishList();
+                wishList.setProducts(productRepository.findOne(wishListDTO.getProductId()));
+                wishList.setUser(user);
+                wishListRepository.save(wishList);
+            }
             return wishListRepository.countByUser(user).toString();
         }
         catch (Exception ex){

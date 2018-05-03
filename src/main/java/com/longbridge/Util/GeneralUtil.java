@@ -7,6 +7,7 @@ import com.longbridge.exception.WawoohException;
 import com.longbridge.exception.WriteFileException;
 import com.longbridge.models.*;
 import com.longbridge.repository.EventPictureRepository;
+import com.longbridge.repository.WishListRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,9 @@ public class GeneralUtil {
 
     @Autowired
     EventPictureRepository eventPictureRepository;
+
+    @Autowired
+    WishListRepository wishListRepository;
 
     public List<ProductPictureDTO> convertProdPictureEntitiesToDTO(List<ProductPicture> productPictures){
         List<ProductPictureDTO> productPictureDTOS = new ArrayList<ProductPictureDTO>();
@@ -119,10 +123,29 @@ public class GeneralUtil {
 
 
 
-    public List<ProductRespDTO> convertProdEntToProdRespDTOs(List<Products> products){
+    public List<ProductRespDTO> convertProdEntToProdRespDTOs(List<Products> products, User user){
 
         List<ProductRespDTO> productDTOS = new ArrayList<ProductRespDTO>();
 
+        for(Products p: products){
+            ProductRespDTO productDTO = convertEntityToDTO(p);
+            if(user != null){
+                if(wishListRepository.findByUserAndProducts(user,p) != null){
+                 productDTO.wishListFlag = "Y";
+                }
+                else {
+                    productDTO.wishListFlag = "N";
+                }
+            }
+
+            productDTOS.add(productDTO);
+        }
+        return productDTOS;
+    }
+
+    public List<ProductRespDTO> convertProdEntToProdRespDTOs(List<Products> products){
+
+        List<ProductRespDTO> productDTOS = new ArrayList<ProductRespDTO>();
         for(Products p: products){
             ProductRespDTO productDTO = convertEntityToDTO(p);
             productDTOS.add(productDTO);

@@ -41,7 +41,11 @@ public interface ProductService {
 
     List<ProductRespDTO> getProductsByDesigner(Long designerId);
 
-    List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO);
+    List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO,User user);
+
+    List<ProductRespDTO> getNewProducts(PageableDetailsDTO pageableDetailsDTO);
+
+    //List<ProductRespDTO> getVerifiedProducts(PageableDetailsDTO pageableDetailsDTO);
 
     List<ProductRespDTO> filterProductsByPrice(FilterProductDTO filterProductDTO);
 
@@ -51,7 +55,7 @@ public interface ProductService {
 
     List<ProductRespDTO> getTagProducts(PicTagDTO p);
 
-    List<ProductRespDTO> getTopProducts();
+    List<ProductRespDTO> getTopProducts(User user);
 
 
     List<ProductRespDTO> getFeaturedProducts();

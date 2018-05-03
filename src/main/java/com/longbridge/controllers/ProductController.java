@@ -14,10 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by Longbridge on 06/11/2017.
@@ -131,12 +128,42 @@ public class ProductController {
 
 
     @PostMapping(value = "/getproducts")
-    public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
-        List<ProductRespDTO> products= productService.getAllProducts(pageableDetailsDTO);
+    public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+        List<ProductRespDTO> products = new ArrayList<>();
+//        if(token!=null || userTemp!=null) {
+//            edto = eventService.getEventById(id,userTemp);
+//        }
+//        else {
+//            edto= eventService.getEventById(id);
+//        }
+        products= productService.getAllProducts(pageableDetailsDTO,user);
         Response response = new Response("00","Operation Successful",products);
         return response;
     }
 
+
+    @PostMapping(value = "/getnewproducts")
+    public Object getNewProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
+        List<ProductRespDTO> products= productService.getNewProducts(pageableDetailsDTO);
+        Response response = new Response("00","Operation Successful",products);
+        return response;
+    }
+
+//    @PostMapping(value = "/getacceptedproducts")
+//    public Object getAcceptedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
+//        List<ProductRespDTO> products= productService.getNewProducts(pageableDetailsDTO);
+//        Response response = new Response("00","Operation Successful",products);
+//        return response;
+//    }
+//
+//    @PostMapping(value = "/getdeclinedproducts")
+//    public Object getDeclinedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
+//        List<ProductRespDTO> products= productService.getNewProducts(pageableDetailsDTO);
+//        Response response = new Response("00","Operation Successful",products);
+//        return response;
+//    }
 
     @PostMapping(value = "/filter")
     public Object filterProductsByPrice(@RequestBody FilterProductDTO filterProductDTO){
@@ -456,13 +483,18 @@ public class ProductController {
 
     @GetMapping(value = "/gettopproducts")
     public Response getTopProducts(HttpServletRequest request){
-        Response response = new Response("00", "Operation Successful", productService.getTopProducts());
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+       // List<ProductRespDTO> products = new ArrayList<>();
+        Response response = new Response("00", "Operation Successful", productService.getTopProducts(user));
         return response;
     }
 
     @GetMapping(value = "/getfeaturedproducts")
     public Response getFeaturedProducts(HttpServletRequest request){
-        Response response = new Response("00", "Operation Successful", productService.getTopProducts());
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+        Response response = new Response("00", "Operation Successful", productService.getTopProducts(user));
         return response;
     }
 

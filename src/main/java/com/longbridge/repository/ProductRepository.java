@@ -29,7 +29,7 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
     List<Products> findFirst8ByDesignerAndVerifiedFlag(Designer designer,String flag);
 
     List<Products> findTop10ByDesignerStatusOrderByNumOfTimesOrderedDesc(String designerStatus);
-
+    Page<Products> findByVerfiedOnIsNull(Pageable pageable);
    // @Query("select p from Products p where p.picture like %:pictureName%")
     //Products findByPicture(String pictureName);
 

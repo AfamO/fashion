@@ -678,18 +678,35 @@ Date date = new Date();
     }
 
     @Override
-    public List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO) {
+    public List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO,User user) {
 
         int page = pageableDetailsDTO.getPage();
         int size = pageableDetailsDTO.getSize();
         try {
             Page<Products> products = productRepository.findAll(new PageRequest(page,size));
-            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
-           return productDTOS;
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent(), user);
+
+            return productDTOS;
+
 
         } catch (Exception e) {
             e.printStackTrace();
            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public List<ProductRespDTO> getNewProducts(PageableDetailsDTO pageableDetailsDTO) {
+        int page = pageableDetailsDTO.getPage();
+        int size = pageableDetailsDTO.getSize();
+        try {
+            Page<Products> products = productRepository.findByVerfiedOnIsNull(new PageRequest(page,size));
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
+            return productDTOS;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
         }
     }
 
@@ -823,12 +840,12 @@ Date date = new Date();
     }
 
     @Override
-    public List<ProductRespDTO> getTopProducts() {
+    public List<ProductRespDTO> getTopProducts(User user) {
 
         try {
             List<Products> products= productRepository.findTop10ByDesignerStatusOrderByNumOfTimesOrderedDesc("A");
 
-            return generalUtil.convertProdEntToProdRespDTOs(products);
+            return generalUtil.convertProdEntToProdRespDTOs(products,user);
 
 
         } catch (Exception e) {
@@ -972,7 +989,7 @@ Date date = new Date();
 
                 if(e!=null) {
                     for (EventPictures pictures : e) {
-                        if (pictureTagRepository.findByEventPictures(pictures) != null) {
+                        if (pictureTagRepository.findByEventPictures(pictures).size() > 0) {
                             EventPicturesDTO picturesDTO = generalUtil.convertEntityToDTO(pictures);
                             ev.add(picturesDTO);
                         }

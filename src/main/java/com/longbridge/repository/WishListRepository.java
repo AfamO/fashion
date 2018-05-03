@@ -1,5 +1,6 @@
 package com.longbridge.repository;
 
+import com.longbridge.models.Products;
 import com.longbridge.models.User;
 import com.longbridge.models.WishList;
 import org.springframework.data.domain.Page;
@@ -16,4 +17,5 @@ import java.util.List;
 public interface WishListRepository extends PagingAndSortingRepository<WishList,Long>{
     Long countByUser(User user);
     Page<WishList> findByUser(User user, Pageable pageable);
+    WishList findByUserAndProducts(User user,Products products);
 }
