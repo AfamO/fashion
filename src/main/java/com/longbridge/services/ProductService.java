@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface ProductService {
 
-    ProductRespDTO getProductById(Long id);
+    ProductRespDTO getProductById(Long id,User user);
 
-    ProductRespDTO getProductByIdWithReviews(Long id);
+    ProductRespDTO getProductByIdWithReviews(Long id, User user);
 
     void addProduct(ProductDTO productDTO, Designer designer);
 
@@ -41,7 +41,7 @@ public interface ProductService {
 
     List<ProductRespDTO> getProductsByDesigner(Long designerId);
 
-    List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO,User user);
+    List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO);
 
     List<ProductRespDTO> getNewProducts(PageableDetailsDTO pageableDetailsDTO);
 
@@ -55,7 +55,7 @@ public interface ProductService {
 
     List<ProductRespDTO> getTagProducts(PicTagDTO p);
 
-    List<ProductRespDTO> getTopProducts(User user);
+    List<ProductRespDTO> getTopProducts();
 
 
     List<ProductRespDTO> getFeaturedProducts();

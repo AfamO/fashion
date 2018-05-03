@@ -76,6 +76,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     PictureTagRepository pictureTagRepository;
 
+    @Autowired
+    WishListRepository wishListRepository;
+
 //    @Value("${event.picture.folder}")
 //    private String eventPicturesImagePath;
 //
@@ -100,11 +103,19 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ProductRespDTO getProductById(Long id) {
+    public ProductRespDTO getProductById(Long id,User user) {
 
         try {
             Products products = productRepository.findOne(id);
             ProductRespDTO productDTO = generalUtil.convertEntityToDTO(products);
+            if(user != null){
+                if(wishListRepository.findByUserAndProducts(user,products) != null){
+                    productDTO.wishListFlag="Y";
+                }
+                else {
+                    productDTO.wishListFlag="N";
+                }
+            }
             //ProductDTO productDTO = convertEntityToDTO(products);
             return productDTO;
         }catch (Exception e){
@@ -114,10 +125,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductRespDTO getProductByIdWithReviews(Long id) {
+    public ProductRespDTO getProductByIdWithReviews(Long id,User user) {
         try {
             Products products = productRepository.findOne(id);
             ProductRespDTO productDTO = generalUtil.convertEntityToDTOWithReviews(products);
+            if(user != null){
+                if(wishListRepository.findByUserAndProducts(user,products) != null){
+                    productDTO.wishListFlag="Y";
+                }
+                else {
+                    productDTO.wishListFlag="N";
+                }
+            }
             return productDTO;
         }catch (Exception e){
             e.printStackTrace();
@@ -678,13 +697,13 @@ Date date = new Date();
     }
 
     @Override
-    public List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO,User user) {
+    public List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO) {
 
         int page = pageableDetailsDTO.getPage();
         int size = pageableDetailsDTO.getSize();
         try {
             Page<Products> products = productRepository.findAll(new PageRequest(page,size));
-            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent(), user);
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
 
             return productDTOS;
 
@@ -840,12 +859,12 @@ Date date = new Date();
     }
 
     @Override
-    public List<ProductRespDTO> getTopProducts(User user) {
+    public List<ProductRespDTO> getTopProducts() {
 
         try {
             List<Products> products= productRepository.findTop10ByDesignerStatusOrderByNumOfTimesOrderedDesc("A");
 
-            return generalUtil.convertProdEntToProdRespDTOs(products,user);
+            return generalUtil.convertProdEntToProdRespDTOs(products);
 
 
         } catch (Exception e) {

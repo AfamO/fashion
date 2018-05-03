@@ -72,11 +72,14 @@ public class ProductController {
 //        if(token==null || user==null){
 //            return userUtil.tokenNullOrInvalidResponse(token);
 //        }
+
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
         ProductRespDTO products = null;
         if(reviews.isPresent()){
-           products = productService.getProductByIdWithReviews(id);
+           products = productService.getProductByIdWithReviews(id,user);
         }else {
-            products = productService.getProductById(id);
+            products = productService.getProductById(id,user);
         }
         Response response = new Response("00","Operation Successful",products);
         return response;
@@ -138,7 +141,7 @@ public class ProductController {
 //        else {
 //            edto= eventService.getEventById(id);
 //        }
-        products= productService.getAllProducts(pageableDetailsDTO,user);
+        products= productService.getAllProducts(pageableDetailsDTO);
         Response response = new Response("00","Operation Successful",products);
         return response;
     }
@@ -483,18 +486,18 @@ public class ProductController {
 
     @GetMapping(value = "/gettopproducts")
     public Response getTopProducts(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
+//        String token = request.getHeader(tokenHeader);
+//        User user = userUtil.fetchUserDetails2(token);
        // List<ProductRespDTO> products = new ArrayList<>();
-        Response response = new Response("00", "Operation Successful", productService.getTopProducts(user));
+        Response response = new Response("00", "Operation Successful", productService.getTopProducts());
         return response;
     }
 
     @GetMapping(value = "/getfeaturedproducts")
     public Response getFeaturedProducts(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        Response response = new Response("00", "Operation Successful", productService.getTopProducts(user));
+//        String token = request.getHeader(tokenHeader);
+//        User user = userUtil.fetchUserDetails2(token);
+        Response response = new Response("00", "Operation Successful", productService.getTopProducts());
         return response;
     }
 
