@@ -73,6 +73,34 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "/createadmin")
+    public Object createAdmin(@RequestBody User passedUser){
+        try {
+            if (passedUser.role.equalsIgnoreCase("admin")){
+
+            }
+            else {
+
+            }
+
+            return userUtil.registerUser(passedUser);
+        }catch (AppException e){
+            e.printStackTrace();
+            String recipient = e.getRecipient();
+            String subject = e.getSubject();
+            MailError mailError = new MailError();
+            mailError.setName(e.getName());
+            mailError.setRecipient(recipient);
+            mailError.setSubject(subject);
+            mailError.setMailType("welcome");
+            mailErrorRepository.save(mailError);
+            Response response = new Response("00", "Registration successful, Trying to send email to admin", "success");
+            return response;
+        }
+    }
+
+
+
     @PostMapping(value = "/edituser")
     public Response updateUser(@RequestBody UserDTO passedUser, HttpServletRequest request){
         //======================================================

@@ -81,7 +81,7 @@ public class DesignerController {
         if(token==null || user1==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        System.out.println(months);
+
         DesignerDTO designer = designerService.getDesigner(user1,months);
         Response response = new Response("00","Operation Successful",designer);
         return response;

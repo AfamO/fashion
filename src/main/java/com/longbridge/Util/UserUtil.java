@@ -147,6 +147,46 @@ public class UserUtil {
     }
 
 
+    public Response createAdmin(User passedUser){
+        Map<String,Object> responseMap = new HashMap();
+        try {
+            Date date = new Date();
+            User user = userRepository.findByEmail(passedUser.email);
+            if(user==null){
+                passedUser.password = Hash.createPassword(passedUser.password);
+                user.createdOn=date;
+                userRepository.save(passedUser);
+                String name = passedUser.firstName + " " + passedUser.lastName;
+                String mail = passedUser.email;
+                String message="";
+                try {
+                    Context context = new Context();
+                    context.setVariable("name", name);
+                    if(passedUser.role.equalsIgnoreCase("admin")) {
+                        message = templateEngine.process("adminwelcomeemail", context);
+                    }
+                    mailService.prepareAndSend(message,mail,messageSource.getMessage("user.welcome.subject", null, locale));
+                }catch (MailException me){
+                    me.printStackTrace();
+                    throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale));
+
+                }
+                Response response = new Response("00","Registration successful",responseMap);
+                return response;
+            }else{
+                Response response = new Response("99","Email already exists",responseMap);
+                return response;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Response response = new Response("99","Error occured internally",responseMap);
+            return response;
+
+        }
+    }
+
+
     public Object forgotPassword(UserDTO passedUser){
         Map<String,Object> responseMap = new HashMap();
         String newPassword="";
@@ -258,6 +298,9 @@ public class UserUtil {
                 }
                 else if(user.role.equalsIgnoreCase("admin")){
                     logInResp.setRole(3);
+                }
+                else if(user.role.equalsIgnoreCase("superadmin")){
+                    logInResp.setRole(4);
                 }
                 else {
                     logInResp.setRole(1);
