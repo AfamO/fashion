@@ -309,7 +309,7 @@ public class DesignerServiceImpl implements DesignerService{
 //                salesChart.setMonth(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ));
                     salesChart.setMonth(month.split("-")[1]);
                     salesChart.setYear(month.split("-")[0]);
-                Double amnt = itemRepository.getSalesChart(designer.id,date1,date2);
+                Double amnt = itemRepository.getSalesChart(designer.id,date1,date2,"C");
                 if(amnt != null){
                 salesChart.setAmount(amnt);
                 }

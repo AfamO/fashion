@@ -40,8 +40,8 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 //    List<SalesChart> getSalesChart(@Param("designerid") Long designerId, @Param("lastSixMonths") Date lastSixMonths, @Param("current")Date current);
 //SalesChart findByDesignerIdAndCreatedOnBetween(Long designerId, Date);
 
-    @Query(value = "SELECT SUM(amount) as amount FROM items WHERE designer_id =:designerid and created_on between :startDate and :endDate",nativeQuery = true)
-    Double getSalesChart(@Param("designerid") Long designerId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
+    @Query(value = "SELECT SUM(amount) as amount FROM items WHERE  designer_id =:designerid and delivery_status =:deliveryStatus and created_on between :startDate and :endDate",nativeQuery = true)
+    Double getSalesChart(@Param("designerid") Long designerId, @Param("startDate") Date startDate, @Param("endDate")Date endDate, @Param("deliveryStatus") String deliveryStatus);
 
 
 
