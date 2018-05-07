@@ -95,11 +95,21 @@ public class EventController {
     }
 
 
+//
+//    @GetMapping(value = "/{search}/searchevent")
+//    public Response searchEvents(@PathVariable String search){
+//        Map<String,Object> responseMap = new HashMap();
+//        List<EventsDTO> eventsDTOS=searchservice.eventsFuzzySearch(search);
+//        responseMap.put("result",eventsDTOS);
+//        Response response = new Response("00","Operation Successful",responseMap);
+//        return response;
+//    }
+
 
     @GetMapping(value = "/{search}/searchevent")
-    public Response searchEvents(@PathVariable String search){
+    public Response searchEvent(@PathVariable String search){
         Map<String,Object> responseMap = new HashMap();
-        List<EventsDTO> eventsDTOS=searchservice.eventsFuzzySearch(search);
+        List<EventsDTO> eventsDTOS=eventService.searchEvents(search);
         responseMap.put("result",eventsDTOS);
         Response response = new Response("00","Operation Successful",responseMap);
         return response;

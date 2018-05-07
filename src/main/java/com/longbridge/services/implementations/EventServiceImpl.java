@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -45,6 +46,7 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     UserRepository userRepository;
+
 
     @Autowired
     CommentRepository commentRepository;
@@ -209,6 +211,7 @@ public class EventServiceImpl implements EventService {
 
             eventRepository.delete(id);
         }catch (Exception e){
+            e.printStackTrace();
             throw new WawoohException();
         }
     }
@@ -220,8 +223,23 @@ public class EventServiceImpl implements EventService {
                 List<EventsDTO> eventsDTOS = convertEntitiesToDTOs(firstFiveEvent);
                 return eventsDTOS;
             }catch (Exception e){
+                e.printStackTrace();
                 throw new WawoohException();
             }
+    }
+
+    @Override
+    public List<EventsDTO> searchEvents(String search) {
+        try {
+
+            List<Events> events = eventRepository.searchUsingPattern(search);
+
+            List<EventsDTO> eventsDTOS = convertEntitiesToDTOs(events);
+            return eventsDTOS;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
     }
 
     @Override

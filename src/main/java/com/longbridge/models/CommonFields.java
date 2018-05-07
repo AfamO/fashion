@@ -1,15 +1,21 @@
 package com.longbridge.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by longbridge on 10/18/17.
  */
 @MappedSuperclass
-public class CommonFields {
+public class CommonFields{
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
@@ -49,5 +55,10 @@ public class CommonFields {
 
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
+    }
+
+    @JsonIgnore
+    public List<String> getDefaultSearchFields() {
+        return new ArrayList<>();
     }
 }

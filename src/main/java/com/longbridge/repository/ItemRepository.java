@@ -36,10 +36,6 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
     //List<Object[]> getSalesChart(@Param("designerid") Long designerId, @Param("lastSixMonths") Date lastSixMonths, @Param("current")Date current);
 
 
-//    @Query(value = "SELECT NEW com.longbridge.dto.SalesChart(SUM(s.amount), s.created_on) FROM items s WHERE s.designer_id =:designerid and s.created_on between :lastSixMonths and :current GROUP BY created_on", nativeQuery = true)
-//    List<SalesChart> getSalesChart(@Param("designerid") Long designerId, @Param("lastSixMonths") Date lastSixMonths, @Param("current")Date current);
-//SalesChart findByDesignerIdAndCreatedOnBetween(Long designerId, Date);
-
     @Query(value = "SELECT SUM(amount) as amount FROM items WHERE  designer_id =:designerid and delivery_status =:deliveryStatus and created_on between :startDate and :endDate",nativeQuery = true)
     Double getSalesChart(@Param("designerid") Long designerId, @Param("startDate") Date startDate, @Param("endDate")Date endDate, @Param("deliveryStatus") String deliveryStatus);
 

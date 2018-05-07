@@ -1,5 +1,6 @@
 package com.longbridge.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.standard.StandardFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
@@ -7,6 +8,7 @@ import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -101,4 +103,12 @@ public class Events extends CommonFields {
     public void setMainPictureName(String mainPictureName) {
         this.mainPictureName = mainPictureName;
     }
+
+
+    @Override
+    @JsonIgnore
+    public List<String> getDefaultSearchFields() {
+        return Arrays.asList("eventName","description","location");
+    }
+
 }

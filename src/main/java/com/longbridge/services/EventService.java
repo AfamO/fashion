@@ -26,6 +26,8 @@ public interface EventService {
 
     List<EventsDTO> getTopFiveEventMainPictures();
 
+    List<EventsDTO> searchEvents(String search);
+
     List<EventsDTO> getEventByDate(EventDateDTO eventDateDTO);
 
     List<EventsDTO> getEvents(EventDateDTO eventDateDTO);
