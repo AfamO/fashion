@@ -169,7 +169,7 @@ public class UserController {
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);
             mailError.setLink(e.getLink());
-            mailError.setMailType("user");
+            mailError.setMailType("userpassword");
             mailErrorRepository.save(mailError);
             Response response = new Response("00", "Operation Successful, Trying to send password to email", responseMap);
             return response;

@@ -155,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
 
             sendEmailAsync.sendEmailToUser(user,orderNumber);
             sendEmailAsync.sendEmailToDesigner(dtos,orderNumber);
-//            sendEmailAsync.sendEmailToAdmin(userRepository.findByRole("admin"),orderNumber);
+            sendEmailAsync.sendEmailToAdmin(userRepository.findByRole("superadmin"),orderNumber);
 
             return orderNumber;
 

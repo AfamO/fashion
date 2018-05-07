@@ -64,6 +64,9 @@ public class OrderController {
                 mailError.setName(e.getDesignerOrderDTO().getStoreName());
                 mailError.setProductName(e.getDesignerOrderDTO().getProductName());
                 mailError.setMailType("designerorder");
+            }else if (e.getName().equalsIgnoreCase("superadmin")){
+                mailError.setName(e.getName());
+                mailError.setMailType("adminorder");
             }else {
                 mailError.setName(e.getName());
                 mailError.setMailType("order");

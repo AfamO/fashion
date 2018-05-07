@@ -64,7 +64,7 @@ public class ResendMailUtil {
                 context.setVariable("orderNum", orderNum);
                 context.setVariable("password", newPassword);
 
-                if(mailError.getMailType().equalsIgnoreCase("user")) {
+                if(mailError.getMailType().equalsIgnoreCase("userpassword")) {
                     try {
                         message = templateEngine.process("emailtemplate", context);
                         mailService.prepareAndSend(message,mail,subject);
@@ -104,6 +104,19 @@ public class ResendMailUtil {
                     }catch (MailException me) {
                         me.printStackTrace();
                         throw new AppException(designerOrderDTO,mail,subject,orderNum);
+
+                    }
+
+                }
+                else if (mailError.getMailType().equalsIgnoreCase("adminorder")){
+                    try{
+                        message = templateEngine.process("adminorderemailtemplate", context);
+                        mailService.prepareAndSend(message,mail,subject);
+                        mailError.setDelFlag("Y");
+                        mailErrorRepository.save(mailError);
+                    }catch (MailException me) {
+                        me.printStackTrace();
+                        throw new AppException(name,mail,subject,orderNum);
 
                     }
 

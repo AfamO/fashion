@@ -126,4 +126,33 @@ public class SendEmailAsync {
 
         return null;
     }
+
+    @Async
+    public String sendEmailToAdmin(User user, String orderNumber) {
+
+        try {
+            System.out.println("Execute method asynchronously - "
+                    + Thread.currentThread().getName());
+
+            try {
+                Context context = new Context();
+                //context.setVariable("name", user.firstName + " "+ user.lastName);
+                context.setVariable("orderNum",orderNumber);
+                String message = templateEngine.process("adminorderemailtemplate", context);
+                mailService.prepareAndSend(message,user.email,messageSource.getMessage("order.success.subject", null, locale));
+
+            }catch (MailException me){
+                me.printStackTrace();
+                throw new AppException("superadmin",user.email,messageSource.getMessage("order.success.subject", null, locale),orderNumber);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+        return null;
+    }
+
+
 }
