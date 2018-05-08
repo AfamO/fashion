@@ -234,13 +234,11 @@ public class ProductController {
         productService.deletePictureTag(id);
         Response response = new Response("00","Operation Successful","success");
         return response;
-
     }
 
     @GetMapping(value = "/{id}/gettag")
     public Response getTag(@PathVariable Long id){
-        productService.getPictureTagById(id);
-        Response response = new Response("00","Operation Successful","success");
+        Response response = new Response("00","Operation Successful",productService.getPictureTagById(id));
         return response;
     }
 
