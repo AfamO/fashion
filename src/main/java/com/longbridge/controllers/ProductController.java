@@ -237,12 +237,11 @@ public class ProductController {
 
     }
 
-    @PostMapping(value = "/{id}/gettag")
+    @GetMapping(value = "/{id}/gettag")
     public Response getTag(@PathVariable Long id){
         productService.getPictureTagById(id);
         Response response = new Response("00","Operation Successful","success");
         return response;
-
     }
 
 

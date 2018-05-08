@@ -257,7 +257,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PictureTag getPictureTagById(Long id) {
-        return pictureTagRepository.findOne(id);
+        try {
+            return pictureTagRepository.findOne(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
     }
 
     @Override
