@@ -1063,6 +1063,7 @@ Date date = new Date();
     private PicTagDTO convertPicTagEntityToDTO(PictureTag pictureTag){
         PicTagDTO pictureTagDTO = new PicTagDTO();
         pictureTagDTO.id=pictureTag.id;
+        pictureTagDTO.picture = pictureTag.eventPictures.getPictureName();
         pictureTagDTO.topCoordinate=pictureTag.topCoordinate;
         pictureTagDTO.leftCoordinate=pictureTag.leftCoordinate;
         pictureTagDTO.imageSize=pictureTag.imageSize;

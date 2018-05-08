@@ -12,6 +12,7 @@ public class PicTagDTO {
     public Long designerId;
     public String designerName;
     public Long productId;
+    public String picture;
 
     public PicTagDTO() {
     }
