@@ -490,6 +490,16 @@ public class ProductController {
         return response;
     }
 
+
+    @GetMapping(value = "/getfreqboughtproducts")
+    public Response getFreqBoughtProducts(HttpServletRequest request){
+//        String token = request.getHeader(tokenHeader);
+//        User user = userUtil.fetchUserDetails2(token);
+        // List<ProductRespDTO> products = new ArrayList<>();
+        Response response = new Response("00", "Operation Successful", productService.getFreqBoughtProducts());
+        return response;
+    }
+
     @GetMapping(value = "/getfeaturedproducts")
     public Response getFeaturedProducts(HttpServletRequest request){
 //        String token = request.getHeader(tokenHeader);

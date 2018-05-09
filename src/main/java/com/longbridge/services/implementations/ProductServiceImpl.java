@@ -35,6 +35,9 @@ public class ProductServiceImpl implements ProductService {
     ProductPictureRepository productPictureRepository;
 
     @Autowired
+    ProductRatingRepository productRatingRepository;
+
+    @Autowired
     ArtWorkPictureRepository artWorkPictureRepository;
 
     @Autowired
@@ -867,7 +870,26 @@ Date date = new Date();
     public List<ProductRespDTO> getTopProducts() {
 
         try {
+            List<ProductsWithRating> products= productRatingRepository.findTop10Products();
+            System.out.println(products);
+            List<Products> products1 = new ArrayList<>();
+            products.forEach(productsWithRating ->{
+                products1.add(productsWithRating.getProducts());
+            });
+            return generalUtil.convertProdEntToProdRespDTOs(products1);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public List<ProductRespDTO> getFreqBoughtProducts() {
+        try {
             List<Products> products= productRepository.findTop10ByDesignerStatusOrderByNumOfTimesOrderedDesc("A");
+
 
             return generalUtil.convertProdEntToProdRespDTOs(products);
 
@@ -1063,7 +1085,7 @@ Date date = new Date();
     private PicTagDTO convertPicTagEntityToDTO(PictureTag pictureTag){
         PicTagDTO pictureTagDTO = new PicTagDTO();
         pictureTagDTO.id=pictureTag.id;
-        pictureTagDTO.picture = pictureTag.eventPictures.getPictureName();
+        pictureTagDTO.picture.setPicture(pictureTag.eventPictures.getPictureName());
         pictureTagDTO.topCoordinate=pictureTag.topCoordinate;
         pictureTagDTO.leftCoordinate=pictureTag.leftCoordinate;
         pictureTagDTO.imageSize=pictureTag.imageSize;
@@ -1073,7 +1095,6 @@ Date date = new Date();
             pictureTagDTO.designerName = pictureTag.designer.storeName;
         }
         //pictureTagDTO.designerId = pictureTag.designer.id;
-
 
         return pictureTagDTO;
 

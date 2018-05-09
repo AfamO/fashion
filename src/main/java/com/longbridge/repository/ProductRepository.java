@@ -1,5 +1,6 @@
 package com.longbridge.repository;
 
+import com.longbridge.dto.ProductsWithRating;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Products;
 import com.longbridge.models.SubCategory;
@@ -44,5 +45,7 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
 
     //Page<Products> findByVerifiedFlagAndNameLikeAndp(String verifiedFlag, String name, Double fromAmount, Double toAmount, Pageable pageable);
 
+//    @Query(value = "select p.*, sum(pr.product_quality_rating) as rating FROM products p INNER JOIN product_rating pr WHERE p.id = pr.products_id ORDER by rating desc Limit 0, 10", nativeQuery = true)
+//    List<ProductsWithRating> findTop10FrequentlyBoughtProducts();
 
 }

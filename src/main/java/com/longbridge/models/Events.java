@@ -105,10 +105,15 @@ public class Events extends CommonFields {
     }
 
 
+    //@Override
+    //@JsonIgnore
+//    public List<String> getDefaultSearchFields() {
+//        return Arrays.asList("eventName","description","location");
+//    }
+
     @Override
     @JsonIgnore
     public List<String> getDefaultSearchFields() {
-        return Arrays.asList("eventName","description","location");
+        return Arrays.asList("eventName");
     }
-
 }

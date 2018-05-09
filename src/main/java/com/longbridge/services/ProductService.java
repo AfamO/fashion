@@ -58,6 +58,8 @@ public interface ProductService {
     List<ProductRespDTO> getTopProducts();
 
 
+    List<ProductRespDTO> getFreqBoughtProducts();
+
     List<ProductRespDTO> getFeaturedProducts();
 
     List<ProductRespDTO> getDesignerProductsBySubCatId(ProdSubCategoryDTO p, User user);
