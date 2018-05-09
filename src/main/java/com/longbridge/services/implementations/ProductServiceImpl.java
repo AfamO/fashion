@@ -275,7 +275,7 @@ public class ProductServiceImpl implements ProductService {
             List<PictureTag> pictureTags = pictureTagRepository.findPictureTagsByEventPictures(eventPictureRepository.findOne(eventPictureId));
             PictureTagDTO pictureTagDTO = new PictureTagDTO();
             pictureTagDTO.tags=convertPictureTagEntityToDTO(pictureTags);
-           pictureTagDTO.eventPicturesId=eventPictureRepository.findOne(eventPictureId).getPictureName();
+           pictureTagDTO.picture=eventPictureRepository.findOne(eventPictureId).getPictureName();
             return pictureTagDTO;
 
         }catch (Exception e){

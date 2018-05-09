@@ -9,6 +9,8 @@ public class PictureTagDTO {
 
     public String eventPicturesId;
 
+    public String picture;
+
     public List<TagDTO> tags;
 
 
