@@ -76,7 +76,7 @@ public interface ProductService {
 
     PictureTag getPictureTagById(Long id);
 
-    List<PicTagDTO> getPictureTags(Long eventPictureId);
+    PictureTagDTO getPictureTags(Long eventPictureId);
 
     void addStyle(StyleDTO styleDTO);
 

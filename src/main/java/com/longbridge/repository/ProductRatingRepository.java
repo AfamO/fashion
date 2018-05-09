@@ -16,5 +16,5 @@ public interface ProductRatingRepository extends JpaRepository<ProductRating,Lon
     List<ProductRating> findByVerifiedFlag(String flag);
 
     @Query(value = "select pr.products_id, sum(pr.product_quality_rating) as rating FROM product_rating pr GROUP by products_id ORDER BY rating desc Limit 0, 10", nativeQuery = true)
-    List<ProductsWithRating> findTop10Products();
+    List<Object[]> findTop10Products();
 }

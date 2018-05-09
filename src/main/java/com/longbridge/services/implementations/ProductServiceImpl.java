@@ -269,13 +269,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<PicTagDTO> getPictureTags(Long eventPictureId) {
+    public PictureTagDTO getPictureTags(Long eventPictureId) {
 
         try {
             List<PictureTag> pictureTags = pictureTagRepository.findPictureTagsByEventPictures(eventPictureRepository.findOne(eventPictureId));
-
-            List<PicTagDTO> pictureTagDTOS = convertPictureTagEntityToDTO(pictureTags);
-            return pictureTagDTOS;
+            PictureTagDTO pictureTagDTO = new PictureTagDTO();
+            pictureTagDTO.tags=convertPictureTagEntityToDTO(pictureTags);
+           pictureTagDTO.eventPicturesId=eventPictureRepository.findOne(eventPictureId).getPictureName();
+            return pictureTagDTO;
 
         }catch (Exception e){
             e.printStackTrace();
@@ -870,11 +871,11 @@ Date date = new Date();
     public List<ProductRespDTO> getTopProducts() {
 
         try {
-            List<ProductsWithRating> products= productRatingRepository.findTop10Products();
+            List<Object[]> products= productRatingRepository.findTop10Products();
             System.out.println(products);
             List<Products> products1 = new ArrayList<>();
             products.forEach(productsWithRating ->{
-                products1.add(productsWithRating.getProducts());
+                products1.add((Products) productsWithRating[0]);
             });
             return generalUtil.convertProdEntToProdRespDTOs(products1);
 
@@ -1070,31 +1071,47 @@ Date date = new Date();
         return count;
     }
 
-    private List<PicTagDTO> convertPictureTagEntityToDTO(List<PictureTag> pictureTags){
+    private List<TagDTO> convertPictureTagEntityToDTO(List<PictureTag> pictureTags){
 
-        List<PicTagDTO> pictureTagDTOS = new ArrayList<PicTagDTO>();
+        List<TagDTO> pictureTagDTOS = new ArrayList<TagDTO>();
 
         for(PictureTag p: pictureTags){
-            PicTagDTO picTagDTO = convertPicTagEntityToDTO(p);
+            TagDTO picTagDTO = convertPicTagEntityToDTO(p);
             pictureTagDTOS.add(picTagDTO);
         }
         return pictureTagDTOS;
     }
 
+    //convertPictureTagEntityToPictureTagDTO
+//    private List<PicTagDTO> convertPictureTagEntityToPictureTagDTO(List<PictureTag> pictureTags){
+//
+//        List<PicTagDTO> pictureTagDTOS = new ArrayList<PicTagDTO>();
+//
+//        for(PictureTag p: pictureTags){
+//            PicTagDTO picTagDTO = convertPicTagEntityToDTO(p);
+//            pictureTagDTOS.add(picTagDTO);
+//        }
+//        return pictureTagDTOS;
+//    }
 
-    private PicTagDTO convertPicTagEntityToDTO(PictureTag pictureTag){
-        PicTagDTO pictureTagDTO = new PicTagDTO();
+    private TagDTO convertPicTagEntityToDTO(PictureTag pictureTag){
+        TagDTO pictureTagDTO = new TagDTO();
         pictureTagDTO.id=pictureTag.id;
-        pictureTagDTO.picture.setPicture(pictureTag.eventPictures.getPictureName());
+
         pictureTagDTO.topCoordinate=pictureTag.topCoordinate;
         pictureTagDTO.leftCoordinate=pictureTag.leftCoordinate;
         pictureTagDTO.imageSize=pictureTag.imageSize;
-        pictureTagDTO.subcategoryId = pictureTag.subCategory.id;
+        pictureTagDTO.subCategoryId = pictureTag.subCategory.id.toString();
+        pictureTagDTO.subCategoryName=pictureTag.subCategory.subCategory;
         if(pictureTag.designer != null){
-            pictureTagDTO.designerId = pictureTag.designer.id;
+            pictureTagDTO.designerId = pictureTag.designer.id.toString();
             pictureTagDTO.designerName = pictureTag.designer.storeName;
         }
-        //pictureTagDTO.designerId = pictureTag.designer.id;
+
+        if(pictureTag.products != null){
+            pictureTagDTO.productId = pictureTag.products.id.toString();
+            pictureTagDTO.productName = pictureTag.products.name;
+        }
 
         return pictureTagDTO;
 

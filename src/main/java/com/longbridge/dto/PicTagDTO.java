@@ -9,10 +9,12 @@ public class PicTagDTO {
     public String topCoordinate;
     public String imageSize;
     public Long subcategoryId;
+    public Long subcategoryName;
     public Long designerId;
     public String designerName;
     public Long productId;
-    public EventPicturesDTO picture;
+    public Long productName;
+
 
     public PicTagDTO() {
     }

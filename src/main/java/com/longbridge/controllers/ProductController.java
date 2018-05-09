@@ -245,7 +245,7 @@ public class ProductController {
 
     @GetMapping(value = "/{eventPictureId}/gettags")
     public Object getTags(@PathVariable Long eventPictureId){
-        List<PicTagDTO> pictureTags=productService.getPictureTags(eventPictureId);
+        PictureTagDTO pictureTags=productService.getPictureTags(eventPictureId);
         Response response = new Response("00","Operation Successful",pictureTags);
         return response;
     }
