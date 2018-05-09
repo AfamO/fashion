@@ -875,7 +875,7 @@ Date date = new Date();
             System.out.println(products);
             List<Products> products1 = new ArrayList<>();
             products.forEach(productsWithRating ->{
-                products1.add((Products) productsWithRating[0]);
+                products1.add(productRepository.findOne((Long) productsWithRating[0]));
             });
             return generalUtil.convertProdEntToProdRespDTOs(products1);
 
