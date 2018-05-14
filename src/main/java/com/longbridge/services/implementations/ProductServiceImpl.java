@@ -845,13 +845,16 @@ Date date = new Date();
             if(pictureTag.products != null) {
 
                 List<Products> prod = productRepository.findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"Y", "Y");
+                System.out.println(prod);
                 if(prod.size() >0){
                     searchProducts.addAll(prod);
                 }
-
+                System.out.println(searchProducts);
                 if(prod.size() <9){
                     prod=productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
+                    System.out.println(prod);
                     searchProducts.addAll(prod);
+                    System.out.println(searchProducts);
                 }
 
 //                if(prod.size() < 1){
@@ -865,15 +868,16 @@ Date date = new Date();
                         if(pp != pictureTag.products)
                         products.add(pp);
                     }
-
+                    System.out.println(products);
                 }
+                System.out.println(pictureTag.products);
                 products.add(pictureTag.products);
 
                     Collections.reverse(products);
             }
             else {
                 List<Products> prod = productRepository.findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"Y", "Y");
-                if(prod.size() < 1){
+                if(prod.size() < 9){
                     prod=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
                 }
                 if(prod.size() > 0) {
