@@ -2,43 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/PriceSlashController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/models/PriceSlash.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/repository/PriceSlashRepository.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/PriceSlashService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/PriceSlashServiceImpl.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_h1.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_h1.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_h1.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_h1.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_h1.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_h1.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_h1_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_h1_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_h1_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_h1_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/segments_d8" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_bf.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_bf.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_bf.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_bf.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_bf.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_bf.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_bf_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_bf_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_bf_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_bf_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/segments_bg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Products.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Products.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/ProductController.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/ProductController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Products.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Products.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ProductRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ProductRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/respbodydto/ProductRespDTO.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/respbodydto/ProductRespDTO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/ProductService.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/ProductService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -178,8 +142,8 @@
       <file leaf-file-name="ProductController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/ProductController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="452" column="38" lean-forward="false" selection-start-line="452" selection-start-column="38" selection-end-line="452" selection-end-column="38" />
+            <state relative-caret-position="162">
+              <caret line="456" column="66" lean-forward="true" selection-start-line="456" selection-start-column="66" selection-end-line="456" selection-end-column="66" />
               <folding />
             </state>
           </provider>
@@ -1237,12 +1201,12 @@
       <workItem from="1522055838102" duration="36337000" />
       <workItem from="1522856807350" duration="544000" />
       <workItem from="1522863819757" duration="142936000" />
-      <workItem from="1524749315676" duration="148203000" />
+      <workItem from="1524749315676" duration="148218000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="777500000" />
+    <option name="totallyTimeSpent" value="777515000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1791,8 +1755,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/ProductController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="452" column="38" lean-forward="false" selection-start-line="452" selection-start-column="38" selection-end-line="452" selection-end-column="38" />
+        <state relative-caret-position="162">
+          <caret line="456" column="66" lean-forward="true" selection-start-line="456" selection-start-column="66" selection-end-line="456" selection-end-column="66" />
           <folding />
         </state>
       </provider>
