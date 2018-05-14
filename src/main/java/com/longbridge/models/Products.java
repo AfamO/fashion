@@ -51,6 +51,7 @@ public class Products extends CommonFields implements Serializable {
     @OneToOne
     public Style style;
 
+
     public int stockNo;
 
     public String inStock;
@@ -58,6 +59,8 @@ public class Products extends CommonFields implements Serializable {
     public String status = "A";
 
     public String verifiedFlag = "N";
+
+    public String sponsoredFlag = "N";
 
     public String availability;
 
@@ -71,4 +74,11 @@ public class Products extends CommonFields implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     public List<ProductRating> reviews;
+
+    public boolean priceSlashEnabled = false;
+
+    @OneToOne (mappedBy = "products", cascade = CascadeType.ALL)
+    public PriceSlash priceSlash;
+
+    public int numOfDaysToComplete;
 }

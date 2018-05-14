@@ -47,4 +47,6 @@ public class ProductRespDTO {
 
     public String wishListFlag;
 
+    public int numOfDaysToComplete;
+
 }

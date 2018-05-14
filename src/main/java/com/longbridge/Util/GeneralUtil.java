@@ -172,6 +172,7 @@ public class GeneralUtil {
         productDTO.subCategoryId=products.subCategory.id.toString();
         productDTO.categoryId=products.subCategory.category.id.toString();
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
+        productDTO.numOfDaysToComplete=products.numOfDaysToComplete;
 
         List<ProductPicture> productPictures = products.picture;
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
@@ -216,7 +217,7 @@ public class GeneralUtil {
         productDTO.subCategoryId=products.subCategory.id.toString();
         productDTO.categoryId=products.subCategory.category.id.toString();
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
-
+        productDTO.numOfDaysToComplete=products.numOfDaysToComplete;
         List<ProductPicture> productPictures = products.picture;
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 
@@ -419,7 +420,16 @@ public class GeneralUtil {
 
     }
 
+    public List<Products> getRandomProducts(List<Products> products, int numberOfProducts) {
+        List<Products> randomProducts = new ArrayList<>();
+        List<Products> copy = new ArrayList<>(products);
 
+        SecureRandom rand = new SecureRandom();
+        for (int i = 0; i < Math.min(numberOfProducts, products.size()); i++) {
+            randomProducts.add( copy.remove( rand.nextInt( copy.size() ) ));
+        }
+        return randomProducts;
+    }
 
 
 }

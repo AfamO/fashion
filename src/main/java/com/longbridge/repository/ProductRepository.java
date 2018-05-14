@@ -23,11 +23,17 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
     List<Products> findByDesignerAndVerifiedFlag(Designer designer, String flag);
     List<Products> findByDesigner(Designer designer);
     Page<Products> findBySubCategoryAndVerifiedFlag(Pageable pageable, SubCategory subCategory,String flag);
+    List<Products> findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(SubCategory subCategory,String sponsoredFlag,String flag);
     List<Products> findFirst9BySubCategoryAndVerifiedFlag(SubCategory subCategory,String flag);
     List<Products> findFirst10BySubCategoryAndVerifiedFlag(SubCategory subCategory,String flag);
+    List<Products> findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(SubCategory subCategory,String sponsoredFlag,String flag);
     Page<Products> findByDesignerAndSubCategoryAndVerifiedFlag(Pageable pageable, Designer designer, SubCategory subCategory, String flag);
     int countByDesigner(Designer designer);
     List<Products> findFirst8ByDesignerAndVerifiedFlag(Designer designer,String flag);
+
+    List<Products> findFirst5BySponsoredFlag(String flag);
+
+    List<Products> findFirst5ByPriceSlashEnabledTrue();
 
     List<Products> findTop10ByDesignerStatusOrderByNumOfTimesOrderedDesc(String designerStatus);
     Page<Products> findByVerfiedOnIsNull(Pageable pageable);

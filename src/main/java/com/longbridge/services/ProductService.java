@@ -21,6 +21,8 @@ public interface ProductService {
 
     void updateProductStatus(Long id, String status);
 
+    void sponsorProduct(Long id, String status);
+
     void updateProduct(ProductDTO productDTO, Designer designer);
 
     void updateProductImages(ProdPicReqDTO pictureDTO);
@@ -67,7 +69,6 @@ public interface ProductService {
 
     void addSubCategory(SubCategoryDTO subCategoryDTO);
 
-    Category getCategoryById(Long id);
 
     void addPictureTag(PictureTagDTO pictureTagDTO);
 

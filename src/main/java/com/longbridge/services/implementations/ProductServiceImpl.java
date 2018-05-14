@@ -44,11 +44,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     MaterialPictureRepository materialPictureRepository;
 
-    @Autowired
-    ItemRepository itemRepository;
-
-    @Autowired
-    HibernateSearchService searchService;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -82,6 +77,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     WishListRepository wishListRepository;
+
+    @Autowired
+    PriceSlashRepository priceSlashRepository;
 
 //    @Value("${event.picture.folder}")
 //    private String eventPicturesImagePath;
@@ -193,17 +191,6 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    @Override
-    public Category getCategoryById(Long id) {
-        try {
-            return categoryRepository.findOne(id);
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
-
-    }
 
     @Override
     public void addPictureTag(PictureTagDTO pictureTagDTO) {
@@ -612,6 +599,19 @@ Date date = new Date();
     }
 
     @Override
+    public void sponsorProduct(Long id, String status) {
+        try {
+            Products products = productRepository.findOne(id);
+            products.sponsoredFlag=status;
+            productRepository.save(products);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public void deleteProduct(Long id) {
         try {
             Products p = productRepository.findOne(id);
@@ -843,10 +843,15 @@ Date date = new Date();
             if(pictureTag.products != null) {
 
 
-                List<Products> prod = productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
-                if(prod.size() > 0) {
+                List<Products> prod = productRepository.findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"Y", "Y");
+                if(prod.size() < 1){
+                    prod=productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
+                }
 
-                    for (Products pp : prod) {
+                if(prod.size() > 0) {
+                    List<Products> randomProducts = generalUtil.getRandomProducts(prod,9);
+
+                    for (Products pp : randomProducts) {
                         if(pp != pictureTag.products)
                         products.add(pp);
                     }
@@ -857,7 +862,16 @@ Date date = new Date();
                     Collections.reverse(products);
             }
             else {
-                products = productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
+                List<Products> prod = productRepository.findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"Y", "Y");
+                if(prod.size() < 1){
+                    prod=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
+                }
+                if(prod.size() > 0) {
+                    List<Products> randomProducts = generalUtil.getRandomProducts(prod,10);
+                    products.addAll(randomProducts);
+                }
+
+
             }
             return generalUtil.convertProdEntToProdRespDTOs(products);
 
@@ -907,7 +921,13 @@ Date date = new Date();
     @Override
     public List<ProductRespDTO> getFeaturedProducts() {
         try {
-            List<Products> products= productRepository.findTop10ByDesignerStatusOrderByNumOfTimesOrderedDesc("A");
+
+            List<Products> products= new ArrayList<>();
+            List<Products> prods = productRepository.findFirst5BySponsoredFlag("Y");
+            products.addAll(prods);
+
+            List<Products> prods1=productRepository.findFirst5ByPriceSlashEnabledTrue();
+            products.addAll(prods1);
 
             return generalUtil.convertProdEntToProdRespDTOs(products);
 

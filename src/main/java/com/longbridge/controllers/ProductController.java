@@ -450,6 +450,20 @@ public class ProductController {
         return response;
     }
 
+    @GetMapping(value = "/{id}/sponsor/{flag}")
+    public Object sponsorProduct(@PathVariable Long id, @PathVariable String flag, HttpServletRequest request){
+        Map<String,Object> responseMap = new HashMap();
+//        String token = request.getHeader(tokenHeader);
+//        JwtUser user = userUtil.getAuthenticationDetails(token);
+//        if(token==null || user.getUsername()==null){
+//            return userUtil.tokenNullOrInvalidResponse(token);
+//        }
+        productService.sponsorProduct(id,flag);
+        responseMap.put("success", "success");
+        Response response = new Response("00", "Operation Successful", responseMap);
+        return response;
+    }
+
     @PostMapping(value = "/getuntagged")
     public Response getUntaggedPictures(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<EventPicturesDTO> eventpictures = productService.getUntaggedPictures(pageableDetailsDTO);
@@ -504,7 +518,7 @@ public class ProductController {
     public Response getFeaturedProducts(HttpServletRequest request){
 //        String token = request.getHeader(tokenHeader);
 //        User user = userUtil.fetchUserDetails2(token);
-        Response response = new Response("00", "Operation Successful", productService.getTopProducts());
+        Response response = new Response("00", "Operation Successful", productService.getFeaturedProducts());
         return response;
     }
 
