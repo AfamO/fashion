@@ -877,13 +877,25 @@ Date date = new Date();
             }
             else {
                 List<Products> prod = productRepository.findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"Y", "Y");
-                if(prod.size() < 9){
-                    prod=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
-                }
-                if(prod.size() > 0) {
-                    List<Products> randomProducts = generalUtil.getRandomProducts(prod,10);
+                if(prod.size() >0){
+                    searchProducts.addAll(prod);
+                    List<Products> randomProducts = generalUtil.getRandomProducts(searchProducts,10);
                     products.addAll(randomProducts);
                 }
+
+                else if(searchProducts.size() < 10){
+                    prod=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
+                    if(prod.size() >0) {
+                        List<Products> randomProducts = generalUtil.getRandomProducts(prod, 10);
+                        products.addAll(randomProducts);
+                    }
+//
+                }
+
+//                if(searchProducts.size() > 0) {
+//                    List<Products> randomProducts = generalUtil.getRandomProducts(prod,10);
+//                    products.addAll(randomProducts);
+//                }
 
 
             }
