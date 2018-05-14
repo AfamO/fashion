@@ -837,18 +837,28 @@ Date date = new Date();
     public List<ProductRespDTO> getTagProducts(PicTagDTO p) {
 
         List<Products> products= new ArrayList<>();
+
+        List<Products> searchProducts= new ArrayList<>();
         try {
             PictureTag pictureTag = pictureTagRepository.findOne(p.id);
 
             if(pictureTag.products != null) {
 
-
                 List<Products> prod = productRepository.findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"Y", "Y");
-                if(prod.size() < 1){
-                    prod=productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
+                if(prod.size() >0){
+                    searchProducts.addAll(prod);
                 }
 
-                if(prod.size() > 0) {
+                if(prod.size() <9){
+                    prod=productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
+                    searchProducts.addAll(prod);
+                }
+
+//                if(prod.size() < 1){
+//                    prod=productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
+//                }
+
+                if(searchProducts.size() > 0) {
                     List<Products> randomProducts = generalUtil.getRandomProducts(prod,9);
 
                     for (Products pp : randomProducts) {
