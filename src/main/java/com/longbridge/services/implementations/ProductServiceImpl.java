@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.File;
 
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -875,7 +876,9 @@ Date date = new Date();
             System.out.println(products);
             List<Products> products1 = new ArrayList<>();
             products.forEach(productsWithRating ->{
-                products1.add(productRepository.findOne((Long) productsWithRating[0]));
+                Long longProducts= ((BigInteger) productsWithRating[0]).longValue();
+                //products1.add(productRepository.findOne((Long) productsWithRating[0]));
+                products1.add(productRepository.findOne(longProducts));
             });
             return generalUtil.convertProdEntToProdRespDTOs(products1);
 
