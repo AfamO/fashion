@@ -879,28 +879,30 @@ Date date = new Date();
                 List<Products> prod = productRepository.findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"Y", "Y");
                 if(prod.size() >0){
                     searchProducts.addAll(prod);
+
+                }
+                if(prod.size() <10){
+                    prod=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
+                    System.out.println(prod);
+                    searchProducts.addAll(prod);
+                    System.out.println(searchProducts);
+                }
+                if(prod.size() == 10){
                     List<Products> randomProducts = generalUtil.getRandomProducts(searchProducts,10);
                     products.addAll(randomProducts);
                 }
-                else if(prod.size() <0){
-                    List<Products> prod3=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
-                    if(prod3.size() >0) {
-                        List<Products> randomProducts = generalUtil.getRandomProducts(prod3, 10);
-                        products.addAll(randomProducts);
-                    }
+
+
+                if(searchProducts.size() > 0) {
+                   // prod=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
+                    //searchProducts.addAll(prod);
+                    List<Products> randomProducts = generalUtil.getRandomProducts(searchProducts,10);
+                    products.addAll(randomProducts);
                 }
 
-                else if(prod.size() < 10){
-                    List<Products> prod2=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
-                    if(prod2.size() >0) {
-                        List<Products> randomProducts = generalUtil.getRandomProducts(prod2, 10-prod.size());
-                        products.addAll(randomProducts);
-                    }
-//
-                }
 
 //                if(searchProducts.size() > 0) {
-//                    List<Products> randomProducts = generalUtil.getRandomProducts(prod,10);
+//                    List<Products> randomProducts = generalUtil.getRandomProducts(searchProducts,10);
 //                    products.addAll(randomProducts);
 //                }
 
