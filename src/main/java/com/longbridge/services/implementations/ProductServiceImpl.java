@@ -882,11 +882,18 @@ Date date = new Date();
                     List<Products> randomProducts = generalUtil.getRandomProducts(searchProducts,10);
                     products.addAll(randomProducts);
                 }
+                else if(prod.size() <0){
+                    List<Products> prod3=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
+                    if(prod3.size() >0) {
+                        List<Products> randomProducts = generalUtil.getRandomProducts(prod3, 10);
+                        products.addAll(randomProducts);
+                    }
+                }
 
-                else if(searchProducts.size() < 10){
-                    prod=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
-                    if(prod.size() >0) {
-                        List<Products> randomProducts = generalUtil.getRandomProducts(prod, 10);
+                else if(prod.size() < 10){
+                    List<Products> prod2=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
+                    if(prod2.size() >0) {
+                        List<Products> randomProducts = generalUtil.getRandomProducts(prod2, 10-prod.size());
                         products.addAll(randomProducts);
                     }
 //
