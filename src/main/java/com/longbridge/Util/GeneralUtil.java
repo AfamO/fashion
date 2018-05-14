@@ -168,6 +168,7 @@ public class GeneralUtil {
         productDTO.inStock=products.inStock;
         productDTO.designerName=products.designer.storeName;
         productDTO.status=products.status;
+        productDTO.sponsoredFlag=products.sponsoredFlag;
         productDTO.verifiedFlag=products.verifiedFlag;
         productDTO.subCategoryId=products.subCategory.id.toString();
         productDTO.categoryId=products.subCategory.category.id.toString();
@@ -213,6 +214,7 @@ public class GeneralUtil {
         productDTO.inStock=products.inStock;
         productDTO.designerName=products.designer.storeName;
         productDTO.status=products.status;
+        productDTO.sponsoredFlag=products.sponsoredFlag;
         productDTO.verifiedFlag=products.verifiedFlag;
         productDTO.subCategoryId=products.subCategory.id.toString();
         productDTO.categoryId=products.subCategory.category.id.toString();

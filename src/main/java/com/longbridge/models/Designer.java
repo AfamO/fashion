@@ -18,7 +18,7 @@ public class Designer extends CommonFields {
     public String publicId;
     public String storeName;
     public String address;
-    public String status;
+    public String status="A";
 
     @OneToOne(cascade = CascadeType.ALL)
     public User user;

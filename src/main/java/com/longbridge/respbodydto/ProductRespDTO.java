@@ -41,6 +41,8 @@ public class ProductRespDTO {
 
     public String verifiedFlag;
 
+    public String sponsoredFlag;
+
     public int numOfTimesOrdered;
 
     public int productQualityRating;
