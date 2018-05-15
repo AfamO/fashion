@@ -478,7 +478,7 @@ public class OrderServiceImpl implements OrderService {
             itemsDTO.setColor(items.getColor());
             itemsDTO.setQuantity(items.getQuantity());
             User user=userRepository.findById(items.getOrders().getUserId());
-            itemsDTO.setCustomerName(user.lastName+user+user.firstName);
+            itemsDTO.setCustomerName(user.lastName+user.firstName);
             ProductPicture p = productPictureRepository.findFirst1ByProducts(productRepository.findOne(itemsDTO.getProductId()));
             itemsDTO.setProductPicture(p.pictureName);
 
