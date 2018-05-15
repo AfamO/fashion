@@ -129,8 +129,8 @@ public class UserController {
     public Response activateAccount(@RequestBody UserDTO passedUser){
         //======================================================
 
-        userUtil.activateAccount(passedUser);
-        Response response = new Response("00", "Operation Successful", "success");
+
+        Response response = new Response("00", "Operation Successful", userUtil.activateAccount(passedUser));
         return response;
     }
 
