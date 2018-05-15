@@ -56,6 +56,8 @@ public class ItemsDTO {
 
     private Long orderId;
 
+    private String customerName;
+
 
     public ItemsDTO() {
     }
@@ -256,5 +258,13 @@ public class ItemsDTO {
 
     public void setMeasurement(Measurement measurement) {
         this.measurement = measurement;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }
