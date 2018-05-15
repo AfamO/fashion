@@ -852,7 +852,7 @@ Date date = new Date();
                 }
                 System.out.println(searchProducts);
                 if(prod.size() <9){
-                    prod=productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
+                    prod=productRepository.findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"N","Y");
                     System.out.println(prod);
                     searchProducts.addAll(prod);
                     System.out.println(searchProducts);
@@ -883,7 +883,7 @@ Date date = new Date();
 
                 }
                 if(prod.size() <10){
-                    prod=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
+                    prod=productRepository.findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"N","Y");
                     System.out.println(prod);
                     searchProducts.addAll(prod);
                     System.out.println(searchProducts);
