@@ -229,7 +229,7 @@ public class ProductController {
 
     }
 
-    @PostMapping(value = "/{id}/deletetag")
+    @GetMapping(value = "/{id}/deletetag")
     public Response deleteTag(@PathVariable Long id){
         productService.deletePictureTag(id);
         Response response = new Response("00","Operation Successful","success");
