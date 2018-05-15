@@ -486,7 +486,8 @@ public void updateUser(UserDTO passedUser, User userTemp){
 
     }
 
-    public void activateAccount(UserDTO passedUser){
+    public Response activateAccount(UserDTO passedUser){
+        Map<String,Object> responseMap = new HashMap();
         try {
             Date date = new Date();
             User userTemp = userRepository.findByEmail(passedUser.getEmail());
@@ -494,9 +495,15 @@ public void updateUser(UserDTO passedUser, User userTemp){
                 userTemp.activationDate=date;
                 userTemp.setUpdatedOn(date);
                 userTemp.activationFlag="Y";
+                userRepository.save(userTemp);
+                Response response = new Response("00","Account activation successful",responseMap);
+                return response;
             }
-            userRepository.save(userTemp);
-
+            else {
+                Response response = new Response("00","Account already activated",responseMap);
+                return response;
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
