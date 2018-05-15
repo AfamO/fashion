@@ -27,6 +27,10 @@ public class User extends CommonFields{
 
     public String linkClicked = "N";
 
+    public String activationFlag = "N";
+
+    public Date activationDate;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     public List<Address> addresses;

@@ -66,6 +66,7 @@ public class UserController {
             mailError.setName(e.getName());
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);
+            mailError.setLink(e.getLink());
             mailError.setMailType("welcome");
             mailErrorRepository.save(mailError);
             Response response = new Response("00", "Registration successful, Trying to send welcome email", "success");
@@ -119,6 +120,16 @@ public class UserController {
         //======================================================
 
         userUtil.updatePassword(passedUser);
+        Response response = new Response("00", "Operation Successful", "success");
+        return response;
+    }
+
+
+    @PostMapping(value = "/activateaccount")
+    public Response activateAccount(@RequestBody UserDTO passedUser){
+        //======================================================
+
+        userUtil.activateAccount(passedUser);
         Response response = new Response("00", "Operation Successful", "success");
         return response;
     }

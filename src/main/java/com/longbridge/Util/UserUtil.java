@@ -73,6 +73,7 @@ public class UserUtil {
     @Value("${s.designer.logo.folder}")
     private String designerLogoFolder;
 
+
     public Response registerUser(User passedUser){
         Map<String,Object> responseMap = new HashMap();
         try {
@@ -112,11 +113,15 @@ public class UserUtil {
                 userRepository.save(passedUser);
                 String name = passedUser.firstName + " " + passedUser.lastName;
                 String mail = passedUser.email;
+                String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
                 String message="";
+                String activationLink="";
                 try {
                     Context context = new Context();
                     context.setVariable("name", name);
-                    //context.setVariable("orderNum",orderNumber);
+                    activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
+                    System.out.println(activationLink);
+                    context.setVariable("link", activationLink);
                     if(passedUser.designer != null) {
                         message = templateEngine.process("designerwelcomeemail", context);
                     }
@@ -127,7 +132,7 @@ public class UserUtil {
 
                 }catch (MailException me){
                     me.printStackTrace();
-                    throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale));
+                    throw new AppException("",user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
 
                 }
                 Response response = new Response("00","Registration successful",responseMap);
@@ -480,6 +485,26 @@ public void updateUser(UserDTO passedUser, User userTemp){
         }
 
     }
+
+    public void activateAccount(UserDTO passedUser){
+        try {
+            Date date = new Date();
+            User userTemp = userRepository.findByEmail(passedUser.getEmail());
+            if(!userTemp.activationFlag.equalsIgnoreCase("Y")) {
+                userTemp.activationDate=date;
+                userTemp.setUpdatedOn(date);
+                userTemp.activationFlag="Y";
+            }
+            userRepository.save(userTemp);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+
 
 
     private String getCurrentTime(){
