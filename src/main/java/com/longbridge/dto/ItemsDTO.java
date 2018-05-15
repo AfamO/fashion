@@ -58,6 +58,8 @@ public class ItemsDTO {
 
     private String customerName;
 
+    private Long customerId;
+
 
     public ItemsDTO() {
     }
@@ -266,5 +268,13 @@ public class ItemsDTO {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 }

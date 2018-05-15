@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/dto/ItemsDTO.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/dto/ItemsDTO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -117,8 +118,8 @@
       <file leaf-file-name="OrderServiceImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="480" column="67" lean-forward="true" selection-start-line="480" selection-start-column="67" selection-end-line="480" selection-end-column="67" />
+            <state relative-caret-position="155">
+              <caret line="481" column="44" lean-forward="true" selection-start-line="481" selection-start-column="44" selection-end-line="481" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -166,12 +167,17 @@
       <file leaf-file-name="ItemsDTO.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/dto/ItemsDTO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="262" column="37" lean-forward="false" selection-start-line="262" selection-start-column="37" selection-end-line="262" selection-end-column="37" />
+            <state relative-caret-position="184">
+              <caret line="276" column="34" lean-forward="false" selection-start-line="276" selection-start-column="34" selection-end-line="276" selection-end-column="34" />
               <folding>
-                <element signature="e#6132#6133#0" expanded="true" />
-                <element signature="e#6188#6189#0" expanded="true" />
-                <element signature="e#6236#6237#0" expanded="true" />
+                <element signature="e#6127#6128#0" expanded="true" />
+                <element signature="e#6162#6163#0" expanded="true" />
+                <element signature="e#6218#6219#0" expanded="true" />
+                <element signature="e#6266#6267#0" expanded="true" />
+                <element signature="e#6301#6302#0" expanded="true" />
+                <element signature="e#6334#6335#0" expanded="true" />
+                <element signature="e#6384#6385#0" expanded="true" />
+                <element signature="e#6428#6429#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -283,8 +289,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/dto/ItemsDTO.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/dto/ItemsDTO.java" />
       </list>
     </option>
   </component>
@@ -1219,12 +1225,12 @@
       <workItem from="1522055838102" duration="36337000" />
       <workItem from="1522856807350" duration="544000" />
       <workItem from="1522863819757" duration="142936000" />
-      <workItem from="1524749315676" duration="176546000" />
+      <workItem from="1524749315676" duration="176691000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="805843000" />
+    <option name="totallyTimeSpent" value="805988000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1774,20 +1780,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/dto/ItemsDTO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="262" column="37" lean-forward="false" selection-start-line="262" selection-start-column="37" selection-end-line="262" selection-end-column="37" />
+        <state relative-caret-position="184">
+          <caret line="276" column="34" lean-forward="false" selection-start-line="276" selection-start-column="34" selection-end-line="276" selection-end-column="34" />
           <folding>
-            <element signature="e#6132#6133#0" expanded="true" />
-            <element signature="e#6188#6189#0" expanded="true" />
-            <element signature="e#6236#6237#0" expanded="true" />
+            <element signature="e#6127#6128#0" expanded="true" />
+            <element signature="e#6162#6163#0" expanded="true" />
+            <element signature="e#6218#6219#0" expanded="true" />
+            <element signature="e#6266#6267#0" expanded="true" />
+            <element signature="e#6301#6302#0" expanded="true" />
+            <element signature="e#6334#6335#0" expanded="true" />
+            <element signature="e#6384#6385#0" expanded="true" />
+            <element signature="e#6428#6429#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="480" column="67" lean-forward="true" selection-start-line="480" selection-start-column="67" selection-end-line="480" selection-end-column="67" />
+        <state relative-caret-position="155">
+          <caret line="481" column="44" lean-forward="true" selection-start-line="481" selection-start-column="44" selection-end-line="481" selection-end-column="44" />
           <folding />
         </state>
       </provider>
