@@ -346,7 +346,17 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public List<ItemsDTO> getAllOrdersByAdmin(User user) {
+        try {
 
+            return convertItemsEntToDTOs(itemRepository.findAll());
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
 
     @Override
     public OrderDTO getOrdersById(Long id) {

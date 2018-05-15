@@ -29,6 +29,7 @@ public interface OrderService {
 
     int getSuccessfulSales(User user);
 
+    List<ItemsDTO> getAllOrdersByAdmin(User user);
 
     String addToCart(Cart cart, User user);
 

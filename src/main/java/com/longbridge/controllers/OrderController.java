@@ -215,6 +215,19 @@ public class OrderController {
         return response;
     }
 
+
+    @GetMapping(value = "/admin/getall")
+    public Response getAllOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        System.out.println(token);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getAllOrdersByAdmin(userTemp));
+        return response;
+    }
+
     @GetMapping(value = "/getactiveorders")
     public Response getActiveOrders(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
