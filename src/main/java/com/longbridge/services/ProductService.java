@@ -74,7 +74,7 @@ public interface ProductService {
 
     void deletePictureTag(Long id);
 
-    PictureTag getPictureTagById(Long id);
+    TagDTO getPictureTagById(Long id);
 
     PictureTagDTO getPictureTags(Long eventPictureId);
 

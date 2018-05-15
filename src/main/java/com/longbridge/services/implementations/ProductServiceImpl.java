@@ -247,9 +247,10 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public PictureTag getPictureTagById(Long id) {
+    public TagDTO getPictureTagById(Long id) {
         try {
-            return pictureTagRepository.findOne(id);
+            PictureTag pictureTag = pictureTagRepository.findOne(id);
+            return convertPicTagEntityToDTO(pictureTag);
         }catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
