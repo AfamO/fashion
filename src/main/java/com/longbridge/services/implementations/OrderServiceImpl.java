@@ -173,7 +173,8 @@ public class OrderServiceImpl implements OrderService {
         try{
             Items items = itemRepository.findOne(itemsDTO.getId());
             Date date = new Date();
-
+            System.out.println(items.getDeliveryStatus());
+            System.out.println(itemsDTO.getDeliveryStatus());
             if(items.getDeliveryStatus().equalsIgnoreCase("P")) {
                 if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("A")){
                     items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
