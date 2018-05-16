@@ -3,6 +3,7 @@ package com.longbridge.controllers;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.CartListDTO;
 import com.longbridge.dto.DesignerOrderDTO;
+import com.longbridge.dto.ItemsDTO;
 import com.longbridge.dto.OrderReqDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
@@ -81,16 +82,17 @@ public class OrderController {
 
     }
 
-//    @PostMapping(value = "/updateorder")
-//    public Response updateOrderStatus(@RequestBody Orders orders, HttpServletRequest request){
-//        String token = request.getHeader(tokenHeader);
-//        User userTemp = userUtil.fetchUserDetails2(token);
-//        if(token==null || userTemp==null){
-//            return userUtil.tokenNullOrInvalidResponse(token);
-//        }
-//        Response response = new Response("00","Operation Successful",orderService.updateOrder(orders,userTemp););
-//        return response;
-//    }
+    @PostMapping(value = "/updateorderitem")
+    public Response updateOrderStatus(@RequestBody ItemsDTO item, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        orderService.updateOrderItem(item,userTemp);
+        Response response = new Response("00","Operation Successful","success");
+        return response;
+    }
 
 
     @PostMapping(value = "/addtocart")

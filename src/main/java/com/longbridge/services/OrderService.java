@@ -19,7 +19,7 @@ public interface OrderService {
 
     String addOrder(OrderReqDTO orders, User user);
 
-    void updateOrder(Orders orders, User user);
+    void updateOrderItem(ItemsDTO itemsDTO, User user);
 
     Boolean orderNumExists(String orderNum);
 

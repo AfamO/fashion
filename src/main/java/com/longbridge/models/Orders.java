@@ -28,6 +28,8 @@ public class Orders extends CommonFields {
     private Date orderDate;
     private Date deliveryDate;
 
+    private String updatedBy;
+
     public Orders() {
     }
 
@@ -101,6 +103,14 @@ public class Orders extends CommonFields {
 
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public Orders(String orderNum, List<Items> items, String totalAmount, String paymentType, Long userId, String deliveryStatus, Address deliveryAddress, Date orderDate, Date deliveredDate) {

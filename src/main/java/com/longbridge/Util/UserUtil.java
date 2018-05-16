@@ -496,7 +496,7 @@ public void updateUser(UserDTO passedUser, User userTemp){
                 userTemp.setUpdatedOn(date);
                 userTemp.activationFlag="Y";
                 userRepository.save(userTemp);
-                Response response = new Response("00","Account activation successful",responseMap);
+                Response response = new Response("00","Thank you for verifying your account",responseMap);
                 return response;
             }
             else {

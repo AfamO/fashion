@@ -10,6 +10,7 @@ import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.MailService;
 import com.longbridge.services.OrderService;
+import com.sun.mail.imap.protocol.Item;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.time.DateUtils;
@@ -168,14 +169,19 @@ public class OrderServiceImpl implements OrderService {
 
     //todo later
     @Override
-    public void updateOrder(Orders orders, User user) {
+    public void updateOrderItem(ItemsDTO itemsDTO, User user) {
         try{
-            Orders orders1 = orderRepository.findOne(orders.id);
+            Items items = itemRepository.findOne(itemsDTO.getId());
             Date date = new Date();
-
-            orders.setCreatedOn(date);
-            orders.setUpdatedOn(date);
-
+            if(items.getDeliveryStatus().equalsIgnoreCase("P")) {
+                items.setDeliveryStatus("A");
+                items.setUpdatedOn(date);
+                itemRepository.save(items);
+                Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
+                orders.setUpdatedOn(date);
+                orders.setUpdatedBy(user.email);
+                orderRepository.save(orders);
+            }
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
@@ -478,7 +484,7 @@ public class OrderServiceImpl implements OrderService {
             itemsDTO.setColor(items.getColor());
             itemsDTO.setQuantity(items.getQuantity());
             User user=userRepository.findById(items.getOrders().getUserId());
-            itemsDTO.setCustomerName(user.lastName+user.firstName);
+            itemsDTO.setCustomerName(user.lastName+" "+user.firstName);
             itemsDTO.setCustomerId(user.id);
             ProductPicture p = productPictureRepository.findFirst1ByProducts(productRepository.findOne(itemsDTO.getProductId()));
             itemsDTO.setProductPicture(p.pictureName);
