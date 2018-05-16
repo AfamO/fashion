@@ -147,7 +147,7 @@ public class ResendMailUtil {
                     try{
                         if(userRepository.findByEmail(mail).designer != null)
                         {
-                        message = templateEngine.process("welcomeemail", context);
+                        message = templateEngine.process("designerwelcomeemail", context);
                         }
                         else
                         {

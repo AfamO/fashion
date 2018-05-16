@@ -129,11 +129,15 @@ public class OrderServiceImpl implements OrderService {
                 p.numOfTimesOrdered = p.numOfTimesOrdered+1;
                 if(p.stockNo != 0){
                     p.stockNo=p.stockNo-items.getQuantity();
+
                 }
                 else {
                     p.inStock = "N";
                 }
                 productRepository.save(p);
+                if(p.stockNo==0){
+                    p.inStock = "N";
+                }
 
             }
 
