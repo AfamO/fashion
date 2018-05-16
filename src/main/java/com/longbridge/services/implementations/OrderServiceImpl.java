@@ -3,6 +3,7 @@ package com.longbridge.services.implementations;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.dto.*;
 import com.longbridge.exception.AppException;
+import com.longbridge.exception.InvalidStatusUpdateException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
@@ -184,7 +185,18 @@ public class OrderServiceImpl implements OrderService {
 
                     //do other stuff
                 }
-
+                else {
+                    throw new InvalidStatusUpdateException();
+                }
+            }
+            else if(items.getDeliveryStatus().equalsIgnoreCase("C")){
+                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("OP")){
+                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+                }
+                else {
+                    throw new InvalidStatusUpdateException();
+                }
+            }
                 items.setUpdatedOn(date);
                 itemRepository.save(items);
                 Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
@@ -192,7 +204,7 @@ public class OrderServiceImpl implements OrderService {
                 orders.setUpdatedBy(user.email);
                 orderRepository.save(orders);
 
-            }
+
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();

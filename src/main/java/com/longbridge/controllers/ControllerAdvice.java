@@ -51,4 +51,11 @@ public class ControllerAdvice {
         return response;
     }
 
+    @ExceptionHandler(InvalidStatusUpdateException.class)
+    public Response statusUpdateException() {
+        Map<String, Object> responseMap = new HashMap();
+        Response response = new Response("99", "Unable to update status", responseMap);
+        return response;
+    }
+
 }
