@@ -201,6 +201,14 @@ public class OrderServiceImpl implements OrderService {
                     throw new InvalidStatusUpdateException();
                 }
             }
+            else if(items.getDeliveryStatus().equalsIgnoreCase("OP")){
+                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("CO")){
+                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+                }
+                else {
+                    throw new InvalidStatusUpdateException();
+                }
+            }
                 items.setUpdatedOn(date);
                 itemRepository.save(items);
                 Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
