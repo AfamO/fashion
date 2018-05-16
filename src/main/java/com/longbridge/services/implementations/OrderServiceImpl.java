@@ -572,7 +572,7 @@ public class OrderServiceImpl implements OrderService {
             itemsDTO.setSize(items.getSize());
             //itemsDTO.setDeliveryDate(formatter.format(orders.getDeliveryDate()));
             itemsDTO.setOrderDate(formatter.format(orders.getOrderDate()));
-            itemsDTO.setDeliveryStatus(orders.getDeliveryStatus());
+            itemsDTO.setDeliveryStatus(items.getDeliveryStatus());
             if(items.getMaterialLocation() != null){
                 itemsDTO.setMaterialLocation(items.getMaterialLocation().toString());
             }
