@@ -26,6 +26,7 @@ public class MailError {
     private String productName;
 
     private String mailType;
+    private String orderItemStatus;
 
     public MailError() {
     }
@@ -116,5 +117,13 @@ public class MailError {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public String getOrderItemStatus() {
+        return orderItemStatus;
+    }
+
+    public void setOrderItemStatus(String orderItemStatus) {
+        this.orderItemStatus = orderItemStatus;
     }
 }

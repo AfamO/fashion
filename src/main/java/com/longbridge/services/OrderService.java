@@ -19,7 +19,9 @@ public interface OrderService {
 
     String addOrder(OrderReqDTO orders, User user);
 
-    void updateOrderItem(ItemsDTO itemsDTO, User user);
+    void updateOrderItemByDesigner(ItemsDTO itemsDTO, User user);
+
+    void updateOrderItemByAdmin(ItemsDTO itemsDTO, User user);
 
     Boolean orderNumExists(String orderNum);
 

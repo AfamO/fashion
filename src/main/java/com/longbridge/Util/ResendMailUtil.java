@@ -2,6 +2,7 @@ package com.longbridge.Util;
 
 
 import com.longbridge.dto.DesignerOrderDTO;
+import com.longbridge.dto.ItemsDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.MailError;
 import com.longbridge.repository.MailErrorRepository;
@@ -120,6 +121,27 @@ public class ResendMailUtil {
 
                     }
 
+                }
+                else if(mailError.getMailType().equalsIgnoreCase("adminConfirmOrRejectItem")){
+                    ItemsDTO itemsDTO = new ItemsDTO();
+                        try{
+                            productName = mailError.getProductName();
+                            itemsDTO.setProductName(productName);
+                            itemsDTO.setDeliveryStatus(mailError.getOrderItemStatus());
+                            context.setVariable("productName", productName);
+                            if(mailError.getOrderItemStatus().equalsIgnoreCase("C")) {
+                                message = templateEngine.process("adminconfirmordertemplate", context);
+                            }else if(mailError.getOrderItemStatus().equalsIgnoreCase("R")){
+                                message = templateEngine.process("admincancelordertemplate", context);
+                            }
+                            mailService.prepareAndSend(message,mail,subject);
+                            mailError.setDelFlag("Y");
+                            mailErrorRepository.save(mailError);
+                        }catch (MailException me) {
+                            me.printStackTrace();
+                            throw new AppException(name,mail,subject,itemsDTO);
+
+                        }
                 }
                 else if (mailError.getMailType().equalsIgnoreCase("welcome")){
                     try{

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -82,18 +83,45 @@ public class OrderController {
 
     }
 
-    @PostMapping(value = "/updateorderitem")
-    public Response updateOrderStatus(@RequestBody ItemsDTO item, HttpServletRequest request){
+    @PostMapping(value = "/designer/updateorderitem")
+    public Response updateOrderStatusByDesigner(@RequestBody ItemsDTO item, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        orderService.updateOrderItem(item,userTemp);
+        orderService.updateOrderItemByDesigner(item,userTemp);
         Response response = new Response("00","Operation Successful","success");
         return response;
     }
 
+    @PostMapping(value = "/admin/updateorderitem")
+    public Response updateOrderStatusByAdmin(@RequestBody ItemsDTO item, HttpServletRequest request){
+        try{
+            String token = request.getHeader(tokenHeader);
+            User userTemp = userUtil.fetchUserDetails2(token);
+            if(token==null || userTemp==null){
+                return userUtil.tokenNullOrInvalidResponse(token);
+            }
+            orderService.updateOrderItemByAdmin(item,userTemp);
+            Response response = new Response("00","Operation Successful","success");
+            return response;
+        }catch (AppException e){
+            e.printStackTrace();
+            String recipient = e.getRecipient();
+            String subject = e.getSubject();
+            MailError mailError = new MailError();
+            mailError.setProductName(e.getItemsDTO().getProductName());
+            mailError.setOrderItemStatus(e.getItemsDTO().getDeliveryStatus());
+            mailError.setRecipient(recipient);
+            mailError.setSubject(subject);
+            mailError.setMailType("adminConfirmOrRejectItem");
+            mailErrorRepository.save(mailError);
+            Response response = new Response("00", "Operation Successful, Trying to send email", "success");
+            return response;
+        }
+
+    }
 
     @PostMapping(value = "/addtocart")
     public Response addToCart(@RequestBody Cart cart, HttpServletRequest request){
