@@ -847,58 +847,62 @@ Date date = new Date();
 
                 List<Products> prod = productRepository.findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"Y", "Y");
                 System.out.println(prod);
-                if(prod.size() >0){
-                    searchProducts.addAll(prod);
-                }
+
                 System.out.println(searchProducts);
                 if(prod.size() <9){
-                    prod=productRepository.findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"N","Y");
+                    List<Products> prod2=productRepository.findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"N","Y");
                     System.out.println(prod);
-                    searchProducts.addAll(prod);
+                    searchProducts.addAll(generalUtil.getRandomProducts(prod2,9-prod.size()));
                     System.out.println(searchProducts);
                 }
-
+                if(prod.size() >0){
+                    searchProducts.addAll(generalUtil.getRandomProducts(prod,9));
+                }
 //                if(prod.size() < 1){
 //                    prod=productRepository.findFirst9BySubCategoryAndVerifiedFlag(pictureTag.subCategory, "Y");
 //                }
 
                 if(searchProducts.size() > 0) {
-                    List<Products> randomProducts = generalUtil.getRandomProducts(prod,9);
+                    //List<Products> randomProducts = generalUtil.getRandomProducts(prod,9);
 
-                    for (Products pp : randomProducts) {
+                    for (Products pp : searchProducts) {
                         if(pp != pictureTag.products)
                         products.add(pp);
                     }
                     System.out.println(products);
                 }
                 System.out.println(pictureTag.products);
-                products.add(pictureTag.products);
+                if(pictureTag.products.verifiedFlag.equalsIgnoreCase("Y")) {
+                    products.add(pictureTag.products);
+                }
 
                     Collections.reverse(products);
             }
             else {
                 List<Products> prod = productRepository.findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"Y", "Y");
                 if(prod.size() >0){
-                    searchProducts.addAll(prod);
+                    searchProducts.addAll(generalUtil.getRandomProducts(prod,10));
 
                 }
                 if(prod.size() <10){
-                    prod=productRepository.findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"N","Y");
-                    System.out.println(prod);
-                    searchProducts.addAll(prod);
+                    List<Products> prod2=productRepository.findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(pictureTag.subCategory,"N","Y");
+                    System.out.println(prod2);
+                    searchProducts.addAll(generalUtil.getRandomProducts(prod2,10-prod.size()));
                     System.out.println(searchProducts);
                 }
+
                 if(prod.size() == 10){
                     List<Products> randomProducts = generalUtil.getRandomProducts(searchProducts,10);
                     products.addAll(randomProducts);
+                    return generalUtil.convertProdEntToProdRespDTOs(products);
                 }
 
 
                 if(searchProducts.size() > 0) {
                    // prod=productRepository.findFirst10BySubCategoryAndVerifiedFlag(pictureTag.subCategory,"Y");
                     //searchProducts.addAll(prod);
-                    List<Products> randomProducts = generalUtil.getRandomProducts(searchProducts,10);
-                    products.addAll(randomProducts);
+                    //List<Products> randomProducts = generalUtil.getRandomProducts(searchProducts,10);
+                    products.addAll(searchProducts);
                 }
 
 

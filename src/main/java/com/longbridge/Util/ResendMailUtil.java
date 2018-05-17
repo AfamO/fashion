@@ -134,6 +134,9 @@ public class ResendMailUtil {
                             }else if(mailError.getOrderItemStatus().equalsIgnoreCase("R")){
                                 message = templateEngine.process("admincancelordertemplate", context);
                             }
+                            else if(mailError.getOrderItemStatus().equalsIgnoreCase("RI")){
+                                message = templateEngine.process("readyforinsptemplate", context);
+                            }
                             mailService.prepareAndSend(message,mail,subject);
                             mailError.setDelFlag("Y");
                             mailErrorRepository.save(mailError);

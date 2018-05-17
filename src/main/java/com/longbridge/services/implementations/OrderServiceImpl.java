@@ -250,6 +250,14 @@ public class OrderServiceImpl implements OrderService {
                 mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.status.subject", null, locale));
 
             }
+            if(items.getDeliveryStatus().equalsIgnoreCase("CO")){
+                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("RI")){
+                    items.setDeliveryStatus(items.getDeliveryStatus());
+                    String message = templateEngine.process("readyforinsptemplate", context);
+                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
+
+                }
+            }
                 Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
                 orders.setUpdatedOn(date);
                 orders.setUpdatedBy(user.email);
@@ -264,13 +272,6 @@ public class OrderServiceImpl implements OrderService {
                 throw new AppException(customerName,customerEmail,messageSource.getMessage("order.status.subject", null, locale),itemsDTO1);
 
             }
-
-
-
-
-
-
-
 
 
         }catch (Exception ex){
