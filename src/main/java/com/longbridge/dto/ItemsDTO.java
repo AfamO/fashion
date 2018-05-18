@@ -60,6 +60,8 @@ public class ItemsDTO {
 
     private Long customerId;
 
+    
+
 
     public ItemsDTO() {
     }
@@ -277,4 +279,6 @@ public class ItemsDTO {
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
+
+
 }

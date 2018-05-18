@@ -161,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
 
             sendEmailAsync.sendEmailToUser(user,orderNumber);
             sendEmailAsync.sendEmailToDesigner(dtos,orderNumber);
-            sendEmailAsync.sendEmailToAdmin(userRepository.findByRole("superadmin"),orderNumber);
+//            sendEmailAsync.sendEmailToAdmin(userRepository.findByRole("superadmin"),orderNumber);
 
             return orderNumber;
 
@@ -176,31 +176,37 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderItemByDesigner(ItemsDTO itemsDTO, User user) {
         try{
+            User customer = userRepository.findOne(itemsDTO.getCustomerId());
+            String customerEmail = customer.email;
+            String customerName = customer.lastName+" "+ customer.firstName;
+            Context context = new Context();
+            context.setVariable("name", customerName);
+            context.setVariable("productName",itemsDTO.getProductName());
             Items items = itemRepository.findOne(itemsDTO.getId());
             Date date = new Date();
             System.out.println(items.getDeliveryStatus());
             System.out.println(itemsDTO.getDeliveryStatus());
-            if(items.getDeliveryStatus().equalsIgnoreCase("P")) {
-                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("A")){
-                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
-                }
-                else if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("R")){
-                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
-
-                    //do other stuff
-                }
-                else {
-                    throw new InvalidStatusUpdateException();
-                }
-            }
-            else if(items.getDeliveryStatus().equalsIgnoreCase("C")){
+            if(items.getOrders().getDeliveryStatus().equalsIgnoreCase("PC")) {
                 if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("OP")){
                     items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
                 }
+                else if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("OR")){
+                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+                    String message = templateEngine.process("admincancelordertemplate", context);
+                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.status.subject", null, locale));
+                }
                 else {
                     throw new InvalidStatusUpdateException();
                 }
             }
+//            else if(items.getDeliveryStatus().equalsIgnoreCase("C")){
+//                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("OP")){
+//                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+//                }
+//                else {
+//                    throw new InvalidStatusUpdateException();
+//                }
+//            }
             else if(items.getDeliveryStatus().equalsIgnoreCase("OP")){
                 if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("CO")){
                     items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
@@ -229,8 +235,10 @@ public class OrderServiceImpl implements OrderService {
         try{
             ItemsDTO itemsDTO1 = new ItemsDTO();
             Items items = itemRepository.findOne(itemsDTO.getId());
+            Orders orders=orderRepository.findOne(items.getOrders().id);
             Date date = new Date();
             items.setUpdatedOn(date);
+
 
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
             String customerEmail = customer.email;
@@ -239,17 +247,8 @@ public class OrderServiceImpl implements OrderService {
             context.setVariable("name", customerName);
             context.setVariable("productName",itemsDTO.getProductName());
             try {
-            if(items.getDeliveryStatus().equalsIgnoreCase("A")) {
-                items.setDeliveryStatus("C");
-                itemRepository.save(items);
-                String message = templateEngine.process("adminconfirmordertemplate", context);
-                mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.status.subject", null, locale));
 
-            }else if(items.getDeliveryStatus().equalsIgnoreCase("R")){
-                String message = templateEngine.process("admincancelordertemplate", context);
-                mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.status.subject", null, locale));
 
-            }
             if(items.getDeliveryStatus().equalsIgnoreCase("CO")){
                 if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("RI")){
                     items.setDeliveryStatus(items.getDeliveryStatus());
@@ -258,7 +257,7 @@ public class OrderServiceImpl implements OrderService {
 
                 }
             }
-                Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
+                //Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
                 orders.setUpdatedOn(date);
                 orders.setUpdatedBy(user.email);
                 orderRepository.save(orders);
@@ -272,6 +271,45 @@ public class OrderServiceImpl implements OrderService {
                 throw new AppException(customerName,customerEmail,messageSource.getMessage("order.status.subject", null, locale),itemsDTO1);
 
             }
+
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public void updateOrderByAdmin(OrderReqDTO orderReqDTO, User user) {
+        try{
+            List<DesignerOrderDTO> dtos = new ArrayList<>();
+            User customer = userRepository.findOne(orderReqDTO.getUserId());
+
+            Orders orders=orderRepository.findOne(orderReqDTO.getId());
+            Date date = new Date();
+            orders.setUpdatedOn(date);
+
+
+            for (Items items: orderReqDTO.getItems()) {
+                Products p = productRepository.findOne(items.getProductId());
+                DesignerOrderDTO dto= new DesignerOrderDTO();
+                dto.setProductName(p.name);
+                dto.setStoreName(p.designer.storeName);
+                dto.setDesignerEmail(p.designer.user.email);
+                dtos.add(dto);
+            }
+
+                if(orders.getDeliveryStatus().equalsIgnoreCase("P")){
+                    user.walletBalance=orderReqDTO.getPaidAmount();
+                    orders.setDeliveryStatus("PC");
+                    orders.setUpdatedOn(date);
+                    orders.setUpdatedBy(user.email);
+                    orderRepository.save(orders);
+                    sendEmailAsync.sendPaymentConfEmailToUser(customer,orders.getOrderNum());
+                    sendEmailAsync.sendEmailToDesigner(dtos,orders.getOrderNum());
+                }
+
+                orderRepository.save(orders);
 
 
         }catch (Exception ex){

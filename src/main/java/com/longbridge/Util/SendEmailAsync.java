@@ -63,6 +63,34 @@ public class SendEmailAsync {
         return null;
     }
 
+    @Async
+    public String sendPaymentConfEmailToUser(User user, String orderNumber) {
+
+        try {
+            System.out.println("Execute method asynchronously - "
+                    + Thread.currentThread().getName());
+
+            try {
+                Context context = new Context();
+                context.setVariable("name", user.firstName + " "+ user.lastName);
+                context.setVariable("orderNum",orderNumber);
+                String message = templateEngine.process("adminconfirmordertemplate", context);
+                mailService.prepareAndSend(message,user.email,messageSource.getMessage("order.status.subject", null, locale));
+
+            }catch (MailException me){
+                me.printStackTrace();
+                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.status.subject", null, locale),orderNumber);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+        return null;
+    }
+
+
 
 //    @Async
 //    public String sendEmailToAdmin(User user, String orderNumber) {
@@ -126,6 +154,40 @@ public class SendEmailAsync {
 
         return null;
     }
+
+
+
+    @Async
+    public String sendEmailToDesigner(DesignerOrderDTO designerOrderDTO, String orderNumber) {
+
+        try {
+            System.out.println("Execute method asynchronously - "
+                    + Thread.currentThread().getName());
+
+                try {
+                    Context context = new Context();
+                    context.setVariable("name", designerOrderDTO.getStoreName());
+                    context.setVariable("productName", designerOrderDTO.getProductName());
+                    context.setVariable("orderNum", orderNumber);
+
+                    String message = templateEngine.process("designerorderemailtemplate", context);
+                    mailService.prepareAndSend(message,designerOrderDTO.getDesignerEmail(), messageSource.getMessage("designerorder.success.subject", null, locale));
+
+
+                } catch (MailException me) {
+                    me.printStackTrace();
+                    throw new AppException(designerOrderDTO, designerOrderDTO.getDesignerEmail(), messageSource.getMessage("designerorder.success.subject", null, locale), orderNumber);
+
+                }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+        return null;
+    }
+
 
     @Async
     public String sendEmailToAdmin(User user, String orderNumber) {

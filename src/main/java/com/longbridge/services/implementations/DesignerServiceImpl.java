@@ -363,13 +363,21 @@ public class DesignerServiceImpl implements DesignerService{
         dto.createdDate = formatter.format(d.createdOn);
         List<ProductRespDTO> products= generalUtil.convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d,"Y"));
         dto.setProducts(products);
-        dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"P");
+        List<String> statuses=new ArrayList<>();
+        statuses.add("CO");
+        statuses.add("RI");
+        statuses.add("RS");
+        statuses.add("OS");
+        statuses.add("D");
+
+        //dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatusNotIn(d.id,statuses);
+        dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"OP");
         dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
         dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id, "X");
         dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
         dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"R");
         dto.noOfShippedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"S");
-       dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
+       dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"OP");
        // dto.setSalesChart(getSalesChart(d.id));
         return dto;
 

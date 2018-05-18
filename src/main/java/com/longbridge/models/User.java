@@ -31,6 +31,8 @@ public class User extends CommonFields{
 
     public Date activationDate;
 
+    public Double walletBalance=0.0;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     public List<Address> addresses;

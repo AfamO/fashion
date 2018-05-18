@@ -8,6 +8,7 @@ import java.util.List;
  * Created by Longbridge on 03/01/2018.
  */
 public class OrderReqDTO {
+    private Long id;
 
     private List<Items> items;
 
@@ -21,6 +22,7 @@ public class OrderReqDTO {
 
     private String orderDate;
     private String deliveredDate;
+    private Double paidAmount;
 
 
     public OrderReqDTO(List<Items> items, String totalAmount, String paymentType, Long userId, String deliveryStatus, Long deliveryAddressId, String orderDate, String deliveredDate) {
@@ -98,6 +100,22 @@ public class OrderReqDTO {
         this.deliveredDate = deliveredDate;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public OrderReqDTO() {
+    }
+
+    public Double getPaidAmount() {
+        return paidAmount;
+    }
+
+    public void setPaidAmount(Double paidAmount) {
+        this.paidAmount = paidAmount;
     }
 }
