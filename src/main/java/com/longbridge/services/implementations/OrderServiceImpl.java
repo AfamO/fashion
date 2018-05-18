@@ -290,7 +290,7 @@ public class OrderServiceImpl implements OrderService {
             orders.setUpdatedOn(date);
 
 
-            for (Items items: orderReqDTO.getItems()) {
+            for (Items items: orders.getItems()) {
                 Products p = productRepository.findOne(items.getProductId());
                 DesignerOrderDTO dto= new DesignerOrderDTO();
                 dto.setProductName(p.name);
