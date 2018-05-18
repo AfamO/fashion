@@ -186,7 +186,7 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
             System.out.println(items.getDeliveryStatus());
             System.out.println(itemsDTO.getDeliveryStatus());
-            if(items.getOrders().getDeliveryStatus().equalsIgnoreCase("PC")) {
+            if(items.getDeliveryStatus().equalsIgnoreCase("PC")) {
                 if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("OP")){
                     items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
                 }
@@ -289,8 +289,10 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
             orders.setUpdatedOn(date);
 
-
+            if(orders.getDeliveryStatus().equalsIgnoreCase("P")){
             for (Items items: orders.getItems()) {
+                items.setDeliveryStatus("PC");
+                itemRepository.save(items);
                 Products p = productRepository.findOne(items.getProductId());
                 DesignerOrderDTO dto= new DesignerOrderDTO();
                 dto.setProductName(p.name);
@@ -299,7 +301,7 @@ public class OrderServiceImpl implements OrderService {
                 dtos.add(dto);
             }
 
-                if(orders.getDeliveryStatus().equalsIgnoreCase("P")){
+
                     user.walletBalance=orderReqDTO.getPaidAmount();
                     orders.setDeliveryStatus("PC");
                     orders.setUpdatedOn(date);
