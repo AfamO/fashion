@@ -298,7 +298,7 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getAllOrdersByAdmin(userTemp));
+        Response response = new Response("00","Operation Successful",orderService.getAllOrdersByAdmin2(userTemp));
         return response;
     }
 
