@@ -495,6 +495,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDTO> getAllOrdersByAdmin2(User user) {
+        try {
+
+            return convertOrderEntsToDTOs(orderRepository.findAll());
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public OrderDTO getOrdersById(Long id) {
         try {
 
@@ -654,7 +666,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-
+    private List<OrderDTO> convertOrderEntsToDTOs(List<Orders> orders){
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for(Orders orders1:orders){
+            OrderDTO orderDTO = convertOrderEntToDTOs(orders1);
+            orderDTOS.add(orderDTO);
+        }
+        return orderDTOS;
+    }
 
     private OrderDTO convertOrderEntToDTOs(Orders orders){
         OrderDTO orderDTO = new OrderDTO();
