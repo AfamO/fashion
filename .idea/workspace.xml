@@ -2,37 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_jz.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_jz.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_jz.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_jz.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_jz.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_jz.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_jz_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_jz_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_jz_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_jz_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/segments_fm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_dt.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_dt.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_dt.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_dt.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_dt.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_dt.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_dt_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_dt_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_dt_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_dt_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/segments_du" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/UserController.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/UserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/dto/DesignerDTO.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/dto/DesignerDTO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Measurement.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Measurement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ItemRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ItemRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/emailtemplate.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/emailtemplate.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/templates/emailtemplate.html" afterPath="$PROJECT_DIR$/target/classes/templates/emailtemplate.html" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -81,7 +51,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="OrderServiceImpl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OrderServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="877">
@@ -93,11 +63,33 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="UserController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/UserController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="122" column="86" lean-forward="true" selection-start-line="122" selection-start-column="86" selection-end-line="122" selection-end-column="86" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DesignerController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/DesignerController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="142">
               <caret line="104" column="40" lean-forward="true" selection-start-line="104" selection-start-column="40" selection-end-line="104" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserUtil.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="23">
+              <caret line="486" column="13" lean-forward="true" selection-start-line="486" selection-start-column="13" selection-end-line="486" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -150,7 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>chart</find>
       <find>getde</find>
       <find>validateU</find>
       <find>search</find>
@@ -180,6 +171,7 @@
       <find>passwor</find>
       <find>numOfP</find>
       <find>no</find>
+      <find>linkC</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -237,13 +229,13 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/emailtemplate.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/UserController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/Measurement.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/dto/ItemsDTO.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/dto/DesignerDTO.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ItemRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/UserController.java" />
       </list>
     </option>
   </component>
@@ -1210,12 +1202,12 @@
       <workItem from="1522856807350" duration="544000" />
       <workItem from="1522863819757" duration="142936000" />
       <workItem from="1524749315676" duration="180109000" />
-      <workItem from="1526461872526" duration="63537000" />
+      <workItem from="1526461872526" duration="64212000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="872943000" />
+    <option name="totallyTimeSpent" value="873618000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1255,6 +1247,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2706422" sideWeight="0.47833332" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29833838" sideWeight="0.5159705" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36666667" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33105022" sideWeight="0.52166665" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1263,7 +1256,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3294509" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36666667" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1591,24 +1583,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="460" column="33" lean-forward="false" selection-start-line="460" selection-start-column="33" selection-end-line="460" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="127" column="31" lean-forward="false" selection-start-line="127" selection-start-column="31" selection-end-line="127" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/dto/ItemsDTO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="139">
@@ -1761,6 +1735,24 @@
           <folding>
             <element signature="e#18233#18243#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="122" column="86" lean-forward="true" selection-start-line="122" selection-start-column="86" selection-end-line="122" selection-end-column="86" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="486" column="13" lean-forward="true" selection-start-line="486" selection-start-column="13" selection-end-line="486" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>

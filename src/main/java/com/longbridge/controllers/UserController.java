@@ -119,8 +119,8 @@ public class UserController {
     public Response updateUser(@RequestBody UserDTO passedUser, Device device){
         //======================================================
 
-        userUtil.updatePassword(passedUser,device);
-        Response response = new Response("00", "Operation Successful", "success");
+
+        Response response = new Response("00", "Operation Successful", userUtil.updatePassword(passedUser,device));
         return response;
     }
 
