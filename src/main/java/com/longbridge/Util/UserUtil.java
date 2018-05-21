@@ -458,14 +458,24 @@ public void updateUser(UserDTO passedUser, User userTemp){
 }
 
 
-    public void updatePassword(UserDTO passedUser){
+    public LogInResp updatePassword(UserDTO passedUser,Device device){
         try {
             Date date = new Date();
+            LogInResp logInResp = new LogInResp();
             User userTemp = userRepository.findByEmail(passedUser.getEmail());
             if(passedUser.getNewPassword() != null && passedUser.getNewPassword() != "") {
                 if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password)) {
                     userTemp.password = Hash.createPassword(passedUser.getNewPassword());
                     userTemp.linkClicked="Y";
+
+                    final UserDetails userDetails = userDetailsService.loadUserByUsername(passedUser.getEmail());
+                    System.out.println("userdetails is "+userDetails.toString());
+                    final String token = jwtTokenUtil.generateToken(userDetails, device);
+                    System.out.println("Token is "+token);
+                    //implement sessionid
+
+                    logInResp.setToken(token);
+
                 }
                 else if (userTemp.linkClicked.equalsIgnoreCase( "Y")){
 
@@ -478,6 +488,7 @@ public void updateUser(UserDTO passedUser, User userTemp){
 
             userTemp.setUpdatedOn(date);
             userRepository.save(userTemp);
+            return logInResp;
 
         } catch (Exception e) {
             e.printStackTrace();

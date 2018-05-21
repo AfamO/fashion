@@ -52,6 +52,8 @@ public class Measurement extends CommonFields{
 
     private String shoulderToWaist;
 
+    private String unit;
+
     @JsonIgnore
     @ManyToOne
     private User user;
@@ -227,6 +229,14 @@ public class Measurement extends CommonFields{
 
     public void setNeck(String neck) {
         this.neck = neck;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Measurement(String name, String overBust, String bust, String armHole, String neckToHeel, String neckToAboveHeel, String vNeckCut, String underBust, String hips, String waist, String armsLength, String shoulderSeam, String kneeToAnkle, String foreArm, String wrist, String bicep, String waistToKnee, String shoulderToWaist, User user) {

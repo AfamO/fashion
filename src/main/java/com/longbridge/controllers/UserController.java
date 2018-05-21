@@ -116,10 +116,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/editpassword")
-    public Response updateUser(@RequestBody UserDTO passedUser){
+    public Response updateUser(@RequestBody UserDTO passedUser, Device device){
         //======================================================
 
-        userUtil.updatePassword(passedUser);
+        userUtil.updatePassword(passedUser,device);
         Response response = new Response("00", "Operation Successful", "success");
         return response;
     }

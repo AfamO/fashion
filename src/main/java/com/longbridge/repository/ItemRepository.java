@@ -25,6 +25,9 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
     List<Items> findByDesignerId(Long designerId);
     int countByDesignerIdAndDeliveryStatus(Long designerId, String status);
 
+    @Query("select sum(quantity) from Items where designerId = :designerId and deliveryStatus = :deliveryStatus")
+    int  countPendingItemQuantities(Long designerId, String status);
+
     int countByDesignerIdAndDeliveryStatusNotIn(Long designerId, List<String> statuses);
 
 //    @Query("select productId, count(productId) as 'mcount', productId from Items group by productId order by 'mcount' desc")
