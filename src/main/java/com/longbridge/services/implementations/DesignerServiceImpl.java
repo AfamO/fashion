@@ -295,7 +295,6 @@ public class DesignerServiceImpl implements DesignerService{
             List<SalesChart> salesCharts = new ArrayList<>();
             DesignerDTO dto = convertDesigner2EntToDTO(designer);
             for (String month:months.getMonths()) {
-
                 YearMonth d = YearMonth.parse(month);
                 LocalDate startDateMonth = d.atDay(1);
                 LocalDate endDateMonth = d.atEndOfMonth();
@@ -317,7 +316,6 @@ public class DesignerServiceImpl implements DesignerService{
                     salesChart.setAmount(0.0);
                 }
                 salesCharts.add(salesChart);
-
             }
 
            dto.setSalesChart(salesCharts);

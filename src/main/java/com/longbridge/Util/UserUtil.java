@@ -79,12 +79,12 @@ public class UserUtil {
         try {
 
             Date date = new Date();
-            Address address = Address.createAddress(passedUser,passedUser.address,"Y");
-            List<Address> addresses = new ArrayList<>();
+            //Address address = Address.createAddress(passedUser,passedUser.address,"Y");
+            //List<Address> addresses = new ArrayList<>();
             User user = userRepository.findByEmail(passedUser.email);
             if(user==null){
-                passedUser.addresses = addresses;
-                passedUser.addresses.add(address);
+                //passedUser.addresses = addresses;
+                //passedUser.addresses.add(address);
                 passedUser.password = Hash.createPassword(passedUser.password);
 
                 System.out.println("this is"+passedUser.designer);
