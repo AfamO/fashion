@@ -362,14 +362,14 @@ public class DesignerServiceImpl implements DesignerService{
         List<ProductRespDTO> products= generalUtil.convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d,"Y"));
         dto.setProducts(products);
         List<String> statuses=new ArrayList<>();
-        statuses.add("CO");
-        statuses.add("RI");
-        statuses.add("RS");
-        statuses.add("OS");
-        statuses.add("D");
+        statuses.add("OP");
+        statuses.add("PC");
+//        statuses.add("RS");
+//        statuses.add("OS");
+//        statuses.add("D");
 
         //dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatusNotIn(d.id,statuses);
-        dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"OP");
+        dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatusIn(d.id,statuses);
         //dto.quantityOfPendingOrders= itemRepository.countPendingItemQuantities(d.id,"OP");
         dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
         dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id, "X");

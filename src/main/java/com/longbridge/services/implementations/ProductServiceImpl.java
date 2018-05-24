@@ -946,7 +946,7 @@ Date date = new Date();
     @Override
     public List<ProductRespDTO> getFreqBoughtProducts() {
         try {
-            List<Products> products= productRepository.findTop10ByDesignerStatusOrderByNumOfTimesOrderedDesc("A");
+            List<Products> products= productRepository.findTop10ByDesignerStatusAndNumOfTimesOrderedNotOrderByNumOfTimesOrderedDesc("A",0);
 
 
             return generalUtil.convertProdEntToProdRespDTOs(products);

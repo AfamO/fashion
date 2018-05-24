@@ -35,7 +35,8 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
 
     List<Products> findFirst5ByPriceSlashEnabledTrue();
 
-    List<Products> findTop10ByDesignerStatusOrderByNumOfTimesOrderedDesc(String designerStatus);
+    List<Products> findTop10ByDesignerStatusAndNumOfTimesOrderedNotOrderByNumOfTimesOrderedDesc(String designerStatus,int no);
+
     Page<Products> findByVerfiedOnIsNull(Pageable pageable);
    // @Query("select p from Products p where p.picture like %:pictureName%")
     //Products findByPicture(String pictureName);
