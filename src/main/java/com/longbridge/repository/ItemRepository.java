@@ -35,8 +35,8 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 //    @Query("select productId, count(productId) as 'mcount', productId from Items group by productId order by 'mcount' desc")
 //    Page<Long> findTopByCustomQuery(Pageable pageable);
 
-    @Query("select sum(amount) from Items where designerId = :designerId and deliveryStatus = :deliveryStatus")
-    Double findSumOfPendingOrders(@Param("designerId") Long designerId, @Param("deliveryStatus") String deliveryStatus);
+    @Query("select sum(amount) from Items where designerId = :designerId and deliveryStatus in :deliveryStatus")
+    Double findSumOfPendingOrders(@Param("designerId") Long designerId, @Param("deliveryStatus") List<String> deliveryStatus);
 
 
     //@Query(value = "SELECT SUM(amount) as amount, created_on as date FROM items WHERE designer_id =:designerid and created_on between :lastSixMonths and :current GROUP BY cast(created_on AS DATE)",nativeQuery = true)
