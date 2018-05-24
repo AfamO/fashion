@@ -261,7 +261,8 @@ public class EventServiceImpl implements EventService {
             //converting local date to date format
             Date date1 = Date.from(startDateMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
             Date date2 = Date.from(endDateMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            Page<Events> events = eventRepository.findByEventDateBetween(date1,date2,new PageRequest(page,size));
+            //Page<Events> events = eventRepository.findByEventDateBetween(date1,date2,new PageRequest(page,size));
+            Page<Events> events = eventRepository.findByEventDateBetweenOrderByEventDateDesc(date1,date2,new PageRequest(page,size));
             if(page > events.getTotalPages()){
                 //throw new WawoohException("events not found");
             }
