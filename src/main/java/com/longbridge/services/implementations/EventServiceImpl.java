@@ -286,10 +286,10 @@ public class EventServiceImpl implements EventService {
 
         try {
             if(eventDateDTO.eventType.equalsIgnoreCase("A")) {
-                events = eventRepository.findAll(new PageRequest(page, size));
+                events = eventRepository.findAllByOrderByEventDateDesc(new PageRequest(page, size));
             }
             else if(eventDateDTO.eventType.equalsIgnoreCase("S")){
-              events = eventRepository.findByEventType(eventDateDTO.eventType, new PageRequest(page,size));
+              events = eventRepository.findByEventTypeOrderByEventDateDesc(eventDateDTO.eventType, new PageRequest(page,size));
             }
             else if(eventDateDTO.eventType.equalsIgnoreCase("T")){
                 //todo later;

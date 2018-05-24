@@ -17,8 +17,9 @@ import java.util.List;
 public interface EventRepository extends CommonRepository<Events,Long> {
     List<Events> findTop5ByOrderByEventDateDesc();
     Page<Events> findAllByOrderByTrendingCountDesc(Pageable pageable);
+    Page<Events> findAllByOrderByEventDateDesc(Pageable pageable);
     Page<Events> findByEventDateBetweenOrderByEventDateDesc(Date startDate, Date endDate, Pageable pageData);
-    Page<Events> findByEventType(String eventType, Pageable pageable);
+    Page<Events> findByEventTypeOrderByEventDateDesc(String eventType, Pageable pageable);
 
 //    @Query("SELECT e from Events  e where eventsName like %:search%")
 //    List<Events> searchBySearchTerm(@Param("search") String search);
