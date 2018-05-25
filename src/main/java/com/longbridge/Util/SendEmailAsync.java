@@ -137,9 +137,14 @@ public class SendEmailAsync {
                         context.setVariable("productName", designerOrderDTO.getProductName());
                         context.setVariable("orderNum", orderNumber);
 
-                        String message = templateEngine.process("designerorderemailtemplate", context);
-                        mailService.prepareAndSend(message,designerOrderDTO.getDesignerEmail(), messageSource.getMessage("designerorder.success.subject", null, locale));
+                        try {
+                            String message = templateEngine.process("designerorderemailtemplate", context);
+                            mailService.prepareAndSend(message, designerOrderDTO.getDesignerEmail(), messageSource.getMessage("designerorder.success.subject", null, locale));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            throw new AppException(designerOrderDTO, designerOrderDTO.getDesignerEmail(), messageSource.getMessage("designerorder.success.subject", null, locale), orderNumber);
 
+                        }
 
                     } catch (MailException me) {
                         me.printStackTrace();
