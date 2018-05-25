@@ -181,8 +181,9 @@ public class OrderServiceImpl implements OrderService {
             String customerName = customer.lastName+" "+ customer.firstName;
             Context context = new Context();
             context.setVariable("name", customerName);
-            context.setVariable("productName",itemsDTO.getProductName());
+
             Items items = itemRepository.findOne(itemsDTO.getId());
+            context.setVariable("productName",productRepository.findOne(items.getProductId()).name);
             Date date = new Date();
             System.out.println(items.getDeliveryStatus());
             System.out.println(itemsDTO.getDeliveryStatus());
