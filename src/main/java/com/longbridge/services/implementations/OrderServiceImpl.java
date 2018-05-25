@@ -121,11 +121,11 @@ public class OrderServiceImpl implements OrderService {
                 items.setUpdatedOn(date);
                 itemRepository.save(items);
                 Products p = productRepository.findOne(items.getProductId());
-                DesignerOrderDTO dto= new DesignerOrderDTO();
-                dto.setProductName(p.name);
-                dto.setStoreName(p.designer.storeName);
-                dto.setDesignerEmail(p.designer.user.email);
-                dtos.add(dto);
+//                DesignerOrderDTO dto= new DesignerOrderDTO();
+//                dto.setProductName(p.name);
+//                dto.setStoreName(p.designer.storeName);
+//                dto.setDesignerEmail(p.designer.user.email);
+//                dtos.add(dto);
                 p.numOfTimesOrdered = p.numOfTimesOrdered+1;
                 if(p.stockNo != 0){
                     p.stockNo=p.stockNo-items.getQuantity();
@@ -160,7 +160,7 @@ public class OrderServiceImpl implements OrderService {
 //            }
 
             sendEmailAsync.sendEmailToUser(user,orderNumber);
-            sendEmailAsync.sendEmailToDesigner(dtos,orderNumber);
+           //sendEmailAsync.sendEmailToDesigner(dtos,orderNumber);
 //            sendEmailAsync.sendEmailToAdmin(userRepository.findByRole("superadmin"),orderNumber);
 
             return orderNumber;
