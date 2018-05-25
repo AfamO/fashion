@@ -252,7 +252,7 @@ public class OrderServiceImpl implements OrderService {
 
             if(items.getDeliveryStatus().equalsIgnoreCase("CO")){
                 if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("RI")){
-                    items.setDeliveryStatus(items.getDeliveryStatus());
+                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
 
                     String message = templateEngine.process("readyforinsptemplate", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
