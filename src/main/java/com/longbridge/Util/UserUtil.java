@@ -372,6 +372,7 @@ public class UserUtil {
                         }
                     });
                 }
+
                 user.designer=null;
                 /*
                 todo : refreshing token needs to be discussed if necessary
