@@ -259,6 +259,24 @@ public class OrderServiceImpl implements OrderService {
 
                 }
             }
+            else if(items.getDeliveryStatus().equalsIgnoreCase("RI")){
+                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("RS")){
+                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+
+                    String message = templateEngine.process("ordershippedemail", context);
+                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
+
+                }
+            }
+            else if(items.getDeliveryStatus().equalsIgnoreCase("RS")){
+                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("D")){
+                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+
+                    String message = templateEngine.process("orderdeliveredemail", context);
+                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
+
+                }
+            }
                 //Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
                 orders.setUpdatedOn(date);
                 orders.setUpdatedBy(user.email);
@@ -304,7 +322,8 @@ public class OrderServiceImpl implements OrderService {
             }
 
 
-                    user.walletBalance=orderReqDTO.getPaidAmount();
+                    customer.walletBalance=orderReqDTO.getPaidAmount();
+                    userRepository.save(customer);
                     orders.setDeliveryStatus("PC");
                     orders.setUpdatedOn(date);
                     orders.setUpdatedBy(user.email);
@@ -312,8 +331,6 @@ public class OrderServiceImpl implements OrderService {
                     sendEmailAsync.sendPaymentConfEmailToUser(customer,orders.getOrderNum());
                     sendEmailAsync.sendEmailToDesigner(dtos,orders.getOrderNum());
                 }
-
-                orderRepository.save(orders);
 
 
         }catch (Exception ex){

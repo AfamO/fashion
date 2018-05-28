@@ -7,6 +7,7 @@ import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.DesignerRepository;
 import com.longbridge.repository.MailErrorRepository;
+import com.longbridge.repository.OrderRepository;
 import com.longbridge.repository.TokenRepository;
 import com.longbridge.respbodydto.LogInResp;
 import com.longbridge.security.JwtTokenUtil;
@@ -47,6 +48,9 @@ public class UserUtil {
 
     @Autowired
     MailErrorRepository mailErrorRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -368,10 +372,13 @@ public class UserUtil {
                         }
                     });
                 }
+                user.designer=null;
                 /*
                 todo : refreshing token needs to be discussed if necessary
                  */
 //                refreshAuthenticationDetails(user,token);
+
+               // user.walletBalance=orderRepository.getWalletBalance(user.id);
                 responseMap.put("userDetails",user);
                 Response response = new Response("00","User found",responseMap);
                 return response;
