@@ -1,9 +1,11 @@
 package com.longbridge.controllers;
 
 import com.longbridge.Util.UserUtil;
+import com.longbridge.models.Orders;
 import com.longbridge.models.ProductRating;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
+import com.longbridge.services.OrderService;
 import com.longbridge.services.ProductRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by Longbridge on 25/04/2018.
@@ -38,8 +41,13 @@ public class ProductRatingController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        productRatingService.RateProduct(user,productid,productRating);
-        Response response = new Response("00","Operation Successful","success");
+
+        Response response = null;
+        if(productRatingService.RateProduct(user,productid,productRating)){
+            response = new Response("00","Operation Successful","success");
+        }else{
+            response = new Response("99","User Has Not Ordered Product","failure");
+        }
         return response;
     }
 

@@ -1,5 +1,6 @@
 package com.longbridge.repository;
 
+import com.longbridge.models.Items;
 import com.longbridge.models.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,9 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
     Orders findByOrderNum(String orderNum);
    // Orders findByItem(Lon item);
     List<Orders> findByUserId(Long userId);
+    @Query("SELECT Count(id) FROM orders WHERE (orders.id IN (SELECT items.orders_id FROM items WHERE product_id = :productId)) AND orders.user_id = :userId")
+    Long noOfTimesOrdered(Long productId, Long userId);
+
 
     @Query("select sum(totalAmount) from Orders where userId = :userId")
     Double getWalletBalance(Long userId);
