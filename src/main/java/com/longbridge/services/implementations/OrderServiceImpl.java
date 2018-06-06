@@ -121,11 +121,7 @@ public class OrderServiceImpl implements OrderService {
                 items.setUpdatedOn(date);
                 itemRepository.save(items);
                 Products p = productRepository.findOne(items.getProductId());
-//                DesignerOrderDTO dto= new DesignerOrderDTO();
-//                dto.setProductName(p.name);
-//                dto.setStoreName(p.designer.storeName);
-//                dto.setDesignerEmail(p.designer.user.email);
-//                dtos.add(dto);
+
                 p.numOfTimesOrdered = p.numOfTimesOrdered+1;
                 if(p.stockNo != 0){
                     p.stockNo=p.stockNo-items.getQuantity();
@@ -146,18 +142,6 @@ public class OrderServiceImpl implements OrderService {
                 cartRepository.delete(c);
             }
 
-//            try {
-//                Context context = new Context();
-//                context.setVariable("name", user.firstName + user.lastName);
-//                context.setVariable("orderNum",orderNumber);
-//                String message = templateEngine.process("orderemailtemplate", context);
-//                mailService.prepareAndSend(message,user.email,messageSource.getMessage("order.success.subject", null, locale));
-//
-//            }catch (MailException me){
-//                me.printStackTrace();
-//                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.success.subject", null, locale),orderNumber);
-//
-//            }
 
             sendEmailAsync.sendEmailToUser(user,orderNumber);
            //sendEmailAsync.sendEmailToDesigner(dtos,orderNumber);
@@ -320,8 +304,6 @@ public class OrderServiceImpl implements OrderService {
                 dto.setDesignerEmail(p.designer.user.email);
                 dtos.add(dto);
             }
-
-
                     customer.walletBalance=orderReqDTO.getPaidAmount();
                     userRepository.save(customer);
                     orders.setDeliveryStatus("PC");
