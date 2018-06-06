@@ -19,5 +19,8 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
     @Query("select sum(totalAmount) from Orders where userId = :userId")
     Double getWalletBalance(Long userId);
 
+    @Query("SELECT Count(id) FROM Orders WHERE (id IN (SELECT orders FROM Items WHERE productId = :productId)) AND userId = :userId")
+    Long noOfTimesOrdered(Long productId, Long userId);
+
 
 }

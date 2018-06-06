@@ -52,7 +52,9 @@ public class AddressController {
         Map<String, Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
         addressService.updateAddress(address,userTemp);
+        }
         Response response = new Response("00", "Operation Successful", responseMap);
         return response;
     }

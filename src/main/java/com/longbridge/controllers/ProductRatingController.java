@@ -31,15 +31,20 @@ public class ProductRatingController {
 
     @PostMapping(value = "/{productid}/rateproduct")
     public Response rateProduct(@RequestBody ProductRating productRating, @PathVariable Long productid, HttpServletRequest request){
-        System.out.println("i got here");
+        Response response = null;
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
 
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        productRatingService.RateProduct(user,productid,productRating);
-        Response response = new Response("00","Operation Successful","success");
+
+        if(productRatingService.RateProduct(user,productid,productRating)){
+            response = new Response("00","Operation Successful","success");
+        }else{
+            response = new Response("99","User Has Not Ordered Product","failure");
+        }
+
         return response;
     }
 
