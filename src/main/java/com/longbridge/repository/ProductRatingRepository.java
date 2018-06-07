@@ -3,7 +3,6 @@ package com.longbridge.repository;
 import com.longbridge.dto.ProductsWithRating;
 import com.longbridge.models.ProductRating;
 import com.longbridge.models.Products;
-import com.longbridge.models.Rating;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
