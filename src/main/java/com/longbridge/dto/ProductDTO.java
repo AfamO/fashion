@@ -12,6 +12,7 @@ public class ProductDTO {
     public Long id;
     public String name;
     public double amount;
+    public double slashedPrice;
     public String designerId;
     public String designerName;
     public String designerStatus;

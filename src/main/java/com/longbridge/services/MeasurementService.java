@@ -12,7 +12,7 @@ public interface MeasurementService {
 
     void customize(User userTemp, Measurement measurement);
     void updateCustomization(User userTemp, Measurement measurement);
-    void deleteMeasurement(User userTemp, Long measurementId);
+    boolean deleteMeasurement(User userTemp, Long measurementId);
     Measurement getMeasurementById(User user, Long measurementId);
     List<Measurement> getUserMeasurement(User user);
     Measurement getMeasurementByName(User user, String measurementName);

@@ -29,6 +29,7 @@ public class DesignerDTO {
     public int noOfCancelledOrders;
     public int noOfDeliveredOrders;
     public int quantityOfPendingOrders;
+    public int qualityRating;
     public Double amountOfPendingOrders;
     private List<ProductRespDTO> products;
     private String status;

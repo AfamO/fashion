@@ -362,6 +362,13 @@ public class ProductServiceImpl implements ProductService {
             products.inStock=productDTO.inStock;
             products.setCreatedOn(date);
             products.setUpdatedOn(date);
+
+            if(productDTO.slashedPrice != 0){
+                PriceSlash priceSlash = new PriceSlash();
+                products.priceSlashEnabled = true;
+                priceSlash.setProducts(products);
+                priceSlash.setSlashedPrice(productDTO.slashedPrice);
+            }
             productRepository.save(products);
 
             for(String p:pics){
@@ -446,6 +453,13 @@ public class ProductServiceImpl implements ProductService {
             products.stockNo=productDTO.stockNo;
             products.inStock=productDTO.inStock;
             products.setUpdatedOn(date);
+
+            if(productDTO.slashedPrice != 0){
+                PriceSlash priceSlash = new PriceSlash();
+                products.priceSlashEnabled = true;
+                priceSlash.setProducts(products);
+                priceSlash.setSlashedPrice(productDTO.slashedPrice);
+            }
             productRepository.save(products);
 
         }catch (Exception e) {

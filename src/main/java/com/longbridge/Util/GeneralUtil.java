@@ -7,6 +7,7 @@ import com.longbridge.exception.WawoohException;
 import com.longbridge.exception.WriteFileException;
 import com.longbridge.models.*;
 import com.longbridge.repository.EventPictureRepository;
+import com.longbridge.repository.PriceSlashRepository;
 import com.longbridge.repository.WishListRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
 import org.apache.commons.io.FileUtils;
@@ -63,6 +64,9 @@ public class GeneralUtil {
 
     @Autowired
     WishListRepository wishListRepository;
+
+    @Autowired
+    PriceSlashRepository priceSlashRepository;
 
     public List<ProductPictureDTO> convertProdPictureEntitiesToDTO(List<ProductPicture> productPictures){
         List<ProductPictureDTO> productPictureDTOS = new ArrayList<ProductPictureDTO>();
@@ -175,6 +179,11 @@ public class GeneralUtil {
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
         productDTO.numOfDaysToComplete=products.numOfDaysToComplete;
 
+        PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
+        if(priceSlash != null){
+            productDTO.slashedPrice = priceSlash.getSlashedPrice();
+        }
+
         List<ProductPicture> productPictures = products.picture;
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 
@@ -184,17 +193,35 @@ public class GeneralUtil {
         List<MaterialPicture> materialPictures = products.materialPicture;
         productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
         int sum = 0;
+        int deliverySum = 0;
+        int serviceSum = 0;
+
         int noOfUsers = products.reviews.size();
 
         for (ProductRating productrating: products.reviews) {
             sum = sum+productrating.getProductQualityRating();
+            deliverySum += productrating.getDeliveryTimeRating();
+            serviceSum += productrating.getServiceRating();
         }
         if(sum != 0){
-            Double pQualityRating= ((double) sum/(noOfUsers*5))*5;
+            Double pQualityRating= (double) sum/noOfUsers;
             productDTO.productQualityRating = pQualityRating.intValue();
-        }
-        else {
+        }else {
             productDTO.productQualityRating=0;
+        }
+
+        if(deliverySum != 0){
+            Double deliveryRating = (double) deliverySum/noOfUsers;
+            productDTO.productDeliveryRating = deliveryRating.intValue();
+        }else{
+            productDTO.productDeliveryRating = 0;
+        }
+
+        if(serviceSum != 0){
+            Double serviceRating = (double) serviceSum/noOfUsers;
+            productDTO.productServiceRating = serviceRating.intValue();
+        }else{
+            productDTO.productServiceRating = 0;
         }
 
         return productDTO;
@@ -230,6 +257,10 @@ public class GeneralUtil {
         productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
 
         productDTO.reviews=products.reviews;
+        PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
+        if(priceSlash != null){
+            productDTO.slashedPrice = priceSlash.getSlashedPrice();
+        }
 
         return productDTO;
 
