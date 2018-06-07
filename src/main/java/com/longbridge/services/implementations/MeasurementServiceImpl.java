@@ -3,6 +3,8 @@ package com.longbridge.services.implementations;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.Measurement;
 import com.longbridge.models.User;
+import com.longbridge.repository.CartRepository;
+import com.longbridge.repository.ItemRepository;
 import com.longbridge.repository.MeasurementRepository;
 import com.longbridge.services.MeasurementService;
 import org.apache.commons.beanutils.BeanUtils;
@@ -21,6 +23,10 @@ import java.util.List;
 public class MeasurementServiceImpl implements MeasurementService {
     @Autowired
     MeasurementRepository measurementRepository;
+    @Autowired
+    CartRepository cartRepository;
+    @Autowired
+    ItemRepository itemRepository;
 
     @Override
     public void customize(User userTemp, Measurement measurement) {
@@ -56,11 +62,15 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     @Override
-    public void deleteMeasurement(User userTemp, Long measurementId) {
+    public boolean deleteMeasurement(User userTemp, Long measurementId) {
         try {
-           //Measurement measurement = measurementRepository.findOne(measurementId);
-            measurementRepository.delete(measurementId);
-
+            if(cartRepository.countByMeasurementId(measurementId) > 0 || itemRepository.countByMeasurementIdAndDeliveryStatusNot(measurementId, "D") > 0){
+                return false;
+            }
+            Measurement measurement = measurementRepository.findOne(measurementId);
+            measurement.setDelFlag("Y");
+            measurementRepository.save(measurement);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
@@ -84,7 +94,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Override
     public List<Measurement> getUserMeasurement(User user) {
         try {
-            List<Measurement> m = measurementRepository.findByUser(user);
+            List<Measurement> m = measurementRepository.findByUserAndDelFlag(user, "N");
             return m;
 
         } catch (Exception e) {
@@ -96,7 +106,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Override
     public Measurement getMeasurementByName(User user, String measurementName) {
         try {
-            Measurement m = measurementRepository.findByUserAndName(user,measurementName);
+            Measurement m = measurementRepository.findByUserAndNameAndDelFlag(user,measurementName, "N");
             return m;
 
         } catch (Exception e) {

@@ -454,7 +454,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<ItemsDTO> getOrdersByDesigner(User user) {
         try {
-
             return convertItemsEntToDTOs(itemRepository.findByDesignerId(user.designer.id));
 
         }catch (Exception ex){

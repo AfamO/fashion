@@ -80,8 +80,13 @@ public class CustomizationController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        measurementService.deleteMeasurement(userTemp, id);
-        Response response = new Response("00","Operation Successful","success");
+
+        Response response = null;
+        if(measurementService.deleteMeasurement(userTemp, id)){
+            response = new Response("00","Operation Successful","success");
+        }else{
+            response = new Response("99","Measurement is in use","failure");
+        }
         return response;
     }
 

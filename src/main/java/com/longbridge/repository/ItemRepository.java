@@ -24,6 +24,7 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 
     List<Items> findByDesignerId(Long designerId);
     int countByDesignerIdAndDeliveryStatus(Long designerId, String status);
+    Long countByMeasurementIdAndDeliveryStatusNot(Long measurementId, String status);
 
     int countByDesignerIdAndDeliveryStatusIn(Long designerId, List<String> status);
 

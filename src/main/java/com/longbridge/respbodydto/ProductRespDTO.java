@@ -15,6 +15,7 @@ public class ProductRespDTO {
     public Long id;
     public String name;
     public double amount;
+    public double slashedPrice;
     public String designerId;
     public String designerStatus;
     public String designerName;
@@ -46,6 +47,10 @@ public class ProductRespDTO {
     public int numOfTimesOrdered;
 
     public int productQualityRating;
+
+    public int productDeliveryRating;
+
+    public int productServiceRating;
 
     public String wishListFlag;
 

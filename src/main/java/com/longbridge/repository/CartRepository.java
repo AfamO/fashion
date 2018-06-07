@@ -3,6 +3,7 @@ package com.longbridge.repository;
 import com.longbridge.models.Address;
 import com.longbridge.models.Cart;
 import com.longbridge.models.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,6 @@ public interface CartRepository extends PagingAndSortingRepository<Cart,Long> {
     Long countByUser(User user);
 
     List<Cart> findByUser(User user);
+
+    Long countByMeasurementId(Long measurementId);
 }

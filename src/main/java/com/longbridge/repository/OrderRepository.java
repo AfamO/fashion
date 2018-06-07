@@ -1,5 +1,6 @@
 package com.longbridge.repository;
 
+import com.longbridge.models.Items;
 import com.longbridge.models.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
