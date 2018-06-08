@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java" />
-    </list>
+    <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,8 +69,18 @@
       <file leaf-file-name="orderemailtemplate.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="8" column="103" lean-forward="true" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="103" />
+            <state relative-caret-position="231">
+              <caret line="19" column="82" lean-forward="false" selection-start-line="19" selection-start-column="82" selection-end-line="19" selection-end-column="82" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adminconfirmordertemplate.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/adminconfirmordertemplate.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="92">
+              <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -98,7 +106,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SendEmailAsync.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SendEmailAsync.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="49">
@@ -153,16 +161,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
               <caret line="7" column="10" lean-forward="true" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="emailtemplate.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/emailtemplate.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="3" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -879,7 +877,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15127000" />
+    <option name="totallyTimeSpent" value="15307000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1042,47 +1040,47 @@
         <state relative-caret-position="1047">
           <caret line="191" column="20" lean-forward="false" selection-start-line="191" selection-start-column="20" selection-end-line="191" selection-end-column="20" />
           <folding>
-            <marker date="1528466138000" expanded="true" signature="81697:81716" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="81697:81734" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="81697:81747" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="81697:81762" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="81797:84383" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="81810:84368" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="81864:82253" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="81883:82238" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="81995:82218" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82035:82184" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82056:82162" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82303:82618" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82322:82603" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82399:82583" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82439:82549" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82460:82527" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82669:82940" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82688:82925" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82721:82905" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82761:82871" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82782:82849" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="82983:83295" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83002:83280" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83076:83260" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83116:83226" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83137:83204" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83346:83669" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83365:83654" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83450:83634" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83490:83600" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83511:83578" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83704:83969" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83723:83954" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83756:83934" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83796:83900" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="83817:83878" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="84021:84354" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="84040:84339" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="84135:84319" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="84175:84285" ph="..." />
-            <marker date="1528466138000" expanded="true" signature="84196:84263" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="78701:78720" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="78701:78738" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="78701:78751" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="78701:78766" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="78801:81387" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="78814:81372" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="78868:79257" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="78887:79242" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="78999:79222" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79039:79188" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79060:79166" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79307:79622" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79326:79607" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79403:79587" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79443:79553" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79464:79531" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79673:79944" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79692:79929" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79725:79909" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79765:79875" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79786:79853" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="79987:80299" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80006:80284" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80080:80264" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80120:80230" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80141:80208" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80350:80673" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80369:80658" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80454:80638" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80494:80604" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80515:80582" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80708:80973" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80727:80958" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80760:80938" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80800:80904" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="80821:80882" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="81025:81358" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="81044:81343" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="81139:81323" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="81179:81289" ph="..." />
+            <marker date="1528466283000" expanded="true" signature="81200:81267" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1302,14 +1300,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/adminconfirmordertemplate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="107" lean-forward="false" selection-start-line="8" selection-start-column="107" selection-end-line="8" selection-end-column="107" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/adminorderemailtemplate.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1338,14 +1328,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="3" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="8" column="103" lean-forward="true" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="103" />
           <folding />
         </state>
       </provider>
@@ -1410,6 +1392,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="49">
           <caret line="76" column="96" lean-forward="false" selection-start-line="76" selection-start-column="96" selection-end-line="76" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="19" column="82" lean-forward="false" selection-start-line="19" selection-start-column="82" selection-end-line="19" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/adminconfirmordertemplate.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
           <folding />
         </state>
       </provider>
