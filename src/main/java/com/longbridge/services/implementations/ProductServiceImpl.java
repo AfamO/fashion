@@ -368,6 +368,7 @@ public class ProductServiceImpl implements ProductService {
                 products.priceSlashEnabled = true;
                 priceSlash.setProducts(products);
                 priceSlash.setSlashedPrice(productDTO.slashedPrice);
+                priceSlashRepository.save(priceSlash);
             }
             productRepository.save(products);
 
@@ -459,6 +460,7 @@ public class ProductServiceImpl implements ProductService {
                 products.priceSlashEnabled = true;
                 priceSlash.setProducts(products);
                 priceSlash.setSlashedPrice(productDTO.slashedPrice);
+                priceSlashRepository.save(priceSlash);
             }
             productRepository.save(products);
 
