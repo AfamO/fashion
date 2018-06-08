@@ -39,21 +39,26 @@ public class SendEmailAsync {
 
     @Async
     public String sendEmailToUser(User user, String orderNumber) {
-
+            String link = "";
         try {
             System.out.println("Execute method asynchronously - "
                 + Thread.currentThread().getName());
 
             try {
+                String mail = user.email;
+                // String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
+                link = messageSource.getMessage("order.status.track",null,locale)+user.firstName;
                 Context context = new Context();
                 context.setVariable("name", user.firstName + " "+ user.lastName);
                 context.setVariable("orderNum",orderNumber);
+                context.setVariable("link",link);
+
                 String message = templateEngine.process("orderemailtemplate", context);
-                mailService.prepareAndSend(message,user.email,messageSource.getMessage("order.success.subject", null, locale));
+                mailService.prepareAndSend(message,mail,messageSource.getMessage("order.success.subject", null, locale));
 
             }catch (MailException me){
                 me.printStackTrace();
-                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.success.subject", null, locale),orderNumber);
+                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.success.subject", null, locale),orderNumber,link,"null");
 
             }
         } catch (Exception e) {

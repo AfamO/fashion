@@ -98,7 +98,7 @@ public class ResendMailUtil {
                         mailErrorRepository.save(mailError);
                     }catch (MailException me) {
                         me.printStackTrace();
-                        throw new AppException(name,mail,subject,orderNum);
+                        throw new AppException(name,mail,subject,orderNum,link,"");
 
                     }
 
@@ -128,7 +128,7 @@ public class ResendMailUtil {
                         mailErrorRepository.save(mailError);
                     }catch (MailException me) {
                         me.printStackTrace();
-                        throw new AppException(name,mail,subject,orderNum);
+                        throw new AppException(name,mail,subject,orderNum,link,"");
 
                     }
 

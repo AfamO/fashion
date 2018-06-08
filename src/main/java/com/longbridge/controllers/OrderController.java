@@ -71,6 +71,7 @@ public class OrderController {
                 mailError.setMailType("adminorder");
             }else {
                 mailError.setName(e.getName());
+                mailError.setLink(e.getLink());
                 mailError.setMailType("order");
             }
             mailError.setOrderNum(e.getOrderNum());
