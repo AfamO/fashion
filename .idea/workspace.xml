@@ -2,31 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_a.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_a.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_a.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_a.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_a.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_a.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_a_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_a_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_a_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/_a_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Events/segments_a" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/segments_a" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/adminconfirmordertemplate.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/adminconfirmordertemplate.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -92,16 +68,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ProductServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
-              <caret line="474" column="29" lean-forward="false" selection-start-line="474" selection-start-column="29" selection-end-line="474" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="orderemailtemplate.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -122,6 +88,46 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="OrderServiceImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="89">
+              <caret line="313" column="47" lean-forward="false" selection-start-line="313" selection-start-column="47" selection-end-line="313" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SendEmailAsync.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="49">
+              <caret line="76" column="96" lean-forward="false" selection-start-line="76" selection-start-column="96" selection-end-line="76" selection-end-column="96" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="messages.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/messages.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="42" lean-forward="false" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OrderController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="106" column="38" lean-forward="true" selection-start-line="106" selection-start-column="38" selection-end-line="106" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="readyforinsptemplate.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/readyforinsptemplate.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -132,41 +138,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="admincancelordertemplate.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OrderService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="94">
+              <caret line="24" column="9" lean-forward="false" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admincancelordertemplate.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admincancelordertemplate.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
               <caret line="7" column="10" lean-forward="true" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="adminorderemailtemplate.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/adminorderemailtemplate.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="designerorderemailtemplate.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/designerorderemailtemplate.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="designerwelcomeemail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/designerwelcomeemail.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -177,16 +163,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="3" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="adminconfirmordertemplate.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/adminconfirmordertemplate.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="107" lean-forward="false" selection-start-line="8" selection-start-column="107" selection-end-line="8" selection-end-column="107" />
               <folding />
             </state>
           </provider>
@@ -210,10 +186,10 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/exception/AppException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/ResendMailUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/adminconfirmordertemplate.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java" />
       </list>
     </option>
   </component>
@@ -903,7 +879,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14989000" />
+    <option name="totallyTimeSpent" value="15127000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -980,7 +956,7 @@
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="22" />
+      <option name="time" value="23" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1066,47 +1042,47 @@
         <state relative-caret-position="1047">
           <caret line="191" column="20" lean-forward="false" selection-start-line="191" selection-start-column="20" selection-end-line="191" selection-end-column="20" />
           <folding>
-            <marker date="1528465641000" expanded="true" signature="81867:81886" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="81867:81904" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="81867:81917" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="81867:81932" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="81967:84553" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="81980:84538" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82034:82423" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82053:82408" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82165:82388" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82205:82354" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82226:82332" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82473:82788" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82492:82773" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82569:82753" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82609:82719" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82630:82697" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82839:83110" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82858:83095" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82891:83075" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82931:83041" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="82952:83019" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83153:83465" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83172:83450" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83246:83430" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83286:83396" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83307:83374" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83516:83839" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83535:83824" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83620:83804" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83660:83770" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83681:83748" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83874:84139" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83893:84124" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83926:84104" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83966:84070" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="83987:84048" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="84191:84524" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="84210:84509" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="84305:84489" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="84345:84455" ph="..." />
-            <marker date="1528465641000" expanded="true" signature="84366:84433" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="81697:81716" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="81697:81734" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="81697:81747" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="81697:81762" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="81797:84383" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="81810:84368" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="81864:82253" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="81883:82238" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="81995:82218" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82035:82184" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82056:82162" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82303:82618" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82322:82603" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82399:82583" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82439:82549" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82460:82527" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82669:82940" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82688:82925" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82721:82905" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82761:82871" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82782:82849" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="82983:83295" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83002:83280" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83076:83260" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83116:83226" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83137:83204" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83346:83669" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83365:83654" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83450:83634" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83490:83600" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83511:83578" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83704:83969" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83723:83954" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83756:83934" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83796:83900" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="83817:83878" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="84021:84354" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="84040:84339" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="84135:84319" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="84175:84285" ph="..." />
+            <marker date="1528466138000" expanded="true" signature="84196:84263" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1257,14 +1233,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="94">
-          <caret line="26" column="9" lean-forward="false" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/UserController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -1293,38 +1261,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
           <caret line="147" column="30" lean-forward="false" selection-start-line="147" selection-start-column="30" selection-end-line="147" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="112" column="44" lean-forward="false" selection-start-line="112" selection-start-column="44" selection-end-line="112" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="313" column="44" lean-forward="false" selection-start-line="313" selection-start-column="44" selection-end-line="313" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/messages.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="42" lean-forward="false" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="80" column="49" lean-forward="false" selection-start-line="80" selection-start-column="49" selection-end-line="80" selection-end-column="49" />
           <folding />
         </state>
       </provider>
@@ -1434,6 +1370,46 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="10" lean-forward="true" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="106" column="38" lean-forward="true" selection-start-line="106" selection-start-column="38" selection-end-line="106" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="94">
+          <caret line="24" column="9" lean-forward="false" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="313" column="47" lean-forward="false" selection-start-line="313" selection-start-column="47" selection-end-line="313" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/messages.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="42" lean-forward="false" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="76" column="96" lean-forward="false" selection-start-line="76" selection-start-column="96" selection-end-line="76" selection-end-column="96" />
           <folding />
         </state>
       </provider>
