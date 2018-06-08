@@ -60,7 +60,7 @@ public class ItemsDTO {
 
     private Long customerId;
 
-
+    private String rejectReason;
 
 
     public ItemsDTO() {

@@ -45,6 +45,8 @@ public class Items extends CommonFields{
 
     private Long measurementId;
 
+    private String rejectReason;
+
 
 //    private String measurementName;
 

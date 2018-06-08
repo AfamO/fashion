@@ -100,6 +100,18 @@ public class AppException extends RuntimeException{
 
     }
 
+    public AppException(String name, String recipient, String subject, String orderNum,String link,String empty) {
+//        super("Failed to perform the requested action");
+        System.out.println("i got here");
+
+        this.name=name;
+        this.recipient=recipient;
+        this.subject=subject;
+        this.orderNum=orderNum;
+        this.link=link;
+
+    }
+
     public AppException(String name, String recipient, String subject, ItemsDTO itemsDTO) {
 //        super("Failed to perform the requested action");
         System.out.println("i got here");

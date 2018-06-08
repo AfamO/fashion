@@ -173,6 +173,7 @@ public class OrderServiceImpl implements OrderService {
             System.out.println(itemsDTO.getDeliveryStatus());
             if(items.getDeliveryStatus().equalsIgnoreCase("PC")) {
                 if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("OP")){
+
                     items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
                 }
                 else if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("OR")){
