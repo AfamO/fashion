@@ -456,10 +456,16 @@ public class ProductServiceImpl implements ProductService {
             products.setUpdatedOn(date);
 
             if(productDTO.slashedPrice != 0){
-                PriceSlash priceSlash = new PriceSlash();
-                products.priceSlashEnabled = true;
-                priceSlash.setProducts(products);
-                priceSlash.setSlashedPrice(productDTO.slashedPrice);
+                PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
+                        if(priceSlash != null){
+                            priceSlash.setSlashedPrice(productDTO.slashedPrice);
+                        }else {
+                            priceSlash=new PriceSlash();
+                            products.priceSlashEnabled = true;
+                            priceSlash.setProducts(products);
+                            priceSlash.setSlashedPrice(productDTO.slashedPrice);
+                        }
+
                 priceSlashRepository.save(priceSlash);
             }
             productRepository.save(products);
