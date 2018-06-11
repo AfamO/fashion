@@ -1,10 +1,7 @@
 package com.longbridge.services;
 
 
-import com.longbridge.dto.CartDTO;
-import com.longbridge.dto.CartListDTO;
-import com.longbridge.dto.ItemsDTO;
-import com.longbridge.dto.OrderReqDTO;
+import com.longbridge.dto.*;
 import com.longbridge.models.Cart;
 import com.longbridge.models.Orders;
 import com.longbridge.models.Products;
@@ -20,7 +17,9 @@ public interface OrderService {
 
     String addOrder(OrderReqDTO orders, User user);
 
-    void updateOrderItemByDesigner(ItemsDTO itemsDTO, User user);
+    void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO, User user);
+
+    List<StatusMessageDTO> updateOrderItemByDesignerr(ItemsDTO itemsDTO, User user);
 
     void updateOrderItemByAdmin(ItemsDTO itemsDTO, User user);
 
