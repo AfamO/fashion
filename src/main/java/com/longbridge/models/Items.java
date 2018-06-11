@@ -3,6 +3,7 @@ package com.longbridge.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.util.Date;
@@ -50,6 +51,14 @@ public class Items extends CommonFields{
 
 //    private String measurementName;
 
+
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private ItemStatus itemStatus;
+
+    @ManyToOne
+    @JoinColumn(name = "message_id")
+    private StatusMessage statusMessage;
 
     public Long getProductId() {
         return productId;
@@ -178,6 +187,31 @@ public class Items extends CommonFields{
 //    public void setMeasurementName(String measurementName) {
 //        this.measurementName = measurementName;
 //    }
+
+
+    public String getRejectReason() {
+        return rejectReason;
+    }
+
+    public void setRejectReason(String rejectReason) {
+        this.rejectReason = rejectReason;
+    }
+
+    public ItemStatus getItemStatus() {
+        return itemStatus;
+    }
+
+    public void setItemStatus(ItemStatus itemStatus) {
+        this.itemStatus = itemStatus;
+    }
+
+    public StatusMessage getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(StatusMessage statusMessage) {
+        this.statusMessage = statusMessage;
+    }
 
     public Items() {
     }
