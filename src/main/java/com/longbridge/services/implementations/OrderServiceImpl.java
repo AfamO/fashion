@@ -338,7 +338,8 @@ public class OrderServiceImpl implements OrderService {
 
             if(orders.getDeliveryStatus().equalsIgnoreCase("P")){
             for (Items items: orders.getItems()) {
-                items.setDeliveryStatus("PC");
+                items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                //items.setDeliveryStatus("PC");
                 itemRepository.save(items);
                 Products p = productRepository.findOne(items.getProductId());
                 DesignerOrderDTO dto= new DesignerOrderDTO();
