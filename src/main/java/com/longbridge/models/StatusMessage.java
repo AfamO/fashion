@@ -10,7 +10,7 @@ public class StatusMessage extends CommonFields{
     private String message;
 
     @ManyToOne
-    @JoinColumn(name = "status_message")
+//    @JoinColumn(name = "status_message")
     private ItemStatus itemStatus;
 
     @Column(name = "has_response")
