@@ -22,7 +22,7 @@ public class User extends CommonFields{
 
     public String socialFlag;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     public Designer designer;
 
