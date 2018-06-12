@@ -195,7 +195,7 @@ public class OrderServiceImpl implements OrderService {
                     items.setItemStatus(itemStatus);
                     //items.setStatusMessage(statusMessage);
                 }
-                else if(items.getItemStatus().getStatus().equalsIgnoreCase("OR")){
+                else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
                     String link=messageSource.getMessage("order.reject.decision", null, locale);
                     rejectDecisionLink=link;
                     statusMessage.setHasResponse(true);
