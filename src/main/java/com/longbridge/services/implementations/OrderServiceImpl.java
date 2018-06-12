@@ -187,6 +187,7 @@ public class OrderServiceImpl implements OrderService {
 
             StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
 
+
             if(items.getItemStatus().getStatus().equalsIgnoreCase("PC")) {
                 if(itemsDTO.getStatus().equalsIgnoreCase("OP")){
 
@@ -196,7 +197,7 @@ public class OrderServiceImpl implements OrderService {
                 else if(items.getItemStatus().getStatus().equalsIgnoreCase("OR")){
                     String link=messageSource.getMessage("order.reject.decision", null, locale);
                     rejectDecisionLink=link;
-
+                    statusMessage.setHasResponse(true);
                     context.setVariable("link",rejectDecisionLink);
                     items.setItemStatus(itemStatus);
                     items.setStatusMessage(statusMessage);
@@ -221,6 +222,7 @@ public class OrderServiceImpl implements OrderService {
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("CO")){
                     items.setItemStatus(itemStatus);
+                    statusMessage.setHasResponse(false);
                     items.setStatusMessage(statusMessage);
                 }
                 else {
