@@ -169,8 +169,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO, User user) {
         try{
+            ItemsDTO itemsDTO1 = new ItemsDTO();
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
             String customerEmail = customer.email;
+            String rejectDecisionLink = "";
             String customerName = customer.lastName+" "+ customer.firstName;
             Context context = new Context();
             context.setVariable("name", customerName);
@@ -189,14 +191,28 @@ public class OrderServiceImpl implements OrderService {
                 if(itemsDTO.getStatus().equalsIgnoreCase("OP")){
 
                     items.setItemStatus(itemStatus);
-                    items.setStatusMessage(statusMessage);
+                    //items.setStatusMessage(statusMessage);
                 }
                 else if(items.getItemStatus().getStatus().equalsIgnoreCase("OR")){
+                    String link=messageSource.getMessage("order.reject.decision", null, locale);
+                    rejectDecisionLink=link;
+
+                    context.setVariable("link",rejectDecisionLink);
                     items.setItemStatus(itemStatus);
                     items.setStatusMessage(statusMessage);
                     String message = templateEngine.process("admincancelordertemplate", context);
-                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.status.subject", null, locale));
-                }
+
+                    itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
+                    itemsDTO1.setProductName(itemsDTO.getProductName());
+                    itemsDTO1.setLink(rejectDecisionLink);
+                    try {
+                        mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.status.subject", null, locale));
+                    }catch(MailException me) {
+                        me.printStackTrace();
+                        throw new AppException(customerName,customerEmail,messageSource.getMessage("order.status.subject", null, locale),itemsDTO1);
+
+                    }
+                    }
                 else {
                     throw new InvalidStatusUpdateException();
                 }

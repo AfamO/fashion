@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StatusMessageRepository extends JpaRepository<StatusMessage, Long> {
+    StatusMessage findByMessage(String message);
 }

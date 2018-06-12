@@ -69,6 +69,11 @@ public class ItemsDTO {
     private Long messageId;
     private String message;
 
+    private String waitTime;
+
+    @JsonIgnore
+    private String link;
+
 
     public ItemsDTO() {
     }
@@ -327,6 +332,19 @@ public class ItemsDTO {
         this.message = message;
     }
 
+    public String getLink() {
+        return link;
+    }
 
+    public void setLink(String link) {
+        this.link = link;
+    }
 
+    public String getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(String waitTime) {
+        this.waitTime = waitTime;
+    }
 }

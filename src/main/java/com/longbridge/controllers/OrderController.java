@@ -86,6 +86,7 @@ public class OrderController {
 
     @PostMapping(value = "/designer/updateorderitem")
     public Response updateOrderStatusByDesigner(@RequestBody ItemsDTO item, HttpServletRequest request){
+        try{
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
         if(token==null || userTemp==null){
@@ -94,7 +95,7 @@ public class OrderController {
 
 
 
-        if(item.getMessageId() != null){
+        if(item.getMessage() != null){
             //Long id = statMessageId.get();
             orderService.updateOrderItemByDesignerWithMessage(item, userTemp);
             return new Response("00", "status updated", null);
@@ -106,6 +107,22 @@ public class OrderController {
                 return new Response("00", "status updated", null);
             }
         }
+        }catch (AppException e){
+            e.printStackTrace();
+            String recipient = e.getRecipient();
+            String subject = e.getSubject();
+            MailError mailError = new MailError();
+            mailError.setProductName(e.getItemsDTO().getProductName());
+            mailError.setOrderItemStatus(e.getItemsDTO().getDeliveryStatus());
+            mailError.setRecipient(recipient);
+            mailError.setSubject(subject);
+            mailError.setLink(e.getItemsDTO().getLink());
+            mailError.setMailType("adminConfirmOrRejectItem");
+            mailErrorRepository.save(mailError);
+            Response response = new Response("00", "Operation Successful, Trying to send email", "success");
+            return response;
+        }
+
 
         //orderService.updateOrderItemByDesigner(item,userTemp);
        // Response response = new Response("00","Operation Successful","success");
