@@ -137,8 +137,10 @@ public class ResendMailUtil {
                     ItemsDTO itemsDTO = new ItemsDTO();
                         try{
                             productName = mailError.getProductName();
+                            //link=mailError.getLink();
                             itemsDTO.setProductName(productName);
                             itemsDTO.setDeliveryStatus(mailError.getOrderItemStatus());
+
                             context.setVariable("productName", productName);
 
 //
@@ -148,9 +150,10 @@ public class ResendMailUtil {
                             //context.setVariable("link", link);
 
 
-                            if(mailError.getOrderItemStatus().equalsIgnoreCase("C")) {
+                            if(mailError.getOrderItemStatus().equalsIgnoreCase("PC")) {
                                 message = templateEngine.process("adminconfirmordertemplate", context);
-                            }else if(mailError.getOrderItemStatus().equalsIgnoreCase("R")){
+                            }else if(mailError.getOrderItemStatus().equalsIgnoreCase("OR")){
+                                itemsDTO.setLink(mailError.getLink());
                                 message = templateEngine.process("admincancelordertemplate", context);
                             }
                             else if(mailError.getOrderItemStatus().equalsIgnoreCase("RI")){

@@ -169,14 +169,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO, User user) {
         try{
+            ItemsDTO itemsDTO1 = new ItemsDTO();
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
             String customerEmail = customer.email;
+            String rejectDecisionLink = "";
             String customerName = customer.lastName+" "+ customer.firstName;
             Context context = new Context();
             context.setVariable("name", customerName);
 
             Items items = itemRepository.findOne(itemsDTO.getId());
-            context.setVariable("productName",productRepository.findOne(items.getProductId()).name);
+            Products products = productRepository.findOne(items.getProductId());
+            context.setVariable("productName",products.name);
             Date date = new Date();
             System.out.println(items.getDeliveryStatus());
             System.out.println(itemsDTO.getDeliveryStatus());
@@ -185,18 +188,37 @@ public class OrderServiceImpl implements OrderService {
 
             StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
 
+
             if(items.getItemStatus().getStatus().equalsIgnoreCase("PC")) {
                 if(itemsDTO.getStatus().equalsIgnoreCase("OP")){
 
                     items.setItemStatus(itemStatus);
-                    items.setStatusMessage(statusMessage);
+                    //items.setStatusMessage(statusMessage);
                 }
-                else if(items.getItemStatus().getStatus().equalsIgnoreCase("OR")){
+                else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
+                    String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
+                    String link=messageSource.getMessage("order.reject.decision", null, locale);
+                    rejectDecisionLink=link+encryptedMail;
+                    statusMessage.setHasResponse(true);
+                    context.setVariable("link",rejectDecisionLink);
+                    context.setVariable("waitTime",itemsDTO.getWaitTime());
                     items.setItemStatus(itemStatus);
                     items.setStatusMessage(statusMessage);
                     String message = templateEngine.process("admincancelordertemplate", context);
-                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.status.subject", null, locale));
-                }
+
+                    itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
+                    itemsDTO1.setProductName(products.name);
+                    itemsDTO1.setLink(rejectDecisionLink);
+                    itemsDTO1.setWaitTime(itemsDTO.getWaitTime());
+                    System.out.println("i got hwere1");
+                    try {
+                        mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.status.subject", null, locale));
+                    }catch(MailException me) {
+                        me.printStackTrace();
+                        throw new AppException(customerName,customerEmail,messageSource.getMessage("order.status.subject", null, locale),itemsDTO1);
+
+                    }
+                    }
                 else {
                     throw new InvalidStatusUpdateException();
                 }
@@ -205,12 +227,15 @@ public class OrderServiceImpl implements OrderService {
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("CO")){
                     items.setItemStatus(itemStatus);
+                    statusMessage.setHasResponse(false);
                     items.setStatusMessage(statusMessage);
                 }
                 else {
                     throw new InvalidStatusUpdateException();
                 }
             }
+
+            System.out.println("i got hwere2");
                 items.setUpdatedOn(date);
                 itemRepository.save(items);
                 Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());

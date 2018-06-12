@@ -28,6 +28,8 @@ public class MailError {
     private String mailType;
     private String orderItemStatus;
 
+    private String waitTime;
+
     public MailError() {
     }
 
@@ -125,5 +127,13 @@ public class MailError {
 
     public void setOrderItemStatus(String orderItemStatus) {
         this.orderItemStatus = orderItemStatus;
+    }
+
+    public String getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(String waitTime) {
+        this.waitTime = waitTime;
     }
 }
