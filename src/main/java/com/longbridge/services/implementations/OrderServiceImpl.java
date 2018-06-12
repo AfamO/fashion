@@ -178,7 +178,8 @@ public class OrderServiceImpl implements OrderService {
             context.setVariable("name", customerName);
 
             Items items = itemRepository.findOne(itemsDTO.getId());
-            context.setVariable("productName",productRepository.findOne(items.getProductId()).name);
+            Products products = productRepository.findOne(items.getProductId());
+            context.setVariable("productName",products.name);
             Date date = new Date();
             System.out.println(items.getDeliveryStatus());
             System.out.println(itemsDTO.getDeliveryStatus());
@@ -204,8 +205,9 @@ public class OrderServiceImpl implements OrderService {
                     String message = templateEngine.process("admincancelordertemplate", context);
 
                     itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
-                    itemsDTO1.setProductName(itemsDTO.getProductName());
+                    itemsDTO1.setProductName(products.name);
                     itemsDTO1.setLink(rejectDecisionLink);
+                    System.out.println("i got hwere1");
                     try {
                         mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.status.subject", null, locale));
                     }catch(MailException me) {
@@ -229,6 +231,8 @@ public class OrderServiceImpl implements OrderService {
                     throw new InvalidStatusUpdateException();
                 }
             }
+
+            System.out.println("i got hwere2");
                 items.setUpdatedOn(date);
                 itemRepository.save(items);
                 Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
