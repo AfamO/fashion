@@ -23,6 +23,8 @@ public interface OrderService {
 
     void updateOrderItemByAdmin(ItemsDTO itemsDTO, User user);
 
+    void userRejectDecision(ItemsDTO itemsDTO, User user);
+
     void updateOrderByAdmin(OrderReqDTO orderReqDTO, User user);
 
     Boolean orderNumExists(String orderNum);

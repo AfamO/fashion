@@ -198,7 +198,7 @@ public class OrderServiceImpl implements OrderService {
                 else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
                     String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
                     String link=messageSource.getMessage("order.reject.decision", null, locale);
-                    rejectDecisionLink=link+encryptedMail;
+                    rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
                     statusMessage.setHasResponse(true);
                     context.setVariable("link",rejectDecisionLink);
                     context.setVariable("waitTime",itemsDTO.getWaitTime());
@@ -347,6 +347,28 @@ public class OrderServiceImpl implements OrderService {
 
         }catch (Exception ex){
             ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+    @Override
+    public void userRejectDecision(ItemsDTO itemsDTO, User user) {
+        try{
+            Items items = itemRepository.findOne(itemsDTO.getId());
+            if(itemsDTO.getAction().equalsIgnoreCase("accept")) {
+                items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+            }
+            else if(itemsDTO.getAction().equalsIgnoreCase("refund")){
+                Refund refund = new Refund();
+                refund.setAccountName(itemsDTO.getAccountName());
+                refund.setAccountNumber(itemsDTO.getAccountNumber());
+                items.setItemStatus(itemStatusRepository.findByStatus("C"));
+
+            }
+            itemRepository.save(items);
+        }catch (Exception e){
+            e.printStackTrace();
             throw new WawoohException();
         }
     }

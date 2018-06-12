@@ -71,6 +71,12 @@ public class ItemsDTO {
 
     private String waitTime;
 
+    private String action;
+
+    private String accountName;
+
+    private String accountNumber;
+
     @JsonIgnore
     private String link;
 
@@ -346,5 +352,29 @@ public class ItemsDTO {
 
     public void setWaitTime(String waitTime) {
         this.waitTime = waitTime;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 }

@@ -191,6 +191,23 @@ public class OrderController {
 
 
 
+    @PostMapping(value = "/user/rejectdecison")
+    public Response rejectDecision(@RequestBody ItemsDTO itemsDTO, HttpServletRequest request){
+
+            String token = request.getHeader(tokenHeader);
+            User userTemp = userUtil.fetchUserDetails2(token);
+            if(token==null || userTemp==null){
+                return userUtil.tokenNullOrInvalidResponse(token);
+            }
+            orderService.userRejectDecision(itemsDTO,userTemp);
+            Response response = new Response("00","Operation Successful","success");
+            return response;
+
+
+    }
+
+
+
 
     @PostMapping(value = "/addtocart")
     public Response addToCart(@RequestBody Cart cart, HttpServletRequest request){
