@@ -1,5 +1,6 @@
 package com.longbridge.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Designer extends CommonFields {
     public String address;
     public String status="A";
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     public User user;
 

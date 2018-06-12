@@ -9,19 +9,30 @@ import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.Base64;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Longbridge on 28/02/2018.
  */
 @Component
 public class ResendMailUtil {
+
+    @Autowired
+    MessageSource messageSource;
+
+
+
+    private Locale locale = LocaleContextHolder.getLocale();
 
     @Autowired
     private MailService mailService;
@@ -87,7 +98,7 @@ public class ResendMailUtil {
                         mailErrorRepository.save(mailError);
                     }catch (MailException me) {
                         me.printStackTrace();
-                        throw new AppException(name,mail,subject,orderNum);
+                        throw new AppException(name,mail,subject,orderNum,link,"");
 
                     }
 
@@ -117,7 +128,7 @@ public class ResendMailUtil {
                         mailErrorRepository.save(mailError);
                     }catch (MailException me) {
                         me.printStackTrace();
-                        throw new AppException(name,mail,subject,orderNum);
+                        throw new AppException(name,mail,subject,orderNum,link,"");
 
                     }
 
@@ -129,6 +140,14 @@ public class ResendMailUtil {
                             itemsDTO.setProductName(productName);
                             itemsDTO.setDeliveryStatus(mailError.getOrderItemStatus());
                             context.setVariable("productName", productName);
+
+//
+//                            String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
+//                            String firstName = name.trim().split("")[0];
+                           // link = messageSource.getMessage("order.status.track",null,locale)+firstName+"&email="+encryptedMail;
+                            //context.setVariable("link", link);
+
+
                             if(mailError.getOrderItemStatus().equalsIgnoreCase("C")) {
                                 message = templateEngine.process("adminconfirmordertemplate", context);
                             }else if(mailError.getOrderItemStatus().equalsIgnoreCase("R")){

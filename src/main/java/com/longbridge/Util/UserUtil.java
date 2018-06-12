@@ -82,6 +82,7 @@ public class UserUtil {
         Map<String,Object> responseMap = new HashMap();
         try {
 
+            System.out.println(passedUser);
             Date date = new Date();
             //Address address = Address.createAddress(passedUser,passedUser.address,"Y");
             //List<Address> addresses = new ArrayList<>();

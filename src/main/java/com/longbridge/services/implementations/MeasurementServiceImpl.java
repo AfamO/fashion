@@ -35,6 +35,10 @@ public class MeasurementServiceImpl implements MeasurementService {
             measurement.setUser(userTemp);
             measurement.setCreatedOn(date);
             measurement.setUpdatedOn(date);
+            Measurement measurement1 = measurementRepository.findByUserAndNameAndDelFlag(userTemp,measurement.getName(),"N");
+            if(measurement1 != null){
+                measurement.setName(measurement.getName()+"1");
+            }
             measurementRepository.save(measurement);
 
         } catch (Exception e) {

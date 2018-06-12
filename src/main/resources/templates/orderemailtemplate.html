@@ -2,30 +2,30 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:font-style="http://www.w3.org/1999/xhtml">
 <head></head>
-<body>
-<p><h4> Dear <span th:text="${name}"> </span>,</h4></p>
 
-<p>
-    Thank you for your purchase, your order with OrderNumber :<b><span th:text="${orderNum}"></span></b> has been confirmed.
+<body>
+    <div style= "width: 85%; margin: 16px auto 0; border: 1px solid rgba(0,0,0,0.2); height: auto;">
+        <div style = "padding: 15px;text-align: center;">
+        <img style = "width: 100px; background-size: contain;" src="http://wawooh.com/img/logo.png" alt="wawooh-logo"/></div>
+        <div style = "padding: 15px; margin: 15px 10px 0;">
+            <h4> Dear <span th:text="${name}"> </span>,</h4>
+            <p style = "line-height: 25px; font-size: 1em; color: #333;">
+                Thank you for your purchase, your order with OrderNumber: <strong><span th:text="${orderNum}"></span></strong><br />
     Here is what to expect: Our Quality Assurance Team will validate item quality and then ship to you within 24 - 72hours.
 
-</p>
-
-
-<p>
-    You can track your order status <a href="#" style="color:firebrick;">here</a>
-
-</p>
-
-<p>Thank you for shopping on Wawooh. If you have any questions please contact or call us at 0803**********
+            </p>
+            <p style = "line-height: 25px; font-size: 1em; color: #333;">
+                You can track your order status <a target='_blank' th:href="${link}"><button>Here</button></a>
+                <!--<a style="color:firebrick;">here <span th:text="${link}"> </span></a>-->
+            </p>
+            <p style = "line-height: 25px; font-size: 1em; color: #333;">Thank you for shopping on Wawooh. If you have any questions please contact or call us at 0803**********
 
 </p>
-
-
-<br/>
-<p font-style="italic">
-    Powered By Wawooh
-</p>
-
+        </div>
+        <div style = "color: #fff;margin-top: 10px; background: #cd9933; padding: 7px; text-align: center; font-style: italic;">
+            <span>Powered By Wawooh</span>
+        </div>
+    </div>
 </body>
+
 </html>

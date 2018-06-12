@@ -1,5 +1,7 @@
 package com.longbridge.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
@@ -10,6 +12,8 @@ import javax.persistence.OneToOne;
 public class WishList extends CommonFields {
     @OneToOne
     private User user;
+
+    @JsonIgnore
     @OneToOne
     private Products products;
 

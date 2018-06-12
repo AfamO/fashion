@@ -71,6 +71,7 @@ public class OrderController {
                 mailError.setMailType("adminorder");
             }else {
                 mailError.setName(e.getName());
+                mailError.setLink(e.getLink());
                 mailError.setMailType("order");
             }
             mailError.setOrderNum(e.getOrderNum());
@@ -90,9 +91,25 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        orderService.updateOrderItemByDesigner(item,userTemp);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+
+
+
+        if(item.getMessageId() != null){
+            //Long id = statMessageId.get();
+            orderService.updateOrderItemByDesignerWithMessage(item, userTemp);
+            return new Response("00", "status updated", null);
+        }else{
+
+            if(orderService.updateOrderItemByDesignerr(item, userTemp) != null){
+                return new Response("10", "confirm", orderService.updateOrderItemByDesignerr(item, userTemp));
+            }else{
+                return new Response("00", "status updated", null);
+            }
+        }
+
+        //orderService.updateOrderItemByDesigner(item,userTemp);
+       // Response response = new Response("00","Operation Successful","success");
+        //return response;
     }
 
 
@@ -145,6 +162,7 @@ public class OrderController {
             mailError.setOrderItemStatus(e.getItemsDTO().getDeliveryStatus());
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);
+            mailError.setLink(e.getLink());
             mailError.setMailType("adminConfirmOrRejectItem");
             mailErrorRepository.save(mailError);
             Response response = new Response("00", "Operation Successful, Trying to send email", "success");

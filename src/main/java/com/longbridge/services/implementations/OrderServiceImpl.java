@@ -9,6 +9,7 @@ import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.security.repository.UserRepository;
+import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.MailService;
 import com.longbridge.services.OrderService;
 import com.sun.mail.imap.protocol.Item;
@@ -51,6 +52,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     MeasurementRepository measurementRepository;
+
+    @Autowired
+    ItemStatusRepository itemStatusRepository;
+
+    @Autowired
+    StatusMessageRepository statusMessageRepository;
 
     @Autowired
     SendEmailAsync sendEmailAsync;
@@ -115,10 +122,12 @@ public class OrderServiceImpl implements OrderService {
                 break;
             }
             orderRepository.save(orders);
+            ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
             for (Items items: orderReq.getItems()) {
                 items.setOrders(orders);
                 items.setCreatedOn(date);
                 items.setUpdatedOn(date);
+                items.setItemStatus(itemStatus);
                 itemRepository.save(items);
                 Products p = productRepository.findOne(items.getProductId());
 
@@ -158,7 +167,7 @@ public class OrderServiceImpl implements OrderService {
 
     //todo later
     @Override
-    public void updateOrderItemByDesigner(ItemsDTO itemsDTO, User user) {
+    public void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO, User user) {
         try{
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
             String customerEmail = customer.email;
@@ -171,12 +180,20 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
             System.out.println(items.getDeliveryStatus());
             System.out.println(itemsDTO.getDeliveryStatus());
-            if(items.getDeliveryStatus().equalsIgnoreCase("PC")) {
-                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("OP")){
-                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+
+            ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
+
+            StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
+
+            if(items.getItemStatus().getStatus().equalsIgnoreCase("PC")) {
+                if(itemsDTO.getStatus().equalsIgnoreCase("OP")){
+
+                    items.setItemStatus(itemStatus);
+                    items.setStatusMessage(statusMessage);
                 }
-                else if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("OR")){
-                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+                else if(items.getItemStatus().getStatus().equalsIgnoreCase("OR")){
+                    items.setItemStatus(itemStatus);
+                    items.setStatusMessage(statusMessage);
                     String message = templateEngine.process("admincancelordertemplate", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.status.subject", null, locale));
                 }
@@ -184,17 +201,11 @@ public class OrderServiceImpl implements OrderService {
                     throw new InvalidStatusUpdateException();
                 }
             }
-//            else if(items.getDeliveryStatus().equalsIgnoreCase("C")){
-//                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("OP")){
-//                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
-//                }
-//                else {
-//                    throw new InvalidStatusUpdateException();
-//                }
-//            }
-            else if(items.getDeliveryStatus().equalsIgnoreCase("OP")){
-                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("CO")){
-                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+
+            else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")){
+                if(itemsDTO.getStatus().equalsIgnoreCase("CO")){
+                    items.setItemStatus(itemStatus);
+                    items.setStatusMessage(statusMessage);
                 }
                 else {
                     throw new InvalidStatusUpdateException();
@@ -216,6 +227,33 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    public List<StatusMessageDTO> updateOrderItemByDesignerr(ItemsDTO itemsDTO, User user) {
+        ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
+        Items item = itemRepository.findOne(itemsDTO.getId());
+
+        if(item != null){
+            if(itemStatus.getStatusMessages().size() > 0){
+                List<StatusMessageDTO> statusMessageDTOS = new ArrayList<StatusMessageDTO>();
+
+                for(StatusMessage sdt : itemStatus.getStatusMessages()){
+                    StatusMessageDTO sd = new StatusMessageDTO();
+                    sd.id = sdt.id;
+                    sd.statusId = sdt.getItemStatus().id;
+                    sd.message = sdt.getMessage();
+                    statusMessageDTOS.add(sd);
+                }
+
+                return statusMessageDTOS;
+            }else{
+                item.setItemStatus(itemStatus);
+                itemRepository.save(item);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public void updateOrderItemByAdmin(ItemsDTO itemsDTO, User user) {
         try{
             ItemsDTO itemsDTO1 = new ItemsDTO();
@@ -232,29 +270,34 @@ public class OrderServiceImpl implements OrderService {
             context.setVariable("name", customerName);
             context.setVariable("productName",itemsDTO.getProductName());
             try {
+                ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
 
+                StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
 
-            if(items.getDeliveryStatus().equalsIgnoreCase("CO")){
-                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("RI")){
-                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+            if(items.getItemStatus().getStatus().equalsIgnoreCase("CO")){
+                if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
+                    items.setItemStatus(itemStatus);
+                    items.setStatusMessage(statusMessage);
 
                     String message = templateEngine.process("readyforinsptemplate", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
 
                 }
             }
-            else if(items.getDeliveryStatus().equalsIgnoreCase("RI")){
-                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("RS")){
-                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+            else if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
+                if(itemsDTO.getStatus().equalsIgnoreCase("RS")){
+                    items.setItemStatus(itemStatus);
+                    items.setStatusMessage(statusMessage);
 
                     String message = templateEngine.process("ordershippedemail", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
 
                 }
             }
-            else if(items.getDeliveryStatus().equalsIgnoreCase("RS")){
-                if(itemsDTO.getDeliveryStatus().equalsIgnoreCase("D")){
-                    items.setDeliveryStatus(itemsDTO.getDeliveryStatus());
+            else if(items.getItemStatus().getStatus().equalsIgnoreCase("RS")){
+                if(itemsDTO.getStatus().equalsIgnoreCase("D")){
+                    items.setItemStatus(itemStatus);
+                    items.setStatusMessage(statusMessage);
 
                     String message = templateEngine.process("orderdeliveredemail", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
@@ -266,7 +309,7 @@ public class OrderServiceImpl implements OrderService {
                 orders.setUpdatedBy(user.email);
                 orderRepository.save(orders);
 
-                itemsDTO1.setDeliveryStatus(items.getDeliveryStatus());
+                itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
                 itemsDTO1.setProductName(itemsDTO.getProductName());
 
 
@@ -295,7 +338,8 @@ public class OrderServiceImpl implements OrderService {
 
             if(orders.getDeliveryStatus().equalsIgnoreCase("P")){
             for (Items items: orders.getItems()) {
-                items.setDeliveryStatus("PC");
+                items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                //items.setDeliveryStatus("PC");
                 itemRepository.save(items);
                 Products p = productRepository.findOne(items.getProductId());
                 DesignerOrderDTO dto= new DesignerOrderDTO();
@@ -649,7 +693,9 @@ public class OrderServiceImpl implements OrderService {
             itemsDTO.setSize(items.getSize());
             //itemsDTO.setDeliveryDate(formatter.format(orders.getDeliveryDate()));
             itemsDTO.setOrderDate(formatter.format(orders.getOrderDate()));
-            itemsDTO.setDeliveryStatus(items.getDeliveryStatus());
+            //itemsDTO.setDeliveryStatus(items.getDeliveryStatus());
+            itemsDTO.setStatus(items.getItemStatus().getStatus());
+            itemsDTO.setStatusId(items.getItemStatus().id);
             if(items.getMaterialLocation() != null){
                 itemsDTO.setMaterialLocation(items.getMaterialLocation().toString());
             }

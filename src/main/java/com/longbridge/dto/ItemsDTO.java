@@ -60,7 +60,14 @@ public class ItemsDTO {
 
     private Long customerId;
 
+    private String rejectReason;
 
+
+    private Long statusId;
+    private String status;
+
+    private Long messageId;
+    private String message;
 
 
     public ItemsDTO() {
@@ -279,6 +286,47 @@ public class ItemsDTO {
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
+
+    public String getRejectReason() {
+        return rejectReason;
+    }
+
+    public void setRejectReason(String rejectReason) {
+        this.rejectReason = rejectReason;
+    }
+
+    public Long getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Long statusId) {
+        this.statusId = statusId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 
 
 }
