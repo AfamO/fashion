@@ -196,10 +196,12 @@ public class OrderServiceImpl implements OrderService {
                     //items.setStatusMessage(statusMessage);
                 }
                 else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
+                    String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
                     String link=messageSource.getMessage("order.reject.decision", null, locale);
-                    rejectDecisionLink=link;
+                    rejectDecisionLink=link+encryptedMail;
                     statusMessage.setHasResponse(true);
                     context.setVariable("link",rejectDecisionLink);
+                    context.setVariable("waitTime",itemsDTO.getWaitTime());
                     items.setItemStatus(itemStatus);
                     items.setStatusMessage(statusMessage);
                     String message = templateEngine.process("admincancelordertemplate", context);
@@ -207,6 +209,7 @@ public class OrderServiceImpl implements OrderService {
                     itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
                     itemsDTO1.setProductName(products.name);
                     itemsDTO1.setLink(rejectDecisionLink);
+                    itemsDTO1.setWaitTime(itemsDTO.getWaitTime());
                     System.out.println("i got hwere1");
                     try {
                         mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.status.subject", null, locale));

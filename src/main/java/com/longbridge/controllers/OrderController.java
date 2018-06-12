@@ -117,6 +117,7 @@ public class OrderController {
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);
             mailError.setLink(e.getItemsDTO().getLink());
+            mailError.setWaitTime(e.getItemsDTO().getWaitTime());
             mailError.setMailType("adminConfirmOrRejectItem");
             mailErrorRepository.save(mailError);
             Response response = new Response("00", "Operation Successful, Trying to send email", "success");
