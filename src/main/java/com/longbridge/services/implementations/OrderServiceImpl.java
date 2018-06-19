@@ -575,7 +575,7 @@ public class OrderServiceImpl implements OrderService {
             if(user.designer !=null) {
                 List<Items> items = itemRepository.findByDesignerId(user.designer.id);
                 for (Items item : items) {
-                    if (item.getOrders().getDeliveryStatus().equalsIgnoreCase("C")) {
+                    if (item.getOrders().getDeliveryStatus().equalsIgnoreCase("D")) {
                         count = count + 1;
                     }
                 }
@@ -583,6 +583,90 @@ public class OrderServiceImpl implements OrderService {
                 throw new WawoohException();
             }
            return count;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+    @Override
+    public int getCancelledOrders(User user) {
+        try {
+            int count = 0;
+            if(user.designer !=null) {
+                ItemStatus itemStatus = itemStatusRepository.findByStatus("C");
+                count = itemRepository.countByDesignerIdAndItemStatus(user.designer.id,itemStatus);
+
+            }else {
+                throw new WawoohException();
+            }
+            return count;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public int getPendingOrders(User user) {
+        try {
+            int count = 0;
+            if(user.designer !=null) {
+                ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
+                count = itemRepository.countByDesignerIdAndItemStatus(user.designer.id,itemStatus);
+
+            }else {
+                throw new WawoohException();
+            }
+            return count;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public int getActiveOrders(User user) {
+        try {
+            int count = 0;
+            if(user.designer !=null) {
+                ItemStatus itemStatus1 = itemStatusRepository.findByStatus("OP");
+                ItemStatus itemStatus2 = itemStatusRepository.findByStatus("CO");
+                ItemStatus itemStatus3 = itemStatusRepository.findByStatus("RI");
+                List<ItemStatus> itemStatuses = new ArrayList();
+                itemStatuses.add(itemStatus1);
+                itemStatuses.add(itemStatus2);
+                itemStatuses.add(itemStatus3);
+                count = itemRepository.findActiveOrders(user.designer.id,itemStatuses);
+
+            }else {
+                throw new WawoohException();
+            }
+            return count;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+    @Override
+    public int getCompletedOrders(User user) {
+        try {
+            int count = 0;
+            if(user.designer !=null) {
+                ItemStatus itemStatus = itemStatusRepository.findByStatus("RS");
+                count = itemRepository.countByDesignerIdAndItemStatus(user.designer.id,itemStatus);
+
+            }else {
+                throw new WawoohException();
+            }
+            return count;
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -763,7 +847,9 @@ itemRepository.save(items);
         if(items != null) {
             itemsDTO.setId(items.id);
             itemsDTO.setProductId(items.getProductId());
-            itemsDTO.setProductName(productRepository.getProductName(items.getProductId()));
+            Products p = productRepository.findOne(items.getProductId());
+            itemsDTO.setProductName(p.name);
+            itemsDTO.setProductAvailability(p.availability);
             itemsDTO.setAmount(items.getAmount().toString());
             itemsDTO.setColor(items.getColor());
             itemsDTO.setQuantity(items.getQuantity());

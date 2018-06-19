@@ -13,6 +13,8 @@ public class ItemsDTO {
 
     private String productName;
 
+    private String productAvailability;
+
     private int quantity;
 
     private Long designerId;
@@ -371,5 +373,13 @@ public class ItemsDTO {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public String getProductAvailability() {
+        return productAvailability;
+    }
+
+    public void setProductAvailability(String productAvailability) {
+        this.productAvailability = productAvailability;
     }
 }
