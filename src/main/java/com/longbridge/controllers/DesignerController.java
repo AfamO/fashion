@@ -180,6 +180,19 @@ public class DesignerController {
     }
 
 
+
+    @GetMapping(value = "/getcancelledorders")
+    public Response getC(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getSuccessfulSales(userTemp));
+        return response;
+    }
+
+
     @GetMapping(value = "/gettotalproducts")
     public Response getTotalProducts(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

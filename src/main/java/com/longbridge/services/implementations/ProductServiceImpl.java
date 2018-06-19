@@ -472,11 +472,13 @@ public class ProductServiceImpl implements ProductService {
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
                 if(priceSlash != null){
                     priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
                 }else {
                     priceSlash=new PriceSlash();
                     products.priceSlashEnabled = true;
                     priceSlash.setProducts(products);
                     priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
                 }
 
                 priceSlashRepository.save(priceSlash);

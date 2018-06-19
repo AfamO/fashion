@@ -182,6 +182,7 @@ public class GeneralUtil {
         PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
         if(priceSlash != null){
             productDTO.slashedPrice = priceSlash.getSlashedPrice();
+            productDTO.percentageDiscount=priceSlash.getPercentageDiscount();
         }
 
         List<ProductPicture> productPictures = products.picture;
@@ -260,6 +261,7 @@ public class GeneralUtil {
         PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
         if(priceSlash != null){
             productDTO.slashedPrice = priceSlash.getSlashedPrice();
+            productDTO.percentageDiscount=priceSlash.getPercentageDiscount();
         }
 
         return productDTO;
