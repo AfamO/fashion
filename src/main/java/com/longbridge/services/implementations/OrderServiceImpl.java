@@ -9,15 +9,12 @@ import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.security.repository.UserRepository;
-import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.MailService;
 import com.longbridge.services.OrderService;
-import com.sun.mail.imap.protocol.Item;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailException;
@@ -25,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.math.BigDecimal;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -215,7 +211,7 @@ public class OrderServiceImpl implements OrderService {
                 else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
                     String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
                     String link=messageSource.getMessage("order.reject.decision", null, locale);
-                    rejectDecisionLink=link+encryptedMail;
+                    rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
                     statusMessage.setHasResponse(true);
                     context.setVariable("link",rejectDecisionLink);
                     context.setVariable("waitTime",itemsDTO.getWaitTime());
@@ -364,6 +360,28 @@ public class OrderServiceImpl implements OrderService {
 
         }catch (Exception ex){
             ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+    @Override
+    public void userRejectDecision(ItemsDTO itemsDTO, User user) {
+        try{
+            Items items = itemRepository.findOne(itemsDTO.getId());
+            if(itemsDTO.getAction().equalsIgnoreCase("accept")) {
+                items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+            }
+            else if(itemsDTO.getAction().equalsIgnoreCase("refund")){
+                Refund refund = new Refund();
+                refund.setAccountName(itemsDTO.getAccountName());
+                refund.setAccountNumber(itemsDTO.getAccountNumber());
+                items.setItemStatus(itemStatusRepository.findByStatus("C"));
+
+            }
+            itemRepository.save(items);
+        }catch (Exception e){
+            e.printStackTrace();
             throw new WawoohException();
         }
     }
@@ -636,7 +654,7 @@ public class OrderServiceImpl implements OrderService {
                             items.setItemStatus(itemStatusRepository.findByStatus("C"));
                             Refund refund = new Refund();
                             refund.setAccountName(itemsDTO.getAccountName());
-                            refund.setAccountNumber(itemsDTO.getAccountNum());
+                            refund.setAccountNumber(itemsDTO.getAccountNumber());
                             refund.setAmount(items.getAmount());
                             refund.setUserId(user.id);
                             refundRepository.save(refund);

@@ -1,11 +1,6 @@
 package com.longbridge.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.longbridge.models.Measurement;
-import com.longbridge.models.Orders;
-
-import javax.persistence.ManyToOne;
-import java.util.Date;
 
 /**
  * Created by Longbridge on 03/01/2018.
@@ -75,7 +70,7 @@ public class ItemsDTO {
 
     private String accountName;
 
-    private String accountNum;
+    private String accountNumber;
 
     @JsonIgnore
     private String link;
@@ -370,11 +365,11 @@ public class ItemsDTO {
         this.accountName = accountName;
     }
 
-    public String getAccountNum() {
-        return accountNum;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setAccountNum(String accountNum) {
-        this.accountNum = accountNum;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 }

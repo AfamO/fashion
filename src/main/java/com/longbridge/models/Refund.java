@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 public class Refund extends CommonFields{
     private String accountNumber;
     private String accountName;
+
     private Long userId;
     private double amount;
 
@@ -19,7 +20,6 @@ public class Refund extends CommonFields{
         this.userId = userId;
         this.amount = amount;
     }
-
 
     public Refund() {
     }
@@ -40,6 +40,7 @@ public class Refund extends CommonFields{
         this.accountName = accountName;
     }
 
+
     public Long getUserId() {
         return userId;
     }
@@ -55,4 +56,5 @@ public class Refund extends CommonFields{
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
 }
