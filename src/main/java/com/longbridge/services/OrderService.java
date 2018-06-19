@@ -35,13 +35,13 @@ public interface OrderService {
 
     int getSuccessfulSales(User user);
 
-    int getCancelledOrders(User user);
+    List<ItemsDTO> getCancelledOrders(User user);
 
-    int getPendingOrders(User user);
+    List<ItemsDTO> getPendingOrders(User user);
 
-    int getActiveOrders(User user);
+    List<ItemsDTO> getActiveOrders(User user);
 
-    int getCompletedOrders(User user);
+    List<ItemsDTO> getCompletedOrders(User user);
 
     List<ItemsDTO> getAllOrdersByAdmin(User user);
 

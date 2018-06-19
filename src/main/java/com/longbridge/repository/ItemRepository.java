@@ -25,14 +25,16 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 
     List<Items> findByDesignerId(Long designerId);
     List<Items> findByDesignerIdAndItemStatusNot(Long designerId,ItemStatus itemStatus);
-    int countByDesignerIdAndItemStatus(Long designerId, ItemStatus status);
+    List<Items> findByDesignerIdAndItemStatus(Long designerId, ItemStatus status);
+
+    //List<Items> countByDesignerIdAndItemStatus(Long designerId, ItemStatus status);
 
     int countByDesignerIdAndItemStatus_status(Long designerId, String status);
     Long countByMeasurementIdAndItemStatusNot(Long measurementId, String status);
 
 
-    @Query("select count(id) from Items where designerId = :designerId and itemStatus in :itemStatuses")
-    int findActiveOrders(@Param("designerId") Long designerId, @Param("itemStatuses") List<ItemStatus> itemStatuses);
+    @Query("select i from Items i where designerId = :designerId and itemStatus in :itemStatuses")
+    List<Items> findActiveOrders(@Param("designerId") Long designerId, @Param("itemStatuses") List<ItemStatus> itemStatuses);
 
 
     int countByDesignerIdAndDeliveryStatusIn(Long designerId, List<String> status);
