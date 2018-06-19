@@ -24,10 +24,11 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Items, Long> {
 
     List<Items> findByDesignerId(Long designerId);
+    List<Items> findByDesignerIdAndItemStatusNot(Long designerId,ItemStatus itemStatus);
     int countByDesignerIdAndItemStatus(Long designerId, ItemStatus status);
 
     int countByDesignerIdAndItemStatus_status(Long designerId, String status);
-    Long countByMeasurementIdAndDeliveryStatusNot(Long measurementId, String status);
+    Long countByMeasurementIdAndItemStatusNot(Long measurementId, String status);
 
 
     @Query("select count(id) from Items where designerId = :designerId and itemStatus in :itemStatuses")

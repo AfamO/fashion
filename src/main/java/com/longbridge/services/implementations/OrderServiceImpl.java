@@ -560,7 +560,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<ItemsDTO> getOrdersByDesigner(User user) {
         try {
-            return convertItemsEntToDTOs(itemRepository.findByDesignerId(user.designer.id));
+            ItemStatus itemStatus = itemStatusRepository.findByStatus("C");
+            return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNot(user.designer.id,itemStatus));
 
         }catch (Exception ex){
             ex.printStackTrace();

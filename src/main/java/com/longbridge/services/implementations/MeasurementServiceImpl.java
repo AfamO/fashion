@@ -68,9 +68,9 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Override
     public boolean deleteMeasurement(User userTemp, Long measurementId) {
         try {
-            if(cartRepository.countByMeasurementId(measurementId) > 0 || itemRepository.countByMeasurementIdAndDeliveryStatusNot(measurementId, "D") > 0){
-                return false;
-            }
+//            if(cartRepository.countByMeasurementId(measurementId) > 0 || itemRepository.countByMeasurementIdAndDeliveryStatusNot(measurementId, "D") > 0){
+//                return false;
+//            }
             Measurement measurement = measurementRepository.findOne(measurementId);
             measurement.setDelFlag("Y");
             measurementRepository.save(measurement);
