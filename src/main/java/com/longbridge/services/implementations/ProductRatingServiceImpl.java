@@ -51,6 +51,38 @@ public class ProductRatingServiceImpl implements ProductRatingService {
     }
 
     @Override
+    public void updateRating(ProductRating productRating) {
+        ProductRating prodRat = productRatingRepository.findOne(productRating.id);
+
+        if(prodRat != null){
+            prodRat.setDeliveryTimeRating(productRating.getDeliveryTimeRating());
+            prodRat.setProductQualityRating(productRating.getProductQualityRating());
+            prodRat.setServiceRating(productRating.getServiceRating());
+            prodRat.setSubject(productRating.getSubject());
+            prodRat.setReview(productRating.getReview());
+
+            productRatingRepository.save(prodRat);
+        }
+    }
+
+    @Override
+    public ProductRating getUserRating(User user, Long id) {
+
+        Products products = productRepository.findOne(id);
+
+        if(products != null){
+            ProductRating productRating = productRatingRepository.findByUserAndProducts(user, products);
+            if(productRating == null){
+                System.out.println("null");
+            }else{
+                productRating.setUser(null);
+                return productRating;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void verifyRating(User user, Long id) {
         try {
             ProductRating productRating = productRatingRepository.findOne(id);

@@ -6,6 +6,7 @@ import com.longbridge.models.*;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.HibernateSearchService;
+import com.longbridge.services.ProductRatingService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,9 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    ProductRatingService productRatingService;
 
     @Autowired
     HibernateSearchService searchService;
@@ -84,6 +88,16 @@ public class ProductController {
         Response response = new Response("00","Operation Successful",products);
         return response;
 
+    }
+
+    @GetMapping(value = "/{id}/getproductbyid/getuserreview")
+    public Response getUserReviewForProduct(@PathVariable Long id, HttpServletRequest request){
+
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+
+        ProductRating productRating = productRatingService.getUserRating(user, id);
+        return new Response("00", "user review", productRating);
     }
 
 

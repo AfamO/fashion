@@ -48,6 +48,13 @@ public class ProductRatingController {
         return response;
     }
 
+    @PostMapping(value = "/{producid}/updateproductrating")
+    public Response updateProductRating(@RequestBody ProductRating productRating, HttpServletRequest request){
+
+        productRatingService.updateRating(productRating);
+        return new Response("00", "Review updated", "success");
+    }
+
     @PostMapping(value = "/{id}/verifyrating")
     public Response verifyRating(HttpServletRequest request, @PathVariable Long id){
         String token = request.getHeader(tokenHeader);
