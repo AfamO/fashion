@@ -132,7 +132,7 @@ public class OrderController {
 
 
 
-    @PostMapping(value = "/user/reject/decision")
+    @PostMapping(value = "/decision")
     public Response saveDecision(@RequestBody ItemsDTO item, HttpServletRequest request) {
 
             String token = request.getHeader(tokenHeader);
