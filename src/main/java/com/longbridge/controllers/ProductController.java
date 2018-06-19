@@ -29,10 +29,10 @@ public class ProductController {
     ProductService productService;
 
     @Autowired
-    ProductRatingService productRatingService;
+    HibernateSearchService searchService;
 
     @Autowired
-    HibernateSearchService searchService;
+    ProductRatingService productRatingService;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -99,7 +99,6 @@ public class ProductController {
         ProductRating productRating = productRatingService.getUserRating(user, id);
         return new Response("00", "user review", productRating);
     }
-
 
     @GetMapping(value = "/getdesignerproducts")
     public Object getProductsByDesigner(HttpServletRequest request){

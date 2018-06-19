@@ -52,17 +52,26 @@ public class ProductRatingServiceImpl implements ProductRatingService {
 
     @Override
     public void updateRating(ProductRating productRating) {
-        ProductRating prodRat = productRatingRepository.findOne(productRating.id);
+        try {
+            ProductRating prodRat = productRatingRepository.findOne(productRating.id);
 
-        if(prodRat != null){
-            prodRat.setDeliveryTimeRating(productRating.getDeliveryTimeRating());
-            prodRat.setProductQualityRating(productRating.getProductQualityRating());
-            prodRat.setServiceRating(productRating.getServiceRating());
-            prodRat.setSubject(productRating.getSubject());
-            prodRat.setReview(productRating.getReview());
+            if(prodRat != null){
+                prodRat.setDeliveryTimeRating(productRating.getDeliveryTimeRating());
+                prodRat.setProductQualityRating(productRating.getProductQualityRating());
+                prodRat.setServiceRating(productRating.getServiceRating());
+                prodRat.setSubject(productRating.getSubject());
+                prodRat.setReview(productRating.getReview());
 
-            productRatingRepository.save(prodRat);
+                productRatingRepository.save(prodRat);
+            }
+            else {
+                throw new WawoohException();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
         }
+
     }
 
     @Override

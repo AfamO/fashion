@@ -35,6 +35,14 @@ public interface OrderService {
 
     int getSuccessfulSales(User user);
 
+    List<ItemsDTO> getCancelledOrders(User user);
+
+    List<ItemsDTO> getPendingOrders(User user);
+
+    List<ItemsDTO> getActiveOrders(User user);
+
+    List<ItemsDTO> getCompletedOrders(User user);
+
     List<ItemsDTO> getAllOrdersByAdmin(User user);
 
     List<OrderDTO> getAllOrdersByAdmin2(User user);
@@ -54,5 +62,7 @@ public interface OrderService {
     OrderDTO getOrdersById(Long id);
 
     ItemsDTO getOrderItemById(Long id);
+
+    void saveUserOrderDecision(ItemsDTO itemsDTO,User user);
 
 }

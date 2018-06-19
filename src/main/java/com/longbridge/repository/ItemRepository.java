@@ -1,6 +1,7 @@
 package com.longbridge.repository;
 
 import com.longbridge.dto.SalesChart;
+import com.longbridge.models.ItemStatus;
 import com.longbridge.models.Items;
 import com.longbridge.models.Products;
 import org.hibernate.sql.Select;
@@ -23,8 +24,18 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Items, Long> {
 
     List<Items> findByDesignerId(Long designerId);
-    int countByDesignerIdAndDeliveryStatus(Long designerId, String status);
-    Long countByMeasurementIdAndDeliveryStatusNot(Long measurementId, String status);
+    List<Items> findByDesignerIdAndItemStatusNot(Long designerId,ItemStatus itemStatus);
+    List<Items> findByDesignerIdAndItemStatus(Long designerId, ItemStatus status);
+
+    //List<Items> countByDesignerIdAndItemStatus(Long designerId, ItemStatus status);
+
+    int countByDesignerIdAndItemStatus_status(Long designerId, String status);
+    Long countByMeasurementIdAndItemStatusNot(Long measurementId, String status);
+
+
+    @Query("select i from Items i where designerId = :designerId and itemStatus in :itemStatuses")
+    List<Items> findActiveOrders(@Param("designerId") Long designerId, @Param("itemStatuses") List<ItemStatus> itemStatuses);
+
 
     int countByDesignerIdAndDeliveryStatusIn(Long designerId, List<String> status);
 

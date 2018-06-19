@@ -1,11 +1,6 @@
 package com.longbridge.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.longbridge.models.Measurement;
-import com.longbridge.models.Orders;
-
-import javax.persistence.ManyToOne;
-import java.util.Date;
 
 /**
  * Created by Longbridge on 03/01/2018.
@@ -17,6 +12,8 @@ public class ItemsDTO {
     private Long productId;
 
     private String productName;
+
+    private String productAvailability;
 
     private int quantity;
 
@@ -52,7 +49,7 @@ public class ItemsDTO {
 
     private String orderNumber;
 
-    private Measurement measurement;
+    private String measurement;
 
     private Long orderId;
 
@@ -274,11 +271,11 @@ public class ItemsDTO {
         this.orderId = orderId;
     }
 
-    public Measurement getMeasurement() {
+    public String getMeasurement() {
         return measurement;
     }
 
-    public void setMeasurement(Measurement measurement) {
+    public void setMeasurement(String measurement) {
         this.measurement = measurement;
     }
 
@@ -376,5 +373,13 @@ public class ItemsDTO {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public String getProductAvailability() {
+        return productAvailability;
+    }
+
+    public void setProductAvailability(String productAvailability) {
+        this.productAvailability = productAvailability;
     }
 }

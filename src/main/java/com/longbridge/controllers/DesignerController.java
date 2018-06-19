@@ -180,6 +180,56 @@ public class DesignerController {
     }
 
 
+
+    @GetMapping(value = "/getcancelledorders")
+    public Response getCancelledOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getCancelledOrders(userTemp));
+        return response;
+    }
+
+
+
+    @GetMapping(value = "/getpendingorders")
+    public Response getPendingOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getPendingOrders(userTemp));
+        return response;
+    }
+
+
+
+    @GetMapping(value = "/getactiveorders")
+    public Response getActiveOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getActiveOrders(userTemp));
+        return response;
+    }
+
+    @GetMapping(value = "/getcompletedorders")
+    public Response getCompletedOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getCompletedOrders(userTemp));
+        return response;
+    }
+
+
     @GetMapping(value = "/gettotalproducts")
     public Response getTotalProducts(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

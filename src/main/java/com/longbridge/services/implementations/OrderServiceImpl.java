@@ -9,15 +9,12 @@ import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.security.repository.UserRepository;
-import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.MailService;
 import com.longbridge.services.OrderService;
-import com.sun.mail.imap.protocol.Item;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailException;
@@ -25,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.math.BigDecimal;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -58,6 +54,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     StatusMessageRepository statusMessageRepository;
+
+    @Autowired
+    RefundRepository refundRepository;
 
     @Autowired
     SendEmailAsync sendEmailAsync;
@@ -124,12 +123,26 @@ public class OrderServiceImpl implements OrderService {
             orderRepository.save(orders);
             ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
             for (Items items: orderReq.getItems()) {
+                Products p = productRepository.findOne(items.getProductId());
+                if(items.getMeasurementId() != null) {
+                    Measurement measurement = measurementRepository.findOne(items.getMeasurementId());
+                    items.setMeasurement(measurement.toString());
+                }
+                if(items.getArtWorkPictureId() != null){
+                    items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).pictureName);
+                }
+                if(items.getMaterialPictureId() != null){
+                    items.setMaterialPicture(materialPictureRepository.findOne(items.getMaterialPictureId()).pictureName);
+                }
+
+                items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).pictureName);
+
                 items.setOrders(orders);
                 items.setCreatedOn(date);
                 items.setUpdatedOn(date);
                 items.setItemStatus(itemStatus);
                 itemRepository.save(items);
-                Products p = productRepository.findOne(items.getProductId());
+
 
                 p.numOfTimesOrdered = p.numOfTimesOrdered+1;
                 if(p.stockNo != 0){
@@ -297,12 +310,12 @@ public class OrderServiceImpl implements OrderService {
             try {
                 ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
 
-                StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
+              //  StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
 
             if(items.getItemStatus().getStatus().equalsIgnoreCase("CO")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
                     items.setItemStatus(itemStatus);
-                    items.setStatusMessage(statusMessage);
+                    //items.setStatusMessage(statusMessage);
 
                     String message = templateEngine.process("readyforinsptemplate", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
@@ -312,17 +325,30 @@ public class OrderServiceImpl implements OrderService {
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("RS")){
                     items.setItemStatus(itemStatus);
-                    items.setStatusMessage(statusMessage);
+                    //items.setStatusMessage(statusMessage);
 
                     String message = templateEngine.process("ordershippedemail", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
 
                 }
             }
+
+
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("RS")){
+                if(itemsDTO.getStatus().equalsIgnoreCase("OS")){
+                    items.setItemStatus(itemStatus);
+                    //items.setStatusMessage(statusMessage);
+
+                    String message = templateEngine.process("ordershippedemail", context);
+                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
+
+                }
+            }
+
+            else if(items.getItemStatus().getStatus().equalsIgnoreCase("OS")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("D")){
                     items.setItemStatus(itemStatus);
-                    items.setStatusMessage(statusMessage);
+                    //items.setStatusMessage(statusMessage);
 
                     String message = templateEngine.process("orderdeliveredemail", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
@@ -440,6 +466,8 @@ public class OrderServiceImpl implements OrderService {
             }else if(cart.getMaterialPickUpAddressId() != null){
             cart.setMaterialLocation(addressRepository.findOne(cart.getMaterialPickUpAddressId()));
             }
+            Products products = productRepository.findOne(cart.getProductId());
+            cart.setAmount(Double.toString(products.amount*cart.getQuantity()));
             cart.setCreatedOn(date);
             cart.setUpdatedOn(date);
             cart.setExpiryDate(DateUtils.addDays(date,7));
@@ -545,7 +573,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<ItemsDTO> getOrdersByDesigner(User user) {
         try {
-            return convertItemsEntToDTOs(itemRepository.findByDesignerId(user.designer.id));
+            ItemStatus itemStatus = itemStatusRepository.findByStatus("C");
+            return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNot(user.designer.id,itemStatus));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -560,7 +589,7 @@ public class OrderServiceImpl implements OrderService {
             if(user.designer !=null) {
                 List<Items> items = itemRepository.findByDesignerId(user.designer.id);
                 for (Items item : items) {
-                    if (item.getOrders().getDeliveryStatus().equalsIgnoreCase("C")) {
+                    if (item.getOrders().getDeliveryStatus().equalsIgnoreCase("D")) {
                         count = count + 1;
                     }
                 }
@@ -568,6 +597,88 @@ public class OrderServiceImpl implements OrderService {
                 throw new WawoohException();
             }
            return count;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+    @Override
+    public List<ItemsDTO> getCancelledOrders(User user) {
+        try {
+            if(user.designer !=null) {
+                ItemStatus itemStatus = itemStatusRepository.findByStatus("C");
+                return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
+
+            }else {
+                throw new WawoohException();
+            }
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public List<ItemsDTO> getPendingOrders(User user) {
+        try {
+
+            if(user.designer !=null) {
+                ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
+                return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
+
+            }else {
+                throw new WawoohException();
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public List<ItemsDTO> getActiveOrders(User user) {
+        try {
+
+            if(user.designer !=null) {
+                ItemStatus itemStatus1 = itemStatusRepository.findByStatus("OP");
+                ItemStatus itemStatus2 = itemStatusRepository.findByStatus("CO");
+                ItemStatus itemStatus3 = itemStatusRepository.findByStatus("RI");
+                List<ItemStatus> itemStatuses = new ArrayList();
+                itemStatuses.add(itemStatus1);
+                itemStatuses.add(itemStatus2);
+                itemStatuses.add(itemStatus3);
+
+                return convertItemsEntToDTOs(itemRepository.findActiveOrders(user.designer.id,itemStatuses));
+
+
+            }else {
+                throw new WawoohException();
+            }
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+    @Override
+    public List<ItemsDTO> getCompletedOrders(User user) {
+        try {
+
+            if(user.designer !=null) {
+                ItemStatus itemStatus = itemStatusRepository.findByStatus("RS");
+
+                return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
+
+
+            }else {
+                throw new WawoohException();
+            }
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -616,6 +727,40 @@ public class OrderServiceImpl implements OrderService {
         try {
 
             return convertEntityToDTO(itemRepository.findOne(id));
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+    @Override
+    public void saveUserOrderDecision(ItemsDTO itemsDTO,User user) {
+        try {
+
+            if(itemsDTO.getId() != null){
+                Items items = itemRepository.findOne(itemsDTO.getId());
+
+                if(items.getItemStatus().getStatus().equalsIgnoreCase("OR")){
+                        if(itemsDTO.getAction().equalsIgnoreCase("A")){
+                            items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                        }
+                        else if(itemsDTO.getAction().equalsIgnoreCase("R")){
+                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                            Refund refund = new Refund();
+                            refund.setAccountName(itemsDTO.getAccountName());
+                            refund.setAccountNumber(itemsDTO.getAccountNumber());
+                            refund.setAmount(items.getAmount());
+                            refund.setUserId(user.id);
+                            refundRepository.save(refund);
+
+                        }
+//                        items.setItemStatus(itemStatus);
+//                        items.setStatusMessage(statusMessage);
+ }
+itemRepository.save(items);
+            }
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -714,25 +859,27 @@ public class OrderServiceImpl implements OrderService {
         if(items != null) {
             itemsDTO.setId(items.id);
             itemsDTO.setProductId(items.getProductId());
-            itemsDTO.setProductName(productRepository.getProductName(items.getProductId()));
+            Products p = productRepository.findOne(items.getProductId());
+            itemsDTO.setProductName(p.name);
+            itemsDTO.setProductAvailability(p.availability);
             itemsDTO.setAmount(items.getAmount().toString());
             itemsDTO.setColor(items.getColor());
             itemsDTO.setQuantity(items.getQuantity());
             User user=userRepository.findById(items.getOrders().getUserId());
             itemsDTO.setCustomerName(user.lastName+" "+user.firstName);
             itemsDTO.setCustomerId(user.id);
-            ProductPicture p = productPictureRepository.findFirst1ByProducts(productRepository.findOne(itemsDTO.getProductId()));
-            itemsDTO.setProductPicture(p.pictureName);
+           // ProductPicture p = productPictureRepository.findFirst1ByProducts(productRepository.findOne(itemsDTO.getProductId()));
+            itemsDTO.setProductPicture(items.getProductPicture());
 
-            if (items.getArtWorkPictureId() != null) {
-                ArtWorkPicture a = artWorkPictureRepository.findOne(items.getArtWorkPictureId());
-                itemsDTO.setArtWorkPicture(a.pictureName);
-            }
+           // if (items.getArtWorkPictureId() != null) {
+              //  ArtWorkPicture a = artWorkPictureRepository.findOne(items.getArtWorkPictureId());
+                itemsDTO.setArtWorkPicture(items.getArtWorkPicture());
+            //}
 
-            if (items.getMaterialPictureId() != null) {
-                MaterialPicture m = materialPictureRepository.findOne(items.getMaterialPictureId());
-                itemsDTO.setMaterialPicture(m.pictureName);
-            }
+           // if (items.getMaterialPictureId() != null) {
+              //  MaterialPicture m = materialPictureRepository.findOne(items.getMaterialPictureId());
+                itemsDTO.setMaterialPicture(items.getMaterialPicture());
+            //}
             Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             Orders orders = items.getOrders();
@@ -753,7 +900,7 @@ public class OrderServiceImpl implements OrderService {
             itemsDTO.setOrderNumber(orders.getOrderNum());
             itemsDTO.setOrderId(orders.id);
             if (items.getMeasurementId() != null) {
-                itemsDTO.setMeasurement(measurementRepository.findOne(items.getMeasurementId()));
+                itemsDTO.setMeasurement(items.getMeasurement());
             }
         }
         return itemsDTO;

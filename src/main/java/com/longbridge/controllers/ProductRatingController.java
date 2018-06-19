@@ -50,6 +50,12 @@ public class ProductRatingController {
 
     @PostMapping(value = "/{producid}/updateproductrating")
     public Response updateProductRating(@RequestBody ProductRating productRating, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+
+        if(token==null || user==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
 
         productRatingService.updateRating(productRating);
         return new Response("00", "Review updated", "success");

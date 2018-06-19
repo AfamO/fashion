@@ -15,6 +15,8 @@ public class PriceSlash extends CommonFields{
 
     private Double slashedPrice;
 
+    private int percentageDiscount;
+
     public PriceSlash() {
     }
 
@@ -39,4 +41,11 @@ public class PriceSlash extends CommonFields{
         this.slashedPrice = slashedPrice;
     }
 
+    public int getPercentageDiscount() {
+        return percentageDiscount;
+    }
+
+    public void setPercentageDiscount(int percentageDiscount) {
+        this.percentageDiscount = percentageDiscount;
+    }
 }
