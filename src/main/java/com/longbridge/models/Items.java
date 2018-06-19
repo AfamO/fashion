@@ -20,6 +20,14 @@ public class Items extends CommonFields{
 
     private Long productId;
 
+    private String productName;
+
+    private String productPicture;
+
+    private String artWorkPicture;
+
+    private String materialPicture;
+
     private int quantity;
 
     private Long designerId;
@@ -49,7 +57,7 @@ public class Items extends CommonFields{
     private String rejectReason;
 
 
-//    private String measurementName;
+    private String measurement;
 
 
     @ManyToOne
@@ -211,6 +219,47 @@ public class Items extends CommonFields{
 
     public void setStatusMessage(StatusMessage statusMessage) {
         this.statusMessage = statusMessage;
+    }
+
+
+    public String getMeasurement() {
+        return measurement;
+    }
+
+    public void setMeasurement(String measurement) {
+        this.measurement = measurement;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductPicture() {
+        return productPicture;
+    }
+
+    public void setProductPicture(String productPicture) {
+        this.productPicture = productPicture;
+    }
+
+    public String getArtWorkPicture() {
+        return artWorkPicture;
+    }
+
+    public void setArtWorkPicture(String artWorkPicture) {
+        this.artWorkPicture = artWorkPicture;
+    }
+
+    public String getMaterialPicture() {
+        return materialPicture;
+    }
+
+    public void setMaterialPicture(String materialPicture) {
+        this.materialPicture = materialPicture;
     }
 
     public Items() {

@@ -131,6 +131,24 @@ public class OrderController {
     }
 
 
+
+    @PostMapping(value = "/user/reject/decision")
+    public Response saveDecision(@RequestBody ItemsDTO item, HttpServletRequest request) {
+
+            String token = request.getHeader(tokenHeader);
+            User userTemp = userUtil.fetchUserDetails2(token);
+            if (token == null || userTemp == null) {
+                return userUtil.tokenNullOrInvalidResponse(token);
+            }
+
+        orderService.saveUserOrderDecision(item,userTemp);
+        Response response = new Response("00","Operation Successful","success");
+        return response;
+
+    }
+
+
+
     @PostMapping(value = "/admin/updateorderitem")
     public Response updateOrderStatusByAdmin(@RequestBody ItemsDTO item, HttpServletRequest request){
         try{

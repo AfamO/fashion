@@ -53,4 +53,6 @@ public interface OrderService {
 
     ItemsDTO getOrderItemById(Long id);
 
+    void saveUserOrderDecision(ItemsDTO itemsDTO,User user);
+
 }

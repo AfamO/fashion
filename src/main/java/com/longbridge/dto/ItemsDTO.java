@@ -52,7 +52,7 @@ public class ItemsDTO {
 
     private String orderNumber;
 
-    private Measurement measurement;
+    private String measurement;
 
     private Long orderId;
 
@@ -70,6 +70,12 @@ public class ItemsDTO {
     private String message;
 
     private String waitTime;
+
+    private String action;
+
+    private String accountName;
+
+    private String accountNum;
 
     @JsonIgnore
     private String link;
@@ -268,11 +274,11 @@ public class ItemsDTO {
         this.orderId = orderId;
     }
 
-    public Measurement getMeasurement() {
+    public String getMeasurement() {
         return measurement;
     }
 
-    public void setMeasurement(Measurement measurement) {
+    public void setMeasurement(String measurement) {
         this.measurement = measurement;
     }
 
@@ -346,5 +352,29 @@ public class ItemsDTO {
 
     public void setWaitTime(String waitTime) {
         this.waitTime = waitTime;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getAccountNum() {
+        return accountNum;
+    }
+
+    public void setAccountNum(String accountNum) {
+        this.accountNum = accountNum;
     }
 }

@@ -60,6 +60,9 @@ public class OrderServiceImpl implements OrderService {
     StatusMessageRepository statusMessageRepository;
 
     @Autowired
+    RefundRepository refundRepository;
+
+    @Autowired
     SendEmailAsync sendEmailAsync;
 
 
@@ -124,12 +127,26 @@ public class OrderServiceImpl implements OrderService {
             orderRepository.save(orders);
             ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
             for (Items items: orderReq.getItems()) {
+                Products p = productRepository.findOne(items.getProductId());
+                if(items.getMeasurementId() != null) {
+                    Measurement measurement = measurementRepository.findOne(items.getMeasurementId());
+                    items.setMeasurement(measurement.toString());
+                }
+                if(items.getArtWorkPictureId() != null){
+                    items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).pictureName);
+                }
+                if(items.getMaterialPictureId() != null){
+                    items.setMaterialPicture(materialPictureRepository.findOne(items.getMaterialPictureId()).pictureName);
+                }
+
+                items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).pictureName);
+
                 items.setOrders(orders);
                 items.setCreatedOn(date);
                 items.setUpdatedOn(date);
                 items.setItemStatus(itemStatus);
                 itemRepository.save(items);
-                Products p = productRepository.findOne(items.getProductId());
+
 
                 p.numOfTimesOrdered = p.numOfTimesOrdered+1;
                 if(p.stockNo != 0){
@@ -418,6 +435,8 @@ public class OrderServiceImpl implements OrderService {
             }else if(cart.getMaterialPickUpAddressId() != null){
             cart.setMaterialLocation(addressRepository.findOne(cart.getMaterialPickUpAddressId()));
             }
+            Products products = productRepository.findOne(cart.getProductId());
+            cart.setAmount(Double.toString(products.amount*cart.getQuantity()));
             cart.setCreatedOn(date);
             cart.setUpdatedOn(date);
             cart.setExpiryDate(DateUtils.addDays(date,7));
@@ -601,6 +620,40 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
+    @Override
+    public void saveUserOrderDecision(ItemsDTO itemsDTO,User user) {
+        try {
+
+            if(itemsDTO.getId() != null){
+                Items items = itemRepository.findOne(itemsDTO.getId());
+
+                if(items.getItemStatus().getStatus().equalsIgnoreCase("OR")){
+                        if(itemsDTO.getAction().equalsIgnoreCase("A")){
+                            items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                        }
+                        else if(itemsDTO.getAction().equalsIgnoreCase("R")){
+                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                            Refund refund = new Refund();
+                            refund.setAccountName(itemsDTO.getAccountName());
+                            refund.setAccountNumber(itemsDTO.getAccountNum());
+                            refund.setAmount(items.getAmount());
+                            refund.setUserId(user.id);
+                            refundRepository.save(refund);
+
+                        }
+//                        items.setItemStatus(itemStatus);
+//                        items.setStatusMessage(statusMessage);
+ }
+itemRepository.save(items);
+            }
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
     @Override
     public Boolean orderNumExists(String orderNum) {
         Orders orders = orderRepository.findByOrderNum(orderNum);
@@ -699,18 +752,18 @@ public class OrderServiceImpl implements OrderService {
             User user=userRepository.findById(items.getOrders().getUserId());
             itemsDTO.setCustomerName(user.lastName+" "+user.firstName);
             itemsDTO.setCustomerId(user.id);
-            ProductPicture p = productPictureRepository.findFirst1ByProducts(productRepository.findOne(itemsDTO.getProductId()));
-            itemsDTO.setProductPicture(p.pictureName);
+           // ProductPicture p = productPictureRepository.findFirst1ByProducts(productRepository.findOne(itemsDTO.getProductId()));
+            itemsDTO.setProductPicture(items.getProductPicture());
 
-            if (items.getArtWorkPictureId() != null) {
-                ArtWorkPicture a = artWorkPictureRepository.findOne(items.getArtWorkPictureId());
-                itemsDTO.setArtWorkPicture(a.pictureName);
-            }
+           // if (items.getArtWorkPictureId() != null) {
+              //  ArtWorkPicture a = artWorkPictureRepository.findOne(items.getArtWorkPictureId());
+                itemsDTO.setArtWorkPicture(items.getArtWorkPicture());
+            //}
 
-            if (items.getMaterialPictureId() != null) {
-                MaterialPicture m = materialPictureRepository.findOne(items.getMaterialPictureId());
-                itemsDTO.setMaterialPicture(m.pictureName);
-            }
+           // if (items.getMaterialPictureId() != null) {
+              //  MaterialPicture m = materialPictureRepository.findOne(items.getMaterialPictureId());
+                itemsDTO.setMaterialPicture(items.getMaterialPicture());
+            //}
             Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             Orders orders = items.getOrders();
@@ -731,7 +784,7 @@ public class OrderServiceImpl implements OrderService {
             itemsDTO.setOrderNumber(orders.getOrderNum());
             itemsDTO.setOrderId(orders.id);
             if (items.getMeasurementId() != null) {
-                itemsDTO.setMeasurement(measurementRepository.findOne(items.getMeasurementId()));
+                itemsDTO.setMeasurement(items.getMeasurement());
             }
         }
         return itemsDTO;
