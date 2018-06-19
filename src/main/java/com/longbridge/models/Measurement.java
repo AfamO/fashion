@@ -283,7 +283,6 @@ public class Measurement extends CommonFields{
                 ", bicep='" + bicep + '\'' +
                 ", waistToKnee='" + waistToKnee + '\'' +
                 ", shoulderToWaist='" + shoulderToWaist + '\'' +
-                ", user=" + user +
                 '}';
     }
 
