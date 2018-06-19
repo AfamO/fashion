@@ -310,12 +310,12 @@ public class OrderServiceImpl implements OrderService {
             try {
                 ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
 
-                StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
+              //  StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
 
             if(items.getItemStatus().getStatus().equalsIgnoreCase("CO")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
                     items.setItemStatus(itemStatus);
-                    items.setStatusMessage(statusMessage);
+                    //items.setStatusMessage(statusMessage);
 
                     String message = templateEngine.process("readyforinsptemplate", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
@@ -325,7 +325,7 @@ public class OrderServiceImpl implements OrderService {
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("RS")){
                     items.setItemStatus(itemStatus);
-                    items.setStatusMessage(statusMessage);
+                    //items.setStatusMessage(statusMessage);
 
                     String message = templateEngine.process("ordershippedemail", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
@@ -335,7 +335,7 @@ public class OrderServiceImpl implements OrderService {
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("RS")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("D")){
                     items.setItemStatus(itemStatus);
-                    items.setStatusMessage(statusMessage);
+                    //items.setStatusMessage(statusMessage);
 
                     String message = templateEngine.process("orderdeliveredemail", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
