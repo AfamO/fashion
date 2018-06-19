@@ -332,7 +332,20 @@ public class OrderServiceImpl implements OrderService {
 
                 }
             }
+
+
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("RS")){
+                if(itemsDTO.getStatus().equalsIgnoreCase("OS")){
+                    items.setItemStatus(itemStatus);
+                    //items.setStatusMessage(statusMessage);
+
+                    String message = templateEngine.process("ordershippedemail", context);
+                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
+
+                }
+            }
+
+            else if(items.getItemStatus().getStatus().equalsIgnoreCase("OS")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("D")){
                     items.setItemStatus(itemStatus);
                     //items.setStatusMessage(statusMessage);

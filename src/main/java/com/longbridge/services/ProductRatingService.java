@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface ProductRatingService {
     Boolean RateProduct (User user, Long id, ProductRating productRating);
+    void updateRating(ProductRating productRating);
+    ProductRating getUserRating(User user ,Long id);
     void verifyRating (User user, Long id);
     List<ProductRating> getVerifiedRatings();
     List<ProductRating> getAllRatings();
