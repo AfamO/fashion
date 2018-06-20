@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class ProductRating extends CommonFields{
+    @JsonIgnore
     @OneToOne
     private User user;
     private int deliveryTimeRating;
