@@ -10,9 +10,6 @@ import javax.persistence.*;
 @Entity
 public class Measurement extends CommonFields{
 
-//    @javax.persistence.Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
 
     private String name;
 

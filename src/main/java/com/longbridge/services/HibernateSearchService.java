@@ -105,12 +105,12 @@ import java.util.List;
 
     @Transactional
     public List<ProductRespDTO> productsFuzzySearch(String searchTerm) {
-        SubCategory subCategory = subCategoryRepository.findBySubCategory(searchTerm);
+        List<SubCategory> subCategory = subCategoryRepository.findBySubCategory(searchTerm);
         Query luceneQuery = null;
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
         QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Products.class).get();
-        if(subCategory != null){
+        if(subCategory.size() > 0){
            luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1).onFields("subCategory.subCategory")
                     .matching(searchTerm).createQuery();
         }
