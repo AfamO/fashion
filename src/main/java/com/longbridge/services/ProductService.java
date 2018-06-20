@@ -55,7 +55,7 @@ public interface ProductService {
 
     List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p);
 
-    List<ProductRespDTO> searchProductsBySubCat(String search, ProdSubCategoryDTO p);
+    //List<ProductRespDTO> searchProductsBySubCat(String search, ProdSubCategoryDTO p);
 
     List<ProductRespDTO> getTagProducts(PicTagDTO p);
 
