@@ -83,7 +83,8 @@ public class Products extends CommonFields implements Serializable {
 
     public boolean priceSlashEnabled = false;
 
-    @OneToOne (mappedBy = "products", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToOne (mappedBy = "products", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public PriceSlash priceSlash;
 
     public int numOfDaysToComplete;
