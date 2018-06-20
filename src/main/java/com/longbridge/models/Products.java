@@ -3,10 +3,12 @@ package com.longbridge.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +22,7 @@ public class Products extends CommonFields implements Serializable {
 
     public double amount;
 
+    @IndexedEmbedded(depth = 1)
     @OneToOne
     public SubCategory subCategory;
 
@@ -81,4 +84,11 @@ public class Products extends CommonFields implements Serializable {
     public PriceSlash priceSlash;
 
     public int numOfDaysToComplete;
+
+
+//    @Override
+//    @JsonIgnore
+//    public List<String> getDefaultSearchFields() {
+//        return Arrays.asList("name");
+//    }
 }

@@ -1,5 +1,7 @@
 package com.longbridge.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.util.List;
@@ -7,12 +9,14 @@ import java.util.List;
 /**
  * Created by longbridge on 10/18/17.
  */
+
 @Entity
 public class SubCategory extends CommonFields {
     @JsonIgnore
     @ManyToOne
     public Category category;
 
+    @Field
     public String subCategory;
 
     @OneToMany(mappedBy = "subCategory",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
