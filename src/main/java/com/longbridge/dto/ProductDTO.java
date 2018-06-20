@@ -2,6 +2,7 @@ package com.longbridge.dto;
 
 import com.longbridge.models.*;
 
+import javax.persistence.Lob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,5 +38,8 @@ public class ProductDTO {
     public String status;
 
     public String verifiedFlag;
+    public int numOfDaysToComplete;
+    @Lob
+    public String mandatoryMeasurements;
 
 }

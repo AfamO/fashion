@@ -67,6 +67,9 @@ public class Products extends CommonFields implements Serializable {
 
     public String availability;
 
+    @Lob
+    public String mandatoryMeasurements;
+
     public int numOfTimesOrdered = 0;
 
     @OneToMany(mappedBy = "products",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -84,6 +87,9 @@ public class Products extends CommonFields implements Serializable {
     public PriceSlash priceSlash;
 
     public int numOfDaysToComplete;
+
+
+
 
 
 //    @Override
