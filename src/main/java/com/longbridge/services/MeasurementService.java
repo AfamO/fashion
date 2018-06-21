@@ -15,5 +15,7 @@ public interface MeasurementService {
     boolean deleteMeasurement(User userTemp, Long measurementId);
     Measurement getMeasurementById(User user, Long measurementId);
     List<Measurement> getUserMeasurement(User user);
+
+    String getMandatoryMeasurement(Long productId);
     Measurement getMeasurementByName(User user, String measurementName);
 }

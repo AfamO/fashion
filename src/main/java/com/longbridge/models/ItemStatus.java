@@ -9,7 +9,8 @@ public class ItemStatus extends CommonFields{
 
     private String status;
 
-    @OneToMany(mappedBy = "itemStatus", fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "itemStatus", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Items> items;
 
     @Column(name = "header_message")

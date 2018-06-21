@@ -104,6 +104,20 @@ public class CustomizationController {
         Response response = new Response("00","Operation Successful",measurementService.getUserMeasurement(userTemp));
         return response;
     }
+
+    @GetMapping(value = "/{productId}/getmandatorymeasurements")
+    public Response getMandatoryMeasurements(@PathVariable Long productId, HttpServletRequest request){
+//        String token = request.getHeader(tokenHeader);
+//        User userTemp = userUtil.fetchUserDetails2(token);
+//
+//        if(token==null || userTemp==null){
+//            return userUtil.tokenNullOrInvalidResponse(token);
+//        }
+        Response response = new Response("00","Operation Successful",measurementService.getMandatoryMeasurement(productId));
+        return response;
+    }
+
+
 //    @GetMapping(value = "/{name}/getcustomizationbyname")
 //    public Response getCustomizationByName(@PathVariable Long measurementId, HttpServletRequest request){
 //        String token = request.getHeader(tokenHeader);

@@ -57,10 +57,12 @@ public class Items extends CommonFields{
     private String measurement;
 
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "status_id")
     private ItemStatus itemStatus;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "message_id")
     private StatusMessage statusMessage;
