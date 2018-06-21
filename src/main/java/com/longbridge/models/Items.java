@@ -2,10 +2,7 @@ package com.longbridge.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -56,7 +53,7 @@ public class Items extends CommonFields{
 
     private String rejectReason;
 
-
+    @Lob
     private String measurement;
 
 

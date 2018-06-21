@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface SubCategoryRepository extends PagingAndSortingRepository<SubCategory, Long>{
     List<SubCategory> findByCategory(Category category);
+    List<SubCategory> findBySubCategory(String subCategory);
 }

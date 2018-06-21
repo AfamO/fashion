@@ -10,47 +10,62 @@ import javax.persistence.*;
 @Entity
 public class Measurement extends CommonFields{
 
-//    @javax.persistence.Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
 
     private String name;
 
     private String neck;
 
-    private String overBust;
+    private String armHole;
+
+    private String biceps;
+
+    private String longSleeve;
+
+    private String shortSleeve;
+
+    private String fullShoulder;
+
+    private String halfShoulder;
+
+    private String elbow;
+
+    private String fullChest;
 
     private String bust;
 
-    private String armHole;
+    private String overBreast;
 
-    private String neckToHeel;
-
-    private String neckToAboveHeel;
-
-    private String vNeckCut;
+    private String underChest;
 
     private String underBust;
 
-    private String hips;
+    private String shirtLength;
 
-    private String waist;
-
-    private String armsLength;
-
-    private String shoulderSeam;
-
-    private String kneeToAnkle;
-
-    private String foreArm;
+    private String stomach;
 
     private String wrist;
 
-    private String bicep;
+    private String fullLength;
 
-    private String waistToKnee;
+    private String trouserWaist;
 
-    private String shoulderToWaist;
+    private String seat;
+
+    private String outSeam;
+
+    private String inSeam;
+
+    private String crotch;
+
+    private String thigh;
+
+
+    private String knee;
+
+    private String ankle;
+
+    private String butt;
+
 
     private String unit;
 
@@ -71,156 +86,13 @@ public class Measurement extends CommonFields{
 //        this.id = id;
 //    }
 
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getOverBust() {
-        return overBust;
-    }
-
-    public void setOverBust(String overBust) {
-        this.overBust = overBust;
-    }
-
-    public String getBust() {
-        return bust;
-    }
-
-    public void setBust(String bust) {
-        this.bust = bust;
-    }
-
-    public String getArmHole() {
-        return armHole;
-    }
-
-    public void setArmHole(String armHole) {
-        this.armHole = armHole;
-    }
-
-    public String getNeckToHeel() {
-        return neckToHeel;
-    }
-
-    public void setNeckToHeel(String neckToHeel) {
-        this.neckToHeel = neckToHeel;
-    }
-
-    public String getNeckToAboveHeel() {
-        return neckToAboveHeel;
-    }
-
-    public void setNeckToAboveHeel(String neckToAboveHeel) {
-        this.neckToAboveHeel = neckToAboveHeel;
-    }
-
-    public String getvNeckCut() {
-        return vNeckCut;
-    }
-
-    public void setvNeckCut(String vNeckCut) {
-        this.vNeckCut = vNeckCut;
-    }
-
-    public String getUnderBust() {
-        return underBust;
-    }
-
-    public void setUnderBust(String underBust) {
-        this.underBust = underBust;
-    }
-
-    public String getHips() {
-        return hips;
-    }
-
-    public void setHips(String hips) {
-        this.hips = hips;
-    }
-
-    public String getWaist() {
-        return waist;
-    }
-
-    public void setWaist(String waist) {
-        this.waist = waist;
-    }
-
-    public String getArmsLength() {
-        return armsLength;
-    }
-
-    public void setArmsLength(String armsLength) {
-        this.armsLength = armsLength;
-    }
-
-    public String getShoulderSeam() {
-        return shoulderSeam;
-    }
-
-    public void setShoulderSeam(String shoulderSeam) {
-        this.shoulderSeam = shoulderSeam;
-    }
-
-    public String getKneeToAnkle() {
-        return kneeToAnkle;
-    }
-
-    public void setKneeToAnkle(String kneeToAnkle) {
-        this.kneeToAnkle = kneeToAnkle;
-    }
-
-    public String getForeArm() {
-        return foreArm;
-    }
-
-    public void setForeArm(String foreArm) {
-        this.foreArm = foreArm;
-    }
-
-    public String getWrist() {
-        return wrist;
-    }
-
-    public void setWrist(String wrist) {
-        this.wrist = wrist;
-    }
-
-    public String getBicep() {
-        return bicep;
-    }
-
-    public void setBicep(String bicep) {
-        this.bicep = bicep;
-    }
-
-    public String getWaistToKnee() {
-        return waistToKnee;
-    }
-
-    public void setWaistToKnee(String waistToKnee) {
-        this.waistToKnee = waistToKnee;
-    }
-
-    public String getShoulderToWaist() {
-        return shoulderToWaist;
-    }
-
-    public void setShoulderToWaist(String shoulderToWaist) {
-        this.shoulderToWaist = shoulderToWaist;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getNeck() {
@@ -231,6 +103,206 @@ public class Measurement extends CommonFields{
         this.neck = neck;
     }
 
+    public String getArmHole() {
+        return armHole;
+    }
+
+    public void setArmHole(String armHole) {
+        this.armHole = armHole;
+    }
+
+    public String getBiceps() {
+        return biceps;
+    }
+
+    public void setBiceps(String biceps) {
+        this.biceps = biceps;
+    }
+
+    public String getLongSleeve() {
+        return longSleeve;
+    }
+
+    public void setLongSleeve(String longSleeve) {
+        this.longSleeve = longSleeve;
+    }
+
+    public String getShortSleeve() {
+        return shortSleeve;
+    }
+
+    public void setShortSleeve(String shortSleeve) {
+        this.shortSleeve = shortSleeve;
+    }
+
+    public String getFullShoulder() {
+        return fullShoulder;
+    }
+
+    public void setFullShoulder(String fullShoulder) {
+        this.fullShoulder = fullShoulder;
+    }
+
+    public String getHalfShoulder() {
+        return halfShoulder;
+    }
+
+    public void setHalfShoulder(String halfShoulder) {
+        this.halfShoulder = halfShoulder;
+    }
+
+    public String getElbow() {
+        return elbow;
+    }
+
+    public void setElbow(String elbow) {
+        this.elbow = elbow;
+    }
+
+    public String getFullChest() {
+        return fullChest;
+    }
+
+    public void setFullChest(String fullChest) {
+        this.fullChest = fullChest;
+    }
+
+    public String getBust() {
+        return bust;
+    }
+
+    public void setBust(String bust) {
+        this.bust = bust;
+    }
+
+    public String getOverBreast() {
+        return overBreast;
+    }
+
+    public void setOverBreast(String overBreast) {
+        this.overBreast = overBreast;
+    }
+
+    public String getUnderChest() {
+        return underChest;
+    }
+
+    public void setUnderChest(String underChest) {
+        this.underChest = underChest;
+    }
+
+    public String getUnderBust() {
+        return underBust;
+    }
+
+    public void setUnderBust(String underBust) {
+        this.underBust = underBust;
+    }
+
+    public String getShirtLength() {
+        return shirtLength;
+    }
+
+    public void setShirtLength(String shirtLength) {
+        this.shirtLength = shirtLength;
+    }
+
+    public String getStomach() {
+        return stomach;
+    }
+
+    public void setStomach(String stomach) {
+        this.stomach = stomach;
+    }
+
+    public String getWrist() {
+        return wrist;
+    }
+
+    public void setWrist(String wrist) {
+        this.wrist = wrist;
+    }
+
+    public String getFullLength() {
+        return fullLength;
+    }
+
+    public void setFullLength(String fullLength) {
+        this.fullLength = fullLength;
+    }
+
+    public String getTrouserWaist() {
+        return trouserWaist;
+    }
+
+    public void setTrouserWaist(String trouserWaist) {
+        this.trouserWaist = trouserWaist;
+    }
+
+    public String getSeat() {
+        return seat;
+    }
+
+    public void setSeat(String seat) {
+        this.seat = seat;
+    }
+
+    public String getOutSeam() {
+        return outSeam;
+    }
+
+    public void setOutSeam(String outSeam) {
+        this.outSeam = outSeam;
+    }
+
+    public String getInSeam() {
+        return inSeam;
+    }
+
+    public void setInSeam(String inSeam) {
+        this.inSeam = inSeam;
+    }
+
+    public String getCrotch() {
+        return crotch;
+    }
+
+    public void setCrotch(String crotch) {
+        this.crotch = crotch;
+    }
+
+    public String getThigh() {
+        return thigh;
+    }
+
+    public void setThigh(String thigh) {
+        this.thigh = thigh;
+    }
+
+    public String getKnee() {
+        return knee;
+    }
+
+    public void setKnee(String knee) {
+        this.knee = knee;
+    }
+
+    public String getAnkle() {
+        return ankle;
+    }
+
+    public void setAnkle(String ankle) {
+        this.ankle = ankle;
+    }
+
+    public String getButt() {
+        return butt;
+    }
+
+    public void setButt(String butt) {
+        this.butt = butt;
+    }
+
     public String getUnit() {
         return unit;
     }
@@ -239,52 +311,85 @@ public class Measurement extends CommonFields{
         this.unit = unit;
     }
 
-    public Measurement(String name, String overBust, String bust, String armHole, String neckToHeel, String neckToAboveHeel, String vNeckCut, String underBust, String hips, String waist, String armsLength, String shoulderSeam, String kneeToAnkle, String foreArm, String wrist, String bicep, String waistToKnee, String shoulderToWaist, User user) {
-        this.name = name;
-        this.overBust = overBust;
-        this.bust = bust;
-        this.armHole = armHole;
-        this.neckToHeel = neckToHeel;
-        this.neckToAboveHeel = neckToAboveHeel;
-        this.vNeckCut = vNeckCut;
-        this.underBust = underBust;
-        this.hips = hips;
-        this.waist = waist;
-        this.armsLength = armsLength;
-        this.shoulderSeam = shoulderSeam;
-        this.kneeToAnkle = kneeToAnkle;
-        this.foreArm = foreArm;
-        this.wrist = wrist;
-        this.bicep = bicep;
-        this.waistToKnee = waistToKnee;
-        this.shoulderToWaist = shoulderToWaist;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
         this.user = user;
     }
+
+    public Items getItems() {
+        return items;
+    }
+
+    public void setItems(Items items) {
+        this.items = items;
+    }
+
 
     @Override
     public String toString() {
         return "Measurement{" +
                 "name='" + name + '\'' +
                 ", neck='" + neck + '\'' +
-                ", overBust='" + overBust + '\'' +
-                ", bust='" + bust + '\'' +
                 ", armHole='" + armHole + '\'' +
-                ", neckToHeel='" + neckToHeel + '\'' +
-                ", neckToAboveHeel='" + neckToAboveHeel + '\'' +
-                ", vNeckCut='" + vNeckCut + '\'' +
+                ", biceps='" + biceps + '\'' +
+                ", longSleeve='" + longSleeve + '\'' +
+                ", shortSleeve='" + shortSleeve + '\'' +
+                ", fullShoulder='" + fullShoulder + '\'' +
+                ", halfShoulder='" + halfShoulder + '\'' +
+                ", elbow='" + elbow + '\'' +
+                ", fullChest='" + fullChest + '\'' +
+                ", bust='" + bust + '\'' +
+                ", overBreast='" + overBreast + '\'' +
+                ", underChest='" + underChest + '\'' +
                 ", underBust='" + underBust + '\'' +
-                ", hips='" + hips + '\'' +
-                ", waist='" + waist + '\'' +
-                ", armsLength='" + armsLength + '\'' +
-                ", shoulderSeam='" + shoulderSeam + '\'' +
-                ", kneeToAnkle='" + kneeToAnkle + '\'' +
-                ", foreArm='" + foreArm + '\'' +
+                ", shirtLength='" + shirtLength + '\'' +
+                ", stomach='" + stomach + '\'' +
                 ", wrist='" + wrist + '\'' +
-                ", bicep='" + bicep + '\'' +
-                ", waistToKnee='" + waistToKnee + '\'' +
-                ", shoulderToWaist='" + shoulderToWaist + '\'' +
-                ", user=" + user +
+                ", fullLength='" + fullLength + '\'' +
+                ", trouserWaist='" + trouserWaist + '\'' +
+                ", seat='" + seat + '\'' +
+                ", outSeam='" + outSeam + '\'' +
+                ", inSeam='" + inSeam + '\'' +
+                ", crotch='" + crotch + '\'' +
+                ", thigh='" + thigh + '\'' +
+                ", knee='" + knee + '\'' +
+                ", ankle='" + ankle + '\'' +
+                ", butt='" + butt + '\'' +
                 '}';
+    }
+
+    public Measurement(String name, String neck, String armHole, String biceps, String longSleeve, String shortSleeve, String fullShoulder, String halfShoulder, String elbow, String fullChest, String bust, String overBreast, String underChest, String underBust, String shirtLength, String stomach, String wrist, String fullLength, String trouserWaist, String seat, String outSeam, String inSeam, String crotch, String thigh, String knee, String ankle, String butt, String unit) {
+        this.name = name;
+        this.neck = neck;
+        this.armHole = armHole;
+        this.biceps = biceps;
+        this.longSleeve = longSleeve;
+        this.shortSleeve = shortSleeve;
+        this.fullShoulder = fullShoulder;
+        this.halfShoulder = halfShoulder;
+        this.elbow = elbow;
+        this.fullChest = fullChest;
+        this.bust = bust;
+        this.overBreast = overBreast;
+        this.underChest = underChest;
+        this.underBust = underBust;
+        this.shirtLength = shirtLength;
+        this.stomach = stomach;
+        this.wrist = wrist;
+        this.fullLength = fullLength;
+        this.trouserWaist = trouserWaist;
+        this.seat = seat;
+        this.outSeam = outSeam;
+        this.inSeam = inSeam;
+        this.crotch = crotch;
+        this.thigh = thigh;
+        this.knee = knee;
+        this.ankle = ankle;
+        this.butt = butt;
+        this.unit = unit;
     }
 
     public Measurement() {

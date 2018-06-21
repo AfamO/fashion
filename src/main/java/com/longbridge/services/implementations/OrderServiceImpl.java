@@ -138,6 +138,7 @@ public class OrderServiceImpl implements OrderService {
                 items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).pictureName);
 
                 items.setOrders(orders);
+                items.setProductName(p.name);
                 items.setCreatedOn(date);
                 items.setUpdatedOn(date);
                 items.setItemStatus(itemStatus);

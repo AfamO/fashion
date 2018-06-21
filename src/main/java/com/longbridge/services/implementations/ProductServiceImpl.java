@@ -353,6 +353,7 @@ public class ProductServiceImpl implements ProductService {
             products.name=productDTO.name;
             products.amount = productDTO.amount;
             products.availability = productDTO.inStock;
+            products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.color = productDTO.color;
             products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
@@ -870,6 +871,26 @@ Date date = new Date();
         }
     }
 
+//    @Override
+//    public List<ProductRespDTO> searchProductsBySubCat(String search, ProdSubCategoryDTO p) {
+//
+//        int page = Integer.parseInt(p.page);
+//        int size = Integer.parseInt(p.size);
+//        Page<Products> products= null;
+//        try {
+//          SubCategory subCategory = subCategoryRepository.findBySubCategory(search);
+//
+//
+//            products = productRepository.findBySubCategoryAndVerifiedFlag(new PageRequest(page, size), subCategory, "Y");
+//
+//            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
+//            return productDTOS;
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new WawoohException();
+//        }
+//    }
 
     @Override
     public List<ProductRespDTO> getTagProducts(PicTagDTO p) {

@@ -197,6 +197,14 @@ public class ProductController {
     }
 
 
+//    @PostMapping(value = "/{search}/searchproductsbysub")
+//    public Object searhProductsBySub(@RequestBody ProdSubCategoryDTO p, @PathVariable String search){
+//        List<ProductRespDTO> products= productService.searchProductsBySubCat(search,p);
+//        Response response = new Response("00","Operation Successful",products);
+//        return response;
+//    }
+
+
     @PostMapping(value = "/gettagproducts")
     public Object getProductsBySub(@RequestBody PicTagDTO picTagDTO){
         List<ProductRespDTO> products= productService.getTagProducts(picTagDTO);
