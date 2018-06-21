@@ -111,6 +111,7 @@ public class OrderServiceImpl implements OrderService {
             orders.setOrderDate(date);
             orders.setPaymentType(orderReq.getPaymentType());
             orders.setTotalAmount(orderReq.getTotalAmount());
+            orders.setPaidAmount(orderReq.getPaidAmount());
 
             orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
             String orderNumber = "";
@@ -926,6 +927,7 @@ itemRepository.save(items);
         orderDTO.setOrderNumber(orders.getOrderNum());
         orderDTO.setPaymentType(orders.getPaymentType());
         orderDTO.setTotalAmount(orders.getTotalAmount());
+        orderDTO.setPaidAmount(orders.getPaidAmount());
         orderDTO.setUserId(orders.getUserId());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(orders.getDeliveryDate() != null) {
