@@ -178,6 +178,7 @@ public class GeneralUtil {
         productDTO.categoryId=products.subCategory.category.id.toString();
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
         productDTO.numOfDaysToComplete=products.numOfDaysToComplete;
+        productDTO.mandatoryMeasurements=products.mandatoryMeasurements;
 
         PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
         if(priceSlash != null){
@@ -248,6 +249,7 @@ public class GeneralUtil {
         productDTO.categoryId=products.subCategory.category.id.toString();
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
         productDTO.numOfDaysToComplete=products.numOfDaysToComplete;
+        productDTO.mandatoryMeasurements=products.mandatoryMeasurements;
         List<ProductPicture> productPictures = products.picture;
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 
