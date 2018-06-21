@@ -1,5 +1,7 @@
 package com.longbridge.services.implementations;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.dto.*;
 import com.longbridge.exception.AppException;
@@ -127,7 +129,15 @@ public class OrderServiceImpl implements OrderService {
                 Products p = productRepository.findOne(items.getProductId());
                 if(items.getMeasurementId() != null) {
                     Measurement measurement = measurementRepository.findOne(items.getMeasurementId());
-                    items.setMeasurement(measurement.toString());
+                    try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    String saveMeasurement=mapper.writeValueAsString(measurement);
+                        items.setMeasurement(saveMeasurement);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+
+                    }
+
                 }
                 if(items.getArtWorkPictureId() != null){
                     items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).pictureName);
