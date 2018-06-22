@@ -3,47 +3,43 @@
       xmlns:font-style="http://www.w3.org/1999/xhtml">
 <head></head>
 <body>
-<p><h4> Dear <span th:text="${name}"> </span>,</h4></p>
+<div style="width: 85%; margin: 16px auto 0; border: 1px solid rgba(0,0,0,0.2); height: auto;">
+    <div style="padding: 15px;text-align: center;">
+        <img style="width: 100px; background-size: contain;" src="http://wawooh.com/img/logo.png" alt="wawooh-logo"/></div>
+    <div style="padding: 15px; margin: 15px 10px 0;">
+        <h4> Dear <span th:text="${name}"> </span>,</h4>
+        <p style="line-height: 25px; font-size: 1em; color: #333;">
+            You have been successfully registered on <b><a href="http://www.wawooh.com">Wawooh</a></b>, your number 1 fashion dedicated social marketplace.
+            <br /> We provide you the best in social events (Wawooh Event) and access to highly fashionable products (Wawooh Commerce) from thousands of top fashion designers across Africa.
+        </p>
+        <p style="line-height: 25px; font-size: 1em; color: #333;">
+            We have gone through thick and thin, creeks to desert to provide you access to the best of authentic fashion designers for your ready-to-wear and bespoke wears.
+        </p>
+        <p style="line-height: 25px; font-size: 1em; color: #333;"> Click the following link to activate your account in order to complete your registration
+            <a th:href="${link}"><b><span th:text="${link}"></span></b></a>
+        </p>
+        <p>
+            <b>Wawooh</b> <span font-style="italic">Get inspired, Stay Updated and Find best prices for creative designs, fabrics and styles </span>-
+        </p>
+        <div style="color: red; font-family: Verdana">
+            Follow us on social media and read our blog!
+            <ul style = "list-style: none; padding: 0;">
+                <li><a style = "float: left; margin: 5px; text-decoration: none; border-radius: 50px;   font-family: FontAwesome; padding: 5px 6px;    background: #fff; border: 1px solid #3b5999;    color: #fff;" href=""><img src="http://www.wawooh.com/img/facebook.png" style = "width: 15px; height: 13px; background-size: contain;" alt="f" /></a></li>
 
-<p>
-    You have been successfully registered on <b>Wawooh</b>, your number 1 fashion dedicated social marketplace.
-    We provide you the best in social events (Wawooh Event) and access to highly fashionable products (Wawooh Commerce)
-    from thousands of top fashion designers across Africa.
-</p>
+                <li><a style = "float: left; margin: 5px; text-decoration: none; border-radius: 50px;   font-family: FontAwesome; padding: 5px 6px;    background: #fff; border: 1px solid #55acee;  color: #fff;" href=""><img src="http://www.wawooh.com/img/twitter.png" alt="t" style = "width: 15px; height: 13px; background-size: contain;"/></a></li>
 
+                <li><a style = "float: left; margin: 5px; text-decoration: none; border-radius: 50px;   font-family: FontAwesome; padding: 5px 6px;    background: #fff; border: 1px solid #66cdaa;  color: #fff;" href=""><img src="http://www.wawooh.com/img/medium.png" alt="m" style = "width: 15px; height: 13px; background-size: contain;"/></a></li>
 
-<p>
-    We have gone through thick and thin, creeks to desert to provide you access to the best of authentic
-    fashion designers for your ready-to-wear and bespoke wears.
-</p>
-
-<br/>
-
-<p>
-    Click the following link to activate your account in order to complete your registration
-    <a th:href="${link}"><b><span th:text="${link}"></span></b></a>
-
-</p>
-
-<br/>
-
-<p>
-    <b>Wawooh</b> <span font-style="italic">Get inspired, Stay Updated and Find best prices for creative designs, fabrics and styles </span>-
-</p>
-
-<br/>
-<p style="color: red; font-family: Verdana">
-    Follow us on social media and read our blog!
-</p>
-
-<br/>
-<p>
-Thank you,
- <br/>
-Team Wawooh
-</p>
-
-
-
+                <li><a style = "float: left; margin: 5px; text-decoration: none; border-radius: 50px;   font-family: FontAwesome; padding: 5px 6px;    background: #fff; border: 1px solid #e4405f;  color: #fff;" href=""><img src="http://www.wawooh.com/img/instagram.png" alt="I" style = "width: 15px; height: 13px; background-size: contain;"/></a></li>
+            </ul>
+        </div>
+        <p style="line-height: 25px; font-size: 1em; color: #333; clear: both;">Thank you,
+            <br/> Team Wawooh
+        </p>
+    </div>
+    <div style="color: #fff;margin-top: 10px; background: #cd9933; padding: 7px; text-align: center; font-style: italic;">
+        <span>Powered By Wawooh</span>
+    </div>
+</div>
 </body>
 </html>

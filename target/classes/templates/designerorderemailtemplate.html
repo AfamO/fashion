@@ -3,47 +3,32 @@
       xmlns:font-style="http://www.w3.org/1999/xhtml">
 <head></head>
 <body>
-<p><h4> Dear <span th:text="${name}"> </span>,</h4></p>
-
-<p>
-    You have received a new order on your Wawooh Store for product <b><span th:text="${productName}"></span></b>.
-    Here is what you should do.
-
-</p>
-<p>
-    1.  Logon into your seller dashboard to Accept order now. We encourage you to confirm order availability in the shortest possible time Like Now! Now!.
-    2.	Drop-off or Ship the order to our Quality Assurance & Delivery Hub nearest to you.
-
-</p>
-
-<br/>
-
-<p>
-    Product Accuracy, Quality & Delivery Timelines are of utmost importance to your customers, please kindly ensure orders are genuine, timely and done according to specifications.
-
-</p>
-
-
-<br/>
-
-<p>
-    <!--<b>Wawooh</b> <span font-style="italic">Get inspired, Stay Updated and Find best prices for creative designs, fabrics and styles </span>- -->
-</p>
-
-<br/>
-<p style="color: red; font-family: Verdana">
-    If you have any Questions contact or call us at 0803**********
-
-</p>
-
-<br/>
-<p>
-    Thank you,
-    <br/>
-    Team Wawooh
-</p>
-
-
-
+<div style= "width: 85%; margin: 26px auto 0; border: 1px solid rgba(0,0,0,0.2); height: auto;">
+    <div style = "padding: 15px;text-align: center;">
+        <img style = "width: 100px; background-size: contain;" src="http://wawooh.com/img/logo.png" alt="wawooh-logo"/></div>
+    <div style = "padding: 15px; margin: 15px 10px 0;">
+        <h4> Dear <span th:text="${name}"> </span>,</h4>
+        <p style = "line-height: 25px; font-size: 1em; color: #333;">
+            You have received a new order on your Wawooh Store for product <b><span th:text="${productName}"></span></b>. Here is what you should do.
+        </p>
+        <span style = "line-height: 25px; font-size: 1em; color: #333;">
+                You may <br/>
+                <ol>
+                    <li>Logon into your seller dashboard to Accept order now. We encourage you to confirm order availability in the shortest possible time Like Now! Now!. </li>
+                    <li>Drop-off or Ship the order to our Quality Assurance & Delivery Hub nearest to you. </li>
+                </ol>
+            </span>
+        <p style = "line-height: 25px; font-size: 1em; color: #333;">
+            Product Accuracy, Quality & Delivery Timelines are of utmost importance to your customers, please kindly ensure orders are genuine, timely and done according to specifications.
+        </p>
+        <p style = "line-height: 25px; font-size: 1em; color: rgb(182,39,20);">
+            If you have any Questions contact or call us at 0803********** . <br />
+            Thank you, <br/> Team Wawooh
+        </p>
+    </div>
+    <div style = "color: #fff;margin-top: 10px; background: #cd9933; padding: 7px; text-align: center;">
+        <span>Powered By Wawooh</span>
+    </div>
+</div>
 </body>
 </html>
