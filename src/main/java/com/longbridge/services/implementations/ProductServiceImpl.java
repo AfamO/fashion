@@ -364,6 +364,9 @@ public class ProductServiceImpl implements ProductService {
             products.setCreatedOn(date);
             products.setUpdatedOn(date);
 
+
+            productRepository.save(products);
+
             if(productDTO.slashedPrice != 0){
                 PriceSlash priceSlash = new PriceSlash();
                 products.priceSlashEnabled = true;
@@ -371,7 +374,16 @@ public class ProductServiceImpl implements ProductService {
                 priceSlash.setSlashedPrice(productDTO.slashedPrice);
                 priceSlashRepository.save(priceSlash);
             }
-            productRepository.save(products);
+            else if(productDTO.percentageDiscount != 0){
+
+                PriceSlash priceSlash=new PriceSlash();
+                products.priceSlashEnabled = true;
+                priceSlash.setProducts(products);
+                priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+                priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
+                priceSlashRepository.save(priceSlash);
+            }
+
 
             for(String p:pics){
                 ProductPicture productPicture = new ProductPicture();
