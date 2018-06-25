@@ -29,6 +29,7 @@ public class Orders extends CommonFields {
     private Date deliveryDate;
 
     private String updatedBy;
+    private Double paidAmount;
 
     public Orders() {
     }
@@ -111,6 +112,14 @@ public class Orders extends CommonFields {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public Double getPaidAmount() {
+        return paidAmount;
+    }
+
+    public void setPaidAmount(Double paidAmount) {
+        this.paidAmount = paidAmount;
     }
 
     public Orders(String orderNum, List<Items> items, String totalAmount, String paymentType, Long userId, String deliveryStatus, Address deliveryAddress, Date orderDate, Date deliveredDate) {

@@ -58,4 +58,6 @@ public class ProductRespDTO {
 
     public int numOfDaysToComplete;
 
+    public String mandatoryMeasurements;
+
 }

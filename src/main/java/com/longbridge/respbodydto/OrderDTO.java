@@ -15,6 +15,7 @@ public class OrderDTO {
     private String orderDate;
     private String totalAmount;
     private String paymentType;
+    private Double paidAmount;
     private Long userId;
     private String deliveryStatus;
     private String deliveryAddress;
@@ -101,6 +102,14 @@ public class OrderDTO {
 
     public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public Double getPaidAmount() {
+        return paidAmount;
+    }
+
+    public void setPaidAmount(Double paidAmount) {
+        this.paidAmount = paidAmount;
     }
 
     public OrderDTO(Long id, String orderNumber, List<ItemsDTO> itemsList, String orderDate, String totalAmount, String paymentType, Long userId, String deliveryStatus, String deliveryAddress, String deliveryDate) {

@@ -369,13 +369,13 @@ public class DesignerServiceImpl implements DesignerService{
 //        statuses.add("D");
 
         //dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatusNotIn(d.id,statuses);
-        dto.noOfPendingOders= itemRepository.countByDesignerIdAndItemStatus_status(d.id,"PC");
+        dto.noOfPendingOders= itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"PC");
         //dto.quantityOfPendingOrders= itemRepository.countPendingItemQuantities(d.id,"OP");
-        dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndItemStatus_status(d.id,"D");
-        dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndItemStatus_status(d.id, "OR");
-        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndItemStatus_status(d.id,"OP");
-        dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndItemStatus_status(d.id,"RS");
-        dto.noOfShippedOrders=itemRepository.countByDesignerIdAndItemStatus_status(d.id,"OS");
+        dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"D");
+        dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id, "OR");
+        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OP");
+        dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"RS");
+        dto.noOfShippedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OS");
         dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,statuses);
        //dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"OP");
        // dto.setSalesChart(getSalesChart(d.id));

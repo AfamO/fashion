@@ -6,6 +6,7 @@ import com.longbridge.models.User;
 import com.longbridge.repository.CartRepository;
 import com.longbridge.repository.ItemRepository;
 import com.longbridge.repository.MeasurementRepository;
+import com.longbridge.repository.ProductRepository;
 import com.longbridge.services.MeasurementService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
@@ -24,9 +25,8 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Autowired
     MeasurementRepository measurementRepository;
     @Autowired
-    CartRepository cartRepository;
-    @Autowired
-    ItemRepository itemRepository;
+    ProductRepository productRepository;
+
 
     @Override
     public void customize(User userTemp, Measurement measurement) {
@@ -99,6 +99,18 @@ public class MeasurementServiceImpl implements MeasurementService {
     public List<Measurement> getUserMeasurement(User user) {
         try {
             List<Measurement> m = measurementRepository.findByUserAndDelFlag(user, "N");
+            return m;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public String getMandatoryMeasurement(Long productId) {
+        try {
+            String m = productRepository.getMandatoryMeasurements(productId);
             return m;
 
         } catch (Exception e) {

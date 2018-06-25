@@ -23,6 +23,9 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
     List<Products> findByDesignerAndVerifiedFlag(Designer designer, String flag);
     List<Products> findByDesigner(Designer designer);
     Page<Products> findBySubCategoryAndVerifiedFlag(Pageable pageable, SubCategory subCategory,String flag);
+
+    Page<Products> findBySubCategoryAndVerifiedFlagAndDesigner_Status(Pageable pageable, SubCategory subCategory,String flag,String status);
+
     List<Products> findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(SubCategory subCategory,String sponsoredFlag,String flag);
     List<Products> findFirst9BySubCategoryAndVerifiedFlag(SubCategory subCategory,String flag);
     List<Products> findFirst10BySubCategoryAndVerifiedFlag(SubCategory subCategory,String flag);
@@ -43,6 +46,10 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
 
     @Query(value = "select p.name from Products p where p.id =:id", nativeQuery = true)
     String getProductName(@Param("id") Long id);
+
+
+    @Query(value = "select p.mandatory_measurements from Products p where p.id =:id", nativeQuery = true)
+    String getMandatoryMeasurements(@Param("id") Long id);
 
     Page<Products> findByVerifiedFlagAndAmountBetween(String verifiedFlag, Double fromAmount, Double toAmount, Pageable pageable);
 

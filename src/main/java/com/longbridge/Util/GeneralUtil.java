@@ -165,11 +165,9 @@ public class GeneralUtil {
         productDTO.description=products.prodDesc;
         productDTO.name=products.name;
         productDTO.sizes=products.sizes;
-        if(products.style != null){
-            productDTO.styleId=products.style.id.toString();
+        if(products.style != null) {
+            productDTO.styleId = products.style.id.toString();
         }
-        System.out.println(products.style);
-        System.out.println(products.designer.id.toString());
         productDTO.designerId=products.designer.id.toString();
         productDTO.designerStatus=products.designer.status;
         productDTO.stockNo=products.stockNo;
@@ -182,6 +180,7 @@ public class GeneralUtil {
         productDTO.categoryId=products.subCategory.category.id.toString();
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
         productDTO.numOfDaysToComplete=products.numOfDaysToComplete;
+        productDTO.mandatoryMeasurements=products.mandatoryMeasurements;
 
         PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
         if(priceSlash != null){
@@ -240,7 +239,9 @@ public class GeneralUtil {
         productDTO.description=products.prodDesc;
         productDTO.name=products.name;
         productDTO.sizes=products.sizes;
-        productDTO.styleId=products.style.id.toString();
+        if(products.style != null) {
+            productDTO.styleId = products.style.id.toString();
+        }
         productDTO.designerId=products.designer.id.toString();
         productDTO.stockNo=products.stockNo;
         productDTO.inStock=products.inStock;
@@ -252,6 +253,7 @@ public class GeneralUtil {
         productDTO.categoryId=products.subCategory.category.id.toString();
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
         productDTO.numOfDaysToComplete=products.numOfDaysToComplete;
+        productDTO.mandatoryMeasurements=products.mandatoryMeasurements;
         List<ProductPicture> productPictures = products.picture;
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 

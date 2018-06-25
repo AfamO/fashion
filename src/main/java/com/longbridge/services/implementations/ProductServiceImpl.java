@@ -343,7 +343,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             Products products = new Products();
-
+            //Long styleId = Long.parseLong(productDTO.styleId);
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             ArrayList<String> pics = productDTO.picture;
             ArrayList<String> artWorkPics = productDTO.artWorkPicture;
@@ -358,14 +358,21 @@ public class ProductServiceImpl implements ProductService {
             products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
             products.designer=designer;
-            if(!productDTO.styleId.isEmpty()){
-                Long styleId = Long.parseLong(productDTO.styleId);
-                products.style=styleRepository.findOne(styleId);
+
+            if(productDTO.styleId != null) {
+                if(!productDTO.styleId.isEmpty()) {
+                    Long styleId = Long.parseLong(productDTO.styleId);
+                    products.style = styleRepository.findOne(styleId);
+                }
             }
+            //products.style=styleRepository.findOne(styleId);
             products.stockNo=productDTO.stockNo;
             products.inStock=productDTO.inStock;
             products.setCreatedOn(date);
             products.setUpdatedOn(date);
+
+
+            productRepository.save(products);
 
             if(productDTO.slashedPrice != 0){
                 PriceSlash priceSlash = new PriceSlash();
@@ -374,7 +381,16 @@ public class ProductServiceImpl implements ProductService {
                 priceSlash.setSlashedPrice(productDTO.slashedPrice);
                 priceSlashRepository.save(priceSlash);
             }
-            productRepository.save(products);
+            else if(productDTO.percentageDiscount != 0){
+
+                PriceSlash priceSlash=new PriceSlash();
+                products.priceSlashEnabled = true;
+                priceSlash.setProducts(products);
+                priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+                priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
+                priceSlashRepository.save(priceSlash);
+            }
+
 
             for(String p:pics){
                 ProductPicture productPicture = new ProductPicture();
@@ -447,14 +463,19 @@ public class ProductServiceImpl implements ProductService {
             products.name=productDTO.name;
             products.amount = productDTO.amount;
             products.availability = productDTO.inStock;
+            products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.color = productDTO.color;
             products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
             products.designer=designer;
+//            if(productDTO.styleId != null) {
+//                Long styleId = Long.parseLong(productDTO.styleId);
+//                products.style=styleRepository.findOne(styleId);
+//            }
             if(productDTO.styleId != null) {
-                if(!productDTO.styleId.isEmpty()){
+                if(!productDTO.styleId.isEmpty()) {
                     Long styleId = Long.parseLong(productDTO.styleId);
-                    products.style=styleRepository.findOne(styleId);
+                    products.style = styleRepository.findOne(styleId);
                 }
             }
             products.stockNo=productDTO.stockNo;
@@ -863,9 +884,7 @@ Date date = new Date();
         Page<Products> products= null;
         try {
             SubCategory subCategory = subCategoryRepository.findOne(p.subcategoryId);
-
-
-                products = productRepository.findBySubCategoryAndVerifiedFlag(new PageRequest(page, size), subCategory, "Y");
+                products = productRepository.findBySubCategoryAndVerifiedFlagAndDesigner_Status(new PageRequest(page, size), subCategory, "Y","A");
 
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
