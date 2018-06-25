@@ -871,9 +871,7 @@ Date date = new Date();
         Page<Products> products= null;
         try {
             SubCategory subCategory = subCategoryRepository.findOne(p.subcategoryId);
-
-
-                products = productRepository.findBySubCategoryAndVerifiedFlag(new PageRequest(page, size), subCategory, "Y");
+                products = productRepository.findBySubCategoryAndVerifiedFlagAndDesigner_Status(new PageRequest(page, size), subCategory, "Y","A");
 
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
