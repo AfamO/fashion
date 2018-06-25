@@ -165,7 +165,11 @@ public class GeneralUtil {
         productDTO.description=products.prodDesc;
         productDTO.name=products.name;
         productDTO.sizes=products.sizes;
-        productDTO.styleId=products.style.id.toString();
+        if(products.style != null){
+            productDTO.styleId=products.style.id.toString();
+        }
+        System.out.println(products.style);
+        System.out.println(products.designer.id.toString());
         productDTO.designerId=products.designer.id.toString();
         productDTO.designerStatus=products.designer.status;
         productDTO.stockNo=products.stockNo;

@@ -343,7 +343,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             Products products = new Products();
-            Long styleId = Long.parseLong(productDTO.styleId);
+
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             ArrayList<String> pics = productDTO.picture;
             ArrayList<String> artWorkPics = productDTO.artWorkPicture;
@@ -358,7 +358,10 @@ public class ProductServiceImpl implements ProductService {
             products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
             products.designer=designer;
-            products.style=styleRepository.findOne(styleId);
+            if(!productDTO.styleId.isEmpty()){
+                Long styleId = Long.parseLong(productDTO.styleId);
+                products.style=styleRepository.findOne(styleId);
+            }
             products.stockNo=productDTO.stockNo;
             products.inStock=productDTO.inStock;
             products.setCreatedOn(date);
@@ -449,8 +452,10 @@ public class ProductServiceImpl implements ProductService {
             products.prodDesc=productDTO.description;
             products.designer=designer;
             if(productDTO.styleId != null) {
-                Long styleId = Long.parseLong(productDTO.styleId);
-                products.style=styleRepository.findOne(styleId);
+                if(!productDTO.styleId.isEmpty()){
+                    Long styleId = Long.parseLong(productDTO.styleId);
+                    products.style=styleRepository.findOne(styleId);
+                }
             }
             products.stockNo=productDTO.stockNo;
             products.inStock=productDTO.inStock;
