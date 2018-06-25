@@ -165,7 +165,9 @@ public class GeneralUtil {
         productDTO.description=products.prodDesc;
         productDTO.name=products.name;
         productDTO.sizes=products.sizes;
-        productDTO.styleId=products.style.id.toString();
+        if(products.style != null) {
+            productDTO.styleId = products.style.id.toString();
+        }
         productDTO.designerId=products.designer.id.toString();
         productDTO.designerStatus=products.designer.status;
         productDTO.stockNo=products.stockNo;
@@ -237,7 +239,9 @@ public class GeneralUtil {
         productDTO.description=products.prodDesc;
         productDTO.name=products.name;
         productDTO.sizes=products.sizes;
-        productDTO.styleId=products.style.id.toString();
+        if(products.style != null) {
+            productDTO.styleId = products.style.id.toString();
+        }
         productDTO.designerId=products.designer.id.toString();
         productDTO.stockNo=products.stockNo;
         productDTO.inStock=products.inStock;
