@@ -466,7 +466,7 @@ public class ProductServiceImpl implements ProductService {
             products.availability = productDTO.inStock;
 
                 products.numOfDaysToComplete = productDTO.numOfDaysToComplete;
-           
+
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.color = productDTO.color;
             products.sizes = productDTO.sizes;
