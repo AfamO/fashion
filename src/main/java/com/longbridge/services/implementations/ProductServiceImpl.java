@@ -829,6 +829,7 @@ Date date = new Date();
     public List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO) {
         int page = filterProductDTO.getPage();
         int size = filterProductDTO.getSize();
+
         String name = "";
         Double fromAmount = 0.0;
         Double toAmount=0.0;
@@ -837,6 +838,7 @@ Date date = new Date();
         List<Products> products2 = new ArrayList<>();
         name = filterProductDTO.getProductName();
         List<ProductRespDTO> productDTOS=new ArrayList<>();
+
         if(filterProductDTO.getFromPrice() != null) {
             fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
         }
@@ -845,8 +847,8 @@ Date date = new Date();
         }
 //        if(filterProductDTO.getProductQualityRating() != 0) {
             productQualityRating=filterProductDTO.getProductQualityRating();
-        System.out.println(productQualityRating);
-//        }
+            System.out.println(productQualityRating);
+//       }
 
 
 
