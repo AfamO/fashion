@@ -22,6 +22,8 @@ public class Products extends CommonFields implements Serializable {
 
     public double amount;
 
+
+
     @IndexedEmbedded(depth = 1)
     @OneToOne
     public SubCategory subCategory;
