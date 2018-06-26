@@ -811,7 +811,7 @@ Date date = new Date();
         Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
         Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
         try {
-            Page<Products> products = productRepository.findByVerifiedFlagAndAmountBetween("Y",fromAmount,toAmount,new PageRequest(page,size));
+            Page<Products> products = productRepository.findByVerifiedFlagAndDesignerStatusAndAmountBetween("Y", "A",fromAmount,toAmount,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
 

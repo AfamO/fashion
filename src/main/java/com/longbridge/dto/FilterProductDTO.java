@@ -15,9 +15,19 @@ public class FilterProductDTO {
 
     private int productQualityRating;
 
+    private int designerRating;
+
     private String productName;
 
     public FilterProductDTO() {
+    }
+
+    public int getDesignerRating() {
+        return designerRating;
+    }
+
+    public void setDesignerRating(int designerRating) {
+        this.designerRating = designerRating;
     }
 
     public String getFromPrice() {
