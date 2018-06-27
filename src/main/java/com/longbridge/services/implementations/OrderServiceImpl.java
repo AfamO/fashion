@@ -338,7 +338,7 @@ public class OrderServiceImpl implements OrderService {
 
                 else if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
                     if(itemsDTO.getStatus().equalsIgnoreCase("PI")){
-                        items.setItemStatus(itemStatus);
+                        items.setItemStatus(itemStatusRepository.findByStatus("RS"));
                         //items.setStatusMessage(statusMessage);
 
                         //String message = templateEngine.process("readyforinsptemplate", context);
@@ -363,16 +363,16 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
-            else if(items.getItemStatus().getStatus().equalsIgnoreCase("PI")){
-                if(itemsDTO.getStatus().equalsIgnoreCase("RS")){
-                    items.setItemStatus(itemStatus);
-                    //items.setStatusMessage(statusMessage);
-
-                    String message = templateEngine.process("ordershippedemail", context);
-                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
-
-                }
-            }
+//            else if(items.getItemStatus().getStatus().equalsIgnoreCase("PI")){
+//                if(itemsDTO.getStatus().equalsIgnoreCase("RS")){
+//                    items.setItemStatus(itemStatus);
+//                    //items.setStatusMessage(statusMessage);
+//
+//                    String message = templateEngine.process("ordershippedemail", context);
+//                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
+//
+//                }
+//            }
 
 
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("RS")){
