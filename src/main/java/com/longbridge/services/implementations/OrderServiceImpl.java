@@ -397,6 +397,8 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
                 //Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
+                items.setUpdatedOn(date);
+                itemRepository.save(items);
                 orders.setUpdatedOn(date);
                 orders.setUpdatedBy(user.email);
                 orderRepository.save(orders);
