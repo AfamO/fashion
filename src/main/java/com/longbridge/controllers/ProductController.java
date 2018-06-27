@@ -181,13 +181,21 @@ public class ProductController {
 //        return response;
 //    }
 
+//    @PostMapping(value = "/filter")
+//    public Object filterProductsByPrice(@RequestBody FilterProductDTO filterProductDTO){
+//        List<ProductRespDTO> products= productService.filterProductsByPrice(filterProductDTO);
+//        Response response = new Response("00","Operation Successful",products);
+//        return response;
+//    }
+//
+
     @PostMapping(value = "/filter")
     public Object filterProductsByPrice(@RequestBody FilterProductDTO filterProductDTO){
-        List<ProductRespDTO> products= productService.filterProductsByPrice(filterProductDTO);
+        System.out.println("i'm here");
+        List<ProductRespDTO> products= productService.filterProducts(filterProductDTO);
         Response response = new Response("00","Operation Successful",products);
         return response;
     }
-
 
     @PostMapping(value = "/getproductsbysub")
     public Object getProductsBySub(@RequestBody ProdSubCategoryDTO p){

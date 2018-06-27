@@ -145,6 +145,8 @@ public class DesignerServiceImpl implements DesignerService{
             Designer designer1 = designerRepository.findOne(userTemp.designer.id);
             designer1.storeName=designer.storeName;
             designer1.address=designer.address;
+            designer1.accountNumber=designer.accountNumber;
+            designer1.threshold=designer.threshold;
             designerRepository.save(designer1);
 
             }
@@ -356,6 +358,8 @@ public class DesignerServiceImpl implements DesignerService{
         dto.phoneNo=u.phoneNo;
         dto.email=u.email;
         dto.gender=u.gender;
+        dto.accountNumber=u.designer.accountNumber;
+        dto.threshold=u.designer.threshold;
         dto.setStatus(d.status);
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.createdDate = formatter.format(d.createdOn);

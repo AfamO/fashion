@@ -33,6 +33,8 @@ public class ProductRespDTO {
 
     public List<MaterialPictureDTO> materialPicture;
 
+    public Double materialPrice;
+
 
     public List<ProductRating> reviews;
 
