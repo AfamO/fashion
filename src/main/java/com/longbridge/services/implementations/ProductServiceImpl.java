@@ -11,6 +11,7 @@ import com.longbridge.services.HibernateSearchService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -812,11 +813,10 @@ Date date = new Date();
     public List<ProductRespDTO> filterProductsByPrice(FilterProductDTO filterProductDTO) {
         int page = filterProductDTO.getPage();
         int size = filterProductDTO.getSize();
-        System.out.println(filterProductDTO.getProductQualityRating());
         Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
         Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
         try {
-            Page<Products> products = productRepository.findByVerifiedFlagAndDesignerStatusAndAmountBetween("Y", "A",fromAmount,toAmount,new PageRequest(page,size));
+            Page<Products> products = productRepository.findByVerifiedFlagAndDesigner_StatusAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
 
@@ -830,33 +830,78 @@ Date date = new Date();
 
 
 
+//    @Override
+//    public List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO) {
+//        int page = filterProductDTO.getPage();
+//        int size = filterProductDTO.getSize();
+//        String name = "";
+//        Double fromAmount = 0.0;
+//        Double toAmount=0.0;
+//        int productQualityRating = 0;
+//        Page<Products> products = null;
+//        List<Products> products2 = new ArrayList<>();
+//        name = filterProductDTO.getProductName();
+//        List<ProductRespDTO> productDTOS=new ArrayList<>();
+//        if(filterProductDTO.getFromPrice() != null) {
+//            fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
+//        }
+//        if(filterProductDTO.getToPrice() != null) {
+//            toAmount = Double.parseDouble(filterProductDTO.getToPrice());
+//        }
+////        if(filterProductDTO.getProductQualityRating() != 0) {
+//            productQualityRating=filterProductDTO.getProductQualityRating();
+//        System.out.println(productQualityRating);
+////        }
+//
+//
+//
+//        try {
+//            if(!name.equalsIgnoreCase("") && toAmount !=  0.0) {
+//                products = productRepository.findByVerifiedFlagAndNameLikeAndAmountBetween("Y", name,fromAmount, toAmount, new PageRequest(page, size));
+//               productDTOS = generalUtil.convertProdEntToProdRespDTOs(products.getContent());
+//            }
+//            if(!name.equalsIgnoreCase("") && productQualityRating != 0) {
+//                System.out.println(productQualityRating);
+//                Page<Products> products1=productRepository.findByVerifiedFlagAndNameLike("Y", name,new PageRequest(page, size));
+//                for (Products p:products1) {
+//                    for (ProductRating pr:p.reviews) {
+//                        if(pr.getProductQualityRating() == productQualityRating){
+//                            products2.add(p);
+//                        }
+//                    }
+//                }
+//                productDTOS = generalUtil.convertProdEntToProdRespDTOs(products2);
+//            }
+//
+//            return productDTOS;
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new WawoohException();
+//        }
+//    }
+
+
+
     @Override
     public List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO) {
 
         int page = filterProductDTO.getPage();
         int size = filterProductDTO.getSize();
-        List<ProductRespDTO> productDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findAll());
-
-        String name = "";
+        List<ProductRespDTO> productDTOS = new ArrayList<>();
+                String name = "";
         if(filterProductDTO.getFromPrice() != null && filterProductDTO.getFromPrice() != ""){
             Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
             Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
-            List<ProductRespDTO> tempProductDTOS = new ArrayList<ProductRespDTO>();
-
-            for (ProductRespDTO prd : productDTOS) {
-                if(prd.amount >= fromAmount && prd.amount<=toAmount ){
-                    tempProductDTOS.add(prd);
-                }
-            }
-
+            List<ProductRespDTO> tempProductDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findByVerifiedFlagAndNameLikeAndAmountBetween("Y",filterProductDTO.getProductName(),fromAmount,toAmount));
             productDTOS = tempProductDTOS;
         }
 
         if(filterProductDTO.getProductQualityRating() > 0){
             int productQualityRating = filterProductDTO.getProductQualityRating();
             List<ProductRespDTO> tempProductDTOS = new ArrayList<ProductRespDTO>();
-
-            System.out.println("i entered");
+           // productDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findAll());
+            productDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findByVerifiedFlagAndNameLike("Y",name));
             for (ProductRespDTO prd: productDTOS) {
                 if(prd.productQualityRating >= productQualityRating){
                     tempProductDTOS.add(prd);
@@ -864,29 +909,18 @@ Date date = new Date();
             }
             productDTOS = tempProductDTOS;
 
-            System.out.println("i got");
-            System.out.println(productDTOS.size());
         }
 
-        List<Long> prodIds = new ArrayList<Long>();
 
-        for (ProductRespDTO prd : productDTOS) {
-            prodIds.add(prd.id);
-        }
-
-            List<ProductRespDTO> tempProd = generalUtil.convertProdEntToProdRespDTOs(productRepository.findByIdIn(prodIds, new PageRequest(page, size)).getContent());
+        List<ProductRespDTO> tempProd = new PageImpl<ProductRespDTO>(productDTOS, new PageRequest(page, size),productDTOS.size()).getContent();
         productDTOS = tempProd;
 
         return productDTOS;
     }
 
-    /*@Override
-    public List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO){
 
-        List<ProductRespDTO> productRespDTOS = new ArrayList<ProductRespDTO>();
 
-        return productRespDTOS;
-    }*/
+
 
     @Override
     public List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p) {

@@ -319,6 +319,7 @@ public class OrderServiceImpl implements OrderService {
             Context context = new Context();
             context.setVariable("name", customerName);
             context.setVariable("productName",itemsDTO.getProductName());
+
             try {
                 ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
 
@@ -334,16 +335,44 @@ public class OrderServiceImpl implements OrderService {
 
                 }
             }
-            else if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
-                if(itemsDTO.getStatus().equalsIgnoreCase("RS")){
-                    items.setItemStatus(itemStatus);
-                    //items.setStatusMessage(statusMessage);
 
-                    String message = templateEngine.process("ordershippedemail", context);
-                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
+                else if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
+                    if(itemsDTO.getStatus().equalsIgnoreCase("PI")){
+                        items.setItemStatus(itemStatusRepository.findByStatus("RS"));
+                        //items.setStatusMessage(statusMessage);
+
+                        //String message = templateEngine.process("readyforinsptemplate", context);
+                        //mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
+
+                    }
+                }
+
+            else if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
+                if(itemsDTO.getStatus().equalsIgnoreCase("FI")){
+                    items.setItemStatus(itemStatusRepository.findByStatus("OP"));
+                    //items.setStatusMessage(statusMessage);
+                    context.setVariable("failedInspectionReason",itemsDTO.getAction());
+
+                    //todo later, send email to user and designer
+//                    sendEmailAsync.sendEmailToUser(user,orderNumber);
+//                    //sendEmailAsync.sendEmailToDesigner(dtos,orderNumber);
+
+                 //  String message = templateEngine.process("failedinspectiontemplate", context);
+                 //  mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
 
                 }
             }
+
+//            else if(items.getItemStatus().getStatus().equalsIgnoreCase("PI")){
+//                if(itemsDTO.getStatus().equalsIgnoreCase("RS")){
+//                    items.setItemStatus(itemStatus);
+//                    //items.setStatusMessage(statusMessage);
+//
+//                    String message = templateEngine.process("ordershippedemail", context);
+//                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
+//
+//                }
+//            }
 
 
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("RS")){
@@ -368,12 +397,15 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
                 //Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
+                items.setUpdatedOn(date);
+                itemRepository.save(items);
                 orders.setUpdatedOn(date);
                 orders.setUpdatedBy(user.email);
                 orderRepository.save(orders);
 
                 itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
                 itemsDTO1.setProductName(itemsDTO.getProductName());
+                itemsDTO1.setAction(itemsDTO.getAction());
 
 
             }catch (MailException me){

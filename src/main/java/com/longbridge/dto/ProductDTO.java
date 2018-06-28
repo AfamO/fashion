@@ -31,6 +31,8 @@ public class ProductDTO {
 
     public ArrayList<String> materialPicture;
 
+    public Double materialPrice;
+
     public int stockNo;
 
     public String inStock;
