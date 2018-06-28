@@ -225,17 +225,21 @@ public class OrderServiceImpl implements OrderService {
                     Context context = new Context();
                     context.setVariable("name", customerName);
                     context.setVariable("productName",products.name);
-                    rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
-                    context.setVariable("link",rejectDecisionLink);
+
                     context.setVariable("waitTime",itemsDTO.getWaitTime());
 
                     if(itemsDTO.getMessageId() == 3){
                         link=messageSource.getMessage("order.decline.decision", null, locale);
+                        rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                        context.setVariable("link",rejectDecisionLink);
                         message = templateEngine.process("admindeclineordertemplate", context);
                     }
                     else {
-                        message = templateEngine.process("admincancelordertemplate", context);
                         link=messageSource.getMessage("order.reject.decision", null, locale);
+                        rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                        context.setVariable("link",rejectDecisionLink);
+                        message = templateEngine.process("admincancelordertemplate", context);
+
                     }
                     itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
                     itemsDTO1.setProductName(products.name);
