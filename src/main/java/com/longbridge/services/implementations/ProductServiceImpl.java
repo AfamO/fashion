@@ -1165,15 +1165,14 @@ Date date = new Date();
         int size = pageableDetailsDTO.getSize();
         List<EventPictures> ev = new ArrayList<>();
         try {
-            Page<EventPictures> e = eventPictureRepository.findAll(new PageRequest(page, size));
-
-            for(EventPictures pictures: e) {
-                if (pictureTagRepository.findByEventPictures(pictures).size() > 0) {
-                    ev.add(pictures);
-                }
+            List<EventPicturesDTO> eventPicturesDTOS= new ArrayList<>();
+            List<EventPictures> evv=pictureTagRepository.getTagged();
+            Page<EventPictures> eventPictures=new PageImpl<EventPictures>(evv,new PageRequest(page, size),evv.size());
+            for(EventPictures eventPicture: eventPictures){
+                eventPicturesDTOS.add(generalUtil.convertEntityToDTO(eventPicture));
             }
 
-            return generalUtil.convertEntsToDTOs(ev);
+        return eventPicturesDTOS;
 
 
         } catch (Exception ex) {
