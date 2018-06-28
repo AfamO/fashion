@@ -1166,10 +1166,11 @@ Date date = new Date();
         List<EventPictures> ev = new ArrayList<>();
         try {
             List<EventPicturesDTO> eventPicturesDTOS= new ArrayList<>();
-            List<EventPictures> evv=pictureTagRepository.getTagged();
-            Page<EventPictures> eventPictures=new PageImpl<EventPictures>(evv,new PageRequest(page, size),evv.size());
-            for(EventPictures eventPicture: eventPictures){
-                eventPicturesDTOS.add(generalUtil.convertEntityToDTO(eventPicture));
+
+           Page<Long> eventPictures=pictureTagRepository.getTagged(new PageRequest(page, size));
+
+            for(Long eventPictures1: eventPictures){
+                eventPicturesDTOS.add(generalUtil.convertEntityToDTO(eventPictureRepository.findOne(eventPictures1)));
             }
 
         return eventPicturesDTOS;
