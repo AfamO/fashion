@@ -195,20 +195,15 @@ public class OrderServiceImpl implements OrderService {
     public void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO, User user) {
         try{
             ItemsDTO itemsDTO1 = new ItemsDTO();
+            Date date = new Date();
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
             String customerEmail = customer.email;
             String rejectDecisionLink = "";
             String customerName = customer.lastName+" "+ customer.firstName;
-            Context context = new Context();
-            context.setVariable("name", customerName);
 
             Items items = itemRepository.findOne(itemsDTO.getId());
             Products products = productRepository.findOne(items.getProductId());
-            context.setVariable("productName",products.name);
-            Date date = new Date();
-
             ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
-
             StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
 
 
@@ -227,6 +222,13 @@ public class OrderServiceImpl implements OrderService {
                     items.setItemStatus(itemStatus);
                     items.setStatusMessage(statusMessage);
 
+                    Context context = new Context();
+                    context.setVariable("name", customerName);
+                    context.setVariable("productName",products.name);
+                    rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                    context.setVariable("link",rejectDecisionLink);
+                    context.setVariable("waitTime",itemsDTO.getWaitTime());
+
                     if(itemsDTO.getMessageId() == 3){
                         link=messageSource.getMessage("order.decline.decision", null, locale);
                         message = templateEngine.process("admindeclineordertemplate", context);
@@ -235,9 +237,6 @@ public class OrderServiceImpl implements OrderService {
                         message = templateEngine.process("admincancelordertemplate", context);
                         link=messageSource.getMessage("order.reject.decision", null, locale);
                     }
-                    rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
-                    context.setVariable("link",rejectDecisionLink);
-                    context.setVariable("waitTime",itemsDTO.getWaitTime());
                     itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
                     itemsDTO1.setProductName(products.name);
                     itemsDTO1.setLink(rejectDecisionLink);
