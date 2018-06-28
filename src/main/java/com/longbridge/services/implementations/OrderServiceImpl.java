@@ -206,8 +206,6 @@ public class OrderServiceImpl implements OrderService {
             Products products = productRepository.findOne(items.getProductId());
             context.setVariable("productName",products.name);
             Date date = new Date();
-            System.out.println(items.getDeliveryStatus());
-            System.out.println(itemsDTO.getDeliveryStatus());
 
             ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
 
@@ -222,21 +220,31 @@ public class OrderServiceImpl implements OrderService {
                 }
                 else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
                     String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
-                    String link=messageSource.getMessage("order.reject.decision", null, locale);
-                    rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                    String link="";
+                    String message = "";
                     statusMessage.setHasResponse(true);
-                    context.setVariable("link",rejectDecisionLink);
-                    context.setVariable("waitTime",itemsDTO.getWaitTime());
+
                     items.setItemStatus(itemStatus);
                     items.setStatusMessage(statusMessage);
-                    String message = templateEngine.process("admincancelordertemplate", context);
 
+                    if(itemsDTO.getMessageId() == 3){
+                        link=messageSource.getMessage("order.decline.decision", null, locale);
+                        message = templateEngine.process("admindeclineordertemplate", context);
+                    }
+                    else {
+                        message = templateEngine.process("admincancelordertemplate", context);
+                        link=messageSource.getMessage("order.reject.decision", null, locale);
+                    }
+                    rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                    context.setVariable("link",rejectDecisionLink);
+                    context.setVariable("waitTime",itemsDTO.getWaitTime());
                     itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
                     itemsDTO1.setProductName(products.name);
                     itemsDTO1.setLink(rejectDecisionLink);
                     itemsDTO1.setWaitTime(itemsDTO.getWaitTime());
-                    System.out.println("i got hwere1");
+
                     try {
+
                         mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.status.subject", null, locale));
                     }catch(MailException me) {
                         me.printStackTrace();

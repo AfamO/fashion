@@ -1168,7 +1168,7 @@ Date date = new Date();
             Page<EventPictures> e = eventPictureRepository.findAll(new PageRequest(page, size));
 
             for(EventPictures pictures: e) {
-                if (pictureTagRepository.findByEventPictures(pictures) != null) {
+                if (pictureTagRepository.findByEventPictures(pictures).size() > 0) {
                     ev.add(pictures);
                 }
             }
