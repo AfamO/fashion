@@ -183,7 +183,8 @@ public class ProductController {
 
     @PostMapping(value = "/filter")
     public Object filterProductsByPrice(@RequestBody FilterProductDTO filterProductDTO){
-        List<ProductRespDTO> products= productService.filterProductsByPrice(filterProductDTO);
+        System.out.println("i'm here");
+        List<ProductRespDTO> products= productService.filterProducts(filterProductDTO);
         Response response = new Response("00","Operation Successful",products);
         return response;
     }

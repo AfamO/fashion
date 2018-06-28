@@ -55,6 +55,8 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
 
     Page<Products> findByVerifiedFlagAndDesignerStatusAndAmountBetween(String verifiedFlag, String designerStatus, Double fromAmount, Double toAmount, Pageable pageable);
 
+    Page<Products> findByIdIn(List<Long> ids, Pageable pageable);
+
     Page<Products> findByVerifiedFlagAndNameLikeAndAmountBetween(String verifiedFlag, String name, Double fromAmount, Double toAmount, Pageable pageable);
 
     Page<Products> findByVerifiedFlagAndNameLike(String verifiedFlag, String name,Pageable pageable);

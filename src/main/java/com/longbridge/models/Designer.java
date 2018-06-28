@@ -20,6 +20,8 @@ public class Designer extends CommonFields {
     public String storeName;
     public String address;
     public String status="A";
+    public String accountNumber;
+    public int threshold;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)

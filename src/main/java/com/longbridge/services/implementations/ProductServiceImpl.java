@@ -812,6 +812,7 @@ Date date = new Date();
     public List<ProductRespDTO> filterProductsByPrice(FilterProductDTO filterProductDTO) {
         int page = filterProductDTO.getPage();
         int size = filterProductDTO.getSize();
+        System.out.println(filterProductDTO.getProductQualityRating());
         Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
         Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
         try {
@@ -831,56 +832,61 @@ Date date = new Date();
 
     @Override
     public List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO) {
+
         int page = filterProductDTO.getPage();
         int size = filterProductDTO.getSize();
+        List<ProductRespDTO> productDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findAll());
 
         String name = "";
-        Double fromAmount = 0.0;
-        Double toAmount=0.0;
-        int productQualityRating = 0;
-        Page<Products> products = null;
-        List<Products> products2 = new ArrayList<>();
-        name = filterProductDTO.getProductName();
-        List<ProductRespDTO> productDTOS=new ArrayList<>();
+        if(filterProductDTO.getFromPrice() != null && filterProductDTO.getFromPrice() != ""){
+            Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
+            Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
+            List<ProductRespDTO> tempProductDTOS = new ArrayList<ProductRespDTO>();
 
-        if(filterProductDTO.getFromPrice() != null) {
-            fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
-        }
-        if(filterProductDTO.getToPrice() != null) {
-            toAmount = Double.parseDouble(filterProductDTO.getToPrice());
-        }
-//        if(filterProductDTO.getProductQualityRating() != 0) {
-            productQualityRating=filterProductDTO.getProductQualityRating();
-            System.out.println(productQualityRating);
-//       }
-
-
-
-        try {
-            if(!name.equalsIgnoreCase("") && toAmount !=  0.0) {
-                products = productRepository.findByVerifiedFlagAndNameLikeAndAmountBetween("Y", name,fromAmount, toAmount, new PageRequest(page, size));
-               productDTOS = generalUtil.convertProdEntToProdRespDTOs(products.getContent());
-            }
-            if(!name.equalsIgnoreCase("") && productQualityRating != 0) {
-                System.out.println(productQualityRating);
-                Page<Products> products1=productRepository.findByVerifiedFlagAndNameLike("Y", name,new PageRequest(page, size));
-                for (Products p:products1) {
-                    for (ProductRating pr:p.reviews) {
-                        if(pr.getProductQualityRating() == productQualityRating){
-                            products2.add(p);
-                        }
-                    }
+            for (ProductRespDTO prd : productDTOS) {
+                if(prd.amount >= fromAmount && prd.amount<=toAmount ){
+                    tempProductDTOS.add(prd);
                 }
-                productDTOS = generalUtil.convertProdEntToProdRespDTOs(products2);
             }
 
-            return productDTOS;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WawoohException();
+            productDTOS = tempProductDTOS;
         }
+
+        if(filterProductDTO.getProductQualityRating() > 0){
+            int productQualityRating = filterProductDTO.getProductQualityRating();
+            List<ProductRespDTO> tempProductDTOS = new ArrayList<ProductRespDTO>();
+
+            System.out.println("i entered");
+            for (ProductRespDTO prd: productDTOS) {
+                if(prd.productQualityRating >= productQualityRating){
+                    tempProductDTOS.add(prd);
+                }
+            }
+            productDTOS = tempProductDTOS;
+
+            System.out.println("i got");
+            System.out.println(productDTOS.size());
+        }
+
+        List<Long> prodIds = new ArrayList<Long>();
+
+        for (ProductRespDTO prd : productDTOS) {
+            prodIds.add(prd.id);
+        }
+
+            List<ProductRespDTO> tempProd = generalUtil.convertProdEntToProdRespDTOs(productRepository.findByIdIn(prodIds, new PageRequest(page, size)).getContent());
+        productDTOS = tempProd;
+
+        return productDTOS;
     }
+
+    /*@Override
+    public List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO){
+
+        List<ProductRespDTO> productRespDTOS = new ArrayList<ProductRespDTO>();
+
+        return productRespDTOS;
+    }*/
 
     @Override
     public List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p) {

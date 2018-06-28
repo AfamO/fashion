@@ -145,6 +145,8 @@ public class DesignerServiceImpl implements DesignerService{
             Designer designer1 = designerRepository.findOne(userTemp.designer.id);
             designer1.storeName=designer.storeName;
             designer1.address=designer.address;
+            designer1.accountNumber = designer.accountNumber;
+            designer1.threshold = designer.threshold;
             designerRepository.save(designer1);
 
             }
@@ -379,6 +381,8 @@ public class DesignerServiceImpl implements DesignerService{
         dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,statuses);
        //dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"OP");
        // dto.setSalesChart(getSalesChart(d.id));
+        dto.accountNumber =  d.accountNumber;
+        dto.threshold = d.threshold;
         return dto;
 
     }
