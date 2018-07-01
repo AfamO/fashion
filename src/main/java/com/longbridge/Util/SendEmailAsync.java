@@ -47,7 +47,7 @@ public class SendEmailAsync {
             try {
                 String mail = user.email;
                 // String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
-                link = messageSource.getMessage("order.status.track",null,locale)+user.firstName;
+                link = messageSource.getMessage("order.status.track",null,locale);
                 Context context = new Context();
                 context.setVariable("name", user.firstName + " "+ user.lastName);
                 context.setVariable("orderNum",orderNumber);

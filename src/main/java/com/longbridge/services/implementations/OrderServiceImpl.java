@@ -402,7 +402,7 @@ public class OrderServiceImpl implements OrderService {
                     items.setItemStatus(itemStatus);
                     //items.setStatusMessage(statusMessage);
 
-                    String message = templateEngine.process("orderdeliveredemail", context);
+                    String message = templateEngine.process("oderdeliveredemail", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
 
                 }

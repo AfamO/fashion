@@ -13,17 +13,13 @@ public class PriceSlash extends CommonFields{
     @OneToOne
     private Products products;
 
-    private Double slashedPrice;
+    private double slashedPrice;
 
-    private int percentageDiscount;
+    private double percentageDiscount;
 
     public PriceSlash() {
     }
 
-    public PriceSlash(Products products, Double slashedPrice) {
-        this.products = products;
-        this.slashedPrice = slashedPrice;
-    }
 
     public Products getProducts() {
         return products;
@@ -33,19 +29,19 @@ public class PriceSlash extends CommonFields{
         this.products = products;
     }
 
-    public Double getSlashedPrice() {
+    public double getSlashedPrice() {
         return slashedPrice;
     }
 
-    public void setSlashedPrice(Double slashedPrice) {
+    public void setSlashedPrice(double slashedPrice) {
         this.slashedPrice = slashedPrice;
     }
 
-    public int getPercentageDiscount() {
+    public double getPercentageDiscount() {
         return percentageDiscount;
     }
 
-    public void setPercentageDiscount(int percentageDiscount) {
+    public void setPercentageDiscount(double percentageDiscount) {
         this.percentageDiscount = percentageDiscount;
     }
 }
