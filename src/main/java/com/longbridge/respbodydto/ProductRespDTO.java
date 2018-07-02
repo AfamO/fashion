@@ -62,4 +62,8 @@ public class ProductRespDTO {
 
     public String mandatoryMeasurements;
 
+    public int salesInQueue;
+
+    public int totalSales;
+
 }

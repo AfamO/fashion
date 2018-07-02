@@ -195,22 +195,15 @@ public class OrderServiceImpl implements OrderService {
     public void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO, User user) {
         try{
             ItemsDTO itemsDTO1 = new ItemsDTO();
+            Date date = new Date();
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
             String customerEmail = customer.email;
             String rejectDecisionLink = "";
             String customerName = customer.lastName+" "+ customer.firstName;
-            Context context = new Context();
-            context.setVariable("name", customerName);
 
             Items items = itemRepository.findOne(itemsDTO.getId());
             Products products = productRepository.findOne(items.getProductId());
-            context.setVariable("productName",products.name);
-            Date date = new Date();
-            System.out.println(items.getDeliveryStatus());
-            System.out.println(itemsDTO.getDeliveryStatus());
-
             ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
-
             StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
 
 
@@ -222,21 +215,39 @@ public class OrderServiceImpl implements OrderService {
                 }
                 else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
                     String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
-                    String link=messageSource.getMessage("order.reject.decision", null, locale);
-                    rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                    String link="";
+                    String message = "";
                     statusMessage.setHasResponse(true);
-                    context.setVariable("link",rejectDecisionLink);
-                    context.setVariable("waitTime",itemsDTO.getWaitTime());
+
                     items.setItemStatus(itemStatus);
                     items.setStatusMessage(statusMessage);
-                    String message = templateEngine.process("admincancelordertemplate", context);
 
+                    Context context = new Context();
+                    context.setVariable("name", customerName);
+                    context.setVariable("productName",products.name);
+
+                    context.setVariable("waitTime",itemsDTO.getWaitTime());
+
+                    if(itemsDTO.getMessageId() == 3){
+                        link=messageSource.getMessage("order.decline.decision", null, locale);
+                        rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                        context.setVariable("link",rejectDecisionLink);
+                        message = templateEngine.process("admindeclineordertemplate", context);
+                    }
+                    else {
+                        link=messageSource.getMessage("order.reject.decision", null, locale);
+                        rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                        context.setVariable("link",rejectDecisionLink);
+                        message = templateEngine.process("admincancelordertemplate", context);
+
+                    }
                     itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
                     itemsDTO1.setProductName(products.name);
                     itemsDTO1.setLink(rejectDecisionLink);
                     itemsDTO1.setWaitTime(itemsDTO.getWaitTime());
-                    System.out.println("i got hwere1");
+
                     try {
+
                         mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.status.subject", null, locale));
                     }catch(MailException me) {
                         me.printStackTrace();
@@ -391,7 +402,7 @@ public class OrderServiceImpl implements OrderService {
                     items.setItemStatus(itemStatus);
                     //items.setStatusMessage(statusMessage);
 
-                    String message = templateEngine.process("orderdeliveredemail", context);
+                    String message = templateEngine.process("oderdeliveredemail", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
 
                 }

@@ -384,6 +384,17 @@ public class OrderController {
         return response;
     }
 
+    @GetMapping(value = "/designer/getpendingorders")
+    public Response getPendingOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getPendingOrders(userTemp));
+        return response;
+    }
+
 
 
 

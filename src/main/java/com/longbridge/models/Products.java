@@ -49,6 +49,8 @@ public class Products extends CommonFields implements Serializable {
 
     public Double materialPrice;
 
+    public String  materialName;
+
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     public List<ProductPicture> picture;
 

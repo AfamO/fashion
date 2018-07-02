@@ -33,6 +33,8 @@ public class ProductDTO {
 
     public Double materialPrice;
 
+    public String materialName;
+
     public int stockNo;
 
     public String inStock;

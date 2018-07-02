@@ -10,7 +10,9 @@ import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.services.HibernateSearchService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -46,6 +48,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
+
+    @Autowired
+    ItemStatusRepository itemStatusRepository;
 
     @Autowired
     EventRepository eventRepository;
@@ -123,6 +131,30 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
         }
        throw new WawoohException();
+    }
+
+
+    @Override
+    public ProductRespDTO getDesignerProductById(Long id, User user) {
+        try {
+            ItemStatus itemStatus1 = itemStatusRepository.findByStatus("OP");
+            ItemStatus itemStatus2 = itemStatusRepository.findByStatus("CO");
+            ItemStatus itemStatus3 = itemStatusRepository.findByStatus("RI");
+            List<ItemStatus> itemStatuses = new ArrayList();
+            itemStatuses.add(itemStatus1);
+            itemStatuses.add(itemStatus2);
+            itemStatuses.add(itemStatus3);
+            Products products = productRepository.findOne(id);
+            ProductRespDTO productDTO = generalUtil.convertEntityToDTO(products);
+            int salesInQueue = itemRepository.findActiveOrdersOnProduct(user.designer.id,products.id,itemStatuses);
+            int totalSales = itemRepository.countByDesignerIdAndProductIdAndItemStatus_Status(user.designer.id,products.id,"D");
+            productDTO.salesInQueue=salesInQueue;
+            productDTO.totalSales=totalSales;
+            return productDTO;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        throw new WawoohException();
     }
 
     @Override
@@ -335,6 +367,191 @@ public class ProductServiceImpl implements ProductService {
             throw new WawoohException();
         }
     }
+//
+//    @Override
+//    public void addProduct(ProductDTO productDTO, Designer designer) {
+//
+//        try {
+//            Date date = new Date();
+//            Products products = new Products();
+//            //Long styleId = Long.parseLong(productDTO.styleId);
+//            Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
+//            ArrayList<String> pics = productDTO.picture;
+//            ArrayList<String> artWorkPics = productDTO.artWorkPicture;
+//            ArrayList<String> materialPics = productDTO.materialPicture;
+//
+//            products.subCategory = subCategoryRepository.findOne(subCategoryId);
+//            products.name=productDTO.name;
+//            products.amount = productDTO.amount;
+//            products.availability = productDTO.inStock;
+//            products.numOfDaysToComplete=productDTO.numOfDaysToComplete;
+//            products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
+//            products.color = productDTO.color;
+//            products.sizes = productDTO.sizes;
+//            products.prodDesc=productDTO.description;
+//            products.designer=designer;
+//
+//            if(productDTO.styleId != null) {
+//                if(!productDTO.styleId.isEmpty()) {
+//                    Long styleId = Long.parseLong(productDTO.styleId);
+//                    products.style = styleRepository.findOne(styleId);
+//                }
+//            }
+//            //products.style=styleRepository.findOne(styleId);
+//            products.stockNo=productDTO.stockNo;
+//            products.inStock=productDTO.inStock;
+//            products.setCreatedOn(date);
+//            products.setUpdatedOn(date);
+//
+//
+//            productRepository.save(products);
+//
+//            if(productDTO.slashedPrice != 0){
+//                PriceSlash priceSlash = new PriceSlash();
+//                products.priceSlashEnabled = true;
+//                priceSlash.setProducts(products);
+//                priceSlash.setSlashedPrice(productDTO.slashedPrice);
+//                priceSlashRepository.save(priceSlash);
+//            }
+//            else if(productDTO.percentageDiscount != 0){
+//
+//                PriceSlash priceSlash=new PriceSlash();
+//                products.priceSlashEnabled = true;
+//                priceSlash.setProducts(products);
+//                priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+//                priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
+//                priceSlashRepository.save(priceSlash);
+//            }
+//
+//
+//            for(String p:pics){
+//                ProductPicture productPicture = new ProductPicture();
+//                String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
+//
+//
+////                String base64Image = p.split(",")[1];
+////
+////                    byte[] imageByte = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+////                    ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+//////
+////                    File imgfile = File.createTempFile(productPictureName,"tmp");
+////                    FileUtils.copyInputStreamToFile(bis,imgfile);
+////                    bis.close();
+//
+//                    CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName,"productpictures");
+//
+//                    //productPicture.pictureName = productPictureName;
+//                    productPicture.pictureName=c.getUrl();
+//                    productPicture.picture = c.getPublicId();
+//                    productPicture.products = products;
+//                    productPicture.createdOn = date;
+//                    productPicture.setUpdatedOn(date);
+//                    productPictureRepository.save(productPicture);
+//            }
+//
+//            for(String mp:materialPics){
+//                MaterialPicture materialPicture = new MaterialPicture();
+//                String matName= generalUtil.getPicsName("materialpic",products.name);
+//                    //materialPicture.pictureName = matName;
+//                CloudinaryResponse c= generalUtil.uploadToCloud(mp,matName,"materialpictures");
+//                    materialPicture.pictureName = c.getUrl();
+//                    materialPicture.picture = c.getPublicId();
+//                    materialPicture.products = products;
+//                    materialPicture.createdOn = date;
+//                    materialPicture.setUpdatedOn(date);
+//                    materialPictureRepository.save(materialPicture);
+//            }
+//
+//
+//
+//            for(String ap:artWorkPics){
+//                    ArtWorkPicture artWorkPicture = new ArtWorkPicture();
+//                    String artName= generalUtil.getPicsName("artworkpic",products.name);
+//                    //artWorkPicture.pictureName = artName;
+//                CloudinaryResponse c = generalUtil.uploadToCloud(ap,artName,"artworkpictures");
+//                artWorkPicture.pictureName = c.getUrl();
+//                artWorkPicture.picture = c.getPublicId();
+//                    artWorkPicture.products = products;
+//                    artWorkPicture.createdOn = date;
+//                    artWorkPicture.setUpdatedOn(date);
+//                    artWorkPictureRepository.save(artWorkPicture);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new WawoohException();
+//        }
+//    }
+//
+//    @Override
+//    public void updateProduct(ProductDTO productDTO, Designer designer) {
+//
+//        try {
+//            Date date = new Date();
+//
+//            Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
+//            Products products = productRepository.findOne(productDTO.id);
+//            products.subCategory = subCategoryRepository.findOne(subCategoryId);
+//            products.name=productDTO.name;
+//            products.amount = productDTO.amount;
+//            products.availability = productDTO.inStock;
+//
+//                products.numOfDaysToComplete = productDTO.numOfDaysToComplete;
+//
+//            products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
+//            products.color = productDTO.color;
+//            products.sizes = productDTO.sizes;
+//            products.prodDesc=productDTO.description;
+//            products.designer=designer;
+////            if(productDTO.styleId != null) {
+////                Long styleId = Long.parseLong(productDTO.styleId);
+////                products.style=styleRepository.findOne(styleId);
+////            }
+//            if(productDTO.styleId != null) {
+//                if(!productDTO.styleId.isEmpty()) {
+//                    Long styleId = Long.parseLong(productDTO.styleId);
+//                    products.style = styleRepository.findOne(styleId);
+//                }
+//            }
+//            products.stockNo=productDTO.stockNo;
+//            products.inStock=productDTO.inStock;
+//            products.setUpdatedOn(date);
+//
+//            if(productDTO.slashedPrice != 0){
+//                PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
+//                        if(priceSlash != null){
+//                            priceSlash.setSlashedPrice(productDTO.slashedPrice);
+//                        }else {
+//                            priceSlash=new PriceSlash();
+//                            products.priceSlashEnabled = true;
+//                            priceSlash.setProducts(products);
+//                            priceSlash.setSlashedPrice(productDTO.slashedPrice);
+//                        }
+//
+//                priceSlashRepository.save(priceSlash);
+//            }
+//            else if(productDTO.percentageDiscount != 0){
+//                PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
+//                if(priceSlash != null){
+//                    priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+//                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
+//                }else {
+//                    priceSlash=new PriceSlash();
+//                    products.priceSlashEnabled = true;
+//                    priceSlash.setProducts(products);
+//                    priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+//                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
+//                }
+//
+//                priceSlashRepository.save(priceSlash);
+//            }
+//            productRepository.save(products);
+//
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//            throw new WawoohException();
+//        }
+//    }
 
     @Override
     public void addProduct(ProductDTO productDTO, Designer designer) {
@@ -354,6 +571,8 @@ public class ProductServiceImpl implements ProductService {
             products.availability = productDTO.inStock;
             products.numOfDaysToComplete=productDTO.numOfDaysToComplete;
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
+            products.materialPrice=productDTO.materialPrice;
+            products.materialName=productDTO.materialName;
             products.color = productDTO.color;
             products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
@@ -407,43 +626,43 @@ public class ProductServiceImpl implements ProductService {
 //                    FileUtils.copyInputStreamToFile(bis,imgfile);
 //                    bis.close();
 
-                    CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName,"productpictures");
+                CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName,"productpictures");
 
-                    //productPicture.pictureName = productPictureName;
-                    productPicture.pictureName=c.getUrl();
-                    productPicture.picture = c.getPublicId();
-                    productPicture.products = products;
-                    productPicture.createdOn = date;
-                    productPicture.setUpdatedOn(date);
-                    productPictureRepository.save(productPicture);
+                //productPicture.pictureName = productPictureName;
+                productPicture.pictureName=c.getUrl();
+                productPicture.picture = c.getPublicId();
+                productPicture.products = products;
+                productPicture.createdOn = date;
+                productPicture.setUpdatedOn(date);
+                productPictureRepository.save(productPicture);
             }
 
             for(String mp:materialPics){
                 MaterialPicture materialPicture = new MaterialPicture();
                 String matName= generalUtil.getPicsName("materialpic",products.name);
-                    //materialPicture.pictureName = matName;
+                //materialPicture.pictureName = matName;
                 CloudinaryResponse c= generalUtil.uploadToCloud(mp,matName,"materialpictures");
-                    materialPicture.pictureName = c.getUrl();
-                    materialPicture.picture = c.getPublicId();
-                    materialPicture.products = products;
-                    materialPicture.createdOn = date;
-                    materialPicture.setUpdatedOn(date);
-                    materialPictureRepository.save(materialPicture);
+                materialPicture.pictureName = c.getUrl();
+                materialPicture.picture = c.getPublicId();
+                materialPicture.products = products;
+                materialPicture.createdOn = date;
+                materialPicture.setUpdatedOn(date);
+                materialPictureRepository.save(materialPicture);
             }
 
 
 
             for(String ap:artWorkPics){
-                    ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-                    String artName= generalUtil.getPicsName("artworkpic",products.name);
-                    //artWorkPicture.pictureName = artName;
+                ArtWorkPicture artWorkPicture = new ArtWorkPicture();
+                String artName= generalUtil.getPicsName("artworkpic",products.name);
+                //artWorkPicture.pictureName = artName;
                 CloudinaryResponse c = generalUtil.uploadToCloud(ap,artName,"artworkpictures");
                 artWorkPicture.pictureName = c.getUrl();
                 artWorkPicture.picture = c.getPublicId();
-                    artWorkPicture.products = products;
-                    artWorkPicture.createdOn = date;
-                    artWorkPicture.setUpdatedOn(date);
-                    artWorkPictureRepository.save(artWorkPicture);
+                artWorkPicture.products = products;
+                artWorkPicture.createdOn = date;
+                artWorkPicture.setUpdatedOn(date);
+                artWorkPictureRepository.save(artWorkPicture);
             }
 
         } catch (Exception e) {
@@ -522,7 +741,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void updateProductImages(ProdPicReqDTO p) {
-Date date = new Date();
+        Date date = new Date();
         try {
             Products products = productRepository.findOne(p.productId);
             for(ProductPictureDTO pp : p.picture){
@@ -812,7 +1031,7 @@ Date date = new Date();
         Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
         Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
         try {
-            Page<Products> products = productRepository.findByVerifiedFlagAndDesignerStatusAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
+            Page<Products> products = productRepository.findByVerifiedFlagAndDesigner_StatusAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
 
@@ -876,6 +1095,8 @@ Date date = new Date();
 //            throw new WawoohException();
 //        }
 //    }
+
+
 
     @Override
     public List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO) {
@@ -949,6 +1170,8 @@ Date date = new Date();
 
         return tempProd;
     }
+
+
 
     @Override
     public List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p) {
@@ -1193,15 +1416,15 @@ Date date = new Date();
         int size = pageableDetailsDTO.getSize();
         List<EventPictures> ev = new ArrayList<>();
         try {
-            Page<EventPictures> e = eventPictureRepository.findAll(new PageRequest(page, size));
+            List<EventPicturesDTO> eventPicturesDTOS= new ArrayList<>();
 
-            for(EventPictures pictures: e) {
-                if (pictureTagRepository.findByEventPictures(pictures) != null) {
-                    ev.add(pictures);
-                }
+           Page<Long> eventPictures=pictureTagRepository.getTagged(new PageRequest(page, size));
+
+            for(Long eventPictures1: eventPictures){
+                eventPicturesDTOS.add(generalUtil.convertEntityToDTO(eventPictureRepository.findOne(eventPictures1)));
             }
 
-            return generalUtil.convertEntsToDTOs(ev);
+        return eventPicturesDTOS;
 
 
         } catch (Exception ex) {
@@ -1351,7 +1574,8 @@ Date date = new Date();
             }
     }
 
-    //Make response dto pageable
+
+
     public List<ProductRespDTO> getPage(List<ProductRespDTO> productRespDTOS, int page, int size){
 
         int totalElements = productRespDTOS.size();

@@ -13,6 +13,8 @@ public interface ProductService {
 
     ProductRespDTO getProductById(Long id,User user);
 
+    ProductRespDTO getDesignerProductById(Long id,User user);
+
     ProductRespDTO getProductByIdWithReviews(Long id, User user);
 
     void addProduct(ProductDTO productDTO, Designer designer);

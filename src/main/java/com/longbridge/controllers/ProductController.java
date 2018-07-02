@@ -90,6 +90,25 @@ public class ProductController {
 
     }
 
+
+    @GetMapping(value = {"/{id}/designer/getproductbyid"})
+    public Object getDesignerProductById(@PathVariable Long id, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        JwtUser user = userUtil.getAuthenticationDetails(token);
+        if(token==null || user==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        User user1 = userUtil.fetchUserDetails2(token);
+
+            ProductRespDTO products = productService.getDesignerProductById(id,user1);
+
+        Response response = new Response("00","Operation Successful",products);
+        return response;
+
+    }
+
+
+
     @GetMapping(value = "/{id}/getproductbyid/getuserreview")
     public Response getUserReviewForProduct(@PathVariable Long id, HttpServletRequest request){
 
