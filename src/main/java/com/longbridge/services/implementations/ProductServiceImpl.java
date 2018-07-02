@@ -10,9 +10,7 @@ import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.services.HibernateSearchService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -381,6 +379,7 @@ public class ProductServiceImpl implements ProductService {
                 products.priceSlashEnabled = true;
                 priceSlash.setProducts(products);
                 priceSlash.setSlashedPrice(productDTO.slashedPrice);
+                priceSlash.setPercentageDiscount((productDTO.slashedPrice/productDTO.amount)*100);
                 priceSlashRepository.save(priceSlash);
             }
             else if(productDTO.percentageDiscount != 0){
@@ -465,19 +464,14 @@ public class ProductServiceImpl implements ProductService {
             products.name=productDTO.name;
             products.amount = productDTO.amount;
             products.availability = productDTO.inStock;
-
-                products.numOfDaysToComplete = productDTO.numOfDaysToComplete;
-
+            products.numOfDaysToComplete = productDTO.numOfDaysToComplete;
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.color = productDTO.color;
             products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
             products.designer=designer;
-//            if(productDTO.styleId != null) {
-//                Long styleId = Long.parseLong(productDTO.styleId);
-//                products.style=styleRepository.findOne(styleId);
-//            }
-            if(productDTO.styleId != null) {
+            if(!"null".equalsIgnoreCase(productDTO.styleId)) {
+                System.out.println("still entered");
                 if(!productDTO.styleId.isEmpty()) {
                     Long styleId = Long.parseLong(productDTO.styleId);
                     products.style = styleRepository.findOne(styleId);
@@ -489,14 +483,16 @@ public class ProductServiceImpl implements ProductService {
 
             if(productDTO.slashedPrice != 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
-                        if(priceSlash != null){
-                            priceSlash.setSlashedPrice(productDTO.slashedPrice);
-                        }else {
-                            priceSlash=new PriceSlash();
-                            products.priceSlashEnabled = true;
-                            priceSlash.setProducts(products);
-                            priceSlash.setSlashedPrice(productDTO.slashedPrice);
-                        }
+                if(priceSlash != null){
+                    priceSlash.setSlashedPrice(productDTO.slashedPrice);
+                    priceSlash.setPercentageDiscount((productDTO.slashedPrice/productDTO.amount)*100);
+                }else {
+                    priceSlash=new PriceSlash();
+                    products.priceSlashEnabled = true;
+                    priceSlash.setProducts(products);
+                    priceSlash.setPercentageDiscount((productDTO.slashedPrice/productDTO.amount)*100);
+                    priceSlash.setSlashedPrice(productDTO.slashedPrice);
+                }
 
                 priceSlashRepository.save(priceSlash);
             }
@@ -816,7 +812,7 @@ Date date = new Date();
         Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
         Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
         try {
-            Page<Products> products = productRepository.findByVerifiedFlagAndDesigner_StatusAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
+            Page<Products> products = productRepository.findByVerifiedFlagAndDesignerStatusAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
 
@@ -881,46 +877,78 @@ Date date = new Date();
 //        }
 //    }
 
-
-
     @Override
     public List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO) {
 
         int page = filterProductDTO.getPage();
         int size = filterProductDTO.getSize();
-        List<ProductRespDTO> productDTOS = new ArrayList<>();
-                String name = "";
+        String name = filterProductDTO.getProductName();
+        List<ProductRespDTO> productDTOS = null;
+        List<Products> products = null;
+        List<Long> ids = null;
+
+        if(name != ""){
+            ids = productRepository.findByVerifiedFlagAndDesignerStatusAndNameIsLike(name);
+        }
+
         if(filterProductDTO.getFromPrice() != null && filterProductDTO.getFromPrice() != ""){
-            Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
-            Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
-            List<ProductRespDTO> tempProductDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findByVerifiedFlagAndNameLikeAndAmountBetween("Y",filterProductDTO.getProductName(),fromAmount,toAmount));
-            productDTOS = tempProductDTOS;
+            double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
+            double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
+
+            if(ids == null){
+                ids = productRepository.findByVerifiedFlagAndDesignerStatusAndAmountBetween(fromAmount, toAmount);
+            }else{
+                List<Long> tempIds = new ArrayList<Long>();
+                products = productRepository.findByIdIn(ids);
+                for (Products p : products) {
+                    if(p.amount >= fromAmount && p.amount <= toAmount){
+                        tempIds.add(p.id);
+                    }
+                }
+                ids = tempIds;
+                productDTOS = generalUtil.convertProdEntToProdRespDTOs(products);
+            }
         }
 
         if(filterProductDTO.getProductQualityRating() > 0){
-            int productQualityRating = filterProductDTO.getProductQualityRating();
-            List<ProductRespDTO> tempProductDTOS = new ArrayList<ProductRespDTO>();
-           // productDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findAll());
-            productDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findByVerifiedFlagAndNameLike("Y",name));
-            for (ProductRespDTO prd: productDTOS) {
-                if(prd.productQualityRating >= productQualityRating){
-                    tempProductDTOS.add(prd);
+            int prodQualityFilter = filterProductDTO.getProductQualityRating();
+
+            if(ids == null){
+                products = productRepository.findByVerifiedFlagAndDesignerStatus("Y", "A");
+                productDTOS = generalUtil.convertProdEntToProdRespDTOs(products);
+                List<ProductRespDTO> tempProRes = new ArrayList<ProductRespDTO>();
+                for (ProductRespDTO p : productDTOS) {
+                    if(p.productQualityRating >= prodQualityFilter){
+                        tempProRes.add(p);
+                    }
                 }
+
+                productDTOS = tempProRes;
+            }else{
+                products = productRepository.findByIdIn(ids);
+                productDTOS = generalUtil.convertProdEntToProdRespDTOs(products);
+                List<ProductRespDTO> tempProRes = new ArrayList<ProductRespDTO>();
+
+                for (ProductRespDTO p : productDTOS) {
+                    if(p.productQualityRating >= prodQualityFilter){
+                        tempProRes.add(p);
+                    }
+                }
+
+                productDTOS = tempProRes;
             }
-            productDTOS = tempProductDTOS;
 
         }
 
+        if(productDTOS == null){
+            productDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findByIdIn(ids));
+        }
 
-        List<ProductRespDTO> tempProd = new PageImpl<ProductRespDTO>(productDTOS, new PageRequest(page, size),productDTOS.size()).getContent();
-        productDTOS = tempProd;
+        List<ProductRespDTO> tempProd = getPage(productDTOS, page, size);
+        if(tempProd == null){ tempProd = new ArrayList<ProductRespDTO>(); }
 
-        return productDTOS;
+        return tempProd;
     }
-
-
-
-
 
     @Override
     public List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p) {
@@ -1321,6 +1349,29 @@ Date date = new Date();
                 System.out.println("Delete operation is failed.");
                 throw new WriteFileException("Delete operation is failed");
             }
+    }
+
+    //Make response dto pageable
+    public List<ProductRespDTO> getPage(List<ProductRespDTO> productRespDTOS, int page, int size){
+
+        int totalElements = productRespDTOS.size();
+        int totalPages = (int) Math.ceil(productRespDTOS.size()/(double) size);
+
+        if(page >= totalPages){
+            return null;
+        }else{
+
+            int start = (page == 0) ? 0 : (page * size);
+            int end = start + size;
+
+            System.out.println("Total no of pages: "+totalPages);
+            System.out.println("Total no of elements: "+totalElements);
+            System.out.println("start: "+start+", end:"+end);
+
+            List<ProductRespDTO> newRespDto = productRespDTOS.subList(start, (end > totalElements) ? totalElements : end);
+            System.out.println("Elements in current page: "+newRespDto.size());
+            return newRespDto;
+        }
     }
 
 

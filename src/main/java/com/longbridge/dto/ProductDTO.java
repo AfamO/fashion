@@ -13,7 +13,7 @@ public class ProductDTO {
     public Long id;
     public String name;
     public double amount;
-    public int percentageDiscount;
+    public double percentageDiscount;
     public double slashedPrice;
     public String designerId;
     public String designerName;

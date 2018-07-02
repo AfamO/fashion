@@ -36,9 +36,6 @@ public class DesignerDTO {
     private List<ProductRespDTO> products;
     private String status;
 
-    public String accountNumber;
-    public int threshold;
-
     private List<SalesChart> salesChart;
 
     public DesignerDTO() {

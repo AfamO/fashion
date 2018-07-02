@@ -51,14 +51,23 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
     @Query(value = "select p.mandatory_measurements from Products p where p.id =:id", nativeQuery = true)
     String getMandatoryMeasurements(@Param("id") Long id);
 
-    Page<Products> findByVerifiedFlagAndDesigner_StatusAndAmountBetween(String verifiedFlag, String designerStatus, Double fromAmount, Double toAmount, Pageable pageable);
+    Page<Products> findByVerifiedFlagAndDesignerStatusAndAmountBetween(String verifiedFlag, String designerStatus, Double fromAmount, Double toAmount, Pageable pageable);
 
-    Page<Products> findByIdIn(List<Long> ids, Pageable pageable);
+    List<Products> findByIdIn(List<Long> ids);
 
     //Page<Products> findByVerifiedFlagAndNameLikeAndAmountBetween(String verifiedFlag, String name, Double fromAmount, Double toAmount, Pageable pageable);
 
+    List<Products> findByVerifiedFlagAndDesignerStatus(String verifiedFlag, String designerStatus);
 
-    List<Products> findByVerifiedFlagAndNameLikeAndAmountBetween(String verifiedFlag, String name, Double fromAmount, Double toAmount);
+    //List<Products> findByVerifiedFlagAndDesignerStatusAndNameIsLike(String verifiedFlag, String designerStatus, String name);
+
+    @Query(value = "select p.id from Products p where p.verifiedFlag='Y' and p.designerStatus='A' and p.name like %:name%")
+    List<Long> findByVerifiedFlagAndDesignerStatusAndNameIsLike(@Param("name") String name);
+
+    //List<Products> findByVerifiedFlagAndDesignerStatusAndAmountBetween(String verifiedFlag, String designerStatus, Double fromAmount, Double toAmount);
+
+    @Query(value = "select p.id from Products p where p.verifiedFlag='Y' and p.designerStatus='A' and (p.amount >= :fromAmount and p.amount <= :toAmount)")
+    List<Long> findByVerifiedFlagAndDesignerStatusAndAmountBetween(@Param("fromAmount") double fromAmount, @Param("toAmount") double toAmount);
 
 
     Page<Products> findByVerifiedFlagAndNameLike(String verifiedFlag, String name,Pageable pageable);
