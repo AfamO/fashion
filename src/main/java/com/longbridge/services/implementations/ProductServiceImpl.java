@@ -569,6 +569,7 @@ public class ProductServiceImpl implements ProductService {
             products.name=productDTO.name;
             products.amount = productDTO.amount;
             products.availability = productDTO.inStock;
+            products.acceptCustomSizes=productDTO.acceptCustomSizes;
             products.numOfDaysToComplete=productDTO.numOfDaysToComplete;
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.materialPrice=productDTO.materialPrice;
@@ -683,6 +684,7 @@ public class ProductServiceImpl implements ProductService {
             products.name=productDTO.name;
             products.amount = productDTO.amount;
             products.availability = productDTO.inStock;
+            products.acceptCustomSizes=productDTO.acceptCustomSizes;
             products.numOfDaysToComplete = productDTO.numOfDaysToComplete;
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.color = productDTO.color;

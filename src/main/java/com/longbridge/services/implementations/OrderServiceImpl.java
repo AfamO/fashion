@@ -58,6 +58,10 @@ public class OrderServiceImpl implements OrderService {
     StatusMessageRepository statusMessageRepository;
 
     @Autowired
+    DesignerRepository designerRepository;
+
+
+    @Autowired
     RefundRepository refundRepository;
 
     @Autowired
@@ -361,15 +365,14 @@ public class OrderServiceImpl implements OrderService {
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("FI")){
                     items.setItemStatus(itemStatusRepository.findByStatus("OP"));
+                    items.setFailedInspectionReason(itemsDTO.getAction());
                     //items.setStatusMessage(statusMessage);
-                    context.setVariable("failedInspectionReason",itemsDTO.getAction());
+                  //  context.setVariable("failedInspectionReason",itemsDTO.getAction());
 
                     //todo later, send email to user and designer
-//                    sendEmailAsync.sendEmailToUser(user,orderNumber);
-//                    //sendEmailAsync.sendEmailToDesigner(dtos,orderNumber);
+                    sendEmailAsync.sendFailedInspEmailToUser(customer,itemsDTO);
+                    sendEmailAsync.sendFailedInspToDesigner(itemsDTO);
 
-                 //  String message = templateEngine.process("failedinspectiontemplate", context);
-                 //  mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
 
                 }
             }
@@ -897,6 +900,8 @@ itemRepository.save(items);
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
         cartDTO.setMaterialStatus(cart.getMaterialStatus());
         cartDTO.setDesignerId(cart.getDesignerId());
+        Designer designer = designerRepository.findOne(cart.getDesignerId());
+        cartDTO.setDesignerName(designer.storeName);
 
         if(cart.getMeasurementId() != null) {
             Measurement m = measurementRepository.findOne(cart.getMeasurementId());

@@ -23,6 +23,9 @@ public class CartDTO {
 
     private Long designerId;
 
+
+    private String designerName;
+
     private String size;
 
     private String amount;
@@ -243,6 +246,14 @@ public class CartDTO {
 
     public void setMeasurementId(Long measurementId) {
         this.measurementId = measurementId;
+    }
+
+    public String getDesignerName() {
+        return designerName;
+    }
+
+    public void setDesignerName(String designerName) {
+        this.designerName = designerName;
     }
 
     public CartDTO() {

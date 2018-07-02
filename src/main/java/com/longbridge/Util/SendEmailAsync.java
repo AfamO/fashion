@@ -1,11 +1,16 @@
 package com.longbridge.Util;
 
 import com.longbridge.dto.DesignerOrderDTO;
+import com.longbridge.dto.ItemsDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Likes;
+import com.longbridge.models.Products;
 import com.longbridge.models.User;
+import com.longbridge.repository.DesignerRepository;
+import com.longbridge.repository.ItemRepository;
+import com.longbridge.repository.ProductRepository;
 import com.longbridge.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -34,6 +39,15 @@ public class SendEmailAsync {
 
     @Autowired
     MailService mailService;
+
+    @Autowired
+    DesignerRepository designerRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
     private Locale locale = LocaleContextHolder.getLocale();
 
@@ -230,6 +244,75 @@ public class SendEmailAsync {
 
         return null;
     }
+
+
+    @Async
+    public String sendFailedInspEmailToUser(User user, ItemsDTO itemsDTO) {
+        Products products = productRepository.findOne(itemRepository.findOne(itemsDTO.getId()).getProductId());
+        try {
+            System.out.println("Execute method asynchronously - "
+                    + Thread.currentThread().getName());
+
+            try {
+                String mail = user.email;
+
+                Context context = new Context();
+                context.setVariable("name", user.firstName + " "+ user.lastName);
+                context.setVariable("productName",products.name);
+
+
+                String message = templateEngine.process("failedinspforuser", context);
+                mailService.prepareAndSend(message,mail,messageSource.getMessage("order.failedinspection.subject", null, locale));
+
+            }catch (MailException me){
+                me.printStackTrace();
+                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.failedinspection.subject", null, locale),products.name);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+        return null;
+    }
+
+
+    @Async
+    public String sendFailedInspToDesigner(ItemsDTO itemsDTO) {
+        String link = "";
+        try {
+            System.out.println("Execute method asynchronously - "
+                    + Thread.currentThread().getName());
+            Products products = productRepository.findOne((itemRepository.findOne(itemsDTO.getId())).getProductId());
+            User user = products.designer.user;
+            try {
+
+                String mail = user.email;
+
+
+                Context context = new Context();
+                context.setVariable("name", user.firstName + " "+ user.lastName);
+                context.setVariable("productName",products.name);
+
+
+                String message = templateEngine.process("failedinspfordesigner", context);
+                mailService.prepareAndSend(message,mail,messageSource.getMessage("order.failedinspection.subject", null, locale));
+
+            }catch (MailException me){
+                me.printStackTrace();
+                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.failedinspection.subject", null, locale),products.name);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+        return null;
+    }
+
+
 
 
 }

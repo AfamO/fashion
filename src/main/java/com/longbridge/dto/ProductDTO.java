@@ -39,6 +39,8 @@ public class ProductDTO {
 
     public String inStock;
 
+    public String acceptCustomSizes;
+
     public String status;
 
     public String verifiedFlag;
