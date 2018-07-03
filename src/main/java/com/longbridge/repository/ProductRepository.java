@@ -70,12 +70,12 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
 //    @Query(value = "select p.*, sum(pr.product_quality_rating) as rating FROM products p INNER JOIN product_rating pr WHERE p.id = pr.products_id ORDER by rating desc Limit 0, 10", nativeQuery = true)
 //    List<ProductsWithRating> findTop10FrequentlyBoughtProducts();
 
-    @Query(value = "select p.id from Products p where p.verifiedFlag='Y' and p.designerStatus='A' and (p.amount >= :fromAmount and p.amount <= :toAmount)")
-    List<Long> findByVerifiedFlagAndDesignerStatusAndAmountBetween(@Param("fromAmount") double fromAmount, @Param("toAmount") double toAmount);
+    @Query(value = "select p.id from Products p where p.verifiedFlag='Y' and p.designerStatus='A' and (p.amount >= :fromAmount and p.amount <= :toAmount) and p.subCategory=subCategory ")
+    List<Long> findByVerifiedFlagAndDesignerStatusAndAmountBetween(@Param("fromAmount") double fromAmount, @Param("toAmount") double toAmount, @Param("subCategory") SubCategory subCategory);
 
-    @Query(value = "select p.id from Products p where p.verifiedFlag='Y' and p.designerStatus='A' and p.name like %:name%")
-    List<Long> findByVerifiedFlagAndDesignerStatusAndNameIsLike(@Param("name") String name);
+    @Query(value = "select p.id from Products p where p.verifiedFlag='Y' and p.designerStatus='A' and p.name like %:name% and p.subCategory=:subCategory")
+    List<Long> findByVerifiedFlagAndDesignerStatusAndNameIsLike(@Param("name") String name, @Param("subCategory") SubCategory subCategory);
 
 
-    List<Products> findByVerifiedFlagAndDesignerStatus(String verifiedFlag, String designerStatus);
+    List<Products> findByVerifiedFlagAndDesignerStatusAndSubCategory(String verifiedFlag, String designerStatus, SubCategory subCategory);
 }
