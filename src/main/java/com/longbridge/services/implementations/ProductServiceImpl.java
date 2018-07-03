@@ -1031,7 +1031,7 @@ public class ProductServiceImpl implements ProductService {
         Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
         Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
         try {
-            Page<Products> products = productRepository.findByVerifiedFlagAndDesigner_StatusAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
+            Page<Products> products = productRepository.findByVerifiedFlagAndNameLikeAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
 
@@ -1104,12 +1104,13 @@ public class ProductServiceImpl implements ProductService {
         int page = filterProductDTO.getPage();
         int size = filterProductDTO.getSize();
         String name = filterProductDTO.getProductName();
+        SubCategory subCat = subCategoryRepository.findOne(filterProductDTO.getSubCategoryId());
         List<ProductRespDTO> productDTOS = null;
         List<Products> products = null;
         List<Long> ids = null;
 
         if(name != ""){
-            ids = productRepository.findByVerifiedFlagAndDesignerStatusAndNameIsLike(name);
+            ids = productRepository.findByVerifiedFlagAndDesignerStatusAndNameIsLike(name, subCat);
         }
 
         if(filterProductDTO.getFromPrice() != null && filterProductDTO.getFromPrice() != ""){
@@ -1117,7 +1118,7 @@ public class ProductServiceImpl implements ProductService {
             double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
 
             if(ids == null){
-                ids = productRepository.findByVerifiedFlagAndDesignerStatusAndAmountBetween(fromAmount, toAmount);
+                ids = productRepository.filterProductByPrice(fromAmount, toAmount, subCat);
             }else{
                 List<Long> tempIds = new ArrayList<Long>();
                 products = productRepository.findByIdIn(ids);
@@ -1135,7 +1136,7 @@ public class ProductServiceImpl implements ProductService {
             int prodQualityFilter = filterProductDTO.getProductQualityRating();
 
             if(ids == null){
-                products = productRepository.findByVerifiedFlagAndDesignerStatus("Y", "A");
+                products = productRepository.findByVerifiedFlagAndDesignerStatusAndSubCategory("Y", "A", subCat);
                 productDTOS = generalUtil.convertProdEntToProdRespDTOs(products);
                 List<ProductRespDTO> tempProRes = new ArrayList<ProductRespDTO>();
                 for (ProductRespDTO p : productDTOS) {
@@ -1162,6 +1163,8 @@ public class ProductServiceImpl implements ProductService {
         }
 
         if(productDTOS == null){
+            List<Products> idstemp = productRepository.findByIdIn(ids);
+            System.out.println(idstemp);
             productDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findByIdIn(ids));
         }
 

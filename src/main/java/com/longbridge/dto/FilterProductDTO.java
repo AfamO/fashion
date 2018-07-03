@@ -19,7 +19,17 @@ public class FilterProductDTO {
 
     private String productName;
 
+    private Long subCategoryId;
+
     public FilterProductDTO() {
+    }
+
+    public Long getSubCategoryId() {
+        return subCategoryId;
+    }
+
+    public void setSubCategoryId(Long subCategoryId) {
+        this.subCategoryId = subCategoryId;
     }
 
     public int getDesignerRating() {
