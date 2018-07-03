@@ -97,6 +97,9 @@ public class Products extends CommonFields implements Serializable {
 
     public int numOfDaysToComplete;
 
+    @OneToMany(mappedBy = "products", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    public List<ProductSizes> productSizes = new ArrayList<ProductSizes>();
+
 
 
 
