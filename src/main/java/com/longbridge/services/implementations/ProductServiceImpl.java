@@ -1033,7 +1033,7 @@ public class ProductServiceImpl implements ProductService {
         Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
         Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
         try {
-            Page<Products> products = productRepository.findByVerifiedFlagAndDesigner_StatusAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
+            Page<Products> products = productRepository.findByVerifiedFlagAndDesignerStatusAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
 
@@ -1120,7 +1120,7 @@ public class ProductServiceImpl implements ProductService {
             double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
 
             if(ids == null){
-                ids = productRepository.findByVerifiedFlagAndDesignerStatusAndAmountBetween(fromAmount, toAmount, subCategory);
+                ids = productRepository.filterProductByPrice(fromAmount, toAmount, subCategory);
             }else{
                 List<Long> tempIds = new ArrayList<Long>();
                 products = productRepository.findByIdIn(ids);
