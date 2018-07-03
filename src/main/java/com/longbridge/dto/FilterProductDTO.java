@@ -15,8 +15,6 @@ public class FilterProductDTO {
 
     private int productQualityRating;
 
-    private int designerRating;
-
     private String productName;
 
     private Long subCategoryId;
@@ -30,14 +28,6 @@ public class FilterProductDTO {
 
     public void setSubCategoryId(Long subCategoryId) {
         this.subCategoryId = subCategoryId;
-    }
-
-    public int getDesignerRating() {
-        return designerRating;
-    }
-
-    public void setDesignerRating(int designerRating) {
-        this.designerRating = designerRating;
     }
 
     public String getFromPrice() {

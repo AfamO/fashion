@@ -569,6 +569,7 @@ public class ProductServiceImpl implements ProductService {
             products.name=productDTO.name;
             products.amount = productDTO.amount;
             products.availability = productDTO.inStock;
+            products.acceptCustomSizes=productDTO.acceptCustomSizes;
             products.numOfDaysToComplete=productDTO.numOfDaysToComplete;
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.materialPrice=productDTO.materialPrice;
@@ -683,6 +684,7 @@ public class ProductServiceImpl implements ProductService {
             products.name=productDTO.name;
             products.amount = productDTO.amount;
             products.availability = productDTO.inStock;
+            products.acceptCustomSizes=productDTO.acceptCustomSizes;
             products.numOfDaysToComplete = productDTO.numOfDaysToComplete;
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.color = productDTO.color;
@@ -1031,7 +1033,7 @@ public class ProductServiceImpl implements ProductService {
         Double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
         Double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
         try {
-            Page<Products> products = productRepository.findByVerifiedFlagAndNameLikeAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
+            Page<Products> products = productRepository.findByVerifiedFlagAndDesignerStatusAndAmountBetween("Y","A",fromAmount,toAmount,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
 
@@ -1103,14 +1105,14 @@ public class ProductServiceImpl implements ProductService {
 
         int page = filterProductDTO.getPage();
         int size = filterProductDTO.getSize();
+        SubCategory subCategory = subCategoryRepository.findOne(filterProductDTO.getSubCategoryId());
         String name = filterProductDTO.getProductName();
-        SubCategory subCat = subCategoryRepository.findOne(filterProductDTO.getSubCategoryId());
         List<ProductRespDTO> productDTOS = null;
         List<Products> products = null;
         List<Long> ids = null;
 
         if(name != ""){
-            ids = productRepository.findByVerifiedFlagAndDesignerStatusAndNameIsLike(name, subCat);
+            ids = productRepository.findByVerifiedFlagAndDesignerStatusAndNameIsLike(name, subCategory);
         }
 
         if(filterProductDTO.getFromPrice() != null && filterProductDTO.getFromPrice() != ""){
@@ -1118,7 +1120,7 @@ public class ProductServiceImpl implements ProductService {
             double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
 
             if(ids == null){
-                ids = productRepository.filterProductByPrice(fromAmount, toAmount, subCat);
+                ids = productRepository.filterProductByPrice(fromAmount, toAmount, subCategory);
             }else{
                 List<Long> tempIds = new ArrayList<Long>();
                 products = productRepository.findByIdIn(ids);
@@ -1136,7 +1138,7 @@ public class ProductServiceImpl implements ProductService {
             int prodQualityFilter = filterProductDTO.getProductQualityRating();
 
             if(ids == null){
-                products = productRepository.findByVerifiedFlagAndDesignerStatusAndSubCategory("Y", "A", subCat);
+                products = productRepository.findByVerifiedFlagAndDesignerStatusAndSubCategory("Y", "A", subCategory);
                 productDTOS = generalUtil.convertProdEntToProdRespDTOs(products);
                 List<ProductRespDTO> tempProRes = new ArrayList<ProductRespDTO>();
                 for (ProductRespDTO p : productDTOS) {
@@ -1163,8 +1165,6 @@ public class ProductServiceImpl implements ProductService {
         }
 
         if(productDTOS == null){
-            List<Products> idstemp = productRepository.findByIdIn(ids);
-            System.out.println(idstemp);
             productDTOS = generalUtil.convertProdEntToProdRespDTOs(productRepository.findByIdIn(ids));
         }
 

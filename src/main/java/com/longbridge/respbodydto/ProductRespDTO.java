@@ -40,6 +40,8 @@ public class ProductRespDTO {
 
     public int stockNo;
 
+    public String acceptCustomSizes;
+
     public String inStock;
 
     public String status;

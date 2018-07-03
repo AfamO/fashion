@@ -65,6 +65,8 @@ public class Products extends CommonFields implements Serializable {
 
     public String inStock;
 
+    public String acceptCustomSizes;
+
     public String status = "A";
 
     public String verifiedFlag = "N";

@@ -53,6 +53,8 @@ public class Items extends CommonFields{
 
     private String rejectReason;
 
+    private String failedInspectionReason;
+
     @Lob
     private String measurement;
 
@@ -259,6 +261,14 @@ public class Items extends CommonFields{
 
     public void setMaterialPicture(String materialPicture) {
         this.materialPicture = materialPicture;
+    }
+
+    public String getFailedInspectionReason() {
+        return failedInspectionReason;
+    }
+
+    public void setFailedInspectionReason(String failedInspectionReason) {
+        this.failedInspectionReason = failedInspectionReason;
     }
 
     public Items() {
