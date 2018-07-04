@@ -75,6 +75,9 @@ public class OrderServiceImpl implements OrderService {
     UserRepository userRepository;
 
     @Autowired
+    ProductSizesRepository productSizesRepository;
+
+    @Autowired
     private TemplateEngine templateEngine;
 
     @Autowired
@@ -163,6 +166,9 @@ public class OrderServiceImpl implements OrderService {
                 p.numOfTimesOrdered = p.numOfTimesOrdered+1;
                 if(p.stockNo != 0){
                     p.stockNo=p.stockNo-items.getQuantity();
+                    ProductSizes productSizes=productSizesRepository.findByProductsAndName(p,items.getSize());
+                    productSizes.setStockNo(productSizes.getStockNo()-items.getQuantity());
+                    productSizesRepository.save(productSizes);
 
                 }
                 else {
@@ -333,7 +339,7 @@ public class OrderServiceImpl implements OrderService {
             String customerName = customer.lastName+" "+ customer.firstName;
             Context context = new Context();
             context.setVariable("name", customerName);
-            context.setVariable("productName",itemsDTO.getProductName());
+            context.setVariable("productName",items.getProductName());
 
             try {
                 ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
@@ -404,7 +410,7 @@ public class OrderServiceImpl implements OrderService {
                 if(itemsDTO.getStatus().equalsIgnoreCase("D")){
                     items.setItemStatus(itemStatus);
                     //items.setStatusMessage(statusMessage);
-
+                    context.setVariable("link",messageSource.getMessage("order.complain",null, locale));
                     String message = templateEngine.process("oderdeliveredemail", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
 
@@ -420,6 +426,7 @@ public class OrderServiceImpl implements OrderService {
                 itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
                 itemsDTO1.setProductName(itemsDTO.getProductName());
                 itemsDTO1.setAction(itemsDTO.getAction());
+                itemsDTO1.setLink(messageSource.getMessage("order.complain",null, locale));
 
 
             }catch (MailException me){
@@ -827,6 +834,27 @@ itemRepository.save(items);
     }
 
     @Override
+    public void saveUserOrderComplain(ItemsDTO itemsDTO, User user) {
+        try {
+
+            if(itemsDTO.getId() != null) {
+                Items items = itemRepository.findOne(itemsDTO.getId());
+
+                if (items.getItemStatus().getStatus().equalsIgnoreCase("D")) {
+                    items.setComplain(itemsDTO.getComplain());
+
+                    itemRepository.save(items);
+                }
+            }
+
+
+            }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public Boolean orderNumExists(String orderNum) {
         Orders orders = orderRepository.findByOrderNum(orderNum);
         return (orders != null) ? true : false;
@@ -896,6 +924,7 @@ itemRepository.save(items);
         cartDTO.setColor(cart.getColor());
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setSize(cart.getSize());
+        cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
         cartDTO.setMaterialLocation(cart.getMaterialLocation());
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
         cartDTO.setMaterialStatus(cart.getMaterialStatus());

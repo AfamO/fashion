@@ -74,6 +74,8 @@ public class ItemsDTO {
 
     private String accountNumber;
 
+    private String complain;
+
     @JsonIgnore
     private String link;
 
@@ -381,5 +383,13 @@ public class ItemsDTO {
 
     public void setProductAvailability(String productAvailability) {
         this.productAvailability = productAvailability;
+    }
+
+    public String getComplain() {
+        return complain;
+    }
+
+    public void setComplain(String complain) {
+        this.complain = complain;
     }
 }

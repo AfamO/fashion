@@ -4,6 +4,7 @@ import com.longbridge.dto.ArtPictureDTO;
 import com.longbridge.dto.MaterialPictureDTO;
 import com.longbridge.dto.ProductPictureDTO;
 import com.longbridge.models.ProductRating;
+import com.longbridge.models.ProductSizes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,8 @@ public class ProductRespDTO {
     public String designerName;
     public String description;
     public ArrayList<String> color;
-    public ArrayList<String> sizes;
+    //public ArrayList<String> sizes;
+    public List<ProductSizes> productSizes;
     public String styleId;
     public String subCategoryId;
     public String categoryId;

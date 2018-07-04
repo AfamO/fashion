@@ -8,8 +8,6 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class Size extends CommonFields {
-    public String size;
+    public String name;
 
-    @ManyToOne
-    public SubCategory subCategory;
 }

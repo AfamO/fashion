@@ -39,6 +39,10 @@ public class ProductDTO {
 
     public String inStock;
 
+    public String availability;
+
+    public List<ProductSizes> productSizes;
+
     public String acceptCustomSizes;
 
     public String status;
