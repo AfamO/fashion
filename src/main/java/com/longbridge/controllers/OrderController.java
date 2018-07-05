@@ -338,7 +338,7 @@ public class OrderController {
         return response;
     }
 
-    @GetMapping(value = "/{orderNum}/getorder")
+    @GetMapping(value = "/{orderNum}/getorderbyNum")
     public Response getOrderByOrderNumber(HttpServletRequest request, @PathVariable String orderNum){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
