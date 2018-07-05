@@ -28,6 +28,8 @@ public class CartDTO {
 
     private String size;
 
+    private int sizeStockNo;
+
     private String amount;
 
     private String productPicture;
@@ -78,6 +80,14 @@ public class CartDTO {
         this.measurementName = measurementName;
         this.measurementId = measurementId;
         this.stockNo = stockNo;
+    }
+
+    public int getSizeStockNo() {
+        return sizeStockNo;
+    }
+
+    public void setSizeStockNo(int sizeStockNo) {
+        this.sizeStockNo = sizeStockNo;
     }
 
     public User getUser() {

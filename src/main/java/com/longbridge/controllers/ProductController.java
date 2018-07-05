@@ -211,6 +211,7 @@ public class ProductController {
     @PostMapping(value = "/filter")
     public Object filterProductsByPrice(@RequestBody FilterProductDTO filterProductDTO){
         System.out.println("i'm here");
+        System.out.println(filterProductDTO.getSubCategoryId());
         List<ProductRespDTO> products= productService.filterProducts(filterProductDTO);
         Response response = new Response("00","Operation Successful",products);
         return response;
@@ -314,6 +315,24 @@ public class ProductController {
         Response response = new Response("00","Operation Successful",responseMap);
         return response;
     }
+
+
+    @PostMapping(value = "/addproduct2")
+    public Object addProduct2(@RequestBody ProductDTO productDTO, HttpServletRequest request){
+        Map<String,Object> responseMap = new HashMap();
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+        Designer designer = user.designer;
+        if(token==null || user==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        productService.addProduct(productDTO,designer);
+        responseMap.put("success","success");
+        Response response = new Response("00","Operation Successful",responseMap);
+        return response;
+    }
+
+
 
     @GetMapping(value = "/{id}/deleteproduct")
     public Object deleteProduct(@PathVariable Long id, HttpServletRequest request){

@@ -119,7 +119,7 @@ public class WishListServiceImpl implements WishListService{
         productDTO.color=products.color;
         productDTO.description=products.prodDesc;
         productDTO.name=products.name;
-        productDTO.sizes=products.sizes;
+        productDTO.productSizes=products.productSizes;
         productDTO.styleId=products.style.id.toString();
         productDTO.designerId=products.designer.id.toString();
         productDTO.stockNo=products.stockNo;

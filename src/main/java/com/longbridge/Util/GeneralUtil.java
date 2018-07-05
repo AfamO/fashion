@@ -164,7 +164,7 @@ public class GeneralUtil {
         productDTO.color=products.color;
         productDTO.description=products.prodDesc;
         productDTO.name=products.name;
-        productDTO.sizes=products.sizes;
+        productDTO.productSizes=products.productSizes;
         if(products.style != null) {
             productDTO.styleId = products.style.id.toString();
         }
@@ -244,7 +244,7 @@ public class GeneralUtil {
         productDTO.color=products.color;
         productDTO.description=products.prodDesc;
         productDTO.name=products.name;
-        productDTO.sizes=products.sizes;
+        productDTO.productSizes=products.productSizes;
         if(products.style != null) {
             productDTO.styleId = products.style.id.toString();
         }

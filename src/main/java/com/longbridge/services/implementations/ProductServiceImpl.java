@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -88,27 +89,13 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     PriceSlashRepository priceSlashRepository;
 
+    @Autowired
+    ProductSizesRepository productSizesRepository;
+
 //    @Value("${event.picture.folder}")
 //    private String eventPicturesImagePath;
 //
-//
-//    @Value("${artwork.picture.folder}")
-//    private String artworkPictureImagePath;
-//
-//    @Value("${material.picture.folder}")
-//    private String materialPicturesImagePath;
-//
-//    @Value("${product.picture.folder}")
-//    private String productPicturesImagePath;
-//
-//    @Value("${s.artwork.picture.folder}")
-//    private String artworkPictureFolder;
-//
-//    @Value("${s.material.picture.folder}")
-//    private String materialPicturesFolder;
-//
-//    @Value("${s.product.picture.folder}")
-//    private String productPicturesFolder;
+
 
 
     @Override
@@ -575,7 +562,7 @@ public class ProductServiceImpl implements ProductService {
             products.materialPrice=productDTO.materialPrice;
             products.materialName=productDTO.materialName;
             products.color = productDTO.color;
-            products.sizes = productDTO.sizes;
+         //   products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
             products.designer=designer;
 
@@ -585,7 +572,7 @@ public class ProductServiceImpl implements ProductService {
                     products.style = styleRepository.findOne(styleId);
                 }
             }
-            //products.style=styleRepository.findOne(styleId);
+
             products.stockNo=productDTO.stockNo;
             products.inStock=productDTO.inStock;
             products.setCreatedOn(date);
@@ -593,6 +580,14 @@ public class ProductServiceImpl implements ProductService {
 
 
             productRepository.save(products);
+
+            for (ProductSizes p: productDTO.productSizes) {
+                ProductSizes productSizes = new ProductSizes();
+                productSizes.setName(p.getName());
+                productSizes.setStockNo(p.getStockNo());
+                productSizes.setProducts(products);
+                productSizesRepository.save(productSizes);
+            }
 
             if(productDTO.slashedPrice != 0){
                 PriceSlash priceSlash = new PriceSlash();
@@ -688,11 +683,10 @@ public class ProductServiceImpl implements ProductService {
             products.numOfDaysToComplete = productDTO.numOfDaysToComplete;
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.color = productDTO.color;
-            products.sizes = productDTO.sizes;
+//            products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
             products.designer=designer;
             if(!"null".equalsIgnoreCase(productDTO.styleId)) {
-                System.out.println("still entered");
                 if(!productDTO.styleId.isEmpty()) {
                     Long styleId = Long.parseLong(productDTO.styleId);
                     products.style = styleRepository.findOne(styleId);
@@ -701,6 +695,16 @@ public class ProductServiceImpl implements ProductService {
             products.stockNo=productDTO.stockNo;
             products.inStock=productDTO.inStock;
             products.setUpdatedOn(date);
+
+
+            for (ProductSizes p: productDTO.productSizes) {
+                ProductSizes productSizes = new ProductSizes();
+                productSizes.setName(p.getName());
+                productSizes.setStockNo(p.getStockNo());
+                productSizes.setProducts(products);
+                productSizesRepository.save(productSizes);
+            }
+
 
             if(productDTO.slashedPrice != 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);

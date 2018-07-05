@@ -9,4 +9,5 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Size extends CommonFields {
     public String name;
+
 }

@@ -54,8 +54,10 @@ public class Products extends CommonFields implements Serializable {
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     public List<ProductPicture> picture;
 
-    public ArrayList<String> sizes;
+   //public ArrayList<String> sizes;
 
+    @OneToMany (mappedBy = "products")
+    public List<ProductSizes> productSizes;
 
     @OneToOne
     public Style style;
