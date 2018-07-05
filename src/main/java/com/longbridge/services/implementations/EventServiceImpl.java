@@ -303,6 +303,7 @@ public class EventServiceImpl implements EventService {
             if(page > events.getTotalPages()){
                // throw new WawoohException("events not found");
             }
+
             eventsDTOS = convertEntitiesToDTOs(events.getContent());
 
             return eventsDTOS;
@@ -530,6 +531,12 @@ public class EventServiceImpl implements EventService {
         eventsDTO.eventType=events.eventType;
 
         eventsDTO.setMainPicture(events.mainPictureName);
+        int tags = 0;
+        List<EventPictures> ep = events.eventPictures;
+        for (EventPictures e:ep) {
+            tags=tags+pictureTagRepository.countByEventPictures(e);
+        }
+        eventsDTO.totalTags=tags;
         eventsDTO.setEventPictures(convertEvtPicEntToDTOsMin(eventPictureRepository.findFirst6ByEvents(events)));
 
         return eventsDTO;
@@ -588,6 +595,12 @@ public class EventServiceImpl implements EventService {
 
         for(Events events1: events){
             EventsDTO eventsDTO = convertEntityToDTO(events1);
+//            int tags = 0;
+//            List<EventPictures> ep = events1.eventPictures;
+//            for (EventPictures e:ep) {
+//                tags=tags+pictureTagRepository.countByEventPictures(e);
+//            }
+//            eventsDTO.totalTags=tags;
             eventsDTOS.add(eventsDTO);
         }
         return eventsDTOS;

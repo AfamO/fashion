@@ -12,7 +12,7 @@ public class EventsDTO {
     public String eventName;
     public String location;
     public String eventDate;
-
+    public int totalTags;
     public String eventType;
 
     public List<EventPicturesDTO> eventPictures;

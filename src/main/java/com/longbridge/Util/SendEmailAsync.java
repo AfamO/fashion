@@ -10,6 +10,7 @@ import com.longbridge.models.Products;
 import com.longbridge.models.User;
 import com.longbridge.repository.DesignerRepository;
 import com.longbridge.repository.ItemRepository;
+import com.longbridge.repository.OrderRepository;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,10 @@ public class SendEmailAsync {
     @Autowired
     ProductRepository productRepository;
 
+
+    @Autowired
+    OrderRepository orderRepository;
+
     private Locale locale = LocaleContextHolder.getLocale();
 
     @Async
@@ -61,6 +66,7 @@ public class SendEmailAsync {
             try {
                 String mail = user.email;
                 String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
+                orderNumber = orderNumber.substring(0,3);
 
                 link=messageSource.getMessage("order.status.track", null, locale)+encryptedMail+"&orderNum="+orderNumber;
 
