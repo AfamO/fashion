@@ -794,6 +794,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderDTO getOrdersByOrderNum(String orderNumber) {
+        try {
+
+            return convertOrderEntToDTOs(orderRepository.findByOrderNum(orderNumber));
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public ItemsDTO getOrderItemById(Long id) {
         try {
 

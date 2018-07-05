@@ -20,6 +20,8 @@ public class User extends CommonFields{
     public String phoneNo;
     public String role;
 
+    public String dateOfBirth;
+
     public String socialFlag;
 
 //    @JsonIgnore

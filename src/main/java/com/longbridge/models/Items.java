@@ -57,6 +57,7 @@ public class Items extends CommonFields{
 
     private String complain;
 
+
     @Lob
     private String measurement;
 
