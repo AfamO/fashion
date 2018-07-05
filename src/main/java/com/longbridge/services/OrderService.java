@@ -61,6 +61,8 @@ public interface OrderService {
 
     OrderDTO getOrdersById(Long id);
 
+    OrderDTO getOrdersByOrderNum(String orderNumber);
+
     ItemsDTO getOrderItemById(Long id);
 
     void saveUserOrderDecision(ItemsDTO itemsDTO,User user);

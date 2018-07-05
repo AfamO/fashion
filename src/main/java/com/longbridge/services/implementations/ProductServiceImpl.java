@@ -696,14 +696,19 @@ public class ProductServiceImpl implements ProductService {
             products.inStock=productDTO.inStock;
             products.setUpdatedOn(date);
 
-
-            for (ProductSizes p: productDTO.productSizes) {
-                ProductSizes productSizes = new ProductSizes();
-                productSizes.setName(p.getName());
-                productSizes.setStockNo(p.getStockNo());
-                productSizes.setProducts(products);
-                productSizesRepository.save(productSizes);
+            if(productDTO.productSizes != null){
+                List<ProductSizes> sizes=productSizesRepository.findByProducts(products);
+                productSizesRepository.delete(sizes);
+                for (ProductSizes p: productDTO.productSizes) {
+                    ProductSizes productSizes = new ProductSizes();
+                    productSizes.setName(p.getName());
+                    productSizes.setStockNo(p.getStockNo());
+                    productSizes.setProducts(products);
+                    productSizesRepository.save(productSizes);
+                }
             }
+
+
 
 
             if(productDTO.slashedPrice != 0){

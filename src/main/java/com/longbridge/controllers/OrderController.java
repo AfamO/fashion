@@ -338,6 +338,18 @@ public class OrderController {
         return response;
     }
 
+    @GetMapping(value = "/{orderNum}/getorder")
+    public Response getOrderByOrderNumber(HttpServletRequest request, @PathVariable String orderNum){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getOrdersByOrderNum(orderNum));
+        return response;
+    }
+
+
 
     @GetMapping(value = "/{id}/getorderitemdetails")
     public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){
