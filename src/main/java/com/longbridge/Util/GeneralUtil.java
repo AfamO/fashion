@@ -37,19 +37,6 @@ import java.util.Map;
 @Service
 public class GeneralUtil {
 
-//    @Value("${event.picture.folder}")
-//    private String eventPicturesImagePath;
-//
-//
-//    @Value("${artwork.picture.folder}")
-//    private String artworkPictureImagePath;
-//
-//    @Value("${material.picture.folder}")
-//    private String materialPicturesImagePath;
-//
-//    @Value("${product.picture.folder}")
-//    private String productPicturesImagePath;
-//
 //    @Value("${s.artwork.picture.folder}")
 //    private String artworkPictureFolder;
 //
@@ -327,9 +314,6 @@ public class GeneralUtil {
         return eventPicturesDTO;
 
     }
-
-
-
 
 
 
