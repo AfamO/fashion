@@ -174,10 +174,13 @@ public class OrderServiceImpl implements OrderService {
                 else {
                     p.inStock = "N";
                 }
-                productRepository.save(p);
+
                 if(p.stockNo==0){
                     p.inStock = "N";
                 }
+
+                productRepository.save(p);
+
 
             }
 
@@ -410,7 +413,10 @@ public class OrderServiceImpl implements OrderService {
                 if(itemsDTO.getStatus().equalsIgnoreCase("D")){
                     items.setItemStatus(itemStatus);
                     //items.setStatusMessage(statusMessage);
-                    context.setVariable("link",messageSource.getMessage("order.complain",null, locale));
+                    String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
+                    String link = messageSource.getMessage("order.complain",null, locale);
+                    link = link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                    context.setVariable("link",link);
                     String message = templateEngine.process("oderdeliveredemail", context);
                     mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
 
