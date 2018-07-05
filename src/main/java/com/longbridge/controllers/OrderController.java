@@ -345,6 +345,7 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
+        orderNum = "WAW#"+orderNum;
         Response response = new Response("00","Operation Successful",orderService.getOrdersByOrderNum(orderNum));
         return response;
     }
