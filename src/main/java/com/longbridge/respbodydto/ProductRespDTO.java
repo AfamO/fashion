@@ -44,6 +44,8 @@ public class ProductRespDTO {
 
     public String acceptCustomSizes;
 
+    public String availability;
+
     public String inStock;
 
     public String status;
