@@ -19,6 +19,8 @@ import java.util.List;
 public interface PictureTagRepository extends JpaRepository<PictureTag, Long> {
    List<PictureTag> findByEventPictures(EventPictures e);
 
+   int countByEventPictures(EventPictures e);
+
    @Query(value = "select DISTINCT eventPictures.id from PictureTag")
    Page<Long> getTagged(Pageable pageable);
 
