@@ -66,7 +66,7 @@ public class SendEmailAsync {
             try {
                 String mail = user.email;
                 String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
-                orderNumber = orderNumber.substring(0,3);
+                orderNumber = orderNumber.substring(0,4);
 
                 link=messageSource.getMessage("order.status.track", null, locale)+encryptedMail+"&orderNum="+orderNumber;
 
