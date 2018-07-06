@@ -159,6 +159,7 @@ public class GeneralUtil {
         productDTO.designerStatus=products.designer.status;
         productDTO.stockNo=products.stockNo;
         productDTO.inStock=products.inStock;
+        productDTO.availability=products.availability;
         productDTO.acceptCustomSizes=products.acceptCustomSizes;
         productDTO.designerName=products.designer.storeName;
         productDTO.status=products.status;
@@ -239,6 +240,7 @@ public class GeneralUtil {
         productDTO.stockNo=products.stockNo;
         productDTO.inStock=products.inStock;
         productDTO.acceptCustomSizes=products.acceptCustomSizes;
+        productDTO.availability=products.availability;
         productDTO.designerName=products.designer.storeName;
         productDTO.status=products.status;
         productDTO.sponsoredFlag=products.sponsoredFlag;
