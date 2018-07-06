@@ -942,7 +942,8 @@ itemRepository.save(items);
         cartDTO.setColor(cart.getColor());
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setSize(cart.getSize());
-        if(productRepository.findOne(cart.getProductId()).availability != null && productRepository.findOne(cart.getProductId()).availability == "N"){
+        String availability = productRepository.findOne(cart.getProductId()).availability;
+        if(availability != null && availability == "N"){
             cartDTO.setSizeStockNo(10);
         }else{
             cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
