@@ -20,6 +20,8 @@ public class Designer extends CommonFields {
     public String storeName;
     public String address;
     public String status="A";
+    public String accountNumber;
+    public int threshold;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
@@ -27,9 +29,6 @@ public class Designer extends CommonFields {
 
     @OneToMany(mappedBy = "designer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<Products> products;
-
-    public String accountNumber;
-    public int threshold;
 
     public Designer() {
     }

@@ -942,7 +942,13 @@ itemRepository.save(items);
         cartDTO.setColor(cart.getColor());
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setSize(cart.getSize());
-        cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+        String availability = productRepository.findOne(cart.getProductId()).availability;
+        System.out.println(availability);
+        if(availability.equalsIgnoreCase("N")){
+            cartDTO.setSizeStockNo(0);//todo pass threshold
+        }else{
+            cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+        }
         cartDTO.setMaterialLocation(cart.getMaterialLocation());
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
         cartDTO.setMaterialStatus(cart.getMaterialStatus());
