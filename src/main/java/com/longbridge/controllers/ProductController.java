@@ -441,6 +441,21 @@ public class ProductController {
         return response;
     }
 
+    @PostMapping(value = "/updateproductstock")
+    public Object updateProductStock(@RequestBody ProductDTO productDTO, HttpServletRequest request){
+        Map<String,Object> responseMap = new HashMap();
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+        Designer designer = user.designer;
+        if(token==null || user==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        productService.updateProductStock(productDTO, designer);
+        responseMap.put("success", "success");
+        Response response = new Response("00", "Operation Successful", responseMap);
+        return response;
+    }
+
 
 
 

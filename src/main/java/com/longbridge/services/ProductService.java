@@ -27,6 +27,8 @@ public interface ProductService {
 
     void updateProduct(ProductDTO productDTO, Designer designer);
 
+    void updateProductStock(ProductDTO productDTO, Designer designer);
+
     void updateProductImages(ProdPicReqDTO pictureDTO);
 
     void updateArtWorkImages(ArtPicReqDTO artPictureDTO);
