@@ -944,7 +944,7 @@ itemRepository.save(items);
         cartDTO.setSize(cart.getSize());
         String availability = productRepository.findOne(cart.getProductId()).availability;
         if(availability != null && availability == "N"){
-            cartDTO.setSizeStockNo(10);
+            cartDTO.setSizeStockNo(10);//todo pass threshold
         }else{
             cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
         }
