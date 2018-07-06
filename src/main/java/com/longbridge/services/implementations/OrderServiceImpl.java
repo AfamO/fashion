@@ -942,7 +942,11 @@ itemRepository.save(items);
         cartDTO.setColor(cart.getColor());
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setSize(cart.getSize());
-        cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+        if(productRepository.findOne(cart.getProductId()).availability != null && productRepository.findOne(cart.getProductId()).availability == "N"){
+            cartDTO.setSizeStockNo(10);
+        }else{
+            cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+        }
         cartDTO.setMaterialLocation(cart.getMaterialLocation());
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
         cartDTO.setMaterialStatus(cart.getMaterialStatus());
