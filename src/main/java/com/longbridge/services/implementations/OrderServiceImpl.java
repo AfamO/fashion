@@ -920,6 +920,8 @@ itemRepository.save(items);
 
         cartDTO.setProductName(products.name);
 
+        cartDTO.setSlashedPrice(products.priceSlash.getSlashedPrice());
+
         ProductPicture p = productPictureRepository.findFirst1ByProducts(products);
         cartDTO.setProductPicture(p.pictureName);
         cartDTO.setStockNo(products.stockNo);
@@ -943,7 +945,6 @@ itemRepository.save(items);
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setSize(cart.getSize());
         String availability = productRepository.findOne(cart.getProductId()).availability;
-        System.out.println(availability);
         if(availability.equalsIgnoreCase("N")){
             cartDTO.setSizeStockNo(0);//todo pass threshold
         }else{
