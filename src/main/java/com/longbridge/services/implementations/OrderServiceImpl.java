@@ -562,7 +562,7 @@ public class OrderServiceImpl implements OrderService {
             double amount =0;
             Products products = productRepository.findOne(cartTemp.getProductId());
             if(products.priceSlash.getSlashedPrice()!=0){
-                amount=products.priceSlash.getSlashedPrice();
+                amount=products.amount-products.priceSlash.getSlashedPrice();
             }else {
                 amount=products.amount;
             }
