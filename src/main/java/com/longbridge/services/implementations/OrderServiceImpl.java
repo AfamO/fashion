@@ -927,7 +927,13 @@ itemRepository.save(items);
 
         cartDTO.setProductName(products.name);
 
-        cartDTO.setSlashedPrice(products.priceSlash.getSlashedPrice());
+
+        if(products.priceSlash != null) {
+            cartDTO.setSlashedPrice(products.priceSlash.getSlashedPrice());
+        }
+        else {
+            cartDTO.setSlashedPrice(0);
+        }
 
         ProductPicture p = productPictureRepository.findFirst1ByProducts(products);
         cartDTO.setProductPicture(p.pictureName);
