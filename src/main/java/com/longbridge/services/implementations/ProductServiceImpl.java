@@ -758,6 +758,29 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
+    public void updateProductStock(ProductDTO productDTO, Designer designer) {
+        try {
+            Products products = productRepository.findOne(productDTO.id);
+
+            if(productDTO.productSizes != null){
+                List<ProductSizes> sizes=productSizesRepository.findByProducts(products);
+                productSizesRepository.delete(sizes);
+                for (ProductSizes p: productDTO.productSizes) {
+                    ProductSizes productSizes = new ProductSizes();
+                    productSizes.setName(p.getName());
+                    productSizes.setStockNo(p.getStockNo());
+                    productSizes.setProducts(products);
+                    productSizesRepository.save(productSizes);
+                }
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public void updateProductImages(ProdPicReqDTO p) {
         Date date = new Date();
         try {

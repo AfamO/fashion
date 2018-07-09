@@ -19,6 +19,8 @@ public class CartDTO {
 
     private String productName;
 
+    private double slashedPrice;
+
     private int quantity;
 
     private Long designerId;
@@ -264,6 +266,14 @@ public class CartDTO {
 
     public void setDesignerName(String designerName) {
         this.designerName = designerName;
+    }
+
+    public double getSlashedPrice() {
+        return slashedPrice;
+    }
+
+    public void setSlashedPrice(double slashedPrice) {
+        this.slashedPrice = slashedPrice;
     }
 
     public CartDTO() {

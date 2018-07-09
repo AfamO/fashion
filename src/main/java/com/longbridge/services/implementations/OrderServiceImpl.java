@@ -559,7 +559,14 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
 
             Cart cartTemp = cartRepository.findOne(cart.id);
-            double amount =productRepository.findOne(cartTemp.getProductId()).amount;
+            double amount =0;
+            Products products = productRepository.findOne(cartTemp.getProductId());
+            if(products.priceSlash.getSlashedPrice()!=0){
+                amount=products.amount-products.priceSlash.getSlashedPrice();
+            }else {
+                amount=products.amount;
+            }
+
             int qty = cart.getQuantity();
             cartTemp.setQuantity(cart.getQuantity());
             Double newAmount = amount*qty;
@@ -919,6 +926,8 @@ itemRepository.save(items);
         Products products = productRepository.findOne(cart.getProductId());
 
         cartDTO.setProductName(products.name);
+
+        cartDTO.setSlashedPrice(products.priceSlash.getSlashedPrice());
 
         ProductPicture p = productPictureRepository.findFirst1ByProducts(products);
         cartDTO.setProductPicture(p.pictureName);
