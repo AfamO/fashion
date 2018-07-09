@@ -282,7 +282,6 @@ public class UserUtil {
 
     public Response validateUser(User passedUser, Device device){
        // Map<String,Object> responseMap = new HashMap();
-        System.out.println("i got hr");
         LogInResp logInResp=new LogInResp();
         try {
             User user = userRepository.findByEmail(passedUser.email);
@@ -311,6 +310,9 @@ public class UserUtil {
                 }
                 else if(user.role.equalsIgnoreCase("superadmin")){
                     logInResp.setRole(4);
+                }
+                else if(user.role.equalsIgnoreCase("qa")){
+                    logInResp.setRole(5);
                 }
                 else {
                     logInResp.setRole(1);
