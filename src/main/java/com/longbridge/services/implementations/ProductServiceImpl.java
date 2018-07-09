@@ -709,7 +709,7 @@ public class ProductServiceImpl implements ProductService {
             }
 
 
-
+            System.out.println(productDTO.slashedPrice);
 
             if(productDTO.slashedPrice != 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
@@ -740,7 +740,14 @@ public class ProductServiceImpl implements ProductService {
                 }
 
                 priceSlashRepository.save(priceSlash);
+            }else{
+                products.priceSlashEnabled = !true;
+                PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
+                if(priceSlash != null){
+                    priceSlashRepository.delete(priceSlash);
+                }
             }
+
             productRepository.save(products);
 
         }catch (Exception e) {
