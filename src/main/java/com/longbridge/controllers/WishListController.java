@@ -43,6 +43,17 @@ public class WishListController {
         return response;
     }
 
+    @PostMapping(value = "/notifyme")
+    public Response notifyMe(@RequestBody WishListDTO wishListDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",wishListService.notifyMe(wishListDTO,userTemp));
+        return response;
+    }
+
     @PostMapping(value = "/get")
     public Response getWishLists(HttpServletRequest request, @RequestBody PageableDetailsDTO p){
         String token = request.getHeader(tokenHeader);

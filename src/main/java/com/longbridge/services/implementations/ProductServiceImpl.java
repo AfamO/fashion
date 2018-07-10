@@ -550,7 +550,7 @@ public class ProductServiceImpl implements ProductService {
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             ArrayList<String> pics = productDTO.picture;
             ArrayList<String> artWorkPics = productDTO.artWorkPicture;
-            ArrayList<String> materialPics = productDTO.materialPicture;
+            ArrayList<MaterialPictureDTO> materialPics = productDTO.materialPicture;
 
             products.subCategory = subCategoryRepository.findOne(subCategoryId);
             products.name=productDTO.name;
@@ -560,7 +560,7 @@ public class ProductServiceImpl implements ProductService {
             products.numOfDaysToComplete=productDTO.numOfDaysToComplete;
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.materialPrice=productDTO.materialPrice;
-            products.materialName=productDTO.materialName;
+           // products.materialName=productDTO.materialName;
             products.color = productDTO.color;
          //   products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
@@ -633,13 +633,14 @@ public class ProductServiceImpl implements ProductService {
                 productPictureRepository.save(productPicture);
             }
 
-            for(String mp:materialPics){
+            for(MaterialPictureDTO mp:materialPics){
                 MaterialPicture materialPicture = new MaterialPicture();
                 String matName= generalUtil.getPicsName("materialpic",products.name);
                 //materialPicture.pictureName = matName;
-                CloudinaryResponse c= generalUtil.uploadToCloud(mp,matName,"materialpictures");
+                CloudinaryResponse c= generalUtil.uploadToCloud(mp.materialPicture,matName,"materialpictures");
                 materialPicture.pictureName = c.getUrl();
                 materialPicture.picture = c.getPublicId();
+                materialPicture.materialName=mp.materialName;
                 materialPicture.products = products;
                 materialPicture.createdOn = date;
                 materialPicture.setUpdatedOn(date);
@@ -871,6 +872,7 @@ public class ProductServiceImpl implements ProductService {
                     CloudinaryResponse c = generalUtil.uploadToCloud(pp.materialPicture, generalUtil.getPicsName("materialpic", products.name), "materialpictures");
                     materialPicture.pictureName = c.getUrl();
                     materialPicture.picture = c.getPublicId();
+                    materialPicture.materialName=pp.materialName;
 
 
                     materialPictureRepository.save(materialPicture);

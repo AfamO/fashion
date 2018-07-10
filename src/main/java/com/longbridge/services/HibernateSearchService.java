@@ -51,55 +51,55 @@ import java.util.List;
                 e.printStackTrace();
             }
         }
-
-        @Transactional
-        public List<EventsDTO> eventsFuzzySearch(String searchTerm) {
-
-            FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
-            QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Events.class).get();
-            Query luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1).onFields("eventName")
-                    .matching(searchTerm+"*").createQuery();
-
-            javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Events.class);
-
-            // execute search
-
-            List<EventsDTO> events = null;
-            try {
-                events = generalUtil.convertEntitiesToDTOs(jpaQuery.getResultList());
-            } catch (NoResultException nre) {
-                ;// do nothing
-
-            }
-
-            return events;
-
-        }
-
-
-    @Transactional
-    public List<Events> eventsTagFuzzySearch(String searchTerm) {
-
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
-        QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Events.class).get();
-        Query luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1).onFields("eventName")
-                .matching(searchTerm).createQuery();
-
-        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Events.class);
-
-        // execute search
-
-        List<Events> events = null;
-        try {
-            events = jpaQuery.getResultList();
-        } catch (NoResultException nre) {
-            ;// do nothing
-
-        }
-
-        return events;
-
-    }
+//
+//        @Transactional
+//        public List<EventsDTO> eventsFuzzySearch(String searchTerm) {
+//
+//            FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
+//            QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Events.class).get();
+//            Query luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1).onFields("eventName")
+//                    .matching(searchTerm+"*").createQuery();
+//
+//            javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Events.class);
+//
+//            // execute search
+//
+//            List<EventsDTO> events = null;
+//            try {
+//                events = generalUtil.convertEntitiesToDTOs(jpaQuery.getResultList());
+//            } catch (NoResultException nre) {
+//                ;// do nothing
+//
+//            }
+//
+//            return events;
+//
+//        }
+//
+//
+//    @Transactional
+//    public List<Events> eventsTagFuzzySearch(String searchTerm) {
+//
+//        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
+//        QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Events.class).get();
+//        Query luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1).onFields("eventName")
+//                .matching(searchTerm).createQuery();
+//
+//        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Events.class);
+//
+//        // execute search
+//
+//        List<Events> events = null;
+//        try {
+//            events = jpaQuery.getResultList();
+//        } catch (NoResultException nre) {
+//            ;// do nothing
+//
+//        }
+//
+//        return events;
+//
+//    }
 
 
 

@@ -53,8 +53,17 @@ public class OrderController {
         }
         try {
             orderNumber = orderService.addOrder(orders,userTemp);
-            logger.info(orderNumber);
-            Response response = new Response("00","Operation Successful",orderNumber);
+            Response response = null;
+            if(orderNumber.equalsIgnoreCase("false")){
+                response = new Response("99","unable to process order, An item is out of stock","");
+            }
+            else if(orderNumber.equalsIgnoreCase("noitems")){
+                response = new Response("99","unable to process order, No items sent","");
+
+            }
+            else {
+                response = new Response("00", "Operation Successful", orderNumber);
+            }
             return response;
         }catch (AppException e){
             e.printStackTrace();

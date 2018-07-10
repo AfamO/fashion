@@ -13,6 +13,7 @@ public class MaterialPicture extends CommonFields{
     public Long id;
     public String pictureName;
     public String picture;
+    public String materialName;
     @JsonIgnore
     @ManyToOne
     public Products products;
