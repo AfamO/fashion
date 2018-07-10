@@ -15,16 +15,16 @@ import java.util.List;
 /**
  * Created by longbridge on 10/18/17.
  */
-@Indexed
+//@Indexed
 @Entity
 public class Events extends CommonFields {
 
-    @AnalyzerDef(name = "eventTextAnalyzer",
-            tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-            filters = {
-                    @TokenFilterDef(factory = LowerCaseFilterFactory.class),
-                    @TokenFilterDef(factory = StandardFilterFactory.class)
-            })
+//    @AnalyzerDef(name = "eventTextAnalyzer",
+//            tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+//            filters = {
+//                    @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+//                    @TokenFilterDef(factory = StandardFilterFactory.class)
+//            })
 
     public String mainPicture;
 
@@ -35,8 +35,8 @@ public class Events extends CommonFields {
 
     public String location;
 
-    @Field(index= Index.YES, analyze=Analyze.YES, store=Store.NO,
-            analyzer=@Analyzer(definition = "eventTextAnalyzer"))
+//    @Field(index= Index.YES, analyze=Analyze.YES, store=Store.NO,
+//            analyzer=@Analyzer(definition = "eventTextAnalyzer"))
     public String eventName;
 
     public Date eventDate;

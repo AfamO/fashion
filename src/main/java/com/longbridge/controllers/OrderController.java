@@ -57,6 +57,10 @@ public class OrderController {
             if(orderNumber.equalsIgnoreCase("false")){
                 response = new Response("99","unable to process order, An item is out of stock","");
             }
+            else if(orderNumber.equalsIgnoreCase("noitems")){
+                response = new Response("99","unable to process order, No items sent","");
+
+            }
             else {
                 response = new Response("00", "Operation Successful", orderNumber);
             }

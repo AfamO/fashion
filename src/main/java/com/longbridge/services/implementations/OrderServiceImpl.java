@@ -113,6 +113,9 @@ public class OrderServiceImpl implements OrderService {
             Orders orders = new Orders();
             Date date = new Date();
 
+            if(orderReq.getItems().size() <1){
+                return "noitems";
+            }
 
             for (Items items: orderReq.getItems()) {
                 Products p = productRepository.findOne(items.getProductId());

@@ -1,12 +1,15 @@
 package com.longbridge.models;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Created by Longbridge on 10/07/2018.
  */
 @Entity
-public class ZonePriceGIG extends CommonFields{
+public class ZonePriceGIG{
+    @Id
+    private Long id;
     private int fromQuantity;
     private int toQuantity;
     private double zoneOnePrice;
@@ -71,6 +74,14 @@ public class ZonePriceGIG extends CommonFields{
 
     public void setZone(String zone) {
         this.zone = zone;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public ZonePriceGIG() {
