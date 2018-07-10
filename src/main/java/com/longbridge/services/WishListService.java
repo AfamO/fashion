@@ -17,6 +17,8 @@ import java.util.List;
 public interface WishListService {
     String addToWishList(WishListDTO wishListDTO, User user);
 
+    String notifyMe(WishListDTO wishListDTO, User user);
+
     List<WishListDTO> getWishLists(User user, PageableDetailsDTO pageable);
 
     void deleteWishList(Long id);

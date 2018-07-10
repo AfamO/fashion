@@ -3,6 +3,7 @@ package com.longbridge.services.implementations;
 import com.longbridge.dto.*;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
+import com.longbridge.repository.ProductNotificationRepository;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.repository.WishListRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
@@ -30,6 +31,9 @@ public class WishListServiceImpl implements WishListService{
 
     @Autowired
     WishListRepository wishListRepository;
+
+    @Autowired
+    ProductNotificationRepository productNotificationRepository;
 
 
 
@@ -65,6 +69,28 @@ public class WishListServiceImpl implements WishListService{
         }
 
     }
+
+
+    @Override
+    public String notifyMe(WishListDTO wishListDTO, User user) {
+        try {
+
+            ProductNotification productNotification = productNotificationRepository.findByEmailAndProductId(user.email, wishListDTO.getProductId());
+            if (productNotification == null) {
+                productNotification = new ProductNotification();
+                productNotification.setEmail(user.email);
+                productNotification.setProductId(wishListDTO.getProductId());
+                productNotificationRepository.save(productNotification);
+            }
+        }
+            catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+        return "success";
+    }
+
+
 
     @Override
     public List<WishListDTO> getWishLists(User user, PageableDetailsDTO pageable) {
@@ -120,7 +146,12 @@ public class WishListServiceImpl implements WishListService{
         productDTO.description=products.prodDesc;
         productDTO.name=products.name;
         productDTO.productSizes=products.productSizes;
-        productDTO.styleId=products.style.id.toString();
+
+
+        if(products.style != null) {
+            productDTO.styleId = products.style.id.toString();
+        }
+
         productDTO.designerId=products.designer.id.toString();
         productDTO.stockNo=products.stockNo;
         productDTO.inStock=products.inStock;
