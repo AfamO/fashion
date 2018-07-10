@@ -9,6 +9,7 @@ public class MaterialPictureDTO {
     public Long id;
     public Long productId;
     public String materialPicture;
+    public String materialName;
 
     public MaterialPictureDTO() {
     }

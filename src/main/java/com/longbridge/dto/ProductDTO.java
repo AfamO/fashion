@@ -29,7 +29,7 @@ public class ProductDTO {
 
     public ArrayList<String> artWorkPicture;
 
-    public ArrayList<String> materialPicture;
+    public ArrayList<MaterialPictureDTO> materialPicture;
 
     public Double materialPrice;
 
