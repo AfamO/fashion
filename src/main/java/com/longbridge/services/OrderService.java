@@ -47,6 +47,8 @@ public interface OrderService {
 
     List<OrderDTO> getAllOrdersByAdmin2(User user);
 
+    List<ItemsDTO> getAllOrdersByQA(User user);
+
     String addToCart(Cart cart, User user);
 
     String updateCart(Cart cart, User user);

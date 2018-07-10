@@ -561,10 +561,7 @@ public class OrderServiceImpl implements OrderService {
             Cart cartTemp = cartRepository.findOne(cart.id);
             double amount =0;
             Products products = productRepository.findOne(cartTemp.getProductId());
-
-            PriceSlash priceSlash = products.priceSlash;
-
-            if(priceSlash != null && priceSlash.getSlashedPrice() > 0){
+            if(products.priceSlash != null && products.priceSlash.getSlashedPrice()>0){
                 amount=products.amount-products.priceSlash.getSlashedPrice();
             }else {
                 amount=products.amount;
@@ -784,6 +781,18 @@ public class OrderServiceImpl implements OrderService {
         try {
 
             return convertOrderEntsToDTOs(orderRepository.findAll());
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public List<ItemsDTO> getAllOrdersByQA(User user) {
+        try {
+            ItemStatus itemStatus = itemStatusRepository.findByStatus("RI");
+            return convertItemsEntToDTOs(itemRepository.findByItemStatus(itemStatus));
 
         }catch (Exception ex){
             ex.printStackTrace();

@@ -401,6 +401,18 @@ public class OrderController {
         return response;
     }
 
+    @GetMapping(value = "/qa/getorders")
+    public Response getAllOrderItemsQa(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Response response = new Response("00","Operation Successful",orderService.getAllOrdersByQA(userTemp));
+        return response;
+    }
+
+
     @GetMapping(value = "/getactiveorders")
     public Response getActiveOrders(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
