@@ -113,6 +113,14 @@ public class OrderServiceImpl implements OrderService {
             Orders orders = new Orders();
             Date date = new Date();
 
+
+            for (Items items: orderReq.getItems()) {
+                Products p = productRepository.findOne(items.getProductId());
+                if(p.stockNo == 0){
+                    return "false";
+                }
+            }
+
             orders.setCreatedOn(date);
             orders.setUpdatedOn(date);
             orders.setUserId(user.id);
@@ -124,6 +132,7 @@ public class OrderServiceImpl implements OrderService {
 
             orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
             String orderNumber = "";
+
 
             while (!orderNumExists(generateOrderNum())){
                 orderNumber = "WAW#"+generateOrderNum();

@@ -42,15 +42,15 @@ import java.util.List;
         }
 
 
-        public void initializeHibernateSearch() {
-
-            try {
-                FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
-                fullTextEntityManager.createIndexer().startAndWait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        public void initializeHibernateSearch() {
+//
+//            try {
+//                FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
+//                fullTextEntityManager.createIndexer().startAndWait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         @Transactional
         public List<EventsDTO> eventsFuzzySearch(String searchTerm) {

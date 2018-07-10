@@ -21,7 +21,7 @@ public class HibernateSearchConfiguration {
     @Bean
     HibernateSearchService hibernateSearchService() {
         HibernateSearchService hibernateSearchService = new HibernateSearchService(bentityManager);
-        hibernateSearchService.initializeHibernateSearch();
+       // hibernateSearchService.initializeHibernateSearch();
         return hibernateSearchService;
     }
 }

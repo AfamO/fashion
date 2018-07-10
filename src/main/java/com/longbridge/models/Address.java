@@ -18,7 +18,6 @@ public class Address extends CommonFields {
     private String firstName;
     private String lastName;
     private String country;
-    //private String streetAddress;
     private String state;
     private String phoneNo;
     private String city;
