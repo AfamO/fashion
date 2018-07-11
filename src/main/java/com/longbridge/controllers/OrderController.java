@@ -1,10 +1,7 @@
 package com.longbridge.controllers;
 
 import com.longbridge.Util.UserUtil;
-import com.longbridge.dto.CartListDTO;
-import com.longbridge.dto.DesignerOrderDTO;
-import com.longbridge.dto.ItemsDTO;
-import com.longbridge.dto.OrderReqDTO;
+import com.longbridge.dto.*;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
@@ -359,7 +356,37 @@ public class OrderController {
         return response;
     }
 
+    @PostMapping(value = "/savetransferinfo")
+    public Response saveOrderTransferInfo(@RequestBody TransferInfoDTO transferInfoDTO, HttpServletRequest request){
 
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        orderService.saveOrderTransferInfo(transferInfoDTO);
+        return new Response("00", "Operation successful", null);
+    }
+
+    @GetMapping(value = "/{orderNum}/gettransferinfo")
+    public Response getOrderTransferInfo(@PathVariable String orderNum, HttpServletRequest request){
+
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        orderNum = "WAW"+orderNum;
+        return new Response("00", "Operation Successful", orderService.getOrderTransferInfo(orderNum));
+    }
+
+    @GetMapping(value = "/getalltransferinfo")
+    public Response getAllTransferInfo(HttpServletRequest request){
+
+        return new Response("00", "operation successful", orderService.getAllTransferInfo());
+    }
 
     @GetMapping(value = "/{id}/getorderitemdetails")
     public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){
