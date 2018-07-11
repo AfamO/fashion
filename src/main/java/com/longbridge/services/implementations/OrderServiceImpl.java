@@ -955,6 +955,7 @@ itemRepository.save(items);
             transferInfoDTO.setAmountPayed(transferInfo.getAmountPayed());
             transferInfoDTO.setBank(transferInfo.getBank());
             transferInfoDTO.setPaymentNote(transferInfo.getPaymentNote());
+            transferInfoDTO.setOrderNum(transferInfo.getOrders().getOrderNum());
 
             transferInfoDTOS.add(transferInfoDTO);
         }
