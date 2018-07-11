@@ -950,6 +950,7 @@ itemRepository.save(items);
         List<TransferInfoDTO> transferInfoDTOS = new ArrayList<TransferInfoDTO>();
         for (TransferInfo transferInfo : transferInfos) {
             TransferInfoDTO transferInfoDTO = new TransferInfoDTO();
+            transferInfoDTO.setId(transferInfo.id);
             transferInfoDTO.setPaymentDate(transferInfo.getPaymentDate());
             transferInfoDTO.setAccountName(transferInfo.getAccountName());
             transferInfoDTO.setAmountPayed(transferInfo.getAmountPayed());
