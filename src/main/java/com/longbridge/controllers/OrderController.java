@@ -6,6 +6,7 @@ import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.services.OrderService;
+import com.longbridge.services.ShippingPriceService;
 import org.omg.CORBA.portable.ApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,9 @@ public class OrderController {
 
     @Autowired
     MailErrorRepository mailErrorRepository;
+
+    @Autowired
+    ShippingPriceService shippingPriceService;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -388,6 +392,17 @@ public class OrderController {
         return new Response("00", "operation successful", orderService.getAllTransferInfo());
     }
 
+    @PostMapping(value = "/getordershippingprice")
+    public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId(), userTemp));
+    }
+
     @GetMapping(value = "/{id}/getorderitemdetails")
     public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){
         String token = request.getHeader(tokenHeader);
@@ -398,8 +413,6 @@ public class OrderController {
         Response response = new Response("00","Operation Successful",orderService.getOrderItemById(id));
         return response;
     }
-
-
 
     @GetMapping(value = "/getdesignerorders")
     public Response getdesignerOrder(HttpServletRequest request){

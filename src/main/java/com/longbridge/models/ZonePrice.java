@@ -1,22 +1,27 @@
 package com.longbridge.models;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
  * Created by Longbridge on 10/07/2018.
  */
 @Entity
-public class ZonePriceGIG{
+public class ZonePrice {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private int fromQuantity;
     private int toQuantity;
     private double zoneOnePrice;
     private double zoneTwoPrice;
     private double zoneThreePrice;
     private double zoneFourPrice;
-    private String zone;
+    private String source;
 
 
     public int getFromQuantity() {
@@ -68,12 +73,12 @@ public class ZonePriceGIG{
     }
 
 
-    public String getZone() {
-        return zone;
+    public String getSource() {
+        return source;
     }
 
-    public void setZone(String zone) {
-        this.zone = zone;
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public Long getId() {
@@ -84,6 +89,6 @@ public class ZonePriceGIG{
         this.id = id;
     }
 
-    public ZonePriceGIG() {
+    public ZonePrice() {
     }
 }

@@ -73,5 +73,4 @@ public interface OrderService {
     TransferInfoDTO getOrderTransferInfo(String orderNum);
 
     List<TransferInfoDTO> getAllTransferInfo();
-
 }
