@@ -33,7 +33,14 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
         List<Cart> carts = cartRepository.findByUser(user);
         double shippingPriceGIG = 0;
         double shippingPriceDHL = 0;
-        String userCity = addressRepository.findOne(addressId).getCity().toLowerCase();
+        Address userAddress = addressRepository.findOne(addressId);
+        String userCity = "";
+
+        if(userAddress != null){
+            userCity = userAddress.getCity().toLowerCase();
+        }else{
+            return null;
+        }
 
         for (Cart cart : carts) {
 

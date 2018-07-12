@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ShippingRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ZonePriceRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/ShippingPriceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Designer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Designer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/models/ZonePriceGIG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/models/ZonePrice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -62,8 +53,8 @@
       <file leaf-file-name="OrderController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="394" column="48" selection-start-line="394" selection-start-column="27" selection-end-line="394" selection-end-column="48" />
+            <state relative-caret-position="204">
+              <caret line="400" column="9" selection-start-line="400" selection-start-column="9" selection-end-line="400" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -101,8 +92,8 @@
       <file leaf-file-name="ShippingPriceServiceImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-93">
-              <caret line="65" column="17" selection-start-line="65" selection-start-column="17" selection-end-line="65" selection-end-column="17" />
+            <state relative-caret-position="293">
+              <caret line="39" column="59" selection-start-line="39" selection-start-column="59" selection-end-line="39" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -150,7 +141,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/TransferInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/repository/TransferInfoRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/dto/TransferInfoDTO.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/Designer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java" />
@@ -163,8 +153,9 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ShippingRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/ZonePrice.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/Shipping.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ZonePriceRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" />
       </list>
     </option>
@@ -529,12 +520,12 @@
       <workItem from="1531245036245" duration="9125000" />
       <workItem from="1531329618441" duration="6378000" />
       <workItem from="1531350297184" duration="1233000" />
-      <workItem from="1531382917315" duration="19222000" />
+      <workItem from="1531382917315" duration="20376000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45039000" />
+    <option name="totallyTimeSpent" value="46193000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -547,6 +538,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.503125" side_tool="true" weight="0.32991454" />
@@ -566,7 +558,7 @@
       <window_info anchor="bottom" id="Java Enterprise" order="12" weight="0.3294893" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3294893" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.496875" visible="true" weight="0.36757624" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.496875" weight="0.36757624" />
       <window_info anchor="bottom" id="Spring" order="9" weight="0.3294893" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.55698234" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47833332" visible="true" weight="0.30786687" />
@@ -842,13 +834,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="26" selection-start-column="26" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/repository/CartRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -946,13 +931,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="394" column="48" selection-start-line="394" selection-start-column="27" selection-end-line="394" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2129">
@@ -962,13 +940,6 @@
             <element signature="e#33895#33912#0" expanded="true" />
             <element signature="e#35187#35197#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/ShippingPriceService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -996,10 +967,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="27" lean-forward="true" selection-start-column="27" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="400" column="9" selection-start-line="400" selection-start-column="9" selection-end-line="400" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/ShippingPriceService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-93">
-          <caret line="65" column="17" selection-start-line="65" selection-start-column="17" selection-end-line="65" selection-end-column="17" />
+        <state relative-caret-position="293">
+          <caret line="39" column="59" selection-start-line="39" selection-start-column="59" selection-end-line="39" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
