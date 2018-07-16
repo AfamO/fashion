@@ -1,14 +1,12 @@
 package com.longbridge.controllers;
 
 import com.longbridge.Util.UserUtil;
-import com.longbridge.dto.CartListDTO;
-import com.longbridge.dto.DesignerOrderDTO;
-import com.longbridge.dto.ItemsDTO;
-import com.longbridge.dto.OrderReqDTO;
+import com.longbridge.dto.*;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.services.OrderService;
+import com.longbridge.services.ShippingPriceService;
 import org.omg.CORBA.portable.ApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +37,9 @@ public class OrderController {
 
     @Autowired
     MailErrorRepository mailErrorRepository;
+
+    @Autowired
+    ShippingPriceService shippingPriceService;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -359,7 +360,48 @@ public class OrderController {
         return response;
     }
 
+    @PostMapping(value = "/savetransferinfo")
+    public Response saveOrderTransferInfo(@RequestBody TransferInfoDTO transferInfoDTO, HttpServletRequest request){
 
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        orderService.saveOrderTransferInfo(transferInfoDTO);
+        return new Response("00", "Operation successful", null);
+    }
+
+    @GetMapping(value = "/{orderNum}/gettransferinfo")
+    public Response getOrderTransferInfo(@PathVariable String orderNum, HttpServletRequest request){
+
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        orderNum = "WAW"+orderNum;
+        return new Response("00", "Operation Successful", orderService.getOrderTransferInfo(orderNum));
+    }
+
+    @GetMapping(value = "/getalltransferinfo")
+    public Response getAllTransferInfo(HttpServletRequest request){
+
+        return new Response("00", "operation successful", orderService.getAllTransferInfo());
+    }
+
+    @PostMapping(value = "/getordershippingprice")
+    public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId(), userTemp));
+    }
 
     @GetMapping(value = "/{id}/getorderitemdetails")
     public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){
@@ -371,8 +413,6 @@ public class OrderController {
         Response response = new Response("00","Operation Successful",orderService.getOrderItemById(id));
         return response;
     }
-
-
 
     @GetMapping(value = "/getdesignerorders")
     public Response getdesignerOrder(HttpServletRequest request){

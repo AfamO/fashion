@@ -19,6 +19,9 @@ public class Designer extends CommonFields {
     public String publicId;
     public String storeName;
     public String address;
+    public String city;
+    public String state;
+    public String country;
     public String status="A";
     public String accountNumber;
     public int threshold;

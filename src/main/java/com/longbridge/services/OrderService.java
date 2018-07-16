@@ -2,10 +2,7 @@ package com.longbridge.services;
 
 
 import com.longbridge.dto.*;
-import com.longbridge.models.Cart;
-import com.longbridge.models.Orders;
-import com.longbridge.models.Products;
-import com.longbridge.models.User;
+import com.longbridge.models.*;
 import com.longbridge.respbodydto.OrderDTO;
 
 import java.util.List;
@@ -71,4 +68,9 @@ public interface OrderService {
 
     void saveUserOrderComplain(ItemsDTO itemsDTO,User user);
 
+    void saveOrderTransferInfo(TransferInfoDTO transferInfoDTO);
+
+    TransferInfoDTO getOrderTransferInfo(String orderNum);
+
+    List<TransferInfoDTO> getAllTransferInfo();
 }

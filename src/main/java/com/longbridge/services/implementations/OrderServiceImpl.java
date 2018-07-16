@@ -95,6 +95,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     AddressRepository addressRepository;
 
+    @Autowired
+    TransferInfoRepository transferInfoRepository;
+
 //
 //    @Value("${product.picture.folder}")
 //    private String productPicturesFolder;
@@ -904,6 +907,64 @@ itemRepository.save(items);
     }
 
     @Override
+    public void saveOrderTransferInfo(TransferInfoDTO transferInfoDTO) {
+        System.out.println(transferInfoDTO.getOrderNum());
+        if(transferInfoDTO.getOrderNum() != null){
+            Orders orders = orderRepository.findByOrderNum(transferInfoDTO.getOrderNum());
+            if(orders != null){
+                TransferInfo transferInfo = new TransferInfo();
+                transferInfo.setOrders(orders);
+                transferInfo.setPaymentDate(transferInfoDTO.getPaymentDate());
+                transferInfo.setAccountName(transferInfoDTO.getAccountName());
+                transferInfo.setAmountPayed(transferInfoDTO.getAmountPayed());
+                transferInfo.setBank(transferInfoDTO.getBank());
+                transferInfo.setPaymentNote(transferInfoDTO.getPaymentNote());
+
+                transferInfoRepository.save(transferInfo);
+            }
+        }
+    }
+
+    @Override
+    public TransferInfoDTO getOrderTransferInfo(String orderNum) {
+
+        Orders orders = orderRepository.findByOrderNum(orderNum);
+        if(orders != null){
+            TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
+            TransferInfoDTO transferInfoDTO = new TransferInfoDTO();
+            transferInfoDTO.setPaymentDate(transferInfo.getPaymentDate());
+            transferInfoDTO.setAccountName(transferInfo.getAccountName());
+            transferInfoDTO.setAmountPayed(transferInfo.getAmountPayed());
+            transferInfoDTO.setBank(transferInfo.getBank());
+            transferInfoDTO.setPaymentNote(transferInfo.getPaymentNote());
+
+            return transferInfoDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public List<TransferInfoDTO> getAllTransferInfo() {
+
+        List<TransferInfo> transferInfos = transferInfoRepository.findAll();
+        List<TransferInfoDTO> transferInfoDTOS = new ArrayList<TransferInfoDTO>();
+        for (TransferInfo transferInfo : transferInfos) {
+            TransferInfoDTO transferInfoDTO = new TransferInfoDTO();
+            transferInfoDTO.setId(transferInfo.id);
+            transferInfoDTO.setPaymentDate(transferInfo.getPaymentDate());
+            transferInfoDTO.setAccountName(transferInfo.getAccountName());
+            transferInfoDTO.setAmountPayed(transferInfo.getAmountPayed());
+            transferInfoDTO.setBank(transferInfo.getBank());
+            transferInfoDTO.setPaymentNote(transferInfo.getPaymentNote());
+            transferInfoDTO.setOrderNum(transferInfo.getOrders().getOrderNum());
+
+            transferInfoDTOS.add(transferInfoDTO);
+        }
+
+        return transferInfoDTOS;
+    }
+
+    @Override
     public Boolean orderNumExists(String orderNum) {
         Orders orders = orderRepository.findByOrderNum(orderNum);
         return (orders != null) ? true : false;
@@ -985,7 +1046,13 @@ itemRepository.save(items);
         if(availability.equalsIgnoreCase("N")){
             cartDTO.setSizeStockNo(0);//todo pass threshold
         }else{
-            cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+            if(cart.getSize() != null){
+                cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+
+            }
+            else {
+                cartDTO.setSizeStockNo(0);
+            }
         }
         cartDTO.setMaterialLocation(cart.getMaterialLocation());
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
