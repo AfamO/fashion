@@ -37,7 +37,7 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
         String userCity = "";
 
         if(userAddress != null){
-            userCity = userAddress.getCity().toLowerCase();
+            userCity = userAddress.getCity().toUpperCase();
         }else{
             return null;
         }
@@ -45,7 +45,7 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
         for (Cart cart : carts) {
 
             int cartQuantity = cart.getQuantity();
-            String designerCity = productRepository.findOne(cart.getProductId()).designer.city;
+            String designerCity = productRepository.findOne(cart.getProductId()).designer.city.toUpperCase();
             List<Shipping> shippings = shippingRepository.findBySendingAndReceiving(designerCity, userCity);
             System.out.println(designerCity);
             System.out.println(userCity);
