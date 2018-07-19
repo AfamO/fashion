@@ -46,7 +46,9 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
 
             int cartQuantity = cart.getQuantity();
             String designerCity = productRepository.findOne(cart.getProductId()).designer.city.toUpperCase();
-            List<Shipping> shippings = shippingRepository.findBySendingAndReceiving(designerCity, userCity);
+            //List<Shipping> shippings = shippingRepository.findTop5();
+//            List<Shipping> shippings = shippingRepository.getPrice(designerCity, userCity);
+            List<Shipping> shippings = shippingRepository.getPrice(designerCity,userCity);
             System.out.println(designerCity);
             System.out.println(userCity);
             System.out.println(shippings);

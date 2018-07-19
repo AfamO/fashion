@@ -534,8 +534,6 @@ public void updateUser(UserDTO passedUser, User userTemp){
 
 
 
-
-
     private String getCurrentTime(){
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);

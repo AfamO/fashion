@@ -26,6 +26,13 @@ public class Shipping{
     public Shipping() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getSending() {
         return sending;
@@ -60,4 +67,10 @@ public class Shipping{
     }
 
 
+    public Shipping(String sending, String receiving, String zone, String source) {
+        this.sending = sending;
+        this.receiving = receiving;
+        this.zone = zone;
+        this.source = source;
+    }
 }
