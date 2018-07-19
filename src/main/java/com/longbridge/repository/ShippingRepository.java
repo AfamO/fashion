@@ -14,7 +14,7 @@ public interface ShippingRepository extends JpaRepository<Shipping, Long> {
     List<Shipping> findBySendingAndReceiving(String sending, String receiving);
 
 
-    @Query("select s from Shipping s where TRIM(sending) = :sending and TRIM(receiving)  = :receiving")
+    @Query("select s from Shipping s where sending = :sending and receiving = :receiving")
     List<Shipping> getPrice(@Param("sending") String sending, @Param("receiving") String receiving);
 
 }
