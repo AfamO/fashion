@@ -4,8 +4,6 @@ import com.longbridge.dto.DesignerOrderDTO;
 import com.longbridge.dto.ItemsDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.exception.WawoohException;
-import com.longbridge.models.Designer;
-import com.longbridge.models.Likes;
 import com.longbridge.models.Products;
 import com.longbridge.models.User;
 import com.longbridge.repository.DesignerRepository;

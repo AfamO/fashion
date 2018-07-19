@@ -5,8 +5,6 @@ import com.longbridge.models.Likes;
 import com.longbridge.models.User;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
-
 /**
  * Created by adebimpe on 10/11/2017.
  * ilovemycodes

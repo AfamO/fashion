@@ -1,12 +1,9 @@
 package com.longbridge.controllers;
 
-import com.longbridge.models.User;
 import com.longbridge.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.logging.Logger;
 
 /**
  * Created by longbridge on 11/4/17.

@@ -1,23 +1,16 @@
 package com.longbridge.controllers;
 
-import com.longbridge.Util.CustomBeanUtilsBean;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.DesignerDTO;
 import com.longbridge.dto.DesignerRatingDTO;
 import com.longbridge.dto.MonthsDTO;
-import com.longbridge.dto.SalesChart;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
-import com.longbridge.security.JwtUser;
 import com.longbridge.services.DesignerService;
 import com.longbridge.services.OrderService;
 import com.longbridge.services.ProductService;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.modelmapper.ModelMapper;
-import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -25,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**

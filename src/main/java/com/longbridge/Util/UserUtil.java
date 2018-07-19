@@ -15,7 +15,6 @@ import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.security.service.JwtAuthenticationResponse;
 import com.longbridge.services.MailService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -29,11 +28,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -137,7 +131,7 @@ public class UserUtil {
 
                 }catch (MailException me){
                     me.printStackTrace();
-                    throw new AppException("",user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
+                    throw new AppException("",passedUser.firstName + passedUser.lastName,passedUser.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
 
                 }
                 Response response = new Response("00","Registration successful",responseMap);

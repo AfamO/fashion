@@ -1,7 +1,6 @@
 package com.longbridge.respbodydto;
 
 import com.longbridge.dto.ItemsDTO;
-import com.longbridge.models.Items;
 
 import java.util.List;
 

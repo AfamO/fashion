@@ -2,7 +2,6 @@ package com.longbridge.controllers;
 
 import com.longbridge.Util.UserUtil;
 import com.longbridge.models.Address;
-import com.longbridge.models.Events;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.services.AddressService;

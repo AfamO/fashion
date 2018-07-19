@@ -1,7 +1,5 @@
 package com.longbridge.dto;
 
-import java.util.ArrayList;
-
 /**
  * Created by Longbridge on 14/12/2017.
  */

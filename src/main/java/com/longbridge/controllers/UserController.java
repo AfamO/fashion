@@ -5,7 +5,6 @@ import com.longbridge.dto.UserEmailTokenDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.MailError;
 import com.longbridge.models.Response;
-import com.longbridge.models.Token;
 import com.longbridge.models.User;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.security.JwtUser;

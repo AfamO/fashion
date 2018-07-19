@@ -3,7 +3,6 @@ package com.longbridge.services;
 import com.longbridge.dto.DesignerDTO;
 import com.longbridge.dto.DesignerRatingDTO;
 import com.longbridge.dto.MonthsDTO;
-import com.longbridge.dto.SalesChart;
 import com.longbridge.models.Designer;
 import com.longbridge.models.User;
 

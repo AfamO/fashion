@@ -1,8 +1,5 @@
 package com.longbridge.dto;
 
-import com.longbridge.models.EventPictures;
-import com.longbridge.models.User;
-
 /**
  * Created by Longbridge on 10/11/2017.
  */

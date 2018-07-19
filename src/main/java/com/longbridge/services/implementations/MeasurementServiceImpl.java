@@ -3,8 +3,6 @@ package com.longbridge.services.implementations;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.Measurement;
 import com.longbridge.models.User;
-import com.longbridge.repository.CartRepository;
-import com.longbridge.repository.ItemRepository;
 import com.longbridge.repository.MeasurementRepository;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.services.MeasurementService;

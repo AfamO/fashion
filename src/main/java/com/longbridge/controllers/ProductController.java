@@ -81,10 +81,11 @@ public class ProductController {
         User user = userUtil.fetchUserDetails2(token);
         ProductRespDTO products = null;
         if(reviews.isPresent()){
-           products = productService.getProductByIdWithReviews(id,user);
+           products = productService.getProductById(id,user,true);
         }else {
-            products = productService.getProductById(id,user);
+            products = productService.getProductById(id,user,false);
         }
+
         Response response = new Response("00","Operation Successful",products);
         return response;
 
@@ -123,10 +124,11 @@ public class ProductController {
     public Object getProductsByDesigner(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
-        Designer designer = user.designer;
+
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
+        Designer designer = user.designer;
         List<ProductRespDTO> products= productService.getProductsByDesigner(designer.id);
         Response response = new Response("00","Operation Successful",products);
         return response;
@@ -137,10 +139,11 @@ public class ProductController {
     public Response searchProductsByDesigner(@PathVariable String search, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
-        Designer designer = user.designer;
+
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
+        Designer designer = user.designer;
         List<ProductRespDTO> products=searchService.designerProductsFuzzySearch(search,designer);
 
         Response response = new Response("00","Operation Successful",products);
@@ -306,10 +309,11 @@ public class ProductController {
         Map<String,Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
-        Designer designer = user.designer;
+
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
+        Designer designer = user.designer;
         productService.addProduct(productDTO,designer);
         responseMap.put("success","success");
         Response response = new Response("00","Operation Successful",responseMap);
@@ -322,10 +326,11 @@ public class ProductController {
         Map<String,Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
-        Designer designer = user.designer;
+
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
+        Designer designer = user.designer;
         productService.addProduct(productDTO,designer);
         responseMap.put("success","success");
         Response response = new Response("00","Operation Successful",responseMap);
@@ -431,10 +436,11 @@ public class ProductController {
         Map<String,Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
-        Designer designer = user.designer;
+
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
+        Designer designer = user.designer;
         productService.updateProduct(productDTO, designer);
         responseMap.put("success", "success");
         Response response = new Response("00", "Operation Successful", responseMap);
@@ -446,10 +452,11 @@ public class ProductController {
         Map<String,Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
-        Designer designer = user.designer;
+
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
+        Designer designer = user.designer;
         productService.updateProductStock(productDTO, designer);
         responseMap.put("success", "success");
         Response response = new Response("00", "Operation Successful", responseMap);

@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
 

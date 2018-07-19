@@ -10,7 +10,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.SchemaOutputResolver;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -68,11 +67,8 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public boolean isValidated(User user, String token) {
         try {
-            if (tokenRepository.findByUserAndTokenAndValidated(user, token,true)) {
-                return true;
-            } else {
-                return false;
-            }
+
+           return  tokenRepository.findByUserAndTokenAndValidated(user, token,true) ? true : false ;
 
         } catch (Exception ex) {
             ex.printStackTrace();

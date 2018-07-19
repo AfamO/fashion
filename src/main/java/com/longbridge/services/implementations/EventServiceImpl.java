@@ -10,15 +10,10 @@ import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.EventService;
 
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -30,7 +25,6 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.List;
 
 /**
  * Created by Longbridge on 06/11/2017.
@@ -426,7 +420,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public Boolean nameExists(String fileName) {
         EventPictures eventPictures = eventPictureRepository.findByPictureName(fileName);
-        return (eventPictures != null) ? true : false;
+        return eventPictures != null ;
     }
 
 
@@ -466,9 +460,10 @@ public class EventServiceImpl implements EventService {
         try {
             Long eventPictureId = Long.parseLong(commentLikesDTO.getEventPictureId());
             EventPictures e = eventPictureRepository.findOne(eventPictureId);
-            Events events = e.events;
+
 
             if(user != null && e !=null){
+                Events events = e.events;
                 Likes likes = likeRepository.findByUserAndEventPictures(user,e);
                 if(likes != null){
                     likeRepository.delete(likes);

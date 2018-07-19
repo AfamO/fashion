@@ -1,7 +1,5 @@
 package com.longbridge.dto;
 
-import com.longbridge.models.MaterialPicture;
-
 import java.util.List;
 
 /**

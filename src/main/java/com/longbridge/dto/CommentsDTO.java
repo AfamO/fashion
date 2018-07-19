@@ -1,11 +1,5 @@
 package com.longbridge.dto;
 
-import com.longbridge.models.EventPictures;
-import com.longbridge.models.User;
-
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-
 /**
  * Created by Longbridge on 10/11/2017.
  */

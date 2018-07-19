@@ -5,7 +5,6 @@ import com.longbridge.dto.*;
 import com.longbridge.models.Events;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
-import com.longbridge.security.JwtUser;
 import com.longbridge.services.EventService;
 import com.longbridge.services.HibernateSearchService;
 import org.springframework.beans.factory.annotation.Autowired;

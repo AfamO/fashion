@@ -10,13 +10,8 @@ import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.DesignerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;

@@ -7,13 +7,10 @@ import com.longbridge.exception.WriteFileException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
-import com.longbridge.services.HibernateSearchService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -98,27 +95,7 @@ public class ProductServiceImpl implements ProductService {
 
 
 
-    @Override
-    public ProductRespDTO getProductById(Long id,User user) {
 
-        try {
-            Products products = productRepository.findOne(id);
-            ProductRespDTO productDTO = generalUtil.convertEntityToDTO(products);
-            if(user != null){
-                if(wishListRepository.findByUserAndProducts(user,products) != null){
-                    productDTO.wishListFlag="Y";
-                }
-                else {
-                    productDTO.wishListFlag="N";
-                }
-            }
-            //ProductDTO productDTO = convertEntityToDTO(products);
-            return productDTO;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-       throw new WawoohException();
-    }
 
 
     @Override
@@ -144,11 +121,16 @@ public class ProductServiceImpl implements ProductService {
         throw new WawoohException();
     }
 
+
     @Override
-    public ProductRespDTO getProductByIdWithReviews(Long id,User user) {
+    public ProductRespDTO getProductById(Long id,User user, boolean reviewsPresent) {
         try {
             Products products = productRepository.findOne(id);
-            ProductRespDTO productDTO = generalUtil.convertEntityToDTOWithReviews(products);
+            ProductRespDTO productDTO = null;
+            if(reviewsPresent)
+                productDTO = generalUtil.convertEntityToDTOWithReviews(products);
+            else
+                productDTO = generalUtil.convertEntityToDTO(products);
             if(user != null){
                 if(wishListRepository.findByUserAndProducts(user,products) != null){
                     productDTO.wishListFlag="Y";

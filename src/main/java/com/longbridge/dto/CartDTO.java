@@ -1,8 +1,6 @@
 package com.longbridge.dto;
 
 import com.longbridge.models.Address;
-import com.longbridge.models.ArtWorkPicture;
-import com.longbridge.models.MaterialPicture;
 import com.longbridge.models.User;
 
 import java.util.Date;
