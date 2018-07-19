@@ -179,19 +179,22 @@ public class OrderServiceImpl implements OrderService {
 
 
                 p.numOfTimesOrdered = p.numOfTimesOrdered+1;
-                if(p.stockNo != 0){
-                    p.stockNo=p.stockNo-items.getQuantity();
-                    ProductSizes productSizes=productSizesRepository.findByProductsAndName(p,items.getSize());
-                    productSizes.setStockNo(productSizes.getStockNo()-items.getQuantity());
-                    productSizesRepository.save(productSizes);
 
-                }
-                else {
-                    p.inStock = "N";
-                }
 
-                if(p.stockNo==0){
-                    p.inStock = "N";
+                if(items.getMeasurement() == null) {
+                    if (p.stockNo != 0) {
+                        p.stockNo = p.stockNo - items.getQuantity();
+                        ProductSizes productSizes = productSizesRepository.findByProductsAndName(p, items.getSize());
+                        productSizes.setStockNo(productSizes.getStockNo() - items.getQuantity());
+                        productSizesRepository.save(productSizes);
+
+                    } else {
+                        p.inStock = "N";
+                    }
+
+                    if (p.stockNo == 0) {
+                        p.inStock = "N";
+                    }
                 }
 
                 productRepository.save(p);
