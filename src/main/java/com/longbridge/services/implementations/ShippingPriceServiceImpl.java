@@ -56,6 +56,7 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
             for (Shipping shipping : shippings){
 
                 //ZonePrice zonePrice = null;
+                System.out.println(shipping.getSource());
                 if(shipping.getSource() != null) {
                     Double zonePrice = 0.0;
                     int currentShipping = 0;
@@ -76,7 +77,7 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
                     if (shipping.getSource().equals("1")) {
                         shippingPriceGIG += currentShipping;
                     } else if (shipping.getSource().equals("2")) {
-                        shippingPriceDHL += currentShipping;
+                        shippingPriceGIG += currentShipping;
                     } else {
                         return null;
                     }
