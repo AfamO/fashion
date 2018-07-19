@@ -55,35 +55,37 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
 
             for (Shipping shipping : shippings){
 
-                ZonePrice zonePrice = null;
+                //ZonePrice zonePrice = null;
 
-                if(shipping.getSource().equals("1")){
-                    zonePrice = zonePriceRepository.findFirstBySourceAndFromQuantityIsLessThanEqualAndToQuantityIsGreaterThanEqual(shipping.getSource(), cartQuantity, cartQuantity);
-                }else if(shipping.getSource().equals("2")){
-                    zonePrice = zonePriceRepository.findFirstBySourceAndFromQuantityIsLessThanEqualAndToQuantityIsGreaterThanEqual(shipping.getSource(), cartQuantity, cartQuantity);
-                }else{
-                    return null;
+
+
+                if(shipping.getSource() != null) {
+                    Double zonePrice = 0.0;
+                    int currentShipping = 0;
+                    if (shipping.getZone().equals("1")) {
+                        zonePrice = zonePriceRepository.getZoneOnePrice(cartQuantity);
+                        currentShipping += zonePrice;
+                    } else if (shipping.getZone().equals("2")) {
+                        zonePrice = zonePriceRepository.getZoneTwoPrice(cartQuantity);
+                        currentShipping += zonePrice;
+                    } else if (shipping.getZone().equals("3")) {
+                        zonePrice = zonePriceRepository.getZoneThreePrice(cartQuantity);
+                        currentShipping += zonePrice;
+                    } else if (shipping.getZone().equals("4")) {
+                        zonePrice = zonePriceRepository.getZoneFourPrice(cartQuantity);
+                        currentShipping += zonePrice;
+                    }
+
+                    if (shipping.getSource().equals("1")) {
+                        shippingPriceGIG += currentShipping;
+                    } else if (shipping.getSource().equals("2")) {
+                        shippingPriceDHL += currentShipping;
+                    } else {
+                        return null;
+                    }
+
                 }
 
-                int currentShipping = 0;
-
-                if(shipping.getZone().equals("1")){
-                    currentShipping += zonePrice.getZoneOnePrice();
-                }else if(shipping.getZone().equals("2")){
-                    currentShipping += zonePrice.getZoneTwoPrice();
-                }else if(shipping.getZone().equals("3")){
-                    currentShipping += zonePrice.getZoneThreePrice();
-                }else if(shipping.getZone().equals("4")){
-                    currentShipping += zonePrice.getZoneFourPrice();
-                }
-
-                if(shipping.getSource().equals("1")){
-                    shippingPriceGIG += currentShipping;
-                }else if(shipping.getSource().equals("2")){
-                    shippingPriceDHL += currentShipping;
-                }else{
-                    return null;
-                }
             }
         }
 
