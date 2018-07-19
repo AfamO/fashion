@@ -19,9 +19,11 @@ public class Shipping{
 
     private String receiving;
 
+    private String source;
+
     private String zone;
 
-    private String source;
+
 
     public Shipping() {
     }

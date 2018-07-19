@@ -15,11 +15,11 @@ public interface ZonePriceRepository extends JpaRepository<ZonePrice, Long> {
     Double getZoneOnePrice(@Param("quantity") int quantity);
 
     @Query("select z.zoneTwoPrice from ZonePrice z where z.fromQuantity <= :quantity and z.toQuantity >= :quantity")
-    Double getZoneTwoPrice(int quantity);
+    Double getZoneTwoPrice(@Param("quantity") int quantity);
 
     @Query("select z.zoneThreePrice from ZonePrice z where z.fromQuantity <= :quantity and z.toQuantity >= :quantity")
-    Double getZoneThreePrice(int quantity);
+    Double getZoneThreePrice(@Param("quantity") int quantity);
 
     @Query("select z.zoneFourPrice from ZonePrice z where z.fromQuantity <= :quantity and z.toQuantity >= :quantity")
-    Double getZoneFourPrice(int quantity);
+    Double getZoneFourPrice(@Param("quantity") int quantity);
 }
