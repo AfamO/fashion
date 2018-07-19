@@ -56,9 +56,6 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
             for (Shipping shipping : shippings){
 
                 //ZonePrice zonePrice = null;
-
-
-
                 if(shipping.getSource() != null) {
                     Double zonePrice = 0.0;
                     int currentShipping = 0;
@@ -89,10 +86,10 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
             }
         }
 
-        HashMap hm = new HashMap();
-        hm.put("DHL", new Double(shippingPriceDHL));
-        hm.put("GIG", new Double(shippingPriceGIG));
+//        HashMap hm = new HashMap();
+//        hm.put("DHL", new Double(shippingPriceDHL));
+//        hm.put("GIG", new Double(shippingPriceGIG));
 
-        return hm;
+        return shippingPriceGIG;
     }
 }
