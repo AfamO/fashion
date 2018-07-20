@@ -266,20 +266,7 @@ public class GeneralUtil {
 
 
 
-    public void deletePics(String pics, String folder){
 
-        try {
-            File imgFile =new File(folder + pics);
-            System.out.println(imgFile);
-            imgFile.delete();
-
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("Delete operation is failed.");
-            throw new WriteFileException("Delete operation is failed");
-        }
-    }
 
     public String getPicsName(String picsArrayType, String productName){
 
@@ -375,8 +362,8 @@ public class GeneralUtil {
                     "cloud_name", "har9qnw3d",
                     "api_key", "629146977531321",
                     "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
-            Map result = cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
-            return result;
+            return cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();

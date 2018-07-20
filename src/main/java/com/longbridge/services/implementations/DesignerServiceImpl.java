@@ -201,9 +201,9 @@ public class DesignerServiceImpl implements DesignerService{
     @Override
     public void rateDesigner(DesignerRatingDTO ratingDTO) {
         try {
-            int ratingCount = 0;
-            int userCount = 0;
-            Double average = 0.0;
+            int ratingCount;
+            int userCount;
+            Double average;
             //Long userId = designerRepository.findOne(ratingDTO.designerId).userId;
             //User user = userRepository.findOne(userId);
             User user = designerRepository.findOne(ratingDTO.designerId).user;

@@ -20,6 +20,7 @@ public class Hash {
      */
     public static String createPassword(String clearString) throws Exception {
         if (clearString == null) {
+            return null;
         }
         return BCrypt.hashpw(clearString, BCrypt.gensalt());
     }
@@ -27,6 +28,7 @@ public class Hash {
 
     public static String createEncryptedLink(String clearString) throws Exception {
         if (clearString == null) {
+            return null;
         }
         return BCrypt.hashpw(clearString, BCrypt.gensalt());
     }

@@ -33,7 +33,7 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
         double shippingPriceGIG = 0;
         double shippingPriceDHL = 0;
         Address userAddress = addressRepository.findOne(addressId);
-        String userCity = "";
+        String userCity;
 
         if(userAddress != null){
             userCity = userAddress.getCity().toUpperCase().trim();
@@ -57,7 +57,7 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
                 //ZonePrice zonePrice = null;
                 System.out.println(shipping.getSource());
                 if(shipping.getSource() != null) {
-                    Double zonePrice = 0.0;
+                    Double zonePrice;
                     int currentShipping = 0;
                     if (shipping.getZone().equals("1")) {
                         zonePrice = zonePriceRepository.getZoneOnePrice(cartQuantity);

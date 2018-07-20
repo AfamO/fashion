@@ -31,7 +31,7 @@ public class ProductRatingController {
 
     @PostMapping(value = "/{productid}/rateproduct")
     public Response rateProduct(@RequestBody ProductRating productRating, @PathVariable Long productid, HttpServletRequest request){
-        Response response = null;
+        Response response;
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
 

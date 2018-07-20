@@ -43,29 +43,29 @@ public class ProductController {
     @PostMapping(value = "/addcategory")
     public Response addCategory(@RequestBody CategoryDTO categoryDTO){
         productService.addCategory(categoryDTO);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
     }
 
     @PostMapping(value = "/addsubcategory")
     public Response addCategory(@RequestBody SubCategoryDTO subCategoryDTO){
        productService.addSubCategory(subCategoryDTO);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
     }
 
     @PostMapping(value = "/addstyle")
     public Response addStyle(@RequestBody StyleDTO styleDTO){
         productService.addStyle(styleDTO);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
     }
 
     @GetMapping(value = "/{subCategoryId}/getstyles")
     public Object getStyles(@PathVariable Long subCategoryId){
         List<Style> styles= productService.getStyles(subCategoryId);
-        Response response = new Response("00","Operation Successful",styles);
-        return response;
+        return new Response("00","Operation Successful",styles);
+
     }
 
 
@@ -79,15 +79,15 @@ public class ProductController {
 
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
-        ProductRespDTO products = null;
+        ProductRespDTO products;
         if(reviews.isPresent()){
            products = productService.getProductById(id,user,true);
         }else {
             products = productService.getProductById(id,user,false);
         }
 
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
 
     }
 
@@ -103,8 +103,8 @@ public class ProductController {
 
             ProductRespDTO products = productService.getDesignerProductById(id,user1);
 
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
 
     }
 
@@ -130,8 +130,8 @@ public class ProductController {
         }
         Designer designer = user.designer;
         List<ProductRespDTO> products= productService.getProductsByDesigner(designer.id);
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
     }
 
 
@@ -146,8 +146,8 @@ public class ProductController {
         Designer designer = user.designer;
         List<ProductRespDTO> products=searchService.designerProductsFuzzySearch(search,designer);
 
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
     }
 
 
@@ -160,8 +160,8 @@ public class ProductController {
 //            return userUtil.tokenNullOrInvalidResponse(token);
 //        }
         List<ProductRespDTO> products= productService.getProductsByDesigner(designerId);
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
     }
 
 
@@ -169,7 +169,7 @@ public class ProductController {
     public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
-        List<ProductRespDTO> products = new ArrayList<>();
+        List<ProductRespDTO> products;
 //        if(token!=null || userTemp!=null) {
 //            edto = eventService.getEventById(id,userTemp);
 //        }
@@ -177,16 +177,16 @@ public class ProductController {
 //            edto= eventService.getEventById(id);
 //        }
         products= productService.getAllProducts(pageableDetailsDTO);
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
     }
 
 
     @PostMapping(value = "/getnewproducts")
     public Object getNewProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<ProductRespDTO> products= productService.getNewProducts(pageableDetailsDTO);
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
     }
 
 //    @PostMapping(value = "/getacceptedproducts")
@@ -216,15 +216,15 @@ public class ProductController {
         System.out.println("i'm here");
         System.out.println(filterProductDTO.getSubCategoryId());
         List<ProductRespDTO> products= productService.filterProducts(filterProductDTO);
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
     }
 
     @PostMapping(value = "/getproductsbysub")
     public Object getProductsBySub(@RequestBody ProdSubCategoryDTO p){
         List<ProductRespDTO> products= productService.getProductsBySubCatId(p);
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
     }
 
 
@@ -239,8 +239,8 @@ public class ProductController {
     @PostMapping(value = "/gettagproducts")
     public Object getProductsBySub(@RequestBody PicTagDTO picTagDTO){
         List<ProductRespDTO> products= productService.getTagProducts(picTagDTO);
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
     }
 
 
@@ -252,54 +252,54 @@ public class ProductController {
             user = userUtil.fetchUserDetails2(token);
         }
         List<ProductRespDTO> products= productService.getDesignerProductsBySubCatId(p,user);
-        Response response = new Response("00","Operation Successful",products);
-        return response;
+        return new Response("00","Operation Successful",products);
+
     }
 
 
     @GetMapping(value = "/getcategories")
     public Object getCategories(){
         List<Category> categories =  productService.getAllCategories();
-        Response response = new Response("00","Operation Successful",categories);
-        return response;
+        return new Response("00","Operation Successful",categories);
+
     }
 
 
     @GetMapping(value = "/{categoryId}/getsubcategories")
     public Object getSubCategories(@PathVariable Long categoryId){
         List<SubCategory> subCategories = productService.getSubCategories(categoryId);
-        Response response = new Response("00","Operation Successful",subCategories);
-        return response;
+        return new Response("00","Operation Successful",subCategories);
+
     }
 
 
     @PostMapping(value = "/addTag")
     public Response addTag(@RequestBody PictureTagDTO pictureTagDTO){
         productService.addPictureTag(pictureTagDTO);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
 
     }
 
     @GetMapping(value = "/{id}/deletetag")
     public Response deleteTag(@PathVariable Long id){
         productService.deletePictureTag(id);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
     }
 
     @GetMapping(value = "/{id}/gettag")
     public Response getTag(@PathVariable Long id){
-        Response response = new Response("00","Operation Successful",productService.getPictureTagById(id));
-        return response;
+        return new Response("00","Operation Successful",productService.getPictureTagById(id));
+
     }
 
 
     @GetMapping(value = "/{eventPictureId}/gettags")
     public Object getTags(@PathVariable Long eventPictureId){
         PictureTagDTO pictureTags=productService.getPictureTags(eventPictureId);
-        Response response = new Response("00","Operation Successful",pictureTags);
-        return response;
+        return new Response("00","Operation Successful",pictureTags);
+
     }
 
 
@@ -316,8 +316,8 @@ public class ProductController {
         Designer designer = user.designer;
         productService.addProduct(productDTO,designer);
         responseMap.put("success","success");
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
 
@@ -333,8 +333,8 @@ public class ProductController {
         Designer designer = user.designer;
         productService.addProduct(productDTO,designer);
         responseMap.put("success","success");
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
 
@@ -349,8 +349,8 @@ public class ProductController {
         }
         productService.deleteProduct(id);
         responseMap.put("success","success");
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
 
@@ -365,8 +365,8 @@ public class ProductController {
         }
         productService.deleteProductImage(id);
         responseMap.put("success","success");
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
     @PostMapping(value = "/deleteproductimage")
@@ -379,8 +379,8 @@ public class ProductController {
         }
         productService.deleteProductImages(pictureIdListDTO);
         responseMap.put("success","success");
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
 
@@ -394,8 +394,8 @@ public class ProductController {
         }
         productService.deleteArtWorkImages(pictureIdListDTO);
         responseMap.put("success","success");
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
     @PostMapping(value = "/deletematerialimage")
@@ -408,8 +408,8 @@ public class ProductController {
         }
         productService.deleteMaterialImages(pictureIdListDTO);
         responseMap.put("success","success");
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
 
@@ -418,8 +418,8 @@ public class ProductController {
         Map<String,Object> responseMap = new HashMap();
         List<ProductRespDTO> products=searchService.productsFuzzySearch(search);
         responseMap.put("result",products);
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
     @PostMapping(value = "/filterproduct")
@@ -443,8 +443,8 @@ public class ProductController {
         Designer designer = user.designer;
         productService.updateProduct(productDTO, designer);
         responseMap.put("success", "success");
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
     }
 
     @PostMapping(value = "/updateproductstock")
@@ -459,8 +459,8 @@ public class ProductController {
         Designer designer = user.designer;
         productService.updateProductStock(productDTO, designer);
         responseMap.put("success", "success");
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
     }
 
 
@@ -476,8 +476,8 @@ public class ProductController {
         }
         productService.updateProductImages(prodPicReqDTO);
         responseMap.put("success", "success");
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
     }
 
     @PostMapping(value = "/updateproductartwork")
@@ -490,8 +490,8 @@ public class ProductController {
         }
         productService.updateArtWorkImages(artPicReqDTO);
         responseMap.put("success", "success");
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
     }
 
     @PostMapping(value = "/updateproductmaterial")
@@ -504,8 +504,8 @@ public class ProductController {
         }
         productService.updateMaterialImages(matPicReqDTO);
         responseMap.put("success", "success");
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
     }
 
 
@@ -521,8 +521,8 @@ public class ProductController {
         }
         productService.updateProductVisibility(id,status);
         responseMap.put("success", "success");
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
     }
 
     @GetMapping(value = "/{id}/verifyproduct/{flag}")
@@ -535,8 +535,8 @@ public class ProductController {
 //        }
         productService.updateProductStatus(id,flag);
         responseMap.put("success", "success");
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
     }
 
     @GetMapping(value = "/{id}/sponsor/{flag}")
@@ -549,36 +549,36 @@ public class ProductController {
 //        }
         productService.sponsorProduct(id,flag);
         responseMap.put("success", "success");
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
     }
 
     @PostMapping(value = "/getuntagged")
     public Response getUntaggedPictures(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<EventPicturesDTO> eventpictures = productService.getUntaggedPictures(pageableDetailsDTO);
-        Response response = new Response("00", "Operation Successful", eventpictures);
-        return response;
+        return new Response("00", "Operation Successful", eventpictures);
+
     }
 
     @PostMapping(value = "/gettagged")
     public Response getTaggedPictures(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<EventPicturesDTO> eventpictures = productService.getTaggedPictures(pageableDetailsDTO);
-        Response response = new Response("00", "Operation Successful", eventpictures);
-        return response;
+        return new Response("00", "Operation Successful", eventpictures);
+
     }
 
     @GetMapping(value = "/{eventid}/getuntagged")
     public Response getUntaggedPicturesByEvent(@PathVariable Long eventid){
         List<EventPicturesDTO> eventpictures = productService.getUntaggedPicturesByEvents(eventid);
-        Response response = new Response("00", "Operation Successful", eventpictures);
-        return response;
+        return new Response("00", "Operation Successful", eventpictures);
+
     }
 
     @GetMapping(value = "/{eventid}/gettagged")
     public Response getTaggedPicturesByEvent(@PathVariable Long eventid){
         List<EventPicturesDTO> eventpictures = productService.getTaggedPicturesByEvents(eventid);
-        Response response = new Response("00", "Operation Successful", eventpictures);
-        return response;
+        return new Response("00", "Operation Successful", eventpictures);
+
     }
 
     //todo later
@@ -599,16 +599,16 @@ public class ProductController {
 //        String token = request.getHeader(tokenHeader);
 //        User user = userUtil.fetchUserDetails2(token);
         // List<ProductRespDTO> products = new ArrayList<>();
-        Response response = new Response("00", "Operation Successful", productService.getFreqBoughtProducts());
-        return response;
+        return new Response("00", "Operation Successful", productService.getFreqBoughtProducts());
+
     }
 
     @GetMapping(value = "/getfeaturedproducts")
     public Response getFeaturedProducts(HttpServletRequest request){
 //        String token = request.getHeader(tokenHeader);
 //        User user = userUtil.fetchUserDetails2(token);
-        Response response = new Response("00", "Operation Successful", productService.getFeaturedProducts());
-        return response;
+        return new Response("00", "Operation Successful", productService.getFeaturedProducts());
+
     }
 
 

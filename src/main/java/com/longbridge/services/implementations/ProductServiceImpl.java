@@ -126,7 +126,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductRespDTO getProductById(Long id,User user, boolean reviewsPresent) {
         try {
             Products products = productRepository.findOne(id);
-            ProductRespDTO productDTO = null;
+            ProductRespDTO productDTO;
             if(reviewsPresent)
                 productDTO = generalUtil.convertEntityToDTOWithReviews(products);
             else
@@ -192,12 +192,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    @SuppressWarnings("UnusedAssignment")
     @Override
     public void addPictureTag(PictureTagDTO pictureTagDTO) {
 
         try {
-            Long designerId=0L;
-            Long productId=0L;
+            Long designerId;
+            Long productId;
             Long subCategoryId=0L;
             Date date = new Date();
 
@@ -1131,14 +1132,14 @@ public class ProductServiceImpl implements ProductService {
         SubCategory subCategory = subCategoryRepository.findOne(filterProductDTO.getSubCategoryId());
         String name = filterProductDTO.getProductName();
         List<ProductRespDTO> productDTOS = null;
-        List<Products> products = null;
+        List<Products> products;
         List<Long> ids = null;
 
-        if(name != ""){
+        if(!name .equalsIgnoreCase("") ){
             ids = productRepository.findByVerifiedFlagAndDesignerStatusAndNameIsLike(name, subCategory);
         }
 
-        if(filterProductDTO.getFromPrice() != null && filterProductDTO.getFromPrice() != ""){
+        if(filterProductDTO.getFromPrice() != null && !filterProductDTO.getFromPrice().equalsIgnoreCase("")){
             double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
             double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
 
@@ -1204,7 +1205,7 @@ public class ProductServiceImpl implements ProductService {
 
         int page = Integer.parseInt(p.page);
         int size = Integer.parseInt(p.size);
-        Page<Products> products= null;
+        Page<Products> products;
         try {
             SubCategory subCategory = subCategoryRepository.findOne(p.subcategoryId);
                 products = productRepository.findBySubCategoryAndVerifiedFlagAndDesigner_Status(new PageRequest(page, size), subCategory, "Y","A");
@@ -1388,7 +1389,7 @@ public class ProductServiceImpl implements ProductService {
 
         int page = Integer.parseInt(p.page);
         int size = Integer.parseInt(p.size);
-        Page<Products> products= null;
+        Page<Products> products;
         Designer designer = null;
         System.out.println(p.subcategoryId);
         try {
@@ -1463,7 +1464,7 @@ public class ProductServiceImpl implements ProductService {
     public List<EventPicturesDTO> getUntaggedPicturesByEvents(Long id) {
 
         List<EventPicturesDTO> ev = new ArrayList<>();
-        List<EventPictures> e = null;
+        List<EventPictures> e;
         try {
 //            List<Events> events=eventRepository.eventsTagFuzzySearch(search);
 //            if(events != null) {
@@ -1494,7 +1495,7 @@ public class ProductServiceImpl implements ProductService {
     public List<EventPicturesDTO> getTaggedPicturesByEvents(Long id) {
 
         List<EventPicturesDTO> ev = new ArrayList<>();
-        List<EventPictures> e = null;
+        List<EventPictures> e;
         try {
 //            List<Events> events=searchService.eventsTagFuzzySearch(search);
 //            if(events != null) {
@@ -1583,21 +1584,6 @@ public class ProductServiceImpl implements ProductService {
 
         return pictureTagDTO;
 
-    }
-
-
-    private void deletePics(String pics, String folder){
-
-            try {
-                File imgFile =new File(folder + pics);
-                imgFile.delete();
-
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-                System.out.println("Delete operation is failed.");
-                throw new WriteFileException("Delete operation is failed");
-            }
     }
 
 

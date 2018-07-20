@@ -257,9 +257,7 @@ public class EventServiceImpl implements EventService {
             Date date2 = Date.from(endDateMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
             //Page<Events> events = eventRepository.findByEventDateBetween(date1,date2,new PageRequest(page,size));
             Page<Events> events = eventRepository.findByEventDateBetweenOrderByEventDateDesc(date1,date2,new PageRequest(page,size));
-            if(page > events.getTotalPages()){
-                //throw new WawoohException("events not found");
-            }
+
             List<EventsDTO> eventsDTOS = convertEntitiesToDTOs(events.getContent());
             return eventsDTOS;
         }catch (Exception ex){
@@ -275,8 +273,8 @@ public class EventServiceImpl implements EventService {
 
         int page = Integer.parseInt(eventDateDTO.getPage());
         int size = Integer.parseInt(eventDateDTO.getSize());
-        List<EventsDTO> eventsDTOS = new ArrayList<>();
-        Page<Events> events = null;
+        List<EventsDTO> eventsDTOS;
+        Page<Events> events;
 
         try {
             if(eventDateDTO.eventType.equalsIgnoreCase("A")) {
@@ -292,10 +290,6 @@ public class EventServiceImpl implements EventService {
             }
             else {
                 events = eventRepository.findAll(new PageRequest(page, size));
-            }
-
-            if(page > events.getTotalPages()){
-               // throw new WawoohException("events not found");
             }
 
             eventsDTOS = convertEntitiesToDTOs(events.getContent());
@@ -396,11 +390,7 @@ public class EventServiceImpl implements EventService {
 
     }
 
-    private String getFileName(String file){
-        File f = new File(file);
-        String fileName = f.getName();
-        return fileName;
-    }
+
 
     private String getCurrentTime(){
         Calendar now = Calendar.getInstance();
@@ -411,8 +401,8 @@ public class EventServiceImpl implements EventService {
         int minute = now.get(Calendar.MINUTE);
         int second = now.get(Calendar.SECOND);
         int millis = now.get(Calendar.MILLISECOND);
-        String cTime = year+""+month+""+day+""+hour+""+minute+""+second+""+millis;
-        return cTime;
+        return year+""+month+""+day+""+hour+""+minute+""+second+""+millis;
+        //return cTime;
     }
 
 
