@@ -122,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
 
             for (Items items: orderReq.getItems()) {
                 Products p = productRepository.findOne(items.getProductId());
-                if(p.stockNo == 0 && items.getMeasurement() == null ){
+                if(p.stockNo == 0 && items.getMeasurementId() == null ){
                     return "false";
                 }
             }
