@@ -1,9 +1,5 @@
 package com.longbridge.dto;
 
-import com.longbridge.models.Comments;
-import com.longbridge.models.Events;
-import com.longbridge.models.Likes;
-
 import java.util.List;
 
 /**

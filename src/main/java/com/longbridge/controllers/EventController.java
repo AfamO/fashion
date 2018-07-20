@@ -5,7 +5,6 @@ import com.longbridge.dto.*;
 import com.longbridge.models.Events;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
-import com.longbridge.security.JwtUser;
 import com.longbridge.services.EventService;
 import com.longbridge.services.HibernateSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +43,8 @@ public class EventController {
 
         Map<String, Object> responseMap = new HashMap();
             eventService.createEvent(events);
-            Response response = new Response("00", "Operation Successful", responseMap);
-            return response;
+        return new Response("00", "Operation Successful", responseMap);
+
 
     }
 
@@ -53,8 +52,8 @@ public class EventController {
     public Response updateEvent(@RequestBody Events events){
         Map<String, Object> responseMap = new HashMap();
         eventService.updateEvent(events);
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
 
     }
 
@@ -62,8 +61,8 @@ public class EventController {
     public Response updateEventPictures(@RequestBody Events events){
         Map<String, Object> responseMap = new HashMap();
         eventService.updateEventPictures(events);
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
 
     }
 
@@ -71,16 +70,16 @@ public class EventController {
     public Response updateEventPictures(@RequestBody ProductPictureIdListDTO pictureIdListDTO){
         Map<String, Object> responseMap = new HashMap();
         eventService.deleteEventPictures(pictureIdListDTO);
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
 
     }
 
     @GetMapping(value = "/{id}/delete")
     public Response deleteEvent(@PathVariable Long id){
         eventService.deleteEvent(id);
-        Response response = new Response("00", "Operation Successful", "success");
-        return response;
+        return new Response("00", "Operation Successful", "success");
+
 
     }
 
@@ -90,8 +89,8 @@ public class EventController {
         Map<String,Object> responseMap = new HashMap();
             List<EventsDTO> eventsDTOS=eventService.getTopFiveEventMainPictures();
             responseMap.put("firstFiveEvent",eventsDTOS);
-            Response response = new Response("00","Operation Successful",responseMap);
-            return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
 
@@ -111,8 +110,7 @@ public class EventController {
         Map<String,Object> responseMap = new HashMap();
         List<EventsDTO> eventsDTOS=eventService.searchEvents(search);
         responseMap.put("result",eventsDTOS);
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
     }
 
     @PostMapping(value = "/geteventbydate")
@@ -120,8 +118,8 @@ public class EventController {
         Map<String,Object> responseMap = new HashMap();
         List<EventsDTO> eventsDTOS= eventService.getEventByDate(date);
         responseMap.put("events",eventsDTOS);
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
 
@@ -130,8 +128,8 @@ public class EventController {
         Map<String,Object> responseMap = new HashMap();
         List<EventsDTO> eventsDTOS = eventService.getEvents(eventDateDTO);
         responseMap.put("events",eventsDTOS);
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
 
@@ -141,7 +139,7 @@ public class EventController {
         Map<String,Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
-        List<EventPicturesDTO> edto = new ArrayList<>();
+        List<EventPicturesDTO> edto;
         if(token!=null || userTemp!=null) {
             edto = eventService.getEventById(id,userTemp);
         }
@@ -149,15 +147,15 @@ public class EventController {
              edto= eventService.getEventById(id);
         }
         responseMap.put("event",edto);
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
     //to be revisited
     @GetMapping(value = "/{id}/geteventpicturebyid")
     public Object getEventPictureById(@PathVariable Long id, HttpServletRequest request){
         Map<String,Object> responseMap = new HashMap();
-        EventPicturesDTO eventPicture= new EventPicturesDTO();
+        EventPicturesDTO eventPicture;
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
         if(token!=null || userTemp!=null){
@@ -168,8 +166,8 @@ public class EventController {
         }
 
         responseMap.put("eventpicture",eventPicture);
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
 
     }
 
@@ -184,8 +182,8 @@ public class EventController {
         }
         List<CommentsDTO> comments= eventService.addComment(commentLikesDTO, userTemp);
         responseMap.put("comments",comments);
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
     @PostMapping(value = "/addlike")
@@ -198,8 +196,8 @@ public class EventController {
         }
         String noOfLikes = eventService.addLike(commentLikesDTO, userTemp);
         responseMap.put("likes",noOfLikes);
-        Response response = new Response("00","Operation Successful",responseMap);
-        return response;
+        return new Response("00","Operation Successful",responseMap);
+
     }
 
 

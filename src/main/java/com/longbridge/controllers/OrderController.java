@@ -7,14 +7,12 @@ import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.services.OrderService;
 import com.longbridge.services.ShippingPriceService;
-import org.omg.CORBA.portable.ApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +52,7 @@ public class OrderController {
         }
         try {
             orderNumber = orderService.addOrder(orders,userTemp);
-            Response response = null;
+            Response response;
             if(orderNumber.equalsIgnoreCase("false")){
                 response = new Response("99","unable to process order, An item is out of stock","");
             }
@@ -88,8 +86,8 @@ public class OrderController {
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);
             mailErrorRepository.save(mailError);
-            Response response = new Response("00", "Operation Successful, Trying to send email", orderNumber);
-            return response;
+            return new Response("00", "Operation Successful, Trying to send email", orderNumber);
+
         }
 
     }
@@ -130,8 +128,8 @@ public class OrderController {
             mailError.setWaitTime(e.getItemsDTO().getWaitTime());
             mailError.setMailType("adminConfirmOrRejectItem");
             mailErrorRepository.save(mailError);
-            Response response = new Response("00", "Operation Successful, Trying to send email", "success");
-            return response;
+            return new Response("00", "Operation Successful, Trying to send email", "success");
+
         }
 
 
@@ -152,8 +150,8 @@ public class OrderController {
             }
 
         orderService.saveUserOrderDecision(item,userTemp);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
 
     }
 
@@ -166,8 +164,8 @@ public class OrderController {
         }
 
         orderService.saveUserOrderComplain(item,userTemp);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
 
     }
 
@@ -183,8 +181,8 @@ public class OrderController {
                 return userUtil.tokenNullOrInvalidResponse(token);
             }
             orderService.updateOrderItemByAdmin(item,userTemp);
-            Response response = new Response("00","Operation Successful","success");
-            return response;
+            return new Response("00","Operation Successful","success");
+
         }catch (AppException e){
             e.printStackTrace();
             String recipient = e.getRecipient();
@@ -196,8 +194,8 @@ public class OrderController {
             mailError.setSubject(subject);
             mailError.setMailType("adminConfirmOrRejectItem");
             mailErrorRepository.save(mailError);
-            Response response = new Response("00", "Operation Successful, Trying to send email", "success");
-            return response;
+            return new Response("00", "Operation Successful, Trying to send email", "success");
+
         }
 
     }
@@ -212,8 +210,8 @@ public class OrderController {
                 return userUtil.tokenNullOrInvalidResponse(token);
             }
             orderService.updateOrderByAdmin(orderReqDTO,userTemp);
-            Response response = new Response("00","Operation Successful","success");
-            return response;
+            return new Response("00","Operation Successful","success");
+
         }catch (AppException e){
             e.printStackTrace();
             String recipient = e.getRecipient();
@@ -226,8 +224,8 @@ public class OrderController {
             mailError.setLink(e.getLink());
             mailError.setMailType("adminConfirmOrRejectItem");
             mailErrorRepository.save(mailError);
-            Response response = new Response("00", "Operation Successful, Trying to send email", "success");
-            return response;
+            return new Response("00", "Operation Successful, Trying to send email", "success");
+
         }
 
     }
@@ -243,8 +241,7 @@ public class OrderController {
                 return userUtil.tokenNullOrInvalidResponse(token);
             }
             orderService.userRejectDecision(itemsDTO,userTemp);
-            Response response = new Response("00","Operation Successful","success");
-            return response;
+        return new Response("00","Operation Successful","success");
 
 
     }
@@ -259,8 +256,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.addToCart(cart,userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.addToCart(cart,userTemp));
+
     }
 
 
@@ -272,8 +269,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.updateCart(cart,userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.updateCart(cart,userTemp));
+
     }
 
 
@@ -284,8 +281,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.addItemsToCart(cartListDTO,userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.addItemsToCart(cartListDTO,userTemp));
+
     }
 
     @GetMapping(value = "/getcart")
@@ -295,8 +292,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getCarts(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getCarts(userTemp));
+
     }
 
     @GetMapping(value = "/{cartid}/deletecart")
@@ -307,8 +304,8 @@ public class OrderController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         orderService.deleteCart(cartid);
-        Response response = new Response("00","Operation Successful", "success");
-        return response;
+        return new Response("00","Operation Successful", "success");
+
     }
 
 
@@ -320,8 +317,8 @@ public class OrderController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         orderService.emptyCart(userTemp);
-        Response response = new Response("00","Operation Successful", "success");
-        return response;
+        return new Response("00","Operation Successful", "success");
+
     }
 
 
@@ -333,8 +330,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getOrdersByUser(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getOrdersByUser(userTemp));
+
     }
 
     @GetMapping(value = "/{id}/getorder")
@@ -344,8 +341,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getOrdersById(id));
-        return response;
+        return new Response("00","Operation Successful",orderService.getOrdersById(id));
+
     }
 
     @GetMapping(value = "/{orderNum}/getorderbyNum")
@@ -356,8 +353,8 @@ public class OrderController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         orderNum = "WAW#"+orderNum;
-        Response response = new Response("00","Operation Successful",orderService.getOrdersByOrderNum(orderNum));
-        return response;
+        return new Response("00","Operation Successful",orderService.getOrdersByOrderNum(orderNum));
+
     }
 
     @PostMapping(value = "/savetransferinfo")
@@ -410,8 +407,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getOrderItemById(id));
-        return response;
+        return new Response("00","Operation Successful",orderService.getOrderItemById(id));
+
     }
 
     @GetMapping(value = "/getdesignerorders")
@@ -422,8 +419,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getOrdersByDesigner(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getOrdersByDesigner(userTemp));
+
     }
 
 
@@ -434,8 +431,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getAllOrdersByAdmin(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getAllOrdersByAdmin(userTemp));
+
     }
 
 
@@ -446,8 +443,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getAllOrdersByAdmin2(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getAllOrdersByAdmin2(userTemp));
+
     }
 
     @GetMapping(value = "/qa/getorders")
@@ -457,8 +454,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getAllOrdersByQA(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getAllOrdersByQA(userTemp));
+
     }
 
 
@@ -469,8 +466,8 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getOrdersByDesigner(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getOrdersByDesigner(userTemp));
+
     }
 
     @GetMapping(value = "/designer/getpendingorders")
@@ -480,11 +477,9 @@ public class OrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getPendingOrders(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getPendingOrders(userTemp));
+
     }
-
-
 
 
     @RequestMapping(

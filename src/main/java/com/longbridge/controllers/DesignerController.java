@@ -1,23 +1,16 @@
 package com.longbridge.controllers;
 
-import com.longbridge.Util.CustomBeanUtilsBean;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.DesignerDTO;
 import com.longbridge.dto.DesignerRatingDTO;
 import com.longbridge.dto.MonthsDTO;
-import com.longbridge.dto.SalesChart;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
-import com.longbridge.security.JwtUser;
 import com.longbridge.services.DesignerService;
 import com.longbridge.services.OrderService;
 import com.longbridge.services.ProductService;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.modelmapper.ModelMapper;
-import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -25,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -56,8 +48,8 @@ public class DesignerController {
     @GetMapping(value = "/getdesigners")
     public Response getDesigners(){
         List<DesignerDTO> designerList= designerService.getDesigners();
-        Response response = new Response("00","Operation Successful",designerList);
-        return response;
+        return new Response("00","Operation Successful",designerList);
+
     }
 
 
@@ -83,8 +75,8 @@ public class DesignerController {
         }
 
         DesignerDTO designer = designerService.getDesigner(user1,months);
-        Response response = new Response("00","Operation Successful",designer);
-        return response;
+        return new Response("00","Operation Successful",designer);
+
     }
 
 
@@ -94,8 +86,8 @@ public class DesignerController {
     @GetMapping(value = "/getdesignerbystorename/{storename}")
     public Response getDesignerByStoreName(HttpServletRequest request, @PathVariable String storename){
         DesignerDTO designer = designerService.getDesignerByStoreName(storename);
-        Response response = new Response("00","Operation Successful",designer);
-        return response;
+        return new Response("00","Operation Successful",designer);
+
     }
 
 
@@ -103,8 +95,8 @@ public class DesignerController {
     @GetMapping(value = "/{id}/getdesignerbyid")
     public Response getDesignerById(HttpServletRequest request, @PathVariable Long id){
         DesignerDTO designer = designerService.getDesignerById(id);
-        Response response = new Response("00","Operation Successful",designer);
-        return response;
+        return new Response("00","Operation Successful",designer);
+
     }
 
 //    @GetMapping(value = "/{id}/getsaleschart")
@@ -124,8 +116,8 @@ public class DesignerController {
                 return userUtil.tokenNullOrInvalidResponse(token);
             }
         designerService.updateDesigner(userTemp,passedUser,designer);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
     }
 
     @PostMapping(value = "/updatedesignerlogo")
@@ -137,8 +129,8 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         designerService.updateDesignerLogo(userTemp,user.designer);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
     }
 
     @PostMapping(value = "/ratedesigner")
@@ -149,23 +141,23 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         designerService.rateDesigner(ratingDTO);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
     }
 
     @GetMapping(value = "/{designerId}/deleteDesigner")
     public Object deleteDesigner(@PathVariable Long designerId){
         designerService.deleteDesigner(designerId);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
     }
 
 
     @GetMapping(value = "/{designerId}/{status}/changestatus")
     public Object updateDesignerStatus(@PathVariable Long designerId, @PathVariable String status){
         designerService.updateDesignerStatus(designerId,status);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+       return new Response("00","Operation Successful","success");
+
     }
 
     @GetMapping(value = "/getsuccessfulsales")
@@ -175,8 +167,8 @@ public class DesignerController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getSuccessfulSales(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getSuccessfulSales(userTemp));
+
     }
 
 
@@ -188,8 +180,8 @@ public class DesignerController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getCancelledOrders(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getCancelledOrders(userTemp));
+
     }
 
 
@@ -201,8 +193,8 @@ public class DesignerController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getPendingOrders(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getPendingOrders(userTemp));
+
     }
 
 
@@ -214,8 +206,8 @@ public class DesignerController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getActiveOrders(userTemp));
-        return response;
+       return new Response("00","Operation Successful",orderService.getActiveOrders(userTemp));
+
     }
 
     @GetMapping(value = "/getcompletedorders")
@@ -225,8 +217,8 @@ public class DesignerController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",orderService.getCompletedOrders(userTemp));
-        return response;
+        return new Response("00","Operation Successful",orderService.getCompletedOrders(userTemp));
+
     }
 
 
@@ -237,8 +229,8 @@ public class DesignerController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Response response = new Response("00","Operation Successful",productService.getTotalProducts(userTemp));
-        return response;
+        return new Response("00","Operation Successful",productService.getTotalProducts(userTemp));
+
     }
 
     @RequestMapping(

@@ -39,8 +39,8 @@ public class CustomizationController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         measurementService.customize(userTemp, measurement);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
     }
 
 
@@ -54,8 +54,8 @@ public class CustomizationController {
         }
 
         measurementService.updateCustomization(userTemp, measurement);
-        Response response = new Response("00","Operation Successful","success");
-        return response;
+        return new Response("00","Operation Successful","success");
+
     }
 
 
@@ -68,8 +68,8 @@ public class CustomizationController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        Response response = new Response("00","Operation Successful",measurementService.getMeasurementById(userTemp, id));
-        return response;
+        return new Response("00","Operation Successful",measurementService.getMeasurementById(userTemp, id));
+
     }
 
     @GetMapping(value = "/{id}/delete")
@@ -81,7 +81,7 @@ public class CustomizationController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        Response response = null;
+        Response response;
         if(measurementService.deleteMeasurement(userTemp, id)){
             response = new Response("00","Operation Successful","success");
         }else{
@@ -101,8 +101,8 @@ public class CustomizationController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         //measurementService.getUserMeasurement(userTemp);
-        Response response = new Response("00","Operation Successful",measurementService.getUserMeasurement(userTemp));
-        return response;
+        return new Response("00","Operation Successful",measurementService.getUserMeasurement(userTemp));
+
     }
 
     @GetMapping(value = "/{productId}/getmandatorymeasurements")
@@ -113,8 +113,8 @@ public class CustomizationController {
 //        if(token==null || userTemp==null){
 //            return userUtil.tokenNullOrInvalidResponse(token);
 //        }
-        Response response = new Response("00","Operation Successful",measurementService.getMandatoryMeasurement(productId));
-        return response;
+        return new Response("00","Operation Successful",measurementService.getMandatoryMeasurement(productId));
+
     }
 
 

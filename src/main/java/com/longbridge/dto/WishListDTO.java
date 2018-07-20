@@ -1,6 +1,5 @@
 package com.longbridge.dto;
 
-import com.longbridge.models.Products;
 import com.longbridge.respbodydto.ProductRespDTO;
 
 /**

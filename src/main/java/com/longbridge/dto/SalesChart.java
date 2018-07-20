@@ -1,7 +1,5 @@
 package com.longbridge.dto;
 
-import java.util.Date;
-
 /**
  * Created by Longbridge on 02/05/2018.
  */

@@ -1,12 +1,9 @@
 package com.longbridge.services;
 
-import com.longbridge.controllers.DatabaseLoader;
 import com.longbridge.dto.*;
-import com.longbridge.models.EventPictures;
 import com.longbridge.models.Events;
 import com.longbridge.models.User;
 
-import java.util.Date;
 import java.util.List;
 
 /**

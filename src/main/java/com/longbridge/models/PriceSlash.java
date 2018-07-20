@@ -1,9 +1,7 @@
 package com.longbridge.models;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import java.util.List;
 
 /**
  * Created by Longbridge on 14/05/2018.

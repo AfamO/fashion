@@ -6,7 +6,6 @@ import com.longbridge.services.ShippingPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -34,10 +33,10 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
         double shippingPriceGIG = 0;
         double shippingPriceDHL = 0;
         Address userAddress = addressRepository.findOne(addressId);
-        String userCity = "";
+        String userCity;
 
         if(userAddress != null){
-            userCity = userAddress.getCity().toLowerCase();
+            userCity = userAddress.getCity().toUpperCase().trim();
         }else{
             return null;
         }
@@ -45,47 +44,52 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
         for (Cart cart : carts) {
 
             int cartQuantity = cart.getQuantity();
-            String designerCity = productRepository.findOne(cart.getProductId()).designer.city;
-            List<Shipping> shippings = shippingRepository.findBySendingAndReceiving(designerCity, userCity);
+            String designerCity = productRepository.findOne(cart.getProductId()).designer.city.toUpperCase().trim();
+            //List<Shipping> shippings = shippingRepository.findTop5();
+//            List<Shipping> shippings = shippingRepository.getPrice(designerCity, userCity);
+            List<Shipping> shippings = shippingRepository.getPrice(designerCity,userCity);
+            System.out.println(designerCity);
+            System.out.println(userCity);
+            System.out.println(shippings);
 
             for (Shipping shipping : shippings){
 
-                ZonePrice zonePrice = null;
+                //ZonePrice zonePrice = null;
+                System.out.println(shipping.getSource());
+                if(shipping.getSource() != null) {
+                    Double zonePrice;
+                    int currentShipping = 0;
+                    if (shipping.getZone().equals("1")) {
+                        zonePrice = zonePriceRepository.getZoneOnePrice(cartQuantity);
+                        currentShipping += zonePrice;
+                    } else if (shipping.getZone().equals("2")) {
+                        zonePrice = zonePriceRepository.getZoneTwoPrice(cartQuantity);
+                        currentShipping += zonePrice;
+                    } else if (shipping.getZone().equals("3")) {
+                        zonePrice = zonePriceRepository.getZoneThreePrice(cartQuantity);
+                        currentShipping += zonePrice;
+                    } else if (shipping.getZone().equals("4")) {
+                        zonePrice = zonePriceRepository.getZoneFourPrice(cartQuantity);
+                        currentShipping += zonePrice;
+                    }
 
-                if(shipping.getSource().equals("1")){
-                    zonePrice = zonePriceRepository.findFirstBySourceAndFromQuantityIsLessThanEqualAndToQuantityIsGreaterThanEqual(shipping.getSource(), cartQuantity, cartQuantity);
-                }else if(shipping.getSource().equals("2")){
-                    zonePrice = zonePriceRepository.findFirstBySourceAndFromQuantityIsLessThanEqualAndToQuantityIsGreaterThanEqual(shipping.getSource(), cartQuantity, cartQuantity);
-                }else{
-                    return null;
+                    if (shipping.getSource().equals("1")) {
+                        shippingPriceGIG += currentShipping;
+                    } else if (shipping.getSource().equals("2")) {
+                        shippingPriceGIG += currentShipping;
+                    } else {
+                        return null;
+                    }
+
                 }
 
-                int currentShipping = 0;
-
-                if(shipping.getZone().equals("1")){
-                    currentShipping += zonePrice.getZoneOnePrice();
-                }else if(shipping.getZone().equals("2")){
-                    currentShipping += zonePrice.getZoneTwoPrice();
-                }else if(shipping.getZone().equals("3")){
-                    currentShipping += zonePrice.getZoneThreePrice();
-                }else if(shipping.getZone().equals("4")){
-                    currentShipping += zonePrice.getZoneFourPrice();
-                }
-
-                if(shipping.getSource().equals("1")){
-                    shippingPriceGIG += currentShipping;
-                }else if(shipping.getSource().equals("2")){
-                    shippingPriceDHL += currentShipping;
-                }else{
-                    return null;
-                }
             }
         }
 
-        HashMap hm = new HashMap();
-        hm.put("DHL", new Double(shippingPriceDHL));
-        hm.put("GIG", new Double(shippingPriceGIG));
+//        HashMap hm = new HashMap();
+//        hm.put("DHL", new Double(shippingPriceDHL));
+//        hm.put("GIG", new Double(shippingPriceGIG));
 
-        return hm;
+        return shippingPriceGIG;
     }
 }

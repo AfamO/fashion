@@ -10,15 +10,10 @@ import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.EventService;
 
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -30,7 +25,6 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.List;
 
 /**
  * Created by Longbridge on 06/11/2017.
@@ -263,9 +257,7 @@ public class EventServiceImpl implements EventService {
             Date date2 = Date.from(endDateMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
             //Page<Events> events = eventRepository.findByEventDateBetween(date1,date2,new PageRequest(page,size));
             Page<Events> events = eventRepository.findByEventDateBetweenOrderByEventDateDesc(date1,date2,new PageRequest(page,size));
-            if(page > events.getTotalPages()){
-                //throw new WawoohException("events not found");
-            }
+
             List<EventsDTO> eventsDTOS = convertEntitiesToDTOs(events.getContent());
             return eventsDTOS;
         }catch (Exception ex){
@@ -281,8 +273,8 @@ public class EventServiceImpl implements EventService {
 
         int page = Integer.parseInt(eventDateDTO.getPage());
         int size = Integer.parseInt(eventDateDTO.getSize());
-        List<EventsDTO> eventsDTOS = new ArrayList<>();
-        Page<Events> events = null;
+        List<EventsDTO> eventsDTOS;
+        Page<Events> events;
 
         try {
             if(eventDateDTO.eventType.equalsIgnoreCase("A")) {
@@ -298,10 +290,6 @@ public class EventServiceImpl implements EventService {
             }
             else {
                 events = eventRepository.findAll(new PageRequest(page, size));
-            }
-
-            if(page > events.getTotalPages()){
-               // throw new WawoohException("events not found");
             }
 
             eventsDTOS = convertEntitiesToDTOs(events.getContent());
@@ -402,11 +390,7 @@ public class EventServiceImpl implements EventService {
 
     }
 
-    private String getFileName(String file){
-        File f = new File(file);
-        String fileName = f.getName();
-        return fileName;
-    }
+
 
     private String getCurrentTime(){
         Calendar now = Calendar.getInstance();
@@ -417,8 +401,8 @@ public class EventServiceImpl implements EventService {
         int minute = now.get(Calendar.MINUTE);
         int second = now.get(Calendar.SECOND);
         int millis = now.get(Calendar.MILLISECOND);
-        String cTime = year+""+month+""+day+""+hour+""+minute+""+second+""+millis;
-        return cTime;
+        return year+""+month+""+day+""+hour+""+minute+""+second+""+millis;
+        //return cTime;
     }
 
 
@@ -426,7 +410,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public Boolean nameExists(String fileName) {
         EventPictures eventPictures = eventPictureRepository.findByPictureName(fileName);
-        return (eventPictures != null) ? true : false;
+        return eventPictures != null ;
     }
 
 
@@ -466,9 +450,10 @@ public class EventServiceImpl implements EventService {
         try {
             Long eventPictureId = Long.parseLong(commentLikesDTO.getEventPictureId());
             EventPictures e = eventPictureRepository.findOne(eventPictureId);
-            Events events = e.events;
+
 
             if(user != null && e !=null){
+                Events events = e.events;
                 Likes likes = likeRepository.findByUserAndEventPictures(user,e);
                 if(likes != null){
                     likeRepository.delete(likes);

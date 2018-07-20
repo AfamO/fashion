@@ -1,8 +1,6 @@
 package com.longbridge.services;
 import com.longbridge.Util.GeneralUtil;
-import com.longbridge.dto.EventsDTO;
 import com.longbridge.models.Designer;
-import com.longbridge.models.Events;
 import com.longbridge.models.Products;
 import com.longbridge.models.SubCategory;
 import com.longbridge.repository.SubCategoryRepository;

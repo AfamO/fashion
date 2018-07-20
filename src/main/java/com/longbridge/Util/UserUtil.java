@@ -15,7 +15,6 @@ import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.security.service.JwtAuthenticationResponse;
 import com.longbridge.services.MailService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -29,11 +28,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -137,20 +131,17 @@ public class UserUtil {
 
                 }catch (MailException me){
                     me.printStackTrace();
-                    throw new AppException("",user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
+                    throw new AppException("",passedUser.firstName + passedUser.lastName,passedUser.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
 
                 }
-                Response response = new Response("00","Registration successful",responseMap);
-                return response;
+                return new Response("00","Registration successful",responseMap);
             }else{
-                Response response = new Response("99","Email already exists",responseMap);
-                return response;
+                return new Response("99","Email already exists",responseMap);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            Response response = new Response("99","Error occured internally",responseMap);
-            return response;
+            return new Response("99","Error occured internally",responseMap);
 
         }
 
@@ -164,7 +155,7 @@ public class UserUtil {
             User user = userRepository.findByEmail(passedUser.email);
             if(user==null){
                 passedUser.password = Hash.createPassword(passedUser.password);
-                user.createdOn=date;
+                passedUser.createdOn=date;
                 userRepository.save(passedUser);
                 String name = passedUser.firstName + " " + passedUser.lastName;
                 String mail = passedUser.email;
@@ -178,20 +169,17 @@ public class UserUtil {
                     mailService.prepareAndSend(message,mail,messageSource.getMessage("user.welcome.subject", null, locale));
                 }catch (MailException me){
                     me.printStackTrace();
-                    throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale));
+                    throw new AppException(passedUser.firstName + passedUser.lastName,passedUser.email,messageSource.getMessage("user.welcome.subject", null, locale));
 
                 }
-                Response response = new Response("00","Registration successful",responseMap);
-                return response;
+                return new Response("00","Registration successful",responseMap);
             }else{
-                Response response = new Response("99","Email already exists",responseMap);
-                return response;
+                return new Response("99","Email already exists",responseMap);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            Response response = new Response("99","Error occured internally",responseMap);
-            return response;
+            return new Response("99","Error occured internally",responseMap);
 
         }
     }
@@ -232,11 +220,9 @@ public class UserUtil {
                 mailService.prepareAndSend(message,mail,messageSource.getMessage("password.reset.subject", null, locale));
 
                 userRepository.save(user);
-                Response response = new Response("00","Operation Successful, Password successfully sent to email",responseMap);
-                return response;
+                return new Response("00","Operation Successful, Password successfully sent to email",responseMap);
             }else{
-                Response response = new Response("99","Email does not exist",responseMap);
-                return response;
+                return new Response("99","Email does not exist",responseMap);
             }
         }catch (MailException me) {
             me.printStackTrace();
@@ -245,8 +231,7 @@ public class UserUtil {
         }
         catch (Exception e) {
             e.printStackTrace();
-            Response response = new Response("99", "Error occured internally", responseMap);
-            return response;
+            return new Response("99", "Error occured internally", responseMap);
         }
     }
 
@@ -260,22 +245,18 @@ public class UserUtil {
             User user = userRepository.findByEmail(passedUser.email);
             if (user != null) {
 
-                if (passedUser.password == user.password) {
-                    Response response = new Response("00", "Operation Successful", responseMap);
-                    return response;
+                if (passedUser.password .equalsIgnoreCase(user.password)) {
+                    return new Response("00", "Operation Successful", responseMap);
                 } else {
-                    Response response = new Response("99", "Error occurred", responseMap);
-                    return response;
+                    return new Response("99", "Error occurred", responseMap);
                 }
             }
 
         }catch (Exception e) {
             e.printStackTrace();
-            Response response = new Response("99", "Error occured internally", responseMap);
-            return response;
+            return new Response("99", "Error occured internally", responseMap);
         }
-        Response response = new Response("99", "Error occurred", responseMap);
-        return response;
+        return new Response("99", "Error occurred", responseMap);
     }
 
 
@@ -328,17 +309,14 @@ public class UserUtil {
 
                 logInResp.setToken(token);
                // responseMap.put("token",token);
-                Response response = new Response("00","Login successful",logInResp);
-                return response;
+                return new Response("00","Login successful",logInResp);
             }else{
-                Response response = new Response("99","Invalid username/password",logInResp);
-                return response;
+                return new Response("99","Invalid username/password",logInResp);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Response response = new Response("99","Error occurred internally",logInResp);
-        return response;
+        return new Response("99","Error occurred internally",logInResp);
     }
 
 
@@ -384,17 +362,14 @@ public class UserUtil {
 
                // user.walletBalance=orderRepository.getWalletBalance(user.id);
                 responseMap.put("userDetails",user);
-                Response response = new Response("00","User found",responseMap);
-                return response;
+                return new Response("00","User found",responseMap);
             }else{
-                Response response = new Response("99","User not found",responseMap);
-                return response;
+                return new Response("99","User not found",responseMap);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Response response = new Response("99","Error occurred internally",responseMap);
-        return response;
+        return new Response("99","Error occurred internally",responseMap);
     }
 
     public User getUserByEmail(String email){
@@ -419,8 +394,7 @@ public class UserUtil {
         }else{
             responseMap.put("passed_token",null);
         }
-        Response response = new Response("56","Invalid token passed",responseMap);
-        return response;
+        return new Response("56","Invalid token passed",responseMap);
     }
 
     public void refreshAuthenticationDetails(User passedUser, String token){
@@ -449,7 +423,7 @@ public void updateUser(UserDTO passedUser, User userTemp){
         userTemp.lastName = passedUser.getLastName();
         userTemp.firstName=passedUser.getFirstName();
 
-        if(passedUser.getNewPassword() != null && passedUser.getNewPassword() != "") {
+        if(passedUser.getNewPassword() != null && !passedUser.getNewPassword().equalsIgnoreCase("")) {
             if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password)) {
                 userTemp.password = Hash.createPassword(passedUser.getNewPassword());
             }
@@ -474,7 +448,7 @@ public void updateUser(UserDTO passedUser, User userTemp){
             Date date = new Date();
             LogInResp logInResp = new LogInResp();
             User userTemp = userRepository.findByEmail(passedUser.getEmail());
-            if(passedUser.getNewPassword() != null && passedUser.getNewPassword() != "") {
+            if(passedUser.getNewPassword() != null && !passedUser.getNewPassword().equalsIgnoreCase("")) {
                 if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password)) {
                     userTemp.password = Hash.createPassword(passedUser.getNewPassword());
                     userTemp.linkClicked="Y";
@@ -518,12 +492,10 @@ public void updateUser(UserDTO passedUser, User userTemp){
                 userTemp.setUpdatedOn(date);
                 userTemp.activationFlag="Y";
                 userRepository.save(userTemp);
-                Response response = new Response("00","Thank you for verifying your account",responseMap);
-                return response;
+                return new Response("00","Thank you for verifying your account",responseMap);
             }
             else {
-                Response response = new Response("00","Account already activated",responseMap);
-                return response;
+                return new Response("00","Account already activated",responseMap);
             }
             
         } catch (Exception e) {
@@ -531,8 +503,6 @@ public void updateUser(UserDTO passedUser, User userTemp){
             throw new WawoohException();
         }
     }
-
-
 
 
 

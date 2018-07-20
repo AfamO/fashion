@@ -5,7 +5,6 @@ import com.longbridge.dto.UserEmailTokenDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.MailError;
 import com.longbridge.models.Response;
-import com.longbridge.models.Token;
 import com.longbridge.models.User;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.security.JwtUser;
@@ -69,8 +68,7 @@ public class UserController {
             mailError.setLink(e.getLink());
             mailError.setMailType("welcome");
             mailErrorRepository.save(mailError);
-            Response response = new Response("00", "Registration successful, Trying to send welcome email", "success");
-            return response;
+            return new Response("00", "Registration successful, Trying to send welcome email", "success");
         }
     }
 
@@ -78,10 +76,10 @@ public class UserController {
     public Object createAdmin(@RequestBody User passedUser){
         try {
             if (passedUser.role.equalsIgnoreCase("admin")){
-
+//todo later
             }
             else {
-
+//todo later
             }
 
             return userUtil.registerUser(passedUser);
@@ -95,8 +93,7 @@ public class UserController {
             mailError.setSubject(subject);
             mailError.setMailType("welcome");
             mailErrorRepository.save(mailError);
-            Response response = new Response("00", "Registration successful, Trying to send email to admin", "success");
-            return response;
+            return new Response("00", "Registration successful, Trying to send email to admin", "success");
         }
     }
 
@@ -111,8 +108,7 @@ public class UserController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         userUtil.updateUser(passedUser,userTemp);
-        Response response = new Response("00", "Operation Successful", "success");
-        return response;
+        return new Response("00", "Operation Successful", "success");
     }
 
     @PostMapping(value = "/editpassword")
@@ -120,8 +116,7 @@ public class UserController {
         //======================================================
 
 
-        Response response = new Response("00", "Operation Successful", userUtil.updatePassword(passedUser,device));
-        return response;
+        return new Response("00", "Operation Successful", userUtil.updatePassword(passedUser,device));
     }
 
 
@@ -130,8 +125,7 @@ public class UserController {
         //======================================================
 
 
-        Response response = new Response("00", "Operation Successful", userUtil.activateAccount(passedUser));
-        return response;
+        return new Response("00", "Operation Successful", userUtil.activateAccount(passedUser));
     }
 
     @GetMapping(value = "/getuserdetails")
@@ -182,8 +176,7 @@ public class UserController {
             mailError.setLink(e.getLink());
             mailError.setMailType("userpassword");
             mailErrorRepository.save(mailError);
-            Response response = new Response("00", "Operation Successful, Trying to send password to email", responseMap);
-            return response;
+            return new Response("00", "Operation Successful, Trying to send password to email", responseMap);
             //======================================================
 
         }

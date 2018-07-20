@@ -1,6 +1,5 @@
 package com.longbridge.controllers;
 
-import com.longbridge.Util.UserUtil;
 import com.longbridge.models.Response;
 import com.longbridge.services.SizeService;
 import org.springframework.beans.factory.annotation.Autowired;

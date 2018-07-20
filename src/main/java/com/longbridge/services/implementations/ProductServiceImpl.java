@@ -7,13 +7,10 @@ import com.longbridge.exception.WriteFileException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
-import com.longbridge.services.HibernateSearchService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -98,27 +95,7 @@ public class ProductServiceImpl implements ProductService {
 
 
 
-    @Override
-    public ProductRespDTO getProductById(Long id,User user) {
 
-        try {
-            Products products = productRepository.findOne(id);
-            ProductRespDTO productDTO = generalUtil.convertEntityToDTO(products);
-            if(user != null){
-                if(wishListRepository.findByUserAndProducts(user,products) != null){
-                    productDTO.wishListFlag="Y";
-                }
-                else {
-                    productDTO.wishListFlag="N";
-                }
-            }
-            //ProductDTO productDTO = convertEntityToDTO(products);
-            return productDTO;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-       throw new WawoohException();
-    }
 
 
     @Override
@@ -144,11 +121,16 @@ public class ProductServiceImpl implements ProductService {
         throw new WawoohException();
     }
 
+
     @Override
-    public ProductRespDTO getProductByIdWithReviews(Long id,User user) {
+    public ProductRespDTO getProductById(Long id,User user, boolean reviewsPresent) {
         try {
             Products products = productRepository.findOne(id);
-            ProductRespDTO productDTO = generalUtil.convertEntityToDTOWithReviews(products);
+            ProductRespDTO productDTO;
+            if(reviewsPresent)
+                productDTO = generalUtil.convertEntityToDTOWithReviews(products);
+            else
+                productDTO = generalUtil.convertEntityToDTO(products);
             if(user != null){
                 if(wishListRepository.findByUserAndProducts(user,products) != null){
                     productDTO.wishListFlag="Y";
@@ -210,12 +192,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    @SuppressWarnings("UnusedAssignment")
     @Override
     public void addPictureTag(PictureTagDTO pictureTagDTO) {
 
         try {
-            Long designerId=0L;
-            Long productId=0L;
+            Long designerId;
+            Long productId;
             Long subCategoryId=0L;
             Date date = new Date();
 
@@ -1149,14 +1132,14 @@ public class ProductServiceImpl implements ProductService {
         SubCategory subCategory = subCategoryRepository.findOne(filterProductDTO.getSubCategoryId());
         String name = filterProductDTO.getProductName();
         List<ProductRespDTO> productDTOS = null;
-        List<Products> products = null;
+        List<Products> products;
         List<Long> ids = null;
 
-        if(name != ""){
+        if(!name .equalsIgnoreCase("") ){
             ids = productRepository.findByVerifiedFlagAndDesignerStatusAndNameIsLike(name, subCategory);
         }
 
-        if(filterProductDTO.getFromPrice() != null && filterProductDTO.getFromPrice() != ""){
+        if(filterProductDTO.getFromPrice() != null && !filterProductDTO.getFromPrice().equalsIgnoreCase("")){
             double fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
             double toAmount = Double.parseDouble(filterProductDTO.getToPrice());
 
@@ -1222,7 +1205,7 @@ public class ProductServiceImpl implements ProductService {
 
         int page = Integer.parseInt(p.page);
         int size = Integer.parseInt(p.size);
-        Page<Products> products= null;
+        Page<Products> products;
         try {
             SubCategory subCategory = subCategoryRepository.findOne(p.subcategoryId);
                 products = productRepository.findBySubCategoryAndVerifiedFlagAndDesigner_Status(new PageRequest(page, size), subCategory, "Y","A");
@@ -1406,7 +1389,7 @@ public class ProductServiceImpl implements ProductService {
 
         int page = Integer.parseInt(p.page);
         int size = Integer.parseInt(p.size);
-        Page<Products> products= null;
+        Page<Products> products;
         Designer designer = null;
         System.out.println(p.subcategoryId);
         try {
@@ -1481,7 +1464,7 @@ public class ProductServiceImpl implements ProductService {
     public List<EventPicturesDTO> getUntaggedPicturesByEvents(Long id) {
 
         List<EventPicturesDTO> ev = new ArrayList<>();
-        List<EventPictures> e = null;
+        List<EventPictures> e;
         try {
 //            List<Events> events=eventRepository.eventsTagFuzzySearch(search);
 //            if(events != null) {
@@ -1512,7 +1495,7 @@ public class ProductServiceImpl implements ProductService {
     public List<EventPicturesDTO> getTaggedPicturesByEvents(Long id) {
 
         List<EventPicturesDTO> ev = new ArrayList<>();
-        List<EventPictures> e = null;
+        List<EventPictures> e;
         try {
 //            List<Events> events=searchService.eventsTagFuzzySearch(search);
 //            if(events != null) {
@@ -1601,21 +1584,6 @@ public class ProductServiceImpl implements ProductService {
 
         return pictureTagDTO;
 
-    }
-
-
-    private void deletePics(String pics, String folder){
-
-            try {
-                File imgFile =new File(folder + pics);
-                imgFile.delete();
-
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-                System.out.println("Delete operation is failed.");
-                throw new WriteFileException("Delete operation is failed");
-            }
     }
 
 

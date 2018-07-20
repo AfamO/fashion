@@ -2,8 +2,6 @@ package com.longbridge.dto;
 
 import com.longbridge.respbodydto.ProductRespDTO;
 
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import java.util.List;
 
 /**

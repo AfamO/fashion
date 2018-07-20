@@ -122,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
 
             for (Items items: orderReq.getItems()) {
                 Products p = productRepository.findOne(items.getProductId());
-                if(p.stockNo == 0){
+                if(p.stockNo == 0 && items.getMeasurement() == null ){
                     return "false";
                 }
             }
@@ -179,19 +179,22 @@ public class OrderServiceImpl implements OrderService {
 
 
                 p.numOfTimesOrdered = p.numOfTimesOrdered+1;
-                if(p.stockNo != 0){
-                    p.stockNo=p.stockNo-items.getQuantity();
-                    ProductSizes productSizes=productSizesRepository.findByProductsAndName(p,items.getSize());
-                    productSizes.setStockNo(productSizes.getStockNo()-items.getQuantity());
-                    productSizesRepository.save(productSizes);
 
-                }
-                else {
-                    p.inStock = "N";
-                }
 
-                if(p.stockNo==0){
-                    p.inStock = "N";
+                if(items.getMeasurement() == null) {
+                    if (p.stockNo != 0) {
+                        p.stockNo = p.stockNo - items.getQuantity();
+                        ProductSizes productSizes = productSizesRepository.findByProductsAndName(p, items.getSize());
+                        productSizes.setStockNo(productSizes.getStockNo() - items.getQuantity());
+                        productSizesRepository.save(productSizes);
+
+                    } else {
+                        p.inStock = "N";
+                    }
+
+                    if (p.stockNo == 0) {
+                        p.inStock = "N";
+                    }
                 }
 
                 productRepository.save(p);
@@ -226,7 +229,7 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
             String customerEmail = customer.email;
-            String rejectDecisionLink = "";
+            String rejectDecisionLink;
             String customerName = customer.lastName+" "+ customer.firstName;
 
             Items items = itemRepository.findOne(itemsDTO.getId());
@@ -243,8 +246,8 @@ public class OrderServiceImpl implements OrderService {
                 }
                 else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
                     String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
-                    String link="";
-                    String message = "";
+                    String link;
+                    String message;
                     statusMessage.setHasResponse(true);
 
                     items.setItemStatus(itemStatus);
@@ -574,7 +577,7 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
 
             Cart cartTemp = cartRepository.findOne(cart.id);
-            double amount =0;
+            double amount;
             Products products = productRepository.findOne(cartTemp.getProductId());
             if(products.priceSlash != null && products.priceSlash.getSlashedPrice()>0){
                 amount=products.amount-products.priceSlash.getSlashedPrice();
@@ -912,16 +915,33 @@ itemRepository.save(items);
         if(transferInfoDTO.getOrderNum() != null){
             Orders orders = orderRepository.findByOrderNum(transferInfoDTO.getOrderNum());
             if(orders != null){
-                TransferInfo transferInfo = new TransferInfo();
-                transferInfo.setOrders(orders);
-                transferInfo.setPaymentDate(transferInfoDTO.getPaymentDate());
-                transferInfo.setAccountName(transferInfoDTO.getAccountName());
-                transferInfo.setAmountPayed(transferInfoDTO.getAmountPayed());
-                transferInfo.setBank(transferInfoDTO.getBank());
-                transferInfo.setPaymentNote(transferInfoDTO.getPaymentNote());
+                if(orders.getDeliveryStatus().equalsIgnoreCase("P")) {
+                    TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
+                    if(transferInfo != null){
+                        transferInfo.setPaymentDate(transferInfoDTO.getPaymentDate());
+                        transferInfo.setAccountName(transferInfoDTO.getAccountName());
+                        transferInfo.setAmountPayed(transferInfoDTO.getAmountPayed());
+                        transferInfo.setBank(transferInfoDTO.getBank());
+                        transferInfo.setPaymentNote(transferInfoDTO.getPaymentNote());
+                    }
+                    else {
+                        transferInfo = new TransferInfo();
+                        transferInfo.setOrders(orders);
+                        transferInfo.setPaymentDate(transferInfoDTO.getPaymentDate());
+                        transferInfo.setAccountName(transferInfoDTO.getAccountName());
+                        transferInfo.setAmountPayed(transferInfoDTO.getAmountPayed());
+                        transferInfo.setBank(transferInfoDTO.getBank());
+                        transferInfo.setPaymentNote(transferInfoDTO.getPaymentNote());
+                    }
 
-                transferInfoRepository.save(transferInfo);
+                    transferInfoRepository.save(transferInfo);
+                }
+                else {
+                    //means admin has updated tp PC. it cant be updated....
+                    return;
+                }
             }
+
         }
     }
 
@@ -1046,7 +1066,13 @@ itemRepository.save(items);
         if(availability.equalsIgnoreCase("N")){
             cartDTO.setSizeStockNo(0);//todo pass threshold
         }else{
-            cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+            if(cart.getSize() != null){
+                cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+
+            }
+            else {
+                cartDTO.setSizeStockNo(0);
+            }
         }
         cartDTO.setMaterialLocation(cart.getMaterialLocation());
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());

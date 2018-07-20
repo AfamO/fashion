@@ -2,7 +2,6 @@ package com.longbridge.controllers;
 
 import com.longbridge.Util.UserUtil;
 import com.longbridge.models.Address;
-import com.longbridge.models.Events;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.services.AddressService;
@@ -43,8 +42,8 @@ public class AddressController {
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
         addressService.addAddress(address,user);
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+        return new Response("00", "Operation Successful", responseMap);
+
     }
 
     @PostMapping(value = "/updateaddress")
@@ -55,8 +54,8 @@ public class AddressController {
         if(token==null || userTemp==null){
         addressService.updateAddress(address,userTemp);
         }
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+       return new Response("00", "Operation Successful", responseMap);
+
     }
 
     @GetMapping(value = "/{id}/deleteaddress")
@@ -68,8 +67,8 @@ public class AddressController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         addressService.deleteAddress(id);
-        Response response = new Response("00", "Operation Successful", responseMap);
-        return response;
+       return new Response("00", "Operation Successful", responseMap);
+
     }
 
 
@@ -77,8 +76,8 @@ public class AddressController {
     public Response getAddress(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
-        Response response = new Response("00", "Operation Successful", addressService.getAddress(userTemp));
-        return response;
+        return new Response("00", "Operation Successful", addressService.getAddress(userTemp));
+
     }
 
 

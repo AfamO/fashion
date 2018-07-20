@@ -1,23 +1,40 @@
 package com.longbridge.models;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by Longbridge on 10/07/2018.
  */
 @Entity
-public class Shipping extends CommonFields {
+public class Shipping{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String sending;
 
     private String receiving;
 
+    private String source;
+
     private String zone;
 
-    private String source;
+
 
     public Shipping() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getSending() {
         return sending;
@@ -52,4 +69,10 @@ public class Shipping extends CommonFields {
     }
 
 
+    public Shipping(String sending, String receiving, String zone, String source) {
+        this.sending = sending;
+        this.receiving = receiving;
+        this.zone = zone;
+        this.source = source;
+    }
 }
