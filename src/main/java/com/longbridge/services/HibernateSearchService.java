@@ -109,11 +109,11 @@ import java.util.List;
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
         QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Products.class).get();
         if(subCategory.size() > 0){
-           luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1).onFields("subCategory.subCategory")
+           luceneQuery = qb.keyword().fuzzy().onFields("subCategory.subCategory")
                     .matching(searchTerm).createQuery();
         }
         else {
-            luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1).onFields("name")
+            luceneQuery = qb.keyword().fuzzy().onFields("name")
                     .matching(searchTerm).createQuery();
         }
 

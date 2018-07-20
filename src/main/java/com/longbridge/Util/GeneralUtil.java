@@ -4,7 +4,6 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.longbridge.dto.*;
 import com.longbridge.exception.WawoohException;
-import com.longbridge.exception.WriteFileException;
 import com.longbridge.models.*;
 import com.longbridge.repository.EventPictureRepository;
 import com.longbridge.repository.PriceSlashRepository;

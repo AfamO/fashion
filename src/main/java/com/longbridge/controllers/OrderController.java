@@ -54,10 +54,10 @@ public class OrderController {
             orderNumber = orderService.addOrder(orders,userTemp);
             Response response;
             if(orderNumber.equalsIgnoreCase("false")){
-                response = new Response("99","unable to process order, An item is out of stock","");
+                response = new Response("66","unable to process order, An item is out of stock","");
             }
             else if(orderNumber.equalsIgnoreCase("noitems")){
-                response = new Response("99","unable to process order, No items sent","");
+                response = new Response("67","unable to process order, No items sent","");
 
             }
             else {
