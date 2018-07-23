@@ -75,13 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
-                        "/eventpictures/**",
-                        "/eventmainpictures/**",
-                        "/productpictures/**",
-                        "/materialpictures/**",
-                        "/artworkpictures/**",
-                        "/designerlogos/**",
-                        "https://132.10.200.52:7200/fiwebservice/FIWebService",
                         "/images/**",
                         "/swagger-ui.html"
                 ).permitAll()

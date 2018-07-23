@@ -194,6 +194,9 @@ public class UserUtil {
         try {
 
             User user = userRepository.findByEmail(passedUser.getEmail());
+            if(!user.linkClicked.equalsIgnoreCase("Y")){
+                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
+            }
 
             if(user!=null){
                 //newPassword = generalUtil.getCurrentTime();
@@ -265,7 +268,11 @@ public class UserUtil {
        // Map<String,Object> responseMap = new HashMap();
         LogInResp logInResp=new LogInResp();
         try {
+
             User user = userRepository.findByEmail(passedUser.email);
+            if(!user.linkClicked.equalsIgnoreCase("Y")){
+                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",logInResp);
+            }
             boolean valid = false;
             if(user!=null){
                 try{
