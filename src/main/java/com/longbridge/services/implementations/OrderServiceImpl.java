@@ -174,7 +174,7 @@ public class OrderServiceImpl implements OrderService {
 
                 items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).pictureName);
                 Double itemsAmount = p.amount*items.getQuantity();
-                Double shippingAmount = generalUtil.getShipping(p.designer.city,orders.getDeliveryAddress().getCity(),items.getQuantity());
+                Double shippingAmount = generalUtil.getShipping(p.designer.city.toUpperCase().trim(),orders.getDeliveryAddress().getCity().toUpperCase().trim(),items.getQuantity());
                 items.setAmount(itemsAmount);
                 System.out.println(shippingAmount);
                 totalAmount=totalAmount+itemsAmount+shippingAmount;

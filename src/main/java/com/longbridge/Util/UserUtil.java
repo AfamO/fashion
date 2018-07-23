@@ -194,7 +194,7 @@ public class UserUtil {
         try {
 
             User user = userRepository.findByEmail(passedUser.getEmail());
-            if(!user.linkClicked.equalsIgnoreCase("Y")){
+            if(!user.activationFlag.equalsIgnoreCase("Y")){
                 return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
             }
 
@@ -270,7 +270,7 @@ public class UserUtil {
         try {
 
             User user = userRepository.findByEmail(passedUser.email);
-            if(!user.linkClicked.equalsIgnoreCase("Y")){
+            if(!user.activationFlag.equalsIgnoreCase("Y")){
                 return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",logInResp);
             }
             boolean valid = false;
