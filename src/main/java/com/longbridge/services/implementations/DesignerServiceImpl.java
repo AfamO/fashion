@@ -37,11 +37,6 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     private GeneralUtil generalUtil;
 
-//    @Value("${s.designer.logo.folder}")
-//    private String designerLogoFolder;
-//
-//    @Value("${designer.logo.folder}")
-//    private String designerLogoPath;
 
     @Autowired
     public DesignerServiceImpl(GeneralUtil generalUtil) {

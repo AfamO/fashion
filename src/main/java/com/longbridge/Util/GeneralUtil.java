@@ -30,14 +30,7 @@ import java.util.Map;
 @Service
 public class GeneralUtil {
 
-//    @Value("${s.artwork.picture.folder}")
-//    private String artworkPictureFolder;
-//
-//    @Value("${s.material.picture.folder}")
-//    private String materialPicturesFolder;
-//
-//    @Value("${s.product.picture.folder}")
-//    private String productPicturesFolder;
+
 
     @Autowired
     EventPictureRepository eventPictureRepository;
