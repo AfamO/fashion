@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -55,11 +51,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="OrderServiceImpl.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="OrderServiceImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="1170" column="54" lean-forward="true" selection-start-line="1170" selection-start-column="54" selection-end-line="1170" selection-end-column="54" />
+            <state relative-caret-position="-134">
+              <caret line="165" column="0" lean-forward="true" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -84,7 +80,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Items.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-282">
-              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -94,7 +90,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="64">
-              <caret line="454" column="0" lean-forward="true" selection-start-line="454" selection-start-column="0" selection-end-line="454" selection-end-column="0" />
+              <caret line="454" column="0" lean-forward="false" selection-start-line="454" selection-start-column="0" selection-end-line="454" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -102,6 +98,21 @@
       </file>
       <file leaf-file-name="heroku_f6dbdc37013716d.user" pinned="false" current-in-tab="false">
         <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.user">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="heroku_f6dbdc37013716d.orders" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.orders">
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state>
               <filtering enabled="true" />
@@ -135,11 +146,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShippingPriceServiceImpl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ShippingPriceServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="191">
-              <caret line="50" column="29" lean-forward="true" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
+              <caret line="50" column="29" lean-forward="false" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -149,22 +160,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="20">
-              <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="heroku_f6dbdc37013716d.address" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.address">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -204,6 +200,7 @@
       <find>cart</find>
       <find>shipp</find>
       <find>addOrd</find>
+      <find>addO</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT</dir>
@@ -269,8 +266,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
       </list>
     </option>
   </component>
@@ -970,12 +967,12 @@
       <workItem from="1531935048447" duration="1331000" />
       <workItem from="1531937073316" duration="604000" />
       <workItem from="1531991426269" duration="51907000" />
-      <workItem from="1532360854295" duration="6015000" />
+      <workItem from="1532360854295" duration="7117000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98395000" />
+    <option name="totallyTimeSpent" value="99497000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1197,18 +1194,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="53" lean-forward="false" selection-start-line="14" selection-start-column="53" selection-end-line="14" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.orders">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1503,23 +1488,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.user">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Items.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-282">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1540,7 +1512,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20">
-          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1564,15 +1536,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64">
-          <caret line="454" column="0" lean-forward="true" selection-start-line="454" selection-start-column="0" selection-end-line="454" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="1170" column="54" lean-forward="true" selection-start-line="1170" selection-start-column="54" selection-end-line="1170" selection-end-column="54" />
+          <caret line="454" column="0" lean-forward="false" selection-start-line="454" selection-start-column="0" selection-end-line="454" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1580,7 +1544,41 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="191">
-          <caret line="50" column="29" lean-forward="true" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
+          <caret line="50" column="29" lean-forward="false" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.user">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.orders">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-134">
+          <caret line="165" column="0" lean-forward="true" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
           <folding />
         </state>
       </provider>
