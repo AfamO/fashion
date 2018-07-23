@@ -5,9 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.longbridge.dto.*;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
-import com.longbridge.repository.EventPictureRepository;
-import com.longbridge.repository.PriceSlashRepository;
-import com.longbridge.repository.WishListRepository;
+import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +38,13 @@ public class GeneralUtil {
 
     @Autowired
     PriceSlashRepository priceSlashRepository;
+
+    @Autowired
+    ShippingRepository shippingRepository;
+
+    @Autowired
+    ZonePriceRepository zonePriceRepository;
+
 
     public List<ProductPictureDTO> convertProdPictureEntitiesToDTO(List<ProductPicture> productPictures){
         List<ProductPictureDTO> productPictureDTOS = new ArrayList<ProductPictureDTO>();
@@ -437,6 +442,57 @@ public class GeneralUtil {
         }
         return randomProducts;
     }
+
+    public double getShipping(String designerCity,String userCity,int quantity){
+
+        double shippingPriceGIG = 0;
+        List<Shipping> shippings = shippingRepository.getPrice(designerCity,userCity);
+        System.out.println(designerCity);
+        System.out.println(userCity);
+        System.out.println(shippings);
+
+        for (Shipping shipping : shippings){
+
+            //ZonePrice zonePrice = null;
+            System.out.println(shipping.getSource());
+            if(shipping.getSource() != null) {
+                Double zonePrice;
+                int currentShipping = 0;
+                if (shipping.getZone().equals("1")) {
+                    zonePrice = zonePriceRepository.getZoneOnePrice(quantity);
+                    currentShipping += zonePrice;
+                } else if (shipping.getZone().equals("2")) {
+                    zonePrice = zonePriceRepository.getZoneTwoPrice(quantity);
+                    currentShipping += zonePrice;
+                } else if (shipping.getZone().equals("3")) {
+                    zonePrice = zonePriceRepository.getZoneThreePrice(quantity);
+                    currentShipping += zonePrice;
+                } else if (shipping.getZone().equals("4")) {
+                    zonePrice = zonePriceRepository.getZoneFourPrice(quantity);
+                    currentShipping += zonePrice;
+                }
+
+                if (shipping.getSource().equals("1")) {
+                    shippingPriceGIG += currentShipping;
+                } else if (shipping.getSource().equals("2")) {
+                    shippingPriceGIG += currentShipping;
+                } else {
+                    return 0;
+                }
+
+            }
+
+        }
+        //        HashMap hm = new HashMap();
+//        hm.put("DHL", new Double(shippingPriceDHL));
+//        hm.put("GIG", new Double(shippingPriceGIG));
+
+        return shippingPriceGIG;
+
+    }
+
+
+
 
 
 }

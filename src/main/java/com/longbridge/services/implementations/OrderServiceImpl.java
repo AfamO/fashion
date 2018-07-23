@@ -2,6 +2,7 @@ package com.longbridge.services.implementations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.dto.*;
 import com.longbridge.exception.AppException;
@@ -98,6 +99,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     TransferInfoRepository transferInfoRepository;
 
+    @Autowired
+    GeneralUtil generalUtil;
+
 //
 //    @Value("${product.picture.folder}")
 //    private String productPicturesFolder;
@@ -114,6 +118,7 @@ public class OrderServiceImpl implements OrderService {
         try{
             List<DesignerOrderDTO> dtos = new ArrayList<>();
             Orders orders = new Orders();
+            Double totalAmount = 0.0;
             Date date = new Date();
 
             if(orderReq.getItems().size() <1){
@@ -133,7 +138,6 @@ public class OrderServiceImpl implements OrderService {
             orders.setDeliveryStatus("P");
             orders.setOrderDate(date);
             orders.setPaymentType(orderReq.getPaymentType());
-            orders.setTotalAmount(orderReq.getTotalAmount());
             orders.setPaidAmount(orderReq.getPaidAmount());
 
             orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
@@ -169,7 +173,10 @@ public class OrderServiceImpl implements OrderService {
                 }
 
                 items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).pictureName);
-
+                Double itemsAmount = p.amount*items.getQuantity();
+                Double shippingAmount = generalUtil.getShipping(p.designer.city,orders.getDeliveryAddress().getCity(),items.getQuantity());
+                items.setAmount(itemsAmount);
+                totalAmount=totalAmount+itemsAmount+shippingAmount;
                 items.setOrders(orders);
                 items.setProductName(p.name);
                 items.setCreatedOn(date);
@@ -201,7 +208,8 @@ public class OrderServiceImpl implements OrderService {
 
 
             }
-
+            orders.setTotalAmount(totalAmount);
+            orderRepository.save(orders);
             List<Cart> carts = cartRepository.findByUser(user);
             for (Cart c: carts) {
                 cartRepository.delete(c);
@@ -1162,7 +1170,7 @@ itemRepository.save(items);
         orderDTO.setDeliveryStatus(orders.getDeliveryStatus());
         orderDTO.setOrderNumber(orders.getOrderNum());
         orderDTO.setPaymentType(orders.getPaymentType());
-        orderDTO.setTotalAmount(orders.getTotalAmount());
+        orderDTO.setTotalAmount(orders.getTotalAmount().toString());
         orderDTO.setPaidAmount(orders.getPaidAmount());
         orderDTO.setUserId(orders.getUserId());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

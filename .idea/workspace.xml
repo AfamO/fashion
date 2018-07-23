@@ -2,361 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/application-aws.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/application-dev.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/application-test.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/application.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/FashionApplication.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/Util/CustomBeanUtilsBean.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/Util/GeneralUtil.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/Util/Hash.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/Util/UserUtil.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/config/ResourceConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/config/WebMvcConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/config/WebSecurityConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/controllers/AddressController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/controllers/ControllerAdvice.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/controllers/DatabaseLoader.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/controllers/DesignerController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/controllers/EventController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/controllers/OrderController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/controllers/ProductController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/controllers/UserController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/controllers/WishListController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/ArtPicReqDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/ArtPictureDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/CartDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/CategoryDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/CommentLikesDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/CommentsDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/DesignerDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/DesignerProductDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/DesignerRatingDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/EventDateDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/EventPicturesDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/EventsDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/ItemsDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/LikesDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/MatPicReqDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/MaterialPictureDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/OrderReqDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/PageableDetailsDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/PicTagDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/PictureTagDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/ProdPicReqDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/ProdSubCategoryDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/ProductDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/ProductPictureDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/StyleDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/SubCategoryDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/TagDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/UserDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/UserEmailTokenDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/dto/WishListDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/exception/ObjectNotFoundException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/exception/PasswordException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/exception/WawoohException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/exception/WriteFileException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Address.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/ArtWorkPicture.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Cart.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Category.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Comments.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/CommonFields.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Designer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Email$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Email.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/EmailAlertAttachment.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/EventPictures.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Events.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Items.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Likes.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/MaterialPicture.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Orders.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/PictureTag.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/ProductPicture.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Products.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Rating.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Response.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Size.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Style.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/SubCategory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/Token.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/User.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/models/WishList.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/AddressRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/ArtWorkPictureRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/CartRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/CategoryRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/CommentRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/DesignerRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/EventPictureRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/EventRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/ItemRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/LikeRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/MaterialPictureRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/OrderRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/PictureTagRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/ProductPictureRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/ProductRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/RatingRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/StyleRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/SubCategoryRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/TokenRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/repository/WishListRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/respbodydto/ItemsRespDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/respbodydto/OrderDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/respbodydto/ProductRespDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/JwtAuthenticationEntryPoint.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/JwtAuthenticationRequest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/JwtAuthenticationTokenFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/JwtTokenUtil.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/JwtUser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/JwtUserFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/controller/AuthenticationRestController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/controller/MethodProtectedRestController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/controller/UserRestController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/repository/Authority.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/repository/AuthorityName.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/repository/User.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/repository/UserRepository.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/service/JwtAuthenticationResponse.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/security/service/JwtUserDetailsServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/AddressService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/DesignerService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/EventService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/MailService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/OrderService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/ProductService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/TokenService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/WishListService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/implementations/AddressServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/implementations/EventServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/implementations/MailServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/implementations/OrderServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/implementations/ProductServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/implementations/TokenServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/com/longbridge/services/implementations/WishListServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/classes/messages.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/activation-1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/antlr-2.7.7.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/aopalliance-1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/aspectjweaver-1.8.10.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/classmate-1.3.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/commons-beanutils-1.8.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/commons-lang3-3.2.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/dom4j-1.6.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/groovy-2.4.10.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/hibernate-commons-annotations-5.0.1.Final.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/hibernate-core-5.0.12.Final.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/hibernate-entitymanager-5.0.12.Final.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/hibernate-validator-5.3.5.Final.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/jackson-annotations-2.8.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/jackson-core-2.8.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/jackson-databind-2.8.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/jandex-2.0.0.Final.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/javassist-3.21.0-GA.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/javax.mail-1.5.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/javax.transaction-api-1.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/jbcrypt-0.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/jboss-logging-3.3.1.Final.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/jcl-over-slf4j-1.7.25.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/jjwt-0.6.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/jul-to-slf4j-1.7.25.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/log4j-over-slf4j-1.7.25.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/logback-classic-1.1.11.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/logback-core-1.1.11.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/modelmapper-0.7.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/modelmapper-spring-0.7.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/mysql-connector-java-5.1.41.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/ognl-3.0.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/slf4j-api-1.7.25.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/snakeyaml-1.17.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-aop-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-aspects-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-beans-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-autoconfigure-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-devtools-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-starter-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-starter-aop-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-starter-data-jpa-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-starter-jdbc-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-starter-logging-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-starter-mail-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-starter-security-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-starter-thymeleaf-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-starter-web-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-boot-starter-web-services-1.5.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-context-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-context-support-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-core-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-data-commons-1.13.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-data-jpa-1.11.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-expression-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-jdbc-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-mobile-device-1.1.3.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-orm-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-oxm-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-security-config-4.2.1.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-security-core-4.2.2.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-security-web-4.2.2.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-session-1.3.0.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-tx-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-web-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-webmvc-4.3.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-ws-core-2.4.0.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/spring-xml-2.4.0.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/thymeleaf-2.1.5.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/thymeleaf-layout-dialect-1.4.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/thymeleaf-spring4-2.1.5.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/tomcat-jdbc-8.5.14.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/tomcat-juli-8.5.14.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/unbescape-1.1.0.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT/WEB-INF/lib/validation-api-1.1.0.Final.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/FashionApplication.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/FashionApplication.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/CustomBeanUtilsBean.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/CustomBeanUtilsBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/GeneralUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/GeneralUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/Hash.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/Hash.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/UserUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/UserUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/config/ResourceConfig.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/config/ResourceConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/config/WebMvcConfig.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/config/WebMvcConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/config/WebSecurityConfig.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/config/WebSecurityConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/AddressController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/AddressController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/ControllerAdvice.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/ControllerAdvice.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/DatabaseLoader.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/DatabaseLoader.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/DesignerController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/DesignerController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/EventController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/EventController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/OrderController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/OrderController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/ProductController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/ProductController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/UserController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/UserController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/WishListController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/WishListController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPicReqDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPicReqDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPictureDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPictureDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CartDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CartDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CategoryDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CategoryDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentLikesDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentLikesDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentsDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentsDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerProductDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerProductDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerRatingDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerRatingDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventDateDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventDateDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventPicturesDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventPicturesDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventsDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventsDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ItemsDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ItemsDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/LikesDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/LikesDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MatPicReqDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MatPicReqDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MaterialPictureDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MaterialPictureDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/OrderReqDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/OrderReqDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PageableDetailsDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PageableDetailsDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PicTagDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PicTagDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PictureTagDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PictureTagDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProdPicReqDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProdPicReqDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProdSubCategoryDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProdSubCategoryDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductPictureDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductPictureDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/StyleDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/StyleDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/SubCategoryDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/SubCategoryDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/TagDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/TagDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/UserDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/UserDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/UserEmailTokenDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/UserEmailTokenDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/WishListDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/WishListDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/ObjectNotFoundException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/ObjectNotFoundException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/PasswordException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/PasswordException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/WawoohException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/WawoohException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/WriteFileException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/WriteFileException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Address.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Address.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/ArtWorkPicture.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/ArtWorkPicture.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Cart.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Cart.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Category.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Category.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Comments.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Comments.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/CommonFields.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/CommonFields.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Designer.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Designer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Email$Builder.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Email$Builder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Email.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Email.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/EmailAlertAttachment.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/EmailAlertAttachment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/EventPictures.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/EventPictures.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Events.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Events.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Items.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Items.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Likes.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Likes.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/MaterialPicture.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/MaterialPicture.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Orders.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Orders.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/PictureTag.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/PictureTag.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductPicture.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductPicture.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Products.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Products.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Rating.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Rating.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Response.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Response.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Size.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Size.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Style.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Style.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/SubCategory.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/SubCategory.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Token.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Token.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/User.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/WishList.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/WishList.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/AddressRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/AddressRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ArtWorkPictureRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ArtWorkPictureRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CartRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CartRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CategoryRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CategoryRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CommentRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CommentRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/DesignerRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/DesignerRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventPictureRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventPictureRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ItemRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ItemRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/LikeRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/LikeRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MaterialPictureRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MaterialPictureRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/OrderRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/OrderRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PictureTagRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PictureTagRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductPictureRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductPictureRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/RatingRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/RatingRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/StyleRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/StyleRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/SubCategoryRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/SubCategoryRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/TokenRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/TokenRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/WishListRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/WishListRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/ItemsRespDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/ItemsRespDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/OrderDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/OrderDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/ProductRespDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/ProductRespDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationEntryPoint.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationEntryPoint.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationRequest.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationTokenFilter.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationTokenFilter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtTokenUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtTokenUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtUser.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtUser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtUserFactory.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtUserFactory.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/AuthenticationRestController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/AuthenticationRestController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/MethodProtectedRestController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/MethodProtectedRestController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/UserRestController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/UserRestController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/Authority.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/Authority.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/AuthorityName.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/AuthorityName.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/User.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/UserRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/UserRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/service/JwtAuthenticationResponse.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/service/JwtAuthenticationResponse.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/service/JwtUserDetailsServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/service/JwtUserDetailsServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/AddressService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/AddressService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/DesignerService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/DesignerService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/EventService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/EventService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/MailService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/MailService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/OrderService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/OrderService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/TokenService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/TokenService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/WishListService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/WishListService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/AddressServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/AddressServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/EventServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/EventServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/MailServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/MailServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/OrderServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/OrderServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/TokenServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/TokenServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WishListServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WishListServiceImpl.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application-aws.properties" afterPath="$PROJECT_DIR$/target/classes/application-aws.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application-dev.properties" afterPath="$PROJECT_DIR$/target/classes/application-dev.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application-test.properties" afterPath="$PROJECT_DIR$/target/classes/application-test.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application.properties" afterPath="$PROJECT_DIR$/target/classes/application.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/messages.properties" afterPath="$PROJECT_DIR$/target/classes/messages.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -408,77 +58,34 @@
       <file leaf-file-name="OrderServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11925">
-              <caret line="821" column="0" lean-forward="false" selection-start-line="821" selection-start-column="0" selection-end-line="821" selection-end-column="0" />
+            <state relative-caret-position="160">
+              <caret line="1170" column="54" lean-forward="true" selection-start-line="1170" selection-start-column="54" selection-end-line="1170" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Orders.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="69">
+              <caret line="124" column="60" lean-forward="false" selection-start-line="124" selection-start-column="60" selection-end-line="124" selection-end-column="60" />
               <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="e#996#997#0" expanded="true" />
+                <element signature="e#1030#1031#0" expanded="true" />
+                <element signature="e#1084#1085#0" expanded="true" />
+                <element signature="e#1130#1131#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DesignerServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerServiceImpl.java">
+      <file leaf-file-name="Items.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Items.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1131#1132#0" expanded="false" />
-                <element signature="e#1177#1178#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrderReqDTO.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/dto/OrderReqDTO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="15" column="31" lean-forward="false" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1020#1021#0" expanded="false" />
-                <element signature="e#1048#1049#0" expanded="false" />
-                <element signature="e#1095#1096#0" expanded="false" />
-                <element signature="e#1129#1130#0" expanded="false" />
-                <element signature="e#1167#1168#0" expanded="false" />
-                <element signature="e#1201#1202#0" expanded="false" />
-                <element signature="e#1255#1256#0" expanded="false" />
-                <element signature="e#1301#1302#0" expanded="false" />
-                <element signature="e#1339#1340#0" expanded="false" />
-                <element signature="e#1373#1374#0" expanded="false" />
-                <element signature="e#1427#1428#0" expanded="false" />
-                <element signature="e#1473#1474#0" expanded="false" />
-                <element signature="e#1504#1505#0" expanded="false" />
-                <element signature="e#1533#1534#0" expanded="false" />
-                <element signature="e#1575#1576#0" expanded="false" />
-                <element signature="e#1611#1612#0" expanded="false" />
-                <element signature="e#1652#1653#0" expanded="false" />
-                <element signature="e#1689#1690#0" expanded="false" />
-                <element signature="e#1749#1750#0" expanded="false" />
-                <element signature="e#1801#1802#0" expanded="false" />
-                <element signature="e#1843#1844#0" expanded="false" />
-                <element signature="e#1883#1884#0" expanded="false" />
-                <element signature="e#1947#1948#0" expanded="false" />
-                <element signature="e#2005#2006#0" expanded="false" />
-                <element signature="e#2041#2042#0" expanded="false" />
-                <element signature="e#2073#2074#0" expanded="false" />
-                <element signature="e#2123#2124#0" expanded="false" />
-                <element signature="e#2165#2166#0" expanded="false" />
-                <element signature="e#2205#2206#0" expanded="false" />
-                <element signature="e#2241#2242#0" expanded="false" />
-                <element signature="e#2299#2300#0" expanded="false" />
-                <element signature="e#2349#2350#0" expanded="false" />
-                <element signature="e#2376#2377#0" expanded="false" />
-                <element signature="e#2401#2402#0" expanded="false" />
-                <element signature="e#2435#2436#0" expanded="false" />
-                <element signature="e#2463#2464#0" expanded="false" />
-                <element signature="e#2534#2535#0" expanded="false" />
-                <element signature="e#2567#2568#0" expanded="false" />
-                <element signature="e#2619#2620#0" expanded="false" />
-                <element signature="e#2663#2664#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="-282">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -486,79 +93,79 @@
       <file leaf-file-name="GeneralUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2205">
-              <caret line="169" column="82" lean-forward="false" selection-start-line="169" selection-start-column="82" selection-end-line="169" selection-end-column="82" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+            <state relative-caret-position="64">
+              <caret line="454" column="0" lean-forward="true" selection-start-line="454" selection-start-column="0" selection-end-line="454" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserUtil.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1620">
-              <caret line="137" column="18" lean-forward="false" selection-start-line="137" selection-start-column="18" selection-end-line="137" selection-end-column="18" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#13862#13863#0" expanded="false" />
-                <element signature="e#13926#13927#0" expanded="false" />
-                <element signature="e#13964#13965#0" expanded="false" />
-                <element signature="e#14011#14012#0" expanded="false" />
-              </folding>
+      <file leaf-file-name="heroku_f6dbdc37013716d.user" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.user">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="application.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-          <provider selected="true" editor-type-id="text-editor">
+          <provider editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="27" lean-forward="false" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FashionApplication.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/FashionApplication.java">
+      <file leaf-file-name="OrderController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="48">
-              <caret line="18" column="32" lean-forward="false" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+            <state relative-caret-position="202">
+              <caret line="400" column="88" lean-forward="false" selection-start-line="400" selection-start-column="88" selection-end-line="400" selection-end-column="88" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file leaf-file-name="ShippingPriceService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/ShippingPriceService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state relative-caret-position="90">
+              <caret line="6" column="11" lean-forward="false" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SubCategory.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/SubCategory.java">
+      <file leaf-file-name="ShippingPriceServiceImpl.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="18" column="30" lean-forward="false" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+            <state relative-caret-position="191">
+              <caret line="50" column="29" lean-forward="true" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="designerwelcomeemail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/designerwelcomeemail.html">
+      <file leaf-file-name="OrderService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="12" lean-forward="false" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
-              <folding>
-                <element signature="n#style#0;n#ul#0;n#span#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="20">
+              <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="heroku_f6dbdc37013716d.address" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.address">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -586,7 +193,6 @@
       <find>tag</find>
       <find>getdesi</find>
       <find>addpe</find>
-      <find>shipp</find>
       <find>addto</find>
       <find>order</find>
       <find>addorder</find>
@@ -595,6 +201,9 @@
       <find>addpr</find>
       <find>updat</find>
       <find>tomcat</find>
+      <find>cart</find>
+      <find>shipp</find>
+      <find>addOrd</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/target/fashion-0.0.1-SNAPSHOT</dir>
@@ -611,7 +220,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/ResendMailUtil.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/notifymetemplate.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/ZonePriceGIG.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/SubCategory.java" />
@@ -636,7 +244,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/UserController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/ProductRatingController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/AddressController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/ControllerAdvice.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/CustomizationController.java" />
@@ -655,13 +262,15 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/HibernateSearchService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/config/WebSecurityConfig.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/FashionApplication.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/designerwelcomeemail.html" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" />
       </list>
     </option>
   </component>
@@ -862,6 +471,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fashion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wawoohapi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="longbridge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1331,12 +970,12 @@
       <workItem from="1531935048447" duration="1331000" />
       <workItem from="1531937073316" duration="604000" />
       <workItem from="1531991426269" duration="51907000" />
-      <workItem from="1532360854295" duration="1249000" />
+      <workItem from="1532360854295" duration="6015000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="93629000" />
+    <option name="totallyTimeSpent" value="98395000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1349,6 +988,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1350" height="677" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1372,7 +1012,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294893" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294893" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11111111" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28669724" sideWeight="0.47833332" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28669724" sideWeight="0.47833332" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29833838" sideWeight="0.5159705" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36410257" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1465,41 +1105,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/failedinspforuser.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="20" column="41" lean-forward="false" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/notifymetemplate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/oderdeliveredemail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="30" column="41" lean-forward="false" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="41">
-          <caret line="20" column="162" lean-forward="false" selection-start-line="20" selection-start-column="162" selection-end-line="20" selection-end-column="176" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/ordershippedemail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="18" column="33" lean-forward="false" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/welcomeemail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-137">
@@ -1527,6 +1132,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
           <caret line="36" column="98" lean-forward="false" selection-start-line="36" selection-start-column="98" selection-end-line="36" selection-end-column="98" />
+          <folding>
+            <marker date="1532026538000" expanded="true" signature="2849:3004" ph="SELECT SUM(a... items" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1569,6 +1177,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="61">
           <caret line="117" column="9" lean-forward="false" selection-start-line="117" selection-start-column="9" selection-end-line="117" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1581,114 +1190,6 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Items.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-539">
-          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1298#1299#0" expanded="false" />
-            <element signature="e#1330#1331#0" expanded="false" />
-            <element signature="e#1378#1379#0" expanded="false" />
-            <element signature="e#1420#1421#0" expanded="false" />
-            <element signature="e#1452#1453#0" expanded="false" />
-            <element signature="e#1483#1484#0" expanded="false" />
-            <element signature="e#1528#1529#0" expanded="false" />
-            <element signature="e#1568#1569#0" expanded="false" />
-            <element signature="e#1603#1604#0" expanded="false" />
-            <element signature="e#1636#1637#0" expanded="false" />
-            <element signature="e#1686#1687#0" expanded="false" />
-            <element signature="e#1730#1731#0" expanded="false" />
-            <element signature="e#1771#1772#0" expanded="false" />
-            <element signature="e#1808#1809#0" expanded="false" />
-            <element signature="e#1868#1869#0" expanded="false" />
-            <element signature="e#1920#1921#0" expanded="false" />
-            <element signature="e#1957#1958#0" expanded="false" />
-            <element signature="e#1992#1993#0" expanded="false" />
-            <element signature="e#2046#2047#0" expanded="false" />
-            <element signature="e#2094#2095#0" expanded="false" />
-            <element signature="e#2125#2126#0" expanded="false" />
-            <element signature="e#2152#2153#0" expanded="false" />
-            <element signature="e#2192#2193#0" expanded="false" />
-            <element signature="e#2224#2225#0" expanded="false" />
-            <element signature="e#2257#2258#0" expanded="false" />
-            <element signature="e#2286#2287#0" expanded="false" />
-            <element signature="e#2330#2331#0" expanded="false" />
-            <element signature="e#2366#2367#0" expanded="false" />
-            <element signature="e#2407#2408#0" expanded="false" />
-            <element signature="e#2446#2447#0" expanded="false" />
-            <element signature="e#2508#2509#0" expanded="false" />
-            <element signature="e#2564#2565#0" expanded="false" />
-            <element signature="e#2606#2607#0" expanded="false" />
-            <element signature="e#2646#2647#0" expanded="false" />
-            <element signature="e#2710#2711#0" expanded="false" />
-            <element signature="e#2768#2769#0" expanded="false" />
-            <element signature="e#2800#2801#0" expanded="false" />
-            <element signature="e#2828#2829#0" expanded="false" />
-            <element signature="e#2870#2871#0" expanded="false" />
-            <element signature="e#2904#2905#0" expanded="false" />
-            <element signature="e#2945#2946#0" expanded="false" />
-            <element signature="e#2982#2983#0" expanded="false" />
-            <element signature="e#3042#3043#0" expanded="false" />
-            <element signature="e#3094#3095#0" expanded="false" />
-            <element signature="e#3135#3136#0" expanded="false" />
-            <element signature="e#3174#3175#0" expanded="false" />
-            <element signature="e#3236#3237#0" expanded="false" />
-            <element signature="e#3292#3293#0" expanded="false" />
-            <element signature="e#3337#3338#0" expanded="false" />
-            <element signature="e#3378#3379#0" expanded="false" />
-            <element signature="e#3446#3447#0" expanded="false" />
-            <element signature="e#3506#3507#0" expanded="false" />
-            <element signature="e#3539#3540#0" expanded="false" />
-            <element signature="e#3568#3569#0" expanded="false" />
-            <element signature="e#3612#3613#0" expanded="false" />
-            <element signature="e#3648#3649#0" expanded="false" />
-            <element signature="e#3686#3687#0" expanded="false" />
-            <element signature="e#3722#3723#0" expanded="false" />
-            <element signature="e#3778#3779#0" expanded="false" />
-            <element signature="e#3828#3829#0" expanded="false" />
-            <element signature="e#4078#4079#0" expanded="false" />
-            <element signature="e#4113#4114#0" expanded="false" />
-            <element signature="e#4169#4170#0" expanded="false" />
-            <element signature="e#4217#4218#0" expanded="false" />
-            <element signature="e#4258#4259#0" expanded="false" />
-            <element signature="e#4291#4292#0" expanded="false" />
-            <element signature="e#4347#4348#0" expanded="false" />
-            <element signature="e#4391#4392#0" expanded="false" />
-            <element signature="e#4438#4439#0" expanded="false" />
-            <element signature="e#4474#4475#0" expanded="false" />
-            <element signature="e#4539#4540#0" expanded="false" />
-            <element signature="e#4589#4590#0" expanded="false" />
-            <element signature="e#4628#4629#0" expanded="false" />
-            <element signature="e#4662#4663#0" expanded="false" />
-            <element signature="e#4716#4717#0" expanded="false" />
-            <element signature="e#4762#4763#0" expanded="false" />
-            <element signature="e#4800#4801#0" expanded="false" />
-            <element signature="e#4834#4835#0" expanded="false" />
-            <element signature="e#4888#4889#0" expanded="false" />
-            <element signature="e#4934#4935#0" expanded="false" />
-            <element signature="e#4975#4976#0" expanded="false" />
-            <element signature="e#5012#5013#0" expanded="false" />
-            <element signature="e#5072#5073#0" expanded="false" />
-            <element signature="e#5124#5125#0" expanded="false" />
-            <element signature="e#5165#5166#0" expanded="false" />
-            <element signature="e#5202#5203#0" expanded="false" />
-            <element signature="e#5262#5263#0" expanded="false" />
-            <element signature="e#5314#5315#0" expanded="false" />
-            <element signature="e#5356#5357#0" expanded="false" />
-            <element signature="e#5394#5395#0" expanded="false" />
-            <element signature="e#5456#5457#0" expanded="false" />
-            <element signature="e#5510#5511#0" expanded="false" />
-            <element signature="e#5559#5560#0" expanded="false" />
-            <element signature="e#5604#5605#0" expanded="false" />
-            <element signature="e#5783#5784#0" expanded="false" />
-            <element signature="e#5814#5815#0" expanded="false" />
-            <element signature="e#5862#5863#0" expanded="false" />
-            <element signature="e#5902#5903#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1793,18 +1294,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.user">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/repository/CommentRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1855,20 +1344,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="54" column="44" lean-forward="false" selection-start-line="54" selection-start-column="44" selection-end-line="54" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application-test.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -1881,16 +1356,6 @@
         <state relative-caret-position="690">
           <caret line="46" column="33" lean-forward="false" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11925">
-          <caret line="821" column="0" lean-forward="false" selection-start-line="821" selection-start-column="0" selection-end-line="821" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1956,16 +1421,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2205">
-          <caret line="169" column="82" lean-forward="false" selection-start-line="169" selection-start-column="82" selection-end-line="169" selection-end-column="82" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1979,7 +1434,7 @@
         <state relative-caret-position="315">
           <caret line="21" column="12" lean-forward="false" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
           <folding>
-            <element signature="n#style#0;n#ul#0;n#span#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#span#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2006,18 +1461,126 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/FashionApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="16" column="12" lean-forward="false" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
+        <state relative-caret-position="-2772">
           <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/FashionApplication.java">
+    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.token">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.address">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.user">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Items.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="18" column="32" lean-forward="false" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+        <state relative-caret-position="-282">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="124" column="60" lean-forward="false" selection-start-line="124" selection-start-column="60" selection-end-line="124" selection-end-column="60" />
+          <folding>
+            <element signature="e#996#997#0" expanded="true" />
+            <element signature="e#1030#1031#0" expanded="true" />
+            <element signature="e#1084#1085#0" expanded="true" />
+            <element signature="e#1130#1131#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/OrderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="400" column="88" lean-forward="false" selection-start-line="400" selection-start-column="88" selection-end-line="400" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/ShippingPriceService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="11" lean-forward="false" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="454" column="0" lean-forward="true" selection-start-line="454" selection-start-column="0" selection-end-line="454" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="1170" column="54" lean-forward="true" selection-start-line="1170" selection-start-column="54" selection-end-line="1170" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="50" column="29" lean-forward="true" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
           <folding />
         </state>
       </provider>
