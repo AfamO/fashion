@@ -3,86 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9i.fdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9i.fnm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9i.nvm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9i.si" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_9i_Lucene50_0.tip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/segments_9j" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/FashionApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/FashionApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/GeneralUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/GeneralUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/Hash.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/Hash.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/ResendMailUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/ResendMailUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/SendEmailAsync.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/SendEmailAsync.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/UserUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/UserUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/config/WebMvcConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/config/WebMvcConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/AddressController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/AddressController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/ControllerAdvice.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/ControllerAdvice.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/CustomizationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/CustomizationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/DatabaseLoader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/DatabaseLoader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/DesignerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/DesignerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/EventController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/EventController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/OrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/ProductController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/ProductRatingController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/ProductRatingController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/SizeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/SizeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/WishListController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/WishListController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPicReqDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPicReqDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPictureDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPictureDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CartDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CartDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentLikesDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentLikesDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentsDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentsDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventPicturesDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventPicturesDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/LikesDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/LikesDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MatPicReqDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MatPicReqDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MaterialPictureDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MaterialPictureDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductPictureDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductPictureDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/SalesChart.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/SalesChart.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/SubCategoryDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/SubCategoryDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/WishListDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/WishListDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Cart.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Cart.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/CommonFields.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/CommonFields.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Events.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Events.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/PriceSlash.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/PriceSlash.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductNotification.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductNotification.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Shipping.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Shipping.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/SubCategory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/SubCategory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CartRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CartRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CommentRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CommentRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/DesignerRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/DesignerRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventPictureRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventPictureRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ItemRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ItemRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MeasurementRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MeasurementRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/OrderRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/OrderRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PictureTagRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PictureTagRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PriceSlashRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PriceSlashRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ShippingRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ShippingRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/WishListRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/WishListRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ZonePriceRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ZonePriceRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/OrderDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/OrderDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/UserRestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/UserRestController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/service/JwtUserDetailsServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/service/JwtUserDetailsServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/DesignerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/DesignerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/EventService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/EventService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/HibernateSearchService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/HibernateSearchService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/WishListService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/WishListService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/AddressServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/AddressServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/EventServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/EventServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/MeasurementServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/MeasurementServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/OrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/OrderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/PriceSlashServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/PriceSlashServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductRatingServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductRatingServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ShippingPriceServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ShippingPriceServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/TokenServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/TokenServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WishListServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WishListServiceImpl.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -198,13 +118,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="46">
               <caret line="388" column="9" selection-start-line="388" selection-start-column="9" selection-end-line="388" selection-end-column="9" />
-              <folding>
-                <element signature="e#18443#18456#0" expanded="true" />
-                <element signature="e#18979#18989#0" expanded="true" />
-                <element signature="e#19284#19295#0" expanded="true" />
-                <element signature="e#21275#21293#0" expanded="true" />
-                <element signature="e#21690#21701#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -329,10 +242,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="ProjectPane" />
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -607,11 +520,12 @@
       <workItem from="1531937073316" duration="604000" />
       <workItem from="1531991426269" duration="32757000" />
       <workItem from="1532083109401" duration="1541000" />
+      <workItem from="1532496364135" duration="1169000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74771000" />
+    <option name="totallyTimeSpent" value="75940000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -623,13 +537,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="23" width="1350" height="677" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.503125" side_tool="true" weight="0.32991454" />
       <window_info anchor="right" id="Maven Projects" order="10" weight="0.32876712" />
-      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Designer" order="3" />
       <window_info anchor="right" id="Database" order="5" weight="0.20795107" />
@@ -638,30 +551,30 @@
       <window_info id="UI Designer" order="4" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.548718" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3294893" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.32307693" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info id="Image Layers" order="5" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" weight="0.3294893" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3294893" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.496875" visible="true" weight="0.44379845" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.496875" weight="0.44379845" />
       <window_info anchor="bottom" id="Spring" order="9" weight="0.3294893" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.33846155" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47833332" visible="true" weight="0.23410852" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.33707866" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47833332" visible="true" weight="0.2322239" />
       <window_info anchor="right" id="Bean Validation" order="8" />
       <window_info id="Web" order="8" sideWeight="0.5159705" side_tool="true" weight="0.29833838" />
       <window_info anchor="right" id="Theme Preview" order="9" />
       <window_info id="Favorites" order="6" sideWeight="0.52166665" side_tool="true" weight="0.33105022" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection Results" order="8" weight="0.45641026" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.30940172" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.36410257" />
       <window_info id="Nl-Palette" order="2" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="right" id="Properties" order="4" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32307693" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" id="Properties" order="4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection Results" order="8" weight="0.45641026" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.36410257" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1004,13 +917,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46">
           <caret line="388" column="9" selection-start-line="388" selection-start-column="9" selection-end-line="388" selection-end-column="9" />
-          <folding>
-            <element signature="e#18443#18456#0" expanded="true" />
-            <element signature="e#18979#18989#0" expanded="true" />
-            <element signature="e#19284#19295#0" expanded="true" />
-            <element signature="e#21275#21293#0" expanded="true" />
-            <element signature="e#21690#21701#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
