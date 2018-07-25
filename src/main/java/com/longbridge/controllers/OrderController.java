@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,10 +55,10 @@ public class OrderController {
             orderNumber = orderService.addOrder(orders,userTemp);
             Response response;
             if(orderNumber.equalsIgnoreCase("false")){
-                response = new Response("99","unable to process order, An item is out of stock","");
+                response = new Response("66","unable to process order, An item is out of stock","");
             }
             else if(orderNumber.equalsIgnoreCase("noitems")){
-                response = new Response("99","unable to process order, No items sent","");
+                response = new Response("67","unable to process order, No items sent","");
 
             }
             else {

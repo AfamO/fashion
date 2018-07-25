@@ -15,7 +15,7 @@ public class Orders extends CommonFields {
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<Items> items;
 
-    private String totalAmount;
+    private Double totalAmount;
     private String paymentType;
 
     private Long userId;
@@ -50,11 +50,11 @@ public class Orders extends CommonFields {
         this.items = items;
     }
 
-    public String getTotalAmount() {
+    public Double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(String totalAmount) {
+    public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -122,7 +122,7 @@ public class Orders extends CommonFields {
         this.paidAmount = paidAmount;
     }
 
-    public Orders(String orderNum, List<Items> items, String totalAmount, String paymentType, Long userId, String deliveryStatus, Address deliveryAddress, Date orderDate, Date deliveredDate) {
+    public Orders(String orderNum, List<Items> items, Double totalAmount, String paymentType, Long userId, String deliveryStatus, Address deliveryAddress, Date orderDate, Date deliveredDate) {
         this.orderNum = orderNum;
         this.items = items;
         this.totalAmount = totalAmount;

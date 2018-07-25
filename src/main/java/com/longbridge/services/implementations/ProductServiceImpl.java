@@ -3,7 +3,6 @@ package com.longbridge.services.implementations;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.dto.*;
 import com.longbridge.exception.WawoohException;
-import com.longbridge.exception.WriteFileException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.io.File;
 
 import java.math.BigInteger;
 import java.util.*;
