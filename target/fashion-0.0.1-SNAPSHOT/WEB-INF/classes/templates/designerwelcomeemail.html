@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:font-style="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+<div style= "width: 85%; margin: 16px auto 0; border: 1px solid rgba(0,0,0,0.2); height: auto;">
+    <div style = "padding: 15px;text-align: center;">
+        <img style = "width: 100px; background-size: contain;" src="http://wawooh.com/img/logo.png" alt="wawooh-logo"/></div>
+    <div style = "padding: 15px; margin: 15px 10px 0;">
+        <h4> Dear <span th:text="${name}"> </span>,</h4>
+        <p style = "line-height: 25px; font-size: 1em; color: #333;">
+            You have been successfully registered as a designer on Wawooh, your number 1 fashion dedicated social marketplace. <br />
+            We provide you the best in fashion events (Wawooh Event) and access to highly fashionable products (Wawooh shop)
+            from thousands of top fashion designers across Africa.
+
+        </p>
+        <p style = "line-height: 25px; font-size: 1em; color: #333;">
+            We are super excited to have you partner with us in providing quality authentic service to hundreds of thousands of users through your unrivaled skill, creativity and fashion style.
+        </p>
+        <p style = "line-height: 25px; font-size: 1em; color: #333;">
+            Our service extends ready-to-wear and bespoke/custom made fashion products and services for Men, Women, Boys, Girls, Babies, Accessories, Watches and other fashion products.
+        </p>
+        <span style = "line-height: 25px; font-size: 1em; color: #333;">
+                <b>Kindly follow the following steps to continue your journey with Wawooh. </b>
+
+                <ul style = "list-style: none;">
+                    <li> Click the following link to activate your account in order to complete your registration
+                    <a th:href="${link}"><b><span th:text="${link}"></span></b></a></li>
+                    <li>Login, fill and submit the KYC form</li>
+                    <li>Study our photography guide</li>
+                    <li>Upload your product photos according to our photo guide</li>
+                    <li>Wait for confirmation from Wawooh Admin</li>
+                </ul>
+            </span>
+
+        <b><span font-style="italic">Voila</span> &mdash; you are good to go.</b>
+
+        <p style = "line-height: 25px; font-size: 1em; color: line-height: 25px; font-size: 1em; color: rgb(182,30,40); font-family: Verdana"> Our vendor <span style="font-weight: bold; text-transform: uppercase;">compliance manual</span> contains all other necessary information you need to know about Wawooh.
+        </p>
+
+        <span style = "line-height: 25px; font-size: 1em; color: #333;"> Best wishes, <br/>
+
+                <ul style = "list-style: none;">
+                   <li>Designers Toolkit</li>
+                   <li>Designer FAQ</li>
+                   <li>Vendor Compliance Manual</li>
+                   <li>Photography Guide</li>
+                   <li>Customer Support Lines</li>
+                </ul>
+            </span>
+
+    </div>
+    <div style = "color: #fff;margin-top: 10px; background: #cd9933; padding: 7px; text-align: center;">
+        <span>Powered By Wawooh</span>
+    </div>
+</div>
+</body>
+</html>

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -522,6 +523,7 @@ public class ProductServiceImpl implements ProductService {
 //    }
 
     @Override
+    @Transactional
     public void addProduct(ProductDTO productDTO, Designer designer) {
 
         try {
@@ -546,6 +548,7 @@ public class ProductServiceImpl implements ProductService {
          //   products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
             products.designer=designer;
+            products.productType = productDTO.productType;
 
             if(productDTO.styleId != null) {
                 if(!productDTO.styleId.isEmpty()) {
@@ -593,16 +596,6 @@ public class ProductServiceImpl implements ProductService {
                 ProductPicture productPicture = new ProductPicture();
                 String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
 
-
-//                String base64Image = p.split(",")[1];
-//
-//                    byte[] imageByte = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-//                    ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-////
-//                    File imgfile = File.createTempFile(productPictureName,"tmp");
-//                    FileUtils.copyInputStreamToFile(bis,imgfile);
-//                    bis.close();
-
                 CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName,"productpictures");
 
                 //productPicture.pictureName = productPictureName;
@@ -614,33 +607,34 @@ public class ProductServiceImpl implements ProductService {
                 productPictureRepository.save(productPicture);
             }
 
-            for(MaterialPictureDTO mp:materialPics){
-                MaterialPicture materialPicture = new MaterialPicture();
-                String matName= generalUtil.getPicsName("materialpic",products.name);
-                //materialPicture.pictureName = matName;
-                CloudinaryResponse c= generalUtil.uploadToCloud(mp.materialPicture,matName,"materialpictures");
-                materialPicture.pictureName = c.getUrl();
-                materialPicture.picture = c.getPublicId();
-                materialPicture.materialName=mp.materialName;
-                materialPicture.products = products;
-                materialPicture.createdOn = date;
-                materialPicture.setUpdatedOn(date);
-                materialPictureRepository.save(materialPicture);
-            }
+            if( productDTO.productType == 1) {
+                for (MaterialPictureDTO mp : materialPics) {
+                    MaterialPicture materialPicture = new MaterialPicture();
+                    String matName = generalUtil.getPicsName("materialpic", products.name);
+                    //materialPicture.pictureName = matName;
+                    CloudinaryResponse c = generalUtil.uploadToCloud(mp.materialPicture, matName, "materialpictures");
+                    materialPicture.pictureName = c.getUrl();
+                    materialPicture.picture = c.getPublicId();
+                    materialPicture.materialName = mp.materialName;
+                    materialPicture.products = products;
+                    materialPicture.createdOn = date;
+                    materialPicture.setUpdatedOn(date);
+                    materialPictureRepository.save(materialPicture);
+                }
 
 
-
-            for(String ap:artWorkPics){
-                ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-                String artName= generalUtil.getPicsName("artworkpic",products.name);
-                //artWorkPicture.pictureName = artName;
-                CloudinaryResponse c = generalUtil.uploadToCloud(ap,artName,"artworkpictures");
-                artWorkPicture.pictureName = c.getUrl();
-                artWorkPicture.picture = c.getPublicId();
-                artWorkPicture.products = products;
-                artWorkPicture.createdOn = date;
-                artWorkPicture.setUpdatedOn(date);
-                artWorkPictureRepository.save(artWorkPicture);
+                for (String ap : artWorkPics) {
+                    ArtWorkPicture artWorkPicture = new ArtWorkPicture();
+                    String artName = generalUtil.getPicsName("artworkpic", products.name);
+                    //artWorkPicture.pictureName = artName;
+                    CloudinaryResponse c = generalUtil.uploadToCloud(ap, artName, "artworkpictures");
+                    artWorkPicture.pictureName = c.getUrl();
+                    artWorkPicture.picture = c.getPublicId();
+                    artWorkPicture.products = products;
+                    artWorkPicture.createdOn = date;
+                    artWorkPicture.setUpdatedOn(date);
+                    artWorkPictureRepository.save(artWorkPicture);
+                }
             }
 
         } catch (Exception e) {
