@@ -48,6 +48,8 @@ public class ProductRespDTO {
 
     public String inStock;
 
+    public int productType;
+
     public String status;
 
     public String verifiedFlag;

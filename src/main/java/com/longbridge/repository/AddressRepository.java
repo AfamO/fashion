@@ -14,4 +14,7 @@ import java.util.List;
 public interface AddressRepository extends PagingAndSortingRepository<Address,Long>{
     List<Address> findByUserAndDelFlag(User user, String delFlag);
 
+
+    Address findByUserAndPreferredAndDelFlag(User user, String preferred, String delFlag);
+
 }

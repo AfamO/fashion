@@ -26,6 +26,12 @@ public class AddressServiceImpl implements AddressService {
         try {
             Date date = new Date();
             address.setUser(user);
+            if(address.getPreferred().equalsIgnoreCase("Y")){
+                Address address1 = addressRepository.findByUserAndPreferredAndDelFlag(user,"Y","N");
+                address1.setPreferred("N");
+                addressRepository.save(address1);
+            }
+
             address.setCreatedOn(date);
             address.setUpdatedOn(date);
             addressRepository.save(address);

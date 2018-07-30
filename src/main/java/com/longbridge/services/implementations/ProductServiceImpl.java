@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -522,6 +523,7 @@ public class ProductServiceImpl implements ProductService {
 //    }
 
     @Override
+    @Transactional
     public void addProduct(ProductDTO productDTO, Designer designer) {
 
         try {
@@ -594,16 +596,6 @@ public class ProductServiceImpl implements ProductService {
                 ProductPicture productPicture = new ProductPicture();
                 String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
 
-
-//                String base64Image = p.split(",")[1];
-//
-//                    byte[] imageByte = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-//                    ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-////
-//                    File imgfile = File.createTempFile(productPictureName,"tmp");
-//                    FileUtils.copyInputStreamToFile(bis,imgfile);
-//                    bis.close();
-
                 CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName,"productpictures");
 
                 //productPicture.pictureName = productPictureName;
@@ -615,15 +607,15 @@ public class ProductServiceImpl implements ProductService {
                 productPictureRepository.save(productPicture);
             }
 
-            if( productDTO.productType == 1){
-                for(MaterialPictureDTO mp:materialPics){
+            if( productDTO.productType == 1) {
+                for (MaterialPictureDTO mp : materialPics) {
                     MaterialPicture materialPicture = new MaterialPicture();
-                    String matName= generalUtil.getPicsName("materialpic",products.name);
+                    String matName = generalUtil.getPicsName("materialpic", products.name);
                     //materialPicture.pictureName = matName;
-                    CloudinaryResponse c= generalUtil.uploadToCloud(mp.materialPicture,matName,"materialpictures");
+                    CloudinaryResponse c = generalUtil.uploadToCloud(mp.materialPicture, matName, "materialpictures");
                     materialPicture.pictureName = c.getUrl();
                     materialPicture.picture = c.getPublicId();
-                    materialPicture.materialName=mp.materialName;
+                    materialPicture.materialName = mp.materialName;
                     materialPicture.products = products;
                     materialPicture.createdOn = date;
                     materialPicture.setUpdatedOn(date);
@@ -631,12 +623,11 @@ public class ProductServiceImpl implements ProductService {
                 }
 
 
-
-                for(String ap:artWorkPics){
+                for (String ap : artWorkPics) {
                     ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-                    String artName= generalUtil.getPicsName("artworkpic",products.name);
+                    String artName = generalUtil.getPicsName("artworkpic", products.name);
                     //artWorkPicture.pictureName = artName;
-                    CloudinaryResponse c = generalUtil.uploadToCloud(ap,artName,"artworkpictures");
+                    CloudinaryResponse c = generalUtil.uploadToCloud(ap, artName, "artworkpictures");
                     artWorkPicture.pictureName = c.getUrl();
                     artWorkPicture.picture = c.getPublicId();
                     artWorkPicture.products = products;

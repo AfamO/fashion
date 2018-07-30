@@ -565,7 +565,20 @@ public class OrderServiceImpl implements OrderService {
             cart.setMaterialLocation(addressRepository.findOne(cart.getMaterialPickUpAddressId()));
             }
             Products products = productRepository.findOne(cart.getProductId());
-            cart.setAmount(Double.toString(products.amount*cart.getQuantity()));
+            Double amount;
+            if(products.priceSlash != null && products.priceSlash.getSlashedPrice()>0){
+                amount=products.amount-products.priceSlash.getSlashedPrice();
+            }else {
+                amount=products.amount;
+            }
+//
+//            int qty = cart.getQuantity();
+//
+//            Double newAmount = amount*qty;
+//            //cartTemp.setAmount(newAmount.toString());
+
+            cart.setAmount(amount*cart.getQuantity());
+            //cart.setAmount(newAmount);
             cart.setCreatedOn(date);
             cart.setUpdatedOn(date);
             cart.setExpiryDate(DateUtils.addDays(date,7));
@@ -597,7 +610,7 @@ public class OrderServiceImpl implements OrderService {
             int qty = cart.getQuantity();
             cartTemp.setQuantity(cart.getQuantity());
             Double newAmount = amount*qty;
-            cartTemp.setAmount(newAmount.toString());
+            cartTemp.setAmount(newAmount);
             cartTemp.setUpdatedOn(date);
             cartTemp.setExpiryDate(DateUtils.addDays(date,7));
             cartTemp.setUser(user);
@@ -1000,6 +1013,7 @@ itemRepository.save(items);
     }
 
     private String generateOrderNum(){
+
         Random r = new Random(System.currentTimeMillis() );
         int random = 1000000000 + r.nextInt(9999999);
         String orderNum = Integer.toString(random);
@@ -1067,7 +1081,7 @@ itemRepository.save(items);
             cartDTO.setMaterialPictureId(cart.getMaterialPictureId());
         }
 
-        cartDTO.setAmount(cart.getAmount());
+        cartDTO.setAmount(cart.getAmount().toString());
         cartDTO.setColor(cart.getColor());
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setSize(cart.getSize());

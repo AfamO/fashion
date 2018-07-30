@@ -25,7 +25,7 @@ public class Cart extends CommonFields {
 
     private String size;
 
-    private String amount;
+    private Double amount;
 
     private Long artWorkPictureId;
 
@@ -47,7 +47,7 @@ public class Cart extends CommonFields {
     private Long measurementId;
 
 
-    public Cart(User user, Long productId, int quantity, Long designerId, String size, String amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, Long materialPickUpAddressId, String materialPickupDate, Date expiryDate, Long measurementId) {
+    public Cart(User user, Long productId, int quantity, Long designerId, String size, Double amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, Long materialPickUpAddressId, String materialPickupDate, Date expiryDate, Long measurementId) {
         this.user = user;
         this.productId = productId;
         this.quantity = quantity;
@@ -106,11 +106,11 @@ public class Cart extends CommonFields {
         this.size = size;
     }
 
-    public String getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

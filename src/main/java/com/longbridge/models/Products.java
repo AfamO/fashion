@@ -76,6 +76,8 @@ public class Products extends CommonFields implements Serializable {
 
     public String availability;
 
+    public int productType;
+
     @Lob
     public String mandatoryMeasurements;
 
