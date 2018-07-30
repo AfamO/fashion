@@ -171,11 +171,17 @@ public class GeneralUtil {
         List<ProductPicture> productPictures = products.picture;
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 
-        List<ArtWorkPicture> artWorkPictures = products.artWorkPicture;
-        productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
+        if(products.productType == 1){
+            List<ArtWorkPicture> artWorkPictures = products.artWorkPicture;
+            productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
 
-        List<MaterialPicture> materialPictures = products.materialPicture;
-        productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
+            List<MaterialPicture> materialPictures = products.materialPicture;
+            productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
+        }else{
+            productDTO.artWorkPicture = null;
+            productDTO.materialPicture = null;
+        }
+
         int sum = 0;
         int deliverySum = 0;
         int serviceSum = 0;
@@ -208,13 +214,10 @@ public class GeneralUtil {
             productDTO.productServiceRating = 0;
         }
 
+        productDTO.productType = products.productType;
+
         return productDTO;
     }
-
-
-
-
-
 
     public ProductRespDTO convertEntityToDTOWithReviews(Products products){
         ProductRespDTO productDTO = new ProductRespDTO();
@@ -244,11 +247,16 @@ public class GeneralUtil {
         List<ProductPicture> productPictures = products.picture;
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 
-        List<ArtWorkPicture> artWorkPictures = products.artWorkPicture;
-        productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
+        if(products.productType == 1){
+            List<ArtWorkPicture> artWorkPictures = products.artWorkPicture;
+            productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
 
-        List<MaterialPicture> materialPictures = products.materialPicture;
-        productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
+            List<MaterialPicture> materialPictures = products.materialPicture;
+            productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
+        }else{
+            productDTO.artWorkPicture = null;
+            productDTO.materialPrice = null;
+        }
 
         productDTO.reviews=products.reviews;
         PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
@@ -256,6 +264,8 @@ public class GeneralUtil {
             productDTO.slashedPrice = priceSlash.getSlashedPrice();
             productDTO.percentageDiscount=priceSlash.getPercentageDiscount();
         }
+
+        productDTO.productType = products.productType;
 
         return productDTO;
 

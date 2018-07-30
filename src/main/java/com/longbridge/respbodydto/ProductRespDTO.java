@@ -72,4 +72,6 @@ public class ProductRespDTO {
 
     public int totalSales;
 
+    public int productType;
+
 }

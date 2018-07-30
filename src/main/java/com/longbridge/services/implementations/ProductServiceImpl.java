@@ -546,6 +546,7 @@ public class ProductServiceImpl implements ProductService {
          //   products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
             products.designer=designer;
+            products.productType = productDTO.productType;
 
             if(productDTO.styleId != null) {
                 if(!productDTO.styleId.isEmpty()) {
@@ -614,33 +615,35 @@ public class ProductServiceImpl implements ProductService {
                 productPictureRepository.save(productPicture);
             }
 
-            for(MaterialPictureDTO mp:materialPics){
-                MaterialPicture materialPicture = new MaterialPicture();
-                String matName= generalUtil.getPicsName("materialpic",products.name);
-                //materialPicture.pictureName = matName;
-                CloudinaryResponse c= generalUtil.uploadToCloud(mp.materialPicture,matName,"materialpictures");
-                materialPicture.pictureName = c.getUrl();
-                materialPicture.picture = c.getPublicId();
-                materialPicture.materialName=mp.materialName;
-                materialPicture.products = products;
-                materialPicture.createdOn = date;
-                materialPicture.setUpdatedOn(date);
-                materialPictureRepository.save(materialPicture);
-            }
+            if( productDTO.productType == 1){
+                for(MaterialPictureDTO mp:materialPics){
+                    MaterialPicture materialPicture = new MaterialPicture();
+                    String matName= generalUtil.getPicsName("materialpic",products.name);
+                    //materialPicture.pictureName = matName;
+                    CloudinaryResponse c= generalUtil.uploadToCloud(mp.materialPicture,matName,"materialpictures");
+                    materialPicture.pictureName = c.getUrl();
+                    materialPicture.picture = c.getPublicId();
+                    materialPicture.materialName=mp.materialName;
+                    materialPicture.products = products;
+                    materialPicture.createdOn = date;
+                    materialPicture.setUpdatedOn(date);
+                    materialPictureRepository.save(materialPicture);
+                }
 
 
 
-            for(String ap:artWorkPics){
-                ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-                String artName= generalUtil.getPicsName("artworkpic",products.name);
-                //artWorkPicture.pictureName = artName;
-                CloudinaryResponse c = generalUtil.uploadToCloud(ap,artName,"artworkpictures");
-                artWorkPicture.pictureName = c.getUrl();
-                artWorkPicture.picture = c.getPublicId();
-                artWorkPicture.products = products;
-                artWorkPicture.createdOn = date;
-                artWorkPicture.setUpdatedOn(date);
-                artWorkPictureRepository.save(artWorkPicture);
+                for(String ap:artWorkPics){
+                    ArtWorkPicture artWorkPicture = new ArtWorkPicture();
+                    String artName= generalUtil.getPicsName("artworkpic",products.name);
+                    //artWorkPicture.pictureName = artName;
+                    CloudinaryResponse c = generalUtil.uploadToCloud(ap,artName,"artworkpictures");
+                    artWorkPicture.pictureName = c.getUrl();
+                    artWorkPicture.picture = c.getPublicId();
+                    artWorkPicture.products = products;
+                    artWorkPicture.createdOn = date;
+                    artWorkPicture.setUpdatedOn(date);
+                    artWorkPictureRepository.save(artWorkPicture);
+                }
             }
 
         } catch (Exception e) {
