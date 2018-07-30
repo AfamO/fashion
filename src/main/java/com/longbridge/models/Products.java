@@ -99,7 +99,6 @@ public class Products extends CommonFields implements Serializable {
     public PriceSlash priceSlash;
 
     public int numOfDaysToComplete;
-    public int productType;
 
 
 

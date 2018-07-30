@@ -53,6 +53,4 @@ public class ProductDTO {
     @Lob
     public String mandatoryMeasurements;
 
-    public int productType;
-
 }

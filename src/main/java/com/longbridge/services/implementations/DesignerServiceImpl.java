@@ -49,6 +49,9 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     ItemRepository itemRepository;
 
+    @Autowired
+    ItemStatusRepository itemStatusRepository;
+
     @Override
     public List<DesignerDTO> getDesigners() {
         try {
@@ -355,9 +358,12 @@ public class DesignerServiceImpl implements DesignerService{
         dto.createdDate = formatter.format(d.createdOn);
         List<ProductRespDTO> products= generalUtil.convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d,"Y"));
         dto.setProducts(products);
-        List<String> statuses=new ArrayList<>();
-        statuses.add("OP");
-        statuses.add("PC");
+
+        List<String> stats = new ArrayList<>();
+        stats.add("OP");
+        stats.add("PC");
+
+        List<ItemStatus> statuses = itemStatusRepository.findByStatusIn(stats);
 //        statuses.add("RS");
 //        statuses.add("OS");
 //        statuses.add("D");

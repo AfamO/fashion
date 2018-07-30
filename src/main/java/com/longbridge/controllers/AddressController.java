@@ -51,10 +51,13 @@ public class AddressController {
         Map<String, Object> responseMap = new HashMap();
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
+
         if(token==null || userTemp==null){
-        addressService.updateAddress(address,userTemp);
+            return null;
         }
-       return new Response("00", "Operation Successful", responseMap);
+
+        addressService.updateAddress(address,userTemp);
+        return new Response("00", "Operation Successful", responseMap);
 
     }
 
