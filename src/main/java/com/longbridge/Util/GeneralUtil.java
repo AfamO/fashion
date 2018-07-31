@@ -28,8 +28,6 @@ import java.util.Map;
 @Service
 public class GeneralUtil {
 
-
-
     @Autowired
     EventPictureRepository eventPictureRepository;
 
@@ -157,6 +155,7 @@ public class GeneralUtil {
         productDTO.sponsoredFlag=products.sponsoredFlag;
         productDTO.verifiedFlag=products.verifiedFlag;
         productDTO.subCategoryId=products.subCategory.id.toString();
+        productDTO.subCategoryName=products.subCategory.subCategory;
         productDTO.categoryId=products.subCategory.category.id.toString();
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
         productDTO.numOfDaysToComplete=products.numOfDaysToComplete;
@@ -240,6 +239,7 @@ public class GeneralUtil {
         productDTO.sponsoredFlag=products.sponsoredFlag;
         productDTO.verifiedFlag=products.verifiedFlag;
         productDTO.subCategoryId=products.subCategory.id.toString();
+        productDTO.subCategoryName=products.subCategory.subCategory;
         productDTO.categoryId=products.subCategory.category.id.toString();
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
         productDTO.numOfDaysToComplete=products.numOfDaysToComplete;

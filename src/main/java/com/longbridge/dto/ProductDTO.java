@@ -23,6 +23,8 @@ public class ProductDTO {
     public ArrayList<String> sizes;
     public String styleId;
     public String subCategoryId;
+    public String subCategoryName;
+
     public String categoryId;
     public int productType;
 

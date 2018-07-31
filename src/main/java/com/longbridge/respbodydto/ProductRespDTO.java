@@ -27,6 +27,7 @@ public class ProductRespDTO {
     public List<ProductSizes> productSizes;
     public String styleId;
     public String subCategoryId;
+    public String subCategoryName;
     public String categoryId;
 
     public List<ProductPictureDTO> picture;
