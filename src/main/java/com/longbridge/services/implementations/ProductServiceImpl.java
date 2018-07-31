@@ -338,13 +338,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<SubCategory> getSubCategoriesByProductType(Long categoryId, int productType) {
+    public List<SubCategory> getSubCategoriesByProductType(SubCategoryDTO subCategoryDTO) {
         List<SubCategory> subCategories = new ArrayList<>();
         try {
-            Category category = categoryRepository.findOne(categoryId);
+            Category category = categoryRepository.findOne(subCategoryDTO.categoryId);
             if(category != null) {
-               subCategories = subCategoryRepository.findByCategoryAndProductType(category, productType);
+               subCategories = subCategoryRepository.findByCategoryAndProductType(category, subCategoryDTO.productType);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();

@@ -92,7 +92,7 @@ public interface ProductService {
 
     List<SubCategory> getAllSubCategories();
 
-    List<SubCategory> getSubCategoriesByProductType(Long categoryId, int productType);
+    List<SubCategory> getSubCategoriesByProductType(SubCategoryDTO subCategoryDTO);
 
     List<Style> getStyles(Long subCategoryId);
 
