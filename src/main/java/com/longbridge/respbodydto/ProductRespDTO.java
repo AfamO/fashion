@@ -29,6 +29,7 @@ public class ProductRespDTO {
     public String subCategoryId;
     public String subCategoryName;
     public String categoryId;
+    public String categoryName;
 
     public List<ProductPictureDTO> picture;
 

@@ -26,6 +26,9 @@ public class ProductDTO {
     public String subCategoryName;
 
     public String categoryId;
+
+    public String categoryName;
+
     public int productType;
 
     public ArrayList<String> picture;

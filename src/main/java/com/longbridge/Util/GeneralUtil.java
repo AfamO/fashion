@@ -157,6 +157,7 @@ public class GeneralUtil {
         productDTO.subCategoryId=products.subCategory.id.toString();
         productDTO.subCategoryName=products.subCategory.subCategory;
         productDTO.categoryId=products.subCategory.category.id.toString();
+        productDTO.categoryId=products.subCategory.category.categoryName;
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
         productDTO.numOfDaysToComplete=products.numOfDaysToComplete;
         productDTO.mandatoryMeasurements=products.mandatoryMeasurements;
@@ -241,6 +242,7 @@ public class GeneralUtil {
         productDTO.subCategoryId=products.subCategory.id.toString();
         productDTO.subCategoryName=products.subCategory.subCategory;
         productDTO.categoryId=products.subCategory.category.id.toString();
+        productDTO.categoryId=products.subCategory.category.categoryName;
         productDTO.numOfTimesOrdered = products.numOfTimesOrdered;
         productDTO.numOfDaysToComplete=products.numOfDaysToComplete;
         productDTO.mandatoryMeasurements=products.mandatoryMeasurements;
