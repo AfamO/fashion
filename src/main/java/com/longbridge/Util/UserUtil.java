@@ -178,7 +178,7 @@ public class UserUtil {
                 }
                 return new Response("00","Link successfully sent",responseMap);
             }else{
-                return new Response("99","User does not exist",responseMap);
+                return new Response("56","User does not exist",responseMap);
             }
 
         } catch (Exception e) {

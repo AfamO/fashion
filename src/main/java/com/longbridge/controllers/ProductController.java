@@ -41,28 +41,48 @@ public class ProductController {
     UserUtil userUtil;
 
     @PostMapping(value = "/addcategory")
-    public Response addCategory(@RequestBody CategoryDTO categoryDTO){
+    public Response addCategory(@RequestBody CategoryDTO categoryDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
         productService.addCategory(categoryDTO);
         return new Response("00","Operation Successful","success");
 
     }
 
     @PostMapping(value = "/addsubcategory")
-    public Response addCategory(@RequestBody SubCategoryDTO subCategoryDTO){
+    public Response addCategory(@RequestBody SubCategoryDTO subCategoryDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
        productService.addSubCategory(subCategoryDTO);
         return new Response("00","Operation Successful","success");
 
     }
 
     @PostMapping(value = "/addstyle")
-    public Response addStyle(@RequestBody StyleDTO styleDTO){
+    public Response addStyle(@RequestBody StyleDTO styleDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
         productService.addStyle(styleDTO);
         return new Response("00","Operation Successful","success");
 
     }
 
     @GetMapping(value = "/{subCategoryId}/getstyles")
-    public Object getStyles(@PathVariable Long subCategoryId){
+    public Object getStyles(@PathVariable Long subCategoryId, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
         List<Style> styles= productService.getStyles(subCategoryId);
         return new Response("00","Operation Successful",styles);
 
@@ -265,6 +285,25 @@ public class ProductController {
 
     @GetMapping(value = "/{categoryId}/getsubcategories")
     public Object getSubCategories(@PathVariable Long categoryId){
+        List<SubCategory> subCategories = productService.getSubCategories(categoryId);
+        return new Response("00","Operation Successful",subCategories);
+
+    }
+
+    @GetMapping(value = "/getallsubcategories")
+    public Object getAllSubCategories(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        List<SubCategory> subCategories = productService.getAllSubCategories();
+        return new Response("00","Operation Successful",subCategories);
+
+    }
+
+    @GetMapping(value = "/{categoryId}/{productype}/getsubcategories")
+    public Object getSubCategories(@PathVariable Long categoryId, @PathVariable Long productType){
         List<SubCategory> subCategories = productService.getSubCategories(categoryId);
         return new Response("00","Operation Successful",subCategories);
 

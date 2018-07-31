@@ -15,6 +15,8 @@ public class SubCategory extends CommonFields {
     @ManyToOne
     public Category category;
 
+    public int productType;
+
     @Field
     public String subCategory;
 

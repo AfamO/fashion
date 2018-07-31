@@ -169,15 +169,13 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             Date date = new Date();
-
-            Long categoryId = Long.parseLong(subCategoryDTO.categoryId);
-
             List<String> subCategoryList = subCategoryDTO.subCategoryName;
             System.out.println(subCategoryList);
             for(String s: subCategoryList){
                 SubCategory subCategory = new SubCategory();
                 subCategory.subCategory= s;
-                subCategory.category = categoryRepository.findOne(categoryId);
+                subCategory.productType=subCategoryDTO.productType;
+                subCategory.category = categoryRepository.findOne(subCategoryDTO.categoryId);
                 subCategory.setCreatedOn(date);
                 subCategory.setUpdatedOn(date);
                 subCategoryRepository.save(subCategory);
@@ -191,7 +189,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    @SuppressWarnings("UnusedAssignment")
+
     @Override
     public void addPictureTag(PictureTagDTO pictureTagDTO) {
 
@@ -314,15 +312,44 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<SubCategory> getSubCategories(Long categoryId) {
-
+        List<SubCategory> subCategories = new ArrayList<>();
         try {
-            List<SubCategory> subCategories = subCategoryRepository.findByCategory(categoryRepository.findOne(categoryId));
-            return subCategories;
-
+            Category category = categoryRepository.findOne(categoryId);
+            if(category != null) {
+                subCategories= subCategoryRepository.findByCategory(category);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
         }
+
+        return subCategories;
+    }
+
+    @Override
+    public List<SubCategory> getAllSubCategories() {
+        try {
+           return subCategoryRepository.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+    }
+
+    @Override
+    public List<SubCategory> getSubCategoriesByProductType(Long categoryId, int productType) {
+        List<SubCategory> subCategories = new ArrayList<>();
+        try {
+            Category category = categoryRepository.findOne(categoryId);
+            if(category != null) {
+               subCategories = subCategoryRepository.findByCategoryAndProductType(category, productType);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+        return subCategories;
     }
 
     @Override

@@ -90,6 +90,10 @@ public interface ProductService {
 
     List<SubCategory> getSubCategories(Long categoryId);
 
+    List<SubCategory> getAllSubCategories();
+
+    List<SubCategory> getSubCategoriesByProductType(Long categoryId, int productType);
+
     List<Style> getStyles(Long subCategoryId);
 
     List<EventPicturesDTO> getUntaggedPictures(PageableDetailsDTO pageableDetailsDTO);
