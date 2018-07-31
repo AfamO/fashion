@@ -213,8 +213,6 @@ public class ProductController {
 
     @PostMapping(value = "/filter")
     public Object filterProductsByPrice(@RequestBody FilterProductDTO filterProductDTO){
-        System.out.println("i'm here");
-        System.out.println(filterProductDTO.getSubCategoryId());
         List<ProductRespDTO> products= productService.filterProducts(filterProductDTO);
         return new Response("00","Operation Successful",products);
 

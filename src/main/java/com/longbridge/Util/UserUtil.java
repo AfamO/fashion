@@ -148,6 +148,48 @@ public class UserUtil {
     }
 
 
+
+    public Response getActivationLink(User passedUser){
+        Map<String,Object> responseMap = new HashMap();
+        try {
+
+            User user = userRepository.findByEmail(passedUser.email);
+            if(user!=null){
+                String name = user.firstName + " " + user.lastName;
+                String mail = user.email;
+                String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
+                String message="";
+                String activationLink="";
+                try {
+                    Context context = new Context();
+                    context.setVariable("name", name);
+                    activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
+                    System.out.println(activationLink);
+                    context.setVariable("link", activationLink);
+
+                    message = templateEngine.process("activationlinktemplate", context);
+
+                    mailService.prepareAndSend(message,mail,messageSource.getMessage("user.welcome.subject", null, locale));
+
+                }catch (MailException me){
+                    me.printStackTrace();
+                    throw new AppException("",passedUser.firstName + passedUser.lastName,passedUser.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
+
+                }
+                return new Response("00","Link successfully sent",responseMap);
+            }else{
+                return new Response("99","User does not exist",responseMap);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response("99","Error occured internally",responseMap);
+
+        }
+
+    }
+
+
     public Response createAdmin(User passedUser){
         Map<String,Object> responseMap = new HashMap();
         try {
