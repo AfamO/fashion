@@ -303,8 +303,8 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{categoryId}/{productype}/getsubcategories")
-    public Object getSubCategories(@PathVariable Long categoryId, @PathVariable Long productType){
-        List<SubCategory> subCategories = productService.getSubCategories(categoryId);
+    public Object getSubCategories(@PathVariable Long categoryId, @PathVariable int productType){
+        List<SubCategory> subCategories = productService.getSubCategoriesByProductType(categoryId,productType);
         return new Response("00","Operation Successful",subCategories);
 
     }
