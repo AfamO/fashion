@@ -577,7 +577,7 @@ public class ProductServiceImpl implements ProductService {
             products.designer=designer;
             products.productType = productDTO.productType;
 
-            if(productDTO.styleId != null) {
+            if(productDTO.styleId != null && !productDTO.styleId.equalsIgnoreCase("null")) {
                 if(!productDTO.styleId.isEmpty()) {
                     Long styleId = Long.parseLong(productDTO.styleId);
                     products.style = styleRepository.findOne(styleId);
