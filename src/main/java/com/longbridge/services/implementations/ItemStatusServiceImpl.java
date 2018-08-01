@@ -84,7 +84,7 @@ public class ItemStatusServiceImpl implements ItemStatusService {
         }
     }
 
-    //getstatuses
+    //getstatuses....
 
     @Override
     public List<ItemStatus> getAllStatuses() {
