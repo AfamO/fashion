@@ -5,6 +5,7 @@ import com.longbridge.dto.*;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
+import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.OrderService;
 import com.longbridge.services.ShippingPriceService;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class OrderController {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    ItemStatusService itemStatusService;
 
     @Autowired
     UserUtil userUtil;
@@ -481,6 +485,15 @@ public class OrderController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         return new Response("00","Operation Successful",orderService.getPendingOrders(userTemp));
+
+    }
+
+
+
+    @GetMapping(value = "/getstatuses")
+    public Response getStatuses(HttpServletRequest request){
+
+        return new Response("00","Operation Successful",itemStatusService.getAllStatuses());
 
     }
 
