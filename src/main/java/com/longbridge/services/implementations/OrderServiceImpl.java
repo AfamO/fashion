@@ -248,11 +248,17 @@ public class OrderServiceImpl implements OrderService {
             ItemsDTO itemsDTO1 = new ItemsDTO();
             Date date = new Date();
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
+            Items items = itemRepository.findOne(itemsDTO.getId());
             String customerEmail = customer.email;
             String rejectDecisionLink;
             String customerName = customer.lastName+" "+ customer.firstName;
+//            Context context = new Context();
+//            context.setVariable("name", customerName);
+//            context.setVariable("productName",items.getProductName());
+            Context context = new Context();
+            context.setVariable("name", customerName);
+            context.setVariable("productName",items.getProductName());
 
-            Items items = itemRepository.findOne(itemsDTO.getId());
             Products products = productRepository.findOne(items.getProductId());
             ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
             StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
@@ -267,6 +273,10 @@ public class OrderServiceImpl implements OrderService {
 
                     else if (itemsDTO.getStatus().equalsIgnoreCase("RI")) {
                         items.setItemStatus(itemStatus);
+
+                        String message = templateEngine.process("readyforinsptemplate", context);
+                        mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
+
                         //items.setStatusMessage(statusMessage);
                     }
                // }
@@ -280,9 +290,7 @@ public class OrderServiceImpl implements OrderService {
                     items.setItemStatus(itemStatus);
                     items.setStatusMessage(statusMessage);
 
-                    Context context = new Context();
-                    context.setVariable("name", customerName);
-                    context.setVariable("productName",products.name);
+
 
                     context.setVariable("waitTime",itemsDTO.getWaitTime());
 
@@ -394,18 +402,18 @@ public class OrderServiceImpl implements OrderService {
 
               //  StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
 
-            if(items.getItemStatus().getStatus().equalsIgnoreCase("CO")){
-                if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
-                    items.setItemStatus(itemStatus);
-                    //items.setStatusMessage(statusMessage);
+//            if(items.getItemStatus().getStatus().equalsIgnoreCase("CO")){
+//                if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
+//                    items.setItemStatus(itemStatus);
+//                    //items.setStatusMessage(statusMessage);
+//
+//                    String message = templateEngine.process("readyforinsptemplate", context);
+//                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
+//
+//                }
+//            }
 
-                    String message = templateEngine.process("readyforinsptemplate", context);
-                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
-
-                }
-            }
-
-                else if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
+               if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
                     if(itemsDTO.getStatus().equalsIgnoreCase("PI")){
                         items.setItemStatus(itemStatusRepository.findByStatus("RS"));
                         //items.setStatusMessage(statusMessage);
