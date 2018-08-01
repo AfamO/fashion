@@ -75,6 +75,7 @@ public interface ProductService {
 
     void addSubCategory(SubCategoryDTO subCategoryDTO);
 
+    void deleteSubCategory(Long id);
 
     void addPictureTag(PictureTagDTO pictureTagDTO);
 

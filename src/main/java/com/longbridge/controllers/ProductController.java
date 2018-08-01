@@ -64,6 +64,20 @@ public class ProductController {
 
     }
 
+
+    @PostMapping(value = "/{id}/deletesubcategory")
+    public Response deleteSub(@PathVariable Long id, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        productService.deleteSubCategory(id);
+        return new Response("00","Operation Successful","success");
+
+    }
+
+
     @PostMapping(value = "/addstyle")
     public Response addStyle(@RequestBody StyleDTO styleDTO, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

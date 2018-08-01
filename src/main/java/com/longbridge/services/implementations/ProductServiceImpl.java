@@ -188,6 +188,23 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Override
+    public void deleteSubCategory(Long id) {
+
+        try {
+            Date date = new Date();
+
+            SubCategory subCategory = subCategoryRepository.findOne(id);
+            subCategory.setDelFlag("Y");
+            subCategory.setUpdatedOn(date);
+            subCategoryRepository.save(subCategory);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+    }
+
 
 
     @Override
@@ -329,7 +346,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<SubCategory> getAllSubCategories() {
         try {
-           return subCategoryRepository.findAll();
+           return subCategoryRepository.findByDelFlag("N");
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
