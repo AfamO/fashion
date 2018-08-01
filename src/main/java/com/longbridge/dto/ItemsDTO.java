@@ -76,6 +76,8 @@ public class ItemsDTO {
 
     private String complain;
 
+    private boolean readyMade;
+
     @JsonIgnore
     private String link;
 
@@ -391,5 +393,13 @@ public class ItemsDTO {
 
     public void setComplain(String complain) {
         this.complain = complain;
+    }
+
+    public boolean isReadyMade() {
+        return readyMade;
+    }
+
+    public void setReadyMade(boolean readyMade) {
+        this.readyMade = readyMade;
     }
 }

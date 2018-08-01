@@ -116,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
     public String addOrder(OrderReqDTO orderReq, User user) {
 
         try{
-            List<DesignerOrderDTO> dtos = new ArrayList<>();
+
             Orders orders = new Orders();
             Double totalAmount = 0.0;
             Date date = new Date();
@@ -135,7 +135,7 @@ public class OrderServiceImpl implements OrderService {
             orders.setCreatedOn(date);
             orders.setUpdatedOn(date);
             orders.setUserId(user.id);
-            orders.setDeliveryStatus("P");
+
             orders.setOrderDate(date);
             orders.setPaymentType(orderReq.getPaymentType());
             orders.setPaidAmount(orderReq.getPaidAmount());
@@ -150,7 +150,17 @@ public class OrderServiceImpl implements OrderService {
                 break;
             }
             orderRepository.save(orders);
-            ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
+
+            ItemStatus itemStatus = new ItemStatus();
+            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
+               itemStatus = itemStatusRepository.findByStatus("PC");
+               orders.setDeliveryStatus("PC");
+            }
+            else if(orderReq.getPaymentType().equalsIgnoreCase("Bank Transfer")){
+               itemStatus = itemStatusRepository.findByStatus("P");
+               orders.setDeliveryStatus("P");
+            }
+
             for (Items items: orderReq.getItems()) {
                 Products p = productRepository.findOne(items.getProductId());
                 if(items.getMeasurementId() != null) {
@@ -209,6 +219,7 @@ public class OrderServiceImpl implements OrderService {
 
 
             }
+
             orders.setTotalAmount(totalAmount);
             orderRepository.save(orders);
             List<Cart> carts = cartRepository.findByUser(user);
@@ -248,12 +259,19 @@ public class OrderServiceImpl implements OrderService {
 
 
             if(items.getItemStatus().getStatus().equalsIgnoreCase("PC")) {
-                if(itemsDTO.getStatus().equalsIgnoreCase("OP")){
 
-                    items.setItemStatus(itemStatus);
-                    //items.setStatusMessage(statusMessage);
-                }
-                else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
+                    if (itemsDTO.getStatus().equalsIgnoreCase("OP")) {
+                        items.setItemStatus(itemStatus);
+                        //items.setStatusMessage(statusMessage);
+                    }
+
+                    else if (itemsDTO.getStatus().equalsIgnoreCase("RI")) {
+                        items.setItemStatus(itemStatus);
+                        //items.setStatusMessage(statusMessage);
+                    }
+               // }
+
+                    else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
                     String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
                     String link;
                     String message;
@@ -294,14 +312,14 @@ public class OrderServiceImpl implements OrderService {
                         throw new AppException(customerName,customerEmail,messageSource.getMessage("order.status.subject", null, locale),itemsDTO1);
 
                     }
-                    }
+            }
                 else {
                     throw new InvalidStatusUpdateException();
                 }
             }
 
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")){
-                if(itemsDTO.getStatus().equalsIgnoreCase("CO")){
+                if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
                     items.setItemStatus(itemStatus);
                     statusMessage.setHasResponse(false);
                     items.setStatusMessage(statusMessage);

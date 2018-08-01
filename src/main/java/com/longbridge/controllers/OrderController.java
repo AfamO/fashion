@@ -59,7 +59,6 @@ public class OrderController {
             }
             else if(orderNumber.equalsIgnoreCase("noitems")){
                 response = new Response("67","unable to process order, No items sent","");
-
             }
             else {
                 response = new Response("00", "Operation Successful", orderNumber);
@@ -92,6 +91,9 @@ public class OrderController {
         }
 
     }
+
+
+
 
     @PostMapping(value = "/designer/updateorderitem")
     public Response updateOrderStatusByDesigner(@RequestBody ItemsDTO item, HttpServletRequest request){
