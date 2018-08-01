@@ -845,8 +845,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<ItemsDTO> getAllOrdersByQA(User user) {
         try {
-            ItemStatus itemStatus = itemStatusRepository.findByStatus("RI");
-            return convertItemsEntToDTOs(itemRepository.findByItemStatus(itemStatus));
+
+                ItemStatus itemStatus1 = itemStatusRepository.findByStatus("RI");
+                ItemStatus itemStatus2 = itemStatusRepository.findByStatus("RS");
+                ItemStatus itemStatus3 = itemStatusRepository.findByStatus("OS");
+                List<ItemStatus> itemStatuses = new ArrayList();
+                itemStatuses.add(itemStatus1);
+                itemStatuses.add(itemStatus2);
+                itemStatuses.add(itemStatus3);
+
+            return convertItemsEntToDTOs(itemRepository.findByItemStatusIn(itemStatuses));
 
         }catch (Exception ex){
             ex.printStackTrace();
