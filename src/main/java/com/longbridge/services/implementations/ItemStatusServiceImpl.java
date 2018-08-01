@@ -84,6 +84,8 @@ public class ItemStatusServiceImpl implements ItemStatusService {
         }
     }
 
+    //getstatuses
+
     @Override
     public List<ItemStatus> getAllStatuses() {
         return itemStatusRepository.findAll();
