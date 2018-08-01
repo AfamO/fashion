@@ -412,6 +412,7 @@ public class OrderServiceImpl implements OrderService {
 //
 //                }
 //            }
+                System.out.println(itemsDTO.getStatus());
 
                if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
                     if(itemsDTO.getStatus().equalsIgnoreCase("PI")){
@@ -422,33 +423,20 @@ public class OrderServiceImpl implements OrderService {
                         //mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
 
                     }
-                }
+                    else if(itemsDTO.getStatus().equalsIgnoreCase("FI")){
+                        System.out.println("got hereeeeere");
+                            items.setItemStatus(itemStatusRepository.findByStatus("OP"));
+                            items.setFailedInspectionReason(itemsDTO.getAction());
+                            //items.setStatusMessage(statusMessage);
+                            //  context.setVariable("failedInspectionReason",itemsDTO.getAction());
 
-            else if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
-                if(itemsDTO.getStatus().equalsIgnoreCase("FI")){
-                    items.setItemStatus(itemStatusRepository.findByStatus("OP"));
-                    items.setFailedInspectionReason(itemsDTO.getAction());
-                    //items.setStatusMessage(statusMessage);
-                  //  context.setVariable("failedInspectionReason",itemsDTO.getAction());
-
-                    //todo later, send email to user and designer
-                    sendEmailAsync.sendFailedInspEmailToUser(customer,itemsDTO);
-                    sendEmailAsync.sendFailedInspToDesigner(itemsDTO);
+                            //todo later, send email to user and designer
+                            sendEmailAsync.sendFailedInspEmailToUser(customer,itemsDTO);
+                            sendEmailAsync.sendFailedInspToDesigner(itemsDTO);
 
 
-                }
-            }
-
-//            else if(items.getItemStatus().getStatus().equalsIgnoreCase("PI")){
-//                if(itemsDTO.getStatus().equalsIgnoreCase("RS")){
-//                    items.setItemStatus(itemStatus);
-//                    //items.setStatusMessage(statusMessage);
-//
-//                    String message = templateEngine.process("ordershippedemail", context);
-//                    mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.shipped.subject", null, locale));
-//
-//                }
-//            }
+                        }
+                    }
 
 
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("RS")){
