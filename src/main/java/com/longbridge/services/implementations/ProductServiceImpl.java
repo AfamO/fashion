@@ -706,6 +706,7 @@ public class ProductServiceImpl implements ProductService {
             products.color = productDTO.color;
 //            products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
+            products.prodSummary=productDTO.prodSummary;
             products.designer=designer;
             if(!"null".equalsIgnoreCase(productDTO.styleId)) {
                 if(!productDTO.styleId.isEmpty()) {
