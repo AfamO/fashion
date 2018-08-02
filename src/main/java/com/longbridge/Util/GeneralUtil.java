@@ -139,6 +139,7 @@ public class GeneralUtil {
         productDTO.amount=products.amount;
         productDTO.color=products.color;
         productDTO.description=products.prodDesc;
+        productDTO.prodSummary=products.prodSummary;
         productDTO.name=products.name;
         productDTO.productSizes=products.productSizes;
         if(products.style != null) {
@@ -225,6 +226,7 @@ public class GeneralUtil {
         productDTO.amount=products.amount;
         productDTO.color=products.color;
         productDTO.description=products.prodDesc;
+        productDTO.prodSummary=products.prodSummary;
         productDTO.name=products.name;
         productDTO.productSizes=products.productSizes;
         if(products.style != null) {

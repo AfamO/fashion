@@ -19,6 +19,9 @@ public class ProductDTO {
     public String designerName;
     public String designerStatus;
     public String description;
+
+    public String prodSummary;
+
     public ArrayList<String> color;
     public ArrayList<String> sizes;
     public String styleId;

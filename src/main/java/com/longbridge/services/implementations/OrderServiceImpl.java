@@ -512,7 +512,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderByAdmin(OrderReqDTO orderReqDTO, User user) {
+    public String updateOrderByAdmin(OrderReqDTO orderReqDTO, User user) {
         try{
             List<DesignerOrderDTO> dtos = new ArrayList<>();
             User customer = userRepository.findOne(orderReqDTO.getUserId());
@@ -522,6 +522,10 @@ public class OrderServiceImpl implements OrderService {
             orders.setUpdatedOn(date);
 
             if(orders.getDeliveryStatus().equalsIgnoreCase("P")){
+
+               if(transferInfoRepository.findByOrders(orders) == null){
+                 return "nopayment";
+               }
             for (Items items: orders.getItems()) {
                 items.setItemStatus(itemStatusRepository.findByStatus("PC"));
                 //items.setDeliveryStatus("PC");
@@ -548,6 +552,7 @@ public class OrderServiceImpl implements OrderService {
             ex.printStackTrace();
             throw new WawoohException();
         }
+        return "success";
     }
 
     @Override

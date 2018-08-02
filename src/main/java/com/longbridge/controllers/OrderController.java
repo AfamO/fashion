@@ -216,8 +216,17 @@ public class OrderController {
             if(token==null || userTemp==null){
                 return userUtil.tokenNullOrInvalidResponse(token);
             }
-            orderService.updateOrderByAdmin(orderReqDTO,userTemp);
-            return new Response("00","Operation Successful","success");
+
+            String message =  orderService.updateOrderByAdmin(orderReqDTO,userTemp);
+            if(message.equalsIgnoreCase("nopayment")){
+                return new Response("56","Operation Successful","No payment has been made");
+            }
+            else if(message.equalsIgnoreCase("success")){
+                return new Response("00","Operation Successful","success");
+            }
+            else {
+                return new Response("99","Error occurred here","error");
+            }
 
         }catch (AppException e){
             e.printStackTrace();

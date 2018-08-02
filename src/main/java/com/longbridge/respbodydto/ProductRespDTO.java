@@ -22,6 +22,9 @@ public class ProductRespDTO {
     public String designerStatus;
     public String designerName;
     public String description;
+
+    public String prodSummary;
+
     public ArrayList<String> color;
     //public ArrayList<String> sizes;
     public List<ProductSizes> productSizes;

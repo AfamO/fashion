@@ -38,6 +38,10 @@ public class Products extends CommonFields implements Serializable {
     @Lob
     public String prodDesc;
 
+
+    public String prodSummary;
+
+
     public ArrayList<String> color;
 
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
