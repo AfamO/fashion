@@ -71,6 +71,7 @@ public class GeneralUtil {
         }
         return artPictureDTOS;
     }
+    //pp
 
 
     public ArtPictureDTO convertArtPictureEntityToDTO(ArtWorkPicture picture){
