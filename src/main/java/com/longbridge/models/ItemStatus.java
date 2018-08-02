@@ -1,5 +1,7 @@
 package com.longbridge.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,15 +12,18 @@ public class ItemStatus extends CommonFields{
     private String status;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "itemStatus", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Items> items;
 
     @Column(name = "header_message")
     private String headerMessage;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "itemStatus", fetch = FetchType.LAZY)
     private List<StatusMessage> statusMessages;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "itemStatus", fetch = FetchType.LAZY)
     private List<StatusResponseMessage> statusResponseMessages;
 
