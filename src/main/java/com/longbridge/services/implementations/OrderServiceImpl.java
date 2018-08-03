@@ -410,6 +410,7 @@ public class OrderServiceImpl implements OrderService {
 
                if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
                     if(itemsDTO.getStatus().equalsIgnoreCase("PI")){
+                        items.setFailedInspectionReason(null);
                         items.setItemStatus(itemStatusRepository.findByStatus("RS"));
 
                     }
