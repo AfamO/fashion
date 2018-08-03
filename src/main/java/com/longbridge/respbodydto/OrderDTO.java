@@ -16,6 +16,8 @@ public class OrderDTO {
     private String paymentType;
     private Double paidAmount;
     private Long userId;
+
+    private String customerName;
     private String deliveryStatus;
     private String deliveryAddress;
     private String deliveryDate;
@@ -77,6 +79,14 @@ public class OrderDTO {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getDeliveryStatus() {

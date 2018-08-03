@@ -183,10 +183,17 @@ public class OrderServiceImpl implements OrderService {
                 }
 
                 items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).pictureName);
-                Double itemsAmount = p.amount*items.getQuantity();
+
+                Double amount;
+                if(p.priceSlash != null && p.priceSlash.getSlashedPrice()>0){
+                    amount=p.amount-p.priceSlash.getSlashedPrice();
+                }else {
+                    amount=p.amount;
+                }
+
+                Double itemsAmount = amount*items.getQuantity();
                 Double shippingAmount = generalUtil.getShipping(p.designer.city.toUpperCase().trim(),orders.getDeliveryAddress().getCity().toUpperCase().trim(),items.getQuantity());
                 items.setAmount(itemsAmount);
-                System.out.println(shippingAmount);
                 totalAmount=totalAmount+itemsAmount+shippingAmount;
                 items.setOrders(orders);
                 items.setProductName(p.name);
@@ -1216,6 +1223,8 @@ itemRepository.save(items);
         orderDTO.setPaymentType(orders.getPaymentType());
         orderDTO.setTotalAmount(orders.getTotalAmount().toString());
         orderDTO.setPaidAmount(orders.getPaidAmount());
+        User user=userRepository.findById(orders.getUserId());
+        orderDTO.setCustomerName(user.lastName+user.firstName);
         orderDTO.setUserId(orders.getUserId());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(orders.getDeliveryDate() != null) {
