@@ -1,8 +1,11 @@
 package com.longbridge.models;
 
+import javax.persistence.Entity;
+
 /**
  * Created by Longbridge on 31/07/2018.
  */
+@Entity
 public class Wallet extends CommonFields {
     private Long userId;
     private double balance;

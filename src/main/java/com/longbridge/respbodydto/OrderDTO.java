@@ -10,7 +10,7 @@ import java.util.List;
 public class OrderDTO {
     private Long id;
     private String orderNumber;
-    private List<ItemsDTO> itemsList;
+    private List<ItemsRespDTO> itemsList;
     private String orderDate;
     private String totalAmount;
     private String paymentType;
@@ -41,11 +41,11 @@ public class OrderDTO {
         this.orderNumber = orderNumber;
     }
 
-    public List<ItemsDTO> getItemsList() {
+    public List<ItemsRespDTO> getItemsList() {
         return itemsList;
     }
 
-    public void setItemsList(List<ItemsDTO> itemsList) {
+    public void setItemsList(List<ItemsRespDTO> itemsList) {
         this.itemsList = itemsList;
     }
 
@@ -121,10 +121,10 @@ public class OrderDTO {
         this.paidAmount = paidAmount;
     }
 
-    public OrderDTO(Long id, String orderNumber, List<ItemsDTO> itemsList, String orderDate, String totalAmount, String paymentType, Long userId, String deliveryStatus, String deliveryAddress, String deliveryDate) {
+    public OrderDTO(Long id, String orderNumber,String orderDate, String totalAmount, String paymentType, Long userId, String deliveryStatus, String deliveryAddress, String deliveryDate) {
         this.id = id;
         this.orderNumber = orderNumber;
-        this.itemsList = itemsList;
+
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
         this.paymentType = paymentType;

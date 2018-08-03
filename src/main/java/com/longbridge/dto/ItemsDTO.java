@@ -63,6 +63,9 @@ public class ItemsDTO {
     private Long statusId;
     private String status;
 
+
+    private String failedInspectionReason;
+
     private Long messageId;
     private String message;
 
@@ -401,5 +404,13 @@ public class ItemsDTO {
 
     public void setReadyMade(boolean readyMade) {
         this.readyMade = readyMade;
+    }
+
+    public String getFailedInspectionReason() {
+        return failedInspectionReason;
+    }
+
+    public void setFailedInspectionReason(String failedInspectionReason) {
+        this.failedInspectionReason = failedInspectionReason;
     }
 }

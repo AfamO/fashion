@@ -3,6 +3,7 @@ package com.longbridge.services;
 
 import com.longbridge.dto.*;
 import com.longbridge.models.*;
+import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
 
 import java.util.List;
@@ -28,23 +29,23 @@ public interface OrderService {
 
     List<Orders> getOrdersByUser(User user);
 
-    List<ItemsDTO> getOrdersByDesigner(User user);
+    List<ItemsRespDTO> getOrdersByDesigner(User user);
 
     int getSuccessfulSales(User user);
 
-    List<ItemsDTO> getCancelledOrders(User user);
+    List<ItemsRespDTO> getCancelledOrders(User user);
 
-    List<ItemsDTO> getPendingOrders(User user);
+    List<ItemsRespDTO> getPendingOrders(User user);
 
-    List<ItemsDTO> getActiveOrders(User user);
+    List<ItemsRespDTO> getActiveOrders(User user);
 
-    List<ItemsDTO> getCompletedOrders(User user);
+    List<ItemsRespDTO> getCompletedOrders(User user);
 
-    List<ItemsDTO> getAllOrdersByAdmin(User user);
+    List<ItemsRespDTO> getAllOrdersByAdmin(User user);
 
     List<OrderDTO> getAllOrdersByAdmin2(User user);
 
-    List<ItemsDTO> getAllOrdersByQA(User user);
+    List<ItemsRespDTO> getAllOrdersByQA(User user);
 
     String addToCart(Cart cart, User user);
 
@@ -62,7 +63,7 @@ public interface OrderService {
 
     OrderDTO getOrdersByOrderNum(String orderNumber);
 
-    ItemsDTO getOrderItemById(Long id);
+    ItemsRespDTO getOrderItemById(Long id);
 
     void saveUserOrderDecision(ItemsDTO itemsDTO,User user);
 

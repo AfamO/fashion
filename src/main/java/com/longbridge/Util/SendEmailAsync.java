@@ -301,6 +301,7 @@ public class SendEmailAsync {
                 Context context = new Context();
                 context.setVariable("name", user.firstName + " "+ user.lastName);
                 context.setVariable("productName",products.name);
+                context.setVariable("failedInspectionReason",itemsDTO.getAction());
 
 
                 String message = templateEngine.process("failedinspfordesigner", context);
