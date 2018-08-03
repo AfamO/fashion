@@ -41,6 +41,8 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
    // @Query("select p from Products p where p.picture like %:pictureName%")
     //Products findByPicture(String pictureName);
 
+    Page<Products> findByVerifiedFlag(String verifiedFlag,Pageable pageable);
+
     @Query(value = "select p.name from Products p where p.id =:id", nativeQuery = true)
     String getProductName(@Param("id") Long id);
 

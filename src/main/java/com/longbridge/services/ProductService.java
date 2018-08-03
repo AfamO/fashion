@@ -49,6 +49,10 @@ public interface ProductService {
 
     List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO);
 
+    List<ProductRespDTO> getVerifiedProducts(PageableDetailsDTO pageableDetailsDTO);
+
+    List<ProductRespDTO> getUnVerifiedProducts(PageableDetailsDTO pageableDetailsDTO);
+
     List<ProductRespDTO> getNewProducts(PageableDetailsDTO pageableDetailsDTO);
 
     //List<ProductRespDTO> getVerifiedProducts(PageableDetailsDTO pageableDetailsDTO);

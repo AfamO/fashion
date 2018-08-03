@@ -1074,6 +1074,40 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductRespDTO> getVerifiedProducts(PageableDetailsDTO pageableDetailsDTO) {
+
+        int page = pageableDetailsDTO.getPage();
+        int size = pageableDetailsDTO.getSize();
+        try {
+            Page<Products> products = productRepository.findByVerifiedFlag("Y", new PageRequest(page,size));
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
+
+            return productDTOS;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public List<ProductRespDTO> getUnVerifiedProducts(PageableDetailsDTO pageableDetailsDTO) {
+
+        int page = pageableDetailsDTO.getPage();
+        int size = pageableDetailsDTO.getSize();
+        try {
+            Page<Products> products = productRepository.findByVerifiedFlag("N",new PageRequest(page,size));
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
+
+            return productDTOS;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public List<ProductRespDTO> getNewProducts(PageableDetailsDTO pageableDetailsDTO) {
         int page = pageableDetailsDTO.getPage();
         int size = pageableDetailsDTO.getSize();

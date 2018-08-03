@@ -216,6 +216,37 @@ public class ProductController {
     }
 
 
+    @PostMapping(value = "/getverifiedproducts")
+    public Object getVerifiedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+        List<ProductRespDTO> products;
+
+        if(token==null || user==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        products= productService.getVerifiedProducts(pageableDetailsDTO);
+        return new Response("00","Operation Successful",products);
+
+    }
+
+
+    @PostMapping(value = "/getunverifiedproducts")
+    public Object getUnVerifiedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+        List<ProductRespDTO> products;
+
+        if(token==null || user==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        products= productService.getUnVerifiedProducts(pageableDetailsDTO);
+        return new Response("00","Operation Successful",products);
+
+    }
+
+
+
     @PostMapping(value = "/getnewproducts")
     public Object getNewProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<ProductRespDTO> products= productService.getNewProducts(pageableDetailsDTO);

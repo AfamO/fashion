@@ -71,7 +71,7 @@ public class GeneralUtil {
         }
         return artPictureDTOS;
     }
-    //pp
+
 
 
     public ArtPictureDTO convertArtPictureEntityToDTO(ArtWorkPicture picture){
@@ -277,9 +277,6 @@ public class GeneralUtil {
     }
 
 
-
-
-
     public String getPicsName(String picsArrayType, String productName){
 
         String timeStamp = picsArrayType + getCurrentTime();
@@ -321,7 +318,6 @@ public class GeneralUtil {
 
             byte[] imageByte = javax.xml.bind.DatatypeConverter.parseBase64Binary(image);
             ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-//
             File imgfile = File.createTempFile(fileName, "tmp");
             FileUtils.copyInputStreamToFile(bis, imgfile);
             bis.close();
