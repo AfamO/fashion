@@ -409,7 +409,7 @@ public class UserUtil {
                  */
 //                refreshAuthenticationDetails(user,token);
 
-              
+
                 responseMap.put("userDetails",user);
                 return new Response("00","User found",responseMap);
             }else{

@@ -536,7 +536,7 @@ public class OrderServiceImpl implements OrderService {
                 dto.setDesignerEmail(p.designer.user.email);
                 dtos.add(dto);
             }
-                    customer.walletBalance=orderReqDTO.getPaidAmount();
+                    //customer.walletBalance=orderReqDTO.getPaidAmount();
                     userRepository.save(customer);
                     orders.setDeliveryStatus("PC");
                     orders.setUpdatedOn(date);
