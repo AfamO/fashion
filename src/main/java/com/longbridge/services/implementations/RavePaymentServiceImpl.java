@@ -42,6 +42,9 @@ public class RavePaymentServiceImpl implements RavePaymentService {
     @Autowired
     ItemRepository itemRepository;
 
+    @Autowired
+    WalletRepository walletRepository;
+
     @Value("${rave.secret}")
     private String secret;
 
@@ -72,8 +75,16 @@ public class RavePaymentServiceImpl implements RavePaymentService {
         String trnxRef = ravePayment.getTransactionReference();
         try {
             String status = verify(trnxRef,cardPaymentDTO.getFlwRef(),secret,amount,1).getString("status");
+
             if(status.equalsIgnoreCase("00")){
-                deleteCart(userRepository.findByEmail(cardPaymentDTO.getEmail()));
+                User user = userRepository.findByEmail(cardPaymentDTO.getEmail());
+                deleteCart(user);
+
+                Wallet wallet = new Wallet();
+                wallet.setBalance(amount);
+                wallet.setUser(user);
+                walletRepository.save(wallet);
+
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
                 Orders orders = orderRepository.findOne(ravePayment.getOrderId());
                 for (Items item:orders.getItems()) {

@@ -34,7 +34,8 @@ public class User extends CommonFields{
 
     public Date activationDate;
 
-    public Double walletBalance=0.0;
+    @OneToOne
+    public Wallet wallet;
 
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

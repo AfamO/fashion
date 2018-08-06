@@ -7,22 +7,22 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Wallet extends CommonFields {
-    private Long userId;
+    private User user;
     private double balance;
     private double pendingSettlement;
 
-    public Wallet(Long userId, double balance, double pendingSettlement) {
-        this.userId = userId;
+    public Wallet(User user, double balance, double pendingSettlement) {
+        this.user = user;
         this.balance = balance;
         this.pendingSettlement = pendingSettlement;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public double getBalance() {
