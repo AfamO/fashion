@@ -250,11 +250,13 @@ public class OrderServiceImpl implements OrderService {
                 orderRespDTO.setTransactionReference(trnxRef);
                 orderRespDTO.setTotalAmount(totalAmount);
                 orderRespDTO.setId(orders.id);
+                orderRespDTO.setStatus("00");
                 return orderRespDTO;
             }
 
             deleteCart(user);
             sendEmailAsync.sendEmailToUser(user,orderNumber);
+            orderRespDTO.setStatus("00");
             orderRespDTO.setOrderNumber(orderNumber);
             return orderRespDTO;
 
