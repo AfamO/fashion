@@ -84,6 +84,7 @@ public class RavePaymentServiceImpl implements RavePaymentService {
                 orderRepository.save(orders);
                 response.status="00";
                 response.data=orders.getOrderNum();
+                response.message="Order sucessfully placed";
                 return response;
             }
 

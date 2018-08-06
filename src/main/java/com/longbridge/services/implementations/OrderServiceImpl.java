@@ -107,15 +107,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     GeneralUtil generalUtil;
 
-//
-//    @Value("${product.picture.folder}")
-//    private String productPicturesFolder;
-//
-//    @Value("${artwork.picture.folder}")
-//    private String artWorkPictureFolder;
-//
-//    @Value("${material.picture.folder}")
-//    private String materialPictureFolder;
 
     @Override
     public OrderRespDTO addOrder(OrderReqDTO orderReq, User user) {
@@ -125,13 +116,12 @@ public class OrderServiceImpl implements OrderService {
             Orders orders = new Orders();
             Double totalAmount = 0.0;
             Date date = new Date();
+            String orderNumber = "";
 
             if(orderReq.getItems().size() <1){
                 orderRespDTO.setStatus("noitems");
                 return orderRespDTO;
             }
-
-
             for (Items items: orderReq.getItems()) {
                 Products p = productRepository.findOne(items.getProductId());
                 if(p.stockNo == 0 && items.getMeasurementId() == null ){
@@ -140,23 +130,19 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
-            orders.setCreatedOn(date);
-            orders.setUpdatedOn(date);
-            orders.setUserId(user.id);
-
-            orders.setOrderDate(date);
-            orders.setPaymentType(orderReq.getPaymentType());
-            orders.setPaidAmount(orderReq.getPaidAmount());
-
-            orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
-            String orderNumber = "";
-
 
             while (!orderNumExists(generateOrderNum())){
                 orderNumber = "WAW#"+generateOrderNum();
                 orders.setOrderNum(orderNumber);
                 break;
             }
+            orders.setCreatedOn(date);
+            orders.setUpdatedOn(date);
+            orders.setUserId(user.id);
+            orders.setOrderDate(date);
+            orders.setPaymentType(orderReq.getPaymentType());
+            orders.setPaidAmount(orderReq.getPaidAmount());
+            orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
             orderRepository.save(orders);
 
             ItemStatus itemStatus = new ItemStatus();
@@ -168,76 +154,13 @@ public class OrderServiceImpl implements OrderService {
                itemStatus = itemStatusRepository.findByStatus("P");
                orders.setDeliveryStatus("P");
             }
+//            else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
+//
+//            }
 
-            for (Items items: orderReq.getItems()) {
-                Products p = productRepository.findOne(items.getProductId());
-                if(items.getMeasurementId() != null) {
-                    Measurement measurement = measurementRepository.findOne(items.getMeasurementId());
-                    try {
-                    ObjectMapper mapper = new ObjectMapper();
-                    String saveMeasurement=mapper.writeValueAsString(measurement);
-                        items.setMeasurement(saveMeasurement);
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-
-                    }
-
-                }
-                if(items.getArtWorkPictureId() != null){
-                    items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).pictureName);
-                }
-                if(items.getMaterialPictureId() != null){
-                    items.setMaterialPicture(materialPictureRepository.findOne(items.getMaterialPictureId()).pictureName);
-                }
-
-                items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).pictureName);
-
-                Double amount;
-                if(p.priceSlash != null && p.priceSlash.getSlashedPrice()>0){
-                    amount=p.amount-p.priceSlash.getSlashedPrice();
-                }else {
-                    amount=p.amount;
-                }
-
-                Double itemsAmount = amount*items.getQuantity();
-                Double shippingAmount = generalUtil.getShipping(p.designer.city.toUpperCase().trim(),orders.getDeliveryAddress().getCity().toUpperCase().trim(),items.getQuantity());
-                items.setAmount(itemsAmount);
-                totalAmount=totalAmount+itemsAmount+shippingAmount;
-                items.setOrders(orders);
-                items.setProductName(p.name);
-                items.setCreatedOn(date);
-                items.setUpdatedOn(date);
-                items.setItemStatus(itemStatus);
-                itemRepository.save(items);
-
-
-                p.numOfTimesOrdered = p.numOfTimesOrdered+1;
-
-
-                if(items.getMeasurement() == null) {
-                    if (p.stockNo != 0) {
-                        p.stockNo = p.stockNo - items.getQuantity();
-                        ProductSizes productSizes = productSizesRepository.findByProductsAndName(p, items.getSize());
-                        productSizes.setStockNo(productSizes.getStockNo() - items.getQuantity());
-                        productSizesRepository.save(productSizes);
-
-                    } else {
-                        p.inStock = "N";
-                    }
-
-                    if (p.stockNo == 0) {
-                        p.inStock = "N";
-                    }
-                }
-
-                productRepository.save(p);
-
-
-            }
-
+            totalAmount = saveItems(orderReq, totalAmount, date,orders,itemStatus);
             orders.setTotalAmount(totalAmount);
             orderRepository.save(orders);
-
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                 //generate a unique ref number
                 String trnxRef = "WAW"+ "-"+ generateOrderNum();
@@ -264,6 +187,76 @@ public class OrderServiceImpl implements OrderService {
             ex.printStackTrace();
             throw new WawoohException();
         }
+    }
+
+    private Double saveItems(OrderReqDTO orderReq, Double totalAmount, Date date,Orders orders,ItemStatus itemStatus) {
+
+        for (Items items: orderReq.getItems()) {
+            Products p = productRepository.findOne(items.getProductId());
+            if(items.getMeasurementId() != null) {
+                Measurement measurement = measurementRepository.findOne(items.getMeasurementId());
+                try {
+                ObjectMapper mapper = new ObjectMapper();
+                String saveMeasurement=mapper.writeValueAsString(measurement);
+                    items.setMeasurement(saveMeasurement);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+
+                }
+
+            }
+            if(items.getArtWorkPictureId() != null){
+                items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).pictureName);
+            }
+            if(items.getMaterialPictureId() != null){
+                items.setMaterialPicture(materialPictureRepository.findOne(items.getMaterialPictureId()).pictureName);
+            }
+
+            items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).pictureName);
+
+            Double amount;
+            if(p.priceSlash != null && p.priceSlash.getSlashedPrice()>0){
+                amount=p.amount-p.priceSlash.getSlashedPrice();
+            }else {
+                amount=p.amount;
+            }
+
+            Double itemsAmount = amount*items.getQuantity();
+            Double shippingAmount = generalUtil.getShipping(p.designer.city.toUpperCase().trim(),orders.getDeliveryAddress().getCity().toUpperCase().trim(),items.getQuantity());
+            items.setAmount(itemsAmount);
+            totalAmount=totalAmount+itemsAmount+shippingAmount;
+            items.setOrders(orders);
+            items.setProductName(p.name);
+            items.setCreatedOn(date);
+            items.setUpdatedOn(date);
+            items.setItemStatus(itemStatus);
+            itemRepository.save(items);
+
+
+            p.numOfTimesOrdered = p.numOfTimesOrdered+1;
+
+
+            if(items.getMeasurement() == null) {
+                if (p.stockNo != 0) {
+                    p.stockNo = p.stockNo - items.getQuantity();
+                    ProductSizes productSizes = productSizesRepository.findByProductsAndName(p, items.getSize());
+                    productSizes.setStockNo(productSizes.getStockNo() - items.getQuantity());
+                    productSizesRepository.save(productSizes);
+
+                } else {
+                    p.inStock = "N";
+                }
+
+                if (p.stockNo == 0) {
+                    p.inStock = "N";
+                }
+            }
+
+            productRepository.save(p);
+
+
+        }
+        return totalAmount;
     }
 
 

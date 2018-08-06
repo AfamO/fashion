@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Longbridge on 06/08/2018.
  */
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/rave")
 public class RavePaymentController {
