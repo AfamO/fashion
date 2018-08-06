@@ -1,12 +1,18 @@
 package com.longbridge.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.Date;
 
 /**
  * Created by Longbridge on 31/07/2018.
  */
+@Entity
 public class RavePayment {
 
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private Long orderId;
@@ -111,5 +117,8 @@ public class RavePayment {
         this.status = status;
         this.chargeCode = chargeCode;
         this.transactionDate = transactionDate;
+    }
+
+    public RavePayment() {
     }
 }

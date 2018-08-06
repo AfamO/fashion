@@ -5,6 +5,7 @@ import com.longbridge.dto.*;
 import com.longbridge.models.*;
 import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
+import com.longbridge.respbodydto.OrderRespDTO;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface OrderService {
 
-    String addOrder(OrderReqDTO orders, User user);
+    OrderRespDTO addOrder(OrderReqDTO orders, User user);
 
     void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO, User user);
 

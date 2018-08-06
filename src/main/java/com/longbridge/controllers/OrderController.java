@@ -5,6 +5,7 @@ import com.longbridge.dto.*;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
+import com.longbridge.respbodydto.OrderRespDTO;
 import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.OrderService;
 import com.longbridge.services.ShippingPriceService;
@@ -51,21 +52,22 @@ public class OrderController {
     public Response createOrder(@RequestBody OrderReqDTO orders, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
-        String orderNumber = "";
+
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
+        OrderRespDTO orderRespDTO = new OrderRespDTO();
         try {
-            orderNumber = orderService.addOrder(orders,userTemp);
+            orderRespDTO = orderService.addOrder(orders,userTemp);
             Response response;
-            if(orderNumber.equalsIgnoreCase("false")){
+            if(orderRespDTO.getStatus().equalsIgnoreCase("false")){
                 response = new Response("66","unable to process order, An item is out of stock","");
             }
-            else if(orderNumber.equalsIgnoreCase("noitems")){
+            else if(orderRespDTO.getStatus().equalsIgnoreCase("noitems")){
                 response = new Response("67","unable to process order, No items sent","");
             }
-            else {
-                response = new Response("00", "Operation Successful", orderNumber);
+            else{
+                response = new Response("00", "Operation Successful", orderRespDTO);
             }
             return response;
         }catch (AppException e){
@@ -90,7 +92,7 @@ public class OrderController {
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);
             mailErrorRepository.save(mailError);
-            return new Response("00", "Operation Successful, Trying to send email", orderNumber);
+            return new Response("00", "Operation Successful, Trying to send email", orderRespDTO);
 
         }
 

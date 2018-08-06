@@ -12,6 +12,7 @@ import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
+import com.longbridge.respbodydto.OrderRespDTO;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.MailService;
 import com.longbridge.services.OrderService;
@@ -88,6 +89,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     MailService mailService;
 
+    @Autowired
+    RavePaymentRepository ravePaymentRepository;
+
     private Locale locale = LocaleContextHolder.getLocale();
 
 
@@ -114,8 +118,8 @@ public class OrderServiceImpl implements OrderService {
 //    private String materialPictureFolder;
 
     @Override
-    public String addOrder(OrderReqDTO orderReq, User user) {
-
+    public OrderRespDTO addOrder(OrderReqDTO orderReq, User user) {
+        OrderRespDTO orderRespDTO = new OrderRespDTO();
         try{
 
             Orders orders = new Orders();
@@ -123,13 +127,16 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
 
             if(orderReq.getItems().size() <1){
-                return "noitems";
+                orderRespDTO.setStatus("noitems");
+                return orderRespDTO;
             }
+
 
             for (Items items: orderReq.getItems()) {
                 Products p = productRepository.findOne(items.getProductId());
                 if(p.stockNo == 0 && items.getMeasurementId() == null ){
-                    return "false";
+                    orderRespDTO.setStatus("false");
+                    return orderRespDTO;
                 }
             }
 
@@ -154,8 +161,8 @@ public class OrderServiceImpl implements OrderService {
 
             ItemStatus itemStatus = new ItemStatus();
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
-               itemStatus = itemStatusRepository.findByStatus("PC");
-               orders.setDeliveryStatus("PC");
+               itemStatus = itemStatusRepository.findByStatus("NV");
+               orders.setDeliveryStatus("NV");
             }
             else if(orderReq.getPaymentType().equalsIgnoreCase("Bank Transfer")){
                itemStatus = itemStatusRepository.findByStatus("P");
@@ -230,17 +237,26 @@ public class OrderServiceImpl implements OrderService {
 
             orders.setTotalAmount(totalAmount);
             orderRepository.save(orders);
-            List<Cart> carts = cartRepository.findByUser(user);
-            for (Cart c: carts) {
-                cartRepository.delete(c);
+
+            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
+                //generate a unique ref number
+                String trnxRef = "WAW"+ "-"+ generateOrderNum();
+                RavePayment ravePayment = new RavePayment();
+                ravePayment.setOrderId(orders.id);
+                ravePayment.setTransactionAmount(totalAmount);
+                ravePayment.setTransactionReference(trnxRef);
+                ravePaymentRepository.save(ravePayment);
+                orderRespDTO.setOrderNumber(orderNumber);
+                orderRespDTO.setTransactionReference(trnxRef);
+                orderRespDTO.setTotalAmount(totalAmount);
+                orderRespDTO.setId(orders.id);
+                return orderRespDTO;
             }
 
-
+            deleteCart(user);
             sendEmailAsync.sendEmailToUser(user,orderNumber);
-           //sendEmailAsync.sendEmailToDesigner(dtos,orderNumber);
-//            sendEmailAsync.sendEmailToAdmin(userRepository.findByRole("superadmin"),orderNumber);
-
-            return orderNumber;
+            orderRespDTO.setOrderNumber(orderNumber);
+            return orderRespDTO;
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -1227,6 +1243,13 @@ itemRepository.save(items);
 
         return orderDTO;
 
+    }
+
+    private void deleteCart(User user){
+        List<Cart> carts = cartRepository.findByUser(user);
+        for (Cart c: carts) {
+            cartRepository.delete(c);
+        }
     }
 
 
