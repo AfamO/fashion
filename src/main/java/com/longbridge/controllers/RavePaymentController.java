@@ -36,7 +36,7 @@ public class RavePaymentController {
     @PostMapping(value = "/verifytransaction")
     public Object getTranRef(@RequestBody CardPaymentDTO cardPaymentDTO){
 
-        Response response = ravePaymentService.validateTransaction(cardPaymentDTO,user);
+        Response response = ravePaymentService.validateTransaction(cardPaymentDTO);
         return response;
 
         //return new Response("00","Operation Successful",response);
