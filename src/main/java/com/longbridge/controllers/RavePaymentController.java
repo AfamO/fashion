@@ -43,10 +43,7 @@ public class RavePaymentController {
         }
 
 
-        String response = ravePaymentService.validateTransaction(cardPaymentDTO);
-        if(response.equalsIgnoreCase("false")){
-            return new Response("56","Operation Successful","Unable to complete order");
-        }
+        Response response = ravePaymentService.validateTransaction(cardPaymentDTO,user);
 
         return new Response("00","Operation Successful",response);
 

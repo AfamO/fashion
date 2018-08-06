@@ -2,10 +2,8 @@ package com.longbridge.services.implementations;
 
 import com.longbridge.dto.CardPaymentDTO;
 import com.longbridge.exception.WawoohException;
-import com.longbridge.models.Orders;
-import com.longbridge.models.RavePayment;
-import com.longbridge.repository.OrderRepository;
-import com.longbridge.repository.RavePaymentRepository;
+import com.longbridge.models.*;
+import com.longbridge.repository.*;
 import com.longbridge.services.RavePaymentService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -15,6 +13,10 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Longbridge on 31/07/2018.
@@ -27,6 +29,15 @@ public class RavePaymentServiceImpl implements RavePaymentService {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    CartRepository cartRepository;
+
+    @Autowired
+    ItemStatusRepository itemStatusRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
+
     @Value("${rave.secret}")
     private String secret;
 
@@ -34,8 +45,8 @@ public class RavePaymentServiceImpl implements RavePaymentService {
     private final String VERIFY_ENDPOINT = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/v2/verify";
 
     @Override
-    public String validateTransaction(CardPaymentDTO cardPaymentDTO) {
-
+    public Response validateTransaction(CardPaymentDTO cardPaymentDTO,User user) {
+       Response response = new Response();
         /**
          *
          * Method to
@@ -48,17 +59,51 @@ public class RavePaymentServiceImpl implements RavePaymentService {
          */
 
         RavePayment ravePayment = ravePaymentRepository.findOne(cardPaymentDTO.getOrderId());
+        if(ravePayment == null){
+            response.status="99";
+            return response;
+        }
         double amount = ravePayment.getTransactionAmount();
         String trnxRef = ravePayment.getTransactionReference();
         try {
             String status = verify(trnxRef,cardPaymentDTO.getFlwRef(),secret,amount,1).getString("status");
             if(status.equalsIgnoreCase("00")){
-                return orderRepository.findOne(ravePayment.getOrderId()).getOrderNum();
+                deleteCart(user);
+                ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
+                Orders orders = orderRepository.findOne(ravePayment.getOrderId());
+                for (Items item:orders.getItems()) {
+                    item.setItemStatus(itemStatus);
+                    itemRepository.save(item);
+                }
+                orders.setDeliveryStatus("PC");
+                orderRepository.save(orders);
+                response.status="00";
+                response.data=orders.getOrderNum();
+                return response;
             }
 
             if(status.equalsIgnoreCase("56")){
-                return "false";
+                response.status="56";
+                response.message="Amount does not match";
+                return response;
             }
+            else if(status.equalsIgnoreCase("16")){
+                response.status="16";
+                response.message= "No response from server";
+                return response;
+            }
+            else if(status.equalsIgnoreCase("26")){
+                response.status="26";
+                response.message= "Transaction status unknown";
+                return response;
+            }
+            else{
+               response.status="59";
+               response.message=status;
+               return response;
+            }
+
+
 
         }catch (Exception e){
             e.printStackTrace();
@@ -66,8 +111,6 @@ public class RavePaymentServiceImpl implements RavePaymentService {
         }
 
 
-
-        return null;
     }
 
 
@@ -93,22 +136,30 @@ public class RavePaymentServiceImpl implements RavePaymentService {
         JSONObject responseObject = jsonNode.getObject();
 
         // check of no object is returned
-        if(responseObject == null)
-            throw new Exception("No response from server");
+        if(responseObject == null){
+            data.put("status","16");
+           // throw new Exception("No response from server");
+            return data;
+        }
+
 
         // This get status from returned payload
         String status = responseObject.optString("status", null);
 
         // this ensures that status is not null
-        if(status == null)
-            throw new Exception("Transaction status unknown");
+        if(status == null) {
+            //throw new Exception("Transaction status unknown");
+            data.put("status", "26");
+            return data;
+        }
 
         // This confirms the transaction exist on rave
         if(!"success".equalsIgnoreCase(status)){
 
             String message = responseObject.optString("message", null);
 
-            throw new Exception(message);
+            //throw new Exception(message);
+            data.put("status",message);
         }
 
         data = responseObject.getJSONObject("data");
@@ -131,6 +182,14 @@ public class RavePaymentServiceImpl implements RavePaymentService {
 
         // now you can give value for payment.
 
+    }
+
+
+    private void deleteCart(User user){
+        List<Cart> carts = cartRepository.findByUser(user);
+        for (Cart c: carts) {
+            cartRepository.delete(c);
+        }
     }
 
 }
