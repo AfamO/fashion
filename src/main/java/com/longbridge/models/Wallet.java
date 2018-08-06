@@ -1,12 +1,14 @@
 package com.longbridge.models;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 /**
  * Created by Longbridge on 31/07/2018.
  */
 @Entity
 public class Wallet extends CommonFields {
+    @OneToOne
     private User user;
     private double balance;
     private double pendingSettlement;

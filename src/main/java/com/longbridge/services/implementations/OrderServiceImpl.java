@@ -537,6 +537,7 @@ public class OrderServiceImpl implements OrderService {
                 dtos.add(dto);
             }
                     //customer.walletBalance=orderReqDTO.getPaidAmount();
+                    customer.wallet.setBalance(orderReqDTO.getPaidAmount());
                     userRepository.save(customer);
                     orders.setDeliveryStatus("PC");
                     orders.setUpdatedOn(date);

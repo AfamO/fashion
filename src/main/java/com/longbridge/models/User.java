@@ -34,7 +34,7 @@ public class User extends CommonFields{
 
     public Date activationDate;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Wallet wallet;
 
 
