@@ -4,6 +4,7 @@ import com.longbridge.dto.CardPaymentDTO;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
+import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.RavePaymentService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -36,6 +37,9 @@ public class RavePaymentServiceImpl implements RavePaymentService {
     ItemStatusRepository itemStatusRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     ItemRepository itemRepository;
 
     @Value("${rave.secret}")
@@ -45,7 +49,7 @@ public class RavePaymentServiceImpl implements RavePaymentService {
     private final String VERIFY_ENDPOINT = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/v2/verify";
 
     @Override
-    public Response validateTransaction(CardPaymentDTO cardPaymentDTO,User user) {
+    public Response validateTransaction(CardPaymentDTO cardPaymentDTO) {
        Response response = new Response();
         /**
          *
@@ -58,9 +62,10 @@ public class RavePaymentServiceImpl implements RavePaymentService {
          * @throws UnirestException
          */
 
-        RavePayment ravePayment = ravePaymentRepository.findOne(cardPaymentDTO.getOrderId());
+        RavePayment ravePayment = ravePaymentRepository.findByOrderId(cardPaymentDTO.getOrderId());
         if(ravePayment == null){
-            response.status="99";
+            response.status="79";
+            response.message="Unable to complete payment.. Invalid order reference";
             return response;
         }
         double amount = ravePayment.getTransactionAmount();
@@ -68,7 +73,7 @@ public class RavePaymentServiceImpl implements RavePaymentService {
         try {
             String status = verify(trnxRef,cardPaymentDTO.getFlwRef(),secret,amount,1).getString("status");
             if(status.equalsIgnoreCase("00")){
-                deleteCart(user);
+                deleteCart(userRepository.findByEmail(cardPaymentDTO.getEmail()));
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
                 Orders orders = orderRepository.findOne(ravePayment.getOrderId());
                 for (Items item:orders.getItems()) {
@@ -103,11 +108,11 @@ public class RavePaymentServiceImpl implements RavePaymentService {
                return response;
             }
 
-
-
         }catch (Exception e){
             e.printStackTrace();
-            throw new WawoohException();
+            response.status="99";
+            response.message="Unable to complete payment, An error occurred";
+            return response;
         }
 
 

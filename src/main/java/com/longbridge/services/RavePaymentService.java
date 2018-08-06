@@ -8,6 +8,6 @@ import com.longbridge.models.User;
  * Created by Longbridge on 31/07/2018.
  */
 public interface RavePaymentService {
-    Response validateTransaction(CardPaymentDTO cardPaymentDTO, User user);
+    Response validateTransaction(CardPaymentDTO cardPaymentDTO);
 
 }

@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Longbridge on 06/08/2018.
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/rave")
 public class RavePaymentController {
@@ -34,18 +34,12 @@ public class RavePaymentController {
     RavePaymentService ravePaymentService;
 
     @PostMapping(value = "/verifytransaction")
-    public Object getTranRef(@RequestBody CardPaymentDTO cardPaymentDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
+    public Object getTranRef(@RequestBody CardPaymentDTO cardPaymentDTO){
 
         Response response = ravePaymentService.validateTransaction(cardPaymentDTO,user);
+        return response;
 
-        return new Response("00","Operation Successful",response);
+        //return new Response("00","Operation Successful",response);
 
     }
 

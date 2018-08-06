@@ -12,6 +12,8 @@ public class CardPaymentDTO {
 
     private String flwRef;
 
+    private String email;
+
 
 
     public Long getOrderId() {
@@ -41,6 +43,14 @@ public class CardPaymentDTO {
     public CardPaymentDTO(Long orderId, String transactionReference) {
         this.orderId = orderId;
         this.transactionReference = transactionReference;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public CardPaymentDTO() {
