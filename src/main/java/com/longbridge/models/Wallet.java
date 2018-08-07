@@ -1,5 +1,7 @@
 package com.longbridge.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
@@ -8,8 +10,10 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Wallet extends CommonFields {
+    @JsonIgnore
     @OneToOne
     private User user;
+
     private double balance;
     private double pendingSettlement;
 
