@@ -154,13 +154,17 @@ public class OrderServiceImpl implements OrderService {
                itemStatus = itemStatusRepository.findByStatus("P");
                orders.setDeliveryStatus("P");
             }
-//            else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
-//
-//            }
+            else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
+                //todolater
+            }
 
             totalAmount = saveItems(orderReq, totalAmount, date,orders,itemStatus);
+
+
+
             orders.setTotalAmount(totalAmount);
             orderRepository.save(orders);
+
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                 //generate a unique ref number
                 String trnxRef = "WAW"+ "-"+ generateOrderNum();

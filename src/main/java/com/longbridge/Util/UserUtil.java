@@ -410,6 +410,9 @@ public class UserUtil {
 //                refreshAuthenticationDetails(user,token);
 
 
+                if(user.wallet==null){
+                    user.wallet= new Wallet();
+                }
                 responseMap.put("userDetails",user);
                 return new Response("00","User found",responseMap);
             }else{
