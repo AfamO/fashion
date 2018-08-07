@@ -82,10 +82,15 @@ public class RavePaymentServiceImpl implements RavePaymentService {
                 User user = userRepository.findByEmail(cardPaymentDTO.getEmail());
                 deleteCart(user);
 
-                Wallet wallet = new Wallet();
-                wallet.setBalance(amount);
-                wallet.setUser(user);
-                walletRepository.save(wallet);
+               Wallet w= walletRepository.findByUser(user);
+                if(w!=null){
+                    w.setBalance(w.getBalance()+amount);
+                }else {
+                    w = new Wallet();
+                    w.setBalance(amount);
+                    w.setUser(user);
+                }
+                walletRepository.save(w);
 
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
                 Orders orders = orderRepository.findOne(ravePayment.getOrderId());

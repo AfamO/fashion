@@ -406,11 +406,11 @@ public class UserUtil {
                  */
 //                refreshAuthenticationDetails(user,token);
 
-
-                if(user.wallet==null){
+                Wallet wallet = walletRepository.findByUser(user);
+                if(wallet==null){
                     user.wallet= new Wallet();
                 }else {
-                    user.wallet=walletRepository.findByUser(user);
+                    user.wallet=wallet;
                 }
                 responseMap.put("userDetails",user);
                 return new Response("00","User found",responseMap);
