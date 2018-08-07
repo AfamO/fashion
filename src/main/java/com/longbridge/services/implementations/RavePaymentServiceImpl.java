@@ -53,6 +53,7 @@ public class RavePaymentServiceImpl implements RavePaymentService {
 
     @Override
     public Response validateTransaction(CardPaymentDTO cardPaymentDTO) {
+        System.out.println("i got here");
        Response response = new Response();
         /**
          *
@@ -71,6 +72,7 @@ public class RavePaymentServiceImpl implements RavePaymentService {
             response.message="Unable to complete payment.. Invalid order reference";
             return response;
         }
+
         double amount = ravePayment.getTransactionAmount();
         String trnxRef = ravePayment.getTransactionReference();
         try {

@@ -21,7 +21,7 @@ import java.util.List;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/rave")
+@RequestMapping("/fashion/rave")
 public class RavePaymentController {
 
     @Value("${jwt.header}")
@@ -39,7 +39,6 @@ public class RavePaymentController {
         Response response = ravePaymentService.validateTransaction(cardPaymentDTO);
         return response;
 
-        //return new Response("00","Operation Successful",response);
 
     }
 
