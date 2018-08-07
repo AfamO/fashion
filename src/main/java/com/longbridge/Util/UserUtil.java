@@ -5,10 +5,7 @@ import com.longbridge.exception.AppException;
 import com.longbridge.exception.PasswordException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
-import com.longbridge.repository.DesignerRepository;
-import com.longbridge.repository.MailErrorRepository;
-import com.longbridge.repository.OrderRepository;
-import com.longbridge.repository.TokenRepository;
+import com.longbridge.repository.*;
 import com.longbridge.respbodydto.LogInResp;
 import com.longbridge.security.JwtTokenUtil;
 import com.longbridge.security.JwtUser;
@@ -61,7 +58,7 @@ public class UserUtil {
     GeneralUtil generalUtil;
 
     @Autowired
-    TokenRepository tokenRepository;
+    WalletRepository walletRepository;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -412,6 +409,8 @@ public class UserUtil {
 
                 if(user.wallet==null){
                     user.wallet= new Wallet();
+                }else {
+                    user.wallet=walletRepository.findByUser(user);
                 }
                 responseMap.put("userDetails",user);
                 return new Response("00","User found",responseMap);
