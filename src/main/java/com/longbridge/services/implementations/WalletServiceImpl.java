@@ -53,8 +53,10 @@ public class WalletServiceImpl implements WalletService {
 
 
                 Wallet wallet = walletRepository.findByUser(user);
+
                 if (wallet != null) {
-                    if (wallet.getBalance() >= totalAmount) {
+                    Double walletBalance=wallet.getBalance()-wallet.getPendingSettlement();
+                    if (walletBalance >= totalAmount) {
                         status = "00";
 
                     } else {

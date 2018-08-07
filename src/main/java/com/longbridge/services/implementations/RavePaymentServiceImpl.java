@@ -85,9 +85,11 @@ public class RavePaymentServiceImpl implements RavePaymentService {
                Wallet w= walletRepository.findByUser(user);
                 if(w!=null){
                     w.setBalance(w.getBalance()+amount);
+                    w.setPendingSettlement(w.getPendingSettlement()+amount);
                 }else {
                     w = new Wallet();
                     w.setBalance(amount);
+                    w.setPendingSettlement(amount);
                     w.setUser(user);
                 }
                 walletRepository.save(w);

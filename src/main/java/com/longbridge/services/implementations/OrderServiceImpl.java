@@ -92,6 +92,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     RavePaymentRepository ravePaymentRepository;
 
+    @Autowired
+    WalletRepository walletRepository;
+
     private Locale locale = LocaleContextHolder.getLocale();
 
 
@@ -155,15 +158,16 @@ public class OrderServiceImpl implements OrderService {
                orders.setDeliveryStatus("P");
             }
             else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
+                itemStatus=itemStatusRepository.findByStatus("PC");
+                orders.setDeliveryStatus("PC");
                 //todolater
             }
 
             totalAmount = saveItems(orderReq, totalAmount, date,orders,itemStatus);
 
-
-
             orders.setTotalAmount(totalAmount);
             orderRepository.save(orders);
+            updateWallet(user,totalAmount,orderReq.getPaymentType());
 
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                 //generate a unique ref number
@@ -540,9 +544,10 @@ public class OrderServiceImpl implements OrderService {
                 dto.setDesignerEmail(p.designer.user.email);
                 dtos.add(dto);
             }
-                    //customer.walletBalance=orderReqDTO.getPaidAmount();
-                    customer.wallet.setBalance(orderReqDTO.getPaidAmount());
-                    userRepository.save(customer);
+
+            //update wallet balance
+                    updateWallet(customer,orderReqDTO.getPaidAmount(),"Bank Transfer");
+               //done updating wallet balance
                     orders.setDeliveryStatus("PC");
                     orders.setUpdatedOn(date);
                     orders.setUpdatedBy(user.email);
@@ -557,6 +562,27 @@ public class OrderServiceImpl implements OrderService {
             throw new WawoohException();
         }
         return "success";
+    }
+
+    private void updateWallet(User user,Double amount,String paymentType) {
+
+        Wallet w= walletRepository.findByUser(user);
+
+            if (w != null) {
+                if(!paymentType.equalsIgnoreCase("Wallet")) {
+                    w.setBalance(w.getBalance() + amount);
+                }
+                w.setPendingSettlement(w.getPendingSettlement() + amount);
+
+            } else {
+                w = new Wallet();
+                w.setBalance(amount);
+                w.setPendingSettlement(amount);
+                w.setUser(user);
+            }
+
+        walletRepository.save(w);
+
     }
 
     @Override
