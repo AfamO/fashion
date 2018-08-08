@@ -385,7 +385,6 @@ public class ProductController {
     }
 
 
-
     @PostMapping(value = "/addproduct")
     public Object addProduct(@RequestBody ProductDTO productDTO, HttpServletRequest request){
         Map<String,Object> responseMap = new HashMap();

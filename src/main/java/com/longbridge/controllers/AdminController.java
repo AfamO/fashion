@@ -1,0 +1,43 @@
+package com.longbridge.controllers;
+
+import com.longbridge.Util.UserUtil;
+import com.longbridge.models.Response;
+import com.longbridge.models.User;
+import com.longbridge.services.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * Created by Longbridge on 08/08/2018.
+ */
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+@RequestMapping("/fashion/admin")
+public class AdminController {
+
+    @Value("${jwt.header}")
+    private String tokenHeader;
+
+    @Autowired
+    UserUtil userUtil;
+
+    @Autowired
+    AdminService adminService;
+
+    @GetMapping(value = "/admin/getadmindashboarddata")
+    public Response getAdminDashboardData(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return new Response("00","Operation Successful",adminService.getDashboardData(userTemp));
+
+    }
+}

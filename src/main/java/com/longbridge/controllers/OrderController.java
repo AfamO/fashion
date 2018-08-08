@@ -466,6 +466,22 @@ public class OrderController {
     }
 
 
+
+
+
+    @GetMapping(value = "/admin/{id}/deleteorder")
+    public Response deleteOrder(HttpServletRequest request, @PathVariable Long id){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        orderService.deleteOrder(id);
+        return new Response("00","Operation Successful","success");
+
+    }
+
+
     @GetMapping(value = "/admin/getincompleteorders")
     public Response getIncompleteOrders(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

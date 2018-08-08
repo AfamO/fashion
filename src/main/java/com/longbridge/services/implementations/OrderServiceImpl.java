@@ -733,6 +733,20 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
+    @Override
+    public void deleteOrder(Long id) {
+        try {
+
+            orderRepository.delete(id);
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
     @Override
     public void emptyCart(User user) {
         try {
