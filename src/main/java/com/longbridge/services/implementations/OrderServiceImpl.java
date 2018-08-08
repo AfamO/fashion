@@ -896,6 +896,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDTO> getIncompleteOrders(User user) {
+        try {
+
+            return convertOrderEntsToDTOs(orderRepository.findByDeliveryStatus("NV"));
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public List<ItemsRespDTO> getAllOrdersByQA(User user) {
         try {
 

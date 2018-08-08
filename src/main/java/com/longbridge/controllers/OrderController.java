@@ -465,6 +465,19 @@ public class OrderController {
 
     }
 
+
+    @GetMapping(value = "/admin/getincompleteorders")
+    public Response getIncompleteOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return new Response("00","Operation Successful",orderService.getIncompleteOrders(userTemp));
+
+    }
+
+
     @GetMapping(value = "/qa/getorders")
     public Response getAllOrderItemsQa(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

@@ -14,10 +14,12 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Orders, Long> {
     Orders findByOrderNum(String orderNum);
-   // Orders findByItem(Lon item);
+
     List<Orders> findByUserId(Long userId);
 
     List<Orders> findByDeliveryStatusNot(String status);
+
+    List<Orders> findByDeliveryStatus(String status);
 
     @Query("select sum(totalAmount) from Orders where userId = :userId")
     Double getWalletBalance(Long userId);
