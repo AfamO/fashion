@@ -65,6 +65,8 @@ public class ItemsRespDTO {
 
     private String action;
 
+    private String userComplain;
+
     private boolean readyMade;
 
     private Long statusId;
@@ -340,5 +342,13 @@ public class ItemsRespDTO {
 
     public void setFailedInspectionReason(String failedInspectionReason) {
         this.failedInspectionReason = failedInspectionReason;
+    }
+
+    public String getUserComplain() {
+        return userComplain;
+    }
+
+    public void setUserComplain(String userComplain) {
+        this.userComplain = userComplain;
     }
 }

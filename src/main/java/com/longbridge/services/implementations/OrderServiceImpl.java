@@ -1256,6 +1256,7 @@ itemRepository.save(items);
             Orders orders = items.getOrders();
             itemsDTO.setArtWorkPictureId(items.getArtWorkPictureId());
             itemsDTO.setSize(items.getSize());
+            itemsDTO.setUserComplain(items.getComplain());
 
             itemsDTO.setOrderDate(formatter.format(orders.getOrderDate()));
 
