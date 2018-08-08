@@ -17,10 +17,12 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Items, Long> {
 
     List<Items> findByDesignerId(Long designerId);
-    List<Items> findByDesignerIdAndItemStatusNot(Long designerId,ItemStatus itemStatus);
+    //List<Items> findByDesignerIdAndItemStatusNot(Long designerId,ItemStatus itemStatus);
     List<Items> findByDesignerIdAndItemStatus(Long designerId, ItemStatus status);
 
-    List<Items> findByItemStatus(ItemStatus status);
+    List<Items> findByItemStatusNot(ItemStatus status);
+
+    List<Items> findByDesignerIdAndItemStatusNotIn(Long designerId,List<ItemStatus> status);
 
     List<Items> findByItemStatusIn(List<ItemStatus> status);
 

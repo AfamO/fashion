@@ -61,10 +61,10 @@ public class OrderController {
             orderRespDTO = orderService.addOrder(orders,userTemp);
             Response response;
             if(orderRespDTO.getStatus().equalsIgnoreCase("false")){
-                response = new Response("66","unable to process order, An item is out of stock","");
+                response = new Response("66","Unable to process order, An item is out of stock","");
             }
             else if(orderRespDTO.getStatus().equalsIgnoreCase("noitems")){
-                response = new Response("67","unable to process order, No items sent","");
+                response = new Response("67","Unable to process order, No items sent","");
             }
             else{
                 response = new Response("00", "Operation Successful", orderRespDTO);

@@ -50,25 +50,23 @@ public class WalletServiceImpl implements WalletService {
                 Double shippingAmount = generalUtil.getShipping(p.designer.city.toUpperCase().trim(), deliveryAddress.getCity().toUpperCase().trim(), items.getQuantity());
                 items.setAmount(itemsAmount);
                 totalAmount = totalAmount + itemsAmount + shippingAmount;
+            }
 
+            Wallet wallet = walletRepository.findByUser(user);
 
-                Wallet wallet = walletRepository.findByUser(user);
+            if (wallet != null) {
+                Double walletBalance=wallet.getBalance()-wallet.getPendingSettlement();
+                if (totalAmount <= walletBalance) {
+                    status = "00";
 
-                if (wallet != null) {
-                    Double walletBalance=wallet.getBalance()-wallet.getPendingSettlement();
-                    if (walletBalance >= totalAmount) {
-                        status = "00";
-
-                    } else {
-                        //insufficient funds
-                        status = "66";
-                    }
+                } else {
+                    //insufficient funds
+                    status = "66";
                 }
-                else {
-                    //no amount in wallet
-                    status= "56";
-                }
-
+            }
+            else {
+                //no amount in wallet
+                status= "56";
             }
         }catch (Exception e)
         {

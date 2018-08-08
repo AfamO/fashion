@@ -17,6 +17,8 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
    // Orders findByItem(Lon item);
     List<Orders> findByUserId(Long userId);
 
+    List<Orders> findByDeliveryStatusNot(String status);
+
     @Query("select sum(totalAmount) from Orders where userId = :userId")
     Double getWalletBalance(Long userId);
 

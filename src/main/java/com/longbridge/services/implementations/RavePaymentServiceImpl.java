@@ -1,5 +1,6 @@
 package com.longbridge.services.implementations;
 
+import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.dto.CardPaymentDTO;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
@@ -44,6 +45,9 @@ public class RavePaymentServiceImpl implements RavePaymentService {
 
     @Autowired
     WalletRepository walletRepository;
+
+    @Autowired
+    SendEmailAsync sendEmailAsync;
 
     @Value("${rave.secret}")
     private String secret;
@@ -102,6 +106,8 @@ public class RavePaymentServiceImpl implements RavePaymentService {
                 }
                 orders.setDeliveryStatus("PC");
                 orderRepository.save(orders);
+                sendEmailAsync.sendEmailToUser(user,orders.getOrderNum());
+                sendEmailAsync.sendPaymentConfEmailToUser(user,orders.getOrderNum());
                 response.status="00";
                 response.data=orders.getOrderNum();
                 response.message="Order sucessfully placed";

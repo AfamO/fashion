@@ -160,14 +160,13 @@ public class OrderServiceImpl implements OrderService {
             else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
                 itemStatus=itemStatusRepository.findByStatus("PC");
                 orders.setDeliveryStatus("PC");
-                //todolater
+
             }
-
-            totalAmount = saveItems(orderReq, totalAmount, date,orders,itemStatus);
-
+            HashMap h= saveItems(orderReq,date,orders,itemStatus);
+            totalAmount=Double.parseDouble(h.get("totalAmount").toString());
             orders.setTotalAmount(totalAmount);
             orderRepository.save(orders);
-            updateWallet(user,totalAmount,orderReq.getPaymentType());
+            updateWalletForOrderPayment(user,Double.parseDouble(h.get("amountWithoutShipping").toString()),orderReq.getPaymentType());
 
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                 //generate a unique ref number
@@ -197,8 +196,9 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private Double saveItems(OrderReqDTO orderReq, Double totalAmount, Date date,Orders orders,ItemStatus itemStatus) {
-
+    private HashMap saveItems(OrderReqDTO orderReq,Date date,Orders orders,ItemStatus itemStatus) {
+        Double totalAmount=0.0;
+        Double amountWithoutShipping=0.0;
         for (Items items: orderReq.getItems()) {
             Products p = productRepository.findOne(items.getProductId());
             if(items.getMeasurementId() != null) {
@@ -231,6 +231,7 @@ public class OrderServiceImpl implements OrderService {
 
             Double itemsAmount = amount*items.getQuantity();
             Double shippingAmount = generalUtil.getShipping(p.designer.city.toUpperCase().trim(),orders.getDeliveryAddress().getCity().toUpperCase().trim(),items.getQuantity());
+            amountWithoutShipping=itemsAmount;
             items.setAmount(itemsAmount);
             totalAmount=totalAmount+itemsAmount+shippingAmount;
             items.setOrders(orders);
@@ -264,7 +265,12 @@ public class OrderServiceImpl implements OrderService {
 
 
         }
-        return totalAmount;
+
+        HashMap hm = new HashMap();
+        hm.put("totalAmount", totalAmount);
+        hm.put("amountWithoutShipping", amountWithoutShipping);
+
+        return hm;
     }
 
 
@@ -317,8 +323,6 @@ public class OrderServiceImpl implements OrderService {
                     items.setItemStatus(itemStatus);
                     items.setStatusMessage(statusMessage);
 
-
-
                     context.setVariable("waitTime",itemsDTO.getWaitTime());
 
                     if(itemsDTO.getMessageId() == 3){
@@ -364,7 +368,6 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
-            System.out.println("i got hwere2");
                 items.setUpdatedOn(date);
                 itemRepository.save(items);
                 Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
@@ -458,7 +461,9 @@ public class OrderServiceImpl implements OrderService {
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("OS")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("D")){
                     items.setItemStatus(itemStatus);
-                    //items.setStatusMessage(statusMessage);
+//update wallet balance by removing item amount  from user wallet since item has been delivered
+                    updateWalletForOrderDelivery(items, customer);
+//end updating wallet balance
                     String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
                     String link = messageSource.getMessage("order.complain",null, locale);
                     link = link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
@@ -492,6 +497,13 @@ public class OrderServiceImpl implements OrderService {
             ex.printStackTrace();
             throw new WawoohException();
         }
+    }
+
+    private void updateWalletForOrderDelivery(Items items, User customer) {
+        Wallet wallet = walletRepository.findByUser(customer);
+        wallet.setPendingSettlement(wallet.getPendingSettlement()-items.getAmount());
+        wallet.setBalance(wallet.getBalance()-items.getAmount());
+        walletRepository.save(wallet);
     }
 
 
@@ -546,7 +558,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
             //update wallet balance
-                    updateWallet(customer,orderReqDTO.getPaidAmount(),"Bank Transfer");
+                updateWalletForOrderPayment(customer,orderReqDTO.getPaidAmount(),"Bank Transfer");
                //done updating wallet balance
                     orders.setDeliveryStatus("PC");
                     orders.setUpdatedOn(date);
@@ -564,7 +576,7 @@ public class OrderServiceImpl implements OrderService {
         return "success";
     }
 
-    private void updateWallet(User user,Double amount,String paymentType) {
+    private void updateWalletForOrderPayment(User user,Double amount,String paymentType) {
 
         Wallet w= walletRepository.findByUser(user);
 
@@ -580,6 +592,7 @@ public class OrderServiceImpl implements OrderService {
                 w.setPendingSettlement(amount);
                 w.setUser(user);
             }
+        System.out.println(w.getPendingSettlement());
 
         walletRepository.save(w);
 
@@ -740,8 +753,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<ItemsRespDTO> getOrdersByDesigner(User user) {
         try {
-            ItemStatus itemStatus = itemStatusRepository.findByStatus("C");
-            return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNot(user.designer.id,itemStatus));
+            ItemStatus itemStatus1 = itemStatusRepository.findByStatus("NV");
+            ItemStatus itemStatus2 = itemStatusRepository.findByStatus("C");
+            List<ItemStatus> itemStatuses = new ArrayList();
+            itemStatuses.add(itemStatus1);
+            itemStatuses.add(itemStatus2);
+            return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNotIn(user.designer.id,itemStatuses));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -857,7 +874,8 @@ public class OrderServiceImpl implements OrderService {
     public List<ItemsRespDTO> getAllOrdersByAdmin(User user) {
         try {
 
-            return convertItemsEntToDTOs(itemRepository.findAll());
+            ItemStatus itemStatus = itemStatusRepository.findByStatus("NV");
+            return convertItemsEntToDTOs(itemRepository.findByItemStatusNot(itemStatus));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -869,7 +887,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getAllOrdersByAdmin2(User user) {
         try {
 
-            return convertOrderEntsToDTOs(orderRepository.findAll());
+            return convertOrderEntsToDTOs(orderRepository.findByDeliveryStatusNot("NV"));
 
         }catch (Exception ex){
             ex.printStackTrace();
