@@ -6,7 +6,10 @@ import com.longbridge.dto.*;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
+import com.longbridge.respbodydto.ItemsRespDTO;
+import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.respbodydto.ProductRespDTO;
+import com.longbridge.security.repository.UserRepository;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +45,133 @@ public class GeneralUtil {
 
     @Autowired
     ZonePriceRepository zonePriceRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
+
+    @Autowired
+    ProductRepository productRepository;
+
+    @Autowired
+    ArtWorkPictureRepository artWorkPictureRepository;
+
+    @Autowired
+    MaterialPictureRepository materialPictureRepository;
+
+    @Autowired
+    ProductPictureRepository productPictureRepository;
+
+    @Autowired
+    MeasurementRepository measurementRepository;
+
+    @Autowired
+    ItemStatusRepository itemStatusRepository;
+
+    @Autowired
+    DesignerRepository designerRepository;
+
+    @Autowired
+    ProductSizesRepository productSizesRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    public DesignerDTO convertDesigner2EntToDTO(Designer d){
+        DesignerDTO dto = new DesignerDTO();
+        dto.id=d.id;
+//        dto.userId=d.userId;
+        dto.userId = d.user.id;
+        dto.logo=d.logo;
+        dto.storeName=d.storeName;
+        dto.address=d.address;
+        //User u = userRepository.findById(d.userId);
+        User u = d.user;
+        dto.firstName=u.firstName;
+        dto.lastName=u.lastName;
+        dto.phoneNo=u.phoneNo;
+        dto.email=u.email;
+        dto.gender=u.gender;
+        dto.accountNumber=u.designer.accountNumber;
+        dto.threshold=u.designer.threshold;
+        dto.setStatus(d.status);
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dto.createdDate = formatter.format(d.createdOn);
+        List<ProductRespDTO> products= convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d,"Y"));
+        dto.setProducts(products);
+
+        List<String> stats = new ArrayList<>();
+        stats.add("OP");
+        stats.add("PC");
+
+        List<ItemStatus> statuses = itemStatusRepository.findByStatusIn(stats);
+//        statuses.add("RS");
+//        statuses.add("OS");
+//        statuses.add("D");
+
+        //dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatusNotIn(d.id,statuses);
+        dto.noOfPendingOders= itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"PC");
+        //dto.quantityOfPendingOrders= itemRepository.countPendingItemQuantities(d.id,"OP");
+        dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"D");
+        dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id, "OR");
+        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OP");
+        dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"RS");
+        dto.noOfShippedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OS");
+        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,statuses);
+        //dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"OP");
+        // dto.setSalesChart(getSalesChart(d.id));
+        return dto;
+
+    }
+
+
+
+    public DesignerDTO convertDesignerEntToDTO(Designer d){
+        DesignerDTO dto = new DesignerDTO();
+        dto.id=d.id;
+//        dto.userId=d.userId;
+        dto.userId = d.user.id;
+        dto.logo=d.logo;
+        dto.storeName=d.storeName;
+        dto.address=d.address;
+        //User u = userRepository.findById(d.userId);
+        User u = d.user;
+        dto.firstName=u.firstName;
+        dto.lastName=u.lastName;
+        dto.phoneNo=u.phoneNo;
+        dto.email=u.email;
+        dto.gender=u.gender;
+        dto.setStatus(d.status);
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dto.createdDate = formatter.format(d.createdOn);
+        if(d.status.equalsIgnoreCase("A")) {
+            List<ProductRespDTO> products = convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d, "Y"));
+            dto.setProducts(products);
+        }
+//        dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"P");
+//        dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
+//        dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id, "X");
+//        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
+//        dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"R");
+//        dto.noOfShippedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"S");
+//        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
+        //dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
+        // dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
+        return dto;
+
+    }
+
+
+
+
+    public List<DesignerDTO> convDesignerEntToDTOs(List<Designer> designers){
+        List<DesignerDTO> designerDTOS = new ArrayList<DesignerDTO>();
+
+        for(Designer designer: designers){
+            DesignerDTO designerDTO = convertDesignerEntToDTO(designer);
+            designerDTOS.add(designerDTO);
+        }
+        return designerDTOS;
+    }
 
 
     public List<ProductPictureDTO> convertProdPictureEntitiesToDTO(List<ProductPicture> productPictures){
@@ -499,6 +629,188 @@ public class GeneralUtil {
 //        hm.put("GIG", new Double(shippingPriceGIG));
 
         return shippingPriceGIG;
+
+    }
+
+
+
+
+    public List<ItemsRespDTO> convertItemsEntToDTOs(List<Items> items){
+
+        List<ItemsRespDTO> itemsDTOS = new ArrayList<ItemsRespDTO>();
+
+        for(Items items1: items){
+            ItemsRespDTO itemsDTO = convertEntityToDTO(items1);
+            itemsDTOS.add(itemsDTO);
+        }
+        return itemsDTOS;
+    }
+
+
+    public List<CartDTO> convertCartEntsToDTOs(List<Cart> carts){
+        List<CartDTO> cartDTOS = new ArrayList<>();
+        for(Cart cart:carts){
+            CartDTO cartDTO = convertCartEntToDTO(cart);
+            cartDTOS.add(cartDTO);
+        }
+        return cartDTOS;
+    }
+
+    public CartDTO convertCartEntToDTO(Cart cart){
+        CartDTO cartDTO = new CartDTO();
+
+        cartDTO.setId(cart.id);
+
+        cartDTO.setProductId(cart.getProductId());
+
+        Products products = productRepository.findOne(cart.getProductId());
+
+        cartDTO.setProductName(products.name);
+
+
+        if(products.priceSlash != null) {
+            cartDTO.setSlashedPrice(products.priceSlash.getSlashedPrice());
+        }
+        else {
+            cartDTO.setSlashedPrice(0);
+        }
+
+        ProductPicture p = productPictureRepository.findFirst1ByProducts(products);
+        cartDTO.setProductPicture(p.pictureName);
+        cartDTO.setStockNo(products.stockNo);
+
+        if(cart.getArtWorkPictureId() != null) {
+            ArtWorkPicture a = artWorkPictureRepository.findOne(cart.getArtWorkPictureId());
+            cartDTO.setArtWorkPicture(a.pictureName);
+            cartDTO.setArtWorkPictureId(cart.getArtWorkPictureId());
+        }
+
+        System.out.println(cart.getMaterialPictureId());
+        if(cart.getMaterialPictureId() != null) {
+            System.out.println(cart.getMaterialPictureId());
+            MaterialPicture m = materialPictureRepository.findOne(cart.getMaterialPictureId());
+            cartDTO.setMaterialPicture(m.pictureName);
+            cartDTO.setMaterialPictureId(cart.getMaterialPictureId());
+        }
+
+        cartDTO.setAmount(cart.getAmount().toString());
+        cartDTO.setColor(cart.getColor());
+        cartDTO.setQuantity(cart.getQuantity());
+        cartDTO.setSize(cart.getSize());
+        String availability = productRepository.findOne(cart.getProductId()).availability;
+        if(availability.equalsIgnoreCase("N")){
+            cartDTO.setSizeStockNo(0);//todo pass threshold
+        }else{
+            if(cart.getSize() != null){
+                cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+
+            }
+            else {
+                cartDTO.setSizeStockNo(0);
+            }
+        }
+        cartDTO.setMaterialLocation(cart.getMaterialLocation());
+        cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
+        cartDTO.setMaterialStatus(cart.getMaterialStatus());
+        cartDTO.setDesignerId(cart.getDesignerId());
+        Designer designer = designerRepository.findOne(cart.getDesignerId());
+        cartDTO.setDesignerName(designer.storeName);
+
+        if(cart.getMeasurementId() != null) {
+            Measurement m = measurementRepository.findOne(cart.getMeasurementId());
+            cartDTO.setMeasurementName(m.getName());
+            cartDTO.setMeasurementId(cart.getMeasurementId());
+        }
+        return cartDTO;
+
+    }
+
+
+    public ItemsRespDTO convertEntityToDTO(Items items){
+        ItemsRespDTO itemsDTO = new ItemsRespDTO();
+        if(items != null) {
+            itemsDTO.setId(items.id);
+            itemsDTO.setProductId(items.getProductId());
+            Products p = productRepository.findOne(items.getProductId());
+            itemsDTO.setProductName(p.name);
+            itemsDTO.setProductAvailability(p.availability);
+
+            itemsDTO.setAmount(items.getAmount().toString());
+            itemsDTO.setColor(items.getColor());
+            itemsDTO.setQuantity(items.getQuantity());
+            User user=userRepository.findById(items.getOrders().getUserId());
+            itemsDTO.setCustomerName(user.lastName+" "+user.firstName);
+            itemsDTO.setCustomerId(user.id);
+            itemsDTO.setProductPicture(items.getProductPicture());
+
+
+            itemsDTO.setArtWorkPicture(items.getArtWorkPicture());
+
+            itemsDTO.setMaterialPicture(items.getMaterialPicture());
+
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            Orders orders = items.getOrders();
+            itemsDTO.setArtWorkPictureId(items.getArtWorkPictureId());
+            itemsDTO.setSize(items.getSize());
+            itemsDTO.setUserComplain(items.getComplain());
+
+            itemsDTO.setOrderDate(formatter.format(orders.getOrderDate()));
+
+            itemsDTO.setStatus(items.getItemStatus().getStatus());
+            itemsDTO.setStatusId(items.getItemStatus().id);
+            itemsDTO.setFailedInspectionReason(items.getFailedInspectionReason());
+            if(items.getMaterialLocation() != null){
+                itemsDTO.setMaterialLocation(items.getMaterialLocation().toString());
+            }
+            itemsDTO.setMaterialPickupDate(items.getMaterialPickupDate());
+            itemsDTO.setMaterialStatus(items.getMaterialStatus());
+            itemsDTO.setMaterialPictureId(items.getMaterialPictureId());
+            itemsDTO.setDesignerId(items.getDesignerId());
+            itemsDTO.setOrderNumber(orders.getOrderNum());
+            itemsDTO.setOrderId(orders.id);
+            if (items.getMeasurementId() != null) {
+                itemsDTO.setMeasurement(items.getMeasurement());
+            }
+        }
+        return itemsDTO;
+
+    }
+
+
+
+
+
+    public List<OrderDTO> convertOrderEntsToDTOs(List<Orders> orders){
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for(Orders orders1:orders){
+            OrderDTO orderDTO = convertOrderEntToDTOs(orders1);
+            orderDTOS.add(orderDTO);
+        }
+        return orderDTOS;
+    }
+
+    public OrderDTO convertOrderEntToDTOs(Orders orders){
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(orders.id);
+        orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
+        orderDTO.setDeliveryStatus(orders.getDeliveryStatus());
+        orderDTO.setOrderNumber(orders.getOrderNum());
+        orderDTO.setPaymentType(orders.getPaymentType());
+        orderDTO.setTotalAmount(orders.getTotalAmount().toString());
+        orderDTO.setPaidAmount(orders.getPaidAmount());
+        User user=userRepository.findById(orders.getUserId());
+        orderDTO.setCustomerName(user.lastName+user.firstName);
+        orderDTO.setUserId(orders.getUserId());
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(orders.getDeliveryDate() != null) {
+            orderDTO.setDeliveryDate(formatter.format(orders.getDeliveryDate()));
+        }
+
+        orderDTO.setOrderDate(formatter.format(orders.getOrderDate()));
+        orderDTO.setItemsList(convertItemsEntToDTOs(orders.getItems()));
+
+        return orderDTO;
 
     }
 

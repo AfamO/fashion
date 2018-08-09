@@ -43,22 +43,16 @@ public class DesignerServiceImpl implements DesignerService{
         this.generalUtil = generalUtil;
     }
 
-    @Autowired
-    ProductRepository productRepository;
 
     @Autowired
     ItemRepository itemRepository;
 
-    @Autowired
-    ItemStatusRepository itemStatusRepository;
 
     @Override
     public List<DesignerDTO> getDesigners() {
         try {
             List<Designer> designerList = designerRepository.findAll();
-            List<DesignerDTO> designerDTOS=convDesignerEntToDTOs(designerList);
-            return designerDTOS;
-
+            return generalUtil.convDesignerEntToDTOs(designerList);
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
@@ -71,7 +65,7 @@ public class DesignerServiceImpl implements DesignerService{
         try {
 
             Designer designer = designerRepository.findOne(designerId);
-            return convertDesigner2EntToDTO(designer);
+            return generalUtil.convertDesigner2EntToDTO(designer);
         } catch (Exception e){
             e.printStackTrace();
            throw new WawoohException();
@@ -274,7 +268,7 @@ public class DesignerServiceImpl implements DesignerService{
     public DesignerDTO getDesigner(User user) {
         try {
             Designer designer = user.designer;
-            DesignerDTO dto = convertDesigner2EntToDTO(designer);
+            DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             return dto;
 
         } catch (Exception e){
@@ -288,7 +282,7 @@ public class DesignerServiceImpl implements DesignerService{
         try {
             Designer designer = user.designer;
             List<SalesChart> salesCharts = new ArrayList<>();
-            DesignerDTO dto = convertDesigner2EntToDTO(designer);
+            DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             for (String month:months.getMonths()) {
                 YearMonth d = YearMonth.parse(month);
                 LocalDate startDateMonth = d.atDay(1);
@@ -327,7 +321,7 @@ public class DesignerServiceImpl implements DesignerService{
         try {
 
             Designer designer = designerRepository.findByStoreName(storeName);
-            DesignerDTO dto = convertDesignerEntToDTO(designer);
+            DesignerDTO dto = generalUtil.convertDesignerEntToDTO(designer);
             return dto;
 
         } catch (Exception e){
@@ -336,100 +330,5 @@ public class DesignerServiceImpl implements DesignerService{
         }
     }
 
-    private DesignerDTO convertDesigner2EntToDTO(Designer d){
-        DesignerDTO dto = new DesignerDTO();
-        dto.id=d.id;
-//        dto.userId=d.userId;
-        dto.userId = d.user.id;
-        dto.logo=d.logo;
-        dto.storeName=d.storeName;
-        dto.address=d.address;
-        //User u = userRepository.findById(d.userId);
-        User u = d.user;
-        dto.firstName=u.firstName;
-        dto.lastName=u.lastName;
-        dto.phoneNo=u.phoneNo;
-        dto.email=u.email;
-        dto.gender=u.gender;
-        dto.accountNumber=u.designer.accountNumber;
-        dto.threshold=u.designer.threshold;
-        dto.setStatus(d.status);
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dto.createdDate = formatter.format(d.createdOn);
-        List<ProductRespDTO> products= generalUtil.convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d,"Y"));
-        dto.setProducts(products);
 
-        List<String> stats = new ArrayList<>();
-        stats.add("OP");
-        stats.add("PC");
-
-        List<ItemStatus> statuses = itemStatusRepository.findByStatusIn(stats);
-//        statuses.add("RS");
-//        statuses.add("OS");
-//        statuses.add("D");
-
-        //dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatusNotIn(d.id,statuses);
-        dto.noOfPendingOders= itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"PC");
-        //dto.quantityOfPendingOrders= itemRepository.countPendingItemQuantities(d.id,"OP");
-        dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"D");
-        dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id, "OR");
-        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OP");
-        dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"RS");
-        dto.noOfShippedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OS");
-        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,statuses);
-       //dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"OP");
-       // dto.setSalesChart(getSalesChart(d.id));
-        return dto;
-
-    }
-
-
-
-    private DesignerDTO convertDesignerEntToDTO(Designer d){
-        DesignerDTO dto = new DesignerDTO();
-        dto.id=d.id;
-//        dto.userId=d.userId;
-        dto.userId = d.user.id;
-        dto.logo=d.logo;
-        dto.storeName=d.storeName;
-        dto.address=d.address;
-        //User u = userRepository.findById(d.userId);
-        User u = d.user;
-        dto.firstName=u.firstName;
-        dto.lastName=u.lastName;
-        dto.phoneNo=u.phoneNo;
-        dto.email=u.email;
-        dto.gender=u.gender;
-        dto.setStatus(d.status);
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dto.createdDate = formatter.format(d.createdOn);
-        if(d.status.equalsIgnoreCase("A")) {
-            List<ProductRespDTO> products = generalUtil.convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d, "Y"));
-            dto.setProducts(products);
-        }
-//        dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"P");
-//        dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
-//        dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id, "X");
-//        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
-//        dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"R");
-//        dto.noOfShippedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"S");
-//        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
-        //dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
-       // dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
-        return dto;
-
-    }
-
-
-
-
-    private List<DesignerDTO> convDesignerEntToDTOs(List<Designer> designers){
-        List<DesignerDTO> designerDTOS = new ArrayList<DesignerDTO>();
-
-        for(Designer designer: designers){
-            DesignerDTO designerDTO = convertDesignerEntToDTO(designer);
-            designerDTOS.add(designerDTO);
-        }
-        return designerDTOS;
-    }
 }

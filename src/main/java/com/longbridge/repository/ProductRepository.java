@@ -19,27 +19,18 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Products,Long> {
     List<Products> findByDesignerAndVerifiedFlag(Designer designer, String flag);
     List<Products> findByDesigner(Designer designer);
-    Page<Products> findBySubCategoryAndVerifiedFlag(Pageable pageable, SubCategory subCategory,String flag);
-
     Page<Products> findBySubCategoryAndVerifiedFlagAndDesigner_Status(Pageable pageable, SubCategory subCategory,String flag,String status);
-
     List<Products> findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(SubCategory subCategory,String sponsoredFlag,String flag);
-    List<Products> findFirst9BySubCategoryAndVerifiedFlag(SubCategory subCategory,String flag);
-    List<Products> findFirst10BySubCategoryAndVerifiedFlag(SubCategory subCategory,String flag);
     List<Products> findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(SubCategory subCategory,String sponsoredFlag,String flag);
     Page<Products> findByDesignerAndSubCategoryAndVerifiedFlag(Pageable pageable, Designer designer, SubCategory subCategory, String flag);
     int countByDesigner(Designer designer);
     List<Products> findFirst8ByDesignerAndVerifiedFlag(Designer designer,String flag);
-
     List<Products> findFirst5BySponsoredFlag(String flag);
-
     List<Products> findFirst5ByPriceSlashEnabledTrue();
-
+    Long countByVerifiedFlag(String flag);
     List<Products> findTop10ByDesignerStatusAndNumOfTimesOrderedNotOrderByNumOfTimesOrderedDesc(String designerStatus,int no);
 
     Page<Products> findByVerfiedOnIsNull(Pageable pageable);
-   // @Query("select p from Products p where p.picture like %:pictureName%")
-    //Products findByPicture(String pictureName);
 
     Page<Products> findByVerifiedFlag(String verifiedFlag,Pageable pageable);
 
@@ -54,17 +45,9 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
 
     List<Products> findByIdIn(List<Long> ids);
 
-    //Page<Products> findByVerifiedFlagAndNameLikeAndAmountBetween(String verifiedFlag, String name, Double fromAmount, Double toAmount, Pageable pageable);
-
-
-    List<Products> findByVerifiedFlagAndNameLikeAndAmountBetween(String verifiedFlag, String name, Double fromAmount, Double toAmount);
-
-
     Page<Products> findByVerifiedFlagAndNameLike(String verifiedFlag, String name,Pageable pageable);
 
     List<Products> findByVerifiedFlagAndNameLike(String verifiedFlag, String name);
-
-    //Page<Products> findByVerifiedFlagAndNameLikeAndp(String verifiedFlag, String name, Double fromAmount, Double toAmount, Pageable pageable);
 
 //    @Query(value = "select p.*, sum(pr.product_quality_rating) as rating FROM products p INNER JOIN product_rating pr WHERE p.id = pr.products_id ORDER by rating desc Limit 0, 10", nativeQuery = true)
 //    List<ProductsWithRating> findTop10FrequentlyBoughtProducts();

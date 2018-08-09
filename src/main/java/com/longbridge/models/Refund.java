@@ -12,13 +12,19 @@ public class Refund extends CommonFields{
 
     private Long userId;
     private double amount;
+    private String productName;
+    private String orderNum;
+    private String customerName;
 
 
-    public Refund(String accountNumber, String accountName, Long userId, double amount) {
+    public Refund(String accountNumber, String accountName, Long userId, double amount, String productName, String orderNum, String customerName) {
         this.accountNumber = accountNumber;
         this.accountName = accountName;
         this.userId = userId;
         this.amount = amount;
+        this.productName = productName;
+        this.orderNum = orderNum;
+        this.customerName = customerName;
     }
 
     public Refund() {
@@ -57,4 +63,27 @@ public class Refund extends CommonFields{
         this.amount = amount;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 }

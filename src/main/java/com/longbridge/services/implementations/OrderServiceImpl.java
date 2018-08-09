@@ -62,10 +62,6 @@ public class OrderServiceImpl implements OrderService {
     StatusMessageRepository statusMessageRepository;
 
     @Autowired
-    DesignerRepository designerRepository;
-
-
-    @Autowired
     RefundRepository refundRepository;
 
     @Autowired
@@ -537,6 +533,10 @@ public class OrderServiceImpl implements OrderService {
                     refund.setAccountName(itemsDTO.getAccountName());
                     refund.setAccountNumber(itemsDTO.getAccountNumber());
                     refund.setAmount(items.getAmount());
+                    refund.setCustomerName(user.lastName+" "+user.firstName);
+                    refund.setOrderNum(items.getOrders().getOrderNum());
+                    refund.setProductName(items.getProductName());
+                    refundRepository.save(refund);
                     items.setItemStatus(itemStatusRepository.findByStatus("C"));
 
                 } else if (itemsDTO.getAction().equalsIgnoreCase("shopanother")) {
@@ -734,7 +734,7 @@ public class OrderServiceImpl implements OrderService {
     public List<CartDTO> getCarts(User user) {
         try {
             List<Cart> carts= cartRepository.findByUser(user);
-            return convertCartEntsToDTOs(carts);
+            return generalUtil.convertCartEntsToDTOs(carts);
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -793,7 +793,7 @@ public class OrderServiceImpl implements OrderService {
             List<ItemStatus> itemStatuses = new ArrayList();
             itemStatuses.add(itemStatus1);
             itemStatuses.add(itemStatus2);
-            return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNotIn(user.designer.id,itemStatuses));
+            return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNotIn(user.designer.id,itemStatuses));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -829,7 +829,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             if(user.designer !=null) {
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("C");
-                return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
+                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
 
             }else {
                 throw new WawoohException();
@@ -847,7 +847,7 @@ public class OrderServiceImpl implements OrderService {
 
             if(user.designer !=null) {
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
-                return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
+                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
 
             }else {
                 throw new WawoohException();
@@ -871,7 +871,7 @@ public class OrderServiceImpl implements OrderService {
                 itemStatuses.add(itemStatus2);
                 itemStatuses.add(itemStatus3);
 
-                return convertItemsEntToDTOs(itemRepository.findActiveOrders(user.designer.id,itemStatuses));
+                return generalUtil.convertItemsEntToDTOs(itemRepository.findActiveOrders(user.designer.id,itemStatuses));
 
 
             }else {
@@ -892,7 +892,7 @@ public class OrderServiceImpl implements OrderService {
             if(user.designer !=null) {
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("RS");
 
-                return convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
+                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
 
 
             }else {
@@ -910,7 +910,7 @@ public class OrderServiceImpl implements OrderService {
         try {
 
             ItemStatus itemStatus = itemStatusRepository.findByStatus("NV");
-            return convertItemsEntToDTOs(itemRepository.findByItemStatusNot(itemStatus));
+            return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusNot(itemStatus));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -922,7 +922,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getAllOrdersByAdmin2(User user) {
         try {
 
-            return convertOrderEntsToDTOs(orderRepository.findByDeliveryStatusNot("NV"));
+            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByDeliveryStatusNot("NV"));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -934,7 +934,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getIncompleteOrders(User user) {
         try {
 
-            return convertOrderEntsToDTOs(orderRepository.findByDeliveryStatus("NV"));
+            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByDeliveryStatus("NV"));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -954,7 +954,7 @@ public class OrderServiceImpl implements OrderService {
                 itemStatuses.add(itemStatus2);
                 itemStatuses.add(itemStatus3);
 
-            return convertItemsEntToDTOs(itemRepository.findByItemStatusIn(itemStatuses));
+            return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusIn(itemStatuses));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -966,7 +966,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO getOrdersById(Long id) {
         try {
 
-            return convertOrderEntToDTOs(orderRepository.findOne(id));
+            return generalUtil.convertOrderEntToDTOs(orderRepository.findOne(id));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -978,7 +978,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO getOrdersByOrderNum(String orderNumber) {
         try {
 
-            return convertOrderEntToDTOs(orderRepository.findByOrderNum(orderNumber));
+            return generalUtil.convertOrderEntToDTOs(orderRepository.findByOrderNum(orderNumber));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -990,7 +990,7 @@ public class OrderServiceImpl implements OrderService {
     public ItemsRespDTO getOrderItemById(Long id) {
         try {
 
-            return convertEntityToDTO(itemRepository.findOne(id));
+            return generalUtil.convertEntityToDTO(itemRepository.findOne(id));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -1143,199 +1143,6 @@ itemRepository.save(items);
     }
 
 
-
-
-
-//    private List<ItemsDTO> convertItemsEntToDTOs(List<Items> items){
-//
-//        List<ItemsDTO> itemsDTOS = new ArrayList<ItemsDTO>();
-//
-//        for(Items items1: items){
-//            ItemsDTO itemsDTO = convertEntityToDTO(items1);
-//            itemsDTOS.add(itemsDTO);
-//        }
-//        return itemsDTOS;
-//    }
-
-
-
-    private List<ItemsRespDTO> convertItemsEntToDTOs(List<Items> items){
-
-        List<ItemsRespDTO> itemsDTOS = new ArrayList<ItemsRespDTO>();
-
-        for(Items items1: items){
-            ItemsRespDTO itemsDTO = convertEntityToDTO(items1);
-            itemsDTOS.add(itemsDTO);
-        }
-        return itemsDTOS;
-    }
-
-
-    private List<CartDTO> convertCartEntsToDTOs(List<Cart> carts){
-        List<CartDTO> cartDTOS = new ArrayList<>();
-        for(Cart cart:carts){
-            CartDTO cartDTO = convertCartEntToDTO(cart);
-            cartDTOS.add(cartDTO);
-        }
-        return cartDTOS;
-    }
-
-    private CartDTO convertCartEntToDTO(Cart cart){
-        CartDTO cartDTO = new CartDTO();
-
-        cartDTO.setId(cart.id);
-
-        cartDTO.setProductId(cart.getProductId());
-
-        Products products = productRepository.findOne(cart.getProductId());
-
-        cartDTO.setProductName(products.name);
-
-
-        if(products.priceSlash != null) {
-            cartDTO.setSlashedPrice(products.priceSlash.getSlashedPrice());
-        }
-        else {
-            cartDTO.setSlashedPrice(0);
-        }
-
-        ProductPicture p = productPictureRepository.findFirst1ByProducts(products);
-        cartDTO.setProductPicture(p.pictureName);
-        cartDTO.setStockNo(products.stockNo);
-
-        if(cart.getArtWorkPictureId() != null) {
-            ArtWorkPicture a = artWorkPictureRepository.findOne(cart.getArtWorkPictureId());
-            cartDTO.setArtWorkPicture(a.pictureName);
-            cartDTO.setArtWorkPictureId(cart.getArtWorkPictureId());
-        }
-
-        System.out.println(cart.getMaterialPictureId());
-        if(cart.getMaterialPictureId() != null) {
-            System.out.println(cart.getMaterialPictureId());
-            MaterialPicture m = materialPictureRepository.findOne(cart.getMaterialPictureId());
-            cartDTO.setMaterialPicture(m.pictureName);
-            cartDTO.setMaterialPictureId(cart.getMaterialPictureId());
-        }
-
-        cartDTO.setAmount(cart.getAmount().toString());
-        cartDTO.setColor(cart.getColor());
-        cartDTO.setQuantity(cart.getQuantity());
-        cartDTO.setSize(cart.getSize());
-        String availability = productRepository.findOne(cart.getProductId()).availability;
-        if(availability.equalsIgnoreCase("N")){
-            cartDTO.setSizeStockNo(0);//todo pass threshold
-        }else{
-            if(cart.getSize() != null){
-                cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
-
-            }
-            else {
-                cartDTO.setSizeStockNo(0);
-            }
-        }
-        cartDTO.setMaterialLocation(cart.getMaterialLocation());
-        cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
-        cartDTO.setMaterialStatus(cart.getMaterialStatus());
-        cartDTO.setDesignerId(cart.getDesignerId());
-        Designer designer = designerRepository.findOne(cart.getDesignerId());
-        cartDTO.setDesignerName(designer.storeName);
-
-        if(cart.getMeasurementId() != null) {
-            Measurement m = measurementRepository.findOne(cart.getMeasurementId());
-            cartDTO.setMeasurementName(m.getName());
-            cartDTO.setMeasurementId(cart.getMeasurementId());
-        }
-        return cartDTO;
-
-    }
-
-
-    private ItemsRespDTO convertEntityToDTO(Items items){
-        ItemsRespDTO itemsDTO = new ItemsRespDTO();
-        if(items != null) {
-            itemsDTO.setId(items.id);
-            itemsDTO.setProductId(items.getProductId());
-            Products p = productRepository.findOne(items.getProductId());
-            itemsDTO.setProductName(p.name);
-            itemsDTO.setProductAvailability(p.availability);
-
-            itemsDTO.setAmount(items.getAmount().toString());
-            itemsDTO.setColor(items.getColor());
-            itemsDTO.setQuantity(items.getQuantity());
-            User user=userRepository.findById(items.getOrders().getUserId());
-            itemsDTO.setCustomerName(user.lastName+" "+user.firstName);
-            itemsDTO.setCustomerId(user.id);
-            itemsDTO.setProductPicture(items.getProductPicture());
-
-
-            itemsDTO.setArtWorkPicture(items.getArtWorkPicture());
-
-            itemsDTO.setMaterialPicture(items.getMaterialPicture());
-
-            Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-            Orders orders = items.getOrders();
-            itemsDTO.setArtWorkPictureId(items.getArtWorkPictureId());
-            itemsDTO.setSize(items.getSize());
-            itemsDTO.setUserComplain(items.getComplain());
-
-            itemsDTO.setOrderDate(formatter.format(orders.getOrderDate()));
-
-            itemsDTO.setStatus(items.getItemStatus().getStatus());
-            itemsDTO.setStatusId(items.getItemStatus().id);
-            itemsDTO.setFailedInspectionReason(items.getFailedInspectionReason());
-            if(items.getMaterialLocation() != null){
-                itemsDTO.setMaterialLocation(items.getMaterialLocation().toString());
-            }
-            itemsDTO.setMaterialPickupDate(items.getMaterialPickupDate());
-            itemsDTO.setMaterialStatus(items.getMaterialStatus());
-            itemsDTO.setMaterialPictureId(items.getMaterialPictureId());
-            itemsDTO.setDesignerId(items.getDesignerId());
-            itemsDTO.setOrderNumber(orders.getOrderNum());
-            itemsDTO.setOrderId(orders.id);
-            if (items.getMeasurementId() != null) {
-                itemsDTO.setMeasurement(items.getMeasurement());
-            }
-        }
-        return itemsDTO;
-
-    }
-
-
-
-
-    private List<OrderDTO> convertOrderEntsToDTOs(List<Orders> orders){
-        List<OrderDTO> orderDTOS = new ArrayList<>();
-        for(Orders orders1:orders){
-            OrderDTO orderDTO = convertOrderEntToDTOs(orders1);
-            orderDTOS.add(orderDTO);
-        }
-        return orderDTOS;
-    }
-
-    private OrderDTO convertOrderEntToDTOs(Orders orders){
-        OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setId(orders.id);
-        orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
-        orderDTO.setDeliveryStatus(orders.getDeliveryStatus());
-        orderDTO.setOrderNumber(orders.getOrderNum());
-        orderDTO.setPaymentType(orders.getPaymentType());
-        orderDTO.setTotalAmount(orders.getTotalAmount().toString());
-        orderDTO.setPaidAmount(orders.getPaidAmount());
-        User user=userRepository.findById(orders.getUserId());
-        orderDTO.setCustomerName(user.lastName+user.firstName);
-        orderDTO.setUserId(orders.getUserId());
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(orders.getDeliveryDate() != null) {
-            orderDTO.setDeliveryDate(formatter.format(orders.getDeliveryDate()));
-        }
-
-        orderDTO.setOrderDate(formatter.format(orders.getOrderDate()));
-        orderDTO.setItemsList(convertItemsEntToDTOs(orders.getItems()));
-
-        return orderDTO;
-
-    }
 
     private void deleteCart(User user){
         List<Cart> carts = cartRepository.findByUser(user);

@@ -4,6 +4,7 @@ import com.longbridge.Util.UserUtil;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.services.AdminService;
+import com.longbridge.services.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,7 +31,10 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    @GetMapping(value = "/admin/getadmindashboarddata")
+    @Autowired
+    RefundService refundService;
+
+    @GetMapping(value = "/getdashboarddata")
     public Response getAdminDashboardData(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -38,6 +42,18 @@ public class AdminController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         return new Response("00","Operation Successful",adminService.getDashboardData(userTemp));
+
+    }
+
+
+    @GetMapping(value = "/getrefundinfo")
+    public Response getRefundInfo(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return new Response("00","Operation Successful",refundService.getAll());
 
     }
 }
