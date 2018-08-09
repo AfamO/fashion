@@ -95,8 +95,6 @@ public class ProductServiceImpl implements ProductService {
 
 
 
-
-
     @Override
     public ProductRespDTO getDesignerProductById(Long id, User user) {
         try {
@@ -381,191 +379,7 @@ public class ProductServiceImpl implements ProductService {
             throw new WawoohException();
         }
     }
-//
-//    @Override
-//    public void addProduct(ProductDTO productDTO, Designer designer) {
-//
-//        try {
-//            Date date = new Date();
-//            Products products = new Products();
-//            //Long styleId = Long.parseLong(productDTO.styleId);
-//            Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
-//            ArrayList<String> pics = productDTO.picture;
-//            ArrayList<String> artWorkPics = productDTO.artWorkPicture;
-//            ArrayList<String> materialPics = productDTO.materialPicture;
-//
-//            products.subCategory = subCategoryRepository.findOne(subCategoryId);
-//            products.name=productDTO.name;
-//            products.amount = productDTO.amount;
-//            products.availability = productDTO.inStock;
-//            products.numOfDaysToComplete=productDTO.numOfDaysToComplete;
-//            products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
-//            products.color = productDTO.color;
-//            products.sizes = productDTO.sizes;
-//            products.prodDesc=productDTO.description;
-//            products.designer=designer;
-//
-//            if(productDTO.styleId != null) {
-//                if(!productDTO.styleId.isEmpty()) {
-//                    Long styleId = Long.parseLong(productDTO.styleId);
-//                    products.style = styleRepository.findOne(styleId);
-//                }
-//            }
-//            //products.style=styleRepository.findOne(styleId);
-//            products.stockNo=productDTO.stockNo;
-//            products.inStock=productDTO.inStock;
-//            products.setCreatedOn(date);
-//            products.setUpdatedOn(date);
-//
-//
-//            productRepository.save(products);
-//
-//            if(productDTO.slashedPrice != 0){
-//                PriceSlash priceSlash = new PriceSlash();
-//                products.priceSlashEnabled = true;
-//                priceSlash.setProducts(products);
-//                priceSlash.setSlashedPrice(productDTO.slashedPrice);
-//                priceSlashRepository.save(priceSlash);
-//            }
-//            else if(productDTO.percentageDiscount != 0){
-//
-//                PriceSlash priceSlash=new PriceSlash();
-//                products.priceSlashEnabled = true;
-//                priceSlash.setProducts(products);
-//                priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
-//                priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-//                priceSlashRepository.save(priceSlash);
-//            }
-//
-//
-//            for(String p:pics){
-//                ProductPicture productPicture = new ProductPicture();
-//                String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
-//
-//
-////                String base64Image = p.split(",")[1];
-////
-////                    byte[] imageByte = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-////                    ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-//////
-////                    File imgfile = File.createTempFile(productPictureName,"tmp");
-////                    FileUtils.copyInputStreamToFile(bis,imgfile);
-////                    bis.close();
-//
-//                    CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName,"productpictures");
-//
-//                    //productPicture.pictureName = productPictureName;
-//                    productPicture.pictureName=c.getUrl();
-//                    productPicture.picture = c.getPublicId();
-//                    productPicture.products = products;
-//                    productPicture.createdOn = date;
-//                    productPicture.setUpdatedOn(date);
-//                    productPictureRepository.save(productPicture);
-//            }
-//
-//            for(String mp:materialPics){
-//                MaterialPicture materialPicture = new MaterialPicture();
-//                String matName= generalUtil.getPicsName("materialpic",products.name);
-//                    //materialPicture.pictureName = matName;
-//                CloudinaryResponse c= generalUtil.uploadToCloud(mp,matName,"materialpictures");
-//                    materialPicture.pictureName = c.getUrl();
-//                    materialPicture.picture = c.getPublicId();
-//                    materialPicture.products = products;
-//                    materialPicture.createdOn = date;
-//                    materialPicture.setUpdatedOn(date);
-//                    materialPictureRepository.save(materialPicture);
-//            }
-//
-//
-//
-//            for(String ap:artWorkPics){
-//                    ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-//                    String artName= generalUtil.getPicsName("artworkpic",products.name);
-//                    //artWorkPicture.pictureName = artName;
-//                CloudinaryResponse c = generalUtil.uploadToCloud(ap,artName,"artworkpictures");
-//                artWorkPicture.pictureName = c.getUrl();
-//                artWorkPicture.picture = c.getPublicId();
-//                    artWorkPicture.products = products;
-//                    artWorkPicture.createdOn = date;
-//                    artWorkPicture.setUpdatedOn(date);
-//                    artWorkPictureRepository.save(artWorkPicture);
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            throw new WawoohException();
-//        }
-//    }
-//
-//    @Override
-//    public void updateProduct(ProductDTO productDTO, Designer designer) {
-//
-//        try {
-//            Date date = new Date();
-//
-//            Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
-//            Products products = productRepository.findOne(productDTO.id);
-//            products.subCategory = subCategoryRepository.findOne(subCategoryId);
-//            products.name=productDTO.name;
-//            products.amount = productDTO.amount;
-//            products.availability = productDTO.inStock;
-//
-//                products.numOfDaysToComplete = productDTO.numOfDaysToComplete;
-//
-//            products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
-//            products.color = productDTO.color;
-//            products.sizes = productDTO.sizes;
-//            products.prodDesc=productDTO.description;
-//            products.designer=designer;
-////            if(productDTO.styleId != null) {
-////                Long styleId = Long.parseLong(productDTO.styleId);
-////                products.style=styleRepository.findOne(styleId);
-////            }
-//            if(productDTO.styleId != null) {
-//                if(!productDTO.styleId.isEmpty()) {
-//                    Long styleId = Long.parseLong(productDTO.styleId);
-//                    products.style = styleRepository.findOne(styleId);
-//                }
-//            }
-//            products.stockNo=productDTO.stockNo;
-//            products.inStock=productDTO.inStock;
-//            products.setUpdatedOn(date);
-//
-//            if(productDTO.slashedPrice != 0){
-//                PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
-//                        if(priceSlash != null){
-//                            priceSlash.setSlashedPrice(productDTO.slashedPrice);
-//                        }else {
-//                            priceSlash=new PriceSlash();
-//                            products.priceSlashEnabled = true;
-//                            priceSlash.setProducts(products);
-//                            priceSlash.setSlashedPrice(productDTO.slashedPrice);
-//                        }
-//
-//                priceSlashRepository.save(priceSlash);
-//            }
-//            else if(productDTO.percentageDiscount != 0){
-//                PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
-//                if(priceSlash != null){
-//                    priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
-//                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-//                }else {
-//                    priceSlash=new PriceSlash();
-//                    products.priceSlashEnabled = true;
-//                    priceSlash.setProducts(products);
-//                    priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
-//                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-//                }
-//
-//                priceSlashRepository.save(priceSlash);
-//            }
-//            productRepository.save(products);
-//
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//            throw new WawoohException();
-//        }
-//    }
+
 
     @Override
     @Transactional
@@ -591,6 +405,7 @@ public class ProductServiceImpl implements ProductService {
            // products.materialName=productDTO.materialName;
             products.color = productDTO.color;
          //   products.sizes = productDTO.sizes;
+            products.prodSummary=productDTO.prodSummary;
             products.prodDesc=productDTO.description;
             products.designer=designer;
             products.productType = productDTO.productType;

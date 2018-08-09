@@ -24,6 +24,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -111,6 +112,7 @@ public class OrderServiceImpl implements OrderService {
     GeneralUtil generalUtil;
 
 
+    @Transactional
     @Override
     public OrderRespDTO addOrder(OrderReqDTO orderReq, User user) {
         OrderRespDTO orderRespDTO = new OrderRespDTO();
@@ -509,21 +511,40 @@ public class OrderServiceImpl implements OrderService {
 
     //pp
 
+
+    @Transactional
     @Override
     public void userRejectDecision(ItemsDTO itemsDTO, User user) {
         try{
             Items items = itemRepository.findOne(itemsDTO.getId());
-            if(itemsDTO.getAction().equalsIgnoreCase("accept")) {
-                items.setItemStatus(itemStatusRepository.findByStatus("PC"));
-            }
-            else if(itemsDTO.getAction().equalsIgnoreCase("refund")){
-                Refund refund = new Refund();
-                refund.setAccountName(itemsDTO.getAccountName());
-                refund.setAccountNumber(itemsDTO.getAccountNumber());
-                items.setItemStatus(itemStatusRepository.findByStatus("C"));
 
+            if (items == null) {
+                throw new WawoohException();
+            }else {
+                Wallet wallet = walletRepository.findByUser(user);
+                ItemStatus itemStatus = itemStatusRepository.findByStatus("OR");
+                if(items.getItemStatus() != itemStatus){
+                    throw new WawoohException();
+                }
+                if (itemsDTO.getAction().equalsIgnoreCase("accept")) {
+                    items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                } else if (itemsDTO.getAction().equalsIgnoreCase("refund")) {
+                    wallet.setBalance(wallet.getBalance() - items.getAmount());
+                    wallet.setPendingSettlement(wallet.getPendingSettlement() - items.getAmount());
+                    walletRepository.save(wallet);
+
+                    Refund refund = new Refund();
+                    refund.setAccountName(itemsDTO.getAccountName());
+                    refund.setAccountNumber(itemsDTO.getAccountNumber());
+                    refund.setAmount(items.getAmount());
+                    items.setItemStatus(itemStatusRepository.findByStatus("C"));
+
+                } else if (itemsDTO.getAction().equalsIgnoreCase("shopanother")) {
+                    wallet.setPendingSettlement(wallet.getPendingSettlement() - items.getAmount());
+                    walletRepository.save(wallet);
+                }
+                itemRepository.save(items);
             }
-            itemRepository.save(items);
         }catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
@@ -541,8 +562,8 @@ public class OrderServiceImpl implements OrderService {
             orders.setUpdatedOn(date);
 
             if(orders.getDeliveryStatus().equalsIgnoreCase("P")){
-
-               if(transferInfoRepository.findByOrders(orders) == null){
+                TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
+               if(transferInfo == null){
                  return "nopayment";
                }
             for (Items items: orders.getItems()) {
@@ -558,7 +579,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
             //update wallet balance
-                updateWalletForOrderPayment(customer,orderReqDTO.getPaidAmount(),"Bank Transfer");
+                updateWalletForOrderPayment(customer,transferInfo.getAmountPayed(),"Bank Transfer");
                //done updating wallet balance
                     orders.setDeliveryStatus("PC");
                     orders.setUpdatedOn(date);
