@@ -28,4 +28,16 @@ public class RefundServiceImpl implements RefundService{
         }
 
     }
+
+    @Override
+    public void verifyRefund(Long id) {
+        try {
+            Refund refund=refundRepository.findOne(id);
+            refund.setStatus("Y");
+            refundRepository.save(refund);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
 }

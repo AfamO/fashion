@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface RefundService {
     List<Refund> getAll();
-
+    void verifyRefund(Long id);
 
 }

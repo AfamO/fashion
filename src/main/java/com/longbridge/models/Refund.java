@@ -15,6 +15,7 @@ public class Refund extends CommonFields{
     private String productName;
     private String orderNum;
     private String customerName;
+    private String status="N";
 
 
     public Refund(String accountNumber, String accountName, Long userId, double amount, String productName, String orderNum, String customerName) {
@@ -85,5 +86,13 @@ public class Refund extends CommonFields{
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

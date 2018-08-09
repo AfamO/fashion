@@ -7,10 +7,7 @@ import com.longbridge.services.AdminService;
 import com.longbridge.services.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -56,4 +53,20 @@ public class AdminController {
         return new Response("00","Operation Successful",refundService.getAll());
 
     }
+
+
+    @PostMapping(value = "/{id}/verifyrefund")
+    public Response verifyRefund(HttpServletRequest request,@PathVariable Long id){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        refundService.verifyRefund(id);
+        return new Response("00","Operation Successful","success");
+
+    }
+
+
+
 }
