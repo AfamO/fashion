@@ -250,7 +250,7 @@ public class OrderController {
 
 
 
-    @PostMapping(value = "/user/rejectdecision")
+    @PostMapping(value = "/userrejectdecision")
     public Response rejectDecision(@RequestBody ItemsDTO itemsDTO, HttpServletRequest request){
 
             String token = request.getHeader(tokenHeader);
