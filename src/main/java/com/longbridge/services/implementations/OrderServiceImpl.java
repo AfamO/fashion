@@ -357,6 +357,9 @@ public class OrderServiceImpl implements OrderService {
 
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
+                    if(items.getComplain() != null){
+                        items.setComplain(null);
+                    }
                     items.setItemStatus(itemStatus);
                     statusMessage.setHasResponse(false);
                     items.setStatusMessage(statusMessage);

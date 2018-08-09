@@ -404,7 +404,6 @@ public class ProductServiceImpl implements ProductService {
             products.materialPrice=productDTO.materialPrice;
            // products.materialName=productDTO.materialName;
             products.color = productDTO.color;
-         //   products.sizes = productDTO.sizes;
             products.prodSummary=productDTO.prodSummary;
             products.prodDesc=productDTO.description;
             products.designer=designer;
@@ -455,10 +454,7 @@ public class ProductServiceImpl implements ProductService {
             for(String p:pics){
                 ProductPicture productPicture = new ProductPicture();
                 String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
-
                 CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName,"productpictures");
-
-                //productPicture.pictureName = productPictureName;
                 productPicture.pictureName=c.getUrl();
                 productPicture.picture = c.getPublicId();
                 productPicture.products = products;
