@@ -283,9 +283,6 @@ public class OrderServiceImpl implements OrderService {
             String customerEmail = customer.email;
             String rejectDecisionLink;
             String customerName = customer.lastName+" "+ customer.firstName;
-//            Context context = new Context();
-//            context.setVariable("name", customerName);
-//            context.setVariable("productName",items.getProductName());
             Context context = new Context();
             context.setVariable("name", customerName);
             context.setVariable("productName",items.getProductName());

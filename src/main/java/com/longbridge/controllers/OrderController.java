@@ -149,20 +149,20 @@ public class OrderController {
 
 
 
-    @PostMapping(value = "/decision")
-    public Response saveDecision(@RequestBody ItemsDTO item, HttpServletRequest request) {
-
-            String token = request.getHeader(tokenHeader);
-            User userTemp = userUtil.fetchUserDetails2(token);
-            if (token == null || userTemp == null) {
-                return userUtil.tokenNullOrInvalidResponse(token);
-            }
-
-        orderService.saveUserOrderDecision(item,userTemp);
-        return new Response("00","Operation Successful","success");
-
-
-    }
+//    @PostMapping(value = "/decision")
+//    public Response saveDecision(@RequestBody ItemsDTO item, HttpServletRequest request) {
+//
+//            String token = request.getHeader(tokenHeader);
+//            User userTemp = userUtil.fetchUserDetails2(token);
+//            if (token == null || userTemp == null) {
+//                return userUtil.tokenNullOrInvalidResponse(token);
+//            }
+//
+//        orderService.saveUserOrderDecision(item,userTemp);
+//        return new Response("00","Operation Successful","success");
+//
+//
+//    }
 
     @PostMapping(value = "/complain")
     public Response saveComplain(@RequestBody ItemsDTO item, HttpServletRequest request){
@@ -250,7 +250,7 @@ public class OrderController {
 
 
 
-    @PostMapping(value = "/userrejectdecision")
+    @PostMapping(value = "/decision")
     public Response rejectDecision(@RequestBody ItemsDTO itemsDTO, HttpServletRequest request){
 
             String token = request.getHeader(tokenHeader);
@@ -263,7 +263,6 @@ public class OrderController {
 
 
     }
-
 
 
 
