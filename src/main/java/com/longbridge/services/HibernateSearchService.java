@@ -109,11 +109,11 @@ import java.util.List;
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
         QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Products.class).get();
         if(subCategory.size() > 0){
-           luceneQuery = qb.keyword().fuzzy().onFields("subCategory.subCategory")
+           luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(2).onFields("subCategory.subCategory")
                     .matching(searchTerm).createQuery();
         }
         else {
-            luceneQuery = qb.keyword().fuzzy().onFields("name")
+            luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(2).onFields("name")
                     .matching(searchTerm).createQuery();
         }
 
@@ -142,7 +142,7 @@ import java.util.List;
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
         QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Products.class).get();
-        Query luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1).onFields("name")
+        Query luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(2).withPrefixLength(1).onFields("name")
                 .matching(searchTerm).createQuery();
 
         javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Products.class);

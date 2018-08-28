@@ -72,23 +72,36 @@ public class UserController {
     }
 
 
-    @PostMapping(value = "/requestlink")
-    public Object requestLink(@RequestBody User passedUser){
+//    @PostMapping(value = "/requestlink")
+//    public Object requestLink(@RequestBody User passedUser){
+//        try {
+//            return userUtil.getActivationLink(passedUser);
+//        }catch (AppException e){
+//            e.printStackTrace();
+//            String recipient = e.getRecipient();
+//            String subject = e.getSubject();
+//            MailError mailError = new MailError();
+//            mailError.setName(e.getName());
+//            mailError.setRecipient(recipient);
+//            mailError.setSubject(subject);
+//            mailError.setLink(e.getLink());
+//            mailError.setMailType("welcome");
+//            mailErrorRepository.save(mailError);
+//            return new Response("00", "Registration successful, Trying to send welcome email", "success");
+//        }
+//    }
+
+    @PostMapping(value = "/requesttoken")
+    public Object requestToken(@RequestBody User passedUser){
         try {
-            return userUtil.getActivationLink(passedUser);
-        }catch (AppException e){
-            e.printStackTrace();
-            String recipient = e.getRecipient();
-            String subject = e.getSubject();
-            MailError mailError = new MailError();
-            mailError.setName(e.getName());
-            mailError.setRecipient(recipient);
-            mailError.setSubject(subject);
-            mailError.setLink(e.getLink());
-            mailError.setMailType("welcome");
-            mailErrorRepository.save(mailError);
-            return new Response("00", "Registration successful, Trying to send welcome email", "success");
+            userUtil.sendToken(passedUser);
+            return new Response("00", "Operation Successful", "success");
+
+        }catch (Exception e){
+           e.printStackTrace();
+            return new Response("99", "Error occurred while sending token", "error");
         }
+
     }
 
 
@@ -228,10 +241,10 @@ public class UserController {
         return userUtil.getAllUsers();
     }
 
-    @PostMapping(value = "/validateToken")
-    public Object validateToken(@RequestBody UserEmailTokenDTO userEmailTokenDTO){
-        User user = userUtil.getUserByEmail(userEmailTokenDTO.getEmail());
-        return tokenService.validateToken(user,userEmailTokenDTO.getToken());
+    @PostMapping(value = "/validatetoken")
+    public Object validateToken(@RequestBody UserEmailTokenDTO userEmailTokenDTO,Device device){
+
+        return tokenService.validateToken(userEmailTokenDTO, device);
     }
 
 

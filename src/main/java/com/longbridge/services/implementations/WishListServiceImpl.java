@@ -1,5 +1,6 @@
 package com.longbridge.services.implementations;
 
+import com.longbridge.Util.GeneralUtil;
 import com.longbridge.dto.*;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
@@ -31,6 +32,9 @@ public class WishListServiceImpl implements WishListService{
 
     @Autowired
     ProductNotificationRepository productNotificationRepository;
+
+    @Autowired
+    GeneralUtil generalUtil;
 
 
 
@@ -139,12 +143,12 @@ public class WishListServiceImpl implements WishListService{
         ProductRespDTO productDTO = new ProductRespDTO();
         productDTO.id=products.id;
         productDTO.amount=products.amount;
-        productDTO.color=products.color;
+       // productDTO.color=products.color;
         productDTO.description=products.prodDesc;
         productDTO.name=products.name;
-        productDTO.productSizes=products.productSizes;
+      //  productDTO.productSizes=products.productSizes;
 
-
+        productDTO.productAttributeDTOS=generalUtil.convertProductAttributeEntitiesToDTOs(products.productAttributes);
         if(products.style != null) {
             productDTO.styleId = products.style.id.toString();
         }

@@ -1,12 +1,14 @@
 package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.ShippingUtil;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.services.ShippingPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +24,7 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
     ProductRepository productRepository;
 
     @Autowired
-    GeneralUtil generalUtil;
+    ShippingUtil shippingUtil;
 
     @Override
     public Object getShippingPrice(Long addressId, User user) {
@@ -39,16 +41,20 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
             return null;
         }
 
+        ArrayList<String> designerCities = new ArrayList<>();
         for (Cart cart : carts) {
-            int cartQuantity = cart.getQuantity();
             String designerCity = productRepository.findOne(cart.getProductId()).designer.city.toUpperCase().trim();
-            Double price = generalUtil.getShipping(designerCity,userCity,cartQuantity);
-            if(price != 0){
-                shippingPriceGIG +=generalUtil.getShipping(designerCity,userCity,cartQuantity);
-            }
-            else {
-                //todo later
-                return  null;
+            int cartQuantity = cart.getQuantity();
+            if(!designerCities.contains(designerCity)){
+                designerCities.add(designerCity);
+                Double price = shippingUtil.getShipping(designerCity,userCity,cartQuantity);
+                if(price != 0){
+                    shippingPriceGIG +=shippingUtil.getShipping(designerCity,userCity,cartQuantity);
+                }
+                else {
+                    //todo later
+                    return  null;
+                }
             }
 
         }

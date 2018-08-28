@@ -4,8 +4,6 @@ package com.longbridge.dto;
  * Created by Longbridge on 07/11/2017.
  */
 public class UserEmailTokenDTO {
-
-
     private String email;
     private String token;
 

@@ -13,13 +13,8 @@ public class ProductSizes extends CommonFields{
 
     @JsonIgnore
     @ManyToOne
-    private Products products;
+    private ProductAttribute productAttribute;
 
-    public ProductSizes(String name, int stockNo, Products products) {
-        this.name = name;
-        this.stockNo = stockNo;
-        this.products = products;
-    }
 
     public ProductSizes() {
     }
@@ -40,11 +35,11 @@ public class ProductSizes extends CommonFields{
         this.stockNo = stockNo;
     }
 
-    public Products getProducts() {
-        return products;
+    public ProductAttribute getProductAttribute() {
+        return productAttribute;
     }
 
-    public void setProducts(Products products) {
-        this.products = products;
+    public void setProductAttribute(ProductAttribute productAttribute) {
+        this.productAttribute = productAttribute;
     }
 }

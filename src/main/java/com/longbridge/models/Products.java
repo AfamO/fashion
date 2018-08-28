@@ -42,7 +42,7 @@ public class Products extends CommonFields implements Serializable {
     public String prodSummary;
 
 
-    public ArrayList<String> color;
+   // public ArrayList<String> color;
 
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     public List<ArtWorkPicture> artWorkPicture;
@@ -57,10 +57,13 @@ public class Products extends CommonFields implements Serializable {
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     public List<ProductPicture> picture;
 
-   //public ArrayList<String> sizes;
+    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    public List<ProductAttribute> productAttributes;
 
-    @OneToMany (mappedBy = "products")
-    public List<ProductSizes> productSizes;
+
+
+//    @OneToMany (mappedBy = "products")
+//    public List<ProductSizes> productSizes;
 
     @OneToOne
     public Style style;
@@ -89,8 +92,7 @@ public class Products extends CommonFields implements Serializable {
 
     @OneToMany(mappedBy = "products",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     public List<WishList> wishLists;
-//    @OneToMany(mappedBy = "products",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    public List<Orders> orders;
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)

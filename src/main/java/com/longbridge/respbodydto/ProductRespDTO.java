@@ -2,7 +2,9 @@ package com.longbridge.respbodydto;
 
 import com.longbridge.dto.ArtPictureDTO;
 import com.longbridge.dto.MaterialPictureDTO;
+import com.longbridge.dto.ProductAttributeDTO;
 import com.longbridge.dto.ProductPictureDTO;
+import com.longbridge.models.ProductAttribute;
 import com.longbridge.models.ProductRating;
 import com.longbridge.models.ProductSizes;
 
@@ -25,9 +27,10 @@ public class ProductRespDTO {
 
     public String prodSummary;
 
-    public ArrayList<String> color;
+   // public ArrayList<String> color;
+   public List<ProductAttributeDTO> productAttributeDTOS;
     //public ArrayList<String> sizes;
-    public List<ProductSizes> productSizes;
+   // public List<ProductSizes> productSizes;
     public String styleId;
     public String subCategoryId;
     public String subCategoryName;

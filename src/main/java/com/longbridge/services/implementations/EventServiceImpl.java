@@ -7,6 +7,7 @@ import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.security.repository.UserRepository;
+import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.EventService;
 
 
@@ -53,6 +54,10 @@ public class EventServiceImpl implements EventService {
     GeneralUtil generalUtil;
 
 
+    @Autowired
+    CloudinaryService cloudinaryService;
+
+
     private ModelMapper modelMapper;
 
     @Autowired
@@ -79,7 +84,7 @@ public class EventServiceImpl implements EventService {
             String time = "evtmpic" +getCurrentTime();
             String fileName = e.eventName.replaceAll("\\s","") + time;
 
-            CloudinaryResponse c = generalUtil.uploadToCloud(e.mainPicture,fileName,"eventmainpictures");
+            CloudinaryResponse c = cloudinaryService.uploadToCloud(e.mainPicture,fileName,"eventmainpictures");
             e.setMainPictureName(c.getUrl());
             e.setMainPicture(c.getPublicId());
 
@@ -94,7 +99,7 @@ public class EventServiceImpl implements EventService {
                 try {
                 String timeStamp = "evtpic" + getCurrentTime();
                 String fName = e.eventName.replaceAll("\\s","") + timeStamp;
-                CloudinaryResponse cc = generalUtil.uploadToCloud(pictures.picture,fName,"eventpictures");
+                CloudinaryResponse cc = cloudinaryService.uploadToCloud(pictures.picture,fName,"eventpictures");
                 pictures.pictureName=cc.getUrl();
                 //pictures.pictureDesc=p
                 pictures.picture = cc.getPublicId();
@@ -138,7 +143,7 @@ public class EventServiceImpl implements EventService {
         try {
             for (Long id:pictureIdListDTO.getIds()) {
                 EventPictures eventPictures = eventPictureRepository.findOne(id);
-                generalUtil.deleteFromCloud(eventPictures.getPicture(),eventPictures.getPictureName());
+                cloudinaryService.deleteFromCloud(eventPictures.getPicture(),eventPictures.getPictureName());
                 eventPictureRepository.delete(eventPictures);
             }
         }
@@ -159,10 +164,10 @@ public class EventServiceImpl implements EventService {
 
                 if (eventPictures.id != null) {
                     EventPictures eventPictures1 = eventPictureRepository.findOne(eventPictures.id);
-                    generalUtil.deleteFromCloud(eventPictures.picture, eventPictures.pictureName);
+                    cloudinaryService.deleteFromCloud(eventPictures.picture, eventPictures.pictureName);
                     String timeStamp = "evtpic" + getCurrentTime();
                     String fName = events1.eventName.replaceAll("\\s", "") + timeStamp;
-                    CloudinaryResponse c = generalUtil.uploadToCloud(eventPictures.picture, fName, "eventpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(eventPictures.picture, fName, "eventpictures");
                     eventPictures1.pictureName = c.getUrl();
                     eventPictures1.picture = c.getPublicId();
                     eventPictures1.setUpdatedOn(date);
@@ -172,7 +177,7 @@ public class EventServiceImpl implements EventService {
                     EventPictures eventPictures1 = new EventPictures();
                     String timeStamp = "evtpic" + getCurrentTime();
                     String fName = events1.eventName.replaceAll("\\s", "") + timeStamp;
-                    CloudinaryResponse c = generalUtil.uploadToCloud(eventPictures.picture, fName, "eventpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(eventPictures.picture, fName, "eventpictures");
                     eventPictures1.pictureName = c.getUrl();
                     eventPictures1.picture = c.getPublicId();
                     eventPictures1.events=events1;
@@ -198,7 +203,7 @@ public class EventServiceImpl implements EventService {
         try {
             Events events = eventRepository.findOne(id);
             eventPictureRepository.findByEvents(events).forEach(eventPicture1 -> {
-               generalUtil.deleteFromCloud(eventPicture1.getPicture(),eventPicture1.getPictureName());
+                cloudinaryService.deleteFromCloud(eventPicture1.getPicture(),eventPicture1.getPictureName());
             });
 
             eventRepository.delete(id);

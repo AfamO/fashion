@@ -40,11 +40,7 @@ public class GeneralUtil {
     @Autowired
     PriceSlashRepository priceSlashRepository;
 
-    @Autowired
-    ShippingRepository shippingRepository;
 
-    @Autowired
-    ZonePriceRepository zonePriceRepository;
 
     @Autowired
     ItemRepository itemRepository;
@@ -70,8 +66,6 @@ public class GeneralUtil {
     @Autowired
     DesignerRepository designerRepository;
 
-    @Autowired
-    ProductSizesRepository productSizesRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -79,12 +73,10 @@ public class GeneralUtil {
     public DesignerDTO convertDesigner2EntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
-//        dto.userId=d.userId;
         dto.userId = d.user.id;
         dto.logo=d.logo;
         dto.storeName=d.storeName;
         dto.address=d.address;
-        //User u = userRepository.findById(d.userId);
         User u = d.user;
         dto.firstName=u.firstName;
         dto.lastName=u.lastName;
@@ -104,10 +96,6 @@ public class GeneralUtil {
         stats.add("PC");
 
         List<ItemStatus> statuses = itemStatusRepository.findByStatusIn(stats);
-//        statuses.add("RS");
-//        statuses.add("OS");
-//        statuses.add("D");
-
         //dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatusNotIn(d.id,statuses);
         dto.noOfPendingOders= itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"PC");
         //dto.quantityOfPendingOrders= itemRepository.countPendingItemQuantities(d.id,"OP");
@@ -128,12 +116,10 @@ public class GeneralUtil {
     public DesignerDTO convertDesignerEntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
-//        dto.userId=d.userId;
         dto.userId = d.user.id;
         dto.logo=d.logo;
         dto.storeName=d.storeName;
         dto.address=d.address;
-        //User u = userRepository.findById(d.userId);
         User u = d.user;
         dto.firstName=u.firstName;
         dto.lastName=u.lastName;
@@ -147,15 +133,6 @@ public class GeneralUtil {
             List<ProductRespDTO> products = convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d, "Y"));
             dto.setProducts(products);
         }
-//        dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"P");
-//        dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
-//        dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id, "X");
-//        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
-//        dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"R");
-//        dto.noOfShippedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"S");
-//        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"P");
-        //dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"C");
-        // dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndDeliveryStatus(d.id,"D");
         return dto;
 
     }
@@ -268,11 +245,14 @@ public class GeneralUtil {
         ProductRespDTO productDTO = new ProductRespDTO();
         productDTO.id=products.id;
         productDTO.amount=products.amount;
-        productDTO.color=products.color;
+      //  productDTO.color=products.color;
         productDTO.description=products.prodDesc;
         productDTO.prodSummary=products.prodSummary;
         productDTO.name=products.name;
-        productDTO.productSizes=products.productSizes;
+
+        productDTO.productAttributeDTOS=convertProductAttributeEntitiesToDTOs(products.productAttributes);
+
+      //  productDTO.productSizes=products.productSizes;
         if(products.style != null) {
             productDTO.styleId = products.style.id.toString();
         }
@@ -355,11 +335,13 @@ public class GeneralUtil {
         ProductRespDTO productDTO = new ProductRespDTO();
         productDTO.id=products.id;
         productDTO.amount=products.amount;
-        productDTO.color=products.color;
+        //productDTO.productAttributes=products.productAttributes;
+        productDTO.productAttributeDTOS=convertProductAttributeEntitiesToDTOs(products.productAttributes);
+        //productDTO.color=products.color;
         productDTO.description=products.prodDesc;
         productDTO.prodSummary=products.prodSummary;
         productDTO.name=products.name;
-        productDTO.productSizes=products.productSizes;
+       // productDTO.productSizes=products.productSizes;
         if(products.style != null) {
             productDTO.styleId = products.style.id.toString();
         }
@@ -438,74 +420,25 @@ public class GeneralUtil {
     }
 
 
+    public List<ProductAttributeDTO> convertProductAttributeEntitiesToDTOs(List<ProductAttribute> productAttributes){
 
-    public CloudinaryResponse uploadToCloud(String base64Image, String fileName, String folder){
-        CloudinaryResponse cloudinaryResponse = new CloudinaryResponse();
-        try {
-
-
-            String image = base64Image.split(",")[1];
-
-            byte[] imageByte = javax.xml.bind.DatatypeConverter.parseBase64Binary(image);
-            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-            File imgfile = File.createTempFile(fileName, "tmp");
-            FileUtils.copyInputStreamToFile(bis, imgfile);
-            bis.close();
-            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                    "cloud_name", "har9qnw3d",
-                    "api_key", "629146977531321",
-                    "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
-            Map uploadResult = cloudinary.uploader().upload(base64Image, ObjectUtils.asMap("public_id", fileName, "folder", folder));
-
-            cloudinaryResponse.setPublicId(uploadResult.get("public_id").toString());
-            cloudinaryResponse.setUrl(uploadResult.get("url").toString());
-        }catch (UnknownHostException ex){
-                ex.printStackTrace();
-                throw new WawoohException();
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw new WawoohException();
+        List<ProductAttributeDTO> productAttributeDTOS = new ArrayList<ProductAttributeDTO>();
+        for(ProductAttribute p: productAttributes){
+            ProductAttributeDTO productAttributeDTO = convertProductAttributeEntityToDTO(p);
+            productAttributeDTOS.add(productAttributeDTO);
         }
-
-        return cloudinaryResponse;
+        return productAttributeDTOS;
     }
 
-    public CloudinaryResponse uploadFileToCloud(File base64Image, String fileName, String folder){
-        CloudinaryResponse cloudinaryResponse = new CloudinaryResponse();
-        try {
+    public ProductAttributeDTO convertProductAttributeEntityToDTO(ProductAttribute productAttribute){
+        ProductAttributeDTO productAttributeDTO = new ProductAttributeDTO();
 
-            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                    "cloud_name", "har9qnw3d",
-                    "api_key", "629146977531321",
-                    "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
-            Map uploadResult = cloudinary.uploader().upload(base64Image,  ObjectUtils.asMap("public_id",fileName,"folder",folder));
-
-            cloudinaryResponse.setPublicId(uploadResult.get("public_id").toString());
-            cloudinaryResponse.setUrl(uploadResult.get("url").toString());
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
-
-        return cloudinaryResponse;
-    }
-
-
-    public Map deleteFromCloud(String publicId, String fileName){
-
-        try {
-
-            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                    "cloud_name", "har9qnw3d",
-                    "api_key", "629146977531321",
-                    "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
-            return cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
+        productAttributeDTO.setId(productAttribute.id);
+        productAttributeDTO.setColourPicture(productAttribute.getColourPicture());
+        productAttributeDTO.setColourName(productAttribute.getColourName());
+        productAttributeDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductPictures()));
+        productAttributeDTO.setProductSizes(productAttribute.getProductSizes());
+        return productAttributeDTO;
 
     }
 
@@ -584,54 +517,6 @@ public class GeneralUtil {
         return randomProducts;
     }
 
-    public double getShipping(String designerCity,String userCity,int quantity){
-
-        double shippingPriceGIG = 0;
-        List<Shipping> shippings = shippingRepository.getPrice(designerCity,userCity);
-        System.out.println(designerCity);
-        System.out.println(userCity);
-        System.out.println(shippings);
-
-        for (Shipping shipping : shippings){
-
-            //ZonePrice zonePrice = null;
-            System.out.println(shipping.getSource());
-            if(shipping.getSource() != null) {
-                Double zonePrice;
-                int currentShipping = 0;
-                if (shipping.getZone().equals("1")) {
-                    zonePrice = zonePriceRepository.getZoneOnePrice(quantity);
-                    currentShipping += zonePrice;
-                } else if (shipping.getZone().equals("2")) {
-                    zonePrice = zonePriceRepository.getZoneTwoPrice(quantity);
-                    currentShipping += zonePrice;
-                } else if (shipping.getZone().equals("3")) {
-                    zonePrice = zonePriceRepository.getZoneThreePrice(quantity);
-                    currentShipping += zonePrice;
-                } else if (shipping.getZone().equals("4")) {
-                    zonePrice = zonePriceRepository.getZoneFourPrice(quantity);
-                    currentShipping += zonePrice;
-                }
-
-                if (shipping.getSource().equals("1")) {
-                    shippingPriceGIG += currentShipping;
-                } else if (shipping.getSource().equals("2")) {
-                    shippingPriceGIG += currentShipping;
-                } else {
-                    return 0;
-                }
-
-            }
-
-        }
-        //        HashMap hm = new HashMap();
-//        hm.put("DHL", new Double(shippingPriceDHL));
-//        hm.put("GIG", new Double(shippingPriceGIG));
-
-        return shippingPriceGIG;
-
-    }
-
 
 
 
@@ -702,7 +587,7 @@ public class GeneralUtil {
             cartDTO.setSizeStockNo(0);//todo pass threshold
         }else{
             if(cart.getSize() != null){
-                cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+                //cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
 
             }
             else {
@@ -813,9 +698,6 @@ public class GeneralUtil {
         return orderDTO;
 
     }
-
-
-
 
 
 }

@@ -1,6 +1,7 @@
 package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.ShippingUtil;
 import com.longbridge.dto.OrderReqDTO;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class WalletServiceImpl implements WalletService {
     @Autowired
-    GeneralUtil generalUtil;
+    ShippingUtil shippingUtil;
 
     @Autowired
     ProductRepository productRepository;
@@ -47,7 +48,7 @@ public class WalletServiceImpl implements WalletService {
                 }
 
                 Double itemsAmount = amount * items.getQuantity();
-                Double shippingAmount = generalUtil.getShipping(p.designer.city.toUpperCase().trim(), deliveryAddress.getCity().toUpperCase().trim(), items.getQuantity());
+                Double shippingAmount = shippingUtil.getShipping(p.designer.city.toUpperCase().trim(), deliveryAddress.getCity().toUpperCase().trim(), items.getQuantity());
                 items.setAmount(itemsAmount);
                 totalAmount = totalAmount + itemsAmount + shippingAmount;
             }

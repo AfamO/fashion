@@ -22,8 +22,9 @@ public class ProductDTO {
 
     public String prodSummary;
 
-    public ArrayList<String> color;
-    public ArrayList<String> sizes;
+//    public ArrayList<String> color;
+
+
     public String styleId;
     public String subCategoryId;
     public String subCategoryName;
@@ -50,7 +51,9 @@ public class ProductDTO {
 
     public String availability;
 
-    public List<ProductSizes> productSizes;
+   // public List<ProductSizes> productSizes;
+
+    public List<ProductAttributeDTO> productAttributes;
 
     public String acceptCustomSizes;
 

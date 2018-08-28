@@ -8,6 +8,7 @@ import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.repository.UserRepository;
+import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.DesignerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,9 @@ public class DesignerServiceImpl implements DesignerService{
 
     @Autowired
     private GeneralUtil generalUtil;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
 
     @Autowired
@@ -156,7 +160,7 @@ public class DesignerServiceImpl implements DesignerService{
                 if(passedDesigner.logo != null) {
                     Designer d = designerRepository.findOne(userTemp.designer.id);
                     if(userTemp.designer.publicId != null) {
-                        generalUtil.deleteFromCloud(userTemp.designer.publicId, userTemp.designer.logo);
+                        cloudinaryService.deleteFromCloud(userTemp.designer.publicId, userTemp.designer.logo);
                     }
                     try {
                         String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
@@ -164,7 +168,7 @@ public class DesignerServiceImpl implements DesignerService{
 //                        byte[] imgBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Img);
 //                        ByteArrayInputStream bs = new ByteArrayInputStream(imgBytes);
 //                        File imgfilee = new File(designerLogoFolder + fileName);
-                        CloudinaryResponse c = generalUtil.uploadToCloud(base64Img,fileName,"designerlogos");
+                        CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img,fileName,"designerlogos");
                         d.logo = c.getUrl();
                         d.publicId=c.getPublicId();
 //                        FileOutputStream f = new FileOutputStream(imgfilee);

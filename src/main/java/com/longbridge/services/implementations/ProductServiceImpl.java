@@ -6,6 +6,7 @@ import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
+import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,6 +60,12 @@ public class ProductServiceImpl implements ProductService {
     GeneralUtil generalUtil;
 
     @Autowired
+    CloudinaryService cloudinaryService;
+
+    @Autowired
+    ProductSizesRepository productSizesRepository;
+
+    @Autowired
     public ProductServiceImpl(GeneralUtil generalUtil) {
         this.generalUtil = generalUtil;
     }
@@ -86,12 +93,7 @@ public class ProductServiceImpl implements ProductService {
     PriceSlashRepository priceSlashRepository;
 
     @Autowired
-    ProductSizesRepository productSizesRepository;
-
-//    @Value("${event.picture.folder}")
-//    private String eventPicturesImagePath;
-//
-
+    ProductAttributeRepository productAttributeRepository;
 
 
 
@@ -388,9 +390,8 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             Products products = new Products();
-            //Long styleId = Long.parseLong(productDTO.styleId);
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
-            ArrayList<String> pics = productDTO.picture;
+            //ArrayList<String> pics = productDTO.picture;
             ArrayList<String> artWorkPics = productDTO.artWorkPicture;
             ArrayList<MaterialPictureDTO> materialPics = productDTO.materialPicture;
 
@@ -403,7 +404,7 @@ public class ProductServiceImpl implements ProductService {
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
             products.materialPrice=productDTO.materialPrice;
            // products.materialName=productDTO.materialName;
-            products.color = productDTO.color;
+            //products.color = productDTO.color;
             products.prodSummary=productDTO.prodSummary;
             products.prodDesc=productDTO.description;
             products.designer=designer;
@@ -421,15 +422,36 @@ public class ProductServiceImpl implements ProductService {
             products.setCreatedOn(date);
             products.setUpdatedOn(date);
 
-
             productRepository.save(products);
 
-            for (ProductSizes p: productDTO.productSizes) {
+            for (ProductAttributeDTO pa: productDTO.productAttributes) {
+                ProductAttribute productAttribute=new ProductAttribute();
+                productAttribute.setProducts(products);
+                String  colourName= generalUtil.getPicsName("prodcolour",pa.getColourName());
+                CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
+                productAttribute.setColourName(pa.getColourName());
+                productAttribute.setColourPicture(c.getUrl());
+                productAttributeRepository.save(productAttribute);
+
+            for (ProductSizes p: pa.getProductSizes()) {
                 ProductSizes productSizes = new ProductSizes();
                 productSizes.setName(p.getName());
                 productSizes.setStockNo(p.getStockNo());
-                productSizes.setProducts(products);
+                productSizes.setProductAttribute(productAttribute);
                 productSizesRepository.save(productSizes);
+            }
+            for(String p:pa.getPicture()){
+                    ProductPicture productPicture = new ProductPicture();
+                    String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
+                    c = cloudinaryService.uploadToCloud(p,productPictureName,"productpictures");
+                    productPicture.pictureName=c.getUrl();
+                    productPicture.picture = c.getPublicId();
+                    productPicture.products = products;
+                    productPicture.createdOn = date;
+                    productPicture.setUpdatedOn(date);
+                    productPicture.productAttribute=productAttribute;
+                    productPictureRepository.save(productPicture);
+                }
             }
 
             if(productDTO.slashedPrice != 0){
@@ -451,24 +473,13 @@ public class ProductServiceImpl implements ProductService {
             }
 
 
-            for(String p:pics){
-                ProductPicture productPicture = new ProductPicture();
-                String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
-                CloudinaryResponse c = generalUtil.uploadToCloud(p,productPictureName,"productpictures");
-                productPicture.pictureName=c.getUrl();
-                productPicture.picture = c.getPublicId();
-                productPicture.products = products;
-                productPicture.createdOn = date;
-                productPicture.setUpdatedOn(date);
-                productPictureRepository.save(productPicture);
-            }
 
             if( productDTO.productType == 1) {
                 for (MaterialPictureDTO mp : materialPics) {
                     MaterialPicture materialPicture = new MaterialPicture();
                     String matName = generalUtil.getPicsName("materialpic", products.name);
                     //materialPicture.pictureName = matName;
-                    CloudinaryResponse c = generalUtil.uploadToCloud(mp.materialPicture, matName, "materialpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(mp.materialPicture, matName, "materialpictures");
                     materialPicture.pictureName = c.getUrl();
                     materialPicture.picture = c.getPublicId();
                     materialPicture.materialName = mp.materialName;
@@ -483,7 +494,7 @@ public class ProductServiceImpl implements ProductService {
                     ArtWorkPicture artWorkPicture = new ArtWorkPicture();
                     String artName = generalUtil.getPicsName("artworkpic", products.name);
                     //artWorkPicture.pictureName = artName;
-                    CloudinaryResponse c = generalUtil.uploadToCloud(ap, artName, "artworkpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(ap, artName, "artworkpictures");
                     artWorkPicture.pictureName = c.getUrl();
                     artWorkPicture.picture = c.getPublicId();
                     artWorkPicture.products = products;
@@ -514,7 +525,7 @@ public class ProductServiceImpl implements ProductService {
             products.acceptCustomSizes=productDTO.acceptCustomSizes;
             products.numOfDaysToComplete = productDTO.numOfDaysToComplete;
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
-            products.color = productDTO.color;
+          //  products.color = productDTO.color;
 //            products.sizes = productDTO.sizes;
             products.prodDesc=productDTO.description;
             products.prodSummary=productDTO.prodSummary;
@@ -529,20 +540,17 @@ public class ProductServiceImpl implements ProductService {
             products.inStock=productDTO.inStock;
             products.setUpdatedOn(date);
 
-            if(productDTO.productSizes != null){
-                List<ProductSizes> sizes=productSizesRepository.findByProducts(products);
-                productSizesRepository.delete(sizes);
-                for (ProductSizes p: productDTO.productSizes) {
-                    ProductSizes productSizes = new ProductSizes();
-                    productSizes.setName(p.getName());
-                    productSizes.setStockNo(p.getStockNo());
-                    productSizes.setProducts(products);
-                    productSizesRepository.save(productSizes);
-                }
-            }
 
 
-            System.out.println(productDTO.slashedPrice);
+//            if(productDTO.productAttributes != null){
+//                List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
+//                productAttributeRepository.delete(productAttributes);
+//                for (ProductAttributeDTO p: productDTO.productAttributes) {
+////                    p.(products);
+////                    productAttributeRepository.save(p);
+//                }
+//            }
+
 
             if(productDTO.slashedPrice != 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
@@ -595,15 +603,12 @@ public class ProductServiceImpl implements ProductService {
         try {
             Products products = productRepository.findOne(productDTO.id);
 
-            if(productDTO.productSizes != null){
-                List<ProductSizes> sizes=productSizesRepository.findByProducts(products);
-                productSizesRepository.delete(sizes);
-                for (ProductSizes p: productDTO.productSizes) {
-                    ProductSizes productSizes = new ProductSizes();
-                    productSizes.setName(p.getName());
-                    productSizes.setStockNo(p.getStockNo());
-                    productSizes.setProducts(products);
-                    productSizesRepository.save(productSizes);
+            if(productDTO.productAttributes != null){
+                List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
+                productAttributeRepository.delete(productAttributes);
+                for (ProductAttributeDTO p: productDTO.productAttributes) {
+//                    p.setProducts(products);
+//                    productAttributeRepository.save(p);
                 }
             }
 
@@ -612,37 +617,100 @@ public class ProductServiceImpl implements ProductService {
             throw new WawoohException();
         }
     }
+//
+//    @Override
+//    public void updateProductImages(ProdPicReqDTO p) {
+//        Date date = new Date();
+//        try {
+//            Products products = productRepository.findOne(p.productId);
+//            for(ProductPictureDTO pp : p.picture){
+//
+//                if(pp.id != null) {
+//                    Long id = pp.id;
+//                    ProductPicture productPicture = productPictureRepository.findOne(id);
+//
+//                    generalUtil.deleteFromCloud(productPicture.picture, productPicture.pictureName);
+//
+//                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
+//                    productPicture.pictureName = c.getUrl();
+//                    productPicture.picture = c.getPublicId();
+//                    productPicture.setUpdatedOn(date);
+//                    productPictureRepository.save(productPicture);
+//                }
+//                else {
+//                    ProductPicture productPicture = new ProductPicture();
+//                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
+//                    productPicture.pictureName = c.getUrl();
+//                    productPicture.picture = c.getPublicId();
+//                    productPicture.products = products;
+//                    productPicture.createdOn = date;
+//                    productPicture.setUpdatedOn(date);
+//                    productPictureRepository.save(productPicture);
+//                }
+//
+//            }
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            throw new WawoohException();
+//        }
+//
+//    }
+
 
     @Override
-    public void updateProductImages(ProdPicReqDTO p) {
+    public void updateProductImages(ProductDTO p) {
         Date date = new Date();
         try {
-            Products products = productRepository.findOne(p.productId);
-            for(ProductPictureDTO pp : p.picture){
+            Products products = productRepository.findOne(p.id);
+            List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
+            if(productAttributes.size()>0){
+                for (ProductAttribute prA: productAttributes) {
+                    List<ProductSizes> productSizes = productSizesRepository.findByProductAttribute(prA);
+                    productSizesRepository.delete(productSizes);
 
-                if(pp.id != null) {
-                    Long id = pp.id;
-                    ProductPicture productPicture = productPictureRepository.findOne(id);
-
-                    generalUtil.deleteFromCloud(productPicture.picture, productPicture.pictureName);
-
-                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
-                    productPicture.pictureName = c.getUrl();
-                    productPicture.picture = c.getPublicId();
-                    productPicture.setUpdatedOn(date);
-                    productPictureRepository.save(productPicture);
+                    for(ProductPicture pp:prA.getProductPictures()) {
+                        Long id = pp.id;
+                        ProductPicture productPicture = productPictureRepository.findOne(id);
+                        cloudinaryService.deleteFromCloud(productPicture.picture, productPicture.pictureName);
+                    }
                 }
-                else {
-                    ProductPicture productPicture = new ProductPicture();
-                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
-                    productPicture.pictureName = c.getUrl();
-                    productPicture.picture = c.getPublicId();
-                    productPicture.products = products;
-                    productPicture.createdOn = date;
-                    productPicture.setUpdatedOn(date);
-                    productPictureRepository.save(productPicture);
+                productAttributeRepository.delete(productAttributes);
+            }
+
+            for (ProductAttributeDTO pa: p.productAttributes) {
+                ProductAttribute productAttribute = new ProductAttribute();
+                productAttribute.setProducts(products);
+                String  colourName= generalUtil.getPicsName("prodcolour",pa.getColourName());
+                System.out.println(pa.getColourPicture());
+                CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
+                productAttribute.setColourName(pa.getColourName());
+                productAttribute.setColourPicture(c.getUrl());
+                productAttributeRepository.save(productAttribute);
+
+
+
+                for (ProductSizes prodSizes: pa.getProductSizes()) {
+                    ProductSizes productSizes = new ProductSizes();
+                    productSizes.setName(prodSizes.getName());
+                    productSizes.setStockNo(prodSizes.getStockNo());
+                    productSizes.setProductAttribute(productAttribute);
+                    productSizesRepository.save(productSizes);
                 }
 
+                for(ProductPictureDTO pp : pa.getProductPictureDTOS()){
+
+                        ProductPicture productPicture = new ProductPicture();
+                        c = cloudinaryService.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
+                        System.out.println("i got here no id");
+                        productPicture.pictureName = c.getUrl();
+                        productPicture.picture = c.getPublicId();
+                        productPicture.products = products;
+                        productPicture.createdOn = date;
+                        productPicture.setUpdatedOn(date);
+                        productPicture.productAttribute=productAttribute;
+                        productPictureRepository.save(productPicture);
+                    }
             }
 
         }catch (Exception e){
@@ -651,6 +719,8 @@ public class ProductServiceImpl implements ProductService {
         }
 
     }
+
+
 
     @Override
     public void updateArtWorkImages(ArtPicReqDTO artPicReqDTO) {
@@ -664,16 +734,16 @@ public class ProductServiceImpl implements ProductService {
                     Long id = pp.id;
                     ArtWorkPicture artWorkPicture = artWorkPictureRepository.findOne(id);
 
-                    generalUtil.deleteFromCloud(artWorkPicture.picture, artWorkPicture.pictureName);
+                    cloudinaryService.deleteFromCloud(artWorkPicture.picture, artWorkPicture.pictureName);
 
-                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.name), "artworkpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.name), "artworkpictures");
                     artWorkPicture.pictureName = c.getUrl();
                     artWorkPicture.picture = c.getPublicId();
 
                     artWorkPictureRepository.save(artWorkPicture);
                 }else {
                     ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.name), "artworkpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.name), "artworkpictures");
                     artWorkPicture.pictureName = c.getUrl();
                     artWorkPicture.picture = c.getPublicId();
                     artWorkPicture.products = products;
@@ -700,8 +770,8 @@ public class ProductServiceImpl implements ProductService {
                 if(pp.id != null) {
                     Long id = pp.id;
                     MaterialPicture materialPicture = materialPictureRepository.findOne(id);
-                    generalUtil.deleteFromCloud(materialPicture.picture, materialPicture.pictureName);
-                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.materialPicture, generalUtil.getPicsName("materialpic", products.name), "materialpictures");
+                    cloudinaryService.deleteFromCloud(materialPicture.picture, materialPicture.pictureName);
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.materialPicture, generalUtil.getPicsName("materialpic", products.name), "materialpictures");
                     materialPicture.pictureName = c.getUrl();
                     materialPicture.picture = c.getPublicId();
                     materialPicture.materialName=pp.materialName;
@@ -711,7 +781,7 @@ public class ProductServiceImpl implements ProductService {
                 }else {
                     MaterialPicture materialPicture = new MaterialPicture();
 
-                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.materialPicture, generalUtil.getPicsName("materialpic", products.name), "materialpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.materialPicture, generalUtil.getPicsName("materialpic", products.name), "materialpictures");
                     materialPicture.pictureName = c.getUrl();
                     materialPicture.picture = c.getPublicId();
                     materialPicture.products = products;
@@ -776,17 +846,17 @@ public class ProductServiceImpl implements ProductService {
         try {
             Products p = productRepository.findOne(id);
             productPictureRepository.findByProducts(p).forEach(pictures -> {
-                generalUtil.deleteFromCloud(pictures.picture,pictures.pictureName);
+                cloudinaryService.deleteFromCloud(pictures.picture,pictures.pictureName);
              //deletePics(pictures.pictureName,productPicturesFolder);
             });
 
             artWorkPictureRepository.findByProducts(p).forEach(pictures -> {
-                generalUtil.deleteFromCloud(pictures.picture,pictures.pictureName);
+                cloudinaryService.deleteFromCloud(pictures.picture,pictures.pictureName);
                 //deletePics(pictures.pictureName,artworkPictureFolder);
             });
 
             materialPictureRepository.findByProducts(p).forEach(pictures -> {
-                generalUtil.deleteFromCloud(pictures.picture,pictures.pictureName);
+                cloudinaryService.deleteFromCloud(pictures.picture,pictures.pictureName);
                 //deletePics(pictures.pictureName,artworkPictureFolder);
             });
 
@@ -803,7 +873,7 @@ public class ProductServiceImpl implements ProductService {
         try {
         for (Long id:ids.getIds()) {
             ProductPicture p = productPictureRepository.findOne(id);
-            generalUtil.deleteFromCloud(p.picture, p.pictureName);
+            cloudinaryService.deleteFromCloud(p.picture, p.pictureName);
             productPictureRepository.delete(p);
         }
         }
@@ -828,7 +898,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             for (Long id:ids.getIds()) {
                 ArtWorkPicture p = artWorkPictureRepository.findOne(id);
-                generalUtil.deleteFromCloud(p.picture, p.pictureName);
+                cloudinaryService.deleteFromCloud(p.picture, p.pictureName);
                 artWorkPictureRepository.delete(id);
             }
         }catch (Exception ex){
@@ -842,7 +912,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             for (Long id:ids.getIds()) {
                 MaterialPicture p = materialPictureRepository.findOne(id);
-                generalUtil.deleteFromCloud(p.picture, p.pictureName);
+                cloudinaryService.deleteFromCloud(p.picture, p.pictureName);
                 materialPictureRepository.delete(id);
             }
         }catch (Exception ex){

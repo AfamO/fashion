@@ -55,7 +55,7 @@ public class SendEmailAsync {
     private Locale locale = LocaleContextHolder.getLocale();
 
     @Async
-    public String sendEmailToUser(User user, String orderNumber) {
+    public void sendEmailToUser(User user, String orderNumber) {
             String link = "";
         try {
             System.out.println("Execute method asynchronously - "
@@ -87,11 +87,10 @@ public class SendEmailAsync {
             throw new WawoohException();
         }
 
-        return null;
     }
 
     @Async
-    public String sendPaymentConfEmailToUser(User user, String orderNumber) {
+    public void sendPaymentConfEmailToUser(User user, String orderNumber) {
         String link = "";
         try {
             System.out.println("Execute method asynchronously - "
@@ -118,7 +117,6 @@ public class SendEmailAsync {
             throw new WawoohException();
         }
 
-        return null;
     }
 
 
@@ -154,7 +152,7 @@ public class SendEmailAsync {
 
 
     @Async
-    public String sendEmailToDesigner(List<DesignerOrderDTO> designerOrderDTOS, String orderNumber) {
+    public void sendEmailToDesigner(List<DesignerOrderDTO> designerOrderDTOS, String orderNumber) {
 
         try {
             System.out.println("Execute method asynchronously - "
@@ -188,13 +186,12 @@ public class SendEmailAsync {
             throw new WawoohException();
         }
 
-        return null;
     }
 
 
 
     @Async
-    public String sendEmailToDesigner(DesignerOrderDTO designerOrderDTO, String orderNumber) {
+    public void sendEmailToDesigner(DesignerOrderDTO designerOrderDTO, String orderNumber) {
 
         try {
             System.out.println("Execute method asynchronously - "
@@ -221,40 +218,38 @@ public class SendEmailAsync {
             throw new WawoohException();
         }
 
-        return null;
     }
 
 
     @Async
-    public String sendEmailToAdmin(User user, String orderNumber) {
-
+    public void sendWelcomeEmailToUser(User user) {
+        String activationLink="";
         try {
-            System.out.println("Execute method asynchronously - "
-                    + Thread.currentThread().getName());
-
-            try {
-                Context context = new Context();
-                //context.setVariable("name", user.firstName + " "+ user.lastName);
-                context.setVariable("orderNum",orderNumber);
-                String message = templateEngine.process("adminorderemailtemplate", context);
-                mailService.prepareAndSend(message,user.email,messageSource.getMessage("order.success.subject", null, locale));
-
-            }catch (MailException me){
-                me.printStackTrace();
-                throw new AppException("superadmin",user.email,messageSource.getMessage("order.success.subject", null, locale),orderNumber);
-
+            Context context = new Context();
+            context.setVariable("name", user.designer.storeName);
+            String encryptedMail = Base64.getEncoder().encodeToString(user.email.getBytes());
+            activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
+            String message="";
+            context.setVariable("link", activationLink);
+            if(user.designer != null) {
+                message = templateEngine.process("designerwelcomeemail", context);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WawoohException();
+            else {
+                message = templateEngine.process("welcomeemail", context);
+            }
+            mailService.prepareAndSend(message,user.email,messageSource.getMessage("user.welcome.subject", null, locale));
+
+        }catch (MailException me){
+            me.printStackTrace();
+            throw new AppException("",user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
+
         }
 
-        return null;
     }
 
 
     @Async
-    public String sendFailedInspEmailToUser(User user, ItemsDTO itemsDTO) {
+    public void sendFailedInspEmailToUser(User user, ItemsDTO itemsDTO) {
         Products products = productRepository.findOne(itemRepository.findOne(itemsDTO.getId()).getProductId());
         try {
             System.out.println("Execute method asynchronously - "
@@ -281,12 +276,11 @@ public class SendEmailAsync {
             throw new WawoohException();
         }
 
-        return null;
     }
 
 
     @Async
-    public String sendFailedInspToDesigner(ItemsDTO itemsDTO) {
+    public void sendFailedInspToDesigner(ItemsDTO itemsDTO) {
         String link = "";
         try {
             System.out.println("Execute method asynchronously - "
@@ -294,16 +288,11 @@ public class SendEmailAsync {
             Products products = productRepository.findOne((itemRepository.findOne(itemsDTO.getId())).getProductId());
             User user = products.designer.user;
             try {
-
                 String mail = user.email;
-
-
                 Context context = new Context();
                 context.setVariable("name", user.firstName + " "+ user.lastName);
                 context.setVariable("productName",products.name);
                 context.setVariable("failedInspectionReason",itemsDTO.getAction());
-
-
                 String message = templateEngine.process("failedinspfordesigner", context);
                 mailService.prepareAndSend(message,mail,messageSource.getMessage("order.failedinspection.subject", null, locale));
 
@@ -317,10 +306,6 @@ public class SendEmailAsync {
             throw new WawoohException();
         }
 
-        return null;
     }
-
-
-
 
 }

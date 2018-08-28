@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.SendEmailAsync;
+import com.longbridge.Util.ShippingUtil;
 import com.longbridge.dto.*;
 import com.longbridge.exception.AppException;
 import com.longbridge.exception.InvalidStatusUpdateException;
@@ -108,6 +109,9 @@ public class OrderServiceImpl implements OrderService {
     GeneralUtil generalUtil;
 
 
+    @Autowired
+    ShippingUtil shippingUtil;
+
     @Transactional
     @Override
     public OrderRespDTO addOrder(OrderReqDTO orderReq, User user) {
@@ -197,6 +201,8 @@ public class OrderServiceImpl implements OrderService {
     private HashMap saveItems(OrderReqDTO orderReq,Date date,Orders orders,ItemStatus itemStatus) {
         Double totalAmount=0.0;
         Double amountWithoutShipping=0.0;
+        Double shippingAmount = 0.0;
+        List<String> designerCities = new ArrayList<>();
         for (Items items: orderReq.getItems()) {
             Products p = productRepository.findOne(items.getProductId());
             if(items.getMeasurementId() != null) {
@@ -228,7 +234,10 @@ public class OrderServiceImpl implements OrderService {
             }
 
             Double itemsAmount = amount*items.getQuantity();
-            Double shippingAmount = generalUtil.getShipping(p.designer.city.toUpperCase().trim(),orders.getDeliveryAddress().getCity().toUpperCase().trim(),items.getQuantity());
+            if(!designerCities.contains(p.designer.city.toUpperCase().trim())){
+                shippingAmount = shippingUtil.getShipping(p.designer.city.toUpperCase().trim(), orders.getDeliveryAddress().getCity().toUpperCase().trim(), items.getQuantity());
+                designerCities.add(p.designer.city.toUpperCase().trim());
+           }
             amountWithoutShipping=itemsAmount;
             items.setAmount(itemsAmount);
             totalAmount=totalAmount+itemsAmount+shippingAmount;
@@ -246,9 +255,9 @@ public class OrderServiceImpl implements OrderService {
             if(items.getMeasurement() == null) {
                 if (p.stockNo != 0) {
                     p.stockNo = p.stockNo - items.getQuantity();
-                    ProductSizes productSizes = productSizesRepository.findByProductsAndName(p, items.getSize());
-                    productSizes.setStockNo(productSizes.getStockNo() - items.getQuantity());
-                    productSizesRepository.save(productSizes);
+                   // ProductSizes productSizes = productSizesRepository.findByProductsAndName(p, items.getSize());
+                    //productSizes.setStockNo(productSizes.getStockNo() - items.getQuantity());
+                    //productSizesRepository.save(productSizes);
 
                 } else {
                     p.inStock = "N";
@@ -354,9 +363,6 @@ public class OrderServiceImpl implements OrderService {
 
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
-                    if(items.getComplain() != null){
-                        items.setComplain(null);
-                    }
                     items.setItemStatus(itemStatus);
                     statusMessage.setHasResponse(false);
                     items.setStatusMessage(statusMessage);
@@ -430,7 +436,9 @@ public class OrderServiceImpl implements OrderService {
 
                if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
                     if(itemsDTO.getStatus().equalsIgnoreCase("PI")){
-                        items.setFailedInspectionReason(null);
+                        if(items.getFailedInspectionReason() != null){
+                            items.setFailedInspectionReason(null);
+                        }
                         items.setItemStatus(itemStatusRepository.findByStatus("RS"));
 
                     }

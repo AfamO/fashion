@@ -118,18 +118,6 @@ public class CustomizationController {
     }
 
 
-//    @GetMapping(value = "/{name}/getcustomizationbyname")
-//    public Response getCustomizationByName(@PathVariable Long measurementId, HttpServletRequest request){
-//        String token = request.getHeader(tokenHeader);
-//        User userTemp = userUtil.fetchUserDetails2(token);
-//
-//        if(token==null || userTemp==null){
-//            return userUtil.tokenNullOrInvalidResponse(token);
-//        }
-//        measurementService.getMeasurementById(userTemp, measurementId);
-//        Response response = new Response("00","Operation Successful","success");
-//        return response;
-//    }
     @RequestMapping(
             value = "/**",
             method = RequestMethod.OPTIONS

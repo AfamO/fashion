@@ -11,6 +11,7 @@ import com.longbridge.security.JwtTokenUtil;
 import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.security.service.JwtAuthenticationResponse;
+import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -38,15 +40,19 @@ public class UserUtil {
     DesignerRepository designerRepository;
 
     @Autowired
-    MailErrorRepository mailErrorRepository;
+    SMSAlertUtil smsAlertUtil;
+
 
     @Autowired
-    OrderRepository orderRepository;
+    UniqueNumberUtil uniqueNumberUtil;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     MailService mailService;
+
+    @Autowired
+    CloudinaryService cloudinaryService;
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -55,10 +61,13 @@ public class UserUtil {
     MessageSource messageSource;
 
     @Autowired
-    GeneralUtil generalUtil;
+    TokenRepository tokenRepository;
 
     @Autowired
     WalletRepository walletRepository;
+
+    @Autowired
+    SendEmailAsync sendEmailAsync;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -72,28 +81,19 @@ public class UserUtil {
     public Response registerUser(User passedUser){
         Map<String,Object> responseMap = new HashMap();
         try {
-
-            System.out.println(passedUser);
             Date date = new Date();
-            //Address address = Address.createAddress(passedUser,passedUser.address,"Y");
-            //List<Address> addresses = new ArrayList<>();
             User user = userRepository.findByEmail(passedUser.email);
             if(user==null){
-                //passedUser.addresses = addresses;
-                //passedUser.addresses.add(address);
                 passedUser.password = Hash.createPassword(passedUser.password);
-
-                System.out.println("this is"+passedUser.designer);
                 if(passedUser.designer!=null){
                     passedUser.designer.setCreatedOn(date);
                     passedUser.designer.setUpdatedOn(date);
-                    //passedUser.designer.userId = passedUser.id;
                     passedUser.designer.user=passedUser;
                     if(passedUser.designer.logo != null) {
                         try {
                             String fileName = passedUser.email.substring(0, 3) + getCurrentTime();
                             String base64Img = passedUser.designer.logo;
-                            CloudinaryResponse c = generalUtil.uploadToCloud(base64Img,fileName,"designerlogos");
+                            CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img,fileName,"designerlogos");
                             passedUser.designer.logo = c.getUrl();
                             passedUser.designer.publicId=c.getPublicId();
                         } catch (Exception ex) {
@@ -102,35 +102,12 @@ public class UserUtil {
                             return response;
                         }
                     }
-
                     designerRepository.save(passedUser.designer);
-
                 }
                 userRepository.save(passedUser);
-                String name = passedUser.firstName + " " + passedUser.lastName;
-                String mail = passedUser.email;
-                String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
-                String message="";
-                String activationLink="";
-                try {
-                    Context context = new Context();
-                    context.setVariable("name", name);
-                    activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
-                    System.out.println(activationLink);
-                    context.setVariable("link", activationLink);
-                    if(passedUser.designer != null) {
-                        message = templateEngine.process("designerwelcomeemail", context);
-                    }
-                    else {
-                        message = templateEngine.process("welcomeemail", context);
-                    }
-                    mailService.prepareAndSend(message,mail,messageSource.getMessage("user.welcome.subject", null, locale));
+                sendToken(passedUser);
+                sendEmailAsync.sendWelcomeEmailToUser(passedUser);
 
-                }catch (MailException me){
-                    me.printStackTrace();
-                    throw new AppException("",passedUser.firstName + passedUser.lastName,passedUser.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
-
-                }
                 return new Response("00","Registration successful",responseMap);
             }else{
                 return new Response("99","Email already exists",responseMap);
@@ -144,6 +121,31 @@ public class UserUtil {
 
     }
 
+    public void sendToken(User passedUser) throws IOException {
+        String name =passedUser.designer.storeName;
+        char[] token=uniqueNumberUtil.OTP(5);
+        List<String> phonenumbers = new ArrayList<>();
+        phonenumbers.add(passedUser.phoneNo);
+        String message=String.format(messageSource.getMessage("user.sendtoken.message", null, locale),name,String.valueOf(token));
+        smsAlertUtil.sms(phonenumbers,message);
+        saveToken(String.valueOf(token),passedUser);
+    }
+
+
+    private void saveToken(String tokenString,User user){
+        Token token = tokenRepository.findByUser(user);
+        if(token != null){
+            token = tokenRepository.findByUser(user);
+            token.setToken(tokenString);
+            tokenRepository.save(token);
+        }
+        else {
+            token= new Token();
+            token.setToken(tokenString);
+            token.setUser(user);
+            tokenRepository.save(token);
+        }
+    }
 
 
     public Response getActivationLink(User passedUser){
@@ -303,7 +305,6 @@ public class UserUtil {
 
 
     public Response validateUser(User passedUser, Device device){
-       // Map<String,Object> responseMap = new HashMap();
         LogInResp logInResp=new LogInResp();
         try {
 

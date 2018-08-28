@@ -1,5 +1,6 @@
 package com.longbridge.repository;
 
+import com.longbridge.models.ProductAttribute;
 import com.longbridge.models.ProductSizes;
 import com.longbridge.models.Products;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,6 @@ import java.util.List;
  */
 @Repository
 public interface ProductSizesRepository extends JpaRepository<ProductSizes,Long>{
-    ProductSizes findByProductsAndName(Products products, String size);
-    List<ProductSizes> findByProducts(Products products);
+    ProductSizes findByProductAttributeAndName(ProductAttribute productAttribute, String size);
+    List<ProductSizes> findByProductAttribute(ProductAttribute productAttribute);
 }

@@ -15,8 +15,6 @@ public interface ProductService {
 
     ProductRespDTO getDesignerProductById(Long id,User user);
 
-
-
     void addProduct(ProductDTO productDTO, Designer designer);
 
     void updateProductVisibility(Long id, String status);
@@ -29,7 +27,7 @@ public interface ProductService {
 
     void updateProductStock(ProductDTO productDTO, Designer designer);
 
-    void updateProductImages(ProdPicReqDTO pictureDTO);
+    void updateProductImages(ProductDTO p);
 
     void updateArtWorkImages(ArtPicReqDTO artPictureDTO);
 
