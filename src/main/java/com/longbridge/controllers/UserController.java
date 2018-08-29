@@ -91,18 +91,6 @@ public class UserController {
 //        }
 //    }
 
-    @PostMapping(value = "/requesttoken")
-    public Object requestToken(@RequestBody User passedUser){
-        try {
-            userUtil.sendToken(passedUser);
-            return new Response("00", "Operation Successful", "success");
-
-        }catch (Exception e){
-           e.printStackTrace();
-            return new Response("99", "Error occurred while sending token", "error");
-        }
-
-    }
 
 
     @PostMapping(value = "/createadmin")
@@ -247,6 +235,17 @@ public class UserController {
         return tokenService.validateToken(userEmailTokenDTO, device);
     }
 
+    @PostMapping(value = "/resendtoken")
+    public Object validateToken(@RequestBody String email){
+        try {
+            userUtil.sendToken(email);
+            return new Response("00", "Operation Successful", "success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Response("99", "Error occurred while sending token", "error");
+        }
+    }
 
 
 

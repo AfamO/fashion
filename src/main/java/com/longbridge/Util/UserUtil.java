@@ -105,7 +105,7 @@ public class UserUtil {
                     designerRepository.save(passedUser.designer);
                 }
                 userRepository.save(passedUser);
-                sendToken(passedUser);
+                sendToken(passedUser.email);
                 sendEmailAsync.sendWelcomeEmailToUser(passedUser);
 
                 return new Response("00","Registration successful",responseMap);
@@ -121,14 +121,21 @@ public class UserUtil {
 
     }
 
-    public void sendToken(User passedUser) throws IOException {
-        String name =passedUser.designer.storeName;
-        char[] token=uniqueNumberUtil.OTP(5);
-        List<String> phonenumbers = new ArrayList<>();
-        phonenumbers.add(passedUser.phoneNo);
-        String message=String.format(messageSource.getMessage("user.sendtoken.message", null, locale),name,String.valueOf(token));
-        smsAlertUtil.sms(phonenumbers,message);
-        saveToken(String.valueOf(token),passedUser);
+    public void sendToken(String email){
+        try {
+            User passedUser = userRepository.findByEmail(email);
+            String name = passedUser.designer.storeName;
+            char[] token = uniqueNumberUtil.OTP(5);
+            List<String> phonenumbers = new ArrayList<>();
+            phonenumbers.add(passedUser.phoneNo);
+            String message = String.format(messageSource.getMessage("user.sendtoken.message", null, locale), name, String.valueOf(token));
+            smsAlertUtil.sms(phonenumbers, message);
+            saveToken(String.valueOf(token), passedUser);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
     }
 
 
