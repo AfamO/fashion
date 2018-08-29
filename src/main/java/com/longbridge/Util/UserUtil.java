@@ -310,7 +310,7 @@ public class UserUtil {
 
             User user = userRepository.findByEmail(passedUser.email);
             if(!user.activationFlag.equalsIgnoreCase("Y")){
-                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",logInResp);
+                return new Response("57","Account not verified",logInResp);
             }
             boolean valid = false;
             if(user!=null){

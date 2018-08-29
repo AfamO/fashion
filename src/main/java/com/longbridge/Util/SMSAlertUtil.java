@@ -78,7 +78,8 @@ public class SMSAlertUtil {
     public ObjectNode sms(List<String> phoneNumbers, String message) throws IOException {
 
         DefaultHttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("http://localhost:9000/sendalert");
+        //HttpPost post = new HttpPost("http://localhost:9000/sendalert");
+        HttpPost post = new HttpPost("http://142.93.25.67:9000/sendalert");
 
 try {
     JSONObject data = new JSONObject();
@@ -104,6 +105,7 @@ try {
             response = EntityUtils.toString(resEntityPost);
         }
     } catch (Exception e){
+        e.printStackTrace();
         return null;
     }
     // ObjectNode node = new ObjectNode();
