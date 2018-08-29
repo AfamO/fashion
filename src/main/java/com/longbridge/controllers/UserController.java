@@ -236,9 +236,9 @@ public class UserController {
     }
 
     @PostMapping(value = "/resendtoken")
-    public Object validateToken(@RequestBody String email){
+    public Object validateToken(@RequestBody User user){
         try {
-            userUtil.sendToken(email);
+            userUtil.sendToken(user.email);
             return new Response("00", "Operation Successful", "success");
 
         }catch (Exception e){
