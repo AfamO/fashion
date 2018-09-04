@@ -72,24 +72,35 @@ public class UserController {
     }
 
 
-//    @PostMapping(value = "/requestlink")
-//    public Object requestLink(@RequestBody User passedUser){
-//        try {
-//            return userUtil.getActivationLink(passedUser);
-//        }catch (AppException e){
-//            e.printStackTrace();
-//            String recipient = e.getRecipient();
-//            String subject = e.getSubject();
-//            MailError mailError = new MailError();
-//            mailError.setName(e.getName());
-//            mailError.setRecipient(recipient);
-//            mailError.setSubject(subject);
-//            mailError.setLink(e.getLink());
-//            mailError.setMailType("welcome");
-//            mailErrorRepository.save(mailError);
-//            return new Response("00", "Registration successful, Trying to send welcome email", "success");
-//        }
+//
+//    @PostMapping(value = "/resendemailverification")
+//    public Object resendEmailVerification(@RequestBody User passedUser){
+//
+//        userUtil.getActivationLink(passedUser);
+//        return new Response("00", "verification email sent successfully", null);
 //    }
+
+
+
+//this code handles it better.. for cases when d email fails
+    @PostMapping(value = "/resendemailverification")
+    public Object requestLink(@RequestBody User passedUser){
+        try {
+            return userUtil.getActivationLink(passedUser);
+        }catch (AppException e){
+            e.printStackTrace();
+            String recipient = e.getRecipient();
+            String subject = e.getSubject();
+            MailError mailError = new MailError();
+            mailError.setName(e.getName());
+            mailError.setRecipient(recipient);
+            mailError.setSubject(subject);
+            mailError.setLink(e.getLink());
+            mailError.setMailType("welcome");
+            mailErrorRepository.save(mailError);
+            return new Response("00", "Registration successful, Trying to send welcome email", "success");
+        }
+    }
 
 
 
@@ -97,10 +108,10 @@ public class UserController {
     public Object createAdmin(@RequestBody User passedUser){
         try {
             if (passedUser.role.equalsIgnoreCase("admin")){
-//todo later
+                //todo later
             }
             else {
-//todo later
+                //todo later
             }
 
             return userUtil.registerUser(passedUser);
@@ -135,8 +146,6 @@ public class UserController {
     @PostMapping(value = "/editpassword")
     public Response updateUser(@RequestBody UserDTO passedUser, Device device){
         //======================================================
-
-
         return new Response("00", "Operation Successful", userUtil.updatePassword(passedUser,device));
     }
 
@@ -144,8 +153,6 @@ public class UserController {
     @PostMapping(value = "/activateaccount")
     public Response activateAccount(@RequestBody UserDTO passedUser){
         //======================================================
-
-
         return new Response("00", "Operation Successful", userUtil.activateAccount(passedUser));
     }
 
@@ -244,6 +251,19 @@ public class UserController {
         }catch (Exception e){
             e.printStackTrace();
             return new Response("99", "Error occurred while sending token", "error");
+        }
+    }
+
+
+    //rewrite this code and don't do any checking in ur controller.. move it to your service. thanks
+    @PostMapping(value = "/forgotemail")
+    public Object forgotEmail(@RequestBody User user){
+
+        if(user.phoneNo != null){
+            userUtil.forgotEmail(user.phoneNo);
+            return new Response("00", "Email address has been sent to "+user.phoneNo, null);
+        }else{
+            return new Response("99", "No phone number found", null);
         }
     }
 

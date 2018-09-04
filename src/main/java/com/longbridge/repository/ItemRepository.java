@@ -53,6 +53,9 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
     @Query("select sum(amount) from Items where designerId = :designerId and itemStatus in :itemStatus")
     Double findSumOfPendingOrders(@Param("designerId") Long designerId, @Param("itemStatus") List<ItemStatus> itemStatus);
 
+    @Query("select sum(amount) from Items where designerId = :designerId")
+    Double findSumOfOrders(@Param("designerId") Long designerId);
+
 
     //@Query(value = "SELECT SUM(amount) as amount, created_on as date FROM items WHERE designer_id =:designerid and created_on between :lastSixMonths and :current GROUP BY cast(created_on AS DATE)",nativeQuery = true)
     //List<Object[]> getSalesChart(@Param("designerid") Long designerId, @Param("lastSixMonths") Date lastSixMonths, @Param("current")Date current);

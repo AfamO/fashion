@@ -13,6 +13,7 @@ import com.longbridge.services.DesignerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -40,6 +41,12 @@ public class DesignerServiceImpl implements DesignerService{
 
     @Autowired
     private CloudinaryService cloudinaryService;
+
+    @Autowired
+    private SizeGuideRepository sizeGuideRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
 
     @Autowired
@@ -76,6 +83,7 @@ public class DesignerServiceImpl implements DesignerService{
         }
 
     }
+
 //
 //    @Override
 //    public List<SalesChart> getSalesChart(Long designerId) {
@@ -151,6 +159,156 @@ public class DesignerServiceImpl implements DesignerService{
         }
     }
 
+    @Override
+    public void updateDesignerPersonalInformation(User userTemp, User user, Designer designer) {
+        try {
+            if(userTemp.designer != null){
+                userTemp.firstName = user.firstName;
+                userTemp.lastName = user.lastName;
+                userTemp.gender = user.gender;
+                userRepository.save(userTemp);
+            }else{
+                throw new WawoohException();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public void updateDesignerBusinessInformation(User userTemp, User user, Designer designer) {
+        try {
+            if(user.designer != null && userTemp.designer != null){
+                User currentUser = userTemp;
+                Designer currentDesigner = designerRepository.findOne(userTemp.designer.id);
+
+                currentDesigner.address = designer.address;
+                currentDesigner.city = designer.city;
+                currentDesigner.state = designer.state;
+                currentDesigner.country = designer.country;
+                currentDesigner.storeName = designer.storeName;
+                currentDesigner.localGovt = designer.localGovt;
+                currentDesigner.sizeGuideFlag = designer.sizeGuideFlag;
+                currentDesigner.registeredFlag = designer.registeredFlag;
+
+                if(designer.sizeGuideFlag.equalsIgnoreCase("Y")){
+
+                    if(currentDesigner.sizeGuide == null){
+                        SizeGuide currentSizeGuide = new SizeGuide();
+                        sizeGuideRepository.save(currentSizeGuide);
+                        currentDesigner.sizeGuide = currentSizeGuide;
+                    }
+
+                    SizeGuide sizeGuide = designer.sizeGuide;
+                    SizeGuide currentSizeGuide = currentDesigner.sizeGuide;
+
+                    System.out.println(designer.sizeGuide);
+
+                    if(sizeGuide.femaleSizeGuide != null){
+                        if(!isUrl(sizeGuide.femaleSizeGuide)){
+                            if(currentSizeGuide.femaleSizeGuide != null){
+                                cloudinaryService.deleteFromCloud(currentSizeGuide.femaleSizeGuidePublicId, currentSizeGuide.femaleSizeGuide);
+                            }
+
+                            try {
+                                String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
+                                String base64Img = sizeGuide.femaleSizeGuide;
+
+                                CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
+                                currentSizeGuide.femaleSizeGuide = c.getUrl();
+                                currentSizeGuide.femaleSizeGuidePublicId = c.getPublicId();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                                throw new WawoohException();
+                            }
+                        }
+                    }
+
+                    if(sizeGuide.maleSizeGuide != null){
+                        if(!isUrl(sizeGuide.maleSizeGuide)){
+                            if(currentSizeGuide.maleSizeGuide != null){
+                                cloudinaryService.deleteFromCloud(currentSizeGuide.maleSizeGuidePublicId, currentSizeGuide.maleSizeGuide);
+                            }
+
+                            try {
+                                String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
+                                String base64Img = sizeGuide.maleSizeGuide;
+
+                                CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
+                                currentSizeGuide.maleSizeGuide = c.getUrl();
+                                currentSizeGuide.maleSizeGuidePublicId = c.getPublicId();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                                throw new WawoohException();
+                            }
+                        }
+                    }
+                }
+
+                if(designer.registeredFlag.equalsIgnoreCase("Y")){
+                    currentDesigner.registrationNumber = designer.registrationNumber;
+                    if(!isUrl(designer.registrationDocument)){
+                        if(currentDesigner.registrationDocument != null){
+                            if(currentDesigner.registrationDocument.equalsIgnoreCase("")){
+                                cloudinaryService.deleteFromCloud(currentDesigner.registrationDocumentPublicId, currentDesigner.registrationDocument);
+                            }
+                        }
+
+                        try {
+                            String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
+                            String base64Img = designer.registrationDocument;
+
+                            CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designerregistrationdocument");
+                            currentDesigner.registrationDocument = c.getUrl();
+                            currentDesigner.registrationDocumentPublicId = c.getPublicId();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            throw new WawoohException();
+                        }
+                    }
+                }
+
+                designerRepository.save(currentDesigner);
+            }else{
+                throw new WawoohException();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public void updateDesignerAccountInformation(User userTemp, User user, Designer designer) {
+        try {
+            if(user.designer != null && userTemp.designer != null){
+                Designer currentDesigner = designerRepository.findOne(userTemp.designer.id);
+
+                currentDesigner.accountNumber = designer.accountNumber;
+                currentDesigner.bankName = designer.bankName;
+                currentDesigner.currency = designer.currency;
+                currentDesigner.accountName = designer.accountName;
+                currentDesigner.swiftCode = designer.swiftCode;
+                currentDesigner.countryCode = designer.countryCode;
+
+                designerRepository.save(currentDesigner);
+            }else{
+                throw new WawoohException();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public void updateDesignerInformation(User userTemp, User user, Designer designer) {
+
+        updateDesignerPersonalInformation(userTemp, user, designer);
+        updateDesignerBusinessInformation(userTemp, user, designer);
+        updateDesignerAccountInformation(userTemp, user, designer);
+    }
 
     @Override
     public void  updateDesignerLogo(User userTemp, Designer passedDesigner) {
@@ -331,6 +489,15 @@ public class DesignerServiceImpl implements DesignerService{
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
+        }
+    }
+
+    public boolean isUrl(String url){
+        try {
+            new URL(url).toURI();
+            return true;
+        }catch (Exception e){
+            return false;
         }
     }
 

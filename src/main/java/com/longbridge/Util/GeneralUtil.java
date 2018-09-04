@@ -76,14 +76,38 @@ public class GeneralUtil {
         dto.userId = d.user.id;
         dto.logo=d.logo;
         dto.storeName=d.storeName;
-        dto.address=d.address;
         User u = d.user;
         dto.firstName=u.firstName;
         dto.lastName=u.lastName;
         dto.phoneNo=u.phoneNo;
         dto.email=u.email;
+        dto.emailVerificationFlag = u.emailVerificationFlag;
         dto.gender=u.gender;
-        dto.accountNumber=u.designer.accountNumber;
+        dto.registrationProgress = d.registrationProgress;
+
+        dto.accountNumber = d.accountNumber;
+        dto.accountName = u.designer.accountName;
+        dto.bankName = u.designer.bankName;
+        dto.swiftCode = u.designer.swiftCode;
+        dto.countryCode = u.designer.countryCode;
+        dto.currency = u.designer.currency;
+
+        dto.address = d.address;
+        dto.localGovt = d.localGovt;
+        dto.city = d.city;
+        dto.state = d.state;
+        dto.country = d.country;
+
+        dto.registeredFlag = d.registeredFlag;
+        dto.registrationNumber = d.registrationNumber;
+        dto.registrationDocument = d.registrationDocument;
+
+        dto.sizeGuideFlag = d.sizeGuideFlag;
+        if(d.sizeGuide != null){
+            dto.maleSizeGuide = d.sizeGuide.maleSizeGuide;
+            dto.femaleSizeGuide = d.sizeGuide.femaleSizeGuide;
+        }
+
         dto.threshold=u.designer.threshold;
         dto.setStatus(d.status);
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -96,22 +120,31 @@ public class GeneralUtil {
         stats.add("PC");
 
         List<ItemStatus> statuses = itemStatusRepository.findByStatusIn(stats);
-        //dto.noOfPendingOders= itemRepository.countByDesignerIdAndDeliveryStatusNotIn(d.id,statuses);
         dto.noOfPendingOders= itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"PC");
-        //dto.quantityOfPendingOrders= itemRepository.countPendingItemQuantities(d.id,"OP");
         dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"D");
         dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id, "OR");
         dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OP");
         dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"RS");
         dto.noOfShippedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OS");
-        dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,statuses);
+        Double amountOfPendingOrders = itemRepository.findSumOfPendingOrders(d.id,statuses);
+        Double amountOfTotalOrders = itemRepository.findSumOfOrders(d.id);
+
+        if(amountOfTotalOrders != null){
+            dto.amountOfOrders = amountOfTotalOrders;
+        }else{
+            dto.amountOfOrders = 0;
+        }
+
+        if(amountOfPendingOrders != null){
+            dto.amountOfPendingOrders = amountOfPendingOrders;
+        }else{
+            dto.amountOfPendingOrders = 0;
+        }
         //dto.amountOfPendingOrders=itemRepository.findSumOfPendingOrders(d.id,"OP");
         // dto.setSalesChart(getSalesChart(d.id));
         return dto;
 
     }
-
-
 
     public DesignerDTO convertDesignerEntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
@@ -137,9 +170,6 @@ public class GeneralUtil {
 
     }
 
-
-
-
     public List<DesignerDTO> convDesignerEntToDTOs(List<Designer> designers){
         List<DesignerDTO> designerDTOS = new ArrayList<DesignerDTO>();
 
@@ -150,7 +180,6 @@ public class GeneralUtil {
         return designerDTOS;
     }
 
-
     public List<ProductPictureDTO> convertProdPictureEntitiesToDTO(List<ProductPicture> productPictures){
         List<ProductPictureDTO> productPictureDTOS = new ArrayList<ProductPictureDTO>();
         for(ProductPicture p: productPictures){
@@ -159,7 +188,6 @@ public class GeneralUtil {
         }
         return productPictureDTOS;
     }
-
 
     public ProductPictureDTO convertProdPictureEntityToDTO(ProductPicture picture){
         ProductPictureDTO pictureDTO = new ProductPictureDTO();
@@ -178,8 +206,6 @@ public class GeneralUtil {
         }
         return artPictureDTOS;
     }
-
-
 
     public ArtPictureDTO convertArtPictureEntityToDTO(ArtWorkPicture picture){
         ArtPictureDTO pictureDTO = new ArtPictureDTO();

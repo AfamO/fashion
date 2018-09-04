@@ -1,5 +1,6 @@
 package com.longbridge.dto;
 
+import com.longbridge.models.SizeGuide;
 import com.longbridge.respbodydto.ProductRespDTO;
 
 import java.util.List;
@@ -12,11 +13,11 @@ public class DesignerDTO {
     public Long userId;
     public String logo;
     public String storeName;
-    public String address;
     public String productsId;
     public String firstName;
     public String lastName;
     public String email;
+    public String emailVerificationFlag;
     public String phoneNo;
     public String gender;
     public String createdDate;
@@ -28,9 +29,33 @@ public class DesignerDTO {
     public int noOfDeliveredOrders;
     public int quantityOfPendingOrders;
     public int qualityRating;
-    public String accountNumber;
     public int threshold;
-    public Double amountOfPendingOrders;
+
+    public String accountNumber;
+    public String bankName;
+    public String accountName;
+    public String swiftCode;
+    public String countryCode;
+    public String currency;
+
+    public String address;
+    public String country;
+    public String state;
+    public String city;
+    public String localGovt;
+
+    public String registeredFlag;
+    public String registrationNumber;
+    public String registrationDocument;
+
+    public String sizeGuideFlag;
+    public String maleSizeGuide;
+    public String femaleSizeGuide;
+
+    public double amountOfPendingOrders;
+    public double amountOfOrders;
+    public double registrationProgress;
+
     private List<ProductRespDTO> products;
     private String status;
 

@@ -22,13 +22,32 @@ public class Designer extends CommonFields {
     public String city;
     public String state;
     public String country;
+    public String localGovt;
     public String status="A";
+
     public String accountNumber;
+    public String bankName;
+    public String accountName;
+    public String swiftCode;
+    public String countryCode;
+    public String currency;
+
+    public String sizeGuideFlag;
+
+    public String registeredFlag;
+    public String registrationNumber;
+    public String registrationDocument;
+    public String registrationDocumentPublicId;
+
     public int threshold;
+    public double registrationProgress = 10;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     public User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    public SizeGuide sizeGuide;
 
     @OneToMany(mappedBy = "designer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<Products> products;

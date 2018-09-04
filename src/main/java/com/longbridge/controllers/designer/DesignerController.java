@@ -99,14 +99,66 @@ public class DesignerController {
     @PostMapping(value = "/updatedesigner")
     public Response updateDesigner(@RequestBody User passedUser,HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
-            User userTemp = userUtil.fetchUserDetails2(token);
-            Designer designer = passedUser.designer;
-            if(token==null || userTemp==null){
-                return userUtil.tokenNullOrInvalidResponse(token);
-            }
+        User userTemp = userUtil.fetchUserDetails2(token);
+        Designer designer = passedUser.designer;
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
         designerService.updateDesigner(userTemp,passedUser,designer);
         return new Response("00","Operation Successful","success");
 
+    }
+
+    @PostMapping(value = "/updatepersonalinformation")
+    public Response updatePersonalInformation(@RequestBody User user, HttpServletRequest request){
+
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        designerService.updateDesignerPersonalInformation(userTemp, user, user.designer);
+        return new Response("00", "Profile updated", null);
+    }
+
+    @PostMapping(value = "/updatebusinessinformation")
+    public Response updateBusinessInformation(@RequestBody User user, HttpServletRequest request){
+
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        designerService.updateDesignerBusinessInformation(userTemp, user, user.designer);
+        return new Response("00", "Profile updated", null);
+    }
+
+    @PostMapping(value = "/updateaccountinformation")
+    public Response updateAccountInformation(@RequestBody User user, HttpServletRequest request){
+
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        designerService.updateDesignerAccountInformation(userTemp, user, user.designer);
+        return null;
+    }
+
+    @PostMapping(value = "/updateinformation")
+    public Response updateInformation(@RequestBody User user, HttpServletRequest request){
+
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        designerService.updateDesignerInformation(userTemp, user, user.designer);
+        return null;
     }
 
     @PostMapping(value = "/updatedesignerlogo")

@@ -13,7 +13,10 @@ import java.util.List;
 public class User extends CommonFields{
     public String firstName;
     public String lastName;
+
     public String email;
+    public String emailVerificationFlag = "N";
+
     public String gender;
     @Lob
     public String password;
