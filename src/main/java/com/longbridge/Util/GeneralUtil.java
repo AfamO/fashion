@@ -101,8 +101,10 @@ public class GeneralUtil {
         dto.registrationDocument = d.registrationDocument;
 
         dto.sizeGuideFlag = d.sizeGuideFlag;
-        dto.maleSizeGuide = d.sizeGuide.maleSizeGuide;
-        dto.femaleSizeGuide = d.sizeGuide.femaleSizeGuide;
+        if(d.sizeGuide != null){
+            dto.maleSizeGuide = d.sizeGuide.maleSizeGuide;
+            dto.femaleSizeGuide = d.sizeGuide.femaleSizeGuide;
+        }
 
         dto.threshold=u.designer.threshold;
         dto.setStatus(d.status);
