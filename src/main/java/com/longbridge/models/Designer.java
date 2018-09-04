@@ -40,7 +40,6 @@ public class Designer extends CommonFields {
     @OneToOne(cascade = CascadeType.ALL)
     public User user;
 
-    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     public SizeGuide sizeGuide;
 
