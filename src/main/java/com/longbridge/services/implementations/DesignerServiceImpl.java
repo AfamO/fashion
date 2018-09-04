@@ -41,6 +41,9 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     private CloudinaryService cloudinaryService;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
 
     @Autowired
     public DesignerServiceImpl(GeneralUtil generalUtil) {
@@ -76,6 +79,7 @@ public class DesignerServiceImpl implements DesignerService{
         }
 
     }
+
 //
 //    @Override
 //    public List<SalesChart> getSalesChart(Long designerId) {
@@ -146,6 +150,111 @@ public class DesignerServiceImpl implements DesignerService{
         }
 
         } catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public void updateDesignerPersonalInformation(User userTemp, User user, Designer designer) {
+        try {
+            if(user.designer != null && userTemp.designer != null){
+                userTemp.firstName = user.firstName;
+                userTemp.lastName = user.lastName;
+                userTemp.phoneNo = user.phoneNo;
+                userTemp.gender = user.gender;
+                userRepository.save(userTemp);
+            }else{
+                throw new WawoohException();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public void updateDesignerBusinessInformation(User userTemp, User user, Designer designer) {
+        try {
+            if(user.designer != null && userTemp.designer != null){
+                User currentUser = userTemp;
+                Designer currentDesigner = designerRepository.findOne(userTemp.designer.id);
+
+                currentDesigner.address = designer.address;
+                currentDesigner.city = designer.city;
+                currentDesigner.state = designer.state;
+                currentDesigner.country = designer.country;
+                currentDesigner.storeName = designer.storeName;
+                currentDesigner.localGovt = designer.localGovt;
+                currentDesigner.sizeGuideFlag = designer.sizeGuideFlag;
+                currentDesigner.registeredFlag = designer.registeredFlag;
+
+                if(designer.sizeGuideFlag == "Y"){
+                    if(designer.sizeGuide != null){
+                        if(designer.sizeGuide != ""){
+                            cloudinaryService.deleteFromCloud(currentDesigner.sizeGuidePublicId, currentDesigner.sizeGuide);
+                        }
+                    }
+
+                    try {
+                        String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
+                        String base64Img = designer.sizeGuide;
+
+                        CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
+                        currentDesigner.sizeGuide = c.getUrl();
+                        currentDesigner.sizeGuidePublicId = c.getPublicId();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        throw new WawoohException();
+                    }
+                }
+
+                if(currentDesigner.registeredFlag == "Y"){
+                    currentDesigner.registrationNumber = designer.registrationNumber;
+                    if(designer.registrationDocument != null){
+                        if(designer.registrationDocument != ""){
+                            cloudinaryService.deleteFromCloud(currentDesigner.registrationDocumentPublicId, currentDesigner.registrationDocument);
+                        }
+                    }
+
+                    try {
+                        String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
+                        String base64Img = designer.registrationDocument;
+
+                        CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designerregistrationdocument");
+                        currentDesigner.registrationDocument = c.getUrl();
+                        currentDesigner.registrationDocumentPublicId = c.getPublicId();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        throw new WawoohException();
+                    }
+                }
+
+                designerRepository.save(currentDesigner);
+            }else{
+                throw new WawoohException();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public void updateDesignerAccountInformation(User userTemp, User user, Designer designer) {
+        try {
+            if(user.designer != null && userTemp.designer != null){
+                Designer currentDesigner = designerRepository.findOne(userTemp.designer.id);
+
+                currentDesigner.accountNumber = designer.accountNumber;
+                currentDesigner.bankName = designer.bankName;
+                currentDesigner.currency = designer.currency;
+
+                designerRepository.save(currentDesigner);
+            }else{
+                throw new WawoohException();
+            }
+        }catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
         }

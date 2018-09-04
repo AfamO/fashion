@@ -81,39 +81,38 @@ public class SMSAlertUtil {
         //HttpPost post = new HttpPost("http://localhost:9000/sendalert");
         HttpPost post = new HttpPost("http://142.93.25.67:9000/sendalert");
 
-try {
-    JSONObject data = new JSONObject();
-    data.put("contactList", phoneNumbers);
-    data.put("alertType", "SMS");
-    data.put("message", message);
-    data.put("subject", "");
+        try {
+            JSONObject data = new JSONObject();
+            data.put("contactList", phoneNumbers);
+            data.put("alertType", "SMS");
+            data.put("message", message);
+            data.put("subject", "");
 
-    post.setEntity(new StringEntity(data.toString()));
-    post.setHeader("Accept", "application/json");
-    post.setHeader("Content-type", "application/json");
-
-
-    try {
-        HttpResponse resp = client.execute(post);
-
-        HttpEntity resEntityPost = resp.getEntity();
+            post.setEntity(new StringEntity(data.toString()));
+            post.setHeader("Accept", "application/json");
+            post.setHeader("Content-type", "application/json");
 
 
-        String response = "";
-        if (resEntityPost != null) {
+            try {
+                HttpResponse resp = client.execute(post);
+                HttpEntity resEntityPost = resp.getEntity();
 
-            response = EntityUtils.toString(resEntityPost);
+                String response = "";
+                if (resEntityPost != null) {
+
+                    response = EntityUtils.toString(resEntityPost);
+                    System.out.println(response);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+            // ObjectNode node = new ObjectNode();
+
+        } catch (Exception e){
+            e.printStackTrace();
         }
-    } catch (Exception e){
-        e.printStackTrace();
-        return null;
-    }
-    // ObjectNode node = new ObjectNode();
 
-}
-catch (Exception e){
-    e.printStackTrace();
-}
         return null;
     }
 

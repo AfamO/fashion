@@ -97,10 +97,10 @@ public class UserController {
     public Object createAdmin(@RequestBody User passedUser){
         try {
             if (passedUser.role.equalsIgnoreCase("admin")){
-//todo later
+                //todo later
             }
             else {
-//todo later
+                //todo later
             }
 
             return userUtil.registerUser(passedUser);
@@ -135,8 +135,6 @@ public class UserController {
     @PostMapping(value = "/editpassword")
     public Response updateUser(@RequestBody UserDTO passedUser, Device device){
         //======================================================
-
-
         return new Response("00", "Operation Successful", userUtil.updatePassword(passedUser,device));
     }
 
@@ -244,6 +242,17 @@ public class UserController {
         }catch (Exception e){
             e.printStackTrace();
             return new Response("99", "Error occurred while sending token", "error");
+        }
+    }
+
+    @PostMapping(value = "/forgotemail")
+    public Object forgotEmail(@RequestBody User user){
+
+        if(user.phoneNo != null){
+            userUtil.forgotEmail(user.phoneNo);
+            return new Response("00", "Email address has been sent to "+user.phoneNo, null);
+        }else{
+            return new Response("99", "No phone number found", null);
         }
     }
 

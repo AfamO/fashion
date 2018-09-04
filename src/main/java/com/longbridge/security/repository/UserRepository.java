@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<com.longbridge.models.User, Long> {
     User findByEmail(String username);
+    User findByPhoneNo(String phoneNo);
     User findById(Long Id);
     List<User> findByDesignerIsNull();
 

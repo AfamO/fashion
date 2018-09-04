@@ -83,35 +83,46 @@ public class UserUtil {
         try {
             Date date = new Date();
             User user = userRepository.findByEmail(passedUser.email);
-            if(user==null){
-                passedUser.password = Hash.createPassword(passedUser.password);
-                if(passedUser.designer!=null){
-                    passedUser.designer.setCreatedOn(date);
-                    passedUser.designer.setUpdatedOn(date);
-                    passedUser.designer.user=passedUser;
-                    if(passedUser.designer.logo != null) {
-                        try {
-                            String fileName = passedUser.email.substring(0, 3) + getCurrentTime();
-                            String base64Img = passedUser.designer.logo;
-                            CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img,fileName,"designerlogos");
-                            passedUser.designer.logo = c.getUrl();
-                            passedUser.designer.publicId=c.getPublicId();
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                            Response response = new Response("99","Error occurred internally",responseMap);
-                            return response;
-                        }
-                    }
-                    designerRepository.save(passedUser.designer);
-                }
-                userRepository.save(passedUser);
-                sendToken(passedUser.email);
-                sendEmailAsync.sendWelcomeEmailToUser(passedUser);
+            User user1 = userRepository.findByPhoneNo(passedUser.phoneNo);
+            List<String> errors = new ArrayList<String>();
 
-                return new Response("00","Registration successful",responseMap);
-            }else{
-                return new Response("99","Email already exists",responseMap);
+
+            if(user != null){
+                errors.add("Email already exists");
             }
+            if(user1 != null){
+                errors.add("Phone number already exist");
+            }
+
+            if(errors.size() > 0){
+                return new Response("99","an error occurred",errors);
+            }
+
+            passedUser.password = Hash.createPassword(passedUser.password);
+            if(passedUser.designer!=null){
+                passedUser.designer.setCreatedOn(date);
+                passedUser.designer.setUpdatedOn(date);
+                passedUser.designer.user=passedUser;
+                if(passedUser.designer.logo != null) {
+                    try {
+                        String fileName = passedUser.email.substring(0, 3) + getCurrentTime();
+                        String base64Img = passedUser.designer.logo;
+                        CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img,fileName,"designerlogos");
+                        passedUser.designer.logo = c.getUrl();
+                        passedUser.designer.publicId=c.getPublicId();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        Response response = new Response("99","Error occurred internally",responseMap);
+                        return response;
+                    }
+                }
+                designerRepository.save(passedUser.designer);
+            }
+            userRepository.save(passedUser);
+            sendToken(passedUser.email);
+            sendEmailAsync.sendWelcomeEmailToUser(passedUser);
+
+            return new Response("00","Registration successful",responseMap);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -233,6 +244,23 @@ public class UserUtil {
     }
 
 
+    public void forgotEmail(String userPhoneNumber){
+
+        try{
+            User user = userRepository.findByPhoneNo(userPhoneNumber);
+            System.out.println(user);
+            if(user != null){
+                String message = String.format(messageSource.getMessage("user.retrieveemail", null, locale), user.email);
+                List<String> phoneNumbers = new ArrayList<>();
+                phoneNumbers.add(user.phoneNo);
+                smsAlertUtil.sms(phoneNumbers, message);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
     public Object forgotPassword(UserDTO passedUser){
         Map<String,Object> responseMap = new HashMap();
         String newPassword="";
@@ -285,8 +313,6 @@ public class UserUtil {
         }
     }
 
-
-
     public Object validatePassword(User passedUser){
         Map<String,Object> responseMap = new HashMap();
 
@@ -309,10 +335,8 @@ public class UserUtil {
         return new Response("99", "Error occurred", responseMap);
     }
 
-
-
     public Response validateUser(User passedUser, Device device){
-        LogInResp logInResp=new LogInResp();
+        LogInResp logInResp = new LogInResp();
         try {
 
             User user = userRepository.findByEmail(passedUser.email);
@@ -323,8 +347,10 @@ public class UserUtil {
             if(user!=null){
                 try{
                    // check if(user.socialFlag) is Y and set valid as true
-                    if(user.socialFlag.equalsIgnoreCase("Y")){
-                        valid=true;
+                    if(user.socialFlag != null){
+                        if(user.socialFlag.equalsIgnoreCase("Y")){
+                            valid=true;
+                        }
                     }
                     else {
                         //If N, validate password
@@ -435,7 +461,6 @@ public class UserUtil {
         return  user;
     }
 
-
     public JwtUser getAuthenticationDetails(String token){
         JwtUser user = null;
         if(token!=null) {
@@ -474,7 +499,7 @@ public class UserUtil {
         }
     }
 
-public void updateUser(UserDTO passedUser, User userTemp){
+    public void updateUser(UserDTO passedUser, User userTemp){
     try {
         Date date = new Date();
         userTemp.phoneNo=passedUser.getPhoneNo();
@@ -499,7 +524,6 @@ public void updateUser(UserDTO passedUser, User userTemp){
     }
 
 }
-
 
     public LogInResp updatePassword(UserDTO passedUser,Device device){
         try {

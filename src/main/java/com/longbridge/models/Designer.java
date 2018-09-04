@@ -22,8 +22,21 @@ public class Designer extends CommonFields {
     public String city;
     public String state;
     public String country;
+    public String localGovt;
     public String status="A";
     public String accountNumber;
+    public String bankName;
+
+    public String sizeGuideFlag;
+    public String sizeGuide;
+    public String sizeGuidePublicId;
+
+    public String registeredFlag;
+    public String registrationNumber;
+    public String registrationDocument;
+    public String registrationDocumentPublicId;
+
+    public String currency;
     public int threshold;
 
     @JsonIgnore

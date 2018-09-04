@@ -17,6 +17,12 @@ public interface DesignerService {
 
     void updateDesigner(User userTemp,User passedUser, Designer designer);
 
+    void updateDesignerPersonalInformation(User userTemp, User user, Designer designer);
+
+    void updateDesignerBusinessInformation(User userTemp, User user, Designer designer);
+
+    void updateDesignerAccountInformation(User userTemp, User user, Designer designer);
+
     void updateDesignerLogo(User userTemp, Designer passedDesigner);
 
     void rateDesigner(DesignerRatingDTO ratingDTO);
