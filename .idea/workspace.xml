@@ -2,15 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9e293bdc-9744-40cc-81af-c14689dc939e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/9e293bdc-9744-40cc-81af-c14689dc939e.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/models/SizeGuide.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/models/SizeGuide.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_5h.fdt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_5h.nvd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_5h_Lucene50_0.doc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_5h_Lucene50_0.pos" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_5h_Lucene50_0.tim" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_5k.fdx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_5k.fnm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_5k.nvm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_5k.si" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_5k_Lucene50_0.tip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/com.longbridge.models.Products/segments_46" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application-test.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-test.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application-test.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application-test.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Designer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Designer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/SizeGuide.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/SizeGuide.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -73,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Designer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Designer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Designer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+            <state relative-caret-position="170">
+              <caret line="43" column="31" lean-forward="true" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -94,11 +97,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application-test.properties" pinned="false" current-in-tab="false">
+      <file leaf-file-name="application-test.properties" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/application-test.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="60" column="74" selection-start-line="60" selection-start-column="74" selection-end-line="60" selection-end-column="74" />
+            <state relative-caret-position="153">
+              <caret line="54" lean-forward="true" selection-start-line="54" selection-end-line="54" />
             </state>
           </provider>
         </entry>
@@ -183,18 +186,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SizeGuideRepository.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/repository/SizeGuideRepository.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="34" lean-forward="true" selection-start-column="34" selection-end-column="34" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -252,7 +243,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/ShippingUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/AddressController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/AddressController.java" />
@@ -301,8 +291,9 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/repository/SizeGuideRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/SizeGuide.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/application-test.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/Designer.java" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/9e293bdc-9744-40cc-81af-c14689dc939e/console.sql" />
+        <option value="$PROJECT_DIR$/src/main/resources/application-test.properties" />
       </list>
     </option>
   </component>
@@ -727,12 +718,12 @@
       <workItem from="1535318127453" duration="1192000" />
       <workItem from="1535360019193" duration="59396000" />
       <workItem from="1535965166347" duration="26499000" />
-      <workItem from="1536049067708" duration="21227000" />
+      <workItem from="1536049067708" duration="21920000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="469368000" />
+    <option name="totallyTimeSpent" value="470061000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -927,13 +918,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/application-local.properties">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/9e293bdc-9744-40cc-81af-c14689dc939e/console.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="32" lean-forward="true" selection-start-line="1" selection-start-column="32" selection-end-line="1" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/9e293bdc-9744-40cc-81af-c14689dc939e/console_1.sql">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1097,13 +1081,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application-test.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="60" column="74" selection-start-line="60" selection-start-column="74" selection-end-line="60" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/SizeGuide.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="145">
@@ -1114,10 +1091,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/9e293bdc-9744-40cc-81af-c14689dc939e/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Designer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+        <state relative-caret-position="170">
+          <caret line="43" column="31" lean-forward="true" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application-test.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="54" lean-forward="true" selection-start-line="54" selection-end-line="54" />
         </state>
       </provider>
     </entry>
