@@ -40,6 +40,7 @@ public class Designer extends CommonFields {
     public String registrationDocumentPublicId;
 
     public int threshold;
+    public double registrationProgress = 10;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)

@@ -120,6 +120,7 @@ public class UserUtil {
             }
             userRepository.save(passedUser);
             sendToken(passedUser.email);
+            getActivationLink(passedUser);
             sendEmailAsync.sendWelcomeEmailToUser(passedUser);
 
             return new Response("00","Registration successful",responseMap);
@@ -148,6 +149,7 @@ public class UserUtil {
             throw new WawoohException();
         }
     }
+
 
 
     private void saveToken(String tokenString,User user){
@@ -570,15 +572,14 @@ public class UserUtil {
         try {
             Date date = new Date();
             User userTemp = userRepository.findByEmail(passedUser.getEmail());
-            if(!userTemp.activationFlag.equalsIgnoreCase("Y")) {
-                userTemp.activationDate=date;
+            if(!userTemp.emailVerificationFlag.equalsIgnoreCase("Y")) {
                 userTemp.setUpdatedOn(date);
-                userTemp.activationFlag="Y";
+                userTemp.emailVerificationFlag="Y";
                 userRepository.save(userTemp);
-                return new Response("00","Thank you for verifying your account",responseMap);
+                return new Response("00","Thank you for verifying your email",responseMap);
             }
             else {
-                return new Response("00","Account already activated",responseMap);
+                return new Response("00","email already verified",responseMap);
             }
             
         } catch (Exception e) {

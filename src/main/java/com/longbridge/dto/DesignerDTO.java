@@ -17,6 +17,7 @@ public class DesignerDTO {
     public String firstName;
     public String lastName;
     public String email;
+    public String emailVerificationFlag;
     public String phoneNo;
     public String gender;
     public String createdDate;
@@ -51,7 +52,10 @@ public class DesignerDTO {
     public String maleSizeGuide;
     public String femaleSizeGuide;
 
-    public Double amountOfPendingOrders;
+    public double amountOfPendingOrders;
+    public double amountOfOrders;
+    public double registrationProgress;
+
     private List<ProductRespDTO> products;
     private String status;
 
