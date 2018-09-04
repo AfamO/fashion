@@ -161,7 +161,6 @@ public class DesignerServiceImpl implements DesignerService{
             if(user.designer != null && userTemp.designer != null){
                 userTemp.firstName = user.firstName;
                 userTemp.lastName = user.lastName;
-                userTemp.phoneNo = user.phoneNo;
                 userTemp.gender = user.gender;
                 userRepository.save(userTemp);
             }else{
