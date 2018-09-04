@@ -246,24 +246,26 @@ public class DesignerServiceImpl implements DesignerService{
                     }
                 }
 
-                if(currentDesigner.registeredFlag.equalsIgnoreCase("Y")){
+                if(designer.registeredFlag.equalsIgnoreCase("Y")){
                     currentDesigner.registrationNumber = designer.registrationNumber;
-                    if(designer.registrationDocument != null){
-                        if(designer.registrationDocument.equalsIgnoreCase("")){
-                            cloudinaryService.deleteFromCloud(currentDesigner.registrationDocumentPublicId, currentDesigner.registrationDocument);
+                    if(!isUrl(designer.registrationDocument)){
+                        if(currentDesigner.registrationDocument != null){
+                            if(currentDesigner.registrationDocument.equalsIgnoreCase("")){
+                                cloudinaryService.deleteFromCloud(currentDesigner.registrationDocumentPublicId, currentDesigner.registrationDocument);
+                            }
                         }
-                    }
 
-                    try {
-                        String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
-                        String base64Img = designer.registrationDocument;
+                        try {
+                            String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
+                            String base64Img = designer.registrationDocument;
 
-                        CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designerregistrationdocument");
-                        currentDesigner.registrationDocument = c.getUrl();
-                        currentDesigner.registrationDocumentPublicId = c.getPublicId();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        throw new WawoohException();
+                            CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designerregistrationdocument");
+                            currentDesigner.registrationDocument = c.getUrl();
+                            currentDesigner.registrationDocumentPublicId = c.getPublicId();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            throw new WawoohException();
+                        }
                     }
                 }
 

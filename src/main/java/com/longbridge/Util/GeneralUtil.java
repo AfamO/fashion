@@ -76,14 +76,34 @@ public class GeneralUtil {
         dto.userId = d.user.id;
         dto.logo=d.logo;
         dto.storeName=d.storeName;
-        dto.address=d.address;
         User u = d.user;
         dto.firstName=u.firstName;
         dto.lastName=u.lastName;
         dto.phoneNo=u.phoneNo;
         dto.email=u.email;
         dto.gender=u.gender;
-        dto.accountNumber=u.designer.accountNumber;
+
+        dto.accountNumber = d.accountNumber;
+        dto.accountName = u.designer.accountName;
+        dto.bankName = u.designer.bankName;
+        dto.swiftCode = u.designer.swiftCode;
+        dto.countryCode = u.designer.countryCode;
+        dto.currency = u.designer.currency;
+
+        dto.address = d.address;
+        dto.localGovt = d.localGovt;
+        dto.city = d.city;
+        dto.state = d.state;
+        dto.country = d.country;
+
+        dto.registeredFlag = d.registeredFlag;
+        dto.registrationNumber = d.registrationNumber;
+        dto.registrationDocument = d.registrationDocument;
+
+        dto.sizeGuideFlag = d.sizeGuideFlag;
+        dto.maleSizeGuide = d.sizeGuide.maleSizeGuide;
+        dto.femaleSizeGuide = d.sizeGuide.femaleSizeGuide;
+
         dto.threshold=u.designer.threshold;
         dto.setStatus(d.status);
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
