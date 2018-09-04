@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<com.longbridge.models.User, Long> {
     User findByEmail(String username);
+
+    User findByEmailOrPhoneNo(String username, String phoneNo);
     User findById(Long Id);
     List<User> findByDesignerIsNull();
-
-    User findByRole(String role);
 }

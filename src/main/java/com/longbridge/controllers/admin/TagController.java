@@ -1,4 +1,4 @@
-package com.longbridge.controllers;
+package com.longbridge.controllers.admin;
 
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.EventPicturesDTO;

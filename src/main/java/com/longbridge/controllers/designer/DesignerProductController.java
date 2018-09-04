@@ -9,12 +9,14 @@ import com.longbridge.models.User;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.HibernateSearchService;
+import com.longbridge.services.MeasurementService;
 import com.longbridge.services.ProductRatingService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +29,7 @@ import java.util.Map;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/product")
+@RequestMapping("/fashion/product/designer")
 public class DesignerProductController {
     @Autowired
     ProductService productService;
@@ -36,7 +38,7 @@ public class DesignerProductController {
     HibernateSearchService searchService;
 
     @Autowired
-    ProductRatingService productRatingService;
+    MeasurementService measurementService;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -281,17 +283,7 @@ public class DesignerProductController {
 
 
 
-    @PostMapping(value = "/getdesignerproductsbysub")
-    public Object getDesignerProductsBySub(@RequestBody ProdSubCategoryDTO p, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User user = null;
-        if(token != null){
-            user = userUtil.fetchUserDetails2(token);
-        }
-        List<ProductRespDTO> products= productService.getDesignerProductsBySubCatId(p,user);
-        return new Response("00","Operation Successful",products);
 
-    }
 
 
     @GetMapping(value = "/{id}/productvisibility/{status}")
@@ -313,19 +305,6 @@ public class DesignerProductController {
 
 
 
-    @GetMapping(value = "/{subCategoryId}/getstyles")
-    public Object getStyles(@PathVariable Long subCategoryId, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        List<Style> styles= productService.getStyles(subCategoryId);
-        return new Response("00","Operation Successful",styles);
-
-    }
-
-
     @GetMapping(value = "/{search}/designerprodsearch")
     public Response searchProductsByDesigner(@PathVariable String search, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
@@ -339,6 +318,12 @@ public class DesignerProductController {
 
         return new Response("00","Operation Successful",products);
 
+    }
+
+
+    @GetMapping(value = "/{productId}/getmandatorymeasurements")
+    public Response getMandatoryMeasurements(@PathVariable Long productId){
+        return new Response("00","Operation Successful",measurementService.getMandatoryMeasurement(productId));
     }
 
 

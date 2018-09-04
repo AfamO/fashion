@@ -4,10 +4,8 @@ import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.CategoryDTO;
 import com.longbridge.dto.StyleDTO;
 import com.longbridge.dto.SubCategoryDTO;
-import com.longbridge.models.Category;
-import com.longbridge.models.Response;
-import com.longbridge.models.SubCategory;
-import com.longbridge.models.User;
+import com.longbridge.models.*;
+import com.longbridge.services.CategoryService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +30,8 @@ public class CategoryController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    CategoryService categoryService;
 
     @PostMapping(value = "/addcategory")
     public Response addCategory(@RequestBody CategoryDTO categoryDTO, HttpServletRequest request){
@@ -87,7 +87,7 @@ public class CategoryController {
 
     @GetMapping(value = "/getcategories")
     public Object getCategories(){
-        List<Category> categories =  productService.getAllCategories();
+        List<Category> categories =  categoryService.getAllCategories();
         return new Response("00","Operation Successful",categories);
 
     }
@@ -95,7 +95,7 @@ public class CategoryController {
 
     @GetMapping(value = "/{categoryId}/getsubcategories")
     public Object getSubCategories(@PathVariable Long categoryId){
-        List<SubCategory> subCategories = productService.getSubCategories(categoryId);
+        List<SubCategory> subCategories = categoryService.getSubCategories(categoryId);
         return new Response("00","Operation Successful",subCategories);
 
     }
@@ -107,9 +107,23 @@ public class CategoryController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        List<SubCategory> subCategories = productService.getAllSubCategories();
+        List<SubCategory> subCategories = categoryService.getAllSubCategories();
         return new Response("00","Operation Successful",subCategories);
 
     }
+
+
+    @GetMapping(value = "/{subCategoryId}/getstyles")
+    public Object getStyles(@PathVariable Long subCategoryId, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        List<Style> styles= productService.getStyles(subCategoryId);
+        return new Response("00","Operation Successful",styles);
+
+    }
+
 
 }

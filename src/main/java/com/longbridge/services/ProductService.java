@@ -1,8 +1,10 @@
 package com.longbridge.services;
 
 import com.longbridge.dto.*;
+import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.respbodydto.ProductRespDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -13,9 +15,11 @@ public interface ProductService {
 
     ProductRespDTO getProductById(Long id,User user, boolean reviews);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     ProductRespDTO getDesignerProductById(Long id,User user);
 
-    void addProduct(ProductDTO productDTO, Designer designer);
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
+    void addProduct(ProductDTO productDTO, Designer designer) throws WawoohException;
 
     void updateProductVisibility(Long id, String status);
 
@@ -23,24 +27,34 @@ public interface ProductService {
 
     void sponsorProduct(Long id, String status);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void updateProduct(ProductDTO productDTO, Designer designer);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void updateProductStock(ProductDTO productDTO, Designer designer);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void updateProductImages(ProductDTO p);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void updateArtWorkImages(ArtPicReqDTO artPictureDTO);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void updateMaterialImages(MatPicReqDTO materialPictureDTO);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void deleteProduct(Long id);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void deleteProductImages(ProductPictureIdListDTO pictureIdListDTO);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void deleteProductImage(Long id);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void deleteArtWorkImages(ProductPictureIdListDTO pictureIdListDTO);
 
+    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void deleteMaterialImages(ProductPictureIdListDTO pictureIdListDTO);
 
     List<ProductRespDTO> getProductsByDesigner(Long designerId);
@@ -89,13 +103,7 @@ public interface ProductService {
 
     void addStyle(StyleDTO styleDTO);
 
-    List<Category> getAllCategories();
 
-    List<SubCategory> getSubCategories(Long categoryId);
-
-    List<SubCategory> getAllSubCategories();
-
-    List<SubCategory> getSubCategoriesByProductType(SubCategoryDTO subCategoryDTO);
 
     List<Style> getStyles(Long subCategoryId);
 

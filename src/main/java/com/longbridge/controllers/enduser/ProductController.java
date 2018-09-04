@@ -1,10 +1,11 @@
-package com.longbridge.controllers;
+package com.longbridge.controllers.enduser;
 
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
 import com.longbridge.models.*;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.JwtUser;
+import com.longbridge.services.CategoryService;
 import com.longbridge.services.HibernateSearchService;
 import com.longbridge.services.ProductRatingService;
 import com.longbridge.services.ProductService;
@@ -33,6 +34,9 @@ public class ProductController {
 
     @Autowired
     ProductRatingService productRatingService;
+
+    @Autowired
+    CategoryService categoryService;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -104,7 +108,7 @@ public class ProductController {
 
     @PostMapping(value = "/getsubcatbyproducttype")
     public Object getSubCategories(@RequestBody SubCategoryDTO subCategoryDTO){
-        List<SubCategory> subCategories = productService.getSubCategoriesByProductType(subCategoryDTO);
+        List<SubCategory> subCategories = categoryService.getSubCategoriesByProductType(subCategoryDTO);
         return new Response("00","Operation Successful",subCategories);
     }
 
@@ -149,6 +153,18 @@ public class ProductController {
 
     }
 
+
+    @PostMapping(value = "/getdesignerproductsbysub")
+    public Object getDesignerProductsBySub(@RequestBody ProdSubCategoryDTO p, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User user = null;
+        if(token != null){
+            user = userUtil.fetchUserDetails2(token);
+        }
+        List<ProductRespDTO> products= productService.getDesignerProductsBySubCatId(p,user);
+        return new Response("00","Operation Successful",products);
+
+    }
 
 
     @RequestMapping(

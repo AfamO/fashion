@@ -31,6 +31,8 @@ public class Orders extends CommonFields {
     private String updatedBy;
     private Double paidAmount;
 
+    private boolean anonymousBuyer;
+
     public Orders() {
     }
 
@@ -120,6 +122,14 @@ public class Orders extends CommonFields {
 
     public void setPaidAmount(Double paidAmount) {
         this.paidAmount = paidAmount;
+    }
+
+    public boolean isAnonymousBuyer() {
+        return anonymousBuyer;
+    }
+
+    public void setAnonymousBuyer(boolean anonymousBuyer) {
+        this.anonymousBuyer = anonymousBuyer;
     }
 
     public Orders(String orderNum, List<Items> items, Double totalAmount, String paymentType, Long userId, String deliveryStatus, Address deliveryAddress, Date orderDate, Date deliveredDate) {

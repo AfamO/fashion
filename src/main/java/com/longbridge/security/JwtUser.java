@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,34 +13,35 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Created by stephan on 20.03.16.
  */
 public class JwtUser implements UserDetails {
+    private String username;
 
-    private final Long id;
-    private final String username;
+    private String password;
 
-    private final String password;
+    private Collection<SimpleGrantedAuthority> authorities;
 
-    private final Collection<? extends GrantedAuthority> authorities;
-    private final boolean enabled;
-    private final Date lastPasswordResetDate;
+    private boolean enabled;
 
-    public JwtUser(
-          Long id,
-          String username,
-          String password, Collection<? extends GrantedAuthority> authorities,
-          boolean enabled,
-          Date lastPasswordResetDate
-    ) {
-        this.id = id;
+    private Date lastPasswordResetDate;
+
+
+    public void setUsername(String username) {
         this.username = username;
-        this.password = password;
-        this.authorities = authorities;
-        this.enabled = enabled;
-        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
-    @JsonIgnore
-    public Long getId() {
-        return id;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setLastPasswordResetDate(Date lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
     @Override
@@ -47,29 +49,24 @@ public class JwtUser implements UserDetails {
         return username;
     }
 
-    @JsonIgnore
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @JsonIgnore
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
 
-
-
-
-    @JsonIgnore
     @Override
     public String getPassword() {
         return password;
@@ -85,8 +82,18 @@ public class JwtUser implements UserDetails {
         return enabled;
     }
 
-    @JsonIgnore
+
     public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
+
+
+    public JwtUser(String username, String password, Collection<SimpleGrantedAuthority> authorities, boolean enabled, Date lastPasswordResetDate) {
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
+        this.enabled = enabled;
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
 }

@@ -82,6 +82,7 @@ public class UserUtil {
         Map<String,Object> responseMap = new HashMap();
         try {
             Date date = new Date();
+
             User user = userRepository.findByEmail(passedUser.email);
             if(user==null){
                 passedUser.password = Hash.createPassword(passedUser.password);

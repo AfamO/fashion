@@ -105,17 +105,7 @@ public class CustomizationController {
 
     }
 
-    @GetMapping(value = "/{productId}/getmandatorymeasurements")
-    public Response getMandatoryMeasurements(@PathVariable Long productId, HttpServletRequest request){
-//        String token = request.getHeader(tokenHeader);
-//        User userTemp = userUtil.fetchUserDetails2(token);
-//
-//        if(token==null || userTemp==null){
-//            return userUtil.tokenNullOrInvalidResponse(token);
-//        }
-        return new Response("00","Operation Successful",measurementService.getMandatoryMeasurement(productId));
 
-    }
 
 
     @RequestMapping(

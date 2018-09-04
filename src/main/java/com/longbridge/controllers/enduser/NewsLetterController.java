@@ -1,4 +1,4 @@
-package com.longbridge.controllers;
+package com.longbridge.controllers.enduser;
 
 
 import com.longbridge.models.Address;
