@@ -148,6 +148,19 @@ public class DesignerController {
         return null;
     }
 
+    @PostMapping(value = "/updateinformation")
+    public Response updateInformation(@RequestBody User user, HttpServletRequest request){
+
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        designerService.updateDesignerInformation(userTemp, user, user.designer);
+        return null;
+    }
+
     @PostMapping(value = "/updatedesignerlogo")
     public Response updateDesignerLogo(@RequestBody User user,HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

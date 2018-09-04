@@ -23,6 +23,8 @@ public interface DesignerService {
 
     void updateDesignerAccountInformation(User userTemp, User user, Designer designer);
 
+    void updateDesignerInformation(User userTemp, User user, Designer designer);
+
     void updateDesignerLogo(User userTemp, Designer passedDesigner);
 
     void rateDesigner(DesignerRatingDTO ratingDTO);

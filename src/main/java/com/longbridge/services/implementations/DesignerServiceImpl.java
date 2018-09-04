@@ -13,6 +13,7 @@ import com.longbridge.services.DesignerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -40,6 +41,9 @@ public class DesignerServiceImpl implements DesignerService{
 
     @Autowired
     private CloudinaryService cloudinaryService;
+
+    @Autowired
+    private SizeGuideRepository sizeGuideRepository;
 
     @Autowired
     private AddressRepository addressRepository;
@@ -188,30 +192,62 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.sizeGuideFlag = designer.sizeGuideFlag;
                 currentDesigner.registeredFlag = designer.registeredFlag;
 
-                if(designer.sizeGuideFlag == "Y"){
-                    if(designer.sizeGuide != null){
-                        if(designer.sizeGuide != ""){
-                            cloudinaryService.deleteFromCloud(currentDesigner.sizeGuidePublicId, currentDesigner.sizeGuide);
+                if(designer.sizeGuideFlag.equalsIgnoreCase("Y")){
+
+                    if(currentDesigner.sizeGuide == null){
+                        SizeGuide currentSizeGuide = new SizeGuide();
+                        sizeGuideRepository.save(currentSizeGuide);
+                        currentDesigner.sizeGuide = currentSizeGuide;
+                    }
+
+                    SizeGuide sizeGuide = designer.sizeGuide;
+                    SizeGuide currentSizeGuide = currentDesigner.sizeGuide;
+
+                    if(sizeGuide.femaleSizeGuide != null){
+                        if(!isUrl(sizeGuide.femaleSizeGuide)){
+                            if(currentSizeGuide.femaleSizeGuide != null){
+                                cloudinaryService.deleteFromCloud(currentSizeGuide.femaleSizeGuidePublicId, currentSizeGuide.femaleSizeGuide);
+                            }
+
+                            try {
+                                String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
+                                String base64Img = sizeGuide.femaleSizeGuide;
+
+                                CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
+                                currentSizeGuide.femaleSizeGuide = c.getUrl();
+                                currentSizeGuide.femaleSizeGuidePublicId = c.getPublicId();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                                throw new WawoohException();
+                            }
                         }
                     }
 
-                    try {
-                        String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
-                        String base64Img = designer.sizeGuide;
+                    if(sizeGuide.maleSizeGuide != null){
+                        if(!isUrl(sizeGuide.maleSizeGuide)){
+                            if(currentSizeGuide.maleSizeGuide != null){
+                                cloudinaryService.deleteFromCloud(currentSizeGuide.maleSizeGuidePublicId, currentSizeGuide.maleSizeGuide);
+                            }
 
-                        CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
-                        currentDesigner.sizeGuide = c.getUrl();
-                        currentDesigner.sizeGuidePublicId = c.getPublicId();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        throw new WawoohException();
+                            try {
+                                String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
+                                String base64Img = sizeGuide.maleSizeGuide;
+
+                                CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
+                                currentSizeGuide.maleSizeGuide = c.getUrl();
+                                currentSizeGuide.maleSizeGuidePublicId = c.getPublicId();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                                throw new WawoohException();
+                            }
+                        }
                     }
                 }
 
-                if(currentDesigner.registeredFlag == "Y"){
+                if(currentDesigner.registeredFlag.equalsIgnoreCase("Y")){
                     currentDesigner.registrationNumber = designer.registrationNumber;
                     if(designer.registrationDocument != null){
-                        if(designer.registrationDocument != ""){
+                        if(designer.registrationDocument.equalsIgnoreCase("")){
                             cloudinaryService.deleteFromCloud(currentDesigner.registrationDocumentPublicId, currentDesigner.registrationDocument);
                         }
                     }
@@ -259,6 +295,13 @@ public class DesignerServiceImpl implements DesignerService{
         }
     }
 
+    @Override
+    public void updateDesignerInformation(User userTemp, User user, Designer designer) {
+
+        updateDesignerPersonalInformation(userTemp, user, designer);
+        updateDesignerBusinessInformation(userTemp, user, designer);
+        updateDesignerAccountInformation(userTemp, user, designer);
+    }
 
     @Override
     public void  updateDesignerLogo(User userTemp, Designer passedDesigner) {
@@ -439,6 +482,15 @@ public class DesignerServiceImpl implements DesignerService{
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
+        }
+    }
+
+    public boolean isUrl(String url){
+        try {
+            new URL(url).toURI();
+            return true;
+        }catch (Exception e){
+            return false;
         }
     }
 

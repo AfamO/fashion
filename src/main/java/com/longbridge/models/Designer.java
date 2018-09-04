@@ -26,10 +26,7 @@ public class Designer extends CommonFields {
     public String status="A";
     public String accountNumber;
     public String bankName;
-
     public String sizeGuideFlag;
-    public String sizeGuide;
-    public String sizeGuidePublicId;
 
     public String registeredFlag;
     public String registrationNumber;
@@ -42,6 +39,10 @@ public class Designer extends CommonFields {
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     public User user;
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    public SizeGuide sizeGuide;
 
     @OneToMany(mappedBy = "designer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<Products> products;
