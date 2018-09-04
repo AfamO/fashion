@@ -203,7 +203,7 @@ public class DesignerServiceImpl implements DesignerService{
                     SizeGuide sizeGuide = designer.sizeGuide;
                     SizeGuide currentSizeGuide = currentDesigner.sizeGuide;
 
-                    System.out.println(designer);
+                    System.out.println(designer.sizeGuide);
 
                     if(sizeGuide.femaleSizeGuide != null){
                         if(!isUrl(sizeGuide.femaleSizeGuide)){
