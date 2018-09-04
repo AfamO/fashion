@@ -352,7 +352,8 @@ public class UserUtil {
                             valid=true;
                         }
                     }
-                    else {
+
+                    if (!valid) {
                         //If N, validate password
                         valid = Hash.checkPassword(passedUser.password, user.password);
                     }
