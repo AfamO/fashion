@@ -158,7 +158,7 @@ public class DesignerServiceImpl implements DesignerService{
     @Override
     public void updateDesignerPersonalInformation(User userTemp, User user, Designer designer) {
         try {
-            if(user.designer != null && userTemp.designer != null){
+            if(userTemp.designer != null){
                 userTemp.firstName = user.firstName;
                 userTemp.lastName = user.lastName;
                 userTemp.gender = user.gender;
