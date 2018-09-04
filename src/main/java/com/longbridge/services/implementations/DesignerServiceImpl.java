@@ -286,6 +286,9 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.accountNumber = designer.accountNumber;
                 currentDesigner.bankName = designer.bankName;
                 currentDesigner.currency = designer.currency;
+                currentDesigner.accountName = designer.accountName;
+                currentDesigner.swiftCode = designer.swiftCode;
+                currentDesigner.countryCode = designer.countryCode;
 
                 designerRepository.save(currentDesigner);
             }else{

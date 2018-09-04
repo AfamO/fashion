@@ -24,8 +24,14 @@ public class Designer extends CommonFields {
     public String country;
     public String localGovt;
     public String status="A";
+
     public String accountNumber;
     public String bankName;
+    public String accountName;
+    public String swiftCode;
+    public String countryCode;
+    public String currency;
+
     public String sizeGuideFlag;
 
     public String registeredFlag;
@@ -33,7 +39,6 @@ public class Designer extends CommonFields {
     public String registrationDocument;
     public String registrationDocumentPublicId;
 
-    public String currency;
     public int threshold;
 
     @JsonIgnore
