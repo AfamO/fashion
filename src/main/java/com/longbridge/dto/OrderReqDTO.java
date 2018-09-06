@@ -118,4 +118,20 @@ public class OrderReqDTO {
     public void setPaidAmount(Double paidAmount) {
         this.paidAmount = paidAmount;
     }
+
+    @Override
+    public String toString() {
+        return "OrderReqDTO{" +
+                "id=" + id +
+                ", items=" + items +
+                ", totalAmount='" + totalAmount + '\'' +
+                ", paymentType='" + paymentType + '\'' +
+                ", userId=" + userId +
+                ", deliveryStatus='" + deliveryStatus + '\'' +
+                ", deliveryAddressId=" + deliveryAddressId +
+                ", orderDate='" + orderDate + '\'' +
+                ", deliveredDate='" + deliveredDate + '\'' +
+                ", paidAmount=" + paidAmount +
+                '}';
+    }
 }

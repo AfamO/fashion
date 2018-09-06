@@ -200,7 +200,7 @@ public class AdminOrderController {
     }
 
 
-    @GetMapping(value = "/admin/getorders")
+    @GetMapping(value = "/getorders")
     public Response getAllOrders(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -228,7 +228,7 @@ public class AdminOrderController {
     }
 
 
-    @GetMapping(value = "/admin/getincompleteorders")
+    @GetMapping(value = "/getincompleteorders")
     public Response getIncompleteOrders(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);

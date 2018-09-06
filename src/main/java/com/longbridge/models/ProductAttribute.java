@@ -16,7 +16,7 @@ public class ProductAttribute extends CommonFields{
     private String colourPicture;
     private String colourName;
 
-    @OneToMany
+    @OneToMany(mappedBy = "productAttribute", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<ProductSizes> productSizes;
 
 

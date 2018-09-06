@@ -25,6 +25,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.util.ListUtils;
+import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -95,7 +97,7 @@ public class UserUtil {
             }
 
             if(errors.size() > 0){
-                return new Response("99","an error occurred",errors);
+                return new Response("99",StringUtils.join(errors, ","), null);
             }
 
             passedUser.password = Hash.createPassword(passedUser.password);
@@ -112,15 +114,15 @@ public class UserUtil {
                         passedUser.designer.publicId=c.getPublicId();
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        Response response = new Response("99","Error occurred internally",responseMap);
+                        Response response = new Response("99", StringUtils.join(errors, ","), null);
                         return response;
                     }
                 }
                 designerRepository.save(passedUser.designer);
+                sendToken(passedUser.email);
             }
-            userRepository.save(passedUser);
-            sendToken(passedUser.email);
             getActivationLink(passedUser);
+            userRepository.save(passedUser);
             sendEmailAsync.sendWelcomeEmailToUser(passedUser);
 
             return new Response("00","Registration successful",responseMap);
@@ -342,12 +344,15 @@ public class UserUtil {
         try {
 
             User user = userRepository.findByEmail(passedUser.email);
-            if(!user.activationFlag.equalsIgnoreCase("Y")){
-                return new Response("57","Account not verified",logInResp);
-            }
             boolean valid = false;
+
             if(user!=null){
                 try{
+
+                    if(!user.activationFlag.equalsIgnoreCase("Y")){
+                        return new Response("57","Account not verified",logInResp);
+                    }
+
                    // check if(user.socialFlag) is Y and set valid as true
                     if(user.socialFlag != null){
                         if(user.socialFlag.equalsIgnoreCase("Y")){
@@ -383,6 +388,7 @@ public class UserUtil {
                 /*
                     Generating Token for user and this will be required for all request.
                  */
+
                 final UserDetails userDetails = userDetailsService.loadUserByUsername(passedUser.email);
                 System.out.println("userdetails is "+userDetails.toString());
                 final String token = jwtTokenUtil.generateToken(userDetails, device);

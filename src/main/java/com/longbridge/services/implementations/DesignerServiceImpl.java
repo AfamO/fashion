@@ -244,6 +244,18 @@ public class DesignerServiceImpl implements DesignerService{
                             }
                         }
                     }
+                }else{
+                    if(currentDesigner.sizeGuide == null){
+                        SizeGuide currentSizeGuide = new SizeGuide();
+                        sizeGuideRepository.save(currentSizeGuide);
+                        currentDesigner.sizeGuide = currentSizeGuide;
+                    }
+
+                    SizeGuide sizeGuide = designer.sizeGuide;
+                    SizeGuide currentSizeGuide = currentDesigner.sizeGuide;
+
+                    currentSizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+                    currentSizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
                 }
 
                 if(designer.registeredFlag.equalsIgnoreCase("Y")){

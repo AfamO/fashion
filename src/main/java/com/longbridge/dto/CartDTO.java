@@ -23,6 +23,7 @@ public class CartDTO {
 
     private Long designerId;
 
+    private Long productAttributeId;
 
     private String designerName;
 
@@ -58,14 +59,18 @@ public class CartDTO {
 
     private int stockNo;
 
-    public CartDTO(User user, Long id, Long productId, String productName, int quantity, Long designerId, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, String materialPickupDate, Date expiryDate, String measurementName, Long measurementId, int stockNo) {
+    public CartDTO(User user, Long id, Long productId, String productName, double slashedPrice, int quantity, Long designerId, Long productAttributeId, String designerName, String size, int sizeStockNo, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, String materialPickupDate, Date expiryDate, String measurementName, Long measurementId, int stockNo) {
         this.user = user;
         this.id = id;
         this.productId = productId;
         this.productName = productName;
+        this.slashedPrice = slashedPrice;
         this.quantity = quantity;
         this.designerId = designerId;
+        this.productAttributeId = productAttributeId;
+        this.designerName = designerName;
         this.size = size;
+        this.sizeStockNo = sizeStockNo;
         this.amount = amount;
         this.productPicture = productPicture;
         this.artWorkPicture = artWorkPicture;
@@ -80,6 +85,14 @@ public class CartDTO {
         this.measurementName = measurementName;
         this.measurementId = measurementId;
         this.stockNo = stockNo;
+    }
+
+    public Long getProductAttributeId() {
+        return productAttributeId;
+    }
+
+    public void setProductAttributeId(Long productAttributeId) {
+        this.productAttributeId = productAttributeId;
     }
 
     public int getSizeStockNo() {

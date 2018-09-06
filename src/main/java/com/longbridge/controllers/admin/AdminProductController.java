@@ -97,7 +97,7 @@ public class AdminProductController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         if(!user.role.equalsIgnoreCase("superadmin")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
+            return new Response("99","Operation Failed, Not an admin",responseMap);
         }
         productService.updateProductStatus(id,flag);
         responseMap.put("success", "success");

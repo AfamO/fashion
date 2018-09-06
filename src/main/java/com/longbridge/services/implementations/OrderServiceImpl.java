@@ -112,6 +112,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ShippingUtil shippingUtil;
 
+    @Autowired
+    ProductAttributeRepository productAttributeRepository;
+
     @Transactional
     @Override
     public OrderRespDTO addOrder(OrderReqDTO orderReq, User user) {
@@ -129,9 +132,15 @@ public class OrderServiceImpl implements OrderService {
             }
             for (Items items: orderReq.getItems()) {
                 Products p = productRepository.findOne(items.getProductId());
-                if(p.stockNo == 0 && items.getMeasurementId() == null ){
-                    orderRespDTO.setStatus("false");
-                    return orderRespDTO;
+
+                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+
+                if(itemAttribute != null){
+                    ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                    if(sizes.getStockNo() == 0 && items.getMeasurementId() == null ){
+                        orderRespDTO.setStatus("false");
+                        return orderRespDTO;
+                    }
                 }
             }
 
@@ -150,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
             orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
             orderRepository.save(orders);
 
-            ItemStatus itemStatus = new ItemStatus();
+            ItemStatus itemStatus = null;
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                itemStatus = itemStatusRepository.findByStatus("NV");
                orders.setDeliveryStatus("NV");
@@ -168,7 +177,10 @@ public class OrderServiceImpl implements OrderService {
             totalAmount=Double.parseDouble(h.get("totalAmount").toString());
             orders.setTotalAmount(totalAmount);
             orderRepository.save(orders);
-            updateWalletForOrderPayment(user,Double.parseDouble(h.get("amountWithoutShipping").toString()),orderReq.getPaymentType());
+
+            System.out.println(h.get("totalAmount").toString());
+            System.out.println(orderReq);
+            //updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                 //generate a unique ref number
@@ -1153,10 +1165,13 @@ itemRepository.save(items);
 
 
     private void deleteCart(User user){
+        System.out.println( "cart repo"+ cartRepository.findByUser(user));
         List<Cart> carts = cartRepository.findByUser(user);
         for (Cart c: carts) {
             cartRepository.delete(c);
         }
+
+        System.out.println("geel");
     }
 
 
