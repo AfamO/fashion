@@ -1,36 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_3b.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_3b.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_3b.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_3b.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_3b.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_3b.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_3b_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_3b_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_3b_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_3b_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6k.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6k.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6k_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6k_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6k_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6n.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6n.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6n.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6n.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6n.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6n_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6n_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6n_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/_6n_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/segments_2q" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/segments_4w" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/com.longbridge.models.Products/write.lock" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -138,11 +109,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UserController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="269" column="0" lean-forward="true" selection-start-line="269" selection-start-column="0" selection-end-line="269" selection-end-column="0" />
+            <state relative-caret-position="204">
+              <caret line="262" column="30" lean-forward="false" selection-start-line="262" selection-start-column="30" selection-end-line="262" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="messages.properties" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/messages.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="63" lean-forward="true" selection-start-line="12" selection-start-column="63" selection-end-line="12" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -151,7 +132,7 @@
       <file leaf-file-name="UserUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
+            <state relative-caret-position="68">
               <caret line="249" column="16" lean-forward="false" selection-start-line="249" selection-start-column="16" selection-end-line="249" selection-end-column="16" />
               <folding />
             </state>
@@ -353,6 +334,54 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="wawoohapi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fashion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wawoohapi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fashion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wawoohapi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -859,12 +888,12 @@
       <workItem from="1535317938147" duration="122000" />
       <workItem from="1535318127453" duration="1192000" />
       <workItem from="1535360019193" duration="89704000" />
-      <workItem from="1536089721075" duration="535000" />
+      <workItem from="1536089721075" duration="1846000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="452485000" />
+    <option name="totallyTimeSpent" value="453796000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -897,10 +926,10 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294893" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5606838" sideWeight="0.4936306" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5606838" sideWeight="0.4936306" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294893" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294893" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33333334" sideWeight="0.49442676" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32820514" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33333334" sideWeight="0.49442676" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29538217" sideWeight="0.47833332" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29833838" sideWeight="0.5159705" order="8" side_tool="true" content_ui="tabs" />
@@ -936,14 +965,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/RavePaymentController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/admin/TagController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="113">
@@ -1301,14 +1322,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="249" column="16" lean-forward="false" selection-start-line="249" selection-start-column="16" selection-end-line="249" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/CategoryController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="311">
@@ -1319,8 +1332,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="269" column="0" lean-forward="true" selection-start-line="269" selection-start-column="0" selection-end-line="269" selection-end-column="0" />
+        <state relative-caret-position="204">
+          <caret line="262" column="30" lean-forward="false" selection-start-line="262" selection-start-column="30" selection-end-line="262" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="249" column="16" lean-forward="false" selection-start-line="249" selection-start-column="16" selection-end-line="249" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/messages.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="63" lean-forward="true" selection-start-line="12" selection-start-column="63" selection-end-line="12" selection-end-column="63" />
           <folding />
         </state>
       </provider>
