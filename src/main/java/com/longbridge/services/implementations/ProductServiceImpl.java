@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.math.BigInteger;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -661,7 +662,21 @@ public class ProductServiceImpl implements ProductService {
         try {
             Products products = productRepository.findOne(p.id);
             List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
+            List<String> reOccuringPictures = new ArrayList<String>();
+
+            /*for (ProductAttributeDTO pa: p.productAttributes) {
+
+                for (ProductPictureDTO pro: pa.getProductPictureDTOS()) {
+                    if(isUrl(pro.picture)){
+                        reOccuringPictures.add(pro.picture);
+                    }
+                }
+            }*/
+
+
+
             if(productAttributes.size()>0){
+
                 for (ProductAttribute prA: productAttributes) {
                     List<ProductSizes> productSizes = productSizesRepository.findByProductAttribute(prA);
                     productSizesRepository.delete(productSizes);
@@ -1557,6 +1572,15 @@ public class ProductServiceImpl implements ProductService {
             List<ProductRespDTO> newRespDto = productRespDTOS.subList(start, (end > totalElements) ? totalElements : end);
             System.out.println("Elements in current page: "+newRespDto.size());
             return newRespDto;
+        }
+    }
+
+    public boolean isUrl(String url){
+        try {
+            new URL(url).toURI();
+            return true;
+        }catch (Exception e){
+            return false;
         }
     }
 

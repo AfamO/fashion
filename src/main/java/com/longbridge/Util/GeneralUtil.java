@@ -418,6 +418,7 @@ public class GeneralUtil {
         SizeGuide sizeGuide = products.designer.sizeGuide;
 
         System.out.println("sizeGuide" +sizeGuide.femaleSizeGuide);
+        productDTO.sizeGuide = new SizeGuideDTO();
         productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
         productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
 

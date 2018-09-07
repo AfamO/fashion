@@ -3,6 +3,7 @@ package com.longbridge.services.implementations;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.Hash;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.Util.ShippingUtil;
 import com.longbridge.dto.*;
@@ -130,26 +131,48 @@ public class OrderServiceImpl implements OrderService {
                 orderRespDTO.setStatus("noitems");
                 return orderRespDTO;
             }
+
             for (Items items: orderReq.getItems()) {
                 Products p = productRepository.findOne(items.getProductId());
 
-                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                if(items.getProductAttributeId() != null){
+                    ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
 
-                if(itemAttribute != null){
-                    ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
-                    if(sizes.getStockNo() == 0 && items.getMeasurementId() == null ){
-                        orderRespDTO.setStatus("false");
-                        return orderRespDTO;
+                    if(itemAttribute != null){
+                        ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                        if(sizes.getStockNo() < items.getQuantity()  && items.getMeasurementId() == null ){
+                            orderRespDTO.setStatus("false");
+                            return orderRespDTO;
+                        }
                     }
                 }
             }
 
+            for (Items items: orderReq.getItems()) {
 
-            while (!orderNumExists(generateOrderNum())){
+                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+
+                if(items.getMeasurementId() == null){
+                    sizes.setStockNo(sizes.getStockNo() - items.getQuantity());
+                    productSizesRepository.save(sizes);
+                }
+            }
+
+
+            /*while (!orderNumExists(generateOrderNum())){
                 orderNumber = "WAW#"+generateOrderNum();
                 orders.setOrderNum(orderNumber);
                 break;
-            }
+            }*/
+
+            String tempOrderNumber = "";
+            do{
+                tempOrderNumber = generateOrderNum();
+            }while (orderNumExists(orderNumber));
+
+            orderNumber = "WAW#"+tempOrderNumber;
+            orders.setOrderNum(orderNumber);
             orders.setCreatedOn(date);
             orders.setUpdatedOn(date);
             orders.setUserId(user.id);
@@ -171,15 +194,14 @@ public class OrderServiceImpl implements OrderService {
             else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
                 itemStatus=itemStatusRepository.findByStatus("PC");
                 orders.setDeliveryStatus("PC");
-
             }
+
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
-            totalAmount=Double.parseDouble(h.get("totalAmount").toString());
+            totalAmount = Double.parseDouble(h.get("totalAmount").toString());
+            //todo calculate total amount from backend
             orders.setTotalAmount(totalAmount);
             orderRepository.save(orders);
 
-            System.out.println(h.get("totalAmount").toString());
-            System.out.println(orderReq);
             //updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
