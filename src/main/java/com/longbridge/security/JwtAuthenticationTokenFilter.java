@@ -38,10 +38,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String username = null;
         if(authToken!=null){
             username = jwtTokenUtil.getUsernameFromToken(authToken.replace("Bearer ",""));
-        }else {
+        }
+        else {
             username = jwtTokenUtil.getUsernameFromToken(authToken);
         }
-        logger.info("checking authentication für user " + username);
+        logger.info("checking authentication for user " + username);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 

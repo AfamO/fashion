@@ -1,21 +1,19 @@
 package com.longbridge.security.service;
 
-import com.longbridge.security.JwtUserFactory;
-import com.longbridge.security.repository.Authority;
-import com.longbridge.security.repository.User;
+import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 
-/**
- * Created by stephan on 20.03.16.
- */
+
 @Service
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
@@ -24,16 +22,30 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = null;
+        JwtUser user = null;
          com.longbridge.models.User user1 =  userRepository.findByEmail(username);
-         ArrayList<Authority> arrayList = new ArrayList<>();
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        String role = "";
+        if(user1.role.equalsIgnoreCase("admin")){
+            role = "ROLE_ADMIN";
+        }
+        if(user1.role.equalsIgnoreCase("designer")){
+            role = "ROLE_DESIGNER";
+        }
+        if(user1.role.equalsIgnoreCase("user")){
+            role = "ROLE_USER";
+        }
+
+
+        authorities.add(new SimpleGrantedAuthority(role));
+
          if(user1!=null){
-             user = new User(user1.email,user1.password,true,null,arrayList);
+             user = new JwtUser(user1.email,user1.password,authorities,true,null);
          }
-        if (user == null) {
+        if (user1 == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
-            return JwtUserFactory.create(user);
+            return user;
         }
     }
 

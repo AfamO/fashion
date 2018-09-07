@@ -72,7 +72,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/"
                 ).permitAll()
                 .antMatchers("/fashion/**").permitAll()
-//                .and().authorizeRequests().antMatchers("/fashion/Register").permitAll();
                 .anyRequest().authenticated();
 
         // Custom JWT based security filter
@@ -84,6 +83,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
+        web.ignoring().antMatchers("/configuration/security");
     }
 }

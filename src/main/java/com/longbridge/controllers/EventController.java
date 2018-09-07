@@ -31,56 +31,8 @@ public class EventController {
     @Autowired
     UserUtil userUtil;
 
-    @Autowired
-    private HibernateSearchService searchservice;
-
     @Value("${jwt.header}")
     private String tokenHeader;
-
-    @PostMapping(value = "/createevent")
-    public Response createEvent(@RequestBody Events events){
-
-        Map<String, Object> responseMap = new HashMap();
-            eventService.createEvent(events);
-        return new Response("00", "Operation Successful", responseMap);
-
-
-    }
-
-    @PostMapping(value = "/updateevent")
-    public Response updateEvent(@RequestBody Events events){
-        Map<String, Object> responseMap = new HashMap();
-        eventService.updateEvent(events);
-        return new Response("00", "Operation Successful", responseMap);
-
-
-    }
-
-    @PostMapping(value = "/updateeventpictures")
-    public Response updateEventPictures(@RequestBody Events events){
-        Map<String, Object> responseMap = new HashMap();
-        eventService.updateEventPictures(events);
-        return new Response("00", "Operation Successful", responseMap);
-
-
-    }
-
-    @PostMapping(value = "/deleteeventpictures")
-    public Response updateEventPictures(@RequestBody ProductPictureIdListDTO pictureIdListDTO){
-        Map<String, Object> responseMap = new HashMap();
-        eventService.deleteEventPictures(pictureIdListDTO);
-        return new Response("00", "Operation Successful", responseMap);
-
-
-    }
-
-    @GetMapping(value = "/{id}/delete")
-    public Response deleteEvent(@PathVariable Long id){
-        eventService.deleteEvent(id);
-        return new Response("00", "Operation Successful", "success");
-
-
-    }
 
 
     @GetMapping(value = "/getTopFiveEventMainPictures")
@@ -91,17 +43,6 @@ public class EventController {
         return new Response("00","Operation Successful",responseMap);
 
     }
-
-
-//
-//    @GetMapping(value = "/{search}/searchevent")
-//    public Response searchEvents(@PathVariable String search){
-//        Map<String,Object> responseMap = new HashMap();
-//        List<EventsDTO> eventsDTOS=searchservice.eventsFuzzySearch(search);
-//        responseMap.put("result",eventsDTOS);
-//        Response response = new Response("00","Operation Successful",responseMap);
-//        return response;
-//    }
 
 
     @GetMapping(value = "/{search}/searchevent")

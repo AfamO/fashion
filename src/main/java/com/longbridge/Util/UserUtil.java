@@ -84,6 +84,7 @@ public class UserUtil {
         Map<String,Object> responseMap = new HashMap();
         try {
             Date date = new Date();
+
             User user = userRepository.findByEmail(passedUser.email);
             User user1 = userRepository.findByPhoneNo(passedUser.phoneNo);
             List<String> errors = new ArrayList<String>();

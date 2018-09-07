@@ -34,10 +34,6 @@ public class DesignerOrderController {
     @Autowired
     OrderService orderService;
 
-    @Autowired
-    ItemStatusService itemStatusService;
-
-
     @Value("${jwt.header}")
     private String tokenHeader;
 
@@ -50,8 +46,6 @@ public class DesignerOrderController {
             if(token==null || userTemp==null){
                 return userUtil.tokenNullOrInvalidResponse(token);
             }
-
-
 
             if(item.getMessage() != null){
                 //Long id = statMessageId.get();

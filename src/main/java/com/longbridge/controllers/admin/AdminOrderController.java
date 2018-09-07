@@ -49,7 +49,7 @@ public class AdminOrderController {
     private String tokenHeader;
 
 
-    @PostMapping(value = "/admin/updateorderitem")
+    @PostMapping(value = "/updateorderitem")
     public Response updateOrderStatusByAdmin(@RequestBody ItemsDTO item, HttpServletRequest request){
         try{
             String token = request.getHeader(tokenHeader);
@@ -78,7 +78,7 @@ public class AdminOrderController {
     }
 
 
-    @PostMapping(value = "/admin/updateorder")
+    @PostMapping(value = "/updateorder")
     public Response updateOrderStatusByAdmin(@RequestBody OrderReqDTO orderReqDTO, HttpServletRequest request){
         try{
             String token = request.getHeader(tokenHeader);
@@ -188,7 +188,7 @@ public class AdminOrderController {
 
 
 
-    @GetMapping(value = "/admin/getall")
+    @GetMapping(value = "/getall")
     public Response getAllOrderItems(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -215,7 +215,7 @@ public class AdminOrderController {
 
 
 
-    @GetMapping(value = "/admin/{id}/deleteorder")
+    @GetMapping(value = "/{id}/deleteorder")
     public Response deleteOrder(HttpServletRequest request, @PathVariable Long id){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);

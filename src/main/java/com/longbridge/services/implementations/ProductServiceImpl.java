@@ -315,61 +315,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    @Override
-    public List<Category> getAllCategories() {
 
-        try {
-           List<Category> categories = categoryRepository.findAll();
-            return categories;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-    @Override
-    public List<SubCategory> getSubCategories(Long categoryId) {
-        List<SubCategory> subCategories = new ArrayList<>();
-        try {
-            Category category = categoryRepository.findOne(categoryId);
-            if(category != null) {
-                subCategories= subCategoryRepository.findByCategory(category);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-
-        return subCategories;
-    }
-
-    @Override
-    public List<SubCategory> getAllSubCategories() {
-        try {
-           return subCategoryRepository.findByDelFlag("N");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-
-    }
-
-    @Override
-    public List<SubCategory> getSubCategoriesByProductType(SubCategoryDTO subCategoryDTO) {
-        List<SubCategory> subCategories = new ArrayList<>();
-        try {
-            Category category = categoryRepository.findOne(subCategoryDTO.categoryId);
-            if(category != null) {
-               subCategories = subCategoryRepository.findByCategoryAndProductType(category, subCategoryDTO.productType);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-        return subCategories;
-    }
 
     @Override
     public List<Style> getStyles(Long subCategoryId) {
@@ -615,45 +561,7 @@ public class ProductServiceImpl implements ProductService {
             throw new WawoohException();
         }
     }
-//
-//    @Override
-//    public void updateProductImages(ProdPicReqDTO p) {
-//        Date date = new Date();
-//        try {
-//            Products products = productRepository.findOne(p.productId);
-//            for(ProductPictureDTO pp : p.picture){
-//
-//                if(pp.id != null) {
-//                    Long id = pp.id;
-//                    ProductPicture productPicture = productPictureRepository.findOne(id);
-//
-//                    generalUtil.deleteFromCloud(productPicture.picture, productPicture.pictureName);
-//
-//                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
-//                    productPicture.pictureName = c.getUrl();
-//                    productPicture.picture = c.getPublicId();
-//                    productPicture.setUpdatedOn(date);
-//                    productPictureRepository.save(productPicture);
-//                }
-//                else {
-//                    ProductPicture productPicture = new ProductPicture();
-//                    CloudinaryResponse c = generalUtil.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
-//                    productPicture.pictureName = c.getUrl();
-//                    productPicture.picture = c.getPublicId();
-//                    productPicture.products = products;
-//                    productPicture.createdOn = date;
-//                    productPicture.setUpdatedOn(date);
-//                    productPictureRepository.save(productPicture);
-//                }
-//
-//            }
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            throw new WawoohException();
-//        }
-//
-//    }
+
 
 
     @Override
@@ -1031,61 +939,6 @@ public class ProductServiceImpl implements ProductService {
             throw new WawoohException();
         }
     }
-
-
-
-
-
-//    @Override
-//    public List<ProductRespDTO> filterProducts(FilterProductDTO filterProductDTO) {
-//        int page = filterProductDTO.getPage();
-//        int size = filterProductDTO.getSize();
-//        String name = "";
-//        Double fromAmount = 0.0;
-//        Double toAmount=0.0;
-//        int productQualityRating = 0;
-//        Page<Products> products = null;
-//        List<Products> products2 = new ArrayList<>();
-//        name = filterProductDTO.getProductName();
-//        List<ProductRespDTO> productDTOS=new ArrayList<>();
-//        if(filterProductDTO.getFromPrice() != null) {
-//            fromAmount = Double.parseDouble(filterProductDTO.getFromPrice());
-//        }
-//        if(filterProductDTO.getToPrice() != null) {
-//            toAmount = Double.parseDouble(filterProductDTO.getToPrice());
-//        }
-////        if(filterProductDTO.getProductQualityRating() != 0) {
-//            productQualityRating=filterProductDTO.getProductQualityRating();
-//        System.out.println(productQualityRating);
-////        }
-//
-//
-//
-//        try {
-//            if(!name.equalsIgnoreCase("") && toAmount !=  0.0) {
-//                products = productRepository.findByVerifiedFlagAndNameLikeAndAmountBetween("Y", name,fromAmount, toAmount, new PageRequest(page, size));
-//               productDTOS = generalUtil.convertProdEntToProdRespDTOs(products.getContent());
-//            }
-//            if(!name.equalsIgnoreCase("") && productQualityRating != 0) {
-//                System.out.println(productQualityRating);
-//                Page<Products> products1=productRepository.findByVerifiedFlagAndNameLike("Y", name,new PageRequest(page, size));
-//                for (Products p:products1) {
-//                    for (ProductRating pr:p.reviews) {
-//                        if(pr.getProductQualityRating() == productQualityRating){
-//                            products2.add(p);
-//                        }
-//                    }
-//                }
-//                productDTOS = generalUtil.convertProdEntToProdRespDTOs(products2);
-//            }
-//
-//            return productDTOS;
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            throw new WawoohException();
-//        }
-//    }
 
 
 
@@ -1516,17 +1369,6 @@ public class ProductServiceImpl implements ProductService {
         return pictureTagDTOS;
     }
 
-    //convertPictureTagEntityToPictureTagDTO
-//    private List<PicTagDTO> convertPictureTagEntityToPictureTagDTO(List<PictureTag> pictureTags){
-//
-//        List<PicTagDTO> pictureTagDTOS = new ArrayList<PicTagDTO>();
-//
-//        for(PictureTag p: pictureTags){
-//            PicTagDTO picTagDTO = convertPicTagEntityToDTO(p);
-//            pictureTagDTOS.add(picTagDTO);
-//        }
-//        return pictureTagDTOS;
-//    }
 
     private TagDTO convertPicTagEntityToDTO(PictureTag pictureTag){
         TagDTO pictureTagDTO = new TagDTO();
