@@ -140,9 +140,11 @@ public class OrderServiceImpl implements OrderService {
 
                     if(itemAttribute != null){
                         ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
-                        if(sizes.getStockNo() < items.getQuantity()  && items.getMeasurementId() == null ){
-                            orderRespDTO.setStatus("false");
-                            return orderRespDTO;
+                        if(items.getMeasurementId() == null){
+                            if(sizes.getStockNo() < items.getQuantity()){
+                                orderRespDTO.setStatus("false");
+                                return orderRespDTO;
+                            }
                         }
                     }
                 }
