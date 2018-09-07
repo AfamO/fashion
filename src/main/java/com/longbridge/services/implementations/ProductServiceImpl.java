@@ -572,16 +572,6 @@ public class ProductServiceImpl implements ProductService {
             List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
             List<String> reOccuringPictures = new ArrayList<String>();
 
-            /*for (ProductAttributeDTO pa: p.productAttributes) {
-
-                for (ProductPictureDTO pro: pa.getProductPictureDTOS()) {
-                    if(isUrl(pro.picture)){
-                        reOccuringPictures.add(pro.picture);
-                    }
-                }
-            }*/
-
-
 
             if(productAttributes.size()>0){
 

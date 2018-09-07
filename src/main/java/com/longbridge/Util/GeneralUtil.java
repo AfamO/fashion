@@ -355,9 +355,11 @@ public class GeneralUtil {
         productDTO.productType = products.productType;
 
         SizeGuide sizeGuide = products.designer.sizeGuide;
-        productDTO.sizeGuide = new SizeGuideDTO();
-        productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
-        productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+        if(sizeGuide != null){
+            productDTO.sizeGuide = new SizeGuideDTO();
+            productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
+            productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+        }
 
         return productDTO;
     }
@@ -416,11 +418,11 @@ public class GeneralUtil {
         productDTO.productType = products.productType;
 
         SizeGuide sizeGuide = products.designer.sizeGuide;
-
-        System.out.println("sizeGuide" +sizeGuide.femaleSizeGuide);
-        productDTO.sizeGuide = new SizeGuideDTO();
-        productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
-        productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+        if(sizeGuide != null){
+            productDTO.sizeGuide = new SizeGuideDTO();
+            productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
+            productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+        }
 
         return productDTO;
 
