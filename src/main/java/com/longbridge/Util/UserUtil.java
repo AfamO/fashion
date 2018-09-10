@@ -128,7 +128,7 @@ public class UserUtil {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new Response("99","Error occured internally",responseMap);
+            return new Response("99","Error occurred internally",responseMap);
 
         }
 

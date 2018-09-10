@@ -36,9 +36,6 @@ public class UserController {
     private String tokenHeader;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
     UserUtil userUtil;
 
     @Autowired
