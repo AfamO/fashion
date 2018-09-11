@@ -477,8 +477,6 @@ public class GeneralUtil {
         productAttributeDTO.setColourPicture(productAttribute.getColourPicture());
         productAttributeDTO.setColourName(productAttribute.getColourName());
         productAttributeDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductPictures()));
-        System.out.println(productAttribute);
-        System.out.println(productAttribute.getProductSizes());
         productAttributeDTO.setProductSizes(productAttribute.getProductSizes());
         return productAttributeDTO;
 

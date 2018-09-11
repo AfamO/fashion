@@ -1,9 +1,7 @@
 package com.longbridge.controllers.designer;
 
 import com.longbridge.Util.UserUtil;
-import com.longbridge.dto.DesignerDTO;
-import com.longbridge.dto.DesignerRatingDTO;
-import com.longbridge.dto.MonthsDTO;
+import com.longbridge.dto.*;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mobile.device.Device;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -107,6 +106,18 @@ public class DesignerController {
         designerService.updateDesigner(userTemp,passedUser,designer);
         return new Response("00","Operation Successful","success");
 
+    }
+
+    @PostMapping(value = "/updateemailaddress")
+    public Response updateEmailAddress(@RequestBody UserEmailTokenDTO userEmailTokenDTO, HttpServletRequest request, Device device){
+
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        return designerService.updateEmailAddress(userTemp, userEmailTokenDTO, device);
     }
 
     @PostMapping(value = "/updatepersonalinformation")
