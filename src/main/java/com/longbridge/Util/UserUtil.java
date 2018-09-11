@@ -101,6 +101,10 @@ public class UserUtil {
                 return new Response("99",StringUtils.join(errors, ","), null);
             }
 
+            if(passedUser.role == null){
+                return new Response("99", "User has no role", null);
+            }
+
             passedUser.password = Hash.createPassword(passedUser.password);
             if(passedUser.designer!=null){
                 passedUser.designer.setCreatedOn(date);
@@ -145,6 +149,7 @@ public class UserUtil {
             phonenumbers.add(passedUser.phoneNo);
             String message = String.format(messageSource.getMessage("user.sendtoken.message", null, locale), name, String.valueOf(token));
             smsAlertUtil.sms(phonenumbers, message);
+            System.out.println(String.valueOf(token));
             saveToken(String.valueOf(token), passedUser);
         }
         catch (Exception e){
@@ -160,6 +165,7 @@ public class UserUtil {
         if(token != null){
             token = tokenRepository.findByUser(user);
             token.setToken(tokenString);
+            token.setValidated(false);
             tokenRepository.save(token);
         }
         else {

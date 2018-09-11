@@ -1,10 +1,10 @@
 package com.longbridge.services;
 
-import com.longbridge.dto.DesignerDTO;
-import com.longbridge.dto.DesignerRatingDTO;
-import com.longbridge.dto.MonthsDTO;
+import com.longbridge.dto.*;
 import com.longbridge.models.Designer;
+import com.longbridge.models.Response;
 import com.longbridge.models.User;
+import org.springframework.mobile.device.Device;
 
 import java.util.List;
 
@@ -16,6 +16,8 @@ public interface DesignerService {
     List<DesignerDTO> getDesigners();
 
     void updateDesigner(User userTemp,User passedUser, Designer designer);
+
+    Response updateEmailAddress(User userTemp, UserEmailTokenDTO userEmailTokenDTO, Device device);
 
     void updateDesignerPersonalInformation(User userTemp, User user, Designer designer);
 

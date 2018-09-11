@@ -1,6 +1,7 @@
 package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
 import com.longbridge.exception.ObjectNotFoundException;
 import com.longbridge.exception.WawoohException;
@@ -10,7 +11,9 @@ import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.DesignerService;
+import com.longbridge.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
@@ -48,6 +51,8 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private UserUtil userUtil;
 
     @Autowired
     public DesignerServiceImpl(GeneralUtil generalUtil) {
@@ -57,6 +62,9 @@ public class DesignerServiceImpl implements DesignerService{
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    TokenService tokenService;
 
 
     @Override
@@ -156,6 +164,32 @@ public class DesignerServiceImpl implements DesignerService{
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
+        }
+    }
+
+    @Override
+    public Response updateEmailAddress(User userTemp, UserEmailTokenDTO userEmailTokenDTO, Device device) {
+
+        UserEmailTokenDTO userEmailTokenDTO1 = new UserEmailTokenDTO();
+        userEmailTokenDTO1.setEmail(userTemp.email);
+        userEmailTokenDTO1.setToken(userEmailTokenDTO.getToken());
+
+        if(userEmailTokenDTO.getToken() == null){
+
+            User usert = userRepository.findByEmail(userEmailTokenDTO.getEmail());
+            if(usert == null){
+                userUtil.sendToken(userTemp.email);
+                return new Response("50", "Verify email change", null);
+            }else{
+                return new Response("99", "Email already registered to another user", null);
+            }
+        }else{
+            Response response = tokenService.validateToken(userEmailTokenDTO1, device);
+            if(response.status == "00"){
+                userTemp.email = userEmailTokenDTO.getEmail();
+                userRepository.save(userTemp);
+                return new Response("00", "Email changed successfullly", null);
+            }else{ return new Response("99", "Invalid Token", null); }
         }
     }
 
