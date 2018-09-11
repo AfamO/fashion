@@ -36,7 +36,6 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
             role = "ROLE_USER";
         }
 
-
         authorities.add(new SimpleGrantedAuthority(role));
 
          if(user1!=null){

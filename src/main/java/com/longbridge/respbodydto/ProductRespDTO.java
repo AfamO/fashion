@@ -1,9 +1,6 @@
 package com.longbridge.respbodydto;
 
-import com.longbridge.dto.ArtPictureDTO;
-import com.longbridge.dto.MaterialPictureDTO;
-import com.longbridge.dto.ProductAttributeDTO;
-import com.longbridge.dto.ProductPictureDTO;
+import com.longbridge.dto.*;
 import com.longbridge.models.ProductAttribute;
 import com.longbridge.models.ProductRating;
 import com.longbridge.models.ProductSizes;
@@ -81,5 +78,7 @@ public class ProductRespDTO {
     public int salesInQueue;
 
     public int totalSales;
+
+    public SizeGuideDTO sizeGuide;
 
 }

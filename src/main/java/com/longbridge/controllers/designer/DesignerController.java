@@ -145,7 +145,7 @@ public class DesignerController {
         }
 
         designerService.updateDesignerAccountInformation(userTemp, user, user.designer);
-        return null;
+        return new Response("00", "Profile updated", null);
     }
 
     @PostMapping(value = "/updateinformation")
@@ -158,7 +158,7 @@ public class DesignerController {
         }
 
         designerService.updateDesignerInformation(userTemp, user, user.designer);
-        return null;
+        return new Response("00", "Profile updated", null);
     }
 
     @PostMapping(value = "/updatedesignerlogo")

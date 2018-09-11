@@ -244,28 +244,39 @@ public class DesignerServiceImpl implements DesignerService{
                             }
                         }
                     }
+                }else{
+                    if(currentDesigner.sizeGuide == null){
+                        SizeGuide currentSizeGuide = new SizeGuide();
+                        sizeGuideRepository.save(currentSizeGuide);
+                        currentDesigner.sizeGuide = currentSizeGuide;
+                    }
+
+                    SizeGuide sizeGuide = designer.sizeGuide;
+                    SizeGuide currentSizeGuide = currentDesigner.sizeGuide;
+
+                    currentSizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+                    currentSizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
                 }
 
-                if(designer.registeredFlag.equalsIgnoreCase("Y")){
-                    currentDesigner.registrationNumber = designer.registrationNumber;
-                    if(!isUrl(designer.registrationDocument)){
-                        if(currentDesigner.registrationDocument != null){
-                            if(currentDesigner.registrationDocument.equalsIgnoreCase("")){
-                                cloudinaryService.deleteFromCloud(currentDesigner.registrationDocumentPublicId, currentDesigner.registrationDocument);
-                            }
+                currentDesigner.registeredFlag = designer.registeredFlag;
+                currentDesigner.registrationNumber = designer.registrationNumber;
+                if(!isUrl(designer.registrationDocument)){
+                    if(currentDesigner.registrationDocument != null){
+                        if(currentDesigner.registrationDocument.equalsIgnoreCase("")){
+                            cloudinaryService.deleteFromCloud(currentDesigner.registrationDocumentPublicId, currentDesigner.registrationDocument);
                         }
+                    }
 
-                        try {
-                            String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
-                            String base64Img = designer.registrationDocument;
+                    try {
+                        String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
+                        String base64Img = designer.registrationDocument;
 
-                            CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designerregistrationdocument");
-                            currentDesigner.registrationDocument = c.getUrl();
-                            currentDesigner.registrationDocumentPublicId = c.getPublicId();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                            throw new WawoohException();
-                        }
+                        CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designerregistrationdocument");
+                        currentDesigner.registrationDocument = c.getUrl();
+                        currentDesigner.registrationDocumentPublicId = c.getPublicId();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        throw new WawoohException();
                     }
                 }
 

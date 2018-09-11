@@ -42,4 +42,13 @@ public class ProductSizes extends CommonFields{
     public void setProductAttribute(ProductAttribute productAttribute) {
         this.productAttribute = productAttribute;
     }
+
+    @Override
+    public String toString() {
+        return "ProductSizes{" +
+                "name='" + name + '\'' +
+                ", stockNo=" + stockNo +
+                ", productAttribute=" + productAttribute +
+                '}';
+    }
 }

@@ -3,6 +3,7 @@ package com.longbridge.services.implementations;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.Hash;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.Util.ShippingUtil;
 import com.longbridge.dto.*;
@@ -112,6 +113,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ShippingUtil shippingUtil;
 
+    @Autowired
+    ProductAttributeRepository productAttributeRepository;
+
     @Transactional
     @Override
     public OrderRespDTO addOrder(OrderReqDTO orderReq, User user) {
@@ -127,20 +131,48 @@ public class OrderServiceImpl implements OrderService {
                 orderRespDTO.setStatus("noitems");
                 return orderRespDTO;
             }
+
             for (Items items: orderReq.getItems()) {
                 Products p = productRepository.findOne(items.getProductId());
-                if(p.stockNo == 0 && items.getMeasurementId() == null ){
-                    orderRespDTO.setStatus("false");
-                    return orderRespDTO;
+
+                if(items.getProductAttributeId() != null){
+                    ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+
+                    if(itemAttribute != null){
+                        ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                        if(sizes.getStockNo() < items.getQuantity()  && items.getMeasurementId() == null ){
+                            orderRespDTO.setStatus("false");
+                            return orderRespDTO;
+                        }
+                    }
+                }
+            }
+
+            for (Items items: orderReq.getItems()) {
+
+                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+
+                if(items.getMeasurementId() == null){
+                    sizes.setStockNo(sizes.getStockNo() - items.getQuantity());
+                    productSizesRepository.save(sizes);
                 }
             }
 
 
-            while (!orderNumExists(generateOrderNum())){
+            /*while (!orderNumExists(generateOrderNum())){
                 orderNumber = "WAW#"+generateOrderNum();
                 orders.setOrderNum(orderNumber);
                 break;
-            }
+            }*/
+
+            String tempOrderNumber = "";
+            do{
+                tempOrderNumber = generateOrderNum();
+            }while (orderNumExists(orderNumber));
+
+            orderNumber = "WAW#"+tempOrderNumber;
+            orders.setOrderNum(orderNumber);
             orders.setCreatedOn(date);
             orders.setUpdatedOn(date);
             orders.setUserId(user.id);
@@ -150,7 +182,7 @@ public class OrderServiceImpl implements OrderService {
             orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
             orderRepository.save(orders);
 
-            ItemStatus itemStatus = new ItemStatus();
+            ItemStatus itemStatus = null;
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                itemStatus = itemStatusRepository.findByStatus("NV");
                orders.setDeliveryStatus("NV");
@@ -162,13 +194,15 @@ public class OrderServiceImpl implements OrderService {
             else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
                 itemStatus=itemStatusRepository.findByStatus("PC");
                 orders.setDeliveryStatus("PC");
-
             }
+
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
-            totalAmount=Double.parseDouble(h.get("totalAmount").toString());
+            totalAmount = Double.parseDouble(h.get("totalAmount").toString());
+            //todo calculate total amount from backend
             orders.setTotalAmount(totalAmount);
             orderRepository.save(orders);
-            updateWalletForOrderPayment(user,Double.parseDouble(h.get("amountWithoutShipping").toString()),orderReq.getPaymentType());
+
+            //updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                 //generate a unique ref number
@@ -1153,10 +1187,13 @@ itemRepository.save(items);
 
 
     private void deleteCart(User user){
+        System.out.println( "cart repo"+ cartRepository.findByUser(user));
         List<Cart> carts = cartRepository.findByUser(user);
         for (Cart c: carts) {
             cartRepository.delete(c);
         }
+
+        System.out.println("geel");
     }
 
 

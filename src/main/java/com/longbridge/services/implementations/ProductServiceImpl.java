@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.math.BigInteger;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -373,20 +374,22 @@ public class ProductServiceImpl implements ProductService {
             for (ProductAttributeDTO pa: productDTO.productAttributes) {
                 ProductAttribute productAttribute=new ProductAttribute();
                 productAttribute.setProducts(products);
-                String  colourName= generalUtil.getPicsName("prodcolour",pa.getColourName());
+                String colourName= generalUtil.getPicsName("prodcolour",pa.getColourName());
                 CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
                 productAttribute.setColourName(pa.getColourName());
                 productAttribute.setColourPicture(c.getUrl());
                 productAttributeRepository.save(productAttribute);
 
-            for (ProductSizes p: pa.getProductSizes()) {
-                ProductSizes productSizes = new ProductSizes();
-                productSizes.setName(p.getName());
-                productSizes.setStockNo(p.getStockNo());
-                productSizes.setProductAttribute(productAttribute);
-                productSizesRepository.save(productSizes);
-            }
-            for(String p:pa.getPicture()){
+                for (ProductSizes p: pa.getProductSizes()) {
+                    ProductSizes productSizes = new ProductSizes();
+                    productSizes.setName(p.getName());
+                    productSizes.setStockNo(p.getStockNo());
+                    productSizes.setProductAttribute(productAttribute);
+                    System.out.println(productSizes);
+                    productSizesRepository.save(productSizes);
+                }
+
+                for(String p:pa.getPicture()){
                     ProductPicture productPicture = new ProductPicture();
                     String  productPictureName= generalUtil.getPicsName("prodpic",products.name);
                     c = cloudinaryService.uploadToCloud(p,productPictureName,"productpictures");
@@ -407,8 +410,7 @@ public class ProductServiceImpl implements ProductService {
                 priceSlash.setSlashedPrice(productDTO.slashedPrice);
                 priceSlash.setPercentageDiscount((productDTO.slashedPrice/productDTO.amount)*100);
                 priceSlashRepository.save(priceSlash);
-            }
-            else if(productDTO.percentageDiscount != 0){
+            } else if(productDTO.percentageDiscount != 0){
 
                 PriceSlash priceSlash=new PriceSlash();
                 products.priceSlashEnabled = true;
@@ -467,9 +469,6 @@ public class ProductServiceImpl implements ProductService {
             products.subCategory = subCategoryRepository.findOne(subCategoryId);
             products.name=productDTO.name;
             products.amount = productDTO.amount;
-            products.availability = productDTO.inStock;
-            products.acceptCustomSizes=productDTO.acceptCustomSizes;
-            products.numOfDaysToComplete = productDTO.numOfDaysToComplete;
             products.mandatoryMeasurements=productDTO.mandatoryMeasurements;
           //  products.color = productDTO.color;
 //            products.sizes = productDTO.sizes;
@@ -483,7 +482,6 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
             products.stockNo=productDTO.stockNo;
-            products.inStock=productDTO.inStock;
             products.setUpdatedOn(date);
 
 
@@ -572,7 +570,11 @@ public class ProductServiceImpl implements ProductService {
         try {
             Products products = productRepository.findOne(p.id);
             List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
+            List<String> reOccuringPictures = new ArrayList<String>();
+
+
             if(productAttributes.size()>0){
+
                 for (ProductAttribute prA: productAttributes) {
                     List<ProductSizes> productSizes = productSizesRepository.findByProductAttribute(prA);
                     productSizesRepository.delete(productSizes);
@@ -1402,6 +1404,15 @@ public class ProductServiceImpl implements ProductService {
             List<ProductRespDTO> newRespDto = productRespDTOS.subList(start, (end > totalElements) ? totalElements : end);
             System.out.println("Elements in current page: "+newRespDto.size());
             return newRespDto;
+        }
+    }
+
+    public boolean isUrl(String url){
+        try {
+            new URL(url).toURI();
+            return true;
+        }catch (Exception e){
+            return false;
         }
     }
 

@@ -354,6 +354,13 @@ public class GeneralUtil {
 
         productDTO.productType = products.productType;
 
+        SizeGuide sizeGuide = products.designer.sizeGuide;
+        if(sizeGuide != null){
+            productDTO.sizeGuide = new SizeGuideDTO();
+            productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
+            productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+        }
+
         return productDTO;
     }
 
@@ -410,6 +417,13 @@ public class GeneralUtil {
 
         productDTO.productType = products.productType;
 
+        SizeGuide sizeGuide = products.designer.sizeGuide;
+        if(sizeGuide != null){
+            productDTO.sizeGuide = new SizeGuideDTO();
+            productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
+            productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+        }
+
         return productDTO;
 
     }
@@ -463,6 +477,8 @@ public class GeneralUtil {
         productAttributeDTO.setColourPicture(productAttribute.getColourPicture());
         productAttributeDTO.setColourName(productAttribute.getColourName());
         productAttributeDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductPictures()));
+        System.out.println(productAttribute);
+        System.out.println(productAttribute.getProductSizes());
         productAttributeDTO.setProductSizes(productAttribute.getProductSizes());
         return productAttributeDTO;
 
@@ -577,6 +593,8 @@ public class GeneralUtil {
         Products products = productRepository.findOne(cart.getProductId());
 
         cartDTO.setProductName(products.name);
+
+        cartDTO.setProductAttributeId(cart.getProductAttributeId());
 
 
         if(products.priceSlash != null) {

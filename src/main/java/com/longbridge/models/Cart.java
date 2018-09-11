@@ -44,10 +44,11 @@ public class Cart extends CommonFields {
 
     private Date expiryDate;
 
+    private Long productAttributeId;
+
     private Long measurementId;
 
-
-    public Cart(User user, Long productId, int quantity, Long designerId, String size, Double amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, Long materialPickUpAddressId, String materialPickupDate, Date expiryDate, Long measurementId) {
+    public Cart(User user, Long productId, int quantity, Long designerId, String size, Double amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, Long materialPickUpAddressId, String materialPickupDate, Date expiryDate, Long productAttributeId, Long measurementId) {
         this.user = user;
         this.productId = productId;
         this.quantity = quantity;
@@ -62,7 +63,16 @@ public class Cart extends CommonFields {
         this.materialPickUpAddressId = materialPickUpAddressId;
         this.materialPickupDate = materialPickupDate;
         this.expiryDate = expiryDate;
+        this.productAttributeId = productAttributeId;
         this.measurementId = measurementId;
+    }
+
+    public Long getProductAttributeId() {
+        return productAttributeId;
+    }
+
+    public void setProductAttributeId(Long productAttributeId) {
+        this.productAttributeId = productAttributeId;
     }
 
     public User getUser() {

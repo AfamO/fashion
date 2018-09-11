@@ -76,6 +76,27 @@ public class ProductController {
     }
 
 
+    @GetMapping(value = "/getdesignerproducts")
+    public Object getProductsByDesigner(HttpServletRequest request){
+
+        Map<String,Object> responseMap = new HashMap();
+
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+
+        if(token==null || user==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Designer designer = user.designer;
+
+        if(designer==null){
+            return new Response("99","Operation Failed, Not a designer",responseMap);
+        }
+
+        List<ProductRespDTO> products= productService.getProductsByDesigner(designer.id);
+        return new Response("00","Operation Successful",products);
+    }
+
     @PostMapping(value = "/getproducts")
     public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

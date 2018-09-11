@@ -41,6 +41,8 @@ public class Items extends CommonFields{
 
     private Long materialPictureId;
 
+    private Long productAttributeId;
+
     private String color;
 
     private String materialStatus; //Y-Yes, N-No
@@ -282,12 +284,24 @@ public class Items extends CommonFields{
         this.complain = complain;
     }
 
+    public Long getProductAttributeId() {
+        return productAttributeId;
+    }
+
+    public void setProductAttributeId(Long productAttributeId) {
+        this.productAttributeId = productAttributeId;
+    }
+
     public Items() {
     }
 
-    public Items(Orders orders, Long productId, int quantity, Long designerId, String deliveryStatus, Date deliveryDate, String size, Double amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Long materialLocation, String materialPickupDate, Long measurementId) {
+    public Items(Orders orders, Long productId, String productName, String productPicture, String artWorkPicture, String materialPicture, int quantity, Long designerId, String deliveryStatus, Date deliveryDate, String size, Double amount, Long artWorkPictureId, Long materialPictureId, Long productAttributeId, String color, String materialStatus, Long materialLocation, String materialPickupDate, Long measurementId, String rejectReason, String failedInspectionReason, String complain, String measurement, ItemStatus itemStatus, StatusMessage statusMessage) {
         this.orders = orders;
         this.productId = productId;
+        this.productName = productName;
+        this.productPicture = productPicture;
+        this.artWorkPicture = artWorkPicture;
+        this.materialPicture = materialPicture;
         this.quantity = quantity;
         this.designerId = designerId;
         this.deliveryStatus = deliveryStatus;
@@ -296,11 +310,18 @@ public class Items extends CommonFields{
         this.amount = amount;
         this.artWorkPictureId = artWorkPictureId;
         this.materialPictureId = materialPictureId;
+        this.productAttributeId = productAttributeId;
         this.color = color;
         this.materialStatus = materialStatus;
         this.materialLocation = materialLocation;
         this.materialPickupDate = materialPickupDate;
         this.measurementId = measurementId;
+        this.rejectReason = rejectReason;
+        this.failedInspectionReason = failedInspectionReason;
+        this.complain = complain;
+        this.measurement = measurement;
+        this.itemStatus = itemStatus;
+        this.statusMessage = statusMessage;
     }
 
     @Override
