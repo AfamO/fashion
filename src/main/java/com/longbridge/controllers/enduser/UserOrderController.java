@@ -14,6 +14,7 @@ import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.respbodydto.OrderRespDTO;
 import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.OrderService;
+import com.longbridge.services.ShippingPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class UserOrderController {
     OrderService orderService;
 
     @Autowired
-    ItemStatusService itemStatusService;
+    ShippingPriceService shippingPriceService;
 
     @Autowired
     UserUtil userUtil;
@@ -225,6 +226,17 @@ public class UserOrderController {
         return new Response("00", "Operation successful", null);
     }
 
+
+    @PostMapping(value = "/getordershippingprice")
+    public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId(), userTemp));
+    }
 
 
     @RequestMapping(

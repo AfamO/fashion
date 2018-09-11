@@ -42,8 +42,7 @@ public class AdminOrderController {
     @Autowired
     MailErrorRepository mailErrorRepository;
 
-    @Autowired
-    ShippingPriceService shippingPriceService;
+
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -164,16 +163,6 @@ public class AdminOrderController {
         return new Response("00", "operation successful", orderService.getAllTransferInfo());
     }
 
-    @PostMapping(value = "/getordershippingprice")
-    public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId(), userTemp));
-    }
 
     @GetMapping(value = "/{id}/getorderitemdetails")
     public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){

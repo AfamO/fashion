@@ -162,12 +162,6 @@ public class OrderServiceImpl implements OrderService {
             }
 
 
-            /*while (!orderNumExists(generateOrderNum())){
-                orderNumber = "WAW#"+generateOrderNum();
-                orders.setOrderNum(orderNumber);
-                break;
-            }*/
-
             String tempOrderNumber = "";
             do{
                 tempOrderNumber = generateOrderNum();
@@ -185,18 +179,22 @@ public class OrderServiceImpl implements OrderService {
             orderRepository.save(orders);
 
             ItemStatus itemStatus = null;
-            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
-               itemStatus = itemStatusRepository.findByStatus("NV");
-               orders.setDeliveryStatus("NV");
-            }
-            else if(orderReq.getPaymentType().equalsIgnoreCase("Bank Transfer")){
-               itemStatus = itemStatusRepository.findByStatus("P");
-               orders.setDeliveryStatus("P");
-            }
-            else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
-                itemStatus=itemStatusRepository.findByStatus("PC");
-                orders.setDeliveryStatus("PC");
-            }
+//            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
+//               itemStatus = itemStatusRepository.findByStatus("NV");
+//               orders.setDeliveryStatus("NV");
+//            }
+//            else if(orderReq.getPaymentType().equalsIgnoreCase("Bank Transfer")){
+//               itemStatus = itemStatusRepository.findByStatus("P");
+//               orders.setDeliveryStatus("P");
+//            }
+//            else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
+//                itemStatus=itemStatusRepository.findByStatus("PC");
+//                orders.setDeliveryStatus("PC");
+//            }
+
+
+            itemStatus = itemStatusRepository.findByStatus("P");
+            orders.setDeliveryStatus("P");
 
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
             totalAmount = Double.parseDouble(h.get("totalAmount").toString());
@@ -206,21 +204,21 @@ public class OrderServiceImpl implements OrderService {
 
             //updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
-            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
-                //generate a unique ref number
-                String trnxRef = "WAW"+ "-"+ generateOrderNum();
-                RavePayment ravePayment = new RavePayment();
-                ravePayment.setOrderId(orders.id);
-                ravePayment.setTransactionAmount(totalAmount);
-                ravePayment.setTransactionReference(trnxRef);
-                ravePaymentRepository.save(ravePayment);
-                orderRespDTO.setOrderNumber(orderNumber);
-                orderRespDTO.setTransactionReference(trnxRef);
-                orderRespDTO.setTotalAmount(totalAmount);
-                orderRespDTO.setId(orders.id);
-                orderRespDTO.setStatus("00");
-                return orderRespDTO;
-            }
+//            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
+//                //generate a unique ref number
+//                String trnxRef = "WAW"+ "-"+ generateOrderNum();
+//                RavePayment ravePayment = new RavePayment();
+//                ravePayment.setOrderId(orders.id);
+//                ravePayment.setTransactionAmount(totalAmount);
+//                ravePayment.setTransactionReference(trnxRef);
+//                ravePaymentRepository.save(ravePayment);
+//                orderRespDTO.setOrderNumber(orderNumber);
+//                orderRespDTO.setTransactionReference(trnxRef);
+//                orderRespDTO.setTotalAmount(totalAmount);
+//                orderRespDTO.setId(orders.id);
+//                orderRespDTO.setStatus("00");
+//                return orderRespDTO;
+//            }
 
             deleteCart(user);
             sendEmailAsync.sendEmailToUser(user,orderNumber);

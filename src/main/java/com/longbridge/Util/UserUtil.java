@@ -88,8 +88,6 @@ public class UserUtil {
             User user = userRepository.findByEmail(passedUser.email);
             User user1 = userRepository.findByPhoneNo(passedUser.phoneNo);
             List<String> errors = new ArrayList<String>();
-
-
             if(user != null){
                 errors.add("Email already exists");
             }
@@ -143,11 +141,11 @@ public class UserUtil {
     public void sendToken(String email){
         try {
             User passedUser = userRepository.findByEmail(email);
-            String name = passedUser.designer.storeName;
+//            String name = passedUser.designer.storeName;
             char[] token = uniqueNumberUtil.OTP(5);
             List<String> phonenumbers = new ArrayList<>();
             phonenumbers.add(passedUser.phoneNo);
-            String message = String.format(messageSource.getMessage("user.sendtoken.message", null, locale), name, String.valueOf(token));
+            String message = String.format(messageSource.getMessage("user.sendtoken.message", null, locale), String.valueOf(token));
             smsAlertUtil.sms(phonenumbers, message);
             System.out.println(String.valueOf(token));
             saveToken(String.valueOf(token), passedUser);
