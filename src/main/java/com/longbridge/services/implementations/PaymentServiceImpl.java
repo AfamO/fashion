@@ -33,7 +33,7 @@ public class PaymentServiceImpl implements PaymentService {
         JSONObject data = new JSONObject();
         data.put("reference", payment.getTransactionReference());
         data.put("email", payment.getEmail());
-        data.put("amount", secret);
+        data.put("amount", payment.getTransactionAmount());
         // end of payload
 
         // This sends the request to server with payload
