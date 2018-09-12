@@ -50,6 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
         JSONObject responseObject = jsonNode.getObject();
 
 
+        System.out.println("response object is-----------"+ responseObject);
         // check of no object is returned
         if (responseObject == null) {
             data.put("status", "16");
