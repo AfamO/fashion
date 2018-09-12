@@ -210,6 +210,7 @@ public class OrderServiceImpl implements OrderService {
                payment.setOrderId(orders.id);
                payment.setTransactionAmount(totalAmount);
                payment.setTransactionReference(trnxRef);
+               payment.setEmail(user.email);
                paymentRepository.save(payment);
                orderRespDTO=paymentService.initiatePayment(payment);
                return orderRespDTO;
