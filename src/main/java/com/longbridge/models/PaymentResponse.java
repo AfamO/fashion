@@ -1,16 +1,18 @@
-package com.longbridge.respbodydto;
+package com.longbridge.models;
 
 /**
- * Created by Longbridge on 06/08/2018.
+ * Created by Longbridge on 12/09/2018.
  */
-public class OrderRespDTO {
+public class PaymentResponse {
     private Long id;
     private String orderNumber;
     private String status;
     private String transactionReference;
-    private double totalAmount;
+    private double amount;
+    private String redirectUrl;
 
-
+    public PaymentResponse() {
+    }
 
     public Long getId() {
         return id;
@@ -44,20 +46,19 @@ public class OrderRespDTO {
         this.transactionReference = transactionReference;
     }
 
-    public double getTotalAmount() {
-        return totalAmount;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
-    public OrderRespDTO() {
+    public String getRedirectUrl() {
+        return redirectUrl;
     }
 
-    public OrderRespDTO(String orderNumber, String status, String transactionReference) {
-        this.orderNumber = orderNumber;
-        this.status = status;
-        this.transactionReference = transactionReference;
+    public void setRedirectUrl(String redirectUrl) {
+        this.redirectUrl = redirectUrl;
     }
 }

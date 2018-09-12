@@ -6,10 +6,7 @@ import com.longbridge.dto.ItemsDTO;
 import com.longbridge.dto.OrderReqDTO;
 import com.longbridge.dto.TransferInfoDTO;
 import com.longbridge.exception.AppException;
-import com.longbridge.models.Cart;
-import com.longbridge.models.MailError;
-import com.longbridge.models.Response;
-import com.longbridge.models.User;
+import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.respbodydto.OrderRespDTO;
 import com.longbridge.services.ItemStatusService;
@@ -56,7 +53,7 @@ public class UserOrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        OrderRespDTO orderRespDTO = new OrderRespDTO();
+        PaymentResponse orderRespDTO = new PaymentResponse();
         try {
             orderRespDTO = orderService.addOrder(orders,userTemp);
             Response response;

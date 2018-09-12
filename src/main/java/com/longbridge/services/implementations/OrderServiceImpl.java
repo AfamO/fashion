@@ -3,7 +3,6 @@ package com.longbridge.services.implementations;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longbridge.Util.GeneralUtil;
-import com.longbridge.Util.Hash;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.Util.ShippingUtil;
 import com.longbridge.dto.*;
@@ -18,6 +17,7 @@ import com.longbridge.respbodydto.OrderRespDTO;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.MailService;
 import com.longbridge.services.OrderService;
+import com.longbridge.services.PaymentService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.time.DateUtils;
@@ -30,8 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -89,10 +87,13 @@ public class OrderServiceImpl implements OrderService {
     MailService mailService;
 
     @Autowired
-    RavePaymentRepository ravePaymentRepository;
+    PaymentRepository paymentRepository;
 
     @Autowired
     WalletRepository walletRepository;
+
+    @Autowired
+    PaymentService paymentService;
 
     private Locale locale = LocaleContextHolder.getLocale();
 
@@ -118,8 +119,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public OrderRespDTO addOrder(OrderReqDTO orderReq, User user) {
-        OrderRespDTO orderRespDTO = new OrderRespDTO();
+    public PaymentResponse addOrder(OrderReqDTO orderReq, User user) {
+        PaymentResponse orderRespDTO = new PaymentResponse();
         try{
 
             Orders orders = new Orders();
@@ -179,22 +180,19 @@ public class OrderServiceImpl implements OrderService {
             orderRepository.save(orders);
 
             ItemStatus itemStatus = null;
-//            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
-//               itemStatus = itemStatusRepository.findByStatus("NV");
-//               orders.setDeliveryStatus("NV");
-//            }
-//            else if(orderReq.getPaymentType().equalsIgnoreCase("Bank Transfer")){
-//               itemStatus = itemStatusRepository.findByStatus("P");
-//               orders.setDeliveryStatus("P");
-//            }
+            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
+               itemStatus = itemStatusRepository.findByStatus("NV");
+               orders.setDeliveryStatus("NV");
+            }
+            else if(orderReq.getPaymentType().equalsIgnoreCase("Bank Transfer")){
+               itemStatus = itemStatusRepository.findByStatus("P");
+               orders.setDeliveryStatus("P");
+            }
 //            else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
 //                itemStatus=itemStatusRepository.findByStatus("PC");
 //                orders.setDeliveryStatus("PC");
 //            }
 
-
-            itemStatus = itemStatusRepository.findByStatus("P");
-            orders.setDeliveryStatus("P");
 
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
             totalAmount = Double.parseDouble(h.get("totalAmount").toString());
@@ -204,21 +202,18 @@ public class OrderServiceImpl implements OrderService {
 
             //updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
-//            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
-//                //generate a unique ref number
-//                String trnxRef = "WAW"+ "-"+ generateOrderNum();
-//                RavePayment ravePayment = new RavePayment();
-//                ravePayment.setOrderId(orders.id);
-//                ravePayment.setTransactionAmount(totalAmount);
-//                ravePayment.setTransactionReference(trnxRef);
-//                ravePaymentRepository.save(ravePayment);
-//                orderRespDTO.setOrderNumber(orderNumber);
-//                orderRespDTO.setTransactionReference(trnxRef);
-//                orderRespDTO.setTotalAmount(totalAmount);
-//                orderRespDTO.setId(orders.id);
-//                orderRespDTO.setStatus("00");
-//                return orderRespDTO;
-//            }
+
+            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
+                String trnxRef=orderNumber;
+               Payment payment = new Payment();
+               payment.setOrderId(orders.id);
+               payment.setTransactionAmount(totalAmount);
+               payment.setTransactionReference(trnxRef);
+               paymentRepository.save(payment);
+               orderRespDTO=paymentService.initiatePayment(payment);
+               return orderRespDTO;
+
+            }
 
             deleteCart(user);
             sendEmailAsync.sendEmailToUser(user,orderNumber);
