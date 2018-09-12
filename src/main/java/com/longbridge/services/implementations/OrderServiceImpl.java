@@ -168,7 +168,8 @@ public class OrderServiceImpl implements OrderService {
                 tempOrderNumber = generateOrderNum();
             }while (orderNumExists(orderNumber));
 
-            orderNumber = "WAW#"+tempOrderNumber;
+            //orderNumber = "WAW#"+tempOrderNumber;
+            orderNumber = tempOrderNumber;
             orders.setOrderNum(orderNumber);
             orders.setCreatedOn(date);
             orders.setUpdatedOn(date);
