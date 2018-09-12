@@ -31,13 +31,15 @@ public class PaymentServiceImpl implements PaymentService {
         PaymentResponse paymentResponse=new PaymentResponse();
         // This packages the payload
         JSONObject data = new JSONObject();
-        data.put("txref", payment.getTransactionReference());
-        data.put("SECKEY", secret);
+        data.put("reference", payment.getTransactionReference());
+        data.put("email", payment.getEmail());
+        data.put("amount", secret);
         // end of payload
 
         // This sends the request to server with payload
         HttpResponse<JsonNode> response = Unirest.post(VERIFY_ENDPOINT)
                 .header("Content-Type", "application/json")
+                .header("Authorization",secret)
                 .body(data)
                 .asJson();
 

@@ -15,6 +15,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String email;
     private Long orderId;
     private String transactionReference;
     private double transactionAmount;
@@ -22,6 +23,14 @@ public class Payment {
 
     private Date transactionDate;
 
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Long getOrderId() {
         return orderId;
