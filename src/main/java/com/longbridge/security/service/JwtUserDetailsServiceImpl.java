@@ -35,6 +35,9 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
         if(user1.role.equalsIgnoreCase("user")){
             role = "ROLE_USER";
         }
+        if(user1.role.equalsIgnoreCase("qa")){
+            role="ROLE_QA";
+        }
 
         authorities.add(new SimpleGrantedAuthority(role));
 
