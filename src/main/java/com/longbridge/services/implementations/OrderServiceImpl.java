@@ -324,27 +324,12 @@ public class OrderServiceImpl implements OrderService {
 
             Products products = productRepository.findOne(items.getProductId());
             ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
-            StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
-
-
-            if(items.getItemStatus().getStatus().equalsIgnoreCase("P")){
-                if(itemsDTO.getStatus().equalsIgnoreCase("A")){
-                    items.setItemStatus(itemStatus);
-                    statusMessage.setHasResponse(false);
-                    items.setStatusMessage(statusMessage);
-                    PaymentResponse p = paymentService.chargeAuthorization(items.getOrders());
-                    if(p.getStatus().equalsIgnoreCase("99")){
-                        //unable to charge customer, cancel transaction
-                        items.setItemStatus(itemStatusRepository.findByStatus("C"));
-                    }
-                }
-                else  if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
-                    items.setItemStatus(itemStatusRepository.findByStatus("C"));
-                }
-                else {
-                    throw new InvalidStatusUpdateException();
-                }
+            if(itemsDTO.getMessageId() != null) {
+                StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
             }
+
+
+
 
             //from payment confirmed to processing
             if(items.getItemStatus().getStatus().equalsIgnoreCase("PC")) {
@@ -358,6 +343,25 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
+
+            if(items.getItemStatus().getStatus().equalsIgnoreCase("P")){
+                if(itemsDTO.getStatus().equalsIgnoreCase("A")){
+                    items.setItemStatus(itemStatus);
+                    //statusMessage.setHasResponse(false);
+                    //items.setStatusMessage(statusMessage);
+                    PaymentResponse p = paymentService.chargeAuthorization(items);
+                    if(p.getStatus().equalsIgnoreCase("99")){
+                        //unable to charge customer, cancel transaction
+                        items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                    }
+                }
+                else  if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
+                    items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                }
+                else {
+                    throw new InvalidStatusUpdateException();
+                }
+            }
 
             //from processing to completed
             if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")) {
@@ -848,6 +852,7 @@ public class OrderServiceImpl implements OrderService {
             List<ItemStatus> itemStatuses = new ArrayList();
             itemStatuses.add(itemStatus1);
             itemStatuses.add(itemStatus2);
+            System.out.println(itemStatuses);
             return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNotIn(user.designer.id,itemStatuses));
 
         }catch (Exception ex){

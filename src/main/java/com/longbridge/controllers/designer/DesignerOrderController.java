@@ -47,18 +47,18 @@ public class DesignerOrderController {
                 return userUtil.tokenNullOrInvalidResponse(token);
             }
 
-            if(item.getMessage() != null){
+//            if(item.getMessage() != null){
                 //Long id = statMessageId.get();
                 orderService.updateOrderItemByDesignerWithMessage(item, userTemp);
                 return new Response("00", "status updated", null);
-            }else{
-
-                if(orderService.updateOrderItemByDesignerr(item, userTemp) != null){
-                    return new Response("10", "confirm", orderService.updateOrderItemByDesignerr(item, userTemp));
-                }else{
-                    return new Response("00", "status updated", null);
-                }
-            }
+//            }else{
+//                return new Response("00", "confirm", orderService.updateOrderItemByDesignerr(item, userTemp));
+////                if(orderService.updateOrderItemByDesignerr(item, userTemp) != null){
+////                    return new Response("10", "confirm", orderService.updateOrderItemByDesignerr(item, userTemp));
+////                }else{
+////                    return new Response("00", "status updated", null);
+////                }
+//            }
         }catch (AppException e){
             e.printStackTrace();
             String recipient = e.getRecipient();

@@ -60,7 +60,7 @@ public class PaymentServiceImpl implements PaymentService {
     private String VERIFY_ENDPOINT = "https://api.paystack.co/transaction/verify/";
 
     //Endpoint to finally charge the user
-    private final String CHARGE_ENDPOINT = "api.paystack.co/transaction/charge_authorization";
+    private final String CHARGE_ENDPOINT = "https://api.paystack.co/transaction/charge_authorization";
 
 
     @Override
@@ -163,19 +163,21 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentResponse chargeAuthorization(Orders orders) {
+    public PaymentResponse chargeAuthorization(Items items) {
         try {
-            Double amount = orders.getTotalAmount()-50;
-            User user = userRepository.findOne(orders.getUserId());
+            Double amount = items.getAmount()-50;
+            User user = userRepository.findOne(items.getOrders().getUserId());
             PaymentResponse paymentResponse = new PaymentResponse();
             JSONObject data = new JSONObject();
-            data.put("authorization_code", orders.getAuthorizationCode());
+
+            data.put("authorization_code", items.getOrders().getAuthorizationCode());
             data.put("email", user.email);
             data.put("amount", amount);
             // This sends the request to server with payload
             HttpResponse<JsonNode> response = Unirest.post(CHARGE_ENDPOINT)
                     .header("Content-Type", "application/json")
                     .header("Authorization", secret)
+                    .body(data)
                     .asJson();
 
             // This get the response from payload
@@ -199,7 +201,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             if (status.equalsIgnoreCase("success")) {
                 //PAYMENT IS SUCCESSFUL,
-                updateItems(orders);
+                updateItems(items);
                 paymentResponse.setStatus("00");
                 paymentResponse.setTransactionReference(data.getString("reference"));
             }
@@ -210,6 +212,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             return paymentResponse;
         }catch (Exception ex){
+            ex.printStackTrace();
             throw new WawoohException();
         }
     }
@@ -233,14 +236,12 @@ public class PaymentServiceImpl implements PaymentService {
 
 
 
-    private void updateItems(Orders orders) {
-        User user = userRepository.findById(orders.getUserId());
+    private void updateItems(Items items) {
+        User user = userRepository.findById(items.getOrders().getUserId());
         ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
-        for (Items item:orders.getItems()) {
-            item.setItemStatus(itemStatus);
-            itemRepository.save(item);
-        }
-        sendEmailAsync.sendPaymentConfEmailToUser(user, orders.getOrderNum());
+            items.setItemStatus(itemStatus);
+            itemRepository.save(items);
+        sendEmailAsync.sendPaymentConfEmailToUser(user, items.getOrders().getOrderNum());
     }
 
 

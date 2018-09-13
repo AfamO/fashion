@@ -1,5 +1,6 @@
 package com.longbridge.services;
 
+import com.longbridge.models.Items;
 import com.longbridge.models.Orders;
 import com.longbridge.models.PaymentRequest;
 import com.longbridge.models.PaymentResponse;
@@ -13,5 +14,5 @@ public interface PaymentService {
 
     PaymentResponse verifyPayment(PaymentRequest paymentRequest);
 
-    PaymentResponse chargeAuthorization(Orders orders);
+    PaymentResponse chargeAuthorization(Items items);
 }
