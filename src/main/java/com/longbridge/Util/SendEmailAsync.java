@@ -223,10 +223,18 @@ public class SendEmailAsync {
 
     @Async
     public void sendWelcomeEmailToUser(User user) {
-        String activationLink="";
+        String activationLink = "";
+        String name = "";
         try {
             Context context = new Context();
-            context.setVariable("name", user.designer.storeName);
+
+            if(user.role.equalsIgnoreCase("user")){
+                name = user.firstName+" "+user.lastName;
+            }else if(user.role.equalsIgnoreCase("designer")){
+                name = user.designer.storeName;
+            }
+
+            context.setVariable("name", name);
             String encryptedMail = Base64.getEncoder().encodeToString(user.email.getBytes());
             activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
             String message="";
