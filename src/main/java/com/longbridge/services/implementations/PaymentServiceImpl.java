@@ -3,6 +3,7 @@ package com.longbridge.services.implementations;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
+import com.longbridge.repository.CartRepository;
 import com.longbridge.repository.ItemRepository;
 import com.longbridge.repository.ItemStatusRepository;
 import com.longbridge.repository.OrderRepository;
@@ -16,6 +17,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by Longbridge on 12/09/2018.
@@ -43,6 +46,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     SendEmailAsync sendEmailAsync;
+
+    @Autowired
+    CartRepository cartRepository;
 
 
     //Endpoint to initiate transaction
@@ -105,6 +111,7 @@ public class PaymentServiceImpl implements PaymentService {
         try {
             PaymentResponse paymentResponse = new PaymentResponse();
             VERIFY_ENDPOINT = VERIFY_ENDPOINT + paymentRequest.getTransactionReference();
+            System.out.println(VERIFY_ENDPOINT);
             JSONObject data = new JSONObject();
 
             // This sends the request to server with payload
@@ -136,6 +143,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             if (status.equalsIgnoreCase("success")) {
                 //PAYMENT IS SUCCESSFUL,
+
                 updateOrder(paymentRequest,authorizationCode);
                 paymentResponse.setStatus("00");
                 paymentResponse.setTransactionReference(data.getString("reference"));
@@ -143,6 +151,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             return paymentResponse;
         }catch (Exception ex){
+            ex.printStackTrace();
             throw new WawoohException();
         }
     }
@@ -202,6 +211,7 @@ public class PaymentServiceImpl implements PaymentService {
     private void updateOrder(PaymentRequest paymentRequest, String authorizationCode) {
         Orders orders = orderRepository.findByOrderNum(paymentRequest.getTransactionReference());
         User user = userRepository.findById(orders.getUserId());
+        deleteCart(user);
         ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
 
         for (Items item:orders.getItems()) {
@@ -228,7 +238,12 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
 
-
+    private void deleteCart(User user){
+        List<Cart> carts = cartRepository.findByUser(user);
+        for (Cart c: carts) {
+            cartRepository.delete(c);
+        }
+    }
 
 
 
