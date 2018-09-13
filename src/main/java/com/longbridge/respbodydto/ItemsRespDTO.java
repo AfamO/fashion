@@ -1,8 +1,11 @@
 package com.longbridge.respbodydto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.longbridge.models.OrderItemProcessingPicture;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Longbridge on 18/01/2018.
@@ -78,6 +81,7 @@ public class ItemsRespDTO {
     @JsonIgnore
     private String link;
 
+    private List<OrderItemProcessingPicture> pictures;
 
     public Long getId() {
         return id;
@@ -350,5 +354,13 @@ public class ItemsRespDTO {
 
     public void setUserComplain(String userComplain) {
         this.userComplain = userComplain;
+    }
+
+    public List<OrderItemProcessingPicture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<OrderItemProcessingPicture> pictures) {
+        this.pictures = pictures;
     }
 }

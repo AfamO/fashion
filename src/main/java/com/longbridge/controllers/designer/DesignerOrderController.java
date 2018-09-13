@@ -120,6 +120,28 @@ public class DesignerOrderController {
 
     }
 
+    @GetMapping(value = "/getcompletedorders")
+    public Response getIncompleteOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return new Response("00","Operation Successful",orderService.getCompletedOrders(userTemp));
+
+    }
+
+    @GetMapping(value = "/getcancelledorders")
+    public Response getCancelledOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return new Response("00","Operation Successful",orderService.getCancelledOrders(userTemp));
+
+    }
+
 
     @GetMapping(value = "/{id}/getorderitemdetails")
     public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){

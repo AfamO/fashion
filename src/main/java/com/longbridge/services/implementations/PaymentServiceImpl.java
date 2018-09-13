@@ -56,8 +56,6 @@ public class PaymentServiceImpl implements PaymentService {
     //Endpoint to initiate transaction
     private final String INITIATE_ENDPOINT = "https://api.paystack.co/transaction/initialize";
 
-    //Endpoint to verify transaction
-    private String VERIFY_ENDPOINT = "https://api.paystack.co/transaction/verify/";
 
     //Endpoint to finally charge the user
     private final String CHARGE_ENDPOINT = "https://api.paystack.co/transaction/charge_authorization";
@@ -111,6 +109,9 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponse verifyPayment(PaymentRequest paymentRequest)  {
 
         try {
+            //Endpoint to verify transaction
+            String VERIFY_ENDPOINT = "https://api.paystack.co/transaction/verify/";
+
             PaymentResponse paymentResponse = new PaymentResponse();
             VERIFY_ENDPOINT = VERIFY_ENDPOINT + paymentRequest.getTransactionReference();
             System.out.println(VERIFY_ENDPOINT);
@@ -231,7 +232,7 @@ public class PaymentServiceImpl implements PaymentService {
         orders.setAuthorizationCode(authorizationCode);
         orderRepository.save(orders);
         sendEmailAsync.sendEmailToUser(user, orders.getOrderNum());
-        sendEmailAsync.sendPaymentConfEmailToUser(user, orders.getOrderNum());
+
     }
 
 

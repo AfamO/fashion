@@ -344,7 +344,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
 
-            if(items.getItemStatus().getStatus().equalsIgnoreCase("P")){
+           else if(items.getItemStatus().getStatus().equalsIgnoreCase("P")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("A")){
                     items.setItemStatus(itemStatus);
                     //statusMessage.setHasResponse(false);
@@ -364,7 +364,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
             //from processing to completed
-            if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")) {
+            else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")) {
                 if (itemsDTO.getStatus().equalsIgnoreCase("CO")) {
                     //get pictures from designer and save
                     savePictures(items,itemsDTO.getPictures());
@@ -374,12 +374,6 @@ public class OrderServiceImpl implements OrderService {
                     throw new InvalidStatusUpdateException();
                 }
             }
-
-
-                else {
-                    throw new InvalidStatusUpdateException();
-                }
-
 
 //            else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")){
 //                if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
@@ -1009,10 +1003,12 @@ public class OrderServiceImpl implements OrderService {
                 ItemStatus itemStatus1 = itemStatusRepository.findByStatus("RI");
                 ItemStatus itemStatus2 = itemStatusRepository.findByStatus("RS");
                 ItemStatus itemStatus3 = itemStatusRepository.findByStatus("OS");
+                ItemStatus itemStatus4 = itemStatusRepository.findByStatus("CO");
                 List<ItemStatus> itemStatuses = new ArrayList();
                 itemStatuses.add(itemStatus1);
                 itemStatuses.add(itemStatus2);
                 itemStatuses.add(itemStatus3);
+                itemStatuses.add(itemStatus4);
 
             return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusIn(itemStatuses));
 

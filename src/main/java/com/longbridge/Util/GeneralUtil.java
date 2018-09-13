@@ -41,6 +41,8 @@ public class GeneralUtil {
     PriceSlashRepository priceSlashRepository;
 
 
+    @Autowired
+    OrderItemProcessingPictureRepository orderItemProcessingPictureRepository;
 
     @Autowired
     ItemRepository itemRepository;
@@ -656,6 +658,11 @@ public class GeneralUtil {
     public ItemsRespDTO convertEntityToDTO(Items items){
         ItemsRespDTO itemsDTO = new ItemsRespDTO();
         if(items != null) {
+
+            List<OrderItemProcessingPicture> orderItemProcessingPictures = orderItemProcessingPictureRepository.findByItems(items);
+            if(orderItemProcessingPictures.size() > 0){
+                itemsDTO.setPictures(orderItemProcessingPictures);
+            }
             itemsDTO.setId(items.id);
             itemsDTO.setProductId(items.getProductId());
             Products p = productRepository.findOne(items.getProductId());
@@ -699,6 +706,8 @@ public class GeneralUtil {
             if (items.getMeasurementId() != null) {
                 itemsDTO.setMeasurement(items.getMeasurement());
             }
+
+
         }
         return itemsDTO;
 
