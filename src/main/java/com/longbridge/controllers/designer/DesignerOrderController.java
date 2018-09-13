@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Longbridge on 28/08/2018.
  */@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/order")
+@RequestMapping("/fashion/order/designer")
 public class DesignerOrderController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class DesignerOrderController {
     private String tokenHeader;
 
 
-    @PostMapping(value = "/designer/updateorderitem")
+    @PostMapping(value = "/updateorderitem")
     public Response updateOrderStatusByDesigner(@RequestBody ItemsDTO item, HttpServletRequest request){
         try{
             String token = request.getHeader(tokenHeader);
@@ -97,7 +97,7 @@ public class DesignerOrderController {
 
 
 
-    @GetMapping(value = "/designer/getpendingorders")
+    @GetMapping(value = "/getpendingorders")
     public Response getPendingOrders(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -131,12 +131,12 @@ public class DesignerOrderController {
         return new Response("00","Operation Successful",orderService.getOrderItemById(id));
 
     }
-//
-//    @RequestMapping(
-//            value = "/**",
-//            method = RequestMethod.OPTIONS
-//    )
-//    public ResponseEntity handle() {
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
+
+    @RequestMapping(
+            value = "/**",
+            method = RequestMethod.OPTIONS
+    )
+    public ResponseEntity handle() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

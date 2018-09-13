@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static org.springframework.data.repository.init.ResourceReader.Type.JSON;
+
 /**
  * Created by Longbridge on 12/09/2018.
  */
@@ -115,7 +117,7 @@ public class PaymentServiceImpl implements PaymentService {
             JSONObject data = new JSONObject();
 
             // This sends the request to server with payload
-            HttpResponse<JsonNode> response = Unirest.post(VERIFY_ENDPOINT)
+            HttpResponse<JsonNode> response = Unirest.get(VERIFY_ENDPOINT)
                     .header("Content-Type", "application/json")
                     .header("Authorization", secret)
                     .asJson();
@@ -134,17 +136,21 @@ public class PaymentServiceImpl implements PaymentService {
                 return paymentResponse;
             }
 
+            System.out.println(responseObject);
+
             data = responseObject.getJSONObject("data");
+
 
             // This gets the status from the server
             String status = data.getString("status");
 
-            String authorizationCode = data.getString("authorization_code");
+
 
             if (status.equalsIgnoreCase("success")) {
                 //PAYMENT IS SUCCESSFUL,
-
-                updateOrder(paymentRequest,authorizationCode);
+               JSONObject auth = data.getJSONObject("authorization");
+               System.out.println(auth);
+                updateOrder(paymentRequest,auth.getString("authorization_code"));
                 paymentResponse.setStatus("00");
                 paymentResponse.setTransactionReference(data.getString("reference"));
             }
