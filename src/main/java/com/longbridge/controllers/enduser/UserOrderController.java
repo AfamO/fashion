@@ -11,6 +11,7 @@ import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.respbodydto.OrderRespDTO;
 import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.OrderService;
+import com.longbridge.services.PaymentService;
 import com.longbridge.services.ShippingPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,8 @@ public class UserOrderController {
     @Autowired
     MailErrorRepository mailErrorRepository;
 
+    @Autowired
+    PaymentService paymentService;
 
 
     @Value("${jwt.header}")
@@ -62,6 +65,9 @@ public class UserOrderController {
             }
             else if(orderRespDTO.getStatus().equalsIgnoreCase("noitems")){
                 response = new Response("67","Unable to process order, No items sent","");
+            }
+            else if(orderRespDTO.getStatus().equalsIgnoreCase("16")){
+                response = new Response("99","Unable to process order, No response gotten from payment gateway","");
             }
             else{
                 response = new Response("00", "Operation Successful", orderRespDTO);
@@ -93,6 +99,12 @@ public class UserOrderController {
 
         }
 
+    }
+
+
+    @PostMapping(value = "/verifypayment")
+    public Response verifyPayment(@RequestBody PaymentRequest paymentRequest){
+        return new Response("00","Operation Successful",paymentService.verifyPayment(paymentRequest));
     }
 
 

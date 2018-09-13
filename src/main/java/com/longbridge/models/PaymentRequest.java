@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by Longbridge on 31/07/2018.
  */
 @Entity
-public class Payment {
+public class PaymentRequest {
 
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -82,6 +82,6 @@ public class Payment {
     }
 
 
-    public Payment() {
+    public PaymentRequest() {
     }
 }

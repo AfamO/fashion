@@ -2,6 +2,8 @@ package com.longbridge.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
+
 /**
  * Created by Longbridge on 03/01/2018.
  */
@@ -83,6 +85,8 @@ public class ItemsDTO {
 
     @JsonIgnore
     private String link;
+
+    private ArrayList<String> pictures;
 
 
     public ItemsDTO() {
@@ -412,5 +416,13 @@ public class ItemsDTO {
 
     public void setFailedInspectionReason(String failedInspectionReason) {
         this.failedInspectionReason = failedInspectionReason;
+    }
+
+    public ArrayList<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(ArrayList<String> picture) {
+        this.pictures = picture;
     }
 }

@@ -119,6 +119,18 @@ public class DesignerOrderController {
         return new Response("00","Operation Successful",orderService.getOrdersByDesigner(userTemp));
 
     }
+
+
+    @GetMapping(value = "/{id}/getorderitemdetails")
+    public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return new Response("00","Operation Successful",orderService.getOrderItemById(id));
+
+    }
 //
 //    @RequestMapping(
 //            value = "/**",

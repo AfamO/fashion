@@ -33,6 +33,8 @@ public class Orders extends CommonFields {
 
     private boolean anonymousBuyer;
 
+    private String authorizationCode;
+
     public Orders() {
     }
 
@@ -130,6 +132,14 @@ public class Orders extends CommonFields {
 
     public void setAnonymousBuyer(boolean anonymousBuyer) {
         this.anonymousBuyer = anonymousBuyer;
+    }
+
+    public String getAuthorizationCode() {
+        return authorizationCode;
+    }
+
+    public void setAuthorizationCode(String authorizationCode) {
+        this.authorizationCode = authorizationCode;
     }
 
     public Orders(String orderNum, List<Items> items, Double totalAmount, String paymentType, Long userId, String deliveryStatus, Address deliveryAddress, Date orderDate, Date deliveredDate) {
