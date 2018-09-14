@@ -41,6 +41,8 @@ public class GeneralUtil {
     PriceSlashRepository priceSlashRepository;
 
 
+    @Autowired
+    OrderItemProcessingPictureRepository orderItemProcessingPictureRepository;
 
     @Autowired
     ItemRepository itemRepository;
@@ -477,8 +479,6 @@ public class GeneralUtil {
         productAttributeDTO.setColourPicture(productAttribute.getColourPicture());
         productAttributeDTO.setColourName(productAttribute.getColourName());
         productAttributeDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductPictures()));
-        System.out.println(productAttribute);
-        System.out.println(productAttribute.getProductSizes());
         productAttributeDTO.setProductSizes(productAttribute.getProductSizes());
         return productAttributeDTO;
 
@@ -574,7 +574,7 @@ public class GeneralUtil {
     }
 
 
-    public List<CartDTO> convertCartEntsToDTOs(List<Cart> carts){
+    public List<CartDTO>    convertCartEntsToDTOs(List<Cart> carts){
         List<CartDTO> cartDTOS = new ArrayList<>();
         for(Cart cart:carts){
             CartDTO cartDTO = convertCartEntToDTO(cart);
@@ -658,6 +658,11 @@ public class GeneralUtil {
     public ItemsRespDTO convertEntityToDTO(Items items){
         ItemsRespDTO itemsDTO = new ItemsRespDTO();
         if(items != null) {
+
+            List<OrderItemProcessingPicture> orderItemProcessingPictures = orderItemProcessingPictureRepository.findByItems(items);
+            if(orderItemProcessingPictures.size() > 0){
+                itemsDTO.setPictures(orderItemProcessingPictures);
+            }
             itemsDTO.setId(items.id);
             itemsDTO.setProductId(items.getProductId());
             Products p = productRepository.findOne(items.getProductId());
@@ -701,6 +706,8 @@ public class GeneralUtil {
             if (items.getMeasurementId() != null) {
                 itemsDTO.setMeasurement(items.getMeasurement());
             }
+
+
         }
         return itemsDTO;
 
@@ -742,6 +749,8 @@ public class GeneralUtil {
         return orderDTO;
 
     }
+
+
 
 
 }

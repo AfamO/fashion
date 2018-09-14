@@ -223,26 +223,20 @@ public class SendEmailAsync {
 
     @Async
     public void sendWelcomeEmailToUser(User user) {
-        String activationLink = "";
-        String name = "";
+        String activationLink="";
         try {
             Context context = new Context();
 
-            if(user.role.equalsIgnoreCase("user")){
-                name = user.firstName+" "+user.lastName;
-            }else if(user.role.equalsIgnoreCase("designer")){
-                name = user.designer.storeName;
-            }
-
-            context.setVariable("name", name);
             String encryptedMail = Base64.getEncoder().encodeToString(user.email.getBytes());
             activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
             String message="";
             context.setVariable("link", activationLink);
             if(user.designer != null) {
+                context.setVariable("name", user.designer.storeName);
                 message = templateEngine.process("designerwelcomeemail", context);
             }
             else {
+                context.setVariable("name", user.firstName+" " +user.lastName);
                 message = templateEngine.process("welcomeemail", context);
             }
             mailService.prepareAndSend(message,user.email,messageSource.getMessage("user.welcome.subject", null, locale));
@@ -250,7 +244,6 @@ public class SendEmailAsync {
         }catch (MailException me){
             me.printStackTrace();
             throw new AppException("",user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
-
         }
 
     }

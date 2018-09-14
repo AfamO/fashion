@@ -1226,7 +1226,7 @@ public class ProductServiceImpl implements ProductService {
         int size = pageableDetailsDTO.getSize();
         List<EventPictures> ev = new ArrayList<>();
         try {
-            //List<EventPictures> e = eventPictureRepository.findAll();
+
             Page<EventPictures> e = eventPictureRepository.findAll(new PageRequest(page, size));
 
             for(EventPictures pictures: e) {
@@ -1274,24 +1274,16 @@ public class ProductServiceImpl implements ProductService {
         List<EventPicturesDTO> ev = new ArrayList<>();
         List<EventPictures> e;
         try {
-//            List<Events> events=eventRepository.eventsTagFuzzySearch(search);
-//            if(events != null) {
-//                for (Events events1 : events) {
              e = eventPictureRepository.findByEvents(eventRepository.findOne(id));
-//                }
-
                 if(e!=null) {
                     for (EventPictures pictures : e) {
                         if (pictureTagRepository.findByEventPictures(pictures).size() < 1) {
                             EventPicturesDTO picturesDTO = generalUtil.convertEntityToDTO(pictures);
                             ev.add(picturesDTO);
                         }
-
                     }
                 }
                 return ev;
-//            }
-//            return ev;
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1305,12 +1297,7 @@ public class ProductServiceImpl implements ProductService {
         List<EventPicturesDTO> ev = new ArrayList<>();
         List<EventPictures> e;
         try {
-//            List<Events> events=searchService.eventsTagFuzzySearch(search);
-//            if(events != null) {
-//                for (Events events1 : events) {
                     e = eventPictureRepository.findByEvents(eventRepository.findOne(id));
-//                }
-
                 if(e!=null) {
                     for (EventPictures pictures : e) {
                         if (pictureTagRepository.findByEventPictures(pictures).size() > 0) {
@@ -1321,9 +1308,6 @@ public class ProductServiceImpl implements ProductService {
                     }
                 }
                 return ev;
-//            }
-//            return ev;
-
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new WawoohException();
@@ -1396,16 +1380,25 @@ public class ProductServiceImpl implements ProductService {
 
             int start = (page == 0) ? 0 : (page * size);
             int end = start + size;
-
-            System.out.println("Total no of pages: "+totalPages);
-            System.out.println("Total no of elements: "+totalElements);
-            System.out.println("start: "+start+", end:"+end);
-
             List<ProductRespDTO> newRespDto = productRespDTOS.subList(start, (end > totalElements) ? totalElements : end);
-            System.out.println("Elements in current page: "+newRespDto.size());
             return newRespDto;
         }
     }
+
+    @Override
+    public ProductAttributeDTO getProductAttributesById(Long id) {
+        try {
+
+           ProductAttribute productAttribute = productAttributeRepository.findOne(id);
+            return generalUtil.convertProductAttributeEntityToDTO(productAttribute);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
 
     public boolean isUrl(String url){
         try {

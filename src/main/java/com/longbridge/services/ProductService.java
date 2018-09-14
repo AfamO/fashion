@@ -104,7 +104,6 @@ public interface ProductService {
     void addStyle(StyleDTO styleDTO);
 
 
-
     List<Style> getStyles(Long subCategoryId);
 
     List<EventPicturesDTO> getUntaggedPictures(PageableDetailsDTO pageableDetailsDTO);
@@ -116,5 +115,7 @@ public interface ProductService {
     List<EventPicturesDTO> getTaggedPicturesByEvents(Long id);
 
     int getTotalProducts(User user);
+
+   ProductAttributeDTO getProductAttributesById(Long id);
 
 }

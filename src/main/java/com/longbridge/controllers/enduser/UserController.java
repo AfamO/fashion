@@ -36,9 +36,6 @@ public class UserController {
     private String tokenHeader;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
     UserUtil userUtil;
 
     @Autowired
@@ -72,13 +69,6 @@ public class UserController {
     }
 
 
-//
-//    @PostMapping(value = "/resendemailverification")
-//    public Object resendEmailVerification(@RequestBody User passedUser){
-//
-//        userUtil.getActivationLink(passedUser);
-//        return new Response("00", "verification email sent successfully", null);
-//    }
 
 
 

@@ -10,8 +10,9 @@ import javax.persistence.*;
 @Entity
 public class Measurement extends CommonFields{
 
-
     private String name;
+
+    private String fitType;
 
     private String neck;
 
@@ -89,6 +90,14 @@ public class Measurement extends CommonFields{
 
     public String getName() {
         return name;
+    }
+
+    public String getFitType() {
+        return fitType;
+    }
+
+    public void setFitType(String fitType) {
+        this.fitType = fitType;
     }
 
     public void setName(String name) {
@@ -332,6 +341,7 @@ public class Measurement extends CommonFields{
     public String toString() {
         return "Measurement{" +
                 "name='" + name + '\'' +
+                "fitType='" + fitType + '\'' +
                 ", neck='" + neck + '\'' +
                 ", armHole='" + armHole + '\'' +
                 ", biceps='" + biceps + '\'' +
@@ -361,8 +371,9 @@ public class Measurement extends CommonFields{
                 '}';
     }
 
-    public Measurement(String name, String neck, String armHole, String biceps, String longSleeve, String shortSleeve, String fullShoulder, String halfShoulder, String elbow, String fullChest, String bust, String overBreast, String underChest, String underBust, String shirtLength, String stomach, String wrist, String fullLength, String trouserWaist, String seat, String outSeam, String inSeam, String crotch, String thigh, String knee, String ankle, String butt, String unit) {
+    public Measurement(String name, String fitType, String neck, String armHole, String biceps, String longSleeve, String shortSleeve, String fullShoulder, String halfShoulder, String elbow, String fullChest, String bust, String overBreast, String underChest, String underBust, String shirtLength, String stomach, String wrist, String fullLength, String trouserWaist, String seat, String outSeam, String inSeam, String crotch, String thigh, String knee, String ankle, String butt, String unit) {
         this.name = name;
+        this.fitType=fitType;
         this.neck = neck;
         this.armHole = armHole;
         this.biceps = biceps;
@@ -394,7 +405,6 @@ public class Measurement extends CommonFields{
 
     public Measurement() {
     }
-
 
 
 }

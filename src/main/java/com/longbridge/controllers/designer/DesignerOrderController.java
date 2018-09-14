@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Longbridge on 28/08/2018.
  */@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/order")
+@RequestMapping("/fashion/order/designer")
 public class DesignerOrderController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class DesignerOrderController {
     private String tokenHeader;
 
 
-    @PostMapping(value = "/designer/updateorderitem")
+    @PostMapping(value = "/updateorderitem")
     public Response updateOrderStatusByDesigner(@RequestBody ItemsDTO item, HttpServletRequest request){
         try{
             String token = request.getHeader(tokenHeader);
@@ -47,18 +47,18 @@ public class DesignerOrderController {
                 return userUtil.tokenNullOrInvalidResponse(token);
             }
 
-            if(item.getMessage() != null){
+//            if(item.getMessage() != null){
                 //Long id = statMessageId.get();
                 orderService.updateOrderItemByDesignerWithMessage(item, userTemp);
                 return new Response("00", "status updated", null);
-            }else{
-
-                if(orderService.updateOrderItemByDesignerr(item, userTemp) != null){
-                    return new Response("10", "confirm", orderService.updateOrderItemByDesignerr(item, userTemp));
-                }else{
-                    return new Response("00", "status updated", null);
-                }
-            }
+//            }else{
+//                return new Response("00", "confirm", orderService.updateOrderItemByDesignerr(item, userTemp));
+////                if(orderService.updateOrderItemByDesignerr(item, userTemp) != null){
+////                    return new Response("10", "confirm", orderService.updateOrderItemByDesignerr(item, userTemp));
+////                }else{
+////                    return new Response("00", "status updated", null);
+////                }
+//            }
         }catch (AppException e){
             e.printStackTrace();
             String recipient = e.getRecipient();
@@ -97,7 +97,7 @@ public class DesignerOrderController {
 
 
 
-    @GetMapping(value = "/designer/getpendingorders")
+    @GetMapping(value = "/getpendingorders")
     public Response getPendingOrders(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -119,12 +119,46 @@ public class DesignerOrderController {
         return new Response("00","Operation Successful",orderService.getOrdersByDesigner(userTemp));
 
     }
-//
-//    @RequestMapping(
-//            value = "/**",
-//            method = RequestMethod.OPTIONS
-//    )
-//    public ResponseEntity handle() {
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
+
+    @GetMapping(value = "/getcompletedorders")
+    public Response getIncompleteOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return new Response("00","Operation Successful",orderService.getCompletedOrders(userTemp));
+
+    }
+
+    @GetMapping(value = "/getcancelledorders")
+    public Response getCancelledOrders(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return new Response("00","Operation Successful",orderService.getCancelledOrders(userTemp));
+
+    }
+
+
+    @GetMapping(value = "/{id}/getorderitemdetails")
+    public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return new Response("00","Operation Successful",orderService.getOrderItemById(id));
+
+    }
+
+    @RequestMapping(
+            value = "/**",
+            method = RequestMethod.OPTIONS
+    )
+    public ResponseEntity handle() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

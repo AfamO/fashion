@@ -2,7 +2,6 @@ package com.longbridge.services.implementations;
 
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.dto.CardPaymentDTO;
-import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.security.repository.UserRepository;
@@ -16,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Longbridge on 31/07/2018.
@@ -26,7 +23,7 @@ import java.util.Map;
 @Service
 public class RavePaymentServiceImpl implements RavePaymentService {
     @Autowired
-    RavePaymentRepository ravePaymentRepository;
+    PaymentRepository ravePaymentRepository;
 
     @Autowired
     OrderRepository orderRepository;
@@ -70,7 +67,8 @@ public class RavePaymentServiceImpl implements RavePaymentService {
          * @throws UnirestException
          */
 
-        RavePayment ravePayment = ravePaymentRepository.findByOrderId(cardPaymentDTO.getOrderId());
+       // RavePayment ravePayment = ravePaymentRepository.findByOrderId(cardPaymentDTO.getOrderId());
+        RavePayment ravePayment=null;
         if(ravePayment == null){
             response.status="79";
             response.message="Unable to complete payment.. Invalid order reference";
@@ -90,7 +88,8 @@ public class RavePaymentServiceImpl implements RavePaymentService {
                 if(w!=null){
                     w.setBalance(w.getBalance()+amount);
                     w.setPendingSettlement(w.getPendingSettlement()+amount);
-                }else {
+                }
+                else {
                     w = new Wallet();
                     w.setBalance(amount);
                     w.setPendingSettlement(amount);

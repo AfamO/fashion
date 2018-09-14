@@ -6,14 +6,13 @@ import com.longbridge.dto.ItemsDTO;
 import com.longbridge.dto.OrderReqDTO;
 import com.longbridge.dto.TransferInfoDTO;
 import com.longbridge.exception.AppException;
-import com.longbridge.models.Cart;
-import com.longbridge.models.MailError;
-import com.longbridge.models.Response;
-import com.longbridge.models.User;
+import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.respbodydto.OrderRespDTO;
 import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.OrderService;
+import com.longbridge.services.PaymentService;
+import com.longbridge.services.ShippingPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,7 @@ public class UserOrderController {
     OrderService orderService;
 
     @Autowired
-    ItemStatusService itemStatusService;
+    ShippingPriceService shippingPriceService;
 
     @Autowired
     UserUtil userUtil;
@@ -42,6 +41,8 @@ public class UserOrderController {
     @Autowired
     MailErrorRepository mailErrorRepository;
 
+    @Autowired
+    PaymentService paymentService;
 
 
     @Value("${jwt.header}")
@@ -55,7 +56,7 @@ public class UserOrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        OrderRespDTO orderRespDTO = new OrderRespDTO();
+        PaymentResponse orderRespDTO = new PaymentResponse();
         try {
             orderRespDTO = orderService.addOrder(orders,userTemp);
             Response response;
@@ -64,6 +65,9 @@ public class UserOrderController {
             }
             else if(orderRespDTO.getStatus().equalsIgnoreCase("noitems")){
                 response = new Response("67","Unable to process order, No items sent","");
+            }
+            else if(orderRespDTO.getStatus().equalsIgnoreCase("16")){
+                response = new Response("99","Unable to process order, No response gotten from payment gateway","");
             }
             else{
                 response = new Response("00", "Operation Successful", orderRespDTO);
@@ -95,6 +99,12 @@ public class UserOrderController {
 
         }
 
+    }
+
+
+    @PostMapping(value = "/verifypayment")
+    public Response verifyPayment(@RequestBody PaymentRequest paymentRequest){
+        return new Response("00","Operation Successful",paymentService.verifyPayment(paymentRequest));
     }
 
 
@@ -225,6 +235,17 @@ public class UserOrderController {
         return new Response("00", "Operation successful", null);
     }
 
+
+    @PostMapping(value = "/getordershippingprice")
+    public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId(), userTemp));
+    }
 
 
     @RequestMapping(
