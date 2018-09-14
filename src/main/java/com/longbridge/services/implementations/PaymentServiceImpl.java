@@ -166,7 +166,13 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentResponse chargeAuthorization(Items items) {
         try {
-            Double amount = items.getAmount()-50;
+            Double amount = 0.0;
+            if(items.getOrders().isPaystackFiftyAlreadyDeducted()){
+                amount = items.getAmount();
+            }else {
+                amount=items.getAmount()-50;
+            }
+
             User user = userRepository.findOne(items.getOrders().getUserId());
             PaymentResponse paymentResponse = new PaymentResponse();
             JSONObject data = new JSONObject();
@@ -239,7 +245,22 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void updateItems(Items items) {
         User user = userRepository.findById(items.getOrders().getUserId());
-        ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
+        Orders orders=items.getOrders();
+        if(!orders.isPaystackFiftyAlreadyDeducted()){
+           orders.isPaystackFiftyAlreadyDeducted();
+           orderRepository.save(orders);
+        }
+
+        ItemStatus itemStatus;
+        if(items.getMeasurement() != null){
+            //means it is bespoke
+             itemStatus= itemStatusRepository.findByStatus("PC");
+        }
+        else {
+            //it is readymade
+            itemStatus = itemStatusRepository.findByStatus("RI");
+        }
+
             items.setItemStatus(itemStatus);
             itemRepository.save(items);
         sendEmailAsync.sendPaymentConfEmailToUser(user, items.getOrders().getOrderNum());
