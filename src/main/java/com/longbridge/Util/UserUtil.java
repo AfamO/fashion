@@ -358,8 +358,10 @@ public class UserUtil {
             if(user!=null){
                 try{
 
-                    if(!user.activationFlag.equalsIgnoreCase("Y")){
-                        return new Response("57","Account not verified",logInResp);
+                    if(user.role.equalsIgnoreCase("designer")){
+                        if(!user.activationFlag.equalsIgnoreCase("Y")){
+                            return new Response("57","Account not verified",logInResp);
+                        }
                     }
 
                    // check if(user.socialFlag) is Y and set valid as true
