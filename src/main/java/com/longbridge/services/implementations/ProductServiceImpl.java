@@ -571,7 +571,9 @@ public class ProductServiceImpl implements ProductService {
             Products products = productRepository.findOne(p.id);
             List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
             List<String> reOccuringPictures = new ArrayList<String>();
-
+            products.acceptCustomSizes = p.acceptCustomSizes;
+            products.inStock = p.inStock;
+            products.numOfDaysToComplete = p.numOfDaysToComplete;
 
             if(productAttributes.size()>0){
 
@@ -608,10 +610,10 @@ public class ProductServiceImpl implements ProductService {
                     productSizesRepository.save(productSizes);
                 }
 
-                for(ProductPictureDTO pp : pa.getProductPictureDTOS()){
+                for(String pp : pa.getPicture()){
 
                         ProductPicture productPicture = new ProductPicture();
-                        c = cloudinaryService.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
+                        c = cloudinaryService.uploadToCloud(pp, generalUtil.getPicsName("prodpic", products.name), "productpictures");
                         System.out.println("i got here no id");
                         productPicture.pictureName = c.getUrl();
                         productPicture.picture = c.getPublicId();

@@ -72,6 +72,12 @@ public class GeneralUtil {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ProductAttributeRepository productAttributeRepository;
+
+    @Autowired
+    ProductSizesRepository productSizesRepository;
+
     public DesignerDTO convertDesigner2EntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
@@ -626,18 +632,19 @@ public class GeneralUtil {
         cartDTO.setColor(cart.getColor());
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setSize(cart.getSize());
-        String availability = productRepository.findOne(cart.getProductId()).availability;
-        if(availability.equalsIgnoreCase("N")){
-            cartDTO.setSizeStockNo(0);//todo pass threshold
-        }else{
-            if(cart.getSize() != null){
-                //cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+        String acceptCustomSizes = productRepository.findOne(cart.getProductId()).acceptCustomSizes;
 
-            }
-            else {
-                cartDTO.setSizeStockNo(0);
-            }
+        if(cart.getProductAttributeId() == null){
+            cartDTO.setSizeStockNo(1);
+        }else{
+           ProductAttribute productAttribute =  productAttributeRepository.findOne(cart.getProductAttributeId());
+           if(productAttribute != null){
+               ProductSizes productSizes = productSizesRepository.findByProductAttributeAndName(productAttribute, cart.getSize());
+               cartDTO.setSize(productSizes.getName());
+               cartDTO.setSizeStockNo(productSizes.getStockNo());
+           }
         }
+
         cartDTO.setMaterialLocation(cart.getMaterialLocation());
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
         cartDTO.setMaterialStatus(cart.getMaterialStatus());

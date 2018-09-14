@@ -86,13 +86,17 @@ public class UserUtil {
             Date date = new Date();
 
             User user = userRepository.findByEmail(passedUser.email);
-            User user1 = userRepository.findByPhoneNo(passedUser.phoneNo);
+
             List<String> errors = new ArrayList<String>();
             if(user != null){
                 errors.add("Email already exists");
             }
-            if(user1 != null){
-                errors.add("Phone number already exist");
+
+            if(passedUser.role.equalsIgnoreCase("designer")){
+                User user1 = userRepository.findByPhoneNo(passedUser.phoneNo);
+                if(user1 != null){
+                    errors.add("Phone number already exist");
+                }
             }
 
             if(errors.size() > 0){
