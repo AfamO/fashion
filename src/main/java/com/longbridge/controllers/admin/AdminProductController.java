@@ -96,7 +96,7 @@ public class AdminProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(!user.role.equalsIgnoreCase("superadmin")){
+        if(!user.role.equalsIgnoreCase("admin")){
             return new Response("99","Operation Failed, Not an admin",responseMap);
         }
         productService.updateProductStatus(id,flag);

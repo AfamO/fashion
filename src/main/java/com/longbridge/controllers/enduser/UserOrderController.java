@@ -224,7 +224,6 @@ public class UserOrderController {
 
     @PostMapping(value = "/savetransferinfo")
     public Response saveOrderTransferInfo(@RequestBody TransferInfoDTO transferInfoDTO, HttpServletRequest request){
-
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
         if(token==null || userTemp==null){
@@ -247,6 +246,17 @@ public class UserOrderController {
         return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId(), userTemp));
     }
 
+
+    @GetMapping(value = "/{orderNum}/getorderbynum")
+    public Response getOrderByOrderNumber(HttpServletRequest request, @PathVariable String orderNum){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        return new Response("00","Operation Successful",orderService.getOrdersByOrderNum(orderNum));
+
+    }
 
     @RequestMapping(
             value = "/**",

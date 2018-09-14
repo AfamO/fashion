@@ -169,8 +169,10 @@ public class PaymentServiceImpl implements PaymentService {
             Double amount = 0.0;
             if(items.getOrders().isPaystackFiftyAlreadyDeducted()){
                 amount = items.getAmount();
+                amount = amount*100;
             }else {
                 amount=items.getAmount()-50;
+                amount = amount*100;
             }
 
             User user = userRepository.findOne(items.getOrders().getUserId());

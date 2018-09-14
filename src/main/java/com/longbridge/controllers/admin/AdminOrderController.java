@@ -48,33 +48,6 @@ public class AdminOrderController {
     private String tokenHeader;
 
 
-    @PostMapping(value = "/updateorderitem")
-    public Response updateOrderStatusByAdmin(@RequestBody ItemsDTO item, HttpServletRequest request){
-        try{
-            String token = request.getHeader(tokenHeader);
-            User userTemp = userUtil.fetchUserDetails2(token);
-            if(token==null || userTemp==null){
-                return userUtil.tokenNullOrInvalidResponse(token);
-            }
-            orderService.updateOrderItemByAdmin(item,userTemp);
-            return new Response("00","Operation Successful","success");
-
-        }catch (AppException e){
-            e.printStackTrace();
-            String recipient = e.getRecipient();
-            String subject = e.getSubject();
-            MailError mailError = new MailError();
-            mailError.setProductName(e.getItemsDTO().getProductName());
-            mailError.setOrderItemStatus(e.getItemsDTO().getDeliveryStatus());
-            mailError.setRecipient(recipient);
-            mailError.setSubject(subject);
-            mailError.setMailType("adminConfirmOrRejectItem");
-            mailErrorRepository.save(mailError);
-            return new Response("00", "Operation Successful, Trying to send email", "success");
-
-        }
-
-    }
 
 
     @PostMapping(value = "/updateorder")
@@ -174,6 +147,8 @@ public class AdminOrderController {
         return new Response("00","Operation Successful",orderService.getOrderItemById(id));
 
     }
+
+
 
 
 

@@ -156,12 +156,13 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
-            for (Items items: orderReq.getItems()) {
 
+            for (Items items: orderReq.getItems()) {
+                if(items.getMeasurementId() == null){
                 ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
                 ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
 
-                if(items.getMeasurementId() == null){
+
                     sizes.setStockNo(sizes.getStockNo() - items.getQuantity());
                     productSizesRepository.save(sizes);
                 }
@@ -342,18 +343,37 @@ public class OrderServiceImpl implements OrderService {
                     throw new InvalidStatusUpdateException();
                 }
             }
+            else if(items.getItemStatus().getStatus().equalsIgnoreCase("WR")){
+
+                if (itemsDTO.getStatus().equalsIgnoreCase("OP")) {
+                    items.setItemStatus(itemStatusRepository.findByStatus("OP"));
+                }
+
+                else {
+                    throw new InvalidStatusUpdateException();
+                }
+            }
 
 
            else if(items.getItemStatus().getStatus().equalsIgnoreCase("P")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("A")){
-                    items.setItemStatus(itemStatus);
+
+                    if(items.getOrders().getPaymentType().equalsIgnoreCase("Bank Transfer")){
+                        items.setItemStatus(itemStatus);
+                        sendEmailAsync.sendTransferEmailToUser(customer, items.getOrders());
+                    }
+                    else if(items.getOrders().getPaymentType().equalsIgnoreCase("Card Payment")){
+                        items.setItemStatus(itemStatus);
+                        PaymentResponse p = paymentService.chargeAuthorization(items);
+                        if(p.getStatus().equalsIgnoreCase("99")){
+                            //unable to charge customer, cancel transaction
+                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                        }
+                    }
+
                     //statusMessage.setHasResponse(false);
                     //items.setStatusMessage(statusMessage);
-                    PaymentResponse p = paymentService.chargeAuthorization(items);
-                    if(p.getStatus().equalsIgnoreCase("99")){
-                        //unable to charge customer, cancel transaction
-                        items.setItemStatus(itemStatusRepository.findByStatus("C"));
-                    }
+
                 }
                 else  if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
                     items.setItemStatus(itemStatusRepository.findByStatus("C"));
@@ -402,16 +422,34 @@ public class OrderServiceImpl implements OrderService {
 
     private void savePictures(Items items, ArrayList<String> pictures) {
         Date date = new Date();
+        List<OrderItemProcessingPicture> orderItemProcessingPictures= orderItemProcessingPictureRepository.findByItems(items);
         for(String p:pictures){
-            OrderItemProcessingPicture picture = new OrderItemProcessingPicture();
-            String  pictureName= generalUtil.getPicsName("itempic", items.getProductName().substring(0,10));
-            CloudinaryResponse c = cloudinaryService.uploadToCloud(p,pictureName,"itemprocessingpictures");
-            picture.setPictureName(c.getUrl());
-            picture.setPicture(c.getPublicId());
-            picture.setItems(items);
-            picture.createdOn = date;
-            picture.setUpdatedOn(date);
-            orderItemProcessingPictureRepository.save(picture);
+            if(orderItemProcessingPictures.size() < 1) {
+                OrderItemProcessingPicture picture = new OrderItemProcessingPicture();
+                String pictureName = generalUtil.getPicsName("itempic", items.getProductName().substring(0, 10));
+                CloudinaryResponse c = cloudinaryService.uploadToCloud(p, pictureName, "itemprocessingpictures");
+                picture.setPictureName(c.getUrl());
+                picture.setPicture(c.getPublicId());
+                picture.setItems(items);
+                picture.createdOn = date;
+                picture.setUpdatedOn(date);
+                orderItemProcessingPictureRepository.save(picture);
+            }else {
+                for (OrderItemProcessingPicture o:orderItemProcessingPictures) {
+                    cloudinaryService.deleteFromCloud(o.getPicture(), o.getPictureName());
+                }
+                orderItemProcessingPictureRepository.delete(orderItemProcessingPictures);
+
+                OrderItemProcessingPicture picture = new OrderItemProcessingPicture();
+                String pictureName = generalUtil.getPicsName("itempic", items.getProductName().substring(0, 10));
+                CloudinaryResponse c = cloudinaryService.uploadToCloud(p, pictureName, "itemprocessingpictures");
+                picture.setPictureName(c.getUrl());
+                picture.setPicture(c.getPublicId());
+                picture.setItems(items);
+                picture.createdOn = date;
+                picture.setUpdatedOn(date);
+                orderItemProcessingPictureRepository.save(picture);
+            }
         }
     }
 
@@ -492,7 +530,7 @@ public class OrderServiceImpl implements OrderService {
                             items.setFailedInspectionReason(itemsDTO.getAction());
                             //todo later, send email to user and designer
                             //sendEmailAsync.sendFailedInspEmailToUser(customer,itemsDTO);
-                            //sendEmailAsync.sendFailedInspToDesigner(itemsDTO);
+                            sendEmailAsync.sendFailedInspToDesigner(itemsDTO);
                         }
                     }
 
@@ -1004,11 +1042,15 @@ public class OrderServiceImpl implements OrderService {
                 ItemStatus itemStatus2 = itemStatusRepository.findByStatus("RS");
                 ItemStatus itemStatus3 = itemStatusRepository.findByStatus("OS");
                 ItemStatus itemStatus4 = itemStatusRepository.findByStatus("CO");
+                ItemStatus itemStatus5 = itemStatusRepository.findByStatus("WC");
+                ItemStatus itemStatus6 = itemStatusRepository.findByStatus("WR");
                 List<ItemStatus> itemStatuses = new ArrayList();
                 itemStatuses.add(itemStatus1);
                 itemStatuses.add(itemStatus2);
                 itemStatuses.add(itemStatus3);
                 itemStatuses.add(itemStatus4);
+                itemStatuses.add(itemStatus5);
+                itemStatuses.add(itemStatus6);
 
             return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusIn(itemStatuses));
 
@@ -1111,7 +1153,6 @@ itemRepository.save(items);
 
     @Override
     public void saveOrderTransferInfo(TransferInfoDTO transferInfoDTO) {
-        System.out.println(transferInfoDTO.getOrderNum());
         if(transferInfoDTO.getOrderNum() != null){
             Orders orders = orderRepository.findByOrderNum(transferInfoDTO.getOrderNum());
             if(orders != null){
@@ -1140,6 +1181,9 @@ itemRepository.save(items);
                     //means admin has updated tp PC. it cant be updated....
                     return;
                 }
+            }
+            else {
+                throw new WawoohException();
             }
 
         }
