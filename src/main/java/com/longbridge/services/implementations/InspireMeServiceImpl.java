@@ -4,9 +4,12 @@ import com.longbridge.dto.InspireMeDTO;
 import com.longbridge.dto.OutfitRequestDTO;
 import com.longbridge.models.Code;
 import com.longbridge.models.InspireMe;
+import com.longbridge.models.InspireMeProduct;
+import com.longbridge.models.ProductAttribute;
 import com.longbridge.repository.CodeRepository;
 import com.longbridge.repository.InspireMeProductRepository;
 import com.longbridge.repository.InspireMeRepository;
+import com.longbridge.repository.ProductAttributeRepository;
 import com.longbridge.services.InspireMeService;
 import org.apache.lucene.util.LongValues;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +29,11 @@ public class InspireMeServiceImpl implements InspireMeService {
     @Autowired
     InspireMeRepository inspireMeRepository;
 
+    /*@Autowired
+    InspireMeProductRepository inspireMeProductRepository;*/
+
     @Autowired
-    InspireMeProductRepository inspireMeProductRepository;
+    ProductAttributeRepository productAttributeRepository;
 
     @Override
     public List<Code> findEventsByGender(String gender) {
@@ -121,8 +127,32 @@ public class InspireMeServiceImpl implements InspireMeService {
         accessories.add(Long.valueOf(2));
         accessories.add(Long.valueOf(3));
 
-        inspireMeDTO.setProducts(inspireMeProductRepository.findByInspireMeAndProductTypeIdIn(inspireMe, clothe));
-        inspireMeDTO.setAccessories(inspireMeProductRepository.findByInspireMeAndProductTypeIdIn(inspireMe, accessories));
+        //List<InspireMeProduct> tempClotheProducts = inspireMeProductRepository.findByInspireMeAndProductTypeIdIn(inspireMe, clothe);
+        //List<InspireMeProduct> tempAccessoriesProducts = inspireMeProductRepository.findByInspireMeAndProductTypeIdIn(inspireMe, accessories);
+
+        //List<InspireMeProduct> clotheProducts = new ArrayList<InspireMeProduct>();
+        //List<InspireMeProduct> accessoriesProducts = new ArrayList<InspireMeProduct>();
+
+        /*for (InspireMeProduct clotheP : tempClotheProducts ){
+            ProductAttribute productAttribute = productAttributeRepository.findOne(clotheP.getProductAttributeId());
+            if(productAttribute != null){
+                productAttribute.getProductSizes();
+                clotheP.setProductAttribute(productAttribute);
+                clotheProducts.add(clotheP);
+            }
+        }
+
+        for (InspireMeProduct accessoryP : tempAccessoriesProducts ){
+            ProductAttribute productAttribute = productAttributeRepository.findOne(accessoryP.getProductAttributeId());
+            if(productAttribute != null){
+                productAttribute.getProductSizes();
+                accessoryP.setProductAttribute(productAttribute);
+                accessoriesProducts.add(accessoryP);
+            }
+        }*/
+
+        //inspireMeDTO.setProducts(clotheProducts);
+        //inspireMeDTO.setAccessories(accessoriesProducts);
 
         return inspireMeDTO;
     }

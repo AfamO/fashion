@@ -17,19 +17,21 @@ public class InspireMeProduct extends CommonFields {
     private Long productId;
     private Long productAttributeId;
     private String picture;
+    private Long designerId;
     private String designerName;
     private Long productTypeId;
 
     public InspireMeProduct() {
     }
 
-    public InspireMeProduct(InspireMe inspireMe, String name, double price, Long productId, Long productAttributeId, String picture, String designerName, Long productTypeId) {
+    public InspireMeProduct(InspireMe inspireMe, String name, double price, Long productId, Long productAttributeId, String picture, Long designerId, String designerName, Long productTypeId) {
         this.inspireMe = inspireMe;
         this.name = name;
         this.price = price;
         this.productId = productId;
         this.productAttributeId = productAttributeId;
         this.picture = picture;
+        this.designerId = designerId;
         this.designerName = designerName;
         this.productTypeId = productTypeId;
     }
@@ -96,5 +98,13 @@ public class InspireMeProduct extends CommonFields {
 
     public void setProductTypeId(Long productTypeId) {
         this.productTypeId = productTypeId;
+    }
+
+    public Long getDesignerId() {
+        return designerId;
+    }
+
+    public void setDesignerId(Long designerId) {
+        this.designerId = designerId;
     }
 }
