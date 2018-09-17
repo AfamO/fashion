@@ -140,45 +140,17 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesigner(User userTemp,User passedUser, Designer designer) {
-        try {
-
-        if(passedUser.designer != null) {
-            User user1 = userRepository.findById(userTemp.id);
-            user1.firstName=passedUser.firstName;
-            user1.lastName=passedUser.lastName;
-            user1.phoneNo=passedUser.phoneNo;
-            userRepository.save(user1);
-            Designer designer1 = designerRepository.findOne(userTemp.designer.id);
-            designer1.storeName=designer.storeName;
-            designer1.address=designer.address;
-            designer1.accountNumber=designer.accountNumber;
-            designer1.threshold=designer.threshold;
-            designerRepository.save(designer1);
-
-            }
-            else {
-            throw new ObjectNotFoundException();
-        }
-
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-    @Override
     public Response updateEmailAddress(User userTemp, UserEmailTokenDTO userEmailTokenDTO, Device device) {
 
         UserEmailTokenDTO userEmailTokenDTO1 = new UserEmailTokenDTO();
-        userEmailTokenDTO1.setEmail(userTemp.email);
+        userEmailTokenDTO1.setEmail(userTemp.getEmail());
         userEmailTokenDTO1.setToken(userEmailTokenDTO.getToken());
 
         if(userEmailTokenDTO.getToken() == null){
 
             User usert = userRepository.findByEmail(userEmailTokenDTO.getEmail());
             if(usert == null){
-                userUtil.sendToken(userTemp.email);
+                userUtil.sendToken(userTemp.getEmail());
                 return new Response("50", "Verify email change", null);
             }else{
                 return new Response("99", "Email already registered to another user", null);
@@ -186,7 +158,7 @@ public class DesignerServiceImpl implements DesignerService{
         }else{
             Response response = tokenService.validateToken(userEmailTokenDTO1, device);
             if(response.status == "00"){
-                userTemp.email = userEmailTokenDTO.getEmail();
+                userTemp.setEmail(userEmailTokenDTO.getEmail());
                 userRepository.save(userTemp);
                 return new Response("00", "Email changed successfullly", null);
             }else{ return new Response("99", "Invalid Token", null); }
@@ -194,12 +166,12 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerPersonalInformation(User userTemp, User user) {
+    public void updateDesignerPersonalInformation(User userTemp, UserDTO user) {
         try {
-            if(userTemp.role.equalsIgnoreCase("designer")){
-                userTemp.firstName = user.firstName;
-                userTemp.lastName = user.lastName;
-                userTemp.gender = user.gender;
+            if(userTemp.getRole().equalsIgnoreCase("designer")){
+                userTemp.setFirstName(user.getFirstName());
+                userTemp.setLastName(user.getLastName());
+                userTemp.setGender(user.getGender());
                 userRepository.save(userTemp);
             }else{
                 throw new WawoohException();
@@ -211,47 +183,44 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerBusinessInformation(User userTemp, User user) {
+    public void updateDesignerBusinessInformation(User userTemp, UserDTO user) {
         try {
-            if(user.designer != null && userTemp.designer != null){
+            if(userTemp.getRole().equalsIgnoreCase("designer")){
                 User currentUser = userTemp;
-                Designer currentDesigner = designerRepository.findOne(userTemp.designer.id);
+                Designer currentDesigner = designerRepository.findByUser(currentUser);
 
-                currentDesigner.address = designer.address;
-                currentDesigner.city = designer.city;
-                currentDesigner.state = designer.state;
-                currentDesigner.country = designer.country;
-                currentDesigner.storeName = designer.storeName;
-                currentDesigner.localGovt = designer.localGovt;
-                currentDesigner.sizeGuideFlag = designer.sizeGuideFlag;
-                currentDesigner.registeredFlag = designer.registeredFlag;
+                currentDesigner.setAddress(user.getDesignerDTO().address);
+                currentDesigner.setCity(user.getDesignerDTO().city);
+                currentDesigner.setState(user.getDesignerDTO().state);
+                currentDesigner.setCountry(user.getDesignerDTO().country);
+                currentDesigner.setStoreName(user.getDesignerDTO().storeName);
+                currentDesigner.setLocalGovt(user.getDesignerDTO().localGovt);
+                currentDesigner.setSizeGuideFlag(user.getDesignerDTO().sizeGuideFlag);
+                currentDesigner.setRegisteredFlag(user.getDesignerDTO().registeredFlag);
 
-                if(designer.sizeGuideFlag.equalsIgnoreCase("Y")){
+                if(currentDesigner.getSizeGuideFlag().equalsIgnoreCase("Y")){
 
-                    if(currentDesigner.sizeGuide == null){
+                    if(currentDesigner.getSizeGuide() == null){
                         SizeGuide currentSizeGuide = new SizeGuide();
                         sizeGuideRepository.save(currentSizeGuide);
-                        currentDesigner.sizeGuide = currentSizeGuide;
+                        currentDesigner.setSizeGuide(currentSizeGuide);
                     }
 
-                    SizeGuide sizeGuide = designer.sizeGuide;
-                    SizeGuide currentSizeGuide = currentDesigner.sizeGuide;
+                    SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
 
-                    System.out.println(designer.sizeGuide);
-
-                    if(sizeGuide.femaleSizeGuide != null){
-                        if(!isUrl(sizeGuide.femaleSizeGuide)){
-                            if(currentSizeGuide.femaleSizeGuide != null){
-                                cloudinaryService.deleteFromCloud(currentSizeGuide.femaleSizeGuidePublicId, currentSizeGuide.femaleSizeGuide);
+                    if(user.getDesignerDTO().femaleSizeGuide != null){
+                        if(!isUrl(user.getDesignerDTO().femaleSizeGuide)){
+                            if(currentSizeGuide.getFemaleSizeGuide() != null){
+                                cloudinaryService.deleteFromCloud(currentSizeGuide.getFemaleSizeGuidePublicId(), currentSizeGuide.getFemaleSizeGuide());
                             }
 
                             try {
-                                String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
-                                String base64Img = sizeGuide.femaleSizeGuide;
+                                String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
+                                String base64Img = user.getDesignerDTO().femaleSizeGuide;
 
                                 CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
-                                currentSizeGuide.femaleSizeGuide = c.getUrl();
-                                currentSizeGuide.femaleSizeGuidePublicId = c.getPublicId();
+                                currentSizeGuide.setFemaleSizeGuide(c.getUrl());
+                                currentSizeGuide.setFemaleSizeGuidePublicId(c.getPublicId());
                             }catch (Exception e){
                                 e.printStackTrace();
                                 throw new WawoohException();
@@ -259,19 +228,19 @@ public class DesignerServiceImpl implements DesignerService{
                         }
                     }
 
-                    if(sizeGuide.maleSizeGuide != null){
-                        if(!isUrl(sizeGuide.maleSizeGuide)){
-                            if(currentSizeGuide.maleSizeGuide != null){
-                                cloudinaryService.deleteFromCloud(currentSizeGuide.maleSizeGuidePublicId, currentSizeGuide.maleSizeGuide);
+                    if(user.getDesignerDTO().maleSizeGuide != null){
+                        if(!isUrl(user.getDesignerDTO().maleSizeGuide)){
+                            if(currentSizeGuide.getMaleSizeGuide() != null){
+                                cloudinaryService.deleteFromCloud(currentSizeGuide.getMaleSizeGuidePublicId(), currentSizeGuide.getMaleSizeGuide());
                             }
 
                             try {
-                                String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
-                                String base64Img = sizeGuide.maleSizeGuide;
+                                String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
+                                String base64Img = user.getDesignerDTO().maleSizeGuide;
 
                                 CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
-                                currentSizeGuide.maleSizeGuide = c.getUrl();
-                                currentSizeGuide.maleSizeGuidePublicId = c.getPublicId();
+                                currentSizeGuide.setMaleSizeGuide(c.getUrl());
+                                currentSizeGuide.setMaleSizeGuidePublicId(c.getPublicId());
                             }catch (Exception e){
                                 e.printStackTrace();
                                 throw new WawoohException();
@@ -279,35 +248,34 @@ public class DesignerServiceImpl implements DesignerService{
                         }
                     }
                 }else{
-                    if(currentDesigner.sizeGuide == null){
+                    if(currentDesigner.getSizeGuide() == null){
                         SizeGuide currentSizeGuide = new SizeGuide();
                         sizeGuideRepository.save(currentSizeGuide);
-                        currentDesigner.sizeGuide = currentSizeGuide;
+                        currentDesigner.setSizeGuide(currentSizeGuide);
                     }
 
-                    SizeGuide sizeGuide = designer.sizeGuide;
-                    SizeGuide currentSizeGuide = currentDesigner.sizeGuide;
+                    SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
 
-                    currentSizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
-                    currentSizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
+                    currentSizeGuide.setMaleSizeGuide(user.getDesignerDTO().maleSizeGuide);
+                    currentSizeGuide.setFemaleSizeGuide(user.getDesignerDTO().femaleSizeGuide);
                 }
 
-                currentDesigner.registeredFlag = designer.registeredFlag;
-                currentDesigner.registrationNumber = designer.registrationNumber;
-                if(!isUrl(designer.registrationDocument)){
-                    if(currentDesigner.registrationDocument != null){
-                        if(currentDesigner.registrationDocument.equalsIgnoreCase("")){
-                            cloudinaryService.deleteFromCloud(currentDesigner.registrationDocumentPublicId, currentDesigner.registrationDocument);
+                currentDesigner.setRegisteredFlag(user.getDesignerDTO().registeredFlag);
+                currentDesigner.setRegistrationNumber(user.getDesignerDTO().registeredFlag);
+                if(!isUrl(user.getDesignerDTO().registrationDocument)){
+                    if(currentDesigner.getRegistrationDocument() != null){
+                        if(currentDesigner.getRegistrationDocument().equalsIgnoreCase("")){
+                            cloudinaryService.deleteFromCloud(currentDesigner.getRegistrationDocumentPublicId(), currentDesigner.getRegistrationDocument());
                         }
                     }
 
                     try {
-                        String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
-                        String base64Img = designer.registrationDocument;
+                        String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
+                        String base64Img = user.getDesignerDTO().registrationDocument;
 
                         CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designerregistrationdocument");
-                        currentDesigner.registrationDocument = c.getUrl();
-                        currentDesigner.registrationDocumentPublicId = c.getPublicId();
+                        currentDesigner.setRegistrationDocument(c.getUrl());
+                        currentDesigner.setRegistrationDocumentPublicId(c.getPublicId());
                     }catch (Exception e){
                         e.printStackTrace();
                         throw new WawoohException();
@@ -325,17 +293,17 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerAccountInformation(User userTemp, User user, Designer designer) {
+    public void updateDesignerAccountInformation(User userTemp, UserDTO user) {
         try {
-            if(user.designer != null && userTemp.designer != null){
-                Designer currentDesigner = designerRepository.findOne(userTemp.designer.id);
+            if(user.getRole().equalsIgnoreCase("designer")){
+                Designer currentDesigner = designerRepository.findByUser(userTemp);
 
-                currentDesigner.accountNumber = designer.accountNumber;
-                currentDesigner.bankName = designer.bankName;
-                currentDesigner.currency = designer.currency;
-                currentDesigner.accountName = designer.accountName;
-                currentDesigner.swiftCode = designer.swiftCode;
-                currentDesigner.countryCode = designer.countryCode;
+                currentDesigner.setAccountNumber(user.getDesignerDTO().accountNumber);
+                currentDesigner.setBankName(user.getDesignerDTO().bankName);
+                currentDesigner.setCurrency(user.getDesignerDTO().currency);
+                currentDesigner.setAccountName(user.getDesignerDTO().accountName);
+                currentDesigner.setSwiftCode(user.getDesignerDTO().swiftCode);
+                currentDesigner.setSwiftCode(user.getDesignerDTO().swiftCode);
 
                 designerRepository.save(currentDesigner);
             }else{
@@ -348,32 +316,32 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerInformation(User userTemp, User user, Designer designer) {
+    public void updateDesignerInformation(User userTemp, UserDTO user) {
 
-        updateDesignerPersonalInformation(userTemp, user, designer);
-        updateDesignerBusinessInformation(userTemp, user, designer);
-        updateDesignerAccountInformation(userTemp, user, designer);
+        updateDesignerPersonalInformation(userTemp, user);
+        updateDesignerBusinessInformation(userTemp, user);
+        updateDesignerAccountInformation(userTemp, user);
     }
 
     @Override
-    public void  updateDesignerLogo(User userTemp, Designer passedDesigner) {
+    public void  updateDesignerLogo(User userTemp, DesignerDTO passedDesigner) {
         try {
-            if(userTemp.designer.id != null) {
+            if(passedDesigner.id != null) {
 
                 if(passedDesigner.logo != null) {
-                    Designer d = designerRepository.findOne(userTemp.designer.id);
-                    if(userTemp.designer.publicId != null) {
-                        cloudinaryService.deleteFromCloud(userTemp.designer.publicId, userTemp.designer.logo);
+                    Designer d = designerRepository.findByUser(userTemp);
+                    if(d.getPublicId() != null) {
+                        cloudinaryService.deleteFromCloud(d.getPublicId(), d.getLogo());
                     }
                     try {
-                        String fileName = userTemp.email.substring(0, 3) + generalUtil.getCurrentTime();
+                        String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
                         String base64Img = passedDesigner.logo;
 //                        byte[] imgBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Img);
 //                        ByteArrayInputStream bs = new ByteArrayInputStream(imgBytes);
 //                        File imgfilee = new File(designerLogoFolder + fileName);
                         CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img,fileName,"designerlogos");
-                        d.logo = c.getUrl();
-                        d.publicId=c.getPublicId();
+                        d.setLogo(c.getUrl());
+                        d.setPublicId(c.getPublicId());
 //                        FileOutputStream f = new FileOutputStream(imgfilee);
 //                        int rd = 0;
 //                        final byte[] byt = new byte[1024];
@@ -405,30 +373,30 @@ public class DesignerServiceImpl implements DesignerService{
             Double average;
             //Long userId = designerRepository.findOne(ratingDTO.designerId).userId;
             //User user = userRepository.findOne(userId);
-            User user = designerRepository.findOne(ratingDTO.designerId).user;
+            User user = designerRepository.findOne(ratingDTO.designerId).getUser();
             Rating rating=ratingRepository.findByUser(user);
             if (rating != null){
-                ratingCount= rating.ratingCount;
+                ratingCount= rating.getRatingCount();
                 ratingCount = ratingCount + ratingDTO.rating;
-                rating.ratingCount = ratingCount;
+                rating.setRatingCount(ratingCount);
 
-                userCount = rating.userCount;
+                userCount = rating.getUserCount();
                 userCount = userCount + 1;
-                rating.userCount = userCount;
+                rating.setUserCount(userCount);
 
                 average = (double)ratingCount/userCount;
-                rating.averageRating = average;
+                rating.setAverageRating(average);
                 ratingRepository.save(rating);
 
             }
             else {
              Rating rating1 = new Rating();
-             rating1.user = user;
-             rating1.userCount = 1;
-             rating1.ratingCount = ratingDTO.rating;
+             rating1.setUser(user);
+             rating1.setUserCount(1);
+             rating1.setRatingCount(ratingDTO.rating);
 
-             average = (double)ratingDTO.rating/rating1.userCount;
-             rating1.averageRating=average;
+             average = (double)ratingDTO.rating/rating1.getUserCount();
+             rating1.setAverageRating(average);
              ratingRepository.save(rating1);
             }
 
@@ -458,9 +426,9 @@ public class DesignerServiceImpl implements DesignerService{
     public void updateDesignerStatus(Long id,String status) {
         try {
             Designer designer = designerRepository.findOne(id);
-            designer.status = status;
-            designer.products.forEach(products -> {
-                products.designerStatus="D";
+            designer.setStatus(status);
+            designer.getProducts().forEach(products -> {
+                products.setDesignerStatus("D");
             });
             designerRepository.save(designer);
 

@@ -16,7 +16,7 @@ public class Designer extends CommonFields {
     @Lob
     private String logo;
 
-    private String privateId;
+    private String publicId;
     private String storeName;
     private String address;
     private String city;
@@ -72,12 +72,12 @@ public class Designer extends CommonFields {
         this.logo = logo;
     }
 
-    public String getPrivateId() {
-        return privateId;
+    public String getPublicId() {
+        return publicId;
     }
 
-    public void setPrivateId(String privateId) {
-        this.privateId = privateId;
+    public void setPublicId(String publicId) {
+        this.publicId = publicId;
     }
 
     public String getStoreName() {

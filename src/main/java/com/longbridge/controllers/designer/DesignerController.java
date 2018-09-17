@@ -110,7 +110,7 @@ public class DesignerController {
     }
 
     @PostMapping(value = "/updatepersonalinformation")
-    public Response updatePersonalInformation(@RequestBody User user, HttpServletRequest request){
+    public Response updatePersonalInformation(@RequestBody UserDTO user, HttpServletRequest request){
 
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -123,7 +123,7 @@ public class DesignerController {
     }
 
     @PostMapping(value = "/updatebusinessinformation")
-    public Response updateBusinessInformation(@RequestBody User user, HttpServletRequest request){
+    public Response updateBusinessInformation(@RequestBody UserDTO user, HttpServletRequest request){
 
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -136,7 +136,7 @@ public class DesignerController {
     }
 
     @PostMapping(value = "/updateaccountinformation")
-    public Response updateAccountInformation(@RequestBody User user, HttpServletRequest request){
+    public Response updateAccountInformation(@RequestBody UserDTO user, HttpServletRequest request){
 
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -144,12 +144,12 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        designerService.updateDesignerAccountInformation(userTemp, user, user.designer);
+        designerService.updateDesignerAccountInformation(userTemp, user);
         return new Response("00", "Profile updated", null);
     }
 
     @PostMapping(value = "/updateinformation")
-    public Response updateInformation(@RequestBody User user, HttpServletRequest request){
+    public Response updateInformation(@RequestBody UserDTO user, HttpServletRequest request){
 
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -157,19 +157,19 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        designerService.updateDesignerInformation(userTemp, user, user.designer);
+        designerService.updateDesignerInformation(userTemp, user);
         return new Response("00", "Profile updated", null);
     }
 
     @PostMapping(value = "/updatedesignerlogo")
-    public Response updateDesignerLogo(@RequestBody User user,HttpServletRequest request){
+    public Response updateDesignerLogo(@RequestBody DesignerDTO designer,HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
 
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        designerService.updateDesignerLogo(userTemp,user.designer);
+        designerService.updateDesignerLogo(userTemp, designer);
         return new Response("00","Operation Successful","success");
 
     }
