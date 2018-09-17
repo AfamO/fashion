@@ -35,6 +35,8 @@ public class Orders extends CommonFields {
 
     private String authorizationCode;
 
+    private boolean paystackFiftyAlreadyDeducted;
+
     public Orders() {
     }
 
@@ -136,6 +138,14 @@ public class Orders extends CommonFields {
 
     public String getAuthorizationCode() {
         return authorizationCode;
+    }
+
+    public boolean isPaystackFiftyAlreadyDeducted() {
+        return paystackFiftyAlreadyDeducted;
+    }
+
+    public void setPaystackFiftyAlreadyDeducted(boolean paystackFiftyAlreadyDeducted) {
+        this.paystackFiftyAlreadyDeducted = paystackFiftyAlreadyDeducted;
     }
 
     public void setAuthorizationCode(String authorizationCode) {

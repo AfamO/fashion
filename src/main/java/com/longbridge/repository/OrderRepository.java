@@ -16,10 +16,15 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
     Orders findByOrderNum(String orderNum);
 
     List<Orders> findByUserId(Long userId);
-
+    
     List<Orders> findByDeliveryStatusNot(String status);
 
     List<Orders> findByDeliveryStatus(String status);
+    List<Orders> findByUserIdOrderByOrderDateDesc(Long userId);
+    List<Orders> findAllByOrderByOrderDateDesc();
+    List<Orders> findAllByOrderByOrderDateAsc();
+    List<Orders> findByDeliveryStatusNotOrderByOrderDateDesc(String status);
+    List<Orders> findByDeliveryStatusOrderByOrderDateDesc(String status);
 
     Long countByDeliveryStatusNot(String status);
 

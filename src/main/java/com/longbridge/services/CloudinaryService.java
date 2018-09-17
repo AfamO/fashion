@@ -21,11 +21,7 @@ public class CloudinaryService {
     public CloudinaryResponse uploadToCloud(String base64Image, String fileName, String folder){
         CloudinaryResponse cloudinaryResponse = new CloudinaryResponse();
         try {
-
             String image = base64Image.split(",")[1];
-
-            System.out.println(image);
-
             byte[] imageByte = javax.xml.bind.DatatypeConverter.parseBase64Binary(image);
             ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
             File imgfile = File.createTempFile(fileName, "tmp");
@@ -36,7 +32,6 @@ public class CloudinaryService {
                     "api_key", "629146977531321",
                     "api_secret", "wW5HlSfyi-2oTlj6NX60lIGWyG0"));
             Map uploadResult = cloudinary.uploader().upload(base64Image, ObjectUtils.asMap("public_id", fileName, "folder", folder));
-
             cloudinaryResponse.setPublicId(uploadResult.get("public_id").toString());
             cloudinaryResponse.setUrl(uploadResult.get("url").toString());
         }catch (UnknownHostException ex){

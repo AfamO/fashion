@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:font-style="http://www.w3.org/1999/xhtml">
+<head></head>
+
+<body>
+    <div style= "width: 85%; margin: 16px auto 0; border: 1px solid rgba(0,0,0,0.2); height: auto;">
+        <div style = "padding: 15px;text-align: center;">
+        <img style = "width: 100px; background-size: contain;" src="http://wawooh.com/img/logo.png" alt="wawooh-logo"/></div>
+        <div style = "padding: 15px; margin: 15px 10px 0;">
+            <h4> Dear <span th:text="${name}"> </span>,</h4>
+            <p style = "line-height: 25px; font-size: 1em; color: #333;">
+               Thank you for your order, you can now proceed to pay
+            </p>
+
+            <p style = "line-height: 25px; font-size: 1em; color: #333;">
+                In making your bank transfer, please indicate Wawooh account number below as the recipient of the funds.
+                Account Number: 0423345725
+                Account Name: Wawooh Integrated Services Ltd.
+                Bank Name: Guarantee Trust Bank
+            </p>
+
+            <p style = "line-height: 25px; font-size: 1em; color: #333;">
+                Important: All payments by bank transfer must be made within 24 hours after order is placed. Orders not paid for within 24 hrs shall be automatically updated as cancelled.
+            </p>
+
+            <p style = "line-height: 25px; font-size: 1em; color: #333;">Thank you for shopping on Wawooh. If you have any questions please contact or call us at 07000-0-WAWOOH
+
+</p>
+
+            <!--<p style = "line-height: 25px; font-size: 1em; color: #333;">-->
+               <!--<b>NOTE:</b> If you have chosen bank transfer as your paymentRequest option, kindly click <a target='_blank' th:href="${link}"><button>Here</button></a>-->
+<!--to update your paymentRequest details once transfer is made-->
+            <!--</p>-->
+        </div>
+        <div style = "color: #fff;margin-top: 10px; background: #cd9933; padding: 7px; text-align: center; font-style: italic;">
+            <span>Powered By Wawooh</span>
+        </div>
+    </div>
+</body>
+
+</html>

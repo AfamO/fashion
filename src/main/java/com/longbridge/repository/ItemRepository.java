@@ -17,6 +17,10 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Items, Long> {
 
     List<Items> findByDesignerId(Long designerId);
+    List<Items> findByDesignerIdAndItemStatusOrderByOrders_OrderDateDesc(Long designerId, ItemStatus status);
+
+    List<Items> findByItemStatusNotOrderByOrders_OrderDateDesc(ItemStatus status);
+    List<Items> findByDesignerIdAndItemStatusNotInOrderByOrders_OrderDateDesc(Long designerId,List<ItemStatus> status);
     //List<Items> findByDesignerIdAndItemStatusNot(Long designerId,ItemStatus itemStatus);
     List<Items> findByDesignerIdAndItemStatus(Long designerId, ItemStatus status);
 
@@ -24,7 +28,7 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 
     List<Items> findByDesignerIdAndItemStatusNotIn(Long designerId,List<ItemStatus> status);
 
-    List<Items> findByItemStatusIn(List<ItemStatus> status);
+    List<Items> findByItemStatusInOrderByOrders_OrderDateDesc(List<ItemStatus> status);
 
     //List<Items> countByDesignerIdAndItemStatus(Long designerId, ItemStatus status);
 
@@ -32,7 +36,7 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
     Long countByMeasurementIdAndItemStatusNot(Long measurementId, String status);
 
 
-    @Query("select i from Items i where designerId = :designerId and itemStatus in :itemStatuses")
+    @Query("select i from Items i where designerId = :designerId and itemStatus in :itemStatuses order by orders.orderDate Desc")
     List<Items> findActiveOrders(@Param("designerId") Long designerId, @Param("itemStatuses") List<ItemStatus> itemStatuses);
 
     @Query("select count(id) from Items i where designerId = :designerId and productId =:productId and itemStatus in :itemStatuses")
