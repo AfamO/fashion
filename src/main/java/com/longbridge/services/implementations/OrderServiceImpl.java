@@ -885,7 +885,7 @@ public class OrderServiceImpl implements OrderService {
             itemStatuses.add(itemStatus1);
             itemStatuses.add(itemStatus2);
             System.out.println(itemStatuses);
-            return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNotIn(user.designer.id,itemStatuses));
+            return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNotInOrderByOrders_OrderDateDesc(user.designer.id,itemStatuses));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -939,7 +939,7 @@ public class OrderServiceImpl implements OrderService {
 
             if(user.designer !=null) {
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
-                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
+                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusOrderByOrders_OrderDateDesc(user.designer.id,itemStatus));
 
             }else {
                 throw new WawoohException();
@@ -984,7 +984,7 @@ public class OrderServiceImpl implements OrderService {
             if(user.designer !=null) {
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("RS");
 
-                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
+                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusOrderByOrders_OrderDateDesc(user.designer.id,itemStatus));
 
 
             }else {
@@ -1002,7 +1002,7 @@ public class OrderServiceImpl implements OrderService {
         try {
 
             ItemStatus itemStatus = itemStatusRepository.findByStatus("NV");
-            return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusNot(itemStatus));
+            return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusNotOrderByOrders_OrderDateDesc(itemStatus));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -1014,7 +1014,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getAllOrdersByAdmin2(User user) {
         try {
 
-            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByDeliveryStatusNot("NV"));
+            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByDeliveryStatusNotOrderByOrderDateDesc("NV"));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -1026,7 +1026,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getIncompleteOrders(User user) {
         try {
 
-            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByDeliveryStatus("NV"));
+            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByDeliveryStatusOrderByOrderDateDesc("NV"));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -1052,7 +1052,7 @@ public class OrderServiceImpl implements OrderService {
                 itemStatuses.add(itemStatus5);
                 itemStatuses.add(itemStatus6);
 
-            return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusIn(itemStatuses));
+            return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusInOrderByOrders_OrderDateDesc(itemStatuses));
 
         }catch (Exception ex){
             ex.printStackTrace();
