@@ -59,6 +59,8 @@ public interface ProductService {
 
     List<ProductRespDTO> getProductsByDesigner(User user);
 
+    List<ProductRespDTO> getProductsByDesignerId(Long designerId);
+
     List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO);
 
     List<ProductRespDTO> getVerifiedProducts(PageableDetailsDTO pageableDetailsDTO);

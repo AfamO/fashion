@@ -867,6 +867,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductRespDTO> getProductsByDesignerId(Long designerId) {
+
+        try {
+            List<Products> products = productRepository.findByDesigner(designerRepository.findOne(designerId));
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
+            return productDTOS;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO) {
 
         int page = pageableDetailsDTO.getPage();

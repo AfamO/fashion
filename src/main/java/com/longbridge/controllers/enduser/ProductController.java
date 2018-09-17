@@ -83,7 +83,7 @@ public class ProductController {
     public Object getProductsByDesignerId(@PathVariable Long designerId){
 
 
-        List<ProductRespDTO> products= productService.getProductsByDesigner(designerId);
+        List<ProductRespDTO> products= productService.getProductsByDesignerId(designerId);
         return new Response("00","Operation Successful",products);
     }
 
