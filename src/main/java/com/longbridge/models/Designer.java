@@ -12,45 +12,45 @@ import java.util.List;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Designer extends CommonFields {
-//    public Long userId;
+//    private Long userId;
     @Lob
-    public String logo;
+    private String logo;
 
-    public String publicId;
-    public String storeName;
-    public String address;
-    public String city;
-    public String state;
-    public String country;
-    public String localGovt;
-    public String status="A";
+    private String privateId;
+    private String storeName;
+    private String address;
+    private String city;
+    private String state;
+    private String country;
+    private String localGovt;
+    private String status="A";
 
-    public String accountNumber;
-    public String bankName;
-    public String accountName;
-    public String swiftCode;
-    public String countryCode;
-    public String currency;
+    private String accountNumber;
+    private String bankName;
+    private String accountName;
+    private String swiftCode;
+    private String countryCode;
+    private String currency;
 
-    public String sizeGuideFlag;
+    private String sizeGuideFlag;
 
-    public String registeredFlag;
-    public String registrationNumber;
-    public String registrationDocument;
-    public String registrationDocumentPublicId;
+    private String registeredFlag;
+    private String registrationNumber;
+    private String registrationDocument;
+    private String registrationDocumentPublicId;
 
-    public int threshold;
-    public double registrationProgress = 10;
+    private int threshold;
+    private double registrationProgress = 10;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    public User user;
+    private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
-    public SizeGuide sizeGuide;
+    private SizeGuide sizeGuide;
 
     @OneToMany(mappedBy = "designer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    public List<Products> products;
+    private List<Products> products;
 
     public Designer() {
     }

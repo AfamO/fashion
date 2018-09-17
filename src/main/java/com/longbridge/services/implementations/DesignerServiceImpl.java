@@ -194,9 +194,9 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerPersonalInformation(User userTemp, User user, Designer designer) {
+    public void updateDesignerPersonalInformation(User userTemp, User user) {
         try {
-            if(userTemp.designer != null){
+            if(userTemp.role.equalsIgnoreCase("designer")){
                 userTemp.firstName = user.firstName;
                 userTemp.lastName = user.lastName;
                 userTemp.gender = user.gender;
@@ -211,7 +211,7 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerBusinessInformation(User userTemp, User user, Designer designer) {
+    public void updateDesignerBusinessInformation(User userTemp, User user) {
         try {
             if(user.designer != null && userTemp.designer != null){
                 User currentUser = userTemp;

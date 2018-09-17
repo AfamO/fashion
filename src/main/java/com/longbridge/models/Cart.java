@@ -11,7 +11,7 @@ import java.util.Date;
 public class Cart extends CommonFields {
     @JsonIgnore
     @OneToOne
-    public User user;
+    private User user;
 
     private Long productId;
 

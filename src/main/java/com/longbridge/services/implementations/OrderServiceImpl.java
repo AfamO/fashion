@@ -564,9 +564,9 @@ public class OrderServiceImpl implements OrderService {
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("OS")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("D")){
                     items.setItemStatus(itemStatus);
-//update wallet balance by removing item amount  from user wallet since item has been delivered
+                    //update wallet balance by removing item amount  from user wallet since item has been delivered
                     updateWalletForOrderDelivery(items, customer);
-//end updating wallet balance
+                    //end updating wallet balance
                     String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
                     String link = messageSource.getMessage("order.complain",null, locale);
                     link = link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();

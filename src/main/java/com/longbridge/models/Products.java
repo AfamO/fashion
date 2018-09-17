@@ -17,29 +17,29 @@ import java.util.List;
 @Entity
 public class Products extends CommonFields implements Serializable {
     @Field
-    public String name;
+    private String name;
 
-    public double amount;
+    private double amount;
 
 
 
     @IndexedEmbedded(depth = 1)
     @OneToOne
-    public SubCategory subCategory;
+    private SubCategory subCategory;
 
     @JsonIgnore
     @ManyToOne
-    public Designer designer;
+    private Designer designer;
 
 
-    public String designerStatus="A";
+    private String designerStatus="A";
 
 
     @Lob
-    public String prodDesc;
+    private String prodDesc;
 
 
-    public String prodSummary;
+    private String prodSummary;
 
 
    // public ArrayList<String> color;

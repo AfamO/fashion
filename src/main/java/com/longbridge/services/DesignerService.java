@@ -19,9 +19,9 @@ public interface DesignerService {
 
     Response updateEmailAddress(User userTemp, UserEmailTokenDTO userEmailTokenDTO, Device device);
 
-    void updateDesignerPersonalInformation(User userTemp, User user, Designer designer);
+    void updateDesignerPersonalInformation(User userTemp, User user);
 
-    void updateDesignerBusinessInformation(User userTemp, User user, Designer designer);
+    void updateDesignerBusinessInformation(User userTemp, User user);
 
     void updateDesignerAccountInformation(User userTemp, User user, Designer designer);
 

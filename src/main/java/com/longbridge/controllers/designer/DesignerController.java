@@ -95,18 +95,7 @@ public class DesignerController {
 //    }
 
 
-    @PostMapping(value = "/updatedesigner")
-    public Response updateDesigner(@RequestBody User passedUser,HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        Designer designer = passedUser.designer;
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        designerService.updateDesigner(userTemp,passedUser,designer);
-        return new Response("00","Operation Successful","success");
 
-    }
 
     @PostMapping(value = "/updateemailaddress")
     public Response updateEmailAddress(@RequestBody UserEmailTokenDTO userEmailTokenDTO, HttpServletRequest request, Device device){
@@ -129,7 +118,7 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        designerService.updateDesignerPersonalInformation(userTemp, user, user.designer);
+        designerService.updateDesignerPersonalInformation(userTemp, user);
         return new Response("00", "Profile updated", null);
     }
 
@@ -142,7 +131,7 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        designerService.updateDesignerBusinessInformation(userTemp, user, user.designer);
+        designerService.updateDesignerBusinessInformation(userTemp, user);
         return new Response("00", "Profile updated", null);
     }
 

@@ -11,31 +11,29 @@ import java.util.List;
  */
 @Entity
 public class User extends CommonFields{
-    public String firstName;
-    public String lastName;
+    private String firstName;
+    private String lastName;
 
-    public String email;
-    public String emailVerificationFlag = "N";
+    private String email;
+    private String emailVerificationFlag = "N";
 
-    public String gender;
+    private String gender;
     @Lob
-    public String password;
-    public String phoneNo;
-    public String role;
+    private String password;
+    private String phoneNo;
+    private String role;
 
-    public String dateOfBirth;
+    private String dateOfBirth;
 
-    public String socialFlag;
+    private String socialFlag;
 
-//    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    public Designer designer;
 
-    public String linkClicked = "N";
 
-    public String activationFlag = "N";
+    private String linkClicked = "N";
 
-    public Date activationDate;
+    private String activationFlag = "N";
+
+    private Date activationDate;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     public Wallet wallet;
@@ -66,7 +64,7 @@ public class User extends CommonFields{
     public String passed_token;
     @Transient
     public String refreshed_token;
-    public User(String firstName, String lastName, String email,String gender, String password, String phoneNo, String role, Designer designer,
+    public User(String firstName, String lastName, String email,String gender, String password, String phoneNo, String role,
                 List<Address> addresses, List<Orders> orders, List<Cart> carts,
                 List<WishList> wishLists, Rating rating) {
         this.firstName = firstName;
@@ -76,7 +74,7 @@ public class User extends CommonFields{
         this.password = password;
         this.phoneNo = phoneNo;
         this.role = role;
-        this.designer = designer;
+
         this.addresses = addresses;
         //this.orders = orders;
         this.carts = carts;
@@ -100,7 +98,7 @@ public class User extends CommonFields{
                 ", password='" + password + '\'' +
                 ", phoneNo='" + phoneNo + '\'' +
                 ", role='" + role + '\'' +
-                ", designer=" + designer +
+
                 ", addresses=" + addresses +
                 //", orders=" + orders +
                 ", carts=" + carts +

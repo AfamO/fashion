@@ -9,8 +9,8 @@ import javax.persistence.OneToOne;
 @Entity
 public class Rating extends CommonFields {
     @OneToOne
-    public User user;
-    public int userCount;
-    public int ratingCount;
-    public double averageRating;
+    private User user;
+    private int userCount;
+    private int ratingCount;
+    private double averageRating;
 }
