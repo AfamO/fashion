@@ -474,7 +474,7 @@ public class DesignerServiceImpl implements DesignerService{
     @Override
     public DesignerDTO getDesigner(User user) {
         try {
-            Designer designer = user.designer;
+            Designer designer = designerRepository.findByUser(user);
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             return dto;
 
@@ -487,7 +487,7 @@ public class DesignerServiceImpl implements DesignerService{
     @Override
     public DesignerDTO getDesigner(User user, MonthsDTO months) {
         try {
-            Designer designer = user.designer;
+            Designer designer = designerRepository.findByUser(user);
             List<SalesChart> salesCharts = new ArrayList<>();
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             for (String month:months.getMonths()) {
