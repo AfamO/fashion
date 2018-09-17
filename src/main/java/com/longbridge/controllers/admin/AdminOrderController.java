@@ -91,6 +91,18 @@ public class AdminOrderController {
 
     }
 
+    @PostMapping(value = "/updatetrackingnumber")
+    public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        orderService.updateTrackingNumber(itemsDTO);
+        return new Response("00", "Operation successful", null);
+    }
+
 
     @GetMapping(value = "/{id}/getorder")
     public Response getOrderById(HttpServletRequest request, @PathVariable Long id){
