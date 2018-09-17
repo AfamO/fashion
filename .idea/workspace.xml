@@ -85,6 +85,15 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Products.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Products.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="15" column="8" lean-forward="true" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DesignerController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerController.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -103,15 +112,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QAOrderController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/qa/QAOrderController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="64" column="31" selection-start-line="64" selection-start-column="31" selection-end-line="64" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="DesignerService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/DesignerService.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -124,8 +124,8 @@
       <file leaf-file-name="DesignerServiceImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="384" column="45" selection-start-line="384" selection-start-column="45" selection-end-line="384" selection-end-column="45" />
+            <state relative-caret-position="-1091">
+              <caret line="432" column="45" lean-forward="true" selection-start-line="432" selection-start-column="45" selection-end-line="432" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -160,8 +160,8 @@
       <file leaf-file-name="Designer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Designer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="64" column="5" lean-forward="true" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
+            <state relative-caret-position="337">
+              <caret line="258" column="20" selection-start-line="258" selection-start-column="20" selection-end-line="258" selection-end-column="20" />
               <folding>
                 <element signature="e#1774#1775#0" expanded="true" />
                 <element signature="e#1801#1802#0" expanded="true" />
@@ -797,12 +797,12 @@
       <workItem from="1536924130396" duration="8570000" />
       <workItem from="1536940570825" duration="6769000" />
       <workItem from="1536947820135" duration="23006000" />
-      <workItem from="1537202498399" duration="4207000" />
+      <workItem from="1537202498399" duration="4512000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="574163000" />
+    <option name="totallyTimeSpent" value="574468000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -815,7 +815,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5063694" side_tool="true" weight="0.41880342" />
@@ -836,7 +835,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3294893" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4936306" weight="0.04786325" />
       <window_info anchor="bottom" id="Spring" order="10" weight="0.32820514" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49442676" weight="0.28410915" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49442676" visible="true" weight="0.28410915" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47833332" weight="0.2987897" />
       <window_info anchor="right" id="Bean Validation" order="8" />
       <window_info id="Web" order="8" sideWeight="0.5159705" side_tool="true" weight="0.29833838" />
@@ -1035,13 +1034,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Products.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="41" column="11" selection-start-line="41" selection-start-column="11" selection-end-line="41" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -1347,13 +1339,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="171" column="29" lean-forward="true" selection-start-line="171" selection-start-column="29" selection-end-line="171" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/DesignerService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="191">
@@ -1361,10 +1346,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Rating.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="48" column="21" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="21" />
+          <folding>
+            <element signature="e#352#353#0" expanded="true" />
+            <element signature="e#379#380#0" expanded="true" />
+            <element signature="e#417#418#0" expanded="true" />
+            <element signature="e#449#450#0" expanded="true" />
+            <element signature="e#482#483#0" expanded="true" />
+            <element signature="e#514#515#0" expanded="true" />
+            <element signature="e#561#562#0" expanded="true" />
+            <element signature="e#603#604#0" expanded="true" />
+            <element signature="e#638#639#0" expanded="true" />
+            <element signature="e#672#673#0" expanded="true" />
+            <element signature="e#723#724#0" expanded="true" />
+            <element signature="e#769#770#0" expanded="true" />
+            <element signature="e#809#810#0" expanded="true" />
+            <element signature="e#845#846#0" expanded="true" />
+            <element signature="e#903#904#0" expanded="true" />
+            <element signature="e#953#954#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Designer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="64" column="5" lean-forward="true" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
+        <state relative-caret-position="337">
+          <caret line="258" column="20" selection-start-line="258" selection-start-column="20" selection-end-line="258" selection-end-column="20" />
           <folding>
             <element signature="e#1774#1775#0" expanded="true" />
             <element signature="e#1801#1802#0" expanded="true" />
@@ -1464,35 +1474,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Rating.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Products.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="48" column="21" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="21" />
-          <folding>
-            <element signature="e#352#353#0" expanded="true" />
-            <element signature="e#379#380#0" expanded="true" />
-            <element signature="e#417#418#0" expanded="true" />
-            <element signature="e#449#450#0" expanded="true" />
-            <element signature="e#482#483#0" expanded="true" />
-            <element signature="e#514#515#0" expanded="true" />
-            <element signature="e#561#562#0" expanded="true" />
-            <element signature="e#603#604#0" expanded="true" />
-            <element signature="e#638#639#0" expanded="true" />
-            <element signature="e#672#673#0" expanded="true" />
-            <element signature="e#723#724#0" expanded="true" />
-            <element signature="e#769#770#0" expanded="true" />
-            <element signature="e#809#810#0" expanded="true" />
-            <element signature="e#845#846#0" expanded="true" />
-            <element signature="e#903#904#0" expanded="true" />
-            <element signature="e#953#954#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="119">
+          <caret line="15" column="8" lean-forward="true" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="171" column="29" lean-forward="true" selection-start-line="171" selection-start-column="29" selection-end-line="171" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="384" column="45" selection-start-line="384" selection-start-column="45" selection-end-line="384" selection-end-column="45" />
+        <state relative-caret-position="-1091">
+          <caret line="432" column="45" lean-forward="true" selection-start-line="432" selection-start-column="45" selection-end-line="432" selection-end-column="45" />
         </state>
       </provider>
     </entry>
