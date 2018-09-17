@@ -39,6 +39,9 @@ public class User extends CommonFields{
     public Wallet wallet;
 
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Designer designer;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     public List<Address> addresses;
@@ -281,5 +284,13 @@ public class User extends CommonFields{
 
     public void setRefreshed_token(String refreshed_token) {
         this.refreshed_token = refreshed_token;
+    }
+
+    public Designer getDesigner() {
+        return designer;
+    }
+
+    public void setDesigner(Designer designer) {
+        this.designer = designer;
     }
 }
