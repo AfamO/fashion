@@ -97,7 +97,7 @@ public class UserController {
     @PostMapping(value = "/createadmin")
     public Object createAdmin(@RequestBody User passedUser){
         try {
-            if (passedUser.role.equalsIgnoreCase("admin")){
+            if (passedUser.getRole().equalsIgnoreCase("admin")){
                 //todo later
             }
             else {
@@ -235,7 +235,7 @@ public class UserController {
     @PostMapping(value = "/resendtoken")
     public Object validateToken(@RequestBody User user){
         try {
-            userUtil.sendToken(user.email);
+            userUtil.sendToken(user.getEmail());
             return new Response("00", "Operation Successful", "success");
 
         }catch (Exception e){
@@ -249,9 +249,9 @@ public class UserController {
     @PostMapping(value = "/forgotemail")
     public Object forgotEmail(@RequestBody User user){
 
-        if(user.phoneNo != null){
-            userUtil.forgotEmail(user.phoneNo);
-            return new Response("00", "Email address has been sent to "+user.phoneNo, null);
+        if(user.getPhoneNo() != null){
+            userUtil.forgotEmail(user.getPhoneNo());
+            return new Response("00", "Email address has been sent to "+user.getPhoneNo(), null);
         }else{
             return new Response("99", "No phone number found", null);
         }
