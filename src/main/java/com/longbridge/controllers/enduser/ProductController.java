@@ -81,9 +81,9 @@ public class ProductController {
 
     @GetMapping(value = "/{designerId}/getdesignerproducts")
     public Object getProductsByDesignerId(@PathVariable Long designerId){
+        Designer designer = designerService.getDesignrById(designerId);
 
-
-        List<ProductRespDTO> products= productService.getProductsByDesigner(designerId);
+        List<ProductRespDTO> products= productService.getProductsByDesigner(designer.getUser());
         return new Response("00","Operation Successful",products);
     }
 
