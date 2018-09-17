@@ -33,6 +33,9 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
 
     @Query("SELECT Count(id) FROM Orders WHERE (id IN (SELECT orders FROM Items WHERE productId = :productId)) AND userId = :userId")
     Long noOfTimesOrdered(@Param("productId") Long productId, @Param("userId") Long userId);
+    
+    @Query("SELECT Count(id) FROM Orders WHERE deliveryStatus =:status")
+    Long NoOfOrdersByStatus(@Param("status") String status);
 
 
 }

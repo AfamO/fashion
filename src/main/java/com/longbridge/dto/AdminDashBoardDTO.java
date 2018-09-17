@@ -14,6 +14,24 @@ public class AdminDashBoardDTO {
     List<DesignerDTO> recentCustomers;
     private Long totalProducts;
     private List<OrderDTO> recentOrders;
+    private Long newOrders;
+
+    public Long getNewOrders() {
+        return newOrders;
+    }
+
+    public void setNewOrders(Long newOrders) {
+        this.newOrders = newOrders;
+    }
+
+    public Long getTotalSales() {
+        return totalSales;
+    }
+
+    public void setTotalSales(Long totalSales) {
+        this.totalSales = totalSales;
+    }
+    private Long totalSales;
 
     public AdminDashBoardDTO(double totalPayment, Long totalOrders, List<DesignerDTO> recentCustomers, Long totalProducts, List<OrderDTO> recentOrders) {
         this.totalPayment = totalPayment;

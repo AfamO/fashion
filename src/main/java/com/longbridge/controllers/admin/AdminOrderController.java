@@ -163,7 +163,16 @@ public class AdminOrderController {
 
     }
 
+    @GetMapping(value = "/getStats")
+    public Response getAllDashboardStatistics(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token) ;
+        }
+        return new Response("00","Operation Successful",orderService.getDashBoardStatistics());
 
+    }
     @GetMapping(value = "/getorders")
     public Response getAllOrders(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

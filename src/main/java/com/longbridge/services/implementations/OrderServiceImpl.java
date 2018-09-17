@@ -11,6 +11,7 @@ import com.longbridge.exception.InvalidStatusUpdateException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
+import com.longbridge.respbodydto.DashBoardStatisticsDTO;
 import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.security.repository.UserRepository;
@@ -497,7 +498,8 @@ public class OrderServiceImpl implements OrderService {
             Context context = new Context();
             context.setVariable("name", customerName);
             context.setVariable("productName",items.getProductName());
-
+            context.setVariable("passedproductPicture", items.getProductPicture());
+            
             try {
                 ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
                 if(items.getItemStatus().getStatus().equalsIgnoreCase("CO")) {
@@ -524,6 +526,7 @@ public class OrderServiceImpl implements OrderService {
                             items.setFailedInspectionReason(null);
                         }
                         items.setItemStatus(itemStatusRepository.findByStatus("RS"));
+                        // Send picture as email to the customer that his order has passed physical inspection.
                     }
                     else if(itemsDTO.getStatus().equalsIgnoreCase("FI")){
                             items.setItemStatus(itemStatusRepository.findByStatus("WR"));
@@ -1021,7 +1024,22 @@ public class OrderServiceImpl implements OrderService {
             throw new WawoohException();
         }
     }
+    
+    @Override
+    public DashBoardStatisticsDTO getDashBoardStatistics() {
+         DashBoardStatisticsDTO dashBoardStatisticsDTO = new DashBoardStatisticsDTO();
+        try {
+            
+             dashBoardStatisticsDTO.setNewOrders(orderRepository.NoOfOrdersByStatus("P")); //get the number of pending orders as new  new orders
+             dashBoardStatisticsDTO.setTotalSales(orderRepository.NoOfOrdersByStatus("D"));// get the total  number of sold orders
+             dashBoardStatisticsDTO.setTotalPayement(0L);//  get the total payment of all orders sold . This is yet to be implemented. It is defaulted to zero for now.
 
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+        return dashBoardStatisticsDTO;
+    }
     @Override
     public List<OrderDTO> getIncompleteOrders(User user) {
         try {
