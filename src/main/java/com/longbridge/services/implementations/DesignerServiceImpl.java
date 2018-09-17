@@ -1,6 +1,7 @@
 package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
 import com.longbridge.exception.ObjectNotFoundException;
 import com.longbridge.exception.WawoohException;
@@ -10,7 +11,9 @@ import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.DesignerService;
+import com.longbridge.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
@@ -48,6 +51,8 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private UserUtil userUtil;
 
     @Autowired
     public DesignerServiceImpl(GeneralUtil generalUtil) {
@@ -57,6 +62,9 @@ public class DesignerServiceImpl implements DesignerService{
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    TokenService tokenService;
 
 
     @Override
@@ -132,40 +140,38 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesigner(User userTemp,User passedUser, Designer designer) {
-        try {
+    public Response updateEmailAddress(User userTemp, UserEmailTokenDTO userEmailTokenDTO, Device device) {
 
-        if(passedUser.designer != null) {
-            User user1 = userRepository.findById(userTemp.id);
-            user1.firstName=passedUser.firstName;
-            user1.lastName=passedUser.lastName;
-            user1.phoneNo=passedUser.phoneNo;
-            userRepository.save(user1);
-            Designer designer1 = designerRepository.findOne(userTemp.designer.id);
-            designer1.storeName=designer.storeName;
-            designer1.address=designer.address;
-            designer1.accountNumber=designer.accountNumber;
-            designer1.threshold=designer.threshold;
-            designerRepository.save(designer1);
+        UserEmailTokenDTO userEmailTokenDTO1 = new UserEmailTokenDTO();
+        userEmailTokenDTO1.setEmail(userTemp.getEmail());
+        userEmailTokenDTO1.setToken(userEmailTokenDTO.getToken());
 
+        if(userEmailTokenDTO.getToken() == null){
+
+            User usert = userRepository.findByEmail(userEmailTokenDTO.getEmail());
+            if(usert == null){
+                userUtil.sendToken(userTemp.getEmail());
+                return new Response("50", "Verify email change", null);
+            }else{
+                return new Response("99", "Email already registered to another user", null);
             }
-            else {
-            throw new ObjectNotFoundException();
-        }
-
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new WawoohException();
+        }else{
+            Response response = tokenService.validateToken(userEmailTokenDTO1, device);
+            if(response.status == "00"){
+                userTemp.setEmail(userEmailTokenDTO.getEmail());
+                userRepository.save(userTemp);
+                return new Response("00", "Email changed successfullly", null);
+            }else{ return new Response("99", "Invalid Token", null); }
         }
     }
 
     @Override
-    public void updateDesignerPersonalInformation(User userTemp, User user, Designer designer) {
+    public void updateDesignerPersonalInformation(User userTemp, User user) {
         try {
-            if(userTemp.designer != null){
-                userTemp.firstName = user.firstName;
-                userTemp.lastName = user.lastName;
-                userTemp.gender = user.gender;
+            if(userTemp.getRole().equalsIgnoreCase("designer")){
+                userTemp.setFirstName(user.getFirstName());
+                userTemp.setLastName(user.getLastName());
+                userTemp.setGender(user.getGender());
                 userRepository.save(userTemp);
             }else{
                 throw new WawoohException();
@@ -177,9 +183,9 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerBusinessInformation(User userTemp, User user, Designer designer) {
+    public void updateDesignerBusinessInformation(User userTemp, User user) {
         try {
-            if(user.designer != null && userTemp.designer != null){
+            if(userTemp.getRole().equalsIgnoreCase("designer")){
                 User currentUser = userTemp;
                 Designer currentDesigner = designerRepository.findOne(userTemp.designer.id);
 

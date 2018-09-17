@@ -10,13 +10,13 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class MaterialPicture extends CommonFields{
-    public Long id;
-    public String pictureName;
-    public String picture;
-    public String materialName;
+    private Long id;
+    private String pictureName;
+    private String picture;
+    private String materialName;
     @JsonIgnore
     @ManyToOne
-    public Products products;
+    private Products products;
 
 
 

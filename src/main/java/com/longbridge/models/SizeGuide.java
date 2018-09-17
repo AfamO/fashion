@@ -11,13 +11,13 @@ import javax.persistence.OneToOne;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class SizeGuide extends CommonFields {
 
-    public String maleSizeGuide;
-    public String maleSizeGuidePublicId;
+    private String maleSizeGuide;
+    private String maleSizeGuidePublicId;
 
-    public String femaleSizeGuide;
-    public String femaleSizeGuidePublicId;
+    private String femaleSizeGuide;
+    private String femaleSizeGuidePublicId;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    public Designer designer;
+    private Designer designer;
 }

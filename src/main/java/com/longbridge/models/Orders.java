@@ -33,6 +33,10 @@ public class Orders extends CommonFields {
 
     private boolean anonymousBuyer;
 
+    private String authorizationCode;
+
+    private boolean paystackFiftyAlreadyDeducted;
+
     public Orders() {
     }
 
@@ -130,6 +134,22 @@ public class Orders extends CommonFields {
 
     public void setAnonymousBuyer(boolean anonymousBuyer) {
         this.anonymousBuyer = anonymousBuyer;
+    }
+
+    public String getAuthorizationCode() {
+        return authorizationCode;
+    }
+
+    public boolean isPaystackFiftyAlreadyDeducted() {
+        return paystackFiftyAlreadyDeducted;
+    }
+
+    public void setPaystackFiftyAlreadyDeducted(boolean paystackFiftyAlreadyDeducted) {
+        this.paystackFiftyAlreadyDeducted = paystackFiftyAlreadyDeducted;
+    }
+
+    public void setAuthorizationCode(String authorizationCode) {
+        this.authorizationCode = authorizationCode;
     }
 
     public Orders(String orderNum, List<Items> items, Double totalAmount, String paymentType, Long userId, String deliveryStatus, Address deliveryAddress, Date orderDate, Date deliveredDate) {

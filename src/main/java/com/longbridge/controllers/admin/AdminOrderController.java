@@ -42,40 +42,12 @@ public class AdminOrderController {
     @Autowired
     MailErrorRepository mailErrorRepository;
 
-    @Autowired
-    ShippingPriceService shippingPriceService;
+
 
     @Value("${jwt.header}")
     private String tokenHeader;
 
 
-    @PostMapping(value = "/updateorderitem")
-    public Response updateOrderStatusByAdmin(@RequestBody ItemsDTO item, HttpServletRequest request){
-        try{
-            String token = request.getHeader(tokenHeader);
-            User userTemp = userUtil.fetchUserDetails2(token);
-            if(token==null || userTemp==null){
-                return userUtil.tokenNullOrInvalidResponse(token);
-            }
-            orderService.updateOrderItemByAdmin(item,userTemp);
-            return new Response("00","Operation Successful","success");
-
-        }catch (AppException e){
-            e.printStackTrace();
-            String recipient = e.getRecipient();
-            String subject = e.getSubject();
-            MailError mailError = new MailError();
-            mailError.setProductName(e.getItemsDTO().getProductName());
-            mailError.setOrderItemStatus(e.getItemsDTO().getDeliveryStatus());
-            mailError.setRecipient(recipient);
-            mailError.setSubject(subject);
-            mailError.setMailType("adminConfirmOrRejectItem");
-            mailErrorRepository.save(mailError);
-            return new Response("00", "Operation Successful, Trying to send email", "success");
-
-        }
-
-    }
 
 
     @PostMapping(value = "/updateorder")
@@ -89,7 +61,10 @@ public class AdminOrderController {
 
             String message =  orderService.updateOrderByAdmin(orderReqDTO,userTemp);
             if(message.equalsIgnoreCase("nopayment")){
-                return new Response("56","Operation Successful","No payment has been made");
+                return new Response("56","Unable to confirm payment","No payment has been made");
+            }
+            else if(message.equalsIgnoreCase("lesspayment")){
+                return new Response("56","Unable to confirm payment","Amount paid is less than total amount for order");
             }
             else if(message.equalsIgnoreCase("success")){
                 return new Response("00","Operation Successful","success");
@@ -114,6 +89,18 @@ public class AdminOrderController {
 
         }
 
+    }
+
+    @PostMapping(value = "/updatetrackingnumber")
+    public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        orderService.updateTrackingNumber(itemsDTO);
+        return new Response("00", "Operation successful", null);
     }
 
 
@@ -164,16 +151,6 @@ public class AdminOrderController {
         return new Response("00", "operation successful", orderService.getAllTransferInfo());
     }
 
-    @PostMapping(value = "/getordershippingprice")
-    public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId(), userTemp));
-    }
 
     @GetMapping(value = "/{id}/getorderitemdetails")
     public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){
@@ -185,6 +162,8 @@ public class AdminOrderController {
         return new Response("00","Operation Successful",orderService.getOrderItemById(id));
 
     }
+
+
 
 
 

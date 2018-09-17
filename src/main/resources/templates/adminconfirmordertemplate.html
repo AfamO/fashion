@@ -10,12 +10,19 @@
         <div style = "padding: 15px; margin: 15px 10px 0;">
             <h4> Dear <span th:text="${name}"> </span>,</h4>
             <p style = "line-height: 25px; font-size: 1em; color: #333;">
-                Thank you for your purchase, your order <b><span th:text="${orderNum}"></span> has been confirmed</b>. 
+                Thank you for your purchase, your payment <b><span th:text="${orderNum}"></span> has been confirmed</b>.
+
+            <p style = "line-height: 25px; font-size: 1em; color: #333;">
+                You can track your order status <a target='_blank' th:href="${link}"><button>Here</button></a>
+
+            </p>
                 <br />
                 Here is what to expect: Our Quality Assurance Team will validate item quality and then ship to you within the 72hours. <br />
                 Once your order ships, you will receive a confirmation email with your tracking number.
 
             </p>
+
+
             <p style = "line-height: 25px; font-size: 1em; color: #333;">
                 Thank you for shopping on Wawooh. If you have any questions contact or call us at 07000-0-WAWOOH
             </p>

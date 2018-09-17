@@ -219,6 +219,13 @@
 			<artifactId>unirest-java</artifactId>
 			<version>1.4.9</version>
 		</dependency>
+
+				<dependency>
+					<groupId>com.google.apis</groupId>
+					<artifactId>google-api-services-urlshortener</artifactId>
+					<version>v1-rev56-1.25.0</version>
+				</dependency>
+
 	</dependencies>
 
 	<build>

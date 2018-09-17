@@ -7,6 +7,6 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Size extends CommonFields {
-    public String name;
+    private String name;
 
 }

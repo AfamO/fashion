@@ -78,15 +78,5 @@ public class ItemStatus extends CommonFields{
         this.statusResponseMessages = statusResponseMessages;
     }
 
-    @Override
-    public String toString() {
-        return "ItemStatus{" +
-                "status='" + status + '\'' +
-                ", items=" + items +
-                ", headerMessage='" + headerMessage + '\'' +
-                ", statusMessages=" + statusMessages +
-                ", statusResponseMessages=" + statusResponseMessages +
 
-                '}';
-    }
 }

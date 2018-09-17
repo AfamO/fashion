@@ -9,18 +9,18 @@ import javax.persistence.OneToOne;
 @Entity
 public class PictureTag extends CommonFields {
     @ManyToOne
-    public EventPictures eventPictures;
+    private EventPictures eventPictures;
     @OneToOne
-    public SubCategory subCategory;
+    private SubCategory subCategory;
     @OneToOne
-    public Designer designer;
+    private Designer designer;
 
-    public String leftCoordinate;
-    public String topCoordinate;
-    public String imageSize;
+    private String leftCoordinate;
+    private String topCoordinate;
+    private String imageSize;
 
     @OneToOne
-    public Products products;
+    private Products products;
 
 
 }

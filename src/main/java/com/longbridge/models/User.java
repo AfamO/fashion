@@ -11,31 +11,29 @@ import java.util.List;
  */
 @Entity
 public class User extends CommonFields{
-    public String firstName;
-    public String lastName;
+    private String firstName;
+    private String lastName;
 
-    public String email;
-    public String emailVerificationFlag = "N";
+    private String email;
+    private String emailVerificationFlag = "N";
 
-    public String gender;
+    private String gender;
     @Lob
-    public String password;
-    public String phoneNo;
-    public String role;
+    private String password;
+    private String phoneNo;
+    private String role;
 
-    public String dateOfBirth;
+    private String dateOfBirth;
 
-    public String socialFlag;
+    private String socialFlag;
 
-//    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    public Designer designer;
 
-    public String linkClicked = "N";
 
-    public String activationFlag = "N";
+    private String linkClicked = "N";
 
-    public Date activationDate;
+    private String activationFlag = "N";
+
+    private Date activationDate;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     public Wallet wallet;
@@ -66,7 +64,8 @@ public class User extends CommonFields{
     public String passed_token;
     @Transient
     public String refreshed_token;
-    public User(String firstName, String lastName, String email,String gender, String password, String phoneNo, String role, Designer designer,
+
+    public User(String firstName, String lastName, String email,String gender, String password, String phoneNo, String role,
                 List<Address> addresses, List<Orders> orders, List<Cart> carts,
                 List<WishList> wishLists, Rating rating) {
         this.firstName = firstName;
@@ -76,7 +75,7 @@ public class User extends CommonFields{
         this.password = password;
         this.phoneNo = phoneNo;
         this.role = role;
-        this.designer = designer;
+
         this.addresses = addresses;
         //this.orders = orders;
         this.carts = carts;
@@ -100,7 +99,7 @@ public class User extends CommonFields{
                 ", password='" + password + '\'' +
                 ", phoneNo='" + phoneNo + '\'' +
                 ", role='" + role + '\'' +
-                ", designer=" + designer +
+
                 ", addresses=" + addresses +
                 //", orders=" + orders +
                 ", carts=" + carts +
@@ -108,5 +107,182 @@ public class User extends CommonFields{
                 ", rating=" + rating +
                 '}';
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmailVerificationFlag() {
+        return emailVerificationFlag;
+    }
+
+    public void setEmailVerificationFlag(String emailVerificationFlag) {
+        this.emailVerificationFlag = emailVerificationFlag;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getSocialFlag() {
+        return socialFlag;
+    }
+
+    public void setSocialFlag(String socialFlag) {
+        this.socialFlag = socialFlag;
+    }
+
+    public String getLinkClicked() {
+        return linkClicked;
+    }
+
+    public void setLinkClicked(String linkClicked) {
+        this.linkClicked = linkClicked;
+    }
+
+    public String getActivationFlag() {
+        return activationFlag;
+    }
+
+    public void setActivationFlag(String activationFlag) {
+        this.activationFlag = activationFlag;
+    }
+
+    public Date getActivationDate() {
+        return activationDate;
+    }
+
+    public void setActivationDate(Date activationDate) {
+        this.activationDate = activationDate;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
+    }
+
+    public List<Measurement> getMeasurements() {
+        return measurements;
+    }
+
+    public void setMeasurements(List<Measurement> measurements) {
+        this.measurements = measurements;
+    }
+
+    public List<WishList> getWishLists() {
+        return wishLists;
+    }
+
+    public void setWishLists(List<WishList> wishLists) {
+        this.wishLists = wishLists;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPassed_token() {
+        return passed_token;
+    }
+
+    public void setPassed_token(String passed_token) {
+        this.passed_token = passed_token;
+    }
+
+    public String getRefreshed_token() {
+        return refreshed_token;
+    }
+
+    public void setRefreshed_token(String refreshed_token) {
+        this.refreshed_token = refreshed_token;
+    }
+
 
 }

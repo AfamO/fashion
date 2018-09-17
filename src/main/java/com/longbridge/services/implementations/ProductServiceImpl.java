@@ -336,6 +336,7 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             Date date = new Date();
+            int totalStock = 0;
             Products products = new Products();
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             //ArrayList<String> pics = productDTO.picture;
@@ -384,6 +385,7 @@ public class ProductServiceImpl implements ProductService {
                     ProductSizes productSizes = new ProductSizes();
                     productSizes.setName(p.getName());
                     productSizes.setStockNo(p.getStockNo());
+                    totalStock += p.getStockNo();
                     productSizes.setProductAttribute(productAttribute);
                     System.out.println(productSizes);
                     productSizesRepository.save(productSizes);
@@ -403,19 +405,19 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
 
-            if(productDTO.slashedPrice != 0){
+            if(productDTO.slashedPrice > 0){
                 PriceSlash priceSlash = new PriceSlash();
                 products.priceSlashEnabled = true;
                 priceSlash.setProducts(products);
                 priceSlash.setSlashedPrice(productDTO.slashedPrice);
-                priceSlash.setPercentageDiscount((productDTO.slashedPrice/productDTO.amount)*100);
+                priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
                 priceSlashRepository.save(priceSlash);
-            } else if(productDTO.percentageDiscount != 0){
+            } else if(productDTO.percentageDiscount > 0){
 
                 PriceSlash priceSlash=new PriceSlash();
                 products.priceSlashEnabled = true;
                 priceSlash.setProducts(products);
-                priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+                priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.amount));
                 priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
                 priceSlashRepository.save(priceSlash);
             }
@@ -451,6 +453,9 @@ public class ProductServiceImpl implements ProductService {
                     artWorkPictureRepository.save(artWorkPicture);
                 }
             }
+
+            products.stockNo = totalStock;
+            productRepository.save(products);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -496,7 +501,7 @@ public class ProductServiceImpl implements ProductService {
 //            }
 
 
-            if(productDTO.slashedPrice != 0){
+            if(productDTO.slashedPrice > 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
                 if(priceSlash != null){
                     priceSlash.setSlashedPrice(productDTO.slashedPrice);
@@ -505,13 +510,13 @@ public class ProductServiceImpl implements ProductService {
                     priceSlash=new PriceSlash();
                     products.priceSlashEnabled = true;
                     priceSlash.setProducts(products);
-                    priceSlash.setPercentageDiscount((productDTO.slashedPrice/productDTO.amount)*100);
+                    priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
                     priceSlash.setSlashedPrice(productDTO.slashedPrice);
                 }
 
                 priceSlashRepository.save(priceSlash);
             }
-            else if(productDTO.percentageDiscount != 0){
+            else if(productDTO.percentageDiscount > 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
                 if(priceSlash != null){
                     priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
@@ -520,7 +525,7 @@ public class ProductServiceImpl implements ProductService {
                     priceSlash=new PriceSlash();
                     products.priceSlashEnabled = true;
                     priceSlash.setProducts(products);
-                    priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.amount));
                     priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
                 }
 
@@ -569,19 +574,12 @@ public class ProductServiceImpl implements ProductService {
         Date date = new Date();
         try {
             Products products = productRepository.findOne(p.id);
+            int totalStock = 0;
             List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
             List<String> reOccuringPictures = new ArrayList<String>();
-
-            /*for (ProductAttributeDTO pa: p.productAttributes) {
-
-                for (ProductPictureDTO pro: pa.getProductPictureDTOS()) {
-                    if(isUrl(pro.picture)){
-                        reOccuringPictures.add(pro.picture);
-                    }
-                }
-            }*/
-
-
+            products.acceptCustomSizes = p.acceptCustomSizes;
+            products.inStock = p.inStock;
+            products.numOfDaysToComplete = p.numOfDaysToComplete;
 
             if(productAttributes.size()>0){
 
@@ -614,14 +612,15 @@ public class ProductServiceImpl implements ProductService {
                     ProductSizes productSizes = new ProductSizes();
                     productSizes.setName(prodSizes.getName());
                     productSizes.setStockNo(prodSizes.getStockNo());
+                    totalStock += prodSizes.getStockNo();
                     productSizes.setProductAttribute(productAttribute);
                     productSizesRepository.save(productSizes);
                 }
 
-                for(ProductPictureDTO pp : pa.getProductPictureDTOS()){
+                for(String pp : pa.getPicture()){
 
                         ProductPicture productPicture = new ProductPicture();
-                        c = cloudinaryService.uploadToCloud(pp.picture, generalUtil.getPicsName("prodpic", products.name), "productpictures");
+                        c = cloudinaryService.uploadToCloud(pp, generalUtil.getPicsName("prodpic", products.name), "productpictures");
                         System.out.println("i got here no id");
                         productPicture.pictureName = c.getUrl();
                         productPicture.picture = c.getPublicId();
@@ -632,6 +631,9 @@ public class ProductServiceImpl implements ProductService {
                         productPictureRepository.save(productPicture);
                     }
             }
+
+            products.stockNo = totalStock;
+            productRepository.save(products);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -1236,7 +1238,7 @@ public class ProductServiceImpl implements ProductService {
         int size = pageableDetailsDTO.getSize();
         List<EventPictures> ev = new ArrayList<>();
         try {
-            //List<EventPictures> e = eventPictureRepository.findAll();
+
             Page<EventPictures> e = eventPictureRepository.findAll(new PageRequest(page, size));
 
             for(EventPictures pictures: e) {
@@ -1284,24 +1286,16 @@ public class ProductServiceImpl implements ProductService {
         List<EventPicturesDTO> ev = new ArrayList<>();
         List<EventPictures> e;
         try {
-//            List<Events> events=eventRepository.eventsTagFuzzySearch(search);
-//            if(events != null) {
-//                for (Events events1 : events) {
              e = eventPictureRepository.findByEvents(eventRepository.findOne(id));
-//                }
-
                 if(e!=null) {
                     for (EventPictures pictures : e) {
                         if (pictureTagRepository.findByEventPictures(pictures).size() < 1) {
                             EventPicturesDTO picturesDTO = generalUtil.convertEntityToDTO(pictures);
                             ev.add(picturesDTO);
                         }
-
                     }
                 }
                 return ev;
-//            }
-//            return ev;
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1315,12 +1309,7 @@ public class ProductServiceImpl implements ProductService {
         List<EventPicturesDTO> ev = new ArrayList<>();
         List<EventPictures> e;
         try {
-//            List<Events> events=searchService.eventsTagFuzzySearch(search);
-//            if(events != null) {
-//                for (Events events1 : events) {
                     e = eventPictureRepository.findByEvents(eventRepository.findOne(id));
-//                }
-
                 if(e!=null) {
                     for (EventPictures pictures : e) {
                         if (pictureTagRepository.findByEventPictures(pictures).size() > 0) {
@@ -1331,9 +1320,6 @@ public class ProductServiceImpl implements ProductService {
                     }
                 }
                 return ev;
-//            }
-//            return ev;
-
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new WawoohException();
@@ -1406,16 +1392,25 @@ public class ProductServiceImpl implements ProductService {
 
             int start = (page == 0) ? 0 : (page * size);
             int end = start + size;
-
-            System.out.println("Total no of pages: "+totalPages);
-            System.out.println("Total no of elements: "+totalElements);
-            System.out.println("start: "+start+", end:"+end);
-
             List<ProductRespDTO> newRespDto = productRespDTOS.subList(start, (end > totalElements) ? totalElements : end);
-            System.out.println("Elements in current page: "+newRespDto.size());
             return newRespDto;
         }
     }
+
+    @Override
+    public ProductAttributeDTO getProductAttributesById(Long id) {
+        try {
+
+           ProductAttribute productAttribute = productAttributeRepository.findOne(id);
+            return generalUtil.convertProductAttributeEntityToDTO(productAttribute);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
 
     public boolean isUrl(String url){
         try {

@@ -3,7 +3,7 @@ package com.longbridge.services.implementations;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longbridge.Util.GeneralUtil;
-import com.longbridge.Util.Hash;
+import com.longbridge.Util.SMSAlertUtil;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.Util.ShippingUtil;
 import com.longbridge.dto.*;
@@ -14,10 +14,11 @@ import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
-import com.longbridge.respbodydto.OrderRespDTO;
 import com.longbridge.security.repository.UserRepository;
+import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.MailService;
 import com.longbridge.services.OrderService;
+import com.longbridge.services.PaymentService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.time.DateUtils;
@@ -30,8 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -89,10 +89,18 @@ public class OrderServiceImpl implements OrderService {
     MailService mailService;
 
     @Autowired
-    RavePaymentRepository ravePaymentRepository;
+    PaymentRepository paymentRepository;
 
     @Autowired
     WalletRepository walletRepository;
+
+    @Autowired
+    PaymentService paymentService;
+
+
+    @Autowired
+    SMSAlertUtil smsAlertUtil;
+
 
     private Locale locale = LocaleContextHolder.getLocale();
 
@@ -116,17 +124,22 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ProductAttributeRepository productAttributeRepository;
 
+    @Autowired
+    CloudinaryService cloudinaryService;
+
+    @Autowired
+    OrderItemProcessingPictureRepository orderItemProcessingPictureRepository;
+
     @Transactional
     @Override
-    public OrderRespDTO addOrder(OrderReqDTO orderReq, User user) {
-        OrderRespDTO orderRespDTO = new OrderRespDTO();
+    public PaymentResponse addOrder(OrderReqDTO orderReq, User user) {
+        PaymentResponse orderRespDTO = new PaymentResponse();
         try{
 
             Orders orders = new Orders();
             Double totalAmount = 0.0;
             Date date = new Date();
             String orderNumber = "";
-
             if(orderReq.getItems().size() <1){
                 orderRespDTO.setStatus("noitems");
                 return orderRespDTO;
@@ -140,38 +153,38 @@ public class OrderServiceImpl implements OrderService {
 
                     if(itemAttribute != null){
                         ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
-                        if(sizes.getStockNo() < items.getQuantity()  && items.getMeasurementId() == null ){
-                            orderRespDTO.setStatus("false");
-                            return orderRespDTO;
+                        if(items.getMeasurementId() == null){
+                            if(sizes.getStockNo() < items.getQuantity()){
+                                orderRespDTO.setStatus("false");
+                                return orderRespDTO;
+                            }
                         }
                     }
                 }
             }
 
-            for (Items items: orderReq.getItems()) {
 
+            for (Items items: orderReq.getItems()) {
+                if(items.getMeasurementId() == null){
                 ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
                 ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
 
-                if(items.getMeasurementId() == null){
+
                     sizes.setStockNo(sizes.getStockNo() - items.getQuantity());
                     productSizesRepository.save(sizes);
                 }
+
+
             }
 
-
-            /*while (!orderNumExists(generateOrderNum())){
-                orderNumber = "WAW#"+generateOrderNum();
-                orders.setOrderNum(orderNumber);
-                break;
-            }*/
 
             String tempOrderNumber = "";
             do{
                 tempOrderNumber = generateOrderNum();
             }while (orderNumExists(orderNumber));
 
-            orderNumber = "WAW#"+tempOrderNumber;
+            //orderNumber = "WAW#"+tempOrderNumber;
+            orderNumber = tempOrderNumber;
             orders.setOrderNum(orderNumber);
             orders.setCreatedOn(date);
             orders.setUpdatedOn(date);
@@ -191,36 +204,26 @@ public class OrderServiceImpl implements OrderService {
                itemStatus = itemStatusRepository.findByStatus("P");
                orders.setDeliveryStatus("P");
             }
-            else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
-                itemStatus=itemStatusRepository.findByStatus("PC");
-                orders.setDeliveryStatus("PC");
-            }
-
-            HashMap h= saveItems(orderReq,date,orders,itemStatus);
-            totalAmount = Double.parseDouble(h.get("totalAmount").toString());
-            //todo calculate total amount from backend
-            orders.setTotalAmount(totalAmount);
-            orderRepository.save(orders);
 
             //updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
-                //generate a unique ref number
-                String trnxRef = "WAW"+ "-"+ generateOrderNum();
-                RavePayment ravePayment = new RavePayment();
-                ravePayment.setOrderId(orders.id);
-                ravePayment.setTransactionAmount(totalAmount);
-                ravePayment.setTransactionReference(trnxRef);
-                ravePaymentRepository.save(ravePayment);
-                orderRespDTO.setOrderNumber(orderNumber);
-                orderRespDTO.setTransactionReference(trnxRef);
-                orderRespDTO.setTotalAmount(totalAmount);
-                orderRespDTO.setId(orders.id);
-                orderRespDTO.setStatus("00");
-                return orderRespDTO;
+                PaymentRequest paymentRequest = new PaymentRequest();
+                paymentRequest.setOrderId(orders.id);
+                paymentRequest.setTransactionAmount(totalAmount);
+                paymentRequest.setTransactionReference(orderNumber);
+                paymentRequest.setEmail(user.email);
+                paymentRepository.save(paymentRequest);
+                return paymentService.initiatePayment(paymentRequest);
             }
 
+            HashMap h= saveItems(orderReq,date,orders,itemStatus);
+            totalAmount = Double.parseDouble(h.get("totalAmount").toString());
+            orders.setTotalAmount(totalAmount);
+            orderRepository.save(orders);
+
             deleteCart(user);
+
             sendEmailAsync.sendEmailToUser(user,orderNumber);
             orderRespDTO.setStatus("00");
             orderRespDTO.setOrderNumber(orderNumber);
@@ -237,6 +240,7 @@ public class OrderServiceImpl implements OrderService {
         Double amountWithoutShipping=0.0;
         Double shippingAmount = 0.0;
         List<String> designerCities = new ArrayList<>();
+        List<DesignerOrderDTO> designerDTOS = new ArrayList<>();
         for (Items items: orderReq.getItems()) {
             Products p = productRepository.findOne(items.getProductId());
             if(items.getMeasurementId() != null) {
@@ -281,11 +285,7 @@ public class OrderServiceImpl implements OrderService {
             items.setUpdatedOn(date);
             items.setItemStatus(itemStatus);
             itemRepository.save(items);
-
-
             p.numOfTimesOrdered = p.numOfTimesOrdered+1;
-
-
             if(items.getMeasurement() == null) {
                 if (p.stockNo != 0) {
                     p.stockNo = p.stockNo - items.getQuantity();
@@ -304,8 +304,14 @@ public class OrderServiceImpl implements OrderService {
 
             productRepository.save(p);
 
-
+                DesignerOrderDTO dto= new DesignerOrderDTO();
+                dto.setProductName(p.name);
+                dto.setStoreName(p.designer.storeName);
+                dto.setDesignerEmail(p.designer.user.email);
+                designerDTOS.add(dto);
+                sendEmailAsync.sendEmailToDesigner(designerDTOS,orders.getOrderNum());
         }
+
 
         HashMap hm = new HashMap();
         hm.put("totalAmount", totalAmount);
@@ -319,7 +325,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO, User user) {
         try{
-            ItemsDTO itemsDTO1 = new ItemsDTO();
+           // ItemsDTO itemsDTO1 = new ItemsDTO();
             Date date = new Date();
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
             Items items = itemRepository.findOne(itemsDTO.getId());
@@ -332,79 +338,86 @@ public class OrderServiceImpl implements OrderService {
 
             Products products = productRepository.findOne(items.getProductId());
             ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
-            StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
+            if(itemsDTO.getMessageId() != null) {
+                StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
+            }
 
 
+
+
+            //from payment confirmed to processing
             if(items.getItemStatus().getStatus().equalsIgnoreCase("PC")) {
 
-                    if (itemsDTO.getStatus().equalsIgnoreCase("OP")) {
-                        items.setItemStatus(itemStatus);
-                        //items.setStatusMessage(statusMessage);
-                    }
+                if (itemsDTO.getStatus().equalsIgnoreCase("OP")) {
+                    items.setItemStatus(itemStatusRepository.findByStatus("OP"));
+                }
 
-                    else if (itemsDTO.getStatus().equalsIgnoreCase("RI")) {
-                        items.setItemStatus(itemStatus);
-
-                        String message = templateEngine.process("readyforinsptemplate", context);
-                        mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.inspection.subject", null, locale));
-
-                        //items.setStatusMessage(statusMessage);
-                    }
-               // }
-
-                    else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
-                    String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
-                    String link;
-                    String message;
-                    statusMessage.setHasResponse(true);
-
-                    items.setItemStatus(itemStatus);
-                    items.setStatusMessage(statusMessage);
-
-                    context.setVariable("waitTime",itemsDTO.getWaitTime());
-
-                    if(itemsDTO.getMessageId() == 3){
-                        link=messageSource.getMessage("order.decline.decision", null, locale);
-                        rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
-                        context.setVariable("link",rejectDecisionLink);
-                        message = templateEngine.process("admindeclineordertemplate", context);
-                    }
-                    else {
-                        link=messageSource.getMessage("order.reject.decision", null, locale);
-                        rejectDecisionLink=link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
-                        context.setVariable("link",rejectDecisionLink);
-                        message = templateEngine.process("admincancelordertemplate", context);
-
-                    }
-                    itemsDTO1.setDeliveryStatus(items.getItemStatus().getStatus());
-                    itemsDTO1.setProductName(products.name);
-                    itemsDTO1.setLink(rejectDecisionLink);
-                    itemsDTO1.setWaitTime(itemsDTO.getWaitTime());
-
-                    try {
-
-                        mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.status.subject", null, locale));
-                    }catch(MailException me) {
-                        me.printStackTrace();
-                        throw new AppException(customerName,customerEmail,messageSource.getMessage("order.status.subject", null, locale),itemsDTO1);
-
-                    }
+                else {
+                    throw new InvalidStatusUpdateException();
+                }
             }
+            else if(items.getItemStatus().getStatus().equalsIgnoreCase("WR")){
+
+                if (itemsDTO.getStatus().equalsIgnoreCase("OP")) {
+                    items.setItemStatus(itemStatusRepository.findByStatus("OP"));
+                }
+
                 else {
                     throw new InvalidStatusUpdateException();
                 }
             }
 
-            else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")){
-                if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
-                    items.setItemStatus(itemStatus);
-                    statusMessage.setHasResponse(false);
-                    items.setStatusMessage(statusMessage);
+
+           else if(items.getItemStatus().getStatus().equalsIgnoreCase("P")){
+                if(itemsDTO.getStatus().equalsIgnoreCase("A")){
+
+                    if(items.getOrders().getPaymentType().equalsIgnoreCase("Bank Transfer")){
+                        items.setItemStatus(itemStatus);
+                        sendEmailAsync.sendTransferEmailToUser(customer, items.getOrders());
+                    }
+                    else if(items.getOrders().getPaymentType().equalsIgnoreCase("Card Payment")){
+                        items.setItemStatus(itemStatus);
+                        PaymentResponse p = paymentService.chargeAuthorization(items);
+                        if(p.getStatus().equalsIgnoreCase("99")){
+                            //unable to charge customer, cancel transaction
+                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                        }
+                    }
+
+                    //statusMessage.setHasResponse(false);
+                    //items.setStatusMessage(statusMessage);
+
+                }
+                else  if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
+                    items.setItemStatus(itemStatusRepository.findByStatus("C"));
                 }
                 else {
                     throw new InvalidStatusUpdateException();
                 }
             }
+
+            //from processing to completed
+            else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")) {
+                if (itemsDTO.getStatus().equalsIgnoreCase("CO")) {
+                    //get pictures from designer and save
+                    savePictures(items,itemsDTO.getPictures());
+                    items.setItemStatus(itemStatusRepository.findByStatus("CO"));
+                }
+                else {
+                    throw new InvalidStatusUpdateException();
+                }
+            }
+
+//            else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")){
+//                if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
+//                    items.setItemStatus(itemStatus);
+//                    statusMessage.setHasResponse(false);
+//                    items.setStatusMessage(statusMessage);
+//                }
+//                else {
+//                    throw new InvalidStatusUpdateException();
+//                }
+//            }
 
                 items.setUpdatedOn(date);
                 itemRepository.save(items);
@@ -417,6 +430,39 @@ public class OrderServiceImpl implements OrderService {
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
+        }
+    }
+
+    private void savePictures(Items items, ArrayList<String> pictures) {
+        Date date = new Date();
+        List<OrderItemProcessingPicture> orderItemProcessingPictures= orderItemProcessingPictureRepository.findByItems(items);
+        for(String p:pictures){
+            if(orderItemProcessingPictures.size() < 1) {
+                OrderItemProcessingPicture picture = new OrderItemProcessingPicture();
+                String pictureName = generalUtil.getPicsName("itempic", items.getProductName().substring(0, 10));
+                CloudinaryResponse c = cloudinaryService.uploadToCloud(p, pictureName, "itemprocessingpictures");
+                picture.setPictureName(c.getUrl());
+                picture.setPicture(c.getPublicId());
+                picture.setItems(items);
+                picture.createdOn = date;
+                picture.setUpdatedOn(date);
+                orderItemProcessingPictureRepository.save(picture);
+            }else {
+                for (OrderItemProcessingPicture o:orderItemProcessingPictures) {
+                    cloudinaryService.deleteFromCloud(o.getPicture(), o.getPictureName());
+                }
+                orderItemProcessingPictureRepository.delete(orderItemProcessingPictures);
+
+                OrderItemProcessingPicture picture = new OrderItemProcessingPicture();
+                String pictureName = generalUtil.getPicsName("itempic", items.getProductName().substring(0, 10));
+                CloudinaryResponse c = cloudinaryService.uploadToCloud(p, pictureName, "itemprocessingpictures");
+                picture.setPictureName(c.getUrl());
+                picture.setPicture(c.getPublicId());
+                picture.setItems(items);
+                picture.createdOn = date;
+                picture.setUpdatedOn(date);
+                orderItemProcessingPictureRepository.save(picture);
+            }
         }
     }
 
@@ -467,24 +513,41 @@ public class OrderServiceImpl implements OrderService {
 
             try {
                 ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
+                if(items.getItemStatus().getStatus().equalsIgnoreCase("CO")) {
+                    if (itemsDTO.getStatus().equalsIgnoreCase("RI")) {
+                        items.setItemStatus(itemStatus);
 
-               if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")){
+                        //notify designer to bring items to wawooh office
+                        String message = templateEngine.process("readyforinsptemplate", context);
+                        mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.inspection.subject", null, locale));
+                    }
+
+                }
+
+                if(items.getItemStatus().getStatus().equalsIgnoreCase("RI")) {
+                    if (itemsDTO.getStatus().equalsIgnoreCase("WC")) {
+                        items.setItemStatus(itemStatusRepository.findByStatus("WC"));
+                    }
+                }
+
+
+               if(items.getItemStatus().getStatus().equalsIgnoreCase("WC")){
                     if(itemsDTO.getStatus().equalsIgnoreCase("PI")){
                         if(items.getFailedInspectionReason() != null){
                             items.setFailedInspectionReason(null);
                         }
                         items.setItemStatus(itemStatusRepository.findByStatus("RS"));
-
                     }
                     else if(itemsDTO.getStatus().equalsIgnoreCase("FI")){
-                            items.setItemStatus(itemStatusRepository.findByStatus("OP"));
+                            items.setItemStatus(itemStatusRepository.findByStatus("WR"));
                             items.setFailedInspectionReason(itemsDTO.getAction());
-
                             //todo later, send email to user and designer
+                            itemsDTO.setProductName(items.getProductName());
                             sendEmailAsync.sendFailedInspEmailToUser(customer,itemsDTO);
                             sendEmailAsync.sendFailedInspToDesigner(itemsDTO);
                         }
                     }
+
 
 
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("RS")){
@@ -501,9 +564,9 @@ public class OrderServiceImpl implements OrderService {
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("OS")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("D")){
                     items.setItemStatus(itemStatus);
-//update wallet balance by removing item amount  from user wallet since item has been delivered
+                    //update wallet balance by removing item amount  from user wallet since item has been delivered
                     updateWalletForOrderDelivery(items, customer);
-//end updating wallet balance
+                    //end updating wallet balance
                     String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
                     String link = messageSource.getMessage("order.complain",null, locale);
                     link = link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
@@ -603,32 +666,28 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
             orders.setUpdatedOn(date);
 
-            if(orders.getDeliveryStatus().equalsIgnoreCase("P")){
+            if(orders.getDeliveryStatus().equalsIgnoreCase("A")){
                 TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
                if(transferInfo == null){
                  return "nopayment";
                }
-            for (Items items: orders.getItems()) {
+               if(transferInfo.getAmountPayed() < orders.getTotalAmount()){
+                   return "lesspayment";
+               }
+                for (Items items: orders.getItems()) {
                 items.setItemStatus(itemStatusRepository.findByStatus("PC"));
-                //items.setDeliveryStatus("PC");
                 itemRepository.save(items);
-                Products p = productRepository.findOne(items.getProductId());
-                DesignerOrderDTO dto= new DesignerOrderDTO();
-                dto.setProductName(p.name);
-                dto.setStoreName(p.designer.storeName);
-                dto.setDesignerEmail(p.designer.user.email);
-                dtos.add(dto);
+                notifyDesigner(items);
             }
 
             //update wallet balance
                 updateWalletForOrderPayment(customer,transferInfo.getAmountPayed(),"Bank Transfer");
-               //done updating wallet balance
+               //update orders
                     orders.setDeliveryStatus("PC");
                     orders.setUpdatedOn(date);
                     orders.setUpdatedBy(user.email);
                     orderRepository.save(orders);
                     sendEmailAsync.sendPaymentConfEmailToUser(customer,orders.getOrderNum());
-                    sendEmailAsync.sendEmailToDesigner(dtos,orders.getOrderNum());
                 }
 
 
@@ -637,6 +696,17 @@ public class OrderServiceImpl implements OrderService {
             throw new WawoohException();
         }
         return "success";
+    }
+
+    private void notifyDesigner(Items items) throws IOException {
+        Products p = productRepository.findOne(items.getProductId());
+        String storeName = p.designer.storeName;
+        List<String> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(p.designer.user.phoneNo);
+        String link = "";
+        link = link +storeName+"/orders/" + items.id;
+        String message = String.format(messageSource.getMessage("order.designer.startprocessing", null, locale), link);
+        smsAlertUtil.sms(phoneNumbers,message);
     }
 
     private void updateWalletForOrderPayment(User user,Double amount,String paymentType) {
@@ -835,7 +905,8 @@ public class OrderServiceImpl implements OrderService {
             List<ItemStatus> itemStatuses = new ArrayList();
             itemStatuses.add(itemStatus1);
             itemStatuses.add(itemStatus2);
-            return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNotIn(user.designer.id,itemStatuses));
+            System.out.println(itemStatuses);
+            return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusNotInOrderByOrders_OrderDateDesc(user.designer.id,itemStatuses));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -888,8 +959,8 @@ public class OrderServiceImpl implements OrderService {
         try {
 
             if(user.designer !=null) {
-                ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
-                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
+                ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
+                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusOrderByOrders_OrderDateDesc(user.designer.id,itemStatus));
 
             }else {
                 throw new WawoohException();
@@ -934,7 +1005,7 @@ public class OrderServiceImpl implements OrderService {
             if(user.designer !=null) {
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("RS");
 
-                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatus(user.designer.id,itemStatus));
+                return generalUtil.convertItemsEntToDTOs(itemRepository.findByDesignerIdAndItemStatusOrderByOrders_OrderDateDesc(user.designer.id,itemStatus));
 
 
             }else {
@@ -952,7 +1023,7 @@ public class OrderServiceImpl implements OrderService {
         try {
 
             ItemStatus itemStatus = itemStatusRepository.findByStatus("NV");
-            return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusNot(itemStatus));
+            return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusNotOrderByOrders_OrderDateDesc(itemStatus));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -964,7 +1035,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getAllOrdersByAdmin2(User user) {
         try {
 
-            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByDeliveryStatusNot("NV"));
+            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByDeliveryStatusNotOrderByOrderDateDesc("NV"));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -976,7 +1047,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getIncompleteOrders(User user) {
         try {
 
-            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByDeliveryStatus("NV"));
+            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByDeliveryStatusOrderByOrderDateDesc("NV"));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -991,12 +1062,18 @@ public class OrderServiceImpl implements OrderService {
                 ItemStatus itemStatus1 = itemStatusRepository.findByStatus("RI");
                 ItemStatus itemStatus2 = itemStatusRepository.findByStatus("RS");
                 ItemStatus itemStatus3 = itemStatusRepository.findByStatus("OS");
+                ItemStatus itemStatus4 = itemStatusRepository.findByStatus("CO");
+                ItemStatus itemStatus5 = itemStatusRepository.findByStatus("WC");
+                ItemStatus itemStatus6 = itemStatusRepository.findByStatus("WR");
                 List<ItemStatus> itemStatuses = new ArrayList();
                 itemStatuses.add(itemStatus1);
                 itemStatuses.add(itemStatus2);
                 itemStatuses.add(itemStatus3);
+                itemStatuses.add(itemStatus4);
+                itemStatuses.add(itemStatus5);
+                itemStatuses.add(itemStatus6);
 
-            return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusIn(itemStatuses));
+            return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusInOrderByOrders_OrderDateDesc(itemStatuses));
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -1097,7 +1174,6 @@ itemRepository.save(items);
 
     @Override
     public void saveOrderTransferInfo(TransferInfoDTO transferInfoDTO) {
-        System.out.println(transferInfoDTO.getOrderNum());
         if(transferInfoDTO.getOrderNum() != null){
             Orders orders = orderRepository.findByOrderNum(transferInfoDTO.getOrderNum());
             if(orders != null){
@@ -1126,6 +1202,9 @@ itemRepository.save(items);
                     //means admin has updated tp PC. it cant be updated....
                     return;
                 }
+            }
+            else {
+                throw new WawoohException();
             }
 
         }
@@ -1168,6 +1247,22 @@ itemRepository.save(items);
         }
 
         return transferInfoDTOS;
+    }
+
+    @Override
+    public void updateTrackingNumber(ItemsDTO itemsDTO) {
+        try {
+            Items items = itemRepository.findOne(itemsDTO.getId());
+
+            if(items != null){
+                items.setTrackingNumber(itemsDTO.getTrackingNumber());
+                itemRepository.save(items);
+            }
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
     }
 
     @Override

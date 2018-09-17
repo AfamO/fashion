@@ -86,19 +86,25 @@ public class UserUtil {
             Date date = new Date();
 
             User user = userRepository.findByEmail(passedUser.email);
-            User user1 = userRepository.findByPhoneNo(passedUser.phoneNo);
+
             List<String> errors = new ArrayList<String>();
-
-
             if(user != null){
                 errors.add("Email already exists");
             }
-            if(user1 != null){
-                errors.add("Phone number already exist");
+
+            if(passedUser.role.equalsIgnoreCase("designer")){
+                User user1 = userRepository.findByPhoneNo(passedUser.phoneNo);
+                if(user1 != null){
+                    errors.add("Phone number already exist");
+                }
             }
 
             if(errors.size() > 0){
                 return new Response("99",StringUtils.join(errors, ","), null);
+            }
+
+            if(passedUser.role == null){
+                return new Response("99", "User has no role", null);
             }
 
             passedUser.password = Hash.createPassword(passedUser.password);
@@ -130,7 +136,7 @@ public class UserUtil {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new Response("99","Error occured internally",responseMap);
+            return new Response("99","Error occurred internally",responseMap);
 
         }
 
@@ -139,12 +145,13 @@ public class UserUtil {
     public void sendToken(String email){
         try {
             User passedUser = userRepository.findByEmail(email);
-            String name = passedUser.designer.storeName;
+//            String name = passedUser.designer.storeName;
             char[] token = uniqueNumberUtil.OTP(5);
             List<String> phonenumbers = new ArrayList<>();
             phonenumbers.add(passedUser.phoneNo);
-            String message = String.format(messageSource.getMessage("user.sendtoken.message", null, locale), name, String.valueOf(token));
+            String message = String.format(messageSource.getMessage("user.sendtoken.message", null, locale), String.valueOf(token));
             smsAlertUtil.sms(phonenumbers, message);
+            System.out.println(String.valueOf(token));
             saveToken(String.valueOf(token), passedUser);
         }
         catch (Exception e){
@@ -160,6 +167,7 @@ public class UserUtil {
         if(token != null){
             token = tokenRepository.findByUser(user);
             token.setToken(tokenString);
+            token.setValidated(false);
             tokenRepository.save(token);
         }
         else {
@@ -350,8 +358,10 @@ public class UserUtil {
             if(user!=null){
                 try{
 
-                    if(!user.activationFlag.equalsIgnoreCase("Y")){
-                        return new Response("57","Account not verified",logInResp);
+                    if(user.role.equalsIgnoreCase("designer")){
+                        if(!user.activationFlag.equalsIgnoreCase("Y")){
+                            return new Response("57","Account not verified",logInResp);
+                        }
                     }
 
                    // check if(user.socialFlag) is Y and set valid as true

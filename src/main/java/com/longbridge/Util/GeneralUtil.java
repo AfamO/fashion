@@ -41,6 +41,8 @@ public class GeneralUtil {
     PriceSlashRepository priceSlashRepository;
 
 
+    @Autowired
+    OrderItemProcessingPictureRepository orderItemProcessingPictureRepository;
 
     @Autowired
     ItemRepository itemRepository;
@@ -69,6 +71,12 @@ public class GeneralUtil {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ProductAttributeRepository productAttributeRepository;
+
+    @Autowired
+    ProductSizesRepository productSizesRepository;
 
     public DesignerDTO convertDesigner2EntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
@@ -355,9 +363,11 @@ public class GeneralUtil {
         productDTO.productType = products.productType;
 
         SizeGuide sizeGuide = products.designer.sizeGuide;
-        productDTO.sizeGuide = new SizeGuideDTO();
-        productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
-        productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+        if(sizeGuide != null){
+            productDTO.sizeGuide = new SizeGuideDTO();
+            productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
+            productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+        }
 
         return productDTO;
     }
@@ -416,11 +426,11 @@ public class GeneralUtil {
         productDTO.productType = products.productType;
 
         SizeGuide sizeGuide = products.designer.sizeGuide;
-
-        System.out.println("sizeGuide" +sizeGuide.femaleSizeGuide);
-        productDTO.sizeGuide = new SizeGuideDTO();
-        productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
-        productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+        if(sizeGuide != null){
+            productDTO.sizeGuide = new SizeGuideDTO();
+            productDTO.sizeGuide.femaleSizeGuide = sizeGuide.femaleSizeGuide;
+            productDTO.sizeGuide.maleSizeGuide = sizeGuide.maleSizeGuide;
+        }
 
         return productDTO;
 
@@ -475,8 +485,6 @@ public class GeneralUtil {
         productAttributeDTO.setColourPicture(productAttribute.getColourPicture());
         productAttributeDTO.setColourName(productAttribute.getColourName());
         productAttributeDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductPictures()));
-        System.out.println(productAttribute);
-        System.out.println(productAttribute.getProductSizes());
         productAttributeDTO.setProductSizes(productAttribute.getProductSizes());
         return productAttributeDTO;
 
@@ -572,7 +580,7 @@ public class GeneralUtil {
     }
 
 
-    public List<CartDTO> convertCartEntsToDTOs(List<Cart> carts){
+    public List<CartDTO>    convertCartEntsToDTOs(List<Cart> carts){
         List<CartDTO> cartDTOS = new ArrayList<>();
         for(Cart cart:carts){
             CartDTO cartDTO = convertCartEntToDTO(cart);
@@ -624,18 +632,19 @@ public class GeneralUtil {
         cartDTO.setColor(cart.getColor());
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setSize(cart.getSize());
-        String availability = productRepository.findOne(cart.getProductId()).availability;
-        if(availability.equalsIgnoreCase("N")){
-            cartDTO.setSizeStockNo(0);//todo pass threshold
-        }else{
-            if(cart.getSize() != null){
-                //cartDTO.setSizeStockNo(productSizesRepository.findByProductsAndName(products,cart.getSize()).getStockNo());
+        String acceptCustomSizes = productRepository.findOne(cart.getProductId()).acceptCustomSizes;
 
-            }
-            else {
-                cartDTO.setSizeStockNo(0);
-            }
+        if(cart.getProductAttributeId() == null){
+            cartDTO.setSizeStockNo(1);
+        }else{
+           ProductAttribute productAttribute =  productAttributeRepository.findOne(cart.getProductAttributeId());
+           if(productAttribute != null){
+               ProductSizes productSizes = productSizesRepository.findByProductAttributeAndName(productAttribute, cart.getSize());
+               cartDTO.setSize(productSizes.getName());
+               cartDTO.setSizeStockNo(productSizes.getStockNo());
+           }
         }
+
         cartDTO.setMaterialLocation(cart.getMaterialLocation());
         cartDTO.setMaterialPickupDate(cart.getMaterialPickupDate());
         cartDTO.setMaterialStatus(cart.getMaterialStatus());
@@ -656,6 +665,11 @@ public class GeneralUtil {
     public ItemsRespDTO convertEntityToDTO(Items items){
         ItemsRespDTO itemsDTO = new ItemsRespDTO();
         if(items != null) {
+
+            List<OrderItemProcessingPicture> orderItemProcessingPictures = orderItemProcessingPictureRepository.findByItems(items);
+            if(orderItemProcessingPictures.size() > 0){
+                itemsDTO.setPictures(orderItemProcessingPictures);
+            }
             itemsDTO.setId(items.id);
             itemsDTO.setProductId(items.getProductId());
             Products p = productRepository.findOne(items.getProductId());
@@ -699,6 +713,9 @@ public class GeneralUtil {
             if (items.getMeasurementId() != null) {
                 itemsDTO.setMeasurement(items.getMeasurement());
             }
+            itemsDTO.setTrackingNumber(items.getTrackingNumber());
+
+
         }
         return itemsDTO;
 
@@ -740,6 +757,8 @@ public class GeneralUtil {
         return orderDTO;
 
     }
+
+
 
 
 }

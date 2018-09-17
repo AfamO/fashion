@@ -13,8 +13,8 @@ import javax.persistence.OneToOne;
 public class Likes extends CommonFields {
     @JsonIgnore
     @ManyToOne
-    public EventPictures eventPictures;
+    private EventPictures eventPictures;
 
     @OneToOne
-    public User user;
+    private User user;
 }

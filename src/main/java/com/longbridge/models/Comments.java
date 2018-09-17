@@ -14,13 +14,13 @@ import javax.persistence.OneToOne;
 public class Comments extends CommonFields {
     @JsonIgnore
     @ManyToOne
-    public EventPictures eventPictures;
+    private EventPictures eventPictures;
 
     @OneToOne
-    public User user;
+    private User user;
 
     @Lob
-    public String comment;
+    private String comment;
 
 
 }

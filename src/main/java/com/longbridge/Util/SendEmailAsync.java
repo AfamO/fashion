@@ -4,6 +4,7 @@ import com.longbridge.dto.DesignerOrderDTO;
 import com.longbridge.dto.ItemsDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.exception.WawoohException;
+import com.longbridge.models.Orders;
 import com.longbridge.models.Products;
 import com.longbridge.models.User;
 import com.longbridge.repository.DesignerRepository;
@@ -57,6 +58,7 @@ public class SendEmailAsync {
     @Async
     public void sendEmailToUser(User user, String orderNumber) {
             String link = "";
+
         try {
             System.out.println("Execute method asynchronously - "
                 + Thread.currentThread().getName());
@@ -80,6 +82,41 @@ public class SendEmailAsync {
             }catch (MailException me){
                 me.printStackTrace();
                 throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.success.subject", null, locale),orderNumber,link,"null");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+    }
+
+
+    @Async
+    public void sendTransferEmailToUser(User user, Orders orders) {
+        String link = "";
+
+        try {
+
+            try {
+                String mail = user.email;
+                String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
+                // orderNumber = orderNumber.substring(0,4);
+
+                link=messageSource.getMessage("order.status.track", null, locale)+encryptedMail+"&orderNum="+orders.getOrderNum();
+
+
+                Context context = new Context();
+                context.setVariable("name", user.firstName + " "+ user.lastName);
+
+                context.setVariable("link",link);
+
+                String message = templateEngine.process("transferemailtemplate", context);
+                mailService.prepareAndSend(message,mail,messageSource.getMessage("order.success.subject", null, locale));
+
+            }catch (MailException me){
+                me.printStackTrace();
+                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.success.subject", null, locale),orders.getOrderNum(),link,"null");
 
             }
         } catch (Exception e) {
@@ -226,15 +263,17 @@ public class SendEmailAsync {
         String activationLink="";
         try {
             Context context = new Context();
-            context.setVariable("name", user.designer.storeName);
+
             String encryptedMail = Base64.getEncoder().encodeToString(user.email.getBytes());
             activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
             String message="";
             context.setVariable("link", activationLink);
             if(user.designer != null) {
+                context.setVariable("name", user.designer.storeName);
                 message = templateEngine.process("designerwelcomeemail", context);
             }
             else {
+                context.setVariable("name", user.firstName+" " +user.lastName);
                 message = templateEngine.process("welcomeemail", context);
             }
             mailService.prepareAndSend(message,user.email,messageSource.getMessage("user.welcome.subject", null, locale));
@@ -242,7 +281,6 @@ public class SendEmailAsync {
         }catch (MailException me){
             me.printStackTrace();
             throw new AppException("",user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
-
         }
 
     }
@@ -250,7 +288,7 @@ public class SendEmailAsync {
 
     @Async
     public void sendFailedInspEmailToUser(User user, ItemsDTO itemsDTO) {
-        Products products = productRepository.findOne(itemRepository.findOne(itemsDTO.getId()).getProductId());
+
         try {
             System.out.println("Execute method asynchronously - "
                     + Thread.currentThread().getName());
@@ -260,7 +298,7 @@ public class SendEmailAsync {
 
                 Context context = new Context();
                 context.setVariable("name", user.firstName + " "+ user.lastName);
-                context.setVariable("productName",products.name);
+                context.setVariable("productName",itemsDTO.getProductName());
 
 
                 String message = templateEngine.process("failedinspforuser", context);
@@ -268,7 +306,7 @@ public class SendEmailAsync {
 
             }catch (MailException me){
                 me.printStackTrace();
-                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.failedinspection.subject", null, locale),products.name);
+                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.failedinspection.subject", null, locale),itemsDTO.getProductName());
 
             }
         } catch (Exception e) {
@@ -281,7 +319,7 @@ public class SendEmailAsync {
 
     @Async
     public void sendFailedInspToDesigner(ItemsDTO itemsDTO) {
-        String link = "";
+
         try {
             System.out.println("Execute method asynchronously - "
                     + Thread.currentThread().getName());

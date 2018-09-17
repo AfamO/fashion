@@ -1,9 +1,7 @@
 package com.longbridge.controllers.designer;
 
 import com.longbridge.Util.UserUtil;
-import com.longbridge.dto.DesignerDTO;
-import com.longbridge.dto.DesignerRatingDTO;
-import com.longbridge.dto.MonthsDTO;
+import com.longbridge.dto.*;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mobile.device.Device;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -96,17 +95,18 @@ public class DesignerController {
 //    }
 
 
-    @PostMapping(value = "/updatedesigner")
-    public Response updateDesigner(@RequestBody User passedUser,HttpServletRequest request){
+
+
+    @PostMapping(value = "/updateemailaddress")
+    public Response updateEmailAddress(@RequestBody UserEmailTokenDTO userEmailTokenDTO, HttpServletRequest request, Device device){
+
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
-        Designer designer = passedUser.designer;
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        designerService.updateDesigner(userTemp,passedUser,designer);
-        return new Response("00","Operation Successful","success");
 
+        return designerService.updateEmailAddress(userTemp, userEmailTokenDTO, device);
     }
 
     @PostMapping(value = "/updatepersonalinformation")
@@ -118,7 +118,7 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        designerService.updateDesignerPersonalInformation(userTemp, user, user.designer);
+        designerService.updateDesignerPersonalInformation(userTemp, user);
         return new Response("00", "Profile updated", null);
     }
 
@@ -131,7 +131,7 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        designerService.updateDesignerBusinessInformation(userTemp, user, user.designer);
+        designerService.updateDesignerBusinessInformation(userTemp, user);
         return new Response("00", "Profile updated", null);
     }
 

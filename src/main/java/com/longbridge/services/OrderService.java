@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface OrderService {
 
-    OrderRespDTO addOrder(OrderReqDTO orders, User user);
+    PaymentResponse addOrder(OrderReqDTO orders, User user);
 
     void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO, User user);
 
@@ -79,4 +79,6 @@ public interface OrderService {
     TransferInfoDTO getOrderTransferInfo(String orderNum);
 
     List<TransferInfoDTO> getAllTransferInfo();
+
+    void updateTrackingNumber(ItemsDTO itemsDTO);
 }

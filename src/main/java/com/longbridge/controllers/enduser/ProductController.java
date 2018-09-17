@@ -46,7 +46,7 @@ public class ProductController {
 
 
     @GetMapping(value = {"/{id}/getproductbyid/{reviews}","/{id}/getproductbyid"})
-    public Object getEventById(@PathVariable Long id, HttpServletRequest request, @PathVariable("reviews") Optional<String> reviews){
+    public Object getProductById(@PathVariable Long id, HttpServletRequest request, @PathVariable("reviews") Optional<String> reviews){
 
         String token = request.getHeader(tokenHeader);
         User user = userUtil.fetchUserDetails2(token);
@@ -58,6 +58,15 @@ public class ProductController {
         }
         return new Response("00","Operation Successful",products);
     }
+
+
+    @GetMapping(value = {"/{id}/getproductattributebyid}"})
+    public Object getProductPictureById(@PathVariable Long id){
+
+        return new Response("00","Operation Successful",productService.getProductAttributesById(id));
+    }
+
+
 
 
     @GetMapping(value = "/{id}/getproductbyid/getuserreview")
@@ -75,6 +84,27 @@ public class ProductController {
         return new Response("00","Operation Successful",products);
     }
 
+
+    @GetMapping(value = "/getdesignerproducts")
+    public Object getProductsByDesigner(HttpServletRequest request){
+
+        Map<String,Object> responseMap = new HashMap();
+
+        String token = request.getHeader(tokenHeader);
+        User user = userUtil.fetchUserDetails2(token);
+
+        if(token==null || user==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        Designer designer = user.designer;
+
+        if(designer==null){
+            return new Response("99","Operation Failed, Not a designer",responseMap);
+        }
+
+        List<ProductRespDTO> products= productService.getProductsByDesigner(designer.id);
+        return new Response("00","Operation Successful",products);
+    }
 
     @PostMapping(value = "/getproducts")
     public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO, HttpServletRequest request){

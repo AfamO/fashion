@@ -2,6 +2,8 @@ package com.longbridge.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
+
 /**
  * Created by Longbridge on 03/01/2018.
  */
@@ -81,16 +83,22 @@ public class ItemsDTO {
 
     private boolean readyMade;
 
+    private String trackingNumber;
+
     @JsonIgnore
     private String link;
+
+    private ArrayList<String> pictures;
 
 
     public ItemsDTO() {
     }
 
-    public ItemsDTO(Long productId, String productName, int quantity, Long designerId, String deliveryStatus, String deliveryDate, String orderDate, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, String orderNumber) {
+    public ItemsDTO(Long id, Long productId, String productName, String productAvailability, int quantity, Long designerId, String deliveryStatus, String deliveryDate, String orderDate, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, String orderNumber, String measurement, Long orderId, String customerName, Long customerId, String rejectReason, Long statusId, String status, String failedInspectionReason, Long messageId, String message, String waitTime, String action, String accountName, String accountNumber, String complain, boolean readyMade, String trackingNumber, String link, ArrayList<String> pictures) {
+        this.id = id;
         this.productId = productId;
         this.productName = productName;
+        this.productAvailability = productAvailability;
         this.quantity = quantity;
         this.designerId = designerId;
         this.deliveryStatus = deliveryStatus;
@@ -108,6 +116,25 @@ public class ItemsDTO {
         this.materialLocation = materialLocation;
         this.materialPickupDate = materialPickupDate;
         this.orderNumber = orderNumber;
+        this.measurement = measurement;
+        this.orderId = orderId;
+        this.customerName = customerName;
+        this.customerId = customerId;
+        this.rejectReason = rejectReason;
+        this.statusId = statusId;
+        this.status = status;
+        this.failedInspectionReason = failedInspectionReason;
+        this.messageId = messageId;
+        this.message = message;
+        this.waitTime = waitTime;
+        this.action = action;
+        this.accountName = accountName;
+        this.accountNumber = accountNumber;
+        this.complain = complain;
+        this.readyMade = readyMade;
+        this.trackingNumber = trackingNumber;
+        this.link = link;
+        this.pictures = pictures;
     }
 
     public Long getId() {
@@ -412,5 +439,21 @@ public class ItemsDTO {
 
     public void setFailedInspectionReason(String failedInspectionReason) {
         this.failedInspectionReason = failedInspectionReason;
+    }
+
+    public ArrayList<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(ArrayList<String> picture) {
+        this.pictures = picture;
+    }
+
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
     }
 }
