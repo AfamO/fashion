@@ -334,9 +334,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void addProduct(ProductDTO productDTO, Designer designer) {
+    public void addProduct(ProductDTO productDTO, User user) {
 
         try {
+
+            Designer designer = designerRepository.findByUser(user);
             Date date = new Date();
             int totalStock = 0;
             Products products = new Products();
@@ -466,11 +468,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(ProductDTO productDTO, Designer designer) {
+    public void updateProduct(ProductDTO productDTO, User user) {
 
         try {
             Date date = new Date();
 
+            Designer designer = designerRepository.findByUser(user);
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             Products products = productRepository.findOne(productDTO.id);
             products.setSubCategory(subCategoryRepository.findOne(subCategoryId));
@@ -550,9 +553,10 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public void updateProductStock(ProductDTO productDTO, Designer designer) {
+    public void updateProductStock(ProductDTO productDTO, User user) {
         try {
             Products products = productRepository.findOne(productDTO.id);
+            Designer designer = designerRepository.findByUser(user);
 
             if(productDTO.productAttributes != null){
                 List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
@@ -845,10 +849,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductRespDTO> getProductsByDesigner(Long designerId) {
+    public List<ProductRespDTO> getProductsByDesigner(User user) {
 
 
         try {
+            Designer designer = designerRepository.findByUser(user);
+            Long designerId = designer.id;
+
             List<Products> products = productRepository.findByDesigner(designerRepository.findOne(designerId));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
             return productDTOS;

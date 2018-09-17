@@ -19,7 +19,7 @@ public interface ProductService {
     ProductRespDTO getDesignerProductById(Long id,User user);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void addProduct(ProductDTO productDTO, Designer designer) throws WawoohException;
+    void addProduct(ProductDTO productDTO, User user) throws WawoohException;
 
     void updateProductVisibility(Long id, String status);
 
@@ -28,10 +28,10 @@ public interface ProductService {
     void sponsorProduct(Long id, String status);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateProduct(ProductDTO productDTO, Designer designer);
+    void updateProduct(ProductDTO productDTO, User user);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateProductStock(ProductDTO productDTO, Designer designer);
+    void updateProductStock(ProductDTO productDTO, User user);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void updateProductImages(ProductDTO p);
@@ -57,7 +57,7 @@ public interface ProductService {
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void deleteMaterialImages(ProductPictureIdListDTO pictureIdListDTO);
 
-    List<ProductRespDTO> getProductsByDesigner(Long designerId);
+    List<ProductRespDTO> getProductsByDesigner(User user);
 
     List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO);
 

@@ -6,6 +6,7 @@ import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
 import com.longbridge.models.Style;
 import com.longbridge.models.User;
+import com.longbridge.repository.DesignerRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.HibernateSearchService;
@@ -46,6 +47,9 @@ public class DesignerProductController {
     @Autowired
     UserUtil userUtil;
 
+    @Autowired
+    DesignerRepository designerRepository;
+
 
 
     @PostMapping(value = "/addproduct")
@@ -57,12 +61,11 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Designer designer = user.designer;
 
-        if(designer==null){
+        if(!user.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
-        productService.addProduct(productDTO,designer);
+        productService.addProduct(productDTO,user);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
 
@@ -78,11 +81,11 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Designer designer = user.designer;
-        if(designer==null){
+
+        if(!user.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
-        productService.updateProduct(productDTO, designer);
+        productService.updateProduct(productDTO, user);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
@@ -97,11 +100,12 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Designer designer = user.designer;
-        if(designer==null){
+
+        if(!user.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
-        productService.updateProductStock(productDTO, designer);
+
+        productService.updateProductStock(productDTO, user);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
@@ -132,7 +136,7 @@ public class DesignerProductController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(userTemp.designer==null){
+        if(!userTemp.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
         productService.updateArtWorkImages(artPicReqDTO);
@@ -149,7 +153,7 @@ public class DesignerProductController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(userTemp.designer==null){
+        if(!userTemp.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
         productService.updateMaterialImages(matPicReqDTO);
@@ -168,7 +172,7 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(user.designer==null){
+        if(!user.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
         productService.deleteProduct(id);
@@ -187,7 +191,7 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(user.designer==null){
+        if(!user.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
         productService.deleteProductImage(id);
@@ -204,7 +208,7 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(user.designer==null){
+        if(!user.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
         productService.deleteProductImages(pictureIdListDTO);
@@ -222,7 +226,7 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(user.designer==null){
+        if(!user.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
         productService.deleteArtWorkImages(pictureIdListDTO);
@@ -239,7 +243,7 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(user.designer==null){
+        if(!user.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
         productService.deleteMaterialImages(pictureIdListDTO);
@@ -275,8 +279,8 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Designer designer = user.designer;
-        List<ProductRespDTO> products= productService.getProductsByDesigner(designer.id);
+
+        List<ProductRespDTO> products= productService.getProductsByDesigner(user);
         return new Response("00","Operation Successful",products);
 
     }
@@ -294,9 +298,10 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(user.designer==null){
+        if(!user.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
+
         productService.updateProductVisibility(id,status);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
@@ -313,8 +318,12 @@ public class DesignerProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Designer designer = user.designer;
-        List<ProductRespDTO> products=searchService.designerProductsFuzzySearch(search,designer);
+
+        if(!user.getRole().equalsIgnoreCase("designer")){
+            return new Response("99","Operation Failed, Not a designer",null);
+        }
+
+        List<ProductRespDTO> products=searchService.designerProductsFuzzySearch(search,designerRepository.findByUser(user));
 
         return new Response("00","Operation Successful",products);
 
