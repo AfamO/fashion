@@ -11,13 +11,15 @@
             <h4> Dear <span th:text="${name}"> </span>,</h4>
             <p style = "line-height: 25px; font-size: 1em; color: #333;">
                 Thank you for your purchase, your OrderNumber is: <strong><span th:text="${orderNum}"></span></strong><br />
-    Here is what to expect: Our Quality Assurance Team will validate item quality and then ship to you within 24 - 72hours.
+            </p>
 
+            <p style = "line-height: 25px; font-size: 1em; color: #333;">
+                You can track your order status <a target='_blank' th:href="${link}"><button>Here</button></a>
             </p>
 
             <p style = "line-height: 25px; font-size: 1em; color: #333;">Thank you for shopping on Wawooh. If you have any questions please contact or call us at 07000-0-WAWOOH
 
-</p>
+            </p>
 
             <!--<p style = "line-height: 25px; font-size: 1em; color: #333;">-->
                <!--<b>NOTE:</b> If you have chosen bank transfer as your paymentRequest option, kindly click <a target='_blank' th:href="${link}"><button>Here</button></a>-->

@@ -664,11 +664,9 @@ public class OrderServiceImpl implements OrderService {
         try{
             List<DesignerOrderDTO> dtos = new ArrayList<>();
             User customer = userRepository.findOne(orderReqDTO.getUserId());
-
             Orders orders=orderRepository.findOne(orderReqDTO.getId());
             Date date = new Date();
             orders.setUpdatedOn(date);
-
             if(orders.getDeliveryStatus().equalsIgnoreCase("A")){
                 TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
                if(transferInfo == null){
@@ -682,7 +680,6 @@ public class OrderServiceImpl implements OrderService {
                 itemRepository.save(items);
                 notifyDesigner(items);
             }
-
             //update wallet balance
                 updateWalletForOrderPayment(customer,transferInfo.getAmountPayed(),"Bank Transfer");
                //update orders
@@ -692,8 +689,6 @@ public class OrderServiceImpl implements OrderService {
                     orderRepository.save(orders);
                     sendEmailAsync.sendPaymentConfEmailToUser(customer,orders.getOrderNum());
                 }
-
-
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
@@ -715,13 +710,11 @@ public class OrderServiceImpl implements OrderService {
     private void updateWalletForOrderPayment(User user,Double amount,String paymentType) {
 
         Wallet w= walletRepository.findByUser(user);
-
             if (w != null) {
                 if(!paymentType.equalsIgnoreCase("Wallet")) {
                     w.setBalance(w.getBalance() + amount);
                 }
                 w.setPendingSettlement(w.getPendingSettlement() + amount);
-
             } else {
                 w = new Wallet();
                 w.setBalance(amount);
@@ -729,9 +722,7 @@ public class OrderServiceImpl implements OrderService {
                 w.setUser(user);
             }
         System.out.println(w.getPendingSettlement());
-
         walletRepository.save(w);
-
     }
 
     @Override
@@ -739,12 +730,10 @@ public class OrderServiceImpl implements OrderService {
         try {
             List<Orders> orders= orderRepository.findByUserId(user.id);
             return orders;
-
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
         }
-
     }
 
     @Override
