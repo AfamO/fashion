@@ -81,9 +81,14 @@ public class ProductController {
 
     @GetMapping(value = "/{designerId}/getdesignerproducts")
     public Object getProductsByDesignerId(@PathVariable Long designerId){
+        Designer designer = designerService.getDesignrById(designerId);
 
+<<<<<<< HEAD
 
         List<ProductRespDTO> products= productService.getProductsByDesignerId(designerId);
+=======
+        List<ProductRespDTO> products= productService.getProductsByDesigner(designer.getUser());
+>>>>>>> 3379baffd975d6b54b8616d5d5656938c1c03b1d
         return new Response("00","Operation Successful",products);
     }
 
