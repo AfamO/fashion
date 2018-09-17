@@ -61,7 +61,10 @@ public class AdminOrderController {
 
             String message =  orderService.updateOrderByAdmin(orderReqDTO,userTemp);
             if(message.equalsIgnoreCase("nopayment")){
-                return new Response("56","Operation Successful","No payment has been made");
+                return new Response("56","Unable to confirm payment","No payment has been made");
+            }
+            else if(message.equalsIgnoreCase("lesspayment")){
+                return new Response("56","Unable to confirm payment","Amount paid is less than total amount for order");
             }
             else if(message.equalsIgnoreCase("success")){
                 return new Response("00","Operation Successful","success");
@@ -86,6 +89,18 @@ public class AdminOrderController {
 
         }
 
+    }
+
+    @PostMapping(value = "/updatetrackingnumber")
+    public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO, HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+
+        orderService.updateTrackingNumber(itemsDTO);
+        return new Response("00", "Operation successful", null);
     }
 
 
@@ -160,17 +175,6 @@ public class AdminOrderController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         return new Response("00","Operation Successful",orderService.getAllOrdersByAdmin(userTemp));
-
-    }
-
-    @GetMapping(value = "/getStats")
-    public Response getAllDashboardStatistics(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token) ;
-        }
-        return new Response("00","Operation Successful",orderService.getDashBoardStatistics());
 
     }
     @GetMapping(value = "/getorders")

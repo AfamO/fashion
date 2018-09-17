@@ -78,6 +78,8 @@ public class ItemsRespDTO {
 
     private String failedInspectionReason;
 
+    private String trackingNumber;
+
     @JsonIgnore
     private String link;
 
@@ -362,5 +364,13 @@ public class ItemsRespDTO {
 
     public void setPictures(List<OrderItemProcessingPicture> pictures) {
         this.pictures = pictures;
+    }
+
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
     }
 }

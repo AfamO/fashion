@@ -3,7 +3,6 @@ package com.longbridge.services;
 
 import com.longbridge.dto.*;
 import com.longbridge.models.*;
-import com.longbridge.respbodydto.DashBoardStatisticsDTO;
 import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.respbodydto.OrderRespDTO;
@@ -45,8 +44,6 @@ public interface OrderService {
 
     List<ItemsRespDTO> getAllOrdersByAdmin(User user);
     
-    DashBoardStatisticsDTO getDashBoardStatistics();
-
     List<OrderDTO> getAllOrdersByAdmin2(User user);
 
     List<OrderDTO> getIncompleteOrders(User user);
@@ -82,4 +79,6 @@ public interface OrderService {
     TransferInfoDTO getOrderTransferInfo(String orderNum);
 
     List<TransferInfoDTO> getAllTransferInfo();
+
+    void updateTrackingNumber(ItemsDTO itemsDTO);
 }

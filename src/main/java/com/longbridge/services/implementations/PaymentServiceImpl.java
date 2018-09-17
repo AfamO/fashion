@@ -265,7 +265,8 @@ public class PaymentServiceImpl implements PaymentService {
 
             items.setItemStatus(itemStatus);
             itemRepository.save(items);
-        sendEmailAsync.sendPaymentConfEmailToUser(user, items.getOrders().getOrderNum());
+            sendEmailAsync.sendPaymentConfEmailToUser(user, items.getOrders().getOrderNum());
+
     }
 
 
