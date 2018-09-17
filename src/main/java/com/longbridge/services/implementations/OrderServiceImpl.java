@@ -1185,6 +1185,22 @@ itemRepository.save(items);
     }
 
     @Override
+    public void updateTrackingNumber(ItemsDTO itemsDTO) {
+        try {
+            Items items = itemRepository.findOne(itemsDTO.getId());
+
+            if(items != null){
+                items.setTrackingNumber(itemsDTO.getTrackingNumber());
+                itemRepository.save(items);
+            }
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public Boolean orderNumExists(String orderNum) {
         Orders orders = orderRepository.findByOrderNum(orderNum);
         return (orders != null) ? true : false;

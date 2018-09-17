@@ -713,6 +713,7 @@ public class GeneralUtil {
             if (items.getMeasurementId() != null) {
                 itemsDTO.setMeasurement(items.getMeasurement());
             }
+            itemsDTO.setTrackingNumber(items.getTrackingNumber());
 
 
         }

@@ -79,4 +79,6 @@ public interface OrderService {
     TransferInfoDTO getOrderTransferInfo(String orderNum);
 
     List<TransferInfoDTO> getAllTransferInfo();
+
+    void updateTrackingNumber(ItemsDTO itemsDTO);
 }

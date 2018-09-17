@@ -336,6 +336,7 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             Date date = new Date();
+            int totalStock = 0;
             Products products = new Products();
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             //ArrayList<String> pics = productDTO.picture;
@@ -384,6 +385,7 @@ public class ProductServiceImpl implements ProductService {
                     ProductSizes productSizes = new ProductSizes();
                     productSizes.setName(p.getName());
                     productSizes.setStockNo(p.getStockNo());
+                    totalStock += p.getStockNo();
                     productSizes.setProductAttribute(productAttribute);
                     System.out.println(productSizes);
                     productSizesRepository.save(productSizes);
@@ -403,19 +405,19 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
 
-            if(productDTO.slashedPrice != 0){
+            if(productDTO.slashedPrice > 0){
                 PriceSlash priceSlash = new PriceSlash();
                 products.priceSlashEnabled = true;
                 priceSlash.setProducts(products);
                 priceSlash.setSlashedPrice(productDTO.slashedPrice);
-                priceSlash.setPercentageDiscount((productDTO.slashedPrice/productDTO.amount)*100);
+                priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
                 priceSlashRepository.save(priceSlash);
-            } else if(productDTO.percentageDiscount != 0){
+            } else if(productDTO.percentageDiscount > 0){
 
                 PriceSlash priceSlash=new PriceSlash();
                 products.priceSlashEnabled = true;
                 priceSlash.setProducts(products);
-                priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+                priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.amount));
                 priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
                 priceSlashRepository.save(priceSlash);
             }
@@ -451,6 +453,9 @@ public class ProductServiceImpl implements ProductService {
                     artWorkPictureRepository.save(artWorkPicture);
                 }
             }
+
+            products.stockNo = totalStock;
+            productRepository.save(products);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -496,7 +501,7 @@ public class ProductServiceImpl implements ProductService {
 //            }
 
 
-            if(productDTO.slashedPrice != 0){
+            if(productDTO.slashedPrice > 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
                 if(priceSlash != null){
                     priceSlash.setSlashedPrice(productDTO.slashedPrice);
@@ -505,13 +510,13 @@ public class ProductServiceImpl implements ProductService {
                     priceSlash=new PriceSlash();
                     products.priceSlashEnabled = true;
                     priceSlash.setProducts(products);
-                    priceSlash.setPercentageDiscount((productDTO.slashedPrice/productDTO.amount)*100);
+                    priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
                     priceSlash.setSlashedPrice(productDTO.slashedPrice);
                 }
 
                 priceSlashRepository.save(priceSlash);
             }
-            else if(productDTO.percentageDiscount != 0){
+            else if(productDTO.percentageDiscount > 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
                 if(priceSlash != null){
                     priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
@@ -520,7 +525,7 @@ public class ProductServiceImpl implements ProductService {
                     priceSlash=new PriceSlash();
                     products.priceSlashEnabled = true;
                     priceSlash.setProducts(products);
-                    priceSlash.setSlashedPrice((productDTO.percentageDiscount/100)*products.amount);
+                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.amount));
                     priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
                 }
 
@@ -569,6 +574,7 @@ public class ProductServiceImpl implements ProductService {
         Date date = new Date();
         try {
             Products products = productRepository.findOne(p.id);
+            int totalStock = 0;
             List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
             List<String> reOccuringPictures = new ArrayList<String>();
             products.acceptCustomSizes = p.acceptCustomSizes;
@@ -606,6 +612,7 @@ public class ProductServiceImpl implements ProductService {
                     ProductSizes productSizes = new ProductSizes();
                     productSizes.setName(prodSizes.getName());
                     productSizes.setStockNo(prodSizes.getStockNo());
+                    totalStock += prodSizes.getStockNo();
                     productSizes.setProductAttribute(productAttribute);
                     productSizesRepository.save(productSizes);
                 }
@@ -624,6 +631,9 @@ public class ProductServiceImpl implements ProductService {
                         productPictureRepository.save(productPicture);
                     }
             }
+
+            products.stockNo = totalStock;
+            productRepository.save(products);
 
         }catch (Exception e){
             e.printStackTrace();

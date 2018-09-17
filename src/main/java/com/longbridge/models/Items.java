@@ -59,6 +59,7 @@ public class Items extends CommonFields{
 
     private String complain;
 
+    private String trackingNumber;
 
     @Lob
     private String measurement;
@@ -292,10 +293,18 @@ public class Items extends CommonFields{
         this.productAttributeId = productAttributeId;
     }
 
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
     public Items() {
     }
 
-    public Items(Orders orders, Long productId, String productName, String productPicture, String artWorkPicture, String materialPicture, int quantity, Long designerId, String deliveryStatus, Date deliveryDate, String size, Double amount, Long artWorkPictureId, Long materialPictureId, Long productAttributeId, String color, String materialStatus, Long materialLocation, String materialPickupDate, Long measurementId, String rejectReason, String failedInspectionReason, String complain, String measurement, ItemStatus itemStatus, StatusMessage statusMessage) {
+    public Items(Orders orders, Long productId, String productName, String productPicture, String artWorkPicture, String materialPicture, int quantity, Long designerId, String deliveryStatus, Date deliveryDate, String size, Double amount, Long artWorkPictureId, Long materialPictureId, Long productAttributeId, String color, String materialStatus, Long materialLocation, String materialPickupDate, Long measurementId, String rejectReason, String failedInspectionReason, String complain, String trackingNumber, String measurement, ItemStatus itemStatus, StatusMessage statusMessage) {
         this.orders = orders;
         this.productId = productId;
         this.productName = productName;
@@ -319,6 +328,7 @@ public class Items extends CommonFields{
         this.rejectReason = rejectReason;
         this.failedInspectionReason = failedInspectionReason;
         this.complain = complain;
+        this.trackingNumber = trackingNumber;
         this.measurement = measurement;
         this.itemStatus = itemStatus;
         this.statusMessage = statusMessage;
@@ -327,19 +337,33 @@ public class Items extends CommonFields{
     @Override
     public String toString() {
         return "Items{" +
-                "productId=" + productId +
+                "orders=" + orders +
+                ", productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", productPicture='" + productPicture + '\'' +
+                ", artWorkPicture='" + artWorkPicture + '\'' +
+                ", materialPicture='" + materialPicture + '\'' +
                 ", quantity=" + quantity +
                 ", designerId=" + designerId +
                 ", deliveryStatus='" + deliveryStatus + '\'' +
                 ", deliveryDate=" + deliveryDate +
                 ", size='" + size + '\'' +
-                ", amount='" + amount + '\'' +
+                ", amount=" + amount +
                 ", artWorkPictureId=" + artWorkPictureId +
                 ", materialPictureId=" + materialPictureId +
+                ", productAttributeId=" + productAttributeId +
                 ", color='" + color + '\'' +
                 ", materialStatus='" + materialStatus + '\'' +
-                ", materialLocation='" + materialLocation + '\'' +
+                ", materialLocation=" + materialLocation +
                 ", materialPickupDate='" + materialPickupDate + '\'' +
+                ", measurementId=" + measurementId +
+                ", rejectReason='" + rejectReason + '\'' +
+                ", failedInspectionReason='" + failedInspectionReason + '\'' +
+                ", complain='" + complain + '\'' +
+                ", trackingNumber='" + trackingNumber + '\'' +
+                ", measurement='" + measurement + '\'' +
+                ", itemStatus=" + itemStatus +
+                ", statusMessage=" + statusMessage +
                 '}';
     }
 }
