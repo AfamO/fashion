@@ -61,7 +61,10 @@ public class AdminOrderController {
 
             String message =  orderService.updateOrderByAdmin(orderReqDTO,userTemp);
             if(message.equalsIgnoreCase("nopayment")){
-                return new Response("56","Operation Successful","No payment has been made");
+                return new Response("56","Unable to confirm payment","No payment has been made");
+            }
+            else if(message.equalsIgnoreCase("lesspayment")){
+                return new Response("56","Unable to confirm payment","Amount paid is less than total amount for order");
             }
             else if(message.equalsIgnoreCase("success")){
                 return new Response("00","Operation Successful","success");

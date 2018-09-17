@@ -288,7 +288,7 @@ public class SendEmailAsync {
 
     @Async
     public void sendFailedInspEmailToUser(User user, ItemsDTO itemsDTO) {
-        Products products = productRepository.findOne(itemRepository.findOne(itemsDTO.getId()).getProductId());
+
         try {
             System.out.println("Execute method asynchronously - "
                     + Thread.currentThread().getName());
@@ -298,7 +298,7 @@ public class SendEmailAsync {
 
                 Context context = new Context();
                 context.setVariable("name", user.firstName + " "+ user.lastName);
-                context.setVariable("productName",products.name);
+                context.setVariable("productName",itemsDTO.getProductName());
 
 
                 String message = templateEngine.process("failedinspforuser", context);
@@ -306,7 +306,7 @@ public class SendEmailAsync {
 
             }catch (MailException me){
                 me.printStackTrace();
-                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.failedinspection.subject", null, locale),products.name);
+                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.failedinspection.subject", null, locale),itemsDTO.getProductName());
 
             }
         } catch (Exception e) {
@@ -319,7 +319,7 @@ public class SendEmailAsync {
 
     @Async
     public void sendFailedInspToDesigner(ItemsDTO itemsDTO) {
-        String link = "";
+
         try {
             System.out.println("Execute method asynchronously - "
                     + Thread.currentThread().getName());
