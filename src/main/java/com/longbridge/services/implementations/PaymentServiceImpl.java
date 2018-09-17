@@ -180,7 +180,7 @@ public class PaymentServiceImpl implements PaymentService {
             JSONObject data = new JSONObject();
 
             data.put("authorization_code", items.getOrders().getAuthorizationCode());
-            data.put("email", user.email);
+            data.put("email", user.getEmail());
             data.put("amount", amount);
             // This sends the request to server with payload
             HttpResponse<JsonNode> response = Unirest.post(CHARGE_ENDPOINT)

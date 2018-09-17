@@ -495,13 +495,13 @@ public class EventServiceImpl implements EventService {
 
     private UserDTO convertUserEntityToUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
-        userDTO.setEmail(user.email);
+        userDTO.setEmail(user.getEmail());
         userDTO.setId(user.id);
-        userDTO.setFirstName(user.firstName);
-        userDTO.setLastName(user.lastName);
-        userDTO.setPhoneNo(user.phoneNo);
-        userDTO.setGender(user.gender);
-        userDTO.setRole(user.role);
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPhoneNo(user.getPhoneNo());
+        userDTO.setGender(user.getGender());
+        userDTO.setRole(user.getRole());
         return userDTO;
     }
 
@@ -509,18 +509,18 @@ public class EventServiceImpl implements EventService {
     private EventsDTO convertEntityToDTO(Events events){
         EventsDTO eventsDTO = new EventsDTO();
         eventsDTO.setId(events.id);
-        eventsDTO.setDescription(events.description);
+        eventsDTO.setDescription(events.getDescription());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        String stringDate = formatter.format(events.eventDate);
+        String stringDate = formatter.format(events.getEventDate());
         eventsDTO.setEventDate(stringDate);
         eventsDTO.setEventName(events.getEventName());
-        eventsDTO.setLocation(events.location);
-        eventsDTO.eventType=events.eventType;
+        eventsDTO.setLocation(events.getLocation());
+        eventsDTO.eventType=events.getEventType();
 
-        eventsDTO.setMainPicture(events.mainPictureName);
+        eventsDTO.setMainPicture(events.getMainPicture());
         int tags = 0;
-        List<EventPictures> ep = events.eventPictures;
+        List<EventPictures> ep = events.getEventPictures();
         for (EventPictures e:ep) {
             tags=tags+pictureTagRepository.countByEventPictures(e);
         }
@@ -533,14 +533,14 @@ public class EventServiceImpl implements EventService {
 
     private CommentsDTO convertEntityToDTO(Comments c){
         CommentsDTO commentsDTO = new CommentsDTO();
-        commentsDTO.setComment(c.comment);
+        commentsDTO.setComment(c.getComment());
         commentsDTO.setId(c.id);
 
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String stringDate = formatter.format(c.createdOn);
         commentsDTO.setCreatedDate(stringDate);
-        commentsDTO.setUser(convertUserEntityToUserDTO(c.user));
+        commentsDTO.setUser(convertUserEntityToUserDTO(c.getUser()));
 
         return commentsDTO;
 
@@ -560,7 +560,7 @@ public class EventServiceImpl implements EventService {
         LikesDTO likesDTO = new LikesDTO();
 
         likesDTO.setId(l.id);
-        likesDTO.setUser(convertUserEntityToUserDTO(l.user));
+        likesDTO.setUser(convertUserEntityToUserDTO(l.getUser()));
         return likesDTO;
 
     }
@@ -604,7 +604,7 @@ public class EventServiceImpl implements EventService {
         eventPicturesDTO.setComments(cmts);
         eventPicturesDTO.setLikes(likes);
         eventPicturesDTO.setPictureDesc(eventPictures.getPictureDesc());
-        eventPicturesDTO.setEventName(eventPictures.events.eventName);
+        eventPicturesDTO.setEventName(eventPictures.events.getEventName());
         eventPicturesDTO.setId(eventPictures.id);
         List<PictureTag> pictureTags = pictureTagRepository.findPictureTagsByEventPictures(eventPictures);
         List<PicTagDTO> pictureTagDTOS = convertPictureTagEntityToDTO(pictureTags);
@@ -617,7 +617,7 @@ public class EventServiceImpl implements EventService {
 
     private EventPicturesDTO convertEntityToDTOMin(EventPictures eventPictures){
         EventPicturesDTO eventPicturesDTO = new EventPicturesDTO();
-        eventPicturesDTO.setEventName(eventPictures.events.eventName);
+        eventPicturesDTO.setEventName(eventPictures.events.getEventName());
         eventPicturesDTO.setId(eventPictures.id);
         eventPicturesDTO.setPicture(eventPictures.pictureName);
         eventPicturesDTO.setPictureDesc(eventPictures.getPictureDesc());
@@ -652,19 +652,18 @@ public class EventServiceImpl implements EventService {
     private PicTagDTO convertPicTagEntityToDTO(PictureTag pictureTag){
         PicTagDTO pictureTagDTO = new PicTagDTO();
         pictureTagDTO.id=pictureTag.id;
-        pictureTagDTO.topCoordinate=pictureTag.topCoordinate;
-        pictureTagDTO.leftCoordinate=pictureTag.leftCoordinate;
-        pictureTagDTO.imageSize=pictureTag.imageSize;
-        pictureTagDTO.subcategoryId = pictureTag.subCategory.id;
-        if(pictureTag.designer != null){
-            pictureTagDTO.designerId = pictureTag.designer.id;
-            pictureTagDTO.designerName = pictureTag.designer.storeName;
+        pictureTagDTO.topCoordinate=pictureTag.getTopCoordinate();
+        pictureTagDTO.leftCoordinate=pictureTag.getLeftCoordinate();
+        pictureTagDTO.imageSize=pictureTag.getImageSize();
+        pictureTagDTO.subcategoryId = pictureTag.getSubCategory().id;
+        if(pictureTag.getDesigner() != null){
+            pictureTagDTO.designerId = pictureTag.getDesigner().id;
+            pictureTagDTO.designerName = pictureTag.getDesigner().getStoreName();
         }
 
         return pictureTagDTO;
 
     }
-
 
 
 }
