@@ -47,6 +47,14 @@ public class SubCategory extends CommonFields {
         this.styles = styles;
     }
 
+    public int getProductType() {
+        return productType;
+    }
+
+    public void setProductType(int productType) {
+        this.productType = productType;
+    }
+
     public SubCategory(Category category, String subCategory, List<Style> styles) {
         this.category = category;
         this.subCategory = subCategory;

@@ -110,7 +110,7 @@ public class DesignerController {
     }
 
     @PostMapping(value = "/updatepersonalinformation")
-    public Response updatePersonalInformation(@RequestBody User user, HttpServletRequest request){
+    public Response updatePersonalInformation(@RequestBody UserDTO user, HttpServletRequest request){
 
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -123,7 +123,7 @@ public class DesignerController {
     }
 
     @PostMapping(value = "/updatebusinessinformation")
-    public Response updateBusinessInformation(@RequestBody User user, HttpServletRequest request){
+    public Response updateBusinessInformation(@RequestBody UserDTO user, HttpServletRequest request){
 
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
