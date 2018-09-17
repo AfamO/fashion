@@ -64,7 +64,6 @@ public class User extends CommonFields{
     public String passed_token;
     @Transient
     public String refreshed_token;
-
     public User(String firstName, String lastName, String email,String gender, String password, String phoneNo, String role,
                 List<Address> addresses, List<Orders> orders, List<Cart> carts,
                 List<WishList> wishLists, Rating rating) {
@@ -283,6 +282,4 @@ public class User extends CommonFields{
     public void setRefreshed_token(String refreshed_token) {
         this.refreshed_token = refreshed_token;
     }
-
-
 }

@@ -17,15 +17,15 @@ public interface DesignerService {
 
     Response updateEmailAddress(User userTemp, UserEmailTokenDTO userEmailTokenDTO, Device device);
 
-    void updateDesignerPersonalInformation(User userTemp, User user);
+    void updateDesignerPersonalInformation(User userTemp, UserDTO user);
 
-    void updateDesignerBusinessInformation(User userTemp, User user);
+    void updateDesignerBusinessInformation(User userTemp, UserDTO user);
 
-    void updateDesignerAccountInformation(User userTemp, User user, Designer designer);
+    void updateDesignerAccountInformation(User userTemp, UserDTO user);
 
-    void updateDesignerInformation(User userTemp, User user, Designer designer);
+    void updateDesignerInformation(User userTemp, UserDTO user);
 
-    void updateDesignerLogo(User userTemp, Designer passedDesigner);
+    void updateDesignerLogo(User userTemp, DesignerDTO passedDesigner);
 
     void rateDesigner(DesignerRatingDTO ratingDTO);
 
