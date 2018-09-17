@@ -37,7 +37,7 @@ public class PriceSlashController {
         if(token==null || user1==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(user1.designer == null){
+        if(!user1.getRole().equalsIgnoreCase("designer")){
             return new Response("99","You are not a designer","error");
         }
         priceSlashService.addPriceSlash(priceSlash);
@@ -53,7 +53,7 @@ public class PriceSlashController {
         if(token==null || user1==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(user1.designer == null){
+        if(!user1.getRole().equalsIgnoreCase("designer")){
             return new Response("99","You are not a designer","error");
         }
         priceSlashService.removePriceSlash(productid);

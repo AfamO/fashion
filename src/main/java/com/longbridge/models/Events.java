@@ -99,8 +99,23 @@ public class Events extends CommonFields {
         this.mainPictureName = mainPictureName;
     }
 
+    public String getEventType() {
+        return eventType;
+    }
 
-    //@Override
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public int getTrendingCount() {
+        return trendingCount;
+    }
+
+    public void setTrendingCount(int trendingCount) {
+        this.trendingCount = trendingCount;
+    }
+
+//@Override
     //@JsonIgnore
 //    public List<String> getDefaultSearchFields() {
 //        return Arrays.asList("eventName","description","location");

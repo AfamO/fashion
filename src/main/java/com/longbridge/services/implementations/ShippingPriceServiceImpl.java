@@ -43,7 +43,7 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
 
         ArrayList<String> designerCities = new ArrayList<>();
         for (Cart cart : carts) {
-            String designerCity = productRepository.findOne(cart.getProductId()).designer.city.toUpperCase().trim();
+            String designerCity = productRepository.findOne(cart.getProductId()).getDesigner().getCity().toUpperCase().trim();
             int cartQuantity = cart.getQuantity();
             if(!designerCities.contains(designerCity)){
                 designerCities.add(designerCity);

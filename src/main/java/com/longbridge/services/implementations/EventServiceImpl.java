@@ -82,9 +82,9 @@ public class EventServiceImpl implements EventService {
     public void createEvent(Events e) {
         try {
             String time = "evtmpic" +getCurrentTime();
-            String fileName = e.eventName.replaceAll("\\s","") + time;
+            String fileName = e.getEventName().replaceAll("\\s","") + time;
 
-            CloudinaryResponse c = cloudinaryService.uploadToCloud(e.mainPicture,fileName,"eventmainpictures");
+            CloudinaryResponse c = cloudinaryService.uploadToCloud(e.getMainPicture(),fileName,"eventmainpictures");
             e.setMainPictureName(c.getUrl());
             e.setMainPicture(c.getPublicId());
 
@@ -98,7 +98,7 @@ public class EventServiceImpl implements EventService {
                 pictures.setUpdatedOn(date);
                 try {
                 String timeStamp = "evtpic" + getCurrentTime();
-                String fName = e.eventName.replaceAll("\\s","") + timeStamp;
+                String fName = e.getEventName().replaceAll("\\s","") + timeStamp;
                 CloudinaryResponse cc = cloudinaryService.uploadToCloud(pictures.picture,fName,"eventpictures");
                 pictures.pictureName=cc.getUrl();
                 //pictures.pictureDesc=p
@@ -123,11 +123,11 @@ public class EventServiceImpl implements EventService {
             Events eventsTemp = eventRepository.findOne(events.id);
             Date date = new Date();
             eventsTemp.setUpdatedOn(date);
-            eventsTemp.eventType = events.eventType;
-            eventsTemp.eventName = events.eventName;
-            eventsTemp.location=events.location;
-            eventsTemp.eventDate=events.eventDate;
-            eventsTemp.description=events.description;
+            eventsTemp.setEventType(events.getEventType());
+            eventsTemp.setEventName(events.getEventName());
+            eventsTemp.setLocation(events.getLocation());
+            eventsTemp.setEventDate(events.getEventDate());
+            eventsTemp.setDescription(events.getDescription());
             eventRepository.save(eventsTemp);
 
         }
@@ -159,14 +159,14 @@ public class EventServiceImpl implements EventService {
             Date date = new Date();
             Events events1 = eventRepository.findOne(events.id);
 
-            for(EventPictures eventPictures:events.eventPictures) {
+            for(EventPictures eventPictures:events.getEventPictures()) {
                 try {
 
                 if (eventPictures.id != null) {
                     EventPictures eventPictures1 = eventPictureRepository.findOne(eventPictures.id);
                     cloudinaryService.deleteFromCloud(eventPictures.picture, eventPictures.pictureName);
                     String timeStamp = "evtpic" + getCurrentTime();
-                    String fName = events1.eventName.replaceAll("\\s", "") + timeStamp;
+                    String fName = events1.getEventName().replaceAll("\\s", "") + timeStamp;
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(eventPictures.picture, fName, "eventpictures");
                     eventPictures1.pictureName = c.getUrl();
                     eventPictures1.picture = c.getPublicId();
@@ -176,7 +176,7 @@ public class EventServiceImpl implements EventService {
                 else {
                     EventPictures eventPictures1 = new EventPictures();
                     String timeStamp = "evtpic" + getCurrentTime();
-                    String fName = events1.eventName.replaceAll("\\s", "") + timeStamp;
+                    String fName = events1.getEventName().replaceAll("\\s", "") + timeStamp;
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(eventPictures.picture, fName, "eventpictures");
                     eventPictures1.pictureName = c.getUrl();
                     eventPictures1.picture = c.getPublicId();
@@ -428,9 +428,9 @@ public class EventServiceImpl implements EventService {
 
             if(user != null && e != null){
                 Comments c = new Comments();
-                c.eventPictures = e;
-                c.comment = comment;
-                c.user=user;
+                c.setEventPictures(e);
+                c.setComment(comment);
+                c.setUser(user);
                 c.setCreatedOn(date);
                 c.setUpdatedOn(date);
                 commentRepository.save(c);
@@ -461,8 +461,8 @@ public class EventServiceImpl implements EventService {
                 if(likes != null){
                     likeRepository.delete(likes);
                     Long count = likeRepository.countByEventPictures(e);
-                    if(events.trendingCount != 0) {
-                        events.trendingCount = events.trendingCount - 1;
+                    if(events.getTrendingCount() != 0) {
+                        events.setTrendingCount(events.getTrendingCount() - 1);
                     }
                     eventRepository.save(events);
                     return count.toString();
@@ -470,13 +470,13 @@ public class EventServiceImpl implements EventService {
                 }
                 else {
                     Likes l = new Likes();
-                    l.eventPictures = e;
-                    l.user=user;
+                    l.setEventPictures(e);
+                    l.setUser(user);
                     l.setCreatedOn(date);
                     l.setUpdatedOn(date);
                     likeRepository.save(l);
                     Long count = likeRepository.countByEventPictures(e);
-                    events.trendingCount = events.trendingCount + 1;
+                    events.setTrendingCount(events.getTrendingCount() + 1);
                     eventRepository.save(events);
                     return count.toString();
                 }
