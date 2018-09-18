@@ -495,7 +495,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderItemByAdmin1(ItemsDTO itemsDTO, User user) {
+    public void updateOrderItemByAdmin(ItemsDTO itemsDTO, User user) {
         try{
             ItemsDTO itemsDTO1 = new ItemsDTO();
             Items items = itemRepository.findOne(itemsDTO.getId());
