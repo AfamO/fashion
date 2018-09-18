@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:font-style="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+
+<div style= "width: 85%; margin: 16px auto 0; border: 1px solid rgba(0,0,0,0.2); height: auto;">
+    <div style = "padding: 15px;text-align: center;">
+        <img style = "width: 100px; background-size: contain;" src="http://wawooh.com/img/logo.png" alt="wawooh-logo"/></div>
+    <div style = "padding: 15px; margin: 15px 10px 0;">
+        <h4> Dear <span th:text="${name}"> </span>,</h4>
+        <p style = "line-height: 25px; font-size: 1em; color: #333;">
+            Thanks once again for your purchase, your item <b><span th:text="${productName}"></span> </b>has passed quality checks.
+            Here is the picture of your order which will soon be shipped:
+            <img style = "width: 100px; background-size: contain;" th:src="@{${passedproductPicture}}" alt="QA Passed  Customer Image"/>
+        </p>
+        <p style = "line-height: 25px; font-size: 1em; color: #333;">
+            For inquiries and any other information,
+            please contact 07000-0-WAWOOH or send us a mail at customercare@wawooh.com
+        </p>
+
+    </div>
+    <div style = "color: #fff;margin-top: 10px; background: #cd9933; padding: 7px; text-align: center; font-style: italic;">
+        <span>Powered By Wawooh</span>
+    </div>
+</div>
+
+</body>
+</html>
