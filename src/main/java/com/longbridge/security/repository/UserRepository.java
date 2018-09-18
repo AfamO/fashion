@@ -13,5 +13,5 @@ public interface UserRepository extends JpaRepository<com.longbridge.models.User
 
     User findByEmailOrPhoneNo(String username, String phoneNo);
     User findById(Long Id);
-    List<User> findByDesignerIsNull();
+    List<User> findByRole(String role);
 }

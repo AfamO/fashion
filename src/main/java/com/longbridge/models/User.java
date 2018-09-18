@@ -18,6 +18,7 @@ public class User extends CommonFields{
     public String emailVerificationFlag = "N";
 
     public String gender;
+
     @Lob
     public String password;
     public String phoneNo;
@@ -97,7 +98,6 @@ public class User extends CommonFields{
                 ", password='" + password + '\'' +
                 ", phoneNo='" + phoneNo + '\'' +
                 ", role='" + role + '\'' +
-               
                 ", addresses=" + addresses +
                 //", orders=" + orders +
                 ", carts=" + carts +

@@ -21,27 +21,27 @@ public class Events extends CommonFields {
 //                    @TokenFilterDef(factory = StandardFilterFactory.class)
 //            })
 
-    public String mainPicture;
+    private String mainPicture;
 
-    public String mainPictureName;
+    private String mainPictureName;
 
     @Lob
-    public String description;
+    private String description;
 
-    public String location;
+    private String location;
 
 //    @Field(index= Index.YES, analyze=Analyze.YES, store=Store.NO,
 //            analyzer=@Analyzer(definition = "eventTextAnalyzer"))
-    public String eventName;
+    private  String eventName;
 
-    public Date eventDate;
+    private Date eventDate;
 
-    public String eventType = "E";
+    private String eventType = "E";
 
-    public int trendingCount = 0;
+    private int trendingCount = 0;
 
     @OneToMany(mappedBy = "events", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    public List<EventPictures> eventPictures;
+    private List<EventPictures> eventPictures;
 
     public String getEventName() {
         return eventName;
@@ -99,8 +99,23 @@ public class Events extends CommonFields {
         this.mainPictureName = mainPictureName;
     }
 
+    public String getEventType() {
+        return eventType;
+    }
 
-    //@Override
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public int getTrendingCount() {
+        return trendingCount;
+    }
+
+    public void setTrendingCount(int trendingCount) {
+        this.trendingCount = trendingCount;
+    }
+
+//@Override
     //@JsonIgnore
 //    public List<String> getDefaultSearchFields() {
 //        return Arrays.asList("eventName","description","location");

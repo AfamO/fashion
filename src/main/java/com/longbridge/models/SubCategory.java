@@ -13,15 +13,15 @@ import java.util.List;
 public class SubCategory extends CommonFields {
     @JsonIgnore
     @ManyToOne
-    public Category category;
+    private Category category;
 
-    public int productType;
+    private int productType;
 
     @Field
-    public String subCategory;
+    private String subCategory;
 
     @OneToMany(mappedBy = "subCategory",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    public List<Style> styles;
+    private List<Style> styles;
 
     public Category getCategory() {
         return category;
@@ -45,6 +45,14 @@ public class SubCategory extends CommonFields {
 
     public void setStyles(List<Style> styles) {
         this.styles = styles;
+    }
+
+    public int getProductType() {
+        return productType;
+    }
+
+    public void setProductType(int productType) {
+        this.productType = productType;
     }
 
     public SubCategory(Category category, String subCategory, List<Style> styles) {

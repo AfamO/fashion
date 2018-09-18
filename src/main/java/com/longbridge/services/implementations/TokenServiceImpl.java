@@ -73,15 +73,15 @@ public class TokenServiceImpl implements TokenService {
                 System.out.println("Token validated => yes");
                 token1.setValidated(true);
                 tokenRepository.save(token1);
-                user.activationDate=date;
+                user.setActivationDate(date);
                 user.setUpdatedOn(date);
-                user.activationFlag="Y";
+                user.setActivationFlag("Y");
                 userRepository.save(user);
 
                 /*
                     Generating Token for user and this will be required for all request.
                  */
-                final UserDetails userDetails = userDetailsService.loadUserByUsername(user.email);
+                final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
                 System.out.println("userdetails is "+userDetails.toString());
                 final String token = jwtTokenUtil.generateToken(userDetails, device);
                 System.out.println("Token is "+token);

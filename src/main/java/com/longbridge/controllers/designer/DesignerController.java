@@ -14,9 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -53,18 +56,28 @@ public class DesignerController {
 
 
     @PostMapping(value = "/getdesigner")
-    public Response getDesignerById(HttpServletRequest request,@RequestBody MonthsDTO months){
+    public Response getDesignerById(HttpServletRequest request, @RequestBody MonthsDTO months){
         System.out.println("i got here");
         String token = request.getHeader(tokenHeader);
         User user1 = userUtil.fetchUserDetails2(token);
         if(token==null || user1==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(user1.designer == null){
+        if(!user1.getRole().equalsIgnoreCase("designer")){
             return new Response("99","You are not a designer","error");
         }
 
         DesignerDTO designer = designerService.getDesigner(user1,months);
+        return new Response("00","Operation Successful",designer);
+
+    }
+
+
+    @GetMapping
+    public Response getDesignerById2(MonthsDTO months, Principal principal){
+        UserDetails user1= (UserDetails) principal;
+
+        DesignerDTO designer = designerService.getDesigner(months);
         return new Response("00","Operation Successful",designer);
 
     }
@@ -95,18 +108,7 @@ public class DesignerController {
 //    }
 
 
-    @PostMapping(value = "/updatedesigner")
-    public Response updateDesigner(@RequestBody User passedUser,HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        Designer designer = passedUser.designer;
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        designerService.updateDesigner(userTemp,passedUser,designer);
-        return new Response("00","Operation Successful","success");
 
-    }
 
     @PostMapping(value = "/updateemailaddress")
     public Response updateEmailAddress(@RequestBody UserEmailTokenDTO userEmailTokenDTO, HttpServletRequest request, Device device){
@@ -121,7 +123,7 @@ public class DesignerController {
     }
 
     @PostMapping(value = "/updatepersonalinformation")
-    public Response updatePersonalInformation(@RequestBody User user, HttpServletRequest request){
+    public Response updatePersonalInformation(@RequestBody UserDTO user, HttpServletRequest request){
 
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -129,12 +131,12 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        designerService.updateDesignerPersonalInformation(userTemp, user, user.designer);
+        designerService.updateDesignerPersonalInformation(userTemp, user);
         return new Response("00", "Profile updated", null);
     }
 
     @PostMapping(value = "/updatebusinessinformation")
-    public Response updateBusinessInformation(@RequestBody User user, HttpServletRequest request){
+    public Response updateBusinessInformation(@RequestBody UserDTO user, HttpServletRequest request){
 
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -142,12 +144,12 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        designerService.updateDesignerBusinessInformation(userTemp, user, user.designer);
+        designerService.updateDesignerBusinessInformation(userTemp, user);
         return new Response("00", "Profile updated", null);
     }
 
     @PostMapping(value = "/updateaccountinformation")
-    public Response updateAccountInformation(@RequestBody User user, HttpServletRequest request){
+    public Response updateAccountInformation(@RequestBody UserDTO user, HttpServletRequest request){
 
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -155,12 +157,12 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        designerService.updateDesignerAccountInformation(userTemp, user, user.designer);
+        designerService.updateDesignerAccountInformation(userTemp, user);
         return new Response("00", "Profile updated", null);
     }
 
     @PostMapping(value = "/updateinformation")
-    public Response updateInformation(@RequestBody User user, HttpServletRequest request){
+    public Response updateInformation(@RequestBody UserDTO user, HttpServletRequest request){
 
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
@@ -168,19 +170,19 @@ public class DesignerController {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
 
-        designerService.updateDesignerInformation(userTemp, user, user.designer);
+        designerService.updateDesignerInformation(userTemp, user);
         return new Response("00", "Profile updated", null);
     }
 
     @PostMapping(value = "/updatedesignerlogo")
-    public Response updateDesignerLogo(@RequestBody User user,HttpServletRequest request){
+    public Response updateDesignerLogo(@RequestBody DesignerDTO designer,HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
 
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        designerService.updateDesignerLogo(userTemp,user.designer);
+        designerService.updateDesignerLogo(userTemp, designer);
         return new Response("00","Operation Successful","success");
 
     }

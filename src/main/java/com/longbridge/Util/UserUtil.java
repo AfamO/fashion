@@ -85,15 +85,15 @@ public class UserUtil {
         try {
             Date date = new Date();
 
-            User user = userRepository.findByEmail(passedUser.email);
+            User user = userRepository.findByEmail(passedUser.getEmail());
 
             List<String> errors = new ArrayList<String>();
             if(user != null){
                 errors.add("Email already exists");
             }
 
-            if(passedUser.role.equalsIgnoreCase("designer")){
-                User user1 = userRepository.findByPhoneNo(passedUser.phoneNo);
+            if(passedUser.getRole().equalsIgnoreCase("designer")){
+                User user1 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
                 if(user1 != null){
                     errors.add("Phone number already exist");
                 }
@@ -103,30 +103,18 @@ public class UserUtil {
                 return new Response("99",StringUtils.join(errors, ","), null);
             }
 
-            if(passedUser.role == null){
+            if(passedUser.getRole() == null){
                 return new Response("99", "User has no role", null);
             }
 
-            passedUser.password = Hash.createPassword(passedUser.password);
-            if(passedUser.designer!=null){
-                passedUser.designer.setCreatedOn(date);
-                passedUser.designer.setUpdatedOn(date);
-                passedUser.designer.user=passedUser;
-                if(passedUser.designer.logo != null) {
-                    try {
-                        String fileName = passedUser.email.substring(0, 3) + getCurrentTime();
-                        String base64Img = passedUser.designer.logo;
-                        CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img,fileName,"designerlogos");
-                        passedUser.designer.logo = c.getUrl();
-                        passedUser.designer.publicId=c.getPublicId();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        Response response = new Response("99", StringUtils.join(errors, ","), null);
-                        return response;
-                    }
-                }
-                designerRepository.save(passedUser.designer);
-                sendToken(passedUser.email);
+            passedUser.setPassword(Hash.createPassword(passedUser.getPassword()));
+            if(!passedUser.getRole().equalsIgnoreCase("designer")){
+                Designer designer = new Designer();
+                designer.setCreatedOn(date);
+                designer.setUpdatedOn(date);
+                designer.setUser(passedUser);
+                designerRepository.save(designer);
+                sendToken(passedUser.getEmail());
             }
             getActivationLink(passedUser);
             userRepository.save(passedUser);
@@ -148,7 +136,7 @@ public class UserUtil {
 //            String name = passedUser.designer.storeName;
             char[] token = uniqueNumberUtil.OTP(5);
             List<String> phonenumbers = new ArrayList<>();
-            phonenumbers.add(passedUser.phoneNo);
+            phonenumbers.add(passedUser.getPhoneNo());
             String message = String.format(messageSource.getMessage("user.sendtoken.message", null, locale), String.valueOf(token));
             smsAlertUtil.sms(phonenumbers, message);
             System.out.println(String.valueOf(token));
@@ -183,10 +171,10 @@ public class UserUtil {
         Map<String,Object> responseMap = new HashMap();
         try {
 
-            User user = userRepository.findByEmail(passedUser.email);
+            User user = userRepository.findByEmail(passedUser.getEmail());
             if(user!=null){
-                String name = user.firstName + " " + user.lastName;
-                String mail = user.email;
+                String name = user.getFirstName() + " " + user.getLastName();
+                String mail = user.getEmail();
                 String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
                 String message="";
                 String activationLink="";
@@ -203,7 +191,7 @@ public class UserUtil {
 
                 }catch (MailException me){
                     me.printStackTrace();
-                    throw new AppException("",passedUser.firstName + passedUser.lastName,passedUser.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
+                    throw new AppException("",passedUser.getFirstName() + passedUser.getLastName(),passedUser.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
 
                 }
                 return new Response("00","Link successfully sent",responseMap);
@@ -224,24 +212,24 @@ public class UserUtil {
         Map<String,Object> responseMap = new HashMap();
         try {
             Date date = new Date();
-            User user = userRepository.findByEmail(passedUser.email);
+            User user = userRepository.findByEmail(passedUser.getEmail());
             if(user==null){
-                passedUser.password = Hash.createPassword(passedUser.password);
+                passedUser.setPassword(Hash.createPassword(passedUser.getPassword()));
                 passedUser.createdOn=date;
                 userRepository.save(passedUser);
-                String name = passedUser.firstName + " " + passedUser.lastName;
-                String mail = passedUser.email;
+                String name = passedUser.getFirstName() + " " + passedUser.getLastName();
+                String mail = passedUser.getEmail();
                 String message="";
                 try {
                     Context context = new Context();
                     context.setVariable("name", name);
-                    if(passedUser.role.equalsIgnoreCase("admin")) {
+                    if(passedUser.getRole().equalsIgnoreCase("admin")) {
                         message = templateEngine.process("adminwelcomeemail", context);
                     }
                     mailService.prepareAndSend(message,mail,messageSource.getMessage("user.welcome.subject", null, locale));
                 }catch (MailException me){
                     me.printStackTrace();
-                    throw new AppException(passedUser.firstName + passedUser.lastName,passedUser.email,messageSource.getMessage("user.welcome.subject", null, locale));
+                    throw new AppException(passedUser.getFirstName() + passedUser.getLastName(),passedUser.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale));
 
                 }
                 return new Response("00","Registration successful",responseMap);
@@ -263,9 +251,9 @@ public class UserUtil {
             User user = userRepository.findByPhoneNo(userPhoneNumber);
             System.out.println(user);
             if(user != null){
-                String message = String.format(messageSource.getMessage("user.retrieveemail", null, locale), user.email);
+                String message = String.format(messageSource.getMessage("user.retrieveemail", null, locale), user.getEmail());
                 List<String> phoneNumbers = new ArrayList<>();
-                phoneNumbers.add(user.phoneNo);
+                phoneNumbers.add(user.getPhoneNo());
                 smsAlertUtil.sms(phoneNumbers, message);
             }
         }catch (Exception e){
@@ -282,7 +270,7 @@ public class UserUtil {
         String changePasswordLink="";
         try {
             User user = userRepository.findByEmail(passedUser.getEmail());
-            if(!user.activationFlag.equalsIgnoreCase("Y")){
+            if(!user.getActivationFlag().equalsIgnoreCase("Y")){
                 return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
             }
 
@@ -290,10 +278,10 @@ public class UserUtil {
                 //newPassword = generalUtil.getCurrentTime();
                 //newPassword = RandomStringUtils.randomAlphanumeric(10);
                 newPassword=UUID.randomUUID().toString().substring(0,10);
-                user.password = Hash.createPassword(newPassword);
-                user.linkClicked = "N";
+                user.setPassword(Hash.createPassword(newPassword));
+                user.setLinkClicked("N");
 
-                name = user.firstName +" " + user.lastName;
+                name = user.getFirstName() +" " + user.getLastName();
                 mail = passedUser.getEmail();
                 String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
                 String currentPageUrl = passedUser.getCurrentUrl();
@@ -331,10 +319,10 @@ public class UserUtil {
 
         try {
 
-            User user = userRepository.findByEmail(passedUser.email);
+            User user = userRepository.findByEmail(passedUser.getEmail());
             if (user != null) {
 
-                if (passedUser.password .equalsIgnoreCase(user.password)) {
+                if (passedUser.getPassword() .equalsIgnoreCase(user.getPassword())) {
                     return new Response("00", "Operation Successful", responseMap);
                 } else {
                     return new Response("99", "Error occurred", responseMap);
@@ -352,28 +340,28 @@ public class UserUtil {
         LogInResp logInResp = new LogInResp();
         try {
 
-            User user = userRepository.findByEmail(passedUser.email);
+            User user = userRepository.findByEmail(passedUser.getEmail());
             boolean valid = false;
 
             if(user!=null){
                 try{
 
-                    if(user.role.equalsIgnoreCase("designer")){
-                        if(!user.activationFlag.equalsIgnoreCase("Y")){
+                    if(user.getRole().equalsIgnoreCase("designer")){
+                        if(!user.getActivationFlag().equalsIgnoreCase("Y")){
                             return new Response("57","Account not verified",logInResp);
                         }
                     }
 
                    // check if(user.socialFlag) is Y and set valid as true
-                    if(user.socialFlag != null){
-                        if(user.socialFlag.equalsIgnoreCase("Y")){
+                    if(user.getSocialFlag() != null){
+                        if(user.getSocialFlag().equalsIgnoreCase("Y")){
                             valid=true;
                         }
                     }
 
                     if (!valid) {
                         //If N, validate password
-                        valid = Hash.checkPassword(passedUser.password, user.password);
+                        valid = Hash.checkPassword(passedUser.getPassword(), user.getPassword());
                     }
                 }catch(Exception e)
                 {
@@ -381,16 +369,16 @@ public class UserUtil {
                 }
             }
             if(user!=null && valid){
-                if(user.designer != null){
+                if(user.getRole().equalsIgnoreCase("designer")){
                     logInResp.setRole(2);
                 }
-                else if(user.role.equalsIgnoreCase("admin")){
+                else if(user.getRole().equalsIgnoreCase("admin")){
                     logInResp.setRole(3);
                 }
-                else if(user.role.equalsIgnoreCase("superadmin")){
+                else if(user.getRole().equalsIgnoreCase("superadmin")){
                     logInResp.setRole(4);
                 }
-                else if(user.role.equalsIgnoreCase("qa")){
+                else if(user.getRole().equalsIgnoreCase("qa")){
                     logInResp.setRole(5);
                 }
                 else {
@@ -400,7 +388,7 @@ public class UserUtil {
                     Generating Token for user and this will be required for all request.
                  */
 
-                final UserDetails userDetails = userDetailsService.loadUserByUsername(passedUser.email);
+                final UserDetails userDetails = userDetailsService.loadUserByUsername(passedUser.getEmail());
                 System.out.println("userdetails is "+userDetails.toString());
                 final String token = jwtTokenUtil.generateToken(userDetails, device);
                 System.out.println("Token is "+token);
@@ -432,7 +420,7 @@ public class UserUtil {
 
 
     public List<User> getUsers(){
-            return userRepository.findByDesignerIsNull();
+            return userRepository.findByRole("user");
     }
 
     public List<User> getAllUsers(){
@@ -453,7 +441,7 @@ public class UserUtil {
                     });
                 }
 
-                user.designer=null;
+
                 /*
                 todo : refreshing token needs to be discussed if necessary
                  */
@@ -522,13 +510,13 @@ public class UserUtil {
     public void updateUser(UserDTO passedUser, User userTemp){
     try {
         Date date = new Date();
-        userTemp.phoneNo=passedUser.getPhoneNo();
-        userTemp.lastName = passedUser.getLastName();
-        userTemp.firstName=passedUser.getFirstName();
+        userTemp.setPhoneNo(passedUser.getPhoneNo());
+        userTemp.setLastName(passedUser.getLastName());
+        userTemp.setFirstName(passedUser.getFirstName());
 
         if(passedUser.getNewPassword() != null && !passedUser.getNewPassword().equalsIgnoreCase("")) {
-            if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password)) {
-                userTemp.password = Hash.createPassword(passedUser.getNewPassword());
+            if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.getPassword())) {
+                userTemp.setPassword(Hash.createPassword(passedUser.getNewPassword()));
             }
             else {
                 throw new PasswordException("password mismatch");
@@ -551,9 +539,9 @@ public class UserUtil {
             LogInResp logInResp = new LogInResp();
             User userTemp = userRepository.findByEmail(passedUser.getEmail());
             if(passedUser.getNewPassword() != null && !passedUser.getNewPassword().equalsIgnoreCase("")) {
-                if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.password)) {
-                    userTemp.password = Hash.createPassword(passedUser.getNewPassword());
-                    userTemp.linkClicked="Y";
+                if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.getPassword())) {
+                    userTemp.setPassword(Hash.createPassword(passedUser.getNewPassword()));
+                    userTemp.setLinkClicked("Y");
 
                     final UserDetails userDetails = userDetailsService.loadUserByUsername(passedUser.getEmail());
                     System.out.println("userdetails is "+userDetails.toString());
@@ -564,7 +552,7 @@ public class UserUtil {
                     logInResp.setToken(token);
 
                 }
-                else if (userTemp.linkClicked.equalsIgnoreCase( "Y")){
+                else if (userTemp.getLinkClicked().equalsIgnoreCase( "Y")){
 
                     throw new PasswordException("Link expired");
                 }
@@ -589,9 +577,9 @@ public class UserUtil {
         try {
             Date date = new Date();
             User userTemp = userRepository.findByEmail(passedUser.getEmail());
-            if(!userTemp.emailVerificationFlag.equalsIgnoreCase("Y")) {
+            if(!userTemp.getEmailVerificationFlag().equalsIgnoreCase("Y")) {
                 userTemp.setUpdatedOn(date);
-                userTemp.emailVerificationFlag="Y";
+                userTemp.setEmailVerificationFlag("Y");
                 userRepository.save(userTemp);
                 return new Response("00","Thank you for verifying your email",responseMap);
             }
