@@ -510,7 +510,7 @@ public class OrderServiceImpl implements OrderService {
             Context context = new Context();
             context.setVariable("name", customerName);
             context.setVariable("productName",items.getProductName());
-            context.setVariable("passedproductPicture", items.getProductPicture());
+            
             
             try {
                 ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
@@ -537,8 +537,18 @@ public class OrderServiceImpl implements OrderService {
                         if(items.getFailedInspectionReason() != null){
                             items.setFailedInspectionReason(null);
                         }
-                        items.setItemStatus(itemStatusRepository.findByStatus("RS"));
                         // Send picture as email to the customer that his order has passed physical inspection.
+                        if(itemsDTO.getProductPicture()!=null){
+                            System.out.println("The Item Picture Name Is:"+itemsDTO.getProductPicture());
+                            String  passedItemPictureName= generalUtil.getPicsName("qaPassedItemPic",items.getProductName());
+                            CloudinaryResponse c = cloudinaryService.uploadToCloud(itemsDTO.getProductPicture(),passedItemPictureName,"QAPassedProductPictures");
+                            System.out.println("The QAPassedPictureName:"+c.getUrl());
+                            context.setVariable("passedproductPicture", c.getUrl());
+                            String message = templateEngine.process("passedPhysicalinspectionemail", context);
+                            mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.passedinspection.subject", null, locale));
+                        }
+                        items.setItemStatus(itemStatusRepository.findByStatus("RS"));
+                        
                     }
                     else if(itemsDTO.getStatus().equalsIgnoreCase("FI")){
                             items.setItemStatus(itemStatusRepository.findByStatus("WR"));
