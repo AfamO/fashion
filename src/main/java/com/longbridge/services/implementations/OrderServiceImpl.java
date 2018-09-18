@@ -701,6 +701,7 @@ public class OrderServiceImpl implements OrderService {
     private void notifyDesigner(Items items) throws IOException {
         Products p = productRepository.findOne(items.getProductId());
         String storeName = p.getDesigner().getStoreName();
+        storeName=storeName.replaceAll(" ","");
         List<String> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(p.getDesigner().getUser().getPhoneNo());
         String link = "http://fashion-wawooh.herokuapp.com/";
