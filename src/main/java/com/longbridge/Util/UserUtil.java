@@ -513,6 +513,7 @@ public class UserUtil {
         userTemp.setPhoneNo(passedUser.getPhoneNo());
         userTemp.setLastName(passedUser.getLastName());
         userTemp.setFirstName(passedUser.getFirstName());
+        userTemp.setGender(passedUser.getGender());
 
         if(passedUser.getNewPassword() != null && !passedUser.getNewPassword().equalsIgnoreCase("")) {
             if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.getPassword())) {
