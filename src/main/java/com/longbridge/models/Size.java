@@ -9,4 +9,18 @@ import javax.persistence.Entity;
 public class Size extends CommonFields {
     private String name;
 
+    public Size(String name) {
+        this.name = name;
+    }
+
+    public Size() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
