@@ -667,7 +667,7 @@ public class OrderServiceImpl implements OrderService {
             Orders orders=orderRepository.findOne(orderReqDTO.getId());
             Date date = new Date();
             orders.setUpdatedOn(date);
-            if(orders.getDeliveryStatus().equalsIgnoreCase("A")){
+//            if(orders.getDeliveryStatus().equalsIgnoreCase("A")){
                 TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
                if(transferInfo == null){
                  return "nopayment";
@@ -688,7 +688,7 @@ public class OrderServiceImpl implements OrderService {
                     orders.setUpdatedBy(user.getEmail());
                     orderRepository.save(orders);
                     sendEmailAsync.sendPaymentConfEmailToUser(customer,orders.getOrderNum());
-                }
+//                }
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
