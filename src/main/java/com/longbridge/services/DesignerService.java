@@ -43,6 +43,8 @@ public interface DesignerService {
 
     DesignerDTO getDesigner(User user, MonthsDTO months);
 
+    DesignerDTO getDesigner(MonthsDTO months);
+
     DesignerDTO getDesignerByStoreName(String storeName);
 
 

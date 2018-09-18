@@ -44,12 +44,12 @@ public class UserController {
     @Autowired
     TokenService tokenService;
 
-    @PostMapping(value = "/Signin")
+    @PostMapping(value = "/signin")
     public Object Signin(@RequestBody User passedUser,Device device){
         return userUtil.validateUser(passedUser,device);
     }
 
-    @PostMapping(value = "/Register")
+    @PostMapping(value = "/register")
     public Object Register(@RequestBody User passedUser){
         try {
             return userUtil.registerUser(passedUser);
@@ -202,21 +202,16 @@ public class UserController {
 
     @PostMapping(value = "/validatepassword")
     public Object validatePassword(HttpServletRequest request, @RequestBody User user){
-
-
         String token = request.getHeader(tokenHeader);
         if (token == null || user == null) {
             return userUtil.tokenNullOrInvalidResponse(token);
         }
         return userUtil.validatePassword(user);
-
-
     }
 
 
     @GetMapping(value = "/getusers")
     public List<User> getUsers(HttpServletRequest request){
-
         return userUtil.getUsers();
     }
 

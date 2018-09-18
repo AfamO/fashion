@@ -14,6 +14,8 @@ import com.longbridge.services.DesignerService;
 import com.longbridge.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
@@ -472,7 +474,7 @@ public class DesignerServiceImpl implements DesignerService{
 //                salesChart.setMonth(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ));
                     salesChart.setMonth(month.split("-")[1]);
                     salesChart.setYear(month.split("-")[0]);
-                Double amnt = itemRepository.getSalesChart(designer.id,date1,date2,"C");
+                Double amnt = itemRepository.getTotalSales(designer.id,date1,date2,"C");
                 if(amnt != null){
                 salesChart.setAmount(amnt);
                 }
@@ -489,6 +491,16 @@ public class DesignerServiceImpl implements DesignerService{
             e.printStackTrace();
             throw new WawoohException();
         }
+    }
+
+    @Override
+    public DesignerDTO getDesigner(MonthsDTO months) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        Designer designer = designerRepository.findByUser_Email(name);
+        //TODO : yet to implemted
+        return null;
+
     }
 
     @Override

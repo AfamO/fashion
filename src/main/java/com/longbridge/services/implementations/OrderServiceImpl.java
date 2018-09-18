@@ -701,7 +701,7 @@ public class OrderServiceImpl implements OrderService {
         String storeName = p.getDesigner().getStoreName();
         List<String> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(p.getDesigner().getUser().getPhoneNo());
-        String link = "";
+        String link = "http://fashion-wawooh.herokuapp.com/";
         link = link +storeName+"/orders/" + items.id;
         String message = String.format(messageSource.getMessage("order.designer.startprocessing", null, locale), link);
         smsAlertUtil.sms(phoneNumbers,message);
