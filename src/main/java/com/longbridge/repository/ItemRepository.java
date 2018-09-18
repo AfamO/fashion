@@ -66,7 +66,7 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 
 
     @Query(value = "SELECT SUM(amount) as amount FROM items WHERE  designer_id =:designerid and delivery_status =:deliveryStatus and created_on between :startDate and :endDate",nativeQuery = true)
-    Double getTotalSales(@Param("designerid") Long designerId, @Param("startDate") Date startDate, @Param("endDate")Date endDate, @Param("deliveryStatus") String deliveryStatus);
+    Double getSalesChart(@Param("designerid") Long designerId, @Param("startDate") Date startDate, @Param("endDate")Date endDate, @Param("deliveryStatus") String deliveryStatus);
 
 
 

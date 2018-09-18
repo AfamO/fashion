@@ -14,12 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-
-import java.security.Principal;
 import java.util.List;
 
 /**
@@ -56,7 +53,7 @@ public class DesignerController {
 
 
     @PostMapping(value = "/getdesigner")
-    public Response getDesignerById(HttpServletRequest request, @RequestBody MonthsDTO months){
+    public Response getDesignerById(HttpServletRequest request,@RequestBody MonthsDTO months){
         System.out.println("i got here");
         String token = request.getHeader(tokenHeader);
         User user1 = userUtil.fetchUserDetails2(token);
@@ -68,16 +65,6 @@ public class DesignerController {
         }
 
         DesignerDTO designer = designerService.getDesigner(user1,months);
-        return new Response("00","Operation Successful",designer);
-
-    }
-
-
-    @GetMapping
-    public Response getDesignerById2(MonthsDTO months, Principal principal){
-        UserDetails user1= (UserDetails) principal;
-
-        DesignerDTO designer = designerService.getDesigner(months);
         return new Response("00","Operation Successful",designer);
 
     }

@@ -420,7 +420,7 @@ public class UserUtil {
 
 
     public List<User> getUsers(){
-            return userRepository.findByRole("user");
+            return userRepository.findByDesignerIsNull();
     }
 
     public List<User> getAllUsers(){
