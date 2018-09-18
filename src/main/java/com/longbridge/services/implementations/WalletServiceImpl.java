@@ -41,14 +41,14 @@ public class WalletServiceImpl implements WalletService {
                 Products p = productRepository.findOne(items.getProductId());
 
                 Double amount;
-                if (p.priceSlash != null && p.priceSlash.getSlashedPrice() > 0) {
-                    amount = p.amount - p.priceSlash.getSlashedPrice();
+                if (p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0) {
+                    amount = p.getAmount() - p.getPriceSlash().getSlashedPrice();
                 } else {
-                    amount = p.amount;
+                    amount = p.getAmount();
                 }
 
                 Double itemsAmount = amount * items.getQuantity();
-                Double shippingAmount = shippingUtil.getShipping(p.designer.city.toUpperCase().trim(), deliveryAddress.getCity().toUpperCase().trim(), items.getQuantity());
+                Double shippingAmount = shippingUtil.getShipping(p.getDesigner().getCity().toUpperCase().trim(), deliveryAddress.getCity().toUpperCase().trim(), items.getQuantity());
                 items.setAmount(itemsAmount);
                 totalAmount = totalAmount + itemsAmount + shippingAmount;
             }

@@ -19,6 +19,8 @@ public class UserDTO {
 
     private String currentUrl;
 
+    private DesignerDTO designerDTO;
+
 
     public Long getId() {
         return id;
@@ -99,6 +101,22 @@ public class UserDTO {
 
     public void setCurrentUrl(String currentUrl) {
         this.currentUrl = currentUrl;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public DesignerDTO getDesignerDTO() {
+        return designerDTO;
+    }
+
+    public void setDesignerDTO(DesignerDTO designerDTO) {
+        this.designerDTO = designerDTO;
     }
 
     public UserDTO(Long id, String firstName, String lastName, String email, String gender, String phoneNo, String role) {

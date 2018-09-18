@@ -3,12 +3,10 @@ package com.longbridge.controllers.enduser;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
 import com.longbridge.models.*;
+import com.longbridge.repository.DesignerRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.JwtUser;
-import com.longbridge.services.CategoryService;
-import com.longbridge.services.HibernateSearchService;
-import com.longbridge.services.ProductRatingService;
-import com.longbridge.services.ProductService;
+import com.longbridge.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -37,6 +35,9 @@ public class ProductController {
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    DesignerService designerService;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -80,7 +81,25 @@ public class ProductController {
 
     @GetMapping(value = "/{designerId}/getdesignerproducts")
     public Object getProductsByDesignerId(@PathVariable Long designerId){
-        List<ProductRespDTO> products= productService.getProductsByDesigner(designerId);
+        Designer designer = designerService.getDesignrById(designerId);
+
+        List<ProductRespDTO> products= productService.getProductsByDesigner(designer.getUser());
+        return new Response("00","Operation Successful",products);
+    }
+
+    @GetMapping(value = "/getdesignerproducts")
+    public Object getProductsByDesignerId(HttpServletRequest request){
+
+        String token = request.getHeader(tokenHeader);
+        User user1 = userUtil.fetchUserDetails2(token);
+        if(token==null || user1==null){
+            return userUtil.tokenNullOrInvalidResponse(token);
+        }
+        if(user1.designer == null){
+            return new Response("99","You are not a designer","error");
+        }
+
+        List<ProductRespDTO> products= productService.getProductsByDesigner(user1.designer.id);
         return new Response("00","Operation Successful",products);
     }
 
@@ -96,13 +115,15 @@ public class ProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        Designer designer = user.designer;
 
-        if(designer==null){
+
+        if(!user.getRole().equalsIgnoreCase("designer")){
             return new Response("99","Operation Failed, Not a designer",responseMap);
         }
 
-        List<ProductRespDTO> products= productService.getProductsByDesigner(designer.id);
+
+        Long id = designerService.getDesigner(user).getId();
+        List<ProductRespDTO> products= productService.getProductsByDesigner(user);
         return new Response("00","Operation Successful",products);
     }
 

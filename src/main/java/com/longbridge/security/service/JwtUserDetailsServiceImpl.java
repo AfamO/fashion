@@ -26,23 +26,23 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
          com.longbridge.models.User user1 =  userRepository.findByEmail(username);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         String role = "";
-        if(user1.role.equalsIgnoreCase("admin")){
+        if(user1.getRole().equalsIgnoreCase("admin")){
             role = "ROLE_ADMIN";
         }
-        if(user1.role.equalsIgnoreCase("designer")){
+        if(user1.getRole().equalsIgnoreCase("designer")){
             role = "ROLE_DESIGNER";
         }
-        if(user1.role.equalsIgnoreCase("user")){
+        if(user1.getRole().equalsIgnoreCase("user")){
             role = "ROLE_USER";
         }
-        if(user1.role.equalsIgnoreCase("qa")){
+        if(user1.getRole().equalsIgnoreCase("qa")){
             role="ROLE_QA";
         }
 
         authorities.add(new SimpleGrantedAuthority(role));
 
          if(user1!=null){
-             user = new JwtUser(user1.email,user1.password,authorities,true,null);
+             user = new JwtUser(user1.getEmail(),user1.getPassword(),authorities,true,null);
          }
         if (user1 == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
