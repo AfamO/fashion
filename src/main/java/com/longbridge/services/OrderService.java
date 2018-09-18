@@ -20,7 +20,7 @@ public interface OrderService {
 
     List<StatusMessageDTO> updateOrderItemByDesignerr(ItemsDTO itemsDTO, User user);
 
-    void updateOrderItemByAdmin(ItemsDTO itemsDTO, User user);
+    void updateOrderItemByAdmin1(ItemsDTO itemsDTO, User user);
 
     void userRejectDecision(ItemsDTO itemsDTO, User user);
 
