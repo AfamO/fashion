@@ -108,7 +108,7 @@ public class UserUtil {
             }
 
             passedUser.setPassword(Hash.createPassword(passedUser.getPassword()));
-            if(!passedUser.getRole().equalsIgnoreCase("designer")){
+            if(passedUser.getRole().equalsIgnoreCase("designer")){
                 Designer designer = new Designer();
                 designer.setCreatedOn(date);
                 designer.setUpdatedOn(date);
