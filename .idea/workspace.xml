@@ -69,8 +69,8 @@
       <file leaf-file-name="UserUtil.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
+            <state relative-caret-position="161">
+              <caret line="272" column="58" lean-forward="true" selection-start-line="272" selection-start-column="58" selection-end-line="272" selection-end-column="58" />
               <folding>
                 <element signature="e#15996#15997#0" expanded="true" />
                 <element signature="e#16056#16057#0" expanded="true" />
@@ -237,8 +237,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>valida</find>
-      <find>resend</find>
       <find>email</find>
       <find>forg</find>
       <find>shipping</find>
@@ -267,6 +265,8 @@
       <find>updatepersonal</find>
       <find>/edit</find>
       <find>des</find>
+      <find>/register</find>
+      <find>sendWelcom</find>
     </findStrings>
     <replaceStrings>
       <replace>private</replace>
@@ -739,12 +739,12 @@
       <workItem from="1537212842684" duration="9832000" />
       <workItem from="1537279646924" duration="3867000" />
       <workItem from="1537292769349" duration="1655000" />
-      <workItem from="1537298981292" duration="679000" />
+      <workItem from="1537298981292" duration="1176000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="595509000" />
+    <option name="totallyTimeSpent" value="596006000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1248,20 +1248,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://9e293bdc-9744-40cc-81af-c14689dc939e/schema/heroku_f6dbdc37013716d/table/token">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://9e293bdc-9744-40cc-81af-c14689dc939e/schema/heroku_f6dbdc37013716d/table/user">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://9e293bdc-9744-40cc-81af-c14689dc939e/schema/heroku_f6dbdc37013716d/table/designer">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1276,10 +1262,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="das://9e293bdc-9744-40cc-81af-c14689dc939e/schema/heroku_f6dbdc37013716d/table/user">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://9e293bdc-9744-40cc-81af-c14689dc939e/schema/heroku_f6dbdc37013716d/table/token">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
+        <state relative-caret-position="161">
+          <caret line="272" column="58" lean-forward="true" selection-start-line="272" selection-start-column="58" selection-end-line="272" selection-end-column="58" />
           <folding>
             <element signature="e#15996#15997#0" expanded="true" />
             <element signature="e#16056#16057#0" expanded="true" />
