@@ -27,10 +27,7 @@ public class User extends CommonFields{
 
     public String socialFlag;
 
-//    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    public Designer designer;
-
+//
     public String linkClicked = "N";
 
     public String activationFlag = "N";
@@ -76,7 +73,7 @@ public class User extends CommonFields{
         this.password = password;
         this.phoneNo = phoneNo;
         this.role = role;
-        this.designer = designer;
+
         this.addresses = addresses;
         //this.orders = orders;
         this.carts = carts;
@@ -100,7 +97,7 @@ public class User extends CommonFields{
                 ", password='" + password + '\'' +
                 ", phoneNo='" + phoneNo + '\'' +
                 ", role='" + role + '\'' +
-                ", designer=" + designer +
+               
                 ", addresses=" + addresses +
                 //", orders=" + orders +
                 ", carts=" + carts +
