@@ -1,5 +1,6 @@
 package com.longbridge.Util;
 
+import com.longbridge.dto.CloudinaryResponse;
 import com.longbridge.dto.DesignerOrderDTO;
 import com.longbridge.dto.ItemsDTO;
 import com.longbridge.exception.AppException;
@@ -337,6 +338,35 @@ public class SendEmailAsync {
             }catch (MailException me){
                 me.printStackTrace();
                 throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.failedinspection.subject", null, locale),products.name);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+    }
+    
+    @Async
+    public void sendPassedInspectionnToCustomer(String customerEmail,String customerName,CloudinaryResponse c) {
+
+        try {
+            System.out.println("Execute method asynchronously - "
+                    + Thread.currentThread().getName());
+
+            try {
+                
+
+                Context context = new Context();
+                context.setVariable("name", customerName);
+                context.setVariable("passedproductPicture", c.getUrl());
+
+                String message = templateEngine.process("passedPhysicalinspectionemail", context);
+                mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.passedinspection.subject", null, locale));
+
+            }catch (MailException me){
+                me.printStackTrace();
+                throw new AppException(customerName,messageSource.getMessage("order.passedinspection.subject", null, locale),c.getUrl());
 
             }
         } catch (Exception e) {

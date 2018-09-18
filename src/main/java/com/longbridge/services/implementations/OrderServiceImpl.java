@@ -543,9 +543,7 @@ public class OrderServiceImpl implements OrderService {
                             String  passedItemPictureName= generalUtil.getPicsName("qaPassedItemPic",items.getProductName());
                             CloudinaryResponse c = cloudinaryService.uploadToCloud(itemsDTO.getProductPicture(),passedItemPictureName,"QAPassedProductPictures");
                             System.out.println("The QAPassedPictureName:"+c.getUrl());
-                            context.setVariable("passedproductPicture", c.getUrl());
-                            String message = templateEngine.process("passedPhysicalinspectionemail", context);
-                            mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.passedinspection.subject", null, locale));
+                            sendEmailAsync.sendPassedInspectionnToCustomer(customerEmail,customerName, c);
                         }
                         items.setItemStatus(itemStatusRepository.findByStatus("RS"));
                         
