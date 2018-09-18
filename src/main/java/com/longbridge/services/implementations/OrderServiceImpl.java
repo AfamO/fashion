@@ -439,7 +439,7 @@ public class OrderServiceImpl implements OrderService {
         for(String p:pictures){
             if(orderItemProcessingPictures.size() < 1) {
                 OrderItemProcessingPicture picture = new OrderItemProcessingPicture();
-                String pictureName = generalUtil.getPicsName("itempic", items.getProductName().substring(0, 10));
+                String pictureName = generalUtil.getPicsName("itempic", items.getProductName().substring(0, 5));
                 CloudinaryResponse c = cloudinaryService.uploadToCloud(p, pictureName, "itemprocessingpictures");
                 picture.setPictureName(c.getUrl());
                 picture.setPicture(c.getPublicId());
@@ -666,7 +666,8 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
             orders.setUpdatedOn(date);
 
-            if(orders.getDeliveryStatus().equalsIgnoreCase("A")){
+
+                System.out.println(orders.getDeliveryStatus());
                 TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
                if(transferInfo == null){
                  return "nopayment";
@@ -674,6 +675,7 @@ public class OrderServiceImpl implements OrderService {
                if(transferInfo.getAmountPayed() < orders.getTotalAmount()){
                    return "lesspayment";
                }
+                System.out.println("got here");
                 for (Items items: orders.getItems()) {
                 items.setItemStatus(itemStatusRepository.findByStatus("PC"));
                 itemRepository.save(items);
@@ -683,12 +685,14 @@ public class OrderServiceImpl implements OrderService {
             //update wallet balance
                 updateWalletForOrderPayment(customer,transferInfo.getAmountPayed(),"Bank Transfer");
                //update orders
+
+                System.out.println("got here again");
                     orders.setDeliveryStatus("PC");
                     orders.setUpdatedOn(date);
                     orders.setUpdatedBy(user.email);
                     orderRepository.save(orders);
                     sendEmailAsync.sendPaymentConfEmailToUser(customer,orders.getOrderNum());
-                }
+
 
 
         }catch (Exception ex){
@@ -703,7 +707,7 @@ public class OrderServiceImpl implements OrderService {
         String storeName = p.designer.storeName;
         List<String> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(p.designer.user.phoneNo);
-        String link = "";
+        String link = "http://fashion-wawooh.herokuapp.com/";
         link = link +storeName+"/orders/" + items.id;
         String message = String.format(messageSource.getMessage("order.designer.startprocessing", null, locale), link);
         smsAlertUtil.sms(phoneNumbers,message);
