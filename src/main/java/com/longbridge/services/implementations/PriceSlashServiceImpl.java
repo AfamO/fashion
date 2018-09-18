@@ -25,7 +25,7 @@ public class PriceSlashServiceImpl implements PriceSlashService{
     public void addPriceSlash(PriceSlash priceslash) {
         try {
             Products products = productRepository.findOne(priceslash.getProducts().id);
-            products.priceSlashEnabled=true;
+            products.setPriceSlashEnabled(true);
             priceslash.setProducts(products);
             priceSlashRepository.save(priceslash);
         }catch (Exception ex){
@@ -37,7 +37,7 @@ public class PriceSlashServiceImpl implements PriceSlashService{
     public void removePriceSlash(Long productId) {
         try {
             Products products = productRepository.findOne(productId);
-            products.priceSlashEnabled=false;
+            products.setPriceSlashEnabled(false);
             productRepository.save(products);
             PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
             priceSlashRepository.delete(priceSlash);

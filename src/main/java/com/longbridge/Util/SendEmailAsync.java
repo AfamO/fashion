@@ -64,7 +64,7 @@ public class SendEmailAsync {
                 + Thread.currentThread().getName());
 
             try {
-                String mail = user.email;
+                String mail = user.getEmail();
                 String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
                // orderNumber = orderNumber.substring(0,4);
 
@@ -72,7 +72,7 @@ public class SendEmailAsync {
 
 
                 Context context = new Context();
-                context.setVariable("name", user.firstName + " "+ user.lastName);
+                context.setVariable("name", user.getFirstName() + " "+ user.getLastName());
                 context.setVariable("orderNum",orderNumber);
                 context.setVariable("link",link);
 
@@ -81,7 +81,7 @@ public class SendEmailAsync {
 
             }catch (MailException me){
                 me.printStackTrace();
-                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.success.subject", null, locale),orderNumber,link,"null");
+                throw new AppException(user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("order.success.subject", null, locale),orderNumber,link,"null");
 
             }
         } catch (Exception e) {
@@ -99,7 +99,7 @@ public class SendEmailAsync {
         try {
 
             try {
-                String mail = user.email;
+                String mail = user.getEmail();
                 String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
                 // orderNumber = orderNumber.substring(0,4);
 
@@ -107,7 +107,7 @@ public class SendEmailAsync {
 
 
                 Context context = new Context();
-                context.setVariable("name", user.firstName + " "+ user.lastName);
+                context.setVariable("name", user.getFirstName() + " "+ user.getLastName());
 
                 context.setVariable("link",link);
 
@@ -116,7 +116,7 @@ public class SendEmailAsync {
 
             }catch (MailException me){
                 me.printStackTrace();
-                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.success.subject", null, locale),orders.getOrderNum(),link,"null");
+                throw new AppException(user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("order.success.subject", null, locale),orders.getOrderNum(),link,"null");
 
             }
         } catch (Exception e) {
@@ -134,11 +134,11 @@ public class SendEmailAsync {
                     + Thread.currentThread().getName());
 
             try {
-                String mail = user.email;
+                String mail = user.getEmail();
                // String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
-                link = messageSource.getMessage("order.status.track",null,locale)+user.firstName;
+                link = messageSource.getMessage("order.status.track",null,locale)+user.getFirstName();
                 Context context = new Context();
-                context.setVariable("name", user.firstName + " "+ user.lastName);
+                context.setVariable("name", user.getFirstName() + " "+ user.getLastName());
                 context.setVariable("orderNum",orderNumber);
                 context.setVariable("link",link);
                 String message = templateEngine.process("adminconfirmordertemplate", context);
@@ -146,7 +146,7 @@ public class SendEmailAsync {
 
             }catch (MailException me){
                 me.printStackTrace();
-                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.status.subject", null, locale),orderNumber,link,"null");
+                throw new AppException(user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("order.status.subject", null, locale),orderNumber,link,"null");
 
             }
         } catch (Exception e) {
@@ -264,23 +264,24 @@ public class SendEmailAsync {
         try {
             Context context = new Context();
 
-            String encryptedMail = Base64.getEncoder().encodeToString(user.email.getBytes());
+            String encryptedMail = Base64.getEncoder().encodeToString(user.getEmail().getBytes());
             activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
             String message="";
             context.setVariable("link", activationLink);
-            if(user.designer != null) {
-                context.setVariable("name", user.designer.storeName);
+            if(user.getRole().equalsIgnoreCase("designer")) {
+
+                context.setVariable("name", designerRepository.findByUser(user).getStoreName());
                 message = templateEngine.process("designerwelcomeemail", context);
             }
             else {
-                context.setVariable("name", user.firstName+" " +user.lastName);
+                context.setVariable("name", user.getFirstName()+" " +user.getLastName());
                 message = templateEngine.process("welcomeemail", context);
             }
-            mailService.prepareAndSend(message,user.email,messageSource.getMessage("user.welcome.subject", null, locale));
+            mailService.prepareAndSend(message,user.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale));
 
         }catch (MailException me){
             me.printStackTrace();
-            throw new AppException("",user.firstName + user.lastName,user.email,messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
+            throw new AppException("",user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
         }
 
     }
@@ -294,10 +295,10 @@ public class SendEmailAsync {
                     + Thread.currentThread().getName());
 
             try {
-                String mail = user.email;
+                String mail = user.getEmail();
 
                 Context context = new Context();
-                context.setVariable("name", user.firstName + " "+ user.lastName);
+                context.setVariable("name", user.getFirstName() + " "+ user.getLastName());
                 context.setVariable("productName",itemsDTO.getProductName());
 
 
@@ -306,7 +307,7 @@ public class SendEmailAsync {
 
             }catch (MailException me){
                 me.printStackTrace();
-                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.failedinspection.subject", null, locale),itemsDTO.getProductName());
+                throw new AppException(user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("order.failedinspection.subject", null, locale),itemsDTO.getProductName());
 
             }
         } catch (Exception e) {
@@ -324,19 +325,19 @@ public class SendEmailAsync {
             System.out.println("Execute method asynchronously - "
                     + Thread.currentThread().getName());
             Products products = productRepository.findOne((itemRepository.findOne(itemsDTO.getId())).getProductId());
-            User user = products.designer.user;
+            User user = products.getDesigner().getUser();
             try {
-                String mail = user.email;
+                String mail = user.getEmail();
                 Context context = new Context();
-                context.setVariable("name", user.firstName + " "+ user.lastName);
-                context.setVariable("productName",products.name);
+                context.setVariable("name", user.getFirstName() + " "+ user.getLastName());
+                context.setVariable("productName",products.getName());
                 context.setVariable("failedInspectionReason",itemsDTO.getAction());
                 String message = templateEngine.process("failedinspfordesigner", context);
                 mailService.prepareAndSend(message,mail,messageSource.getMessage("order.failedinspection.subject", null, locale));
 
             }catch (MailException me){
                 me.printStackTrace();
-                throw new AppException(user.firstName + user.lastName,user.email,messageSource.getMessage("order.failedinspection.subject", null, locale),products.name);
+                throw new AppException(user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("order.failedinspection.subject", null, locale),products.getName());
 
             }
         } catch (Exception e) {

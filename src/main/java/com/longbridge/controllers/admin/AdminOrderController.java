@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/fashion/order/admin")
 public class AdminOrderController {
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     @Autowired
     OrderService orderService;

@@ -7,6 +7,8 @@ import com.longbridge.exception.AppException;
 import com.longbridge.models.MailError;
 import com.longbridge.models.ProductNotification;
 import com.longbridge.models.Products;
+import com.longbridge.models.User;
+import com.longbridge.repository.DesignerRepository;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.repository.ProductNotificationRepository;
 import com.longbridge.repository.ProductRepository;
@@ -55,6 +57,9 @@ public class ResendMailUtil {
 
     @Autowired
     private TemplateEngine templateEngine;
+
+    @Autowired
+    DesignerRepository designerRepository;
 
 
     @Scheduled(cron = "${wawooh.status.check.rate}")
@@ -178,8 +183,8 @@ public class ResendMailUtil {
                         }
                 }
                 else if (mailError.getMailType().equalsIgnoreCase("welcome")){
-                    try{
-                        if(userRepository.findByEmail(mail).designer != null)
+                    try{User user=userRepository.findByEmail(mail);
+                        if(designerRepository.findByUser(user) != null)
                         {
                         message = templateEngine.process("designerwelcomeemail", context);
                         }
@@ -211,9 +216,9 @@ public class ResendMailUtil {
         List<ProductNotification> productNotifications=productNotificationRepository.findAll();
         for (ProductNotification p:productNotifications) {
             Products products = productRepository.findOne(p.getProductId());
-            if(products.stockNo >0){
+            if(products.getStockNo() >0){
                 Context context = new Context();
-                context.setVariable("productName", products.name);
+                context.setVariable("productName", products.getName());
                 String mail = p.getEmail();
                 String message = templateEngine.process("notifymetemplate", context);
                 String subject = messageSource.getMessage("notifyme.subject",null,locale);

@@ -26,7 +26,7 @@ public class SizeService {
             return response;
         } catch (Exception e) {
             e.printStackTrace();
-            Response response = new Response("99","Error occured internally",responseMap);
+            Response response = new Response("99","Error occurred internally",responseMap);
             return response;
 
         }

@@ -79,7 +79,7 @@ public class AdminProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(!user.role.equalsIgnoreCase("admin")){
+        if(!user.getRole().equalsIgnoreCase("admin")){
             return new Response("99","Operation Failed, Not an admin2",responseMap);
         }
         productService.sponsorProduct(id,flag);
@@ -96,7 +96,7 @@ public class AdminProductController {
         if(token==null || user==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(!user.role.equalsIgnoreCase("admin")){
+        if(!user.getRole().equalsIgnoreCase("admin")){
             return new Response("99","Operation Failed, Not an admin",responseMap);
         }
         productService.updateProductStatus(id,flag);

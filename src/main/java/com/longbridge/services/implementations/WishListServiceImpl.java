@@ -76,10 +76,10 @@ public class WishListServiceImpl implements WishListService{
     public String notifyMe(WishListDTO wishListDTO, User user) {
         try {
 
-            ProductNotification productNotification = productNotificationRepository.findByEmailAndProductId(user.email, wishListDTO.getProductId());
+            ProductNotification productNotification = productNotificationRepository.findByEmailAndProductId(user.getEmail(), wishListDTO.getProductId());
             if (productNotification == null) {
                 productNotification = new ProductNotification();
-                productNotification.setEmail(user.email);
+                productNotification.setEmail(user.getEmail());
                 productNotification.setProductId(wishListDTO.getProductId());
                 productNotificationRepository.save(productNotification);
             }
@@ -142,33 +142,33 @@ public class WishListServiceImpl implements WishListService{
     private ProductRespDTO convertEntityToDTO(Products products){
         ProductRespDTO productDTO = new ProductRespDTO();
         productDTO.id=products.id;
-        productDTO.amount=products.amount;
+        productDTO.amount=products.getAmount();
        // productDTO.color=products.color;
-        productDTO.description=products.prodDesc;
-        productDTO.name=products.name;
+        productDTO.description=products.getProdDesc();
+        productDTO.name=products.getName();
       //  productDTO.productSizes=products.productSizes;
 
-        productDTO.productAttributeDTOS=generalUtil.convertProductAttributeEntitiesToDTOs(products.productAttributes);
-        if(products.style != null) {
-            productDTO.styleId = products.style.id.toString();
+        productDTO.productAttributeDTOS=generalUtil.convertProductAttributeEntitiesToDTOs(products.getProductAttributes());
+        if(products.getStyle() != null) {
+            productDTO.styleId = products.getStyle().id.toString();
         }
 
-        productDTO.designerId=products.designer.id.toString();
-        productDTO.stockNo=products.stockNo;
-        productDTO.inStock=products.inStock;
-        productDTO.designerName=products.designer.storeName;
-        productDTO.status=products.status;
-        productDTO.verifiedFlag=products.verifiedFlag;
-        productDTO.subCategoryId=products.subCategory.id.toString();
-        productDTO.categoryId=products.subCategory.category.id.toString();
+        productDTO.designerId=products.getDesigner().id.toString();
+        productDTO.stockNo=products.getStockNo();
+        productDTO.inStock=products.getInStock();
+        productDTO.designerName=products.getDesigner().getStoreName();
+        productDTO.status=products.getStatus();
+        productDTO.verifiedFlag=products.getVerifiedFlag();
+        productDTO.subCategoryId=products.getSubCategory().id.toString();
+        productDTO.categoryId=products.getSubCategory().getCategory().id.toString();
 
-        List<ProductPicture> productPictures = products.picture;
+        List<ProductPicture> productPictures = products.getPicture();
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 
-        List<ArtWorkPicture> artWorkPictures = products.artWorkPicture;
+        List<ArtWorkPicture> artWorkPictures = products.getArtWorkPicture();
         productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
 
-        List<MaterialPicture> materialPictures = products.materialPicture;
+        List<MaterialPicture> materialPictures = products.getMaterialPicture();
         productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
 
         return productDTO;
@@ -188,9 +188,9 @@ public class WishListServiceImpl implements WishListService{
 
     private ProductPictureDTO convertProdPictureEntityToDTO(ProductPicture picture){
         ProductPictureDTO pictureDTO = new ProductPictureDTO();
-        pictureDTO.id=picture.id;
-        pictureDTO.productId=picture.products.id;
-        pictureDTO.picture=picture.pictureName;
+        pictureDTO.id=picture.getId();
+        pictureDTO.productId=picture.getProducts().id;
+        pictureDTO.picture=picture.getPictureName();
         return pictureDTO;
 
     }
@@ -207,9 +207,9 @@ public class WishListServiceImpl implements WishListService{
 
     private ArtPictureDTO convertArtPictureEntityToDTO(ArtWorkPicture picture){
         ArtPictureDTO pictureDTO = new ArtPictureDTO();
-        pictureDTO.id=picture.id;
-        pictureDTO.productId=picture.products.id;
-        pictureDTO.artWorkPicture=picture.pictureName;
+        pictureDTO.id=picture.getId();
+        pictureDTO.productId=picture.getProducts().id;
+        pictureDTO.artWorkPicture=picture.getPictureName();
         return pictureDTO;
 
     }
@@ -226,9 +226,9 @@ public class WishListServiceImpl implements WishListService{
 
     private MaterialPictureDTO convertMatPictureEntityToDTO(MaterialPicture picture){
         MaterialPictureDTO pictureDTO = new MaterialPictureDTO();
-        pictureDTO.id=picture.id;
-        pictureDTO.productId=picture.products.id;
-        pictureDTO.materialPicture=picture.pictureName;
+        pictureDTO.id=picture.getId();
+        pictureDTO.productId=picture.getProducts().id;
+        pictureDTO.materialPicture=picture.getPictureName();
         return pictureDTO;
 
     }

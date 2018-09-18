@@ -12,6 +12,22 @@ import javax.persistence.ManyToOne;
 public class Style extends CommonFields {
     @JsonIgnore
     @ManyToOne
-    public SubCategory subCategory;
-    public String style;
+    private SubCategory subCategory;
+    private String style;
+
+    public SubCategory getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(SubCategory subCategory) {
+        this.subCategory = subCategory;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
 }
