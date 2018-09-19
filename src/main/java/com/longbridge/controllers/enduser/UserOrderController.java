@@ -58,6 +58,7 @@ public class UserOrderController {
         }
         PaymentResponse orderRespDTO = new PaymentResponse();
         try {
+            System.out.println("Trial one => "+ orders.getTotalAmount());
             orderRespDTO = orderService.addOrder(orders,userTemp);
             Response response;
             if(orderRespDTO.getStatus().equalsIgnoreCase("false")){

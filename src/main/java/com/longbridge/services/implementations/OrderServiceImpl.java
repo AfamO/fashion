@@ -184,7 +184,7 @@ public class OrderServiceImpl implements OrderService {
             String tempOrderNumber = "";
             do{
                 tempOrderNumber = generateOrderNum();
-            }while (orderNumExists(orderNumber));
+            }while (orderNumExists(tempOrderNumber));
 
             //orderNumber = "WAW#"+tempOrderNumber;
             orderNumber = tempOrderNumber;
@@ -210,6 +210,7 @@ public class OrderServiceImpl implements OrderService {
 
             //updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
+            HashMap h = null;
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                 PaymentRequest paymentRequest = new PaymentRequest();
                 paymentRequest.setOrderId(orders.id);
@@ -217,13 +218,17 @@ public class OrderServiceImpl implements OrderService {
                 paymentRequest.setTransactionReference(orderNumber);
                 paymentRequest.setEmail(user.getEmail());
                 paymentRepository.save(paymentRequest);
+                h= saveItems(orderReq,date,orders,itemStatus);
+                totalAmount = Double.parseDouble(h.get("totalAmount").toString());
+                orders.setTotalAmount(totalAmount);
+                orderRepository.save(orders);
                 return paymentService.initiatePayment(paymentRequest);
+            }else{
+                h= saveItems(orderReq,date,orders,itemStatus);
+                totalAmount = Double.parseDouble(h.get("totalAmount").toString());
+                orders.setTotalAmount(totalAmount);
+                orderRepository.save(orders);
             }
-
-            HashMap h= saveItems(orderReq,date,orders,itemStatus);
-            totalAmount = Double.parseDouble(h.get("totalAmount").toString());
-            orders.setTotalAmount(totalAmount);
-            orderRepository.save(orders);
 
             deleteCart(user);
 
@@ -269,19 +274,29 @@ public class OrderServiceImpl implements OrderService {
 
             Double amount;
             if(p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice()>0){
-                amount=p.getAmount()-p.getPriceSlash().getSlashedPrice();
+                amount = p.getPriceSlash().getSlashedPrice();
             }else {
-                amount=p.getAmount();
+                amount = p.getAmount();
             }
+
+            System.out.println("trial 2 =>"+amount);
+            System.out.println("trial 2 =>"+items.getQuantity());
 
             Double itemsAmount = amount*items.getQuantity();
             if(!designerCities.contains(p.getDesigner().getCity().toUpperCase().trim())){
                 shippingAmount = shippingUtil.getShipping(p.getDesigner().getCity().toUpperCase().trim(), orders.getDeliveryAddress().getCity().toUpperCase().trim(), items.getQuantity());
                 designerCities.add(p.getDesigner().getCity().toUpperCase().trim());
-           }
+            }
+
+            System.out.println("Trial 3 s => "+shippingAmount);
+            System.out.println("Trial 3 p=> "+p.getDesigner().getCity().toUpperCase().trim());
+            System.out.println("Trial 3 d=> "+designerCities);
+            System.out.println("Trial 3 s2=> "+shippingAmount);
+
             amountWithoutShipping=itemsAmount;
             items.setAmount(itemsAmount);
             totalAmount=totalAmount+itemsAmount+shippingAmount;
+            System.out.println("Trial 3 s3=> "+totalAmount);
             items.setOrders(orders);
             items.setProductName(p.getName());
             items.setCreatedOn(date);
