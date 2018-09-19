@@ -254,7 +254,7 @@ public class DesignerProductController {
 
 
 
-    @GetMapping(value = {"/{id}/getproductbyid"})
+    @GetMapping(value = {"/{id}/designer/getproductbyid"})
     public Object getDesignerProductById(@PathVariable Long id, HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         JwtUser user = userUtil.getAuthenticationDetails(token);

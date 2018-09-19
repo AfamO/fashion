@@ -87,22 +87,6 @@ public class ProductController {
         return new Response("00","Operation Successful",products);
     }
 
-    @GetMapping(value = "/getdesignerproducts")
-    public Object getProductsByDesignerId(HttpServletRequest request){
-
-        String token = request.getHeader(tokenHeader);
-        User user1 = userUtil.fetchUserDetails2(token);
-        if(token==null || user1==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(user1.designer == null){
-            return new Response("99","You are not a designer","error");
-        }
-
-        List<ProductRespDTO> products= productService.getProductsByDesigner(user1.designer.id);
-        return new Response("00","Operation Successful",products);
-    }
-
 
     @GetMapping(value = "/getdesignerproducts")
     public Object getProductsByDesigner(HttpServletRequest request){
