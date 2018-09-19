@@ -160,7 +160,7 @@ public class DesignerServiceImpl implements DesignerService{
             }
         }else{
             Response response = tokenService.validateToken(userEmailTokenDTO1, device);
-            if(response.status == "00"){
+            if(Objects.equals(response.status, "00")){
                 userTemp.setEmail(userEmailTokenDTO.getEmail());
                 userRepository.save(userTemp);
                 return new Response("00", "Email changed successfullly", null);

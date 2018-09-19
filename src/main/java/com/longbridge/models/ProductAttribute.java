@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.longbridge.dto.ProductPictureDTO;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * Created by Longbridge on 15/08/2018.
  */
 @Entity
-public class ProductAttribute extends CommonFields{
+public class ProductAttribute extends CommonFields implements Serializable {
 
     private String colourPicture;
     private String colourName;

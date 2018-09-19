@@ -35,26 +35,34 @@ public class ShippingUtil {
             if(shipping.getSource() != null) {
                 Double zonePrice;
                 int currentShipping = 0;
-                if (shipping.getZone().equals("1")) {
-                    zonePrice = zonePriceRepository.getZoneOnePrice(quantity);
-                    currentShipping += zonePrice;
-                } else if (shipping.getZone().equals("2")) {
-                    zonePrice = zonePriceRepository.getZoneTwoPrice(quantity);
-                    currentShipping += zonePrice;
-                } else if (shipping.getZone().equals("3")) {
-                    zonePrice = zonePriceRepository.getZoneThreePrice(quantity);
-                    currentShipping += zonePrice;
-                } else if (shipping.getZone().equals("4")) {
-                    zonePrice = zonePriceRepository.getZoneFourPrice(quantity);
-                    currentShipping += zonePrice;
+                switch (shipping.getZone()) {
+                    case "1":
+                        zonePrice = zonePriceRepository.getZoneOnePrice(quantity);
+                        currentShipping += zonePrice;
+                        break;
+                    case "2":
+                        zonePrice = zonePriceRepository.getZoneTwoPrice(quantity);
+                        currentShipping += zonePrice;
+                        break;
+                    case "3":
+                        zonePrice = zonePriceRepository.getZoneThreePrice(quantity);
+                        currentShipping += zonePrice;
+                        break;
+                    case "4":
+                        zonePrice = zonePriceRepository.getZoneFourPrice(quantity);
+                        currentShipping += zonePrice;
+                        break;
                 }
 
-                if (shipping.getSource().equals("1")) {
-                    shippingPriceGIG += currentShipping;
-                } else if (shipping.getSource().equals("2")) {
-                    shippingPriceGIG += currentShipping;
-                } else {
-                    return 0;
+                switch (shipping.getSource()) {
+                    case "1":
+                        shippingPriceGIG += currentShipping;
+                        break;
+                    case "2":
+                        shippingPriceGIG += currentShipping;
+                        break;
+                    default:
+                        return 0;
                 }
 
             }

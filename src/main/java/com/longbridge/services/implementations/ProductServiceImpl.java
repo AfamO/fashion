@@ -552,6 +552,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    //todo come back later
     @Override
     public void updateProductStock(ProductDTO productDTO, User user) {
         try {

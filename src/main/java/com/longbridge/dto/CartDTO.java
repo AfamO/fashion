@@ -251,7 +251,7 @@ public class CartDTO {
         return measurementName;
     }
 
-    public void setMeasurementName(String measurementId) {
+    public void setMeasurementName(String measurementName) {
         this.measurementName = measurementName;
     }
 

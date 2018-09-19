@@ -1,5 +1,6 @@
 package com.longbridge.security.service;
 
+import com.longbridge.models.User;
 import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,11 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         JwtUser user = null;
-         com.longbridge.models.User user1 =  userRepository.findByEmail(username);
+         User user1 =  userRepository.findByEmail(username);
+        if (user1 == null) {
+            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+        }
+        else {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         String role = "";
         if(user1.getRole().equalsIgnoreCase("admin")){
@@ -40,15 +45,9 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
         }
 
         authorities.add(new SimpleGrantedAuthority(role));
-
-         if(user1!=null){
-             user = new JwtUser(user1.getEmail(),user1.getPassword(),authorities,true,null);
+        user = new JwtUser(user1.getEmail(),user1.getPassword(),authorities,true,null);
          }
-        if (user1 == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
-        } else {
-            return user;
-        }
+        return user;
     }
 
 

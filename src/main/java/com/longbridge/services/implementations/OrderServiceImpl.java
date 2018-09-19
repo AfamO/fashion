@@ -1272,9 +1272,7 @@ itemRepository.save(items);
     private void deleteCart(User user){
         System.out.println( "cart repo"+ cartRepository.findByUser(user));
         List<Cart> carts = cartRepository.findByUser(user);
-        for (Cart c: carts) {
-            cartRepository.delete(c);
-        }
+        cartRepository.delete(carts);
 
     }
 

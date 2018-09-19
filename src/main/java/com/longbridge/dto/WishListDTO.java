@@ -8,7 +8,6 @@ import com.longbridge.respbodydto.ProductRespDTO;
 public class WishListDTO {
     private Long id;
     private Long productId;
-    private Long userId;
     private ProductRespDTO products;
 
 
@@ -18,7 +17,7 @@ public class WishListDTO {
     public WishListDTO(Long id, Long productId, Long userId, ProductRespDTO products) {
         this.id = id;
         this.productId = productId;
-        this.userId = userId;
+        Long userId1 = userId;
         this.products = products;
     }
 

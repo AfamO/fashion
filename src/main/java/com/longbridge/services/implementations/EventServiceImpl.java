@@ -58,13 +58,6 @@ public class EventServiceImpl implements EventService {
     CloudinaryService cloudinaryService;
 
 
-    private ModelMapper modelMapper;
-
-    @Autowired
-    public EventServiceImpl(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
 //
 //    @Value("${event.mainpicture.folder}")
 //    private String eventMainPictureImagePath;

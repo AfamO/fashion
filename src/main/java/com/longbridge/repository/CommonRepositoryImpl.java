@@ -24,14 +24,13 @@ import java.util.List;
 public class CommonRepositoryImpl<T extends CommonFields, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements CommonRepository<T, ID> {
     private final JpaEntityInformation<T, ?> entityInformation;
     private final EntityManager em;
-    private final Class<T> domainClass;
 
 
     public CommonRepositoryImpl(Class<T> domainClass, EntityManager em)
     {
         super(domainClass, em);
         this.em = em;
-        this.domainClass = domainClass;
+        Class<T> domainClass1 = domainClass;
         this.entityInformation = JpaEntityInformationSupport.getEntityInformation(domainClass, em);
     }
 

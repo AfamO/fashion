@@ -53,14 +53,6 @@ public class PaymentServiceImpl implements PaymentService {
     CartRepository cartRepository;
 
 
-    //Endpoint to initiate transaction
-    private final String INITIATE_ENDPOINT = "https://api.paystack.co/transaction/initialize";
-
-
-    //Endpoint to finally charge the user
-    private final String CHARGE_ENDPOINT = "https://api.paystack.co/transaction/charge_authorization";
-
-
     @Override
     public PaymentResponse initiatePayment(PaymentRequest paymentRequest) throws UnirestException {
 
@@ -73,6 +65,7 @@ public class PaymentServiceImpl implements PaymentService {
         // end of payload
 
         // This sends the request to server with payload
+        String INITIATE_ENDPOINT = "https://api.paystack.co/transaction/initialize";
         HttpResponse<JsonNode> response = Unirest.post(INITIATE_ENDPOINT)
                 .header("Content-Type", "application/json")
                 .header("Authorization",secret)
@@ -183,6 +176,7 @@ public class PaymentServiceImpl implements PaymentService {
             data.put("email", user.getEmail());
             data.put("amount", amount);
             // This sends the request to server with payload
+            String CHARGE_ENDPOINT = "https://api.paystack.co/transaction/charge_authorization";
             HttpResponse<JsonNode> response = Unirest.post(CHARGE_ENDPOINT)
                     .header("Content-Type", "application/json")
                     .header("Authorization", secret)
@@ -249,7 +243,7 @@ public class PaymentServiceImpl implements PaymentService {
         User user = userRepository.findById(items.getOrders().getUserId());
         Orders orders=items.getOrders();
         if(!orders.isPaystackFiftyAlreadyDeducted()){
-           orders.isPaystackFiftyAlreadyDeducted();
+            orders.setPaystackFiftyAlreadyDeducted(true);
            orderRepository.save(orders);
         }
 
@@ -272,9 +266,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void deleteCart(User user){
         List<Cart> carts = cartRepository.findByUser(user);
-        for (Cart c: carts) {
-            cartRepository.delete(c);
-        }
+        cartRepository.delete(carts);
     }
 
 

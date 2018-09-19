@@ -270,13 +270,10 @@ public class UserUtil {
         String changePasswordLink="";
         try {
             User user = userRepository.findByEmail(passedUser.getEmail());
-            if(!user.getActivationFlag().equalsIgnoreCase("Y")){
-                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
-            }
-
             if(user!=null){
-                //newPassword = generalUtil.getCurrentTime();
-                //newPassword = RandomStringUtils.randomAlphanumeric(10);
+                if(!"Y".equalsIgnoreCase(user.getActivationFlag())){
+                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
+                }
                 newPassword=UUID.randomUUID().toString().substring(0,10);
                 user.setPassword(Hash.createPassword(newPassword));
                 user.setLinkClicked("N");

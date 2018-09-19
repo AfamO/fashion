@@ -49,9 +49,6 @@ public class RavePaymentServiceImpl implements RavePaymentService {
     @Value("${rave.secret}")
     private String secret;
 
-    //Endpoint to verify transaction
-    private final String VERIFY_ENDPOINT = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/v2/verify";
-
     @Override
     public Response validateTransaction(CardPaymentDTO cardPaymentDTO) {
         System.out.println("i got here");
@@ -67,7 +64,7 @@ public class RavePaymentServiceImpl implements RavePaymentService {
          * @throws UnirestException
          */
 
-       // RavePayment ravePayment = ravePaymentRepository.findByOrderId(cardPaymentDTO.getOrderId());
+       //RavePayment ravePayment = ravePaymentRepository.findByOrderId(cardPaymentDTO.getOrderId());
         RavePayment ravePayment=null;
         if(ravePayment == null){
             response.status="79";
@@ -155,6 +152,7 @@ public class RavePaymentServiceImpl implements RavePaymentService {
         // end of payload
 
         // This sends the request to server with payload
+        String VERIFY_ENDPOINT = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/v2/verify";
         HttpResponse<JsonNode> response = Unirest.post(VERIFY_ENDPOINT)
                 .header("Content-Type", "application/json")
                 .body(data)
@@ -218,9 +216,7 @@ public class RavePaymentServiceImpl implements RavePaymentService {
 
     private void deleteCart(User user){
         List<Cart> carts = cartRepository.findByUser(user);
-        for (Cart c: carts) {
-            cartRepository.delete(c);
-        }
+        cartRepository.delete(carts);
     }
 
 }

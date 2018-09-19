@@ -67,7 +67,7 @@ public class AddressController {
         String token = request.getHeader(tokenHeader);
         User userTemp = userUtil.fetchUserDetails2(token);
         if(token==null || userTemp==null){
-
+            return userUtil.tokenNullOrInvalidResponse(token);
         }
         addressService.deleteAddress(id);
        return new Response("00", "Operation Successful", responseMap);
