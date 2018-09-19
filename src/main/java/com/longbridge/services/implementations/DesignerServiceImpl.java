@@ -183,6 +183,7 @@ public class DesignerServiceImpl implements DesignerService{
         try {
             if(userTemp.getRole().equalsIgnoreCase("designer")){
                 User currentUser = userTemp;
+                System.out.println(user);
                 Designer currentDesigner = designerRepository.findByUser(currentUser);
 
                 currentDesigner.setAddress(user.getDesigner().address);
@@ -260,7 +261,12 @@ public class DesignerServiceImpl implements DesignerService{
                 }
 
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
-                currentDesigner.setRegistrationNumber(user.getDesigner().registeredFlag);
+
+                if(currentDesigner.getRegisteredFlag().equalsIgnoreCase("Y")){
+                    currentDesigner.setRegistrationNumber(user.getDesigner().registrationNumber);
+                }else{
+                    currentDesigner.setRegistrationNumber("");
+                }
                 if(!isUrl(user.getDesigner().registrationDocument)){
                     if(currentDesigner.getRegistrationDocument() != null){
                         if(currentDesigner.getRegistrationDocument().equalsIgnoreCase("")){

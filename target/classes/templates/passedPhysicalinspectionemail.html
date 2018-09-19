@@ -12,8 +12,9 @@
         <p style = "line-height: 25px; font-size: 1em; color: #333;">
             Thanks once again for your purchase, your item <b><span th:text="${productName}"></span> </b>has passed quality checks.
             Here is the picture of your order which will soon be shipped:
-            <img style = "width: 100px; background-size: contain;" th:src="@{${passedproductPicture}}" alt="QA Passed  Customer Image"/>
         </p>
+        <div style = "padding: 15px;text-align: center;">
+        <img style = "width: 100px; background-size: contain;" th:src="@{${passedproductPicture}}" alt="QA Passed  Customer Image"/></div>
         <p style = "line-height: 25px; font-size: 1em; color: #333;">
             For inquiries and any other information,
             please contact 07000-0-WAWOOH or send us a mail at customercare@wawooh.com
