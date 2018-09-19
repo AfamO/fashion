@@ -19,6 +19,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
 
 import static org.springframework.data.repository.init.ResourceReader.Type.JSON;
 
@@ -63,44 +66,49 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentResponse initiatePayment(PaymentRequest paymentRequest) throws UnirestException {
-
+        
         PaymentResponse paymentResponse=new PaymentResponse();
-        // This packages the payload
-        JSONObject data = new JSONObject();
-        data.put("reference", paymentRequest.getTransactionReference());
-        data.put("email", paymentRequest.getEmail());
-        data.put("amount", amount);
-        // end of payload
-
-        // This sends the request to server with payload
-        HttpResponse<JsonNode> response = Unirest.post(INITIATE_ENDPOINT)
-                .header("Content-Type", "application/json")
-                .header("Authorization",secret)
-                .body(data)
-                .asJson();
-
-        // This get the response from payload
-        JsonNode jsonNode = response.getBody();
-
-        // This get the json object from payload
-        JSONObject responseObject = jsonNode.getObject();
-
-
-        // check of no object is returned
-        if (responseObject == null) {
-            data.put("status", "16");
-            // throw new Exception("No response from server");
-            paymentResponse.setStatus("16");
-            return paymentResponse;
+        try {
+            // This packages the payload
+            JSONObject data = new JSONObject();
+            data.put("reference", paymentRequest.getTransactionReference());
+            data.put("email", paymentRequest.getEmail());
+            data.put("amount", amount);
+            // end of payload
+            
+            // This sends the request to server with payload
+            HttpResponse<JsonNode> response = Unirest.post(INITIATE_ENDPOINT)
+                    .header("Content-Type", "application/json")
+                    .header("Authorization",secret)
+                    .body(data)
+                    .asJson();
+            
+            // This get the response from payload
+            JsonNode jsonNode = response.getBody();
+            
+            // This get the json object from payload
+            JSONObject responseObject = jsonNode.getObject();
+            
+            
+            // check of no object is returned
+            if (responseObject == null) {
+                data.put("status", "16");
+                // throw new Exception("No response from server");
+                paymentResponse.setStatus("16");
+                return paymentResponse;
+            }
+            
+            data = responseObject.getJSONObject("data");
+            
+            // This gets the redirectUrl from the server
+            String url  = data.getString("authorization_url");
+            paymentResponse.setStatus("00");
+            paymentResponse.setRedirectUrl(url);
+            paymentResponse.setTransactionReference(data.getString("reference"));
+            
+        } catch (JSONException ex) {
+            Logger.getLogger(PaymentServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        data = responseObject.getJSONObject("data");
-
-        // This gets the redirectUrl from the server
-        String url  = data.getString("authorization_url");
-        paymentResponse.setStatus("00");
-        paymentResponse.setRedirectUrl(url);
-        paymentResponse.setTransactionReference(data.getString("reference"));
         return paymentResponse;
     }
 

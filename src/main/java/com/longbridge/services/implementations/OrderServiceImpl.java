@@ -513,7 +513,8 @@ public class OrderServiceImpl implements OrderService {
             Context context = new Context();
             context.setVariable("name", customerName);
             context.setVariable("productName",items.getProductName());
-
+            
+            
             try {
                 ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
                 if(items.getItemStatus().getStatus().equalsIgnoreCase("CO")) {
@@ -539,7 +540,16 @@ public class OrderServiceImpl implements OrderService {
                         if(items.getFailedInspectionReason() != null){
                             items.setFailedInspectionReason(null);
                         }
+                        // Send picture as email to the customer that his order has passed physical inspection.
+                        if(itemsDTO.getProductPicture()!=null){
+                            System.out.println("The Item Picture Name Is:"+itemsDTO.getProductPicture());
+                            String  passedItemPictureName= generalUtil.getPicsName("qaPassedItemPic",items.getProductName());
+                            CloudinaryResponse c = cloudinaryService.uploadToCloud(itemsDTO.getProductPicture(),passedItemPictureName,"QAPassedProductPictures");
+                            System.out.println("The QAPassedPictureName:"+c.getUrl());
+                            sendEmailAsync.sendPassedInspectionnToCustomer(customerEmail,customerName, c);
+                        }
                         items.setItemStatus(itemStatusRepository.findByStatus("RS"));
+                        
                     }
                     else if(itemsDTO.getStatus().equalsIgnoreCase("FI")){
                             items.setItemStatus(itemStatusRepository.findByStatus("WR"));
@@ -667,7 +677,7 @@ public class OrderServiceImpl implements OrderService {
             Orders orders=orderRepository.findOne(orderReqDTO.getId());
             Date date = new Date();
             orders.setUpdatedOn(date);
-//            if(orders.getDeliveryStatus().equalsIgnoreCase("A")){
+            //if(orders.getDeliveryStatus().equalsIgnoreCase("A")){
                 TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
                if(transferInfo == null){
                  return "nopayment";
@@ -688,7 +698,7 @@ public class OrderServiceImpl implements OrderService {
                     orders.setUpdatedBy(user.getEmail());
                     orderRepository.save(orders);
                     sendEmailAsync.sendPaymentConfEmailToUser(customer,orders.getOrderNum());
-//                }
+               // }
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
@@ -1039,7 +1049,7 @@ public class OrderServiceImpl implements OrderService {
             throw new WawoohException();
         }
     }
-
+   
     @Override
     public List<OrderDTO> getIncompleteOrders(User user) {
         try {

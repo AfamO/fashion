@@ -177,8 +177,6 @@ public class AdminOrderController {
         return new Response("00","Operation Successful",orderService.getAllOrdersByAdmin(userTemp));
 
     }
-
-
     @GetMapping(value = "/getorders")
     public Response getAllOrders(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

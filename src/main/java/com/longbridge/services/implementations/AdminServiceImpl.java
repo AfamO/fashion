@@ -40,13 +40,16 @@ public class AdminServiceImpl implements AdminService {
         try {
             AdminDashBoardDTO adminDashBoardDTO = new AdminDashBoardDTO();
             Long totalProducts = productRepository.countByVerifiedFlag("Y");
-            Long totalOrders = orderRepository.countByDeliveryStatusNot("NV");
+            Long totalOrders = (long) orderRepository.findAll().size();
             List<Designer> designers = designerRepository.findTop10ByOrderByCreatedOnDesc();
             List<Orders> orders = orderRepository.findByDeliveryStatusNot("NV");
             adminDashBoardDTO.setTotalProducts(totalProducts);
             adminDashBoardDTO.setTotalOrders(totalOrders);
             adminDashBoardDTO.setRecentCustomers(generalUtil.convDesignerEntToDTOs(designers));
             adminDashBoardDTO.setRecentOrders(generalUtil.convertOrderEntsToDTOs(orders));
+            adminDashBoardDTO.setNewOrders(orderRepository.NoOfOrdersByStatus("P")) ; //get the number of pending orders as new  new orders
+            adminDashBoardDTO.setTotalSales(orderRepository.NoOfOrdersByStatus("D"));// get the total  number of sold orders
+            adminDashBoardDTO.setTotalPayment(0);//  get the total payment of all orders sold . This is yet to be implemented. It is defaulted to zero for now.
             return adminDashBoardDTO;
         }catch (Exception ex){
             ex.printStackTrace();

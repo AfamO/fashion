@@ -43,7 +43,7 @@ public interface OrderService {
     List<ItemsRespDTO> getCompletedOrders(User user);
 
     List<ItemsRespDTO> getAllOrdersByAdmin(User user);
-
+    
     List<OrderDTO> getAllOrdersByAdmin2(User user);
 
     List<OrderDTO> getIncompleteOrders(User user);
