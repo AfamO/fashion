@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by longbridge on 10/18/17.
  */
 @MappedSuperclass
-public class CommonFields{
+public class CommonFields implements Serializable{
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
