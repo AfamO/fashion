@@ -509,7 +509,7 @@ public class EventServiceImpl implements EventService {
         eventsDTO.setEventDate(stringDate);
         eventsDTO.setEventName(events.getEventName());
         eventsDTO.setLocation(events.getLocation());
-        eventsDTO.eventType=events.getEventType();
+        eventsDTO.setEventType(events.getEventType());
 
         eventsDTO.setMainPicture(events.getMainPicture());
         int tags = 0;
@@ -517,7 +517,7 @@ public class EventServiceImpl implements EventService {
         for (EventPictures e:ep) {
             tags=tags+pictureTagRepository.countByEventPictures(e);
         }
-        eventsDTO.totalTags=tags;
+        eventsDTO.setTotalTags(tags);
         eventsDTO.setEventPictures(convertEvtPicEntToDTOsMin(eventPictureRepository.findFirst6ByEvents(events)));
 
         return eventsDTO;

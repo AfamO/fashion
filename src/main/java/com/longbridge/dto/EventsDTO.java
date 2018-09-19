@@ -6,16 +6,16 @@ import java.util.List;
  * Created by Longbridge on 06/11/2017.
  */
 public class EventsDTO {
-    public Long id;
-    public String mainPicture;
-    public String description;
-    public String eventName;
-    public String location;
-    public String eventDate;
-    public int totalTags;
-    public String eventType;
+    private Long id;
+    private String mainPicture;
+    private String description;
+    private String eventName;
+    private String location;
+    private String eventDate;
+    private int totalTags;
+    private String eventType;
 
-    public List<EventPicturesDTO> eventPictures;
+    private List<EventPicturesDTO> eventPictures;
 
 
     public Long getId() {
@@ -72,6 +72,22 @@ public class EventsDTO {
 
     public void setEventPictures(List<EventPicturesDTO> eventPictures) {
         this.eventPictures = eventPictures;
+    }
+
+    public int getTotalTags() {
+        return totalTags;
+    }
+
+    public void setTotalTags(int totalTags) {
+        this.totalTags = totalTags;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
 
     public EventsDTO() {

@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.search.annotations.Field;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  */
 
 @Entity
-public class SubCategory extends CommonFields {
+public class SubCategory extends CommonFields implements Serializable{
     @JsonIgnore
     @ManyToOne
     private Category category;
