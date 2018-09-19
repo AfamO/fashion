@@ -411,16 +411,7 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
-//            else if(items.getItemStatus().getStatus().equalsIgnoreCase("OP")){
-//                if(itemsDTO.getStatus().equalsIgnoreCase("RI")){
-//                    items.setItemStatus(itemStatus);
-//                    statusMessage.setHasResponse(false);
-//                    items.setStatusMessage(statusMessage);
-//                }
-//                else {
-//                    throw new InvalidStatusUpdateException();
-//                }
-//            }
+
 
                 items.setUpdatedOn(date);
                 itemRepository.save(items);
@@ -662,7 +653,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public String updateOrderByAdmin(OrderReqDTO orderReqDTO, User user) {
         try{
-            List<DesignerOrderDTO> dtos = new ArrayList<>();
+
             User customer = userRepository.findOne(orderReqDTO.getUserId());
             Orders orders=orderRepository.findOne(orderReqDTO.getId());
             Date date = new Date();

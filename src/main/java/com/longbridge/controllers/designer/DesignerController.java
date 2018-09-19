@@ -52,31 +52,29 @@ public class DesignerController {
     }
 
 
-    @PostMapping(value = "/getdesigner")
-    public Response getDesignerById(HttpServletRequest request,@RequestBody MonthsDTO months){
-        System.out.println("i got here");
+    @GetMapping(value = "/getdesigner")
+    public Response getDesignerById(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
-        User user1 = userUtil.fetchUserDetails2(token);
-        if(token==null || user1==null){
+        User userTemp = userUtil.fetchUserDetails2(token);
+        if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        if(!user1.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","You are not a designer","error");
-        }
-
-        DesignerDTO designer = designerService.getDesigner(user1,months);
+        DesignerDTO designer = designerService.getDesigner2(userTemp);
         return new Response("00","Operation Successful",designer);
-
     }
 
 
+    @GetMapping(value = "/get")
+    public Response getDesigner2(){
+        DesignerDTO designer = designerService.getDesigner();
+        return new Response("00","Operation Successful",designer);
+    }
 
 
     @GetMapping(value = "/getdesignerbystorename/{storename}")
     public Response getDesignerByStoreName(HttpServletRequest request, @PathVariable String storename){
         DesignerDTO designer = designerService.getDesignerByStoreName(storename);
         return new Response("00","Operation Successful",designer);
-
     }
 
 
@@ -87,14 +85,13 @@ public class DesignerController {
 
     }
 
+
 //    @GetMapping(value = "/{id}/getsaleschart")
 //    public Response getSalesChart(HttpServletRequest request, @PathVariable Long id){
 //        List<SalesChart> salesChart = designerService.getSalesChart(id);
 //        Response response = new Response("00","Operation Successful",salesChart);
 //        return response;
 //    }
-
-
 
 
     @PostMapping(value = "/updateemailaddress")

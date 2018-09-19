@@ -5,6 +5,7 @@ import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -41,7 +42,9 @@ public interface DesignerService {
 
     DesignerDTO getDesigner(User user);
 
-    DesignerDTO getDesigner(User user, MonthsDTO months);
+    DesignerDTO getDesigner();
+
+    DesignerDTO getDesigner2(User user);
 
     DesignerDTO getDesignerByStoreName(String storeName);
 

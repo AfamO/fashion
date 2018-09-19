@@ -44,7 +44,7 @@ public class UserController {
     @Autowired
     TokenService tokenService;
 
-    @PostMapping(value = "/Signin")
+    @PostMapping(value = "/signin")
     public Object Signin(@RequestBody User passedUser,Device device){
         return userUtil.validateUser(passedUser,device);
     }

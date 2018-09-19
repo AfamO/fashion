@@ -1,5 +1,7 @@
 package com.longbridge.repository;
 
+import com.longbridge.dto.ISalesChart;
+import com.longbridge.dto.SalesChart;
 import com.longbridge.models.ItemStatus;
 import com.longbridge.models.Items;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -65,9 +67,13 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
     //List<Object[]> getSalesChart(@Param("designerid") Long designerId, @Param("lastSixMonths") Date lastSixMonths, @Param("current")Date current);
 
 
-    @Query(value = "SELECT SUM(amount) as amount FROM items WHERE  designer_id =:designerid and delivery_status =:deliveryStatus and created_on between :startDate and :endDate",nativeQuery = true)
-    Double getSalesChart(@Param("designerid") Long designerId, @Param("startDate") Date startDate, @Param("endDate")Date endDate, @Param("deliveryStatus") String deliveryStatus);
+//    @Query(value = "SELECT SUM(amount) as amount FROM items WHERE  designer_id =:designerid and delivery_status =:deliveryStatus and created_on between :startDate and :endDate",nativeQuery = true)
+//    Double getSalesChart(@Param("designerid") Long designerId, @Param("startDate") Date startDate, @Param("endDate")Date endDate, @Param("deliveryStatus") String deliveryStatus);
 
+    @Query(value = "SELECT SUM(amount) as amount,  MONTH(created_on) as month ,YEAR(created_on) as year FROM items WHERE  " +
+            "designer_id =:designerid and delivery_status =:deliveryStatus and created_on between :startDate and current_date() " +
+            "GROUP BY month",nativeQuery = true)
+    List<ISalesChart> getTotalSales(@Param("designerid") Long designerId, @Param("startDate") Date startDate, @Param("deliveryStatus") String deliveryStatus);
 
 
 }

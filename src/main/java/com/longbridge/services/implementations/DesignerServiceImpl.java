@@ -12,8 +12,11 @@ import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.DesignerService;
 import com.longbridge.services.TokenService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
@@ -453,36 +456,31 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public DesignerDTO getDesigner(User user, MonthsDTO months) {
+    public DesignerDTO getDesigner() {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String name = authentication.getName();
+            Designer designer = designerRepository.findByUser_Email(name);
+            DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
+            Date startDate= DateUtils.ceiling(DateUtils.addMonths(new Date(),-6),Calendar.MONTH);
+            List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
+            dto.setSalesChart(salesCharts);
+            return dto;
+
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public DesignerDTO getDesigner2(User user) {
         try {
             Designer designer = designerRepository.findByUser(user);
-            List<SalesChart> salesCharts = new ArrayList<>();
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
-            for (String month:months.getMonths()) {
-                YearMonth d = YearMonth.parse(month);
-                LocalDate startDateMonth = d.atDay(1);
-                LocalDate endDateMonth = d.atEndOfMonth();
-                //converting local date to date format
-                Date date1 = Date.from(startDateMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                Date date2 = Date.from(endDateMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-                SalesChart salesChart = new SalesChart();
-//                Calendar calendar = Calendar.getInstance();
-//                calendar.setTime(date1);
-//                salesChart.setMonth(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ));
-                    salesChart.setMonth(month.split("-")[1]);
-                    salesChart.setYear(month.split("-")[0]);
-                Double amnt = itemRepository.getSalesChart(designer.id,date1,date2,"C");
-                if(amnt != null){
-                salesChart.setAmount(amnt);
-                }
-                else {
-                    salesChart.setAmount(0.0);
-                }
-                salesCharts.add(salesChart);
-            }
-
-           dto.setSalesChart(salesCharts);
+            Date startDate= DateUtils.ceiling(DateUtils.addMonths(new Date(),-6),Calendar.MONTH);
+            List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
+            dto.setSalesChart(salesCharts);
             return dto;
 
         } catch (Exception e){
