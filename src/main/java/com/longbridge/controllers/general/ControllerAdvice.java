@@ -1,4 +1,4 @@
-package com.longbridge.controllers;
+package com.longbridge.controllers.general;
 
 import com.longbridge.exception.*;
 import com.longbridge.models.Response;

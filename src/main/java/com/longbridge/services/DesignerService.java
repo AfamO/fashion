@@ -16,17 +16,17 @@ public interface DesignerService {
 
     List<DesignerDTO> getDesigners();
 
-    Response updateEmailAddress(User userTemp, UserEmailTokenDTO userEmailTokenDTO, Device device);
+    Response updateEmailAddress(UserEmailTokenDTO userEmailTokenDTO, Device device);
 
-    void updateDesignerPersonalInformation(User userTemp, UserDTO user);
+    void updateDesignerPersonalInformation(UserDTO user);
 
-    void updateDesignerBusinessInformation(User userTemp, UserDTO user);
+    void updateDesignerBusinessInformation(UserDTO user);
 
-    void updateDesignerAccountInformation(User userTemp, UserDTO user);
+    void updateDesignerAccountInformation(UserDTO user);
 
-    void updateDesignerInformation(User userTemp, UserDTO user);
+    void updateDesignerInformation(UserDTO user);
 
-    void updateDesignerLogo(User userTemp, DesignerDTO passedDesigner);
+    void updateDesignerLogo(DesignerDTO passedDesigner);
 
     void rateDesigner(DesignerRatingDTO ratingDTO);
 
@@ -40,11 +40,11 @@ public interface DesignerService {
 
     Designer getDesignrById(Long designerId);
 
-    DesignerDTO getDesigner(User user);
-
     DesignerDTO getDesigner();
 
-    DesignerDTO getDesigner2(User user);
+    DesignerDTO getDesignerWithSalesChart();
+
+
 
     DesignerDTO getDesignerByStoreName(String storeName);
 

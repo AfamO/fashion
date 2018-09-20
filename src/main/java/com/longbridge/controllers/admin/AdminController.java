@@ -9,6 +9,10 @@ import com.longbridge.services.CodeService;
 import com.longbridge.services.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +22,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/admin")
+@RequestMapping("/fashion/secure/admin")
 public class AdminController {
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    @Autowired
-    UserUtil userUtil;
 
     @Autowired
     AdminService adminService;
@@ -37,108 +36,63 @@ public class AdminController {
     CodeService codeService;
 
     @GetMapping(value = "/getdashboarddata")
-    public Response getAdminDashboardData(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",adminService.getDashboardData(userTemp));
-
+    public Response getAdminDashboardData(){
+        return new Response("00","Operation Successful",adminService.getDashboardData());
     }
 
 
     @GetMapping(value = "/getrefundinfo")
-    public Response getRefundInfo(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+    public Response getRefundInfo(){
         return new Response("00","Operation Successful",refundService.getAll());
 
     }
 
 
     @PostMapping(value = "/{id}/verifyrefund")
-    public Response verifyRefund(HttpServletRequest request,@PathVariable Long id){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+    public Response verifyRefund(@PathVariable Long id){
         refundService.verifyRefund(id);
         return new Response("00","Operation Successful","success");
-
     }
 
     @PostMapping(value = "/createcode")
-    public Response createCode(@RequestBody Code code, HttpServletRequest request){
-
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
+    public Response createCode(@RequestBody Code code){
         return codeService.createCode(code);
     }
 
     @PostMapping(value = "/updatecode")
-    public Response updateCode(@RequestBody Code code, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
+    public Response updateCode(@RequestBody Code code){
         return codeService.updateCode(code);
     }
 
     @GetMapping(value = "/findcodebytype/{type}")
-    public Response findCodeByType(@PathVariable String type, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
+    public Response findCodeByType(@PathVariable String type){
         return new Response("00", "Operation successful", codeService.findCodeByType(type));
     }
 
     @GetMapping(value = "/findcodebynameandtype/{name}/{type}")
-    public Response findCodeByNameAndType(@PathVariable String name, @PathVariable String type, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
+    public Response findCodeByNameAndType(@PathVariable String name, @PathVariable String type){
         return new Response("00", "Operation successful", codeService.findCodeByNameAndType(name, type));
     }
 
 
     @GetMapping(value = "/findcodebyid/{id}")
-    public Response findCodeById(@PathVariable Long id, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
+    public Response findCodeById(@PathVariable Long id){
         return new Response("00", "Operation successful", codeService.findCodeById(id));
     }
 
     @GetMapping(value = "/deletecode/{id}")
-    public Response findCoedByid(@PathVariable Long id, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
+    public Response findCoedByid(@PathVariable Long id){
         codeService.deleteCode(id);
         return new Response("00", "Operation successful", null);
+    }
+
+
+    @RequestMapping(
+            value = "/**",
+            method = RequestMethod.OPTIONS
+    )
+    public ResponseEntity handle() {
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

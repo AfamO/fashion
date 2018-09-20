@@ -8,5 +8,5 @@ import com.longbridge.models.User;
  * Created by Longbridge on 08/08/2018.
  */
 public interface AdminService {
-    AdminDashBoardDTO getDashboardData(User user);
+    AdminDashBoardDTO getDashboardData();
 }

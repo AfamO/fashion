@@ -94,44 +94,6 @@ public class UserController {
 
 
 
-    @PostMapping(value = "/createadmin")
-    public Object createAdmin(@RequestBody User passedUser){
-        try {
-            if (passedUser.getRole().equalsIgnoreCase("admin")){
-                //todo later
-            }
-            else {
-                //todo later
-            }
-
-            return userUtil.registerUser(passedUser);
-        }catch (AppException e){
-            e.printStackTrace();
-            String recipient = e.getRecipient();
-            String subject = e.getSubject();
-            MailError mailError = new MailError();
-            mailError.setName(e.getName());
-            mailError.setRecipient(recipient);
-            mailError.setSubject(subject);
-            mailError.setMailType("welcome");
-            mailErrorRepository.save(mailError);
-            return new Response("00", "Registration successful, Trying to send email to admin", "success");
-        }
-    }
-
-
-
-    @PostMapping(value = "/edituser")
-    public Response updateUser(@RequestBody UserDTO passedUser, HttpServletRequest request){
-        //======================================================
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        userUtil.updateUser(passedUser,userTemp);
-        return new Response("00", "Operation Successful", "success");
-    }
 
     @PostMapping(value = "/editpassword")
     public Response updateUser(@RequestBody UserDTO passedUser, Device device){
@@ -200,18 +162,6 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/validatepassword")
-    public Object validatePassword(HttpServletRequest request, @RequestBody User user){
-
-
-        String token = request.getHeader(tokenHeader);
-        if (token == null || user == null) {
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return userUtil.validatePassword(user);
-
-
-    }
 
 
     @GetMapping(value = "/getusers")
@@ -257,20 +207,6 @@ public class UserController {
         }
     }
 
-
-
-//
-//    @PostMapping(value = "/getUserDetailsByToken")
-//    public User fetchUserDetails2(HttpServletRequest request){
-//        String token = request.getHeader(tokenHeader);
-//        JwtUser user = userUtil.getAuthenticationDetails(token);
-//        if(user!=null){
-//            return userRepository.findByEmail(user.getUsername());
-//        }
-//        else{
-//            return null;
-//        }
-//    }
 
 
     @RequestMapping(

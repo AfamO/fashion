@@ -8,10 +8,13 @@ import com.longbridge.repository.ProductNotificationRepository;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.repository.WishListRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
+import com.longbridge.security.JwtUser;
 import com.longbridge.services.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,20 +41,10 @@ public class WishListServiceImpl implements WishListService{
 
 
 
-    @Value("${artwork.picture.folder}")
-    private String artworkPictureImagePath;
-
-    @Value("${material.picture.folder}")
-    private String materialPicturesImagePath;
-
-    @Value("${product.picture.folder}")
-    private String productPicturesImagePath;
-
-
     @Override
-    public String addToWishList(WishListDTO wishListDTO, User user) {
+    public String addToWishList(WishListDTO wishListDTO) {
         try {
-
+            User user = getCurrentUser();
             WishList wishList1 = wishListRepository.findByUserAndProducts(user,productRepository.findOne(wishListDTO.getProductId()));
             if(wishList1 != null) {
                 wishListRepository.delete(wishList1);
@@ -73,9 +66,9 @@ public class WishListServiceImpl implements WishListService{
 
 
     @Override
-    public String notifyMe(WishListDTO wishListDTO, User user) {
+    public String notifyMe(WishListDTO wishListDTO) {
         try {
-
+            User user = getCurrentUser();
             ProductNotification productNotification = productNotificationRepository.findByEmailAndProductId(user.getEmail(), wishListDTO.getProductId());
             if (productNotification == null) {
                 productNotification = new ProductNotification();
@@ -94,9 +87,9 @@ public class WishListServiceImpl implements WishListService{
 
 
     @Override
-    public List<WishListDTO> getWishLists(User user, PageableDetailsDTO pageable) {
+    public List<WishListDTO> getWishLists(PageableDetailsDTO pageable) {
         try{
-
+            User user = getCurrentUser();
             return convertWishEntToDTOs(wishListRepository.findByUser(user,new PageRequest(pageable.getPage(),pageable.getSize())).getContent());
 
         }
@@ -233,6 +226,11 @@ public class WishListServiceImpl implements WishListService{
 
     }
 
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
+    }
 
 
 }

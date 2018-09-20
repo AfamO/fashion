@@ -23,13 +23,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/fashion/newsletter")
 public class NewsLetterController{
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     @Autowired
     NewsLetterService newsLetterService;
 
     @PostMapping(value = "/{email}/adduser")
-    public Response addUser(@PathVariable String email, HttpServletRequest request){
+    public Response addUser(@PathVariable String email){
         newsLetterService.addUser(email);
         return new Response("00", "Operation Successful", "successully subscribed");
 

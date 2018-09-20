@@ -5,10 +5,13 @@ import com.longbridge.models.Measurement;
 import com.longbridge.models.User;
 import com.longbridge.repository.MeasurementRepository;
 import com.longbridge.repository.ProductRepository;
+import com.longbridge.security.JwtUser;
 import com.longbridge.services.MeasurementService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -27,13 +30,13 @@ public class MeasurementServiceImpl implements MeasurementService {
 
 
     @Override
-    public void customize(User userTemp, Measurement measurement) {
+    public void customize(Measurement measurement) {
         try {
             Date date = new Date();
-            measurement.setUser(userTemp);
+            measurement.setUser(getCurrentUser());
             measurement.setCreatedOn(date);
             measurement.setUpdatedOn(date);
-            Measurement measurement1 = measurementRepository.findByUserAndNameAndDelFlag(userTemp,measurement.getName(),"N");
+            Measurement measurement1 = measurementRepository.findByUserAndNameAndDelFlag(getCurrentUser(),measurement.getName(),"N");
             if(measurement1 != null){
                 measurement.setName(measurement.getName()+"1");
             }
@@ -47,10 +50,10 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     @Override
-    public void updateCustomization(User userTemp, Measurement measurement) {
+    public void updateCustomization( Measurement measurement) {
         try {
             Date date = new Date();
-            measurement.setUser(userTemp);
+            measurement.setUser(getCurrentUser());
             Measurement measurementTemp = measurementRepository.findOne(measurement.id);
             BeanUtilsBean.getInstance().getConvertUtils().register(false, false, 0);
             BeanUtils.copyProperties(measurementTemp,measurement);
@@ -64,11 +67,9 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     @Override
-    public boolean deleteMeasurement(User userTemp, Long measurementId) {
+    public boolean deleteMeasurement(Long measurementId) {
         try {
-//            if(cartRepository.countByMeasurementId(measurementId) > 0 || itemRepository.countByMeasurementIdAndDeliveryStatusNot(measurementId, "D") > 0){
-//                return false;
-//            }
+
             Measurement measurement = measurementRepository.findOne(measurementId);
             measurement.setDelFlag("Y");
             measurementRepository.save(measurement);
@@ -81,7 +82,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     @Override
-    public Measurement getMeasurementById(User user, Long measurementId) {
+    public Measurement getMeasurementById(Long measurementId) {
         try {
             Measurement m = measurementRepository.findOne(measurementId);
             return m;
@@ -94,9 +95,9 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     @Override
-    public List<Measurement> getUserMeasurement(User user) {
+    public List<Measurement> getUserMeasurement() {
         try {
-            List<Measurement> m = measurementRepository.findByUserAndDelFlag(user, "N");
+            List<Measurement> m = measurementRepository.findByUserAndDelFlag(getCurrentUser(), "N");
             return m;
 
         } catch (Exception e) {
@@ -117,15 +118,11 @@ public class MeasurementServiceImpl implements MeasurementService {
         }
     }
 
-    @Override
-    public Measurement getMeasurementByName(User user, String measurementName) {
-        try {
-            Measurement m = measurementRepository.findByUserAndNameAndDelFlag(user,measurementName, "N");
-            return m;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WawoohException();
-        }
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
     }
+
 }

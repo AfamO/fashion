@@ -6,12 +6,15 @@ import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
+import com.longbridge.security.JwtUser;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.method.P;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +32,6 @@ import java.util.*;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
-
-    @PersistenceContext
-    private EntityManager em;
 
     @Autowired
     ProductPictureRepository productPictureRepository;
@@ -100,7 +100,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ProductRespDTO getDesignerProductById(Long id, User user) {
+    public ProductRespDTO getDesignerProductById(Long id) {
         try {
             ItemStatus itemStatus1 = itemStatusRepository.findByStatus("OP");
             ItemStatus itemStatus2 = itemStatusRepository.findByStatus("CO");
@@ -111,7 +111,7 @@ public class ProductServiceImpl implements ProductService {
             itemStatuses.add(itemStatus3);
             Products products = productRepository.findOne(id);
             ProductRespDTO productDTO = generalUtil.convertEntityToDTO(products);
-            Designer designer = designerRepository.findByUser(user);
+            Designer designer = designerRepository.findByUser(getCurrentUser());
             int salesInQueue = itemRepository.findActiveOrdersOnProduct(designer.id,products.id,itemStatuses);
             int totalSales = itemRepository.countByDesignerIdAndProductIdAndItemStatus_Status(designer.id,products.id,"D");
             productDTO.salesInQueue=salesInQueue;
@@ -125,8 +125,9 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ProductRespDTO getProductById(Long id,User user, boolean reviewsPresent) {
+    public ProductRespDTO getProductById(Long id, boolean reviewsPresent) {
         try {
+            User user = getCurrentUser();
             Products products = productRepository.findOne(id);
             ProductRespDTO productDTO;
             if(reviewsPresent)
@@ -334,16 +335,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void addProduct(ProductDTO productDTO, User user) {
-
+    public void addProduct(ProductDTO productDTO) {
         try {
-
+            User user = getCurrentUser();
             Designer designer = designerRepository.findByUser(user);
             Date date = new Date();
             int totalStock = 0;
             Products products = new Products();
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
-            //ArrayList<String> pics = productDTO.picture;
+
             ArrayList<String> artWorkPics = productDTO.artWorkPicture;
             ArrayList<MaterialPictureDTO> materialPics = productDTO.materialPicture;
 
@@ -355,8 +355,7 @@ public class ProductServiceImpl implements ProductService {
             products.setNumOfDaysToComplete(productDTO.numOfDaysToComplete);
             products.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
             products.setMaterialPrice(productDTO.materialPrice);
-           // products.materialName=productDTO.materialName;
-            //products.color = productDTO.color;
+
             products.setProdSummary(productDTO.prodSummary);
             products.setProdDesc(productDTO.description);
             products.setDesigner(designer);
@@ -388,8 +387,8 @@ public class ProductServiceImpl implements ProductService {
                 for (ProductSizes p: pa.getProductSizes()) {
                     ProductSizes productSizes = new ProductSizes();
                     productSizes.setName(p.getName());
-                    productSizes.setStockNo(p.getStockNo());
-                    totalStock += p.getStockNo();
+                    productSizes.setNumberInStock(p.getNumberInStock());
+                    totalStock += p.getNumberInStock();
                     productSizes.setProductAttribute(productAttribute);
                     System.out.println(productSizes);
                     productSizesRepository.save(productSizes);
@@ -468,11 +467,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(ProductDTO productDTO, User user) {
-
+    public void updateProduct(ProductDTO productDTO) {
         try {
+            User user = getCurrentUser();
             Date date = new Date();
-
             Designer designer = designerRepository.findByUser(user);
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             Products products = productRepository.findOne(productDTO.id);
@@ -480,8 +478,6 @@ public class ProductServiceImpl implements ProductService {
             products.setName(productDTO.name);
             products.setAmount(productDTO.amount);
             products.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
-          //  products.color = productDTO.color;
-//            products.sizes = productDTO.sizes;
             products.setProdDesc(productDTO.description);
             products.setProdSummary(productDTO.prodSummary);
             products.setDesigner(designer);
@@ -493,18 +489,6 @@ public class ProductServiceImpl implements ProductService {
             }
             products.setStockNo(productDTO.stockNo);
             products.setUpdatedOn(date);
-
-
-
-//            if(productDTO.productAttributes != null){
-//                List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
-//                productAttributeRepository.delete(productAttributes);
-//                for (ProductAttributeDTO p: productDTO.productAttributes) {
-////                    p.(products);
-////                    productAttributeRepository.save(p);
-//                }
-//            }
-
 
             if(productDTO.slashedPrice > 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
@@ -554,10 +538,10 @@ public class ProductServiceImpl implements ProductService {
 
     //todo come back later
     @Override
-    public void updateProductStock(ProductDTO productDTO, User user) {
+    public void updateProductStock(ProductDTO productDTO) {
         try {
             Products products = productRepository.findOne(productDTO.id);
-            Designer designer = designerRepository.findByUser(user);
+
 
             if(productDTO.productAttributes != null){
                 List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
@@ -618,8 +602,8 @@ public class ProductServiceImpl implements ProductService {
                 for (ProductSizes prodSizes: pa.getProductSizes()) {
                     ProductSizes productSizes = new ProductSizes();
                     productSizes.setName(prodSizes.getName());
-                    productSizes.setStockNo(prodSizes.getStockNo());
-                    totalStock += prodSizes.getStockNo();
+                    productSizes.setNumberInStock(prodSizes.getNumberInStock());
+                    totalStock += prodSizes.getNumberInStock();
                     productSizes.setProductAttribute(productAttribute);
                     productSizesRepository.save(productSizes);
                 }
@@ -850,12 +834,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductRespDTO> getProductsByDesigner(User user) {
+    public List<ProductRespDTO> getProductsByDesigner() {
+        try {
+            Designer designer = designerRepository.findByUser(getCurrentUser());
+            List<Products> products = productRepository.findByDesigner(designerRepository.findOne(designer.id));
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
+            return productDTOS;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public List<ProductRespDTO> getProductsByDesigner(Long designerId) {
 
 
         try {
-            Designer designer = designerRepository.findByUser(user);
-            Long designerId = designer.id;
 
             List<Products> products = productRepository.findByDesigner(designerRepository.findOne(designerId));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
@@ -1214,13 +1210,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductRespDTO> getDesignerProductsBySubCatId(ProdSubCategoryDTO p, User user) {
-
+    public List<ProductRespDTO> getDesignerProductsBySubCatId(ProdSubCategoryDTO p) {
+        User user = getCurrentUser();
         int page = Integer.parseInt(p.page);
         int size = Integer.parseInt(p.size);
         Page<Products> products;
         Designer designer = null;
-        System.out.println(p.subcategoryId);
         try {
             SubCategory subCategory = subCategoryRepository.findOne(p.subcategoryId);
             if(p.designerId != null) {
@@ -1270,7 +1265,7 @@ public class ProductServiceImpl implements ProductService {
     public List<EventPicturesDTO> getTaggedPictures(PageableDetailsDTO pageableDetailsDTO) {
         int page = pageableDetailsDTO.getPage();
         int size = pageableDetailsDTO.getSize();
-        List<EventPictures> ev = new ArrayList<>();
+
         try {
             List<EventPicturesDTO> eventPicturesDTOS= new ArrayList<>();
 
@@ -1336,15 +1331,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
+    }
+
     @Override
-    public int getTotalProducts(User user) {
+    public int getTotalProducts() {
         int count = 0;
         try {
-
-            if(user.getRole().equalsIgnoreCase("designer")) {
-
+            User user = getCurrentUser();
                 count= productRepository.countByDesigner(designerRepository.findByUser(user));
-            }
 
         }catch (Exception ex){
             ex.printStackTrace();

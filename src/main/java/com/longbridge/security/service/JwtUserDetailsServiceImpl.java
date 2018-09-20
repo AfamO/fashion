@@ -34,18 +34,19 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
         if(user1.getRole().equalsIgnoreCase("admin")){
             role = "ROLE_ADMIN";
         }
-        if(user1.getRole().equalsIgnoreCase("designer")){
+        else if(user1.getRole().equalsIgnoreCase("designer")){
             role = "ROLE_DESIGNER";
         }
-        if(user1.getRole().equalsIgnoreCase("user")){
+        else if(user1.getRole().equalsIgnoreCase("user")){
             role = "ROLE_USER";
         }
-        if(user1.getRole().equalsIgnoreCase("qa")){
+        else if(user1.getRole().equalsIgnoreCase("qa")){
             role="ROLE_QA";
         }
 
         authorities.add(new SimpleGrantedAuthority(role));
-        user = new JwtUser(user1.getEmail(),user1.getPassword(),authorities,true,null);
+        //user = new JwtUser(user1.getEmail(),user1.getPassword(),authorities,true,null);
+        user= JwtUser.builder().withAuthorities(authorities).withEnabled(true).withUser(user1).build();
          }
         return user;
     }

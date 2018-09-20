@@ -8,6 +8,7 @@ import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ProductRespDTO;
+import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.DesignerService;
@@ -95,46 +96,6 @@ public class DesignerServiceImpl implements DesignerService{
 
     }
 
-//
-//    @Override
-//    public List<SalesChart> getSalesChart(Long designerId) {
-//        try {
-//
-//            Date current = new Date();
-//            List<SalesChart> salesCharts = new ArrayList<>();
-////            List<Date> months = new ArrayList<>();
-////            for(int i= 0; i < 6; i++ ){
-////                Calendar cal = Calendar.getInstance();
-////                cal.setTime(current);
-////                cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-i));
-////                months.add(cal.getTime());
-////            }
-//
-//            Calendar cal = Calendar.getInstance();
-//            cal.setTime(current);
-//            cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-6));
-//
-//            Date lastSixMonthDate = cal.getTime();
-//            List<Object[]> salesChart = itemRepository.getSalesChart(designerId,lastSixMonthDate,current);
-//            for (Object[] s: salesChart) {
-//                SalesChart salesChart1 = new SalesChart();
-//                salesChart1.setAmount((Double)s[0]);
-//                Date date = (Date)s[1];
-//                Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                salesChart1.setDate(formatter.format(date));
-//                salesChart1.setMonth((Integer.toString(date.getMonth()+1)));
-//                salesCharts.add(salesChart1);
-//            }
-//
-//
-//            return salesCharts;
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            throw new WawoohException();
-//        }
-//
-//
-//    }
 
     @Override
     public Designer getDesignrById(Long designerId) {
@@ -143,8 +104,8 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public Response updateEmailAddress(User userTemp, UserEmailTokenDTO userEmailTokenDTO, Device device) {
-
+    public Response updateEmailAddress( UserEmailTokenDTO userEmailTokenDTO, Device device) {
+        User userTemp = getCurrentUser();
         UserEmailTokenDTO userEmailTokenDTO1 = new UserEmailTokenDTO();
         userEmailTokenDTO1.setEmail(userTemp.getEmail());
         userEmailTokenDTO1.setToken(userEmailTokenDTO.getToken());
@@ -169,8 +130,9 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerPersonalInformation(User userTemp, UserDTO user) {
+    public void updateDesignerPersonalInformation(UserDTO user) {
         try {
+            User userTemp = getCurrentUser();
             if(userTemp.getRole().equalsIgnoreCase("designer")){
                 userTemp.setFirstName(user.getFirstName());
                 userTemp.setLastName(user.getLastName());
@@ -186,8 +148,9 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerBusinessInformation(User userTemp, UserDTO user) {
+    public void updateDesignerBusinessInformation(UserDTO user) {
         try {
+            User userTemp = getCurrentUser();
             if(userTemp.getRole().equalsIgnoreCase("designer")){
                 User currentUser = userTemp;
                 Designer currentDesigner = designerRepository.findByUser(currentUser);
@@ -296,8 +259,9 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerAccountInformation(User userTemp, UserDTO user) {
+    public void updateDesignerAccountInformation(UserDTO user) {
         try {
+            User userTemp = getCurrentUser();
             if(user.getRole().equalsIgnoreCase("designer")){
                 Designer currentDesigner = designerRepository.findByUser(userTemp);
 
@@ -319,16 +283,16 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerInformation(User userTemp, UserDTO user) {
-
-        updateDesignerPersonalInformation(userTemp, user);
-        updateDesignerBusinessInformation(userTemp, user);
-        updateDesignerAccountInformation(userTemp, user);
+    public void updateDesignerInformation(UserDTO user) {
+        updateDesignerPersonalInformation( user);
+        updateDesignerBusinessInformation(user);
+        updateDesignerAccountInformation(user);
     }
 
     @Override
-    public void  updateDesignerLogo(User userTemp, DesignerDTO passedDesigner) {
+    public void  updateDesignerLogo(DesignerDTO passedDesigner) {
         try {
+            User userTemp = getCurrentUser();
             if(passedDesigner.id != null) {
 
                 if(passedDesigner.logo != null) {
@@ -443,24 +407,23 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public DesignerDTO getDesigner(User user) {
-        try {
-            Designer designer = designerRepository.findByUser(user);
-            DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
-            return dto;
-
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-    @Override
     public DesignerDTO getDesigner() {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String name = authentication.getName();
-            Designer designer = designerRepository.findByUser_Email(name);
+            Designer designer = designerRepository.findByUser(getCurrentUser());
+            DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
+            return dto;
+
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
+    public DesignerDTO getDesignerWithSalesChart() {
+        try {
+
+            Designer designer = designerRepository.findByUser(getCurrentUser());
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             Date startDate= DateUtils.ceiling(DateUtils.addMonths(new Date(),-6),Calendar.MONTH);
             List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
@@ -473,20 +436,13 @@ public class DesignerServiceImpl implements DesignerService{
         }
     }
 
-    @Override
-    public DesignerDTO getDesigner2(User user) {
-        try {
-            Designer designer = designerRepository.findByUser(user);
-            DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
-            Date startDate= DateUtils.ceiling(DateUtils.addMonths(new Date(),-6),Calendar.MONTH);
-            List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
-            dto.setSalesChart(salesCharts);
-            return dto;
 
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new WawoohException();
-        }
+
+
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
     }
 
     @Override

@@ -24,32 +24,14 @@ import java.util.Map;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/admin/product")
+@RequestMapping("/fashion/secure/admin/product")
 public class AdminProductController {
     @Autowired
     ProductService productService;
 
-    @Autowired
-    HibernateSearchService searchService;
-
-    @Autowired
-    ProductRatingService productRatingService;
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    @Autowired
-    UserUtil userUtil;
-
     @PostMapping(value = "/getverifiedproducts")
-    public Object getVerifiedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
+    public Object getVerifiedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<ProductRespDTO> products;
-
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
         products= productService.getVerifiedProducts(pageableDetailsDTO);
         return new Response("00","Operation Successful",products);
 
@@ -57,31 +39,16 @@ public class AdminProductController {
 
 
     @PostMapping(value = "/getunverifiedproducts")
-    public Object getUnVerifiedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
+    public Object getUnVerifiedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<ProductRespDTO> products;
-
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
         products= productService.getUnVerifiedProducts(pageableDetailsDTO);
         return new Response("00","Operation Successful",products);
-
     }
 
 
     @GetMapping(value = "/{id}/sponsor/{flag}")
-    public Object sponsorProduct(@PathVariable Long id, @PathVariable String flag, HttpServletRequest request){
+    public Object sponsorProduct(@PathVariable Long id, @PathVariable String flag){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!user.getRole().equalsIgnoreCase("admin")){
-            return new Response("99","Operation Failed, Not an admin2",responseMap);
-        }
         productService.sponsorProduct(id,flag);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
@@ -89,20 +56,11 @@ public class AdminProductController {
     }
 
     @GetMapping(value = "/{id}/verifyproduct/{flag}")
-    public Object updateProductStatus(@PathVariable Long id, @PathVariable String flag, HttpServletRequest request){
+    public Object updateProductStatus(@PathVariable Long id, @PathVariable String flag){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!user.getRole().equalsIgnoreCase("admin")){
-            return new Response("99","Operation Failed, Not an admin",responseMap);
-        }
         productService.updateProductStatus(id,flag);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
-
     }
 
 

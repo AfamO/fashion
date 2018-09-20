@@ -24,12 +24,6 @@ import java.util.List;
 @RequestMapping("/fashion/rave")
 public class RavePaymentController {
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    @Autowired
-    UserUtil userUtil;
-
     @Autowired
     RavePaymentService ravePaymentService;
 
@@ -38,7 +32,6 @@ public class RavePaymentController {
 
         Response response = ravePaymentService.validateTransaction(cardPaymentDTO);
         return response;
-
 
     }
 

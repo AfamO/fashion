@@ -1,4 +1,4 @@
-package com.longbridge.controllers;
+package com.longbridge.controllers.general;
 
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
@@ -27,13 +27,6 @@ import java.util.Map;
 public class EventController {
     @Autowired
     EventService eventService;
-
-    @Autowired
-    UserUtil userUtil;
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
 
     @GetMapping(value = "/getTopFiveEventMainPictures")
     public Response getTopFiveEventMainPictures(){
@@ -64,7 +57,7 @@ public class EventController {
 
 
     @PostMapping(value = "/getevents")
-    public Response getEvents(@RequestBody EventDateDTO eventDateDTO, HttpServletRequest request){
+    public Response getEvents(@RequestBody EventDateDTO eventDateDTO){
         Map<String,Object> responseMap = new HashMap();
         List<EventsDTO> eventsDTOS = eventService.getEvents(eventDateDTO);
         responseMap.put("events",eventsDTOS);
@@ -73,71 +66,18 @@ public class EventController {
     }
 
 
-    //to be revisited
     @GetMapping(value = "/{id}/geteventbyId")
     public Response getEventById(@PathVariable Long id, HttpServletRequest request){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        List<EventPicturesDTO> edto;
-        if(token!=null || userTemp!=null) {
-            edto = eventService.getEventById(id,userTemp);
-        }
-        else {
-             edto= eventService.getEventById(id);
-        }
-        responseMap.put("event",edto);
+        responseMap.put("event",eventService.getEventById(id));
         return new Response("00","Operation Successful",responseMap);
-
     }
 
-    //to be revisited
     @GetMapping(value = "/{id}/geteventpicturebyid")
     public Object getEventPictureById(@PathVariable Long id, HttpServletRequest request){
         Map<String,Object> responseMap = new HashMap();
-        EventPicturesDTO eventPicture;
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token!=null || userTemp!=null){
-            eventPicture =  eventService.getEventPictureById(id,userTemp);
-        }
-        else {
-            eventPicture = eventService.getEventPictureById(id);
-        }
-
-        responseMap.put("eventpicture",eventPicture);
+        responseMap.put("eventpicture",eventService.getEventPictureById(id));
         return new Response("00","Operation Successful",responseMap);
-
-
-    }
-
-
-    @PostMapping(value = "/addcomment")
-    public Response addComment(@RequestBody CommentLikesDTO commentLikesDTO, HttpServletRequest request){
-        Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        List<CommentsDTO> comments= eventService.addComment(commentLikesDTO, userTemp);
-        responseMap.put("comments",comments);
-        return new Response("00","Operation Successful",responseMap);
-
-    }
-
-    @PostMapping(value = "/addlike")
-    public Response addLike(@RequestBody CommentLikesDTO commentLikesDTO, HttpServletRequest request){
-        Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        String noOfLikes = eventService.addLike(commentLikesDTO, userTemp);
-        responseMap.put("likes",noOfLikes);
-        return new Response("00","Operation Successful",responseMap);
-
     }
 
 

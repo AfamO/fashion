@@ -27,16 +27,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/fashion/inspireme")
 public class InspireMeController {
-    Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    UserUtil userUtil;
 
     @Autowired
     InspireMeService inspireMeService;
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
 
     @PostMapping(value = "newoutfit")
     public Response newOutFit(@RequestBody InspireMe inspireMe){

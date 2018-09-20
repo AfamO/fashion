@@ -1,4 +1,4 @@
-package com.longbridge.controllers;
+package com.longbridge.controllers.general;
 
 import com.longbridge.models.Response;
 import com.longbridge.services.SizeService;
@@ -17,14 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/fashion/size")
 public class SizeController {
-    @Value("${jwt.header}")
-    private String tokenHeader;
 
     @Autowired
     SizeService sizeService;
 
     @GetMapping(value = "/getsizes")
-    public Response addCategory(HttpServletRequest request){
+    public Response addCategory(){
         Response response = new Response("00","Operation Successful",sizeService.getSizes());
         return response;
     }

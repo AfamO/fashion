@@ -9,11 +9,11 @@ import java.util.List;
  * Created by Longbridge on 12/01/2018.
  */
 public interface AddressService {
-    void addAddress(Address address, User user);
+    void addAddress(Address address);
 
-    void updateAddress(Address address, User user);
+    void updateAddress(Address address);
 
     void deleteAddress(Long id);
 
-    List<Address> getAddress(User user);
+    List<Address> getAddress();
 }

@@ -642,7 +642,7 @@ public class GeneralUtil {
            if(productAttribute != null){
                ProductSizes productSizes = productSizesRepository.findByProductAttributeAndName(productAttribute, cart.getSize());
                cartDTO.setSize(productSizes.getName());
-               cartDTO.setSizeStockNo(productSizes.getStockNo());
+               cartDTO.setSizeStockNo(productSizes.getNumberInStock());
            }
         }
 

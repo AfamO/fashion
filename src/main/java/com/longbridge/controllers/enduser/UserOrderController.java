@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/order")
+@RequestMapping("/fashion/secure/order")
 public class UserOrderController {
 
     @Autowired
@@ -35,30 +35,18 @@ public class UserOrderController {
     @Autowired
     ShippingPriceService shippingPriceService;
 
-    @Autowired
-    UserUtil userUtil;
+
 
     @Autowired
     MailErrorRepository mailErrorRepository;
 
-    @Autowired
-    PaymentService paymentService;
-
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
 
     @PostMapping(value = "/addorder")
     public Response createOrder(@RequestBody OrderReqDTO orders, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
 
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
         PaymentResponse orderRespDTO = new PaymentResponse();
         try {
-            orderRespDTO = orderService.addOrder(orders,userTemp);
+            orderRespDTO = orderService.addOrder(orders);
             Response response;
             if(orderRespDTO.getStatus().equalsIgnoreCase("false")){
                 response = new Response("66","Unable to process order, An item is out of stock","");
@@ -102,95 +90,47 @@ public class UserOrderController {
     }
 
 
-    @PostMapping(value = "/verifypayment")
-    public Response verifyPayment(@RequestBody PaymentRequest paymentRequest){
-        return new Response("00","Operation Successful",paymentService.verifyPayment(paymentRequest));
-    }
-
-
-
     @PostMapping(value = "/complain")
     public Response saveComplain(@RequestBody ItemsDTO item, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if (token == null || userTemp == null) {
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        orderService.saveUserOrderComplain(item,userTemp);
+        orderService.saveUserOrderComplain(item);
         return new Response("00","Operation Successful","success");
-
-
     }
 
     @PostMapping(value = "/decision")
-    public Response rejectDecision(@RequestBody ItemsDTO itemsDTO, HttpServletRequest request){
-
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        orderService.userRejectDecision(itemsDTO,userTemp);
+    public Response rejectDecision(@RequestBody ItemsDTO itemsDTO){
+        orderService.userRejectDecision(itemsDTO);
         return new Response("00","Operation Successful","success");
 
     }
 
     @PostMapping(value = "/addtocart")
-    public Response addToCart(@RequestBody Cart cart, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.addToCart(cart,userTemp));
-
+    public Response addToCart(@RequestBody Cart cart){
+        return new Response("00","Operation Successful",orderService.addToCart(cart));
     }
-
-
 
     //todo later
     @PostMapping(value = "/updatecart")
-    public Response updateCart(@RequestBody Cart cart, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.updateCart(cart,userTemp));
-
+    public Response updateCart(@RequestBody Cart cart){
+        return new Response("00","Operation Successful",orderService.updateCart(cart));
     }
 
 
     @PostMapping(value = "/additemstocart")
-    public Response addCartToCart(@RequestBody CartListDTO cartListDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.addItemsToCart(cartListDTO,userTemp));
+    public Response addCartToCart(@RequestBody CartListDTO cartListDTO){
+
+        return new Response("00","Operation Successful",orderService.addItemsToCart(cartListDTO));
 
     }
 
     @GetMapping(value = "/getcart")
-    public Response getCart(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getCarts(userTemp));
+    public Response getCart(){
+
+        return new Response("00","Operation Successful",orderService.getCarts());
 
     }
 
     @GetMapping(value = "/{cartid}/deletecart")
-    public Response deleteCart(HttpServletRequest request, @PathVariable Long cartid){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+    public Response deleteCart(@PathVariable Long cartid){
         orderService.deleteCart(cartid);
         return new Response("00","Operation Successful", "success");
 
@@ -198,13 +138,8 @@ public class UserOrderController {
 
 
     @GetMapping(value = "/emptycart")
-    public Response emptyCart(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        orderService.emptyCart(userTemp);
+    public Response emptyCart(){
+        orderService.emptyCart();
         return new Response("00","Operation Successful", "success");
 
     }
@@ -212,50 +147,22 @@ public class UserOrderController {
 
     @GetMapping(value = "/getuserorder")
     public Response getOrder(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getOrdersByUser(userTemp));
+        return new Response("00","Operation Successful",orderService.getOrdersByUser());
 
     }
 
 
-    @PostMapping(value = "/savetransferinfo")
-    public Response saveOrderTransferInfo(@RequestBody TransferInfoDTO transferInfoDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        orderService.saveOrderTransferInfo(transferInfoDTO);
-        return new Response("00", "Operation successful", null);
-    }
 
 
     @PostMapping(value = "/getordershippingprice")
-    public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId(), userTemp));
+    public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO){
+        return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId()));
     }
 
 
     @GetMapping(value = "/{orderNum}/getorderbynum")
-    public Response getOrderByOrderNumber(HttpServletRequest request, @PathVariable String orderNum){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+    public Response getOrderByOrderNumber(@PathVariable String orderNum){
         return new Response("00","Operation Successful",orderService.getOrdersByOrderNum(orderNum));
-
     }
 
     @RequestMapping(

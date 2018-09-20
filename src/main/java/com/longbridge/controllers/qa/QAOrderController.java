@@ -8,6 +8,7 @@ import com.longbridge.models.MailError;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.repository.MailErrorRepository;
+import com.longbridge.services.AdminOrderService;
 import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.OrderService;
 import org.slf4j.Logger;
@@ -28,10 +29,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/fashion/order/qa")
 public class QAOrderController {
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    OrderService orderService;
+    AdminOrderService orderService;
 
     @Autowired
     ItemStatusService itemStatusService;
@@ -52,14 +52,10 @@ public class QAOrderController {
 
 
     @PostMapping(value = "/updateorderitem")
-    public Response updateOrderStatusByQA(@RequestBody ItemsDTO item, HttpServletRequest request){
+    public Response updateOrderStatusByQA(@RequestBody ItemsDTO item){
         try{
-            String token = request.getHeader(tokenHeader);
-            User userTemp = userUtil.fetchUserDetails2(token);
-            if(token==null || userTemp==null){
-                return userUtil.tokenNullOrInvalidResponse(token);
-            }
-            orderService.updateOrderItemByAdmin(item,userTemp);
+
+            orderService.updateOrderItemByAdmin(item);
             return new Response("00","Operation Successful","success");
 
         }catch (AppException e){
@@ -87,7 +83,7 @@ public class QAOrderController {
         if(token==null || userTemp==null){
             return userUtil.tokenNullOrInvalidResponse(token);
         }
-        return new Response("00","Operation Successful",orderService.getAllOrdersByQA(userTemp));
+        return new Response("00","Operation Successful",orderService.getAllOrdersByQA());
 
     }
 

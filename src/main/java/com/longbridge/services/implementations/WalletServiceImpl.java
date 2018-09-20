@@ -8,8 +8,11 @@ import com.longbridge.models.*;
 import com.longbridge.repository.AddressRepository;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.repository.WalletRepository;
+import com.longbridge.security.JwtUser;
 import com.longbridge.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,11 +33,11 @@ public class WalletServiceImpl implements WalletService {
     WalletRepository walletRepository;
 
     @Override
-    public String validateWalletBalance(OrderReqDTO orderReqDTO, User user) {
+    public String validateWalletBalance(OrderReqDTO orderReqDTO ) {
         String status = "";
 
         try {
-
+            User user= getCurrentUser();
             Address deliveryAddress = addressRepository.findOne(orderReqDTO.getDeliveryAddressId());
             Double totalAmount = 0.0;
             for (Items items : orderReqDTO.getItems()) {
@@ -76,5 +79,13 @@ public class WalletServiceImpl implements WalletService {
 
         }
         return status;
+
+    }
+
+
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
     }
 }

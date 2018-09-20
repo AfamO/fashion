@@ -20,6 +20,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -504,8 +506,15 @@ public class UserUtil {
         }
     }
 
-    public void updateUser(UserDTO passedUser, User userTemp){
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
+    }
+
+    public void updateUser(UserDTO passedUser){
     try {
+        User userTemp = getCurrentUser();
         Date date = new Date();
         userTemp.setPhoneNo(passedUser.getPhoneNo());
         userTemp.setLastName(passedUser.getLastName());

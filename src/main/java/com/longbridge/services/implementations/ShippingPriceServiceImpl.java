@@ -4,8 +4,11 @@ import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.ShippingUtil;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
+import com.longbridge.security.JwtUser;
 import com.longbridge.services.ShippingPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,8 +30,8 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
     ShippingUtil shippingUtil;
 
     @Override
-    public Object getShippingPrice(Long addressId, User user) {
-
+    public Object getShippingPrice(Long addressId) {
+        User user=getCurrentUser();
         List<Cart> carts = cartRepository.findByUser(user);
         double shippingPriceGIG = 0;
         double shippingPriceDHL = 0;
@@ -59,5 +62,11 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
 
         }
         return shippingPriceGIG;
+    }
+
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
     }
 }

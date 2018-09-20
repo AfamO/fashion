@@ -5,8 +5,11 @@ import com.longbridge.exception.WawoohException;
 import com.longbridge.models.Address;
 import com.longbridge.models.User;
 import com.longbridge.repository.AddressRepository;
+import com.longbridge.security.JwtUser;
 import com.longbridge.services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,12 +25,12 @@ public class AddressServiceImpl implements AddressService {
     private AddressRepository addressRepository;
 
     @Override
-    public void addAddress(Address address, User user) {
+    public void addAddress(Address address) {
         try {
             Date date = new Date();
-            address.setUser(user);
+            address.setUser(getCurrentUser());
             if(address.getPreferred().equalsIgnoreCase("Y")){
-                Address address1 = addressRepository.findByUserAndPreferredAndDelFlag(user,"Y","N");
+                Address address1 = addressRepository.findByUserAndPreferredAndDelFlag(getCurrentUser(),"Y","N");
                 if(address1 != null){
                     address1.setPreferred("N");
                     addressRepository.save(address1);
@@ -45,11 +48,12 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void updateAddress(Address address, User user) {
+    public void updateAddress(Address address) {
         try {
             Date date = new Date();
             Address add = addressRepository.findOne(address.id);
-            add.setUser(user);
+            add.setUser(getCurrentUser()
+            );
             add.setAddress(address.getAddress());
             add.setCountry(address.getCountry());
             add.setFirstName(address.getFirstName());
@@ -62,7 +66,7 @@ public class AddressServiceImpl implements AddressService {
             add.setState(address.getState());
             add.setPreferred(address.getPreferred());
             add.setUpdatedOn(date);
-            add.setUser(user);
+            add.setUser(getCurrentUser());
             addressRepository.save(add);
         }catch (Exception ex){
             ex.printStackTrace();
@@ -83,12 +87,19 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<Address> getAddress(User user) {
+    public List<Address> getAddress() {
         try {
-            return addressRepository.findByUserAndDelFlag(user,"N");
+            return addressRepository.findByUserAndDelFlag(getCurrentUser(),"N");
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
         }
     }
+
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
+    }
+
 }

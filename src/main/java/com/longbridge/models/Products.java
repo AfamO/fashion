@@ -41,8 +41,6 @@ public class Products extends CommonFields implements Serializable {
     private String prodSummary;
 
 
-   // public ArrayList<String> color;
-
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     private List<ArtWorkPicture> artWorkPicture;
 
@@ -59,10 +57,6 @@ public class Products extends CommonFields implements Serializable {
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     private List<ProductAttribute> productAttributes;
 
-
-
-//    @OneToMany (mappedBy = "products")
-//    public List<ProductSizes> productSizes;
 
     @OneToOne
     private Style style;

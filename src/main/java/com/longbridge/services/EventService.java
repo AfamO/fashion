@@ -31,17 +31,15 @@ public interface EventService {
 
     List<EventPicturesDTO> getEventById(Long id);
 
-    List<EventPicturesDTO> getEventById(Long id, User user);
 
     EventPicturesDTO getEventPictureById(Long id);
 
-    EventPicturesDTO getEventPictureById(Long id, User u);
 
     Boolean nameExists(String fileName);
 
-    List<CommentsDTO> addComment(CommentLikesDTO commentLikesDTO, User user);
+    List<CommentsDTO> addComment(CommentLikesDTO commentLikesDTO);
 
-    String addLike(CommentLikesDTO commentLikesDTO, User user);
+    String addLike(CommentLikesDTO commentLikesDTO);
 
 
 }

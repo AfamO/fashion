@@ -10,12 +10,12 @@ import java.util.List;
  */
 public interface MeasurementService {
 
-    void customize(User userTemp, Measurement measurement);
-    void updateCustomization(User userTemp, Measurement measurement);
-    boolean deleteMeasurement(User userTemp, Long measurementId);
-    Measurement getMeasurementById(User user, Long measurementId);
-    List<Measurement> getUserMeasurement(User user);
+    void customize(Measurement measurement);
+    void updateCustomization(Measurement measurement);
+    boolean deleteMeasurement(Long measurementId);
+    Measurement getMeasurementById(Long measurementId);
+    List<Measurement> getUserMeasurement();
 
     String getMandatoryMeasurement(Long productId);
-    Measurement getMeasurementByName(User user, String measurementName);
+
 }

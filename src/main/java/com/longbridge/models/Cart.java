@@ -19,10 +19,6 @@ public class Cart extends CommonFields {
 
     private Long designerId;
 
-   // private String deliveryStatus;
-
-   // private Date deliveryDate;
-
     private String size;
 
     private Double amount;

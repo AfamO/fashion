@@ -7,9 +7,7 @@ import com.longbridge.models.MailError;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.repository.MailErrorRepository;
-import com.longbridge.services.ItemStatusService;
-import com.longbridge.services.OrderService;
-import com.longbridge.services.ShippingPriceService;
+import com.longbridge.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -22,43 +20,27 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Longbridge on 28/08/2018.
  */@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/order/designer")
+@RequestMapping("/fashion/secure/designer/order")
 public class DesignerOrderController {
-
-    @Autowired
-    UserUtil userUtil;
 
     @Autowired
     MailErrorRepository mailErrorRepository;
 
     @Autowired
+    DesignerOrderService designerOrderService;
+
+    @Autowired
     OrderService orderService;
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
 
+    @Autowired
+    ProductService productService;
 
     @PostMapping(value = "/updateorderitem")
     public Response updateOrderStatusByDesigner(@RequestBody ItemsDTO item, HttpServletRequest request){
         try{
-            String token = request.getHeader(tokenHeader);
-            User userTemp = userUtil.fetchUserDetails2(token);
-            if(token==null || userTemp==null){
-                return userUtil.tokenNullOrInvalidResponse(token);
-            }
-
-//            if(item.getMessage() != null){
-                //Long id = statMessageId.get();
-                orderService.updateOrderItemByDesignerWithMessage(item, userTemp);
+            designerOrderService.updateOrderItemByDesignerWithMessage(item);
                 return new Response("00", "status updated", null);
-//            }else{
-//                return new Response("00", "confirm", orderService.updateOrderItemByDesignerr(item, userTemp));
-////                if(orderService.updateOrderItemByDesignerr(item, userTemp) != null){
-////                    return new Response("10", "confirm", orderService.updateOrderItemByDesignerr(item, userTemp));
-////                }else{
-////                    return new Response("00", "status updated", null);
-////                }
-//            }
         }catch (AppException e){
             e.printStackTrace();
             String recipient = e.getRecipient();
@@ -75,81 +57,55 @@ public class DesignerOrderController {
             return new Response("00", "Operation Successful, Trying to send email", "success");
 
         }
-
-
-        //orderService.updateOrderItemByDesigner(item,userTemp);
-        // Response response = new Response("00","Operation Successful","success");
-        //return response;
     }
 
 
     @GetMapping(value = "/getdesignerorders")
-    public Response getdesignerOrder(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        System.out.println(token);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getOrdersByDesigner(userTemp));
+    public Response getdesignerOrder(){
+        return new Response("00","Operation Successful",designerOrderService.getOrdersByDesigner());
+    }
 
+
+    @GetMapping(value = "/getcancelledorders")
+    public Response getCancelledOrders(){
+        return new Response("00","Operation Successful",designerOrderService.getCancelledOrders());
     }
 
 
 
     @GetMapping(value = "/getpendingorders")
-    public Response getPendingOrders(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getPendingOrders(userTemp));
-
+    public Response getPendingOrders(){
+        return new Response("00","Operation Successful",designerOrderService.getPendingOrders());
     }
 
 
     @GetMapping(value = "/getactiveorders")
-    public Response getActiveOrders(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getOrdersByDesigner(userTemp));
-
+    public Response getActiveOrders(){
+        return new Response("00","Operation Successful",designerOrderService.getActiveOrders());
     }
 
     @GetMapping(value = "/getcompletedorders")
-    public Response getIncompleteOrders(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getCompletedOrders(userTemp));
+    public Response getCompletedOrders(){
+        return new Response("00","Operation Successful",designerOrderService.getCompletedOrders());
+    }
+
+
+    @GetMapping(value = "/getsuccessfulsales")
+    public Response getSuccessfulSales(){
+        return new Response("00","Operation Successful",designerOrderService.getSuccessfulSales());
 
     }
 
-    @GetMapping(value = "/getcancelledorders")
-    public Response getCancelledOrders(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getCancelledOrders(userTemp));
+
+    @GetMapping(value = "/gettotalproducts")
+    public Response getTotalProducts(){
+
+        return new Response("00","Operation Successful",productService.getTotalProducts());
 
     }
-
 
     @GetMapping(value = "/{id}/getorderitemdetails")
-    public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+    public Response getOrderItemById(@PathVariable Long id){
         return new Response("00","Operation Successful",orderService.getOrderItemById(id));
 
     }

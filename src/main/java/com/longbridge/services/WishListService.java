@@ -11,11 +11,11 @@ import java.util.List;
  */
 
 public interface WishListService {
-    String addToWishList(WishListDTO wishListDTO, User user);
+    String addToWishList(WishListDTO wishListDTO);
 
-    String notifyMe(WishListDTO wishListDTO, User user);
+    String notifyMe(WishListDTO wishListDTO);
 
-    List<WishListDTO> getWishLists(User user, PageableDetailsDTO pageable);
+    List<WishListDTO> getWishLists(PageableDetailsDTO pageable);
 
     void deleteWishList(Long id);
 

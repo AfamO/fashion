@@ -7,8 +7,11 @@ import com.longbridge.models.User;
 import com.longbridge.repository.OrderRepository;
 import com.longbridge.repository.ProductRatingRepository;
 import com.longbridge.repository.ProductRepository;
+import com.longbridge.security.JwtUser;
 import com.longbridge.services.ProductRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,13 +31,9 @@ public class ProductRatingServiceImpl implements ProductRatingService {
     private OrderRepository orderRepository;
 
     @Override
-    public Boolean RateProduct(User user,Long productId, ProductRating productRating) {
+    public Boolean RateProduct(Long productId, ProductRating productRating) {
         try {
-//            Products products = productRepository.findOne(productId);
-//            productRating.setUser(user);
-//            productRating.setProducts(products);
-//            productRatingRepository.save(productRating);
-
+            User user = getCurrentUser();
             if(orderRepository.noOfTimesOrdered(productId, user.id) > 0){
                 Products products = productRepository.findOne(productId);
                 productRating.setUser(user);
@@ -75,21 +74,27 @@ public class ProductRatingServiceImpl implements ProductRatingService {
     }
 
     @Override
-    public ProductRating getUserRating(User user, Long id) {
+    public ProductRating getUserRating(Long id) {
 
         Products products = productRepository.findOne(id);
 
         if(products != null){
-            ProductRating productRating = productRatingRepository.findByUserAndProducts(user, products);
-            if(productRating == null){
-                System.out.println("null");
-            }else{
+            ProductRating productRating = productRatingRepository.findByUserAndProducts(getCurrentUser(), products);
+            if(productRating != null){
                 productRating.setUser(null);
                 return productRating;
             }
         }
         return null;
     }
+
+
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
+    }
+
 
     @Override
     public void verifyRating(User user, Long id) {
