@@ -260,9 +260,8 @@ public class DesignerServiceImpl implements DesignerService{
     public void updateDesignerAccountInformation(UserDTO user) {
         try {
             User userTemp = getCurrentUser();
-            if(user.getRole().equalsIgnoreCase("designer")){
+            if(userTemp.getRole().equalsIgnoreCase("designer")){
                 Designer currentDesigner = designerRepository.findByUser(userTemp);
-
                 currentDesigner.setAccountNumber(user.getDesignerDTO().accountNumber);
                 currentDesigner.setBankName(user.getDesignerDTO().bankName);
                 currentDesigner.setCurrency(user.getDesignerDTO().currency);
