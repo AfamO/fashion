@@ -116,7 +116,7 @@ public class UserUtil {
             }
 
             passedUser.setPassword(Hash.createPassword(passedUser.getPassword()));
-            if(!passedUser.getRole().equalsIgnoreCase("designer")){
+            if(passedUser.getRole().equalsIgnoreCase("designer")){
                 Designer designer = new Designer();
                 designer.setCreatedOn(date);
                 designer.setUpdatedOn(date);
@@ -530,7 +530,6 @@ public class UserUtil {
         userTemp.setLastName(passedUser.getLastName());
         userTemp.setFirstName(passedUser.getFirstName());
         userTemp.setGender(passedUser.getGender());
-
 
         if(passedUser.getNewPassword() != null && !passedUser.getNewPassword().equalsIgnoreCase("")) {
             if(Hash.checkPassword(passedUser.getOldPassword(),userTemp.getPassword())) {
