@@ -51,6 +51,9 @@ public class UserOrderController {
             if(orderRespDTO.getStatus().equalsIgnoreCase("false")){
                 response = new Response("66","Unable to process order, An item is out of stock","");
             }
+            else if(orderRespDTO.getStatus().equalsIgnoreCase("thresholdLimit")){
+                response = new Response("66","Unable to process order, A Bespoke item quantity has exceeded designer threshold","");
+            }
             else if(orderRespDTO.getStatus().equalsIgnoreCase("noitems")){
                 response = new Response("67","Unable to process order, No items sent","");
             }

@@ -122,8 +122,6 @@ public class AdminOrderController {
         return new Response("00","Operation Successful",adminOrderService.getAllOrdersByAdmin());
 
     }
-
-
     @GetMapping(value = "/getorders")
     public Response getAllOrders(){
         return new Response("00","Operation Successful",adminOrderService.getAllOrdersByAdmin2());

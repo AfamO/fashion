@@ -16,10 +16,7 @@ import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
-import com.longbridge.services.CloudinaryService;
-import com.longbridge.services.MailService;
-import com.longbridge.services.OrderService;
-import com.longbridge.services.PaymentService;
+import com.longbridge.services.*;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.time.DateUtils;
@@ -33,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import sun.security.krb5.internal.crypto.Des;
 
 import java.io.IOException;
 import java.util.*;
@@ -104,6 +102,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ProductAttributeRepository productAttributeRepository;
 
+    @Autowired
+    DesignerRepository designerRepository;
+
 
     @Transactional
     @Override
@@ -120,6 +121,8 @@ public class OrderServiceImpl implements OrderService {
                 return orderRespDTO;
             }
 
+            List<ProductSizes> productSizes = new ArrayList<ProductSizes>();
+
             for (Items items: orderReq.getItems()) {
                 if(items.getProductAttributeId() != null){
                     ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
@@ -132,7 +135,12 @@ public class OrderServiceImpl implements OrderService {
                                 return orderRespDTO;
                             }
                             sizes.setNumberInStock(sizes.getNumberInStock() - items.getQuantity());
-                            productSizesRepository.save(sizes);
+                            productSizes.add(sizes);
+                        }else{
+                            if(thresholdExceeded(items)){
+                                orderRespDTO.setStatus("thresholdLimit");
+                                return orderRespDTO;
+                            }
                         }
                     }
                 }
@@ -143,6 +151,7 @@ public class OrderServiceImpl implements OrderService {
                 orderNumber = generateOrderNum();
             }while (orderNumExists(orderNumber));
 
+            productSizesRepository.save(productSizes);
             orders.setOrderNum(orderNumber);
             orders.setCreatedOn(date);
             orders.setUpdatedOn(date);
@@ -188,6 +197,19 @@ public class OrderServiceImpl implements OrderService {
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
+        }
+    }
+
+    private Boolean thresholdExceeded(Items items){
+
+        int threshold = designerRepository.findById(items.getDesignerId()).getThreshold();
+        int activeOrders = itemRepository.countByDesignerIdAndDeliveryStatusIn(items.getDesignerId(), Arrays.asList("A", "PC", "OP", "CO", "RI", "OS", "WR", "WC", "P"));
+        int maxQuantity = threshold - activeOrders;
+
+        if(items.getQuantity() > maxQuantity){
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -427,6 +449,7 @@ public class OrderServiceImpl implements OrderService {
             }else {
                 amount=products.getAmount();
             }
+
             int qty = cart.getQuantity();
             cartTemp.setQuantity(cart.getQuantity());
             Double newAmount = amount*qty;

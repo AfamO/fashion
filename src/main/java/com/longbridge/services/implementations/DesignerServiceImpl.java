@@ -3,6 +3,7 @@ package com.longbridge.services.implementations;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
+import com.longbridge.exception.ObjectNotFoundException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
@@ -19,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -154,13 +157,11 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.setLocalGovt(user.getDesigner().localGovt);
                 currentDesigner.setSizeGuideFlag(user.getDesigner().sizeGuideFlag);
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
-                currentDesigner.setThreshold(user.getDesigner().threshold);
 
                 if(currentDesigner.getSizeGuideFlag().equalsIgnoreCase("Y")){
 
                     if(currentDesigner.getSizeGuide() == null){
                         SizeGuide currentSizeGuide = new SizeGuide();
-                        currentSizeGuide.setDesigner(currentDesigner);
                         sizeGuideRepository.save(currentSizeGuide);
                         currentDesigner.setSizeGuide(currentSizeGuide);
                     }
@@ -210,7 +211,6 @@ public class DesignerServiceImpl implements DesignerService{
                 }else{
                     if(currentDesigner.getSizeGuide() == null){
                         SizeGuide currentSizeGuide = new SizeGuide();
-                        currentSizeGuide.setDesigner(currentDesigner);
                         sizeGuideRepository.save(currentSizeGuide);
                         currentDesigner.setSizeGuide(currentSizeGuide);
                     }
@@ -256,7 +256,7 @@ public class DesignerServiceImpl implements DesignerService{
     public void updateDesignerAccountInformation(UserDTO user) {
         try {
             User userTemp = getCurrentUser();
-            if(userTemp.getRole().equalsIgnoreCase("designer")){
+            if(user.getRole().equalsIgnoreCase("designer")){
                 Designer currentDesigner = designerRepository.findByUser(userTemp);
 
                 currentDesigner.setAccountNumber(user.getDesigner().accountNumber);
@@ -265,7 +265,6 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.setAccountName(user.getDesigner().accountName);
                 currentDesigner.setSwiftCode(user.getDesigner().swiftCode);
                 currentDesigner.setSwiftCode(user.getDesigner().swiftCode);
-
 
                 designerRepository.save(currentDesigner);
             }else{
@@ -420,6 +419,7 @@ public class DesignerServiceImpl implements DesignerService{
             Designer designer = designerRepository.findByUser(getCurrentUser());
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             Date startDate= DateUtils.ceiling(DateUtils.addMonths(new Date(),-6),Calendar.MONTH);
+            System.out.println(itemRepository.getTotalSales(designer.id,startDate,"P"));
             List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
             dto.setSalesChart(salesCharts);
             return dto;
