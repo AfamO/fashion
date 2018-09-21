@@ -329,7 +329,13 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         phoneNumbers.add(p.getDesigner().getUser().getPhoneNo());
         String link = "http://fashion-wawooh.herokuapp.com/";
         link = link +storeName+"/orders/" + items.id;
-        String message = String.format(messageSource.getMessage("order.designer.startprocessing", null, locale), link);
+        String message = null;
+        if(items.getMeasurement() != null){
+            message = String.format(messageSource.getMessage("order.designer.startprocessing", null, locale), link);
+        }
+        else {
+            message = String.format(messageSource.getMessage("order.designer.sendtoqa", null, locale), link);
+        }
         smsAlertUtil.sms(phoneNumbers,message);
     }
 

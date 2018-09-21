@@ -52,8 +52,6 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     private SizeGuideRepository sizeGuideRepository;
 
-    @Autowired
-    private AddressRepository addressRepository;
 
     @Autowired
     private UserUtil userUtil;

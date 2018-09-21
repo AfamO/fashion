@@ -64,18 +64,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
-                //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // allow anonymous resource requests
                 .antMatchers(
-                        HttpMethod.GET,
                         "/"
                 ).permitAll()
 
                 .antMatchers("/fashion/secure/designer/**").hasAuthority("ROLE_DESIGNER")
                 .antMatchers("/fashion/secure/qa/**").hasAuthority("ROLE_QA")
                 .antMatchers("/fashion/secure/admin/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/fashion/secure/**").fullyAuthenticated();
+                .antMatchers("/fashion/secure/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_DESIGNER", "ROLE_QA", "ROLE_USER");
 
         // Custom JWT based security filter
         httpSecurity

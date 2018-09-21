@@ -27,6 +27,7 @@ public class SecureEventController {
 
     @PostMapping(value = "/addcomment")
     public Response addComment(@RequestBody CommentLikesDTO commentLikesDTO){
+        System.out.println("got here");
         Map<String,Object> responseMap = new HashMap();
         List<CommentsDTO> comments= eventService.addComment(commentLikesDTO);
         responseMap.put("comments",comments);

@@ -10,5 +10,5 @@ import com.longbridge.models.User;
 public interface WalletService {
         String validateWalletBalance(OrderReqDTO orderReqDTO);
 
-        Response createWallet(User user);
+        String createWallet(User user);
 }
