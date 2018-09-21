@@ -15,6 +15,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,12 @@ public class WalletServiceImpl implements WalletService {
 
     @Autowired
     WalletRepository walletRepository;
+
+    @Value("${create.user.endpoint}")
+    private String createUserEndPoint;
+
+    @Value("${create.wallet.endpoint}")
+    private String createWalletEndPoint;
 
     @Override
     public String validateWalletBalance(OrderReqDTO orderReqDTO ) {
@@ -88,43 +95,43 @@ public class WalletServiceImpl implements WalletService {
 
 
     @Override
-    public Response createWallet(User user) {
+    public String createWallet(User user) {
         try {
-
+            String walletId = null;
+            String token = null;
             JSONObject data = new JSONObject();
 
             data.put("email", user.getEmail());
             data.put("password", user.getPassword());
             data.put("firstname", user.getFirstName());
             data.put("lastname", user.getLastName());
+            data.put("phoneNumber", user.getPhoneNo());
 
-
-            String INITIATE_ENDPOINT = "https://digitalwalletapi.herokuapp.com/POST /api/v1/users/";
-            HttpResponse<JsonNode> response = Unirest.post(INITIATE_ENDPOINT)
+            HttpResponse<JsonNode> response = Unirest.post(createUserEndPoint)
                     .header("Content-Type", "application/json")
                     .body(data)
                     .asJson();
 
             JsonNode jsonNode = response.getBody();
-
             JSONObject responseObject = jsonNode.getObject();
-
-
             JSONObject status = responseObject.getJSONObject("status");
+
+            System.out.println(status);
             if (status.toString().equalsIgnoreCase("00")) {
                 data = responseObject.getJSONObject("data");
-                String walletId = data.getString("walletId");
+               // walletId = data.getString("walletId");
+                token=data.getString("token");
 
+
+                return walletId;
             }
-
-            return null;
-
+            else {
+                return "false";
+            }
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
         }
-
-
     }
 
     private User getCurrentUser(){

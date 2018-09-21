@@ -397,6 +397,8 @@ public class EventServiceImpl implements EventService {
     public List<CommentsDTO> addComment(CommentLikesDTO commentLikesDTO) {
         try {
             User user = getCurrentUser();
+            System.out.println("got here");
+
             Date date = new Date();
             String comment = commentLikesDTO.getComment();
             Long eventPictureId = Long.parseLong(commentLikesDTO.getEventPictureId());

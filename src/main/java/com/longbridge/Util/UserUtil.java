@@ -21,6 +21,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mobile.device.Device;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -79,8 +80,6 @@ public class UserUtil {
 
     private Locale locale = LocaleContextHolder.getLocale();
 
-    @Value("${s.designer.logo.folder}")
-    private String designerLogoFolder;
 
 
     public Response registerUser(UserDTO passedUser){
@@ -88,7 +87,6 @@ public class UserUtil {
         try {
             Date date = new Date();
             User user = userRepository.findByEmail(passedUser.getEmail());
-
             List<String> errors = new ArrayList<String>();
 
             if(user != null){
@@ -97,7 +95,6 @@ public class UserUtil {
             if(passedUser.getRole() == null){
                 return new Response("99", "User has no role", null);
             }
-
             if(passedUser.getRole().equalsIgnoreCase("designer")){
                 User user2 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
                 if(user2 != null){
@@ -131,7 +128,7 @@ public class UserUtil {
 
 
             //todo create user wallet, call wallet api
-            walletService.createWallet(user);
+           // walletService.createWallet(user);
 
             userRepository.save(user);
             sendEmailAsync.sendWelcomeEmailToUser(user);
@@ -182,11 +179,10 @@ public class UserUtil {
         }
     }
 
-
+@Async
     public Response getActivationLink(User passedUser){
         Map<String,Object> responseMap = new HashMap();
         try {
-
             User user = userRepository.findByEmail(passedUser.getEmail());
             if(user!=null){
                 String name = user.getFirstName() + " " + user.getLastName();
