@@ -820,6 +820,7 @@ public class OrderServiceImpl implements OrderService {
                 amount=products.getAmount();
             }
 
+
             int qty = cart.getQuantity();
             cartTemp.setQuantity(cart.getQuantity());
             Double newAmount = amount*qty;
