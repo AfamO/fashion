@@ -829,8 +829,8 @@ public class OrderServiceImpl implements OrderService {
             cartTemp.setUser(user);
             cartRepository.save(cartTemp);
 //
-//            String currentAmount = cartTemp.getAmount();
-           return "success";
+//          String currentAmount = cartTemp.getAmount();
+            return "success";
 
         }catch (Exception ex){
             ex.printStackTrace();
