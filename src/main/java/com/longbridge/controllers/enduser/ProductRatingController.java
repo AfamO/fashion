@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/secure/rating")
+    @RequestMapping("/fashion/secure/rating")
 public class ProductRatingController {
     @Autowired
     ProductRatingService productRatingService;

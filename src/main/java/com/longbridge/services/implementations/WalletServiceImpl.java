@@ -10,6 +10,10 @@ import com.longbridge.repository.ProductRepository;
 import com.longbridge.repository.WalletRepository;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.WalletService;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -82,6 +86,46 @@ public class WalletServiceImpl implements WalletService {
 
     }
 
+
+    @Override
+    public Response createWallet(User user) {
+        try {
+
+            JSONObject data = new JSONObject();
+
+            data.put("email", user.getEmail());
+            data.put("password", user.getPassword());
+            data.put("firstname", user.getFirstName());
+            data.put("lastname", user.getLastName());
+
+
+            String INITIATE_ENDPOINT = "https://digitalwalletapi.herokuapp.com/POST /api/v1/users/";
+            HttpResponse<JsonNode> response = Unirest.post(INITIATE_ENDPOINT)
+                    .header("Content-Type", "application/json")
+                    .body(data)
+                    .asJson();
+
+            JsonNode jsonNode = response.getBody();
+
+            JSONObject responseObject = jsonNode.getObject();
+
+
+            JSONObject status = responseObject.getJSONObject("status");
+            if (status.toString().equalsIgnoreCase("00")) {
+                data = responseObject.getJSONObject("data");
+                String walletId = data.getString("walletId");
+
+            }
+
+            return null;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+
+
+    }
 
     private User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

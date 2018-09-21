@@ -26,9 +26,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/order/qa")
+@RequestMapping("/fashion/secure/qa/order")
 public class QAOrderController {
-
 
     @Autowired
     AdminOrderService orderService;
@@ -37,24 +36,12 @@ public class QAOrderController {
     ItemStatusService itemStatusService;
 
     @Autowired
-    UserUtil userUtil;
-
-    @Autowired
     MailErrorRepository mailErrorRepository;
-
-
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-
-
 
 
     @PostMapping(value = "/updateorderitem")
     public Response updateOrderStatusByQA(@RequestBody ItemsDTO item){
         try{
-
             orderService.updateOrderItemByAdmin(item);
             return new Response("00","Operation Successful","success");
 
@@ -77,23 +64,13 @@ public class QAOrderController {
 
 
     @GetMapping(value = "/getorders")
-    public Response getAllOrderItemsQa(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+    public Response getAllOrderItemsQa(){
         return new Response("00","Operation Successful",orderService.getAllOrdersByQA());
-
     }
-
-
 
     @GetMapping(value = "/getstatuses")
     public Response getStatuses(HttpServletRequest request){
-
         return new Response("00","Operation Successful",itemStatusService.getAllStatuses());
-
     }
 
 

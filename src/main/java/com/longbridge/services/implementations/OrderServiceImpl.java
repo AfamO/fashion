@@ -111,7 +111,6 @@ public class OrderServiceImpl implements OrderService {
         User user = getCurrentUser();
         PaymentResponse orderRespDTO = new PaymentResponse();
         try{
-
             Orders orders = new Orders();
             Double totalAmount = 0.0;
             Date date = new Date();
@@ -122,8 +121,6 @@ public class OrderServiceImpl implements OrderService {
             }
 
             for (Items items: orderReq.getItems()) {
-                Products p = productRepository.findOne(items.getProductId());
-
                 if(items.getProductAttributeId() != null){
                     ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
 
@@ -134,23 +131,11 @@ public class OrderServiceImpl implements OrderService {
                                 orderRespDTO.setStatus("false");
                                 return orderRespDTO;
                             }
+                            sizes.setNumberInStock(sizes.getNumberInStock() - items.getQuantity());
+                            productSizesRepository.save(sizes);
                         }
                     }
                 }
-            }
-
-
-            for (Items items: orderReq.getItems()) {
-                if(items.getMeasurementId() == null){
-                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
-                ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
-
-
-                    sizes.setNumberInStock(sizes.getNumberInStock() - items.getQuantity());
-                    productSizesRepository.save(sizes);
-                }
-
-
             }
 
 
@@ -166,7 +151,6 @@ public class OrderServiceImpl implements OrderService {
             orders.setPaymentType(orderReq.getPaymentType());
             orders.setPaidAmount(orderReq.getPaidAmount());
             orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
-            orderRepository.save(orders);
 
             ItemStatus itemStatus = null;
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
@@ -180,6 +164,10 @@ public class OrderServiceImpl implements OrderService {
 
             //updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
+            HashMap h= saveItems(orderReq,date,orders,itemStatus);
+            totalAmount = Double.parseDouble(h.get("totalAmount").toString());
+            orders.setTotalAmount(totalAmount);
+
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                 PaymentRequest paymentRequest = new PaymentRequest();
                 paymentRequest.setOrderId(orders.id);
@@ -190,13 +178,8 @@ public class OrderServiceImpl implements OrderService {
                 return paymentService.initiatePayment(paymentRequest);
             }
 
-            HashMap h= saveItems(orderReq,date,orders,itemStatus);
-            totalAmount = Double.parseDouble(h.get("totalAmount").toString());
-            orders.setTotalAmount(totalAmount);
             orderRepository.save(orders);
-
             deleteCart(user);
-
             sendEmailAsync.sendEmailToUser(user,orderNumber);
             orderRespDTO.setStatus("00");
             orderRespDTO.setOrderNumber(orderNumber);

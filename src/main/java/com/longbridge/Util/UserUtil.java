@@ -13,6 +13,7 @@ import com.longbridge.security.repository.UserRepository;
 import com.longbridge.security.service.JwtAuthenticationResponse;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.MailService;
+import com.longbridge.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -56,7 +57,7 @@ public class UserUtil {
     MailService mailService;
 
     @Autowired
-    CloudinaryService cloudinaryService;
+    WalletService walletService;
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -82,31 +83,39 @@ public class UserUtil {
     private String designerLogoFolder;
 
 
-    public Response registerUser(User passedUser){
+    public Response registerUser(UserDTO passedUser){
         Map<String,Object> responseMap = new HashMap();
         try {
             Date date = new Date();
-
             User user = userRepository.findByEmail(passedUser.getEmail());
 
             List<String> errors = new ArrayList<String>();
+
             if(user != null){
                 errors.add("Email already exists");
             }
+            if(passedUser.getRole() == null){
+                return new Response("99", "User has no role", null);
+            }
 
             if(passedUser.getRole().equalsIgnoreCase("designer")){
-                User user1 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
-                if(user1 != null){
+                User user2 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
+                if(user2 != null){
                     errors.add("Phone number already exist");
                 }
             }
-
             if(errors.size() > 0){
                 return new Response("99",StringUtils.join(errors, ","), null);
-            }
-
-            if(passedUser.getRole() == null){
-                return new Response("99", "User has no role", null);
+            }else{
+                user=new User();
+                user.setEmail(passedUser.getEmail());
+                user.setPhoneNo(passedUser.getPhoneNo());
+                user.setPassword(Hash.createPassword(passedUser.getPassword()));
+                user.setFirstName(passedUser.getFirstName());
+                user.setLastName(passedUser.getLastName());
+                user.setDateOfBirth(passedUser.getDateOfBirth());
+                user.setGender(passedUser.getGender());
+                user.setRole(passedUser.getRole());
             }
 
             passedUser.setPassword(Hash.createPassword(passedUser.getPassword()));
@@ -114,13 +123,18 @@ public class UserUtil {
                 Designer designer = new Designer();
                 designer.setCreatedOn(date);
                 designer.setUpdatedOn(date);
-                designer.setUser(passedUser);
+                designer.setUser(user);
                 designerRepository.save(designer);
                 sendToken(passedUser.getEmail());
             }
-            getActivationLink(passedUser);
-            userRepository.save(passedUser);
-            sendEmailAsync.sendWelcomeEmailToUser(passedUser);
+            getActivationLink(user);
+
+
+            //todo create user wallet, call wallet api
+            walletService.createWallet(user);
+
+            userRepository.save(user);
+            sendEmailAsync.sendWelcomeEmailToUser(user);
 
             return new Response("00","Registration successful",responseMap);
 

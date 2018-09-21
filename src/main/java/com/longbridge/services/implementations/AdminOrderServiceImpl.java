@@ -92,7 +92,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
             Date date = new Date();
             items.setUpdatedOn(date);
 
-
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
             String customerEmail = customer.getEmail();
             String customerName = customer.getLastName()+" "+ customer.getFirstName();
@@ -158,8 +157,11 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                         //end updating wallet balance
                         String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
                         String link = messageSource.getMessage("order.complain",null, locale);
+                        String feedbacklink = messageSource.getMessage("order.feedback",null, locale);
                         link = link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                        feedbacklink=feedbacklink+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
                         context.setVariable("link",link);
+                        context.setVariable("feedbacklink",feedbacklink);
                         String message = templateEngine.process("oderdeliveredemail", context);
                         mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
 

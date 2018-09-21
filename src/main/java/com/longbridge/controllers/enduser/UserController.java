@@ -49,8 +49,8 @@ public class UserController {
         return userUtil.validateUser(passedUser,device);
     }
 
-    @PostMapping(value = "/Register")
-    public Object Register(@RequestBody User passedUser){
+    @PostMapping(value = "/register")
+    public Object Register(@RequestBody UserDTO passedUser){
         try {
             return userUtil.registerUser(passedUser);
         }catch (AppException e){
@@ -164,17 +164,6 @@ public class UserController {
 
 
 
-    @GetMapping(value = "/getusers")
-    public List<User> getUsers(HttpServletRequest request){
-//todo later
-        return userUtil.getUsers();
-    }
-
-    @GetMapping(value = "/getallusers")
-    public List<User> getAllUsers(HttpServletRequest request){
-
-        return userUtil.getAllUsers();
-    }
 
     @PostMapping(value = "/validatetoken")
     public Object validateToken(@RequestBody UserEmailTokenDTO userEmailTokenDTO,Device device){
@@ -206,7 +195,6 @@ public class UserController {
             return new Response("99", "No phone number found", null);
         }
     }
-
 
 
     @RequestMapping(

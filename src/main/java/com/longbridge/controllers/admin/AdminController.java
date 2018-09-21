@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by Longbridge on 08/08/2018.
@@ -34,6 +35,21 @@ public class AdminController {
 
     @Autowired
     CodeService codeService;
+
+    @Autowired
+    UserUtil userUtil;
+
+
+    @GetMapping(value = "/getusers")
+    public List<User> getUsers(){
+
+        return userUtil.getUsers();
+    }
+
+    @GetMapping(value = "/getallusers")
+    public List<User> getAllUsers(){
+        return userUtil.getAllUsers();
+    }
 
     @GetMapping(value = "/getdashboarddata")
     public Response getAdminDashboardData(){

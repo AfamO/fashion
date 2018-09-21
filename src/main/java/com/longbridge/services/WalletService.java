@@ -1,6 +1,7 @@
 package com.longbridge.services;
 
 import com.longbridge.dto.OrderReqDTO;
+import com.longbridge.models.Response;
 import com.longbridge.models.User;
 
 /**
@@ -8,4 +9,6 @@ import com.longbridge.models.User;
  */
 public interface WalletService {
         String validateWalletBalance(OrderReqDTO orderReqDTO);
+
+        Response createWallet(User user);
 }

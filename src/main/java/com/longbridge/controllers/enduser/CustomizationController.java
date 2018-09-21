@@ -51,7 +51,6 @@ public class CustomizationController {
 
     @GetMapping(value = "/{id}/delete")
     public Response deleteCustomization(@PathVariable Long id){
-
         Response response;
         if(measurementService.deleteMeasurement(id)){
             response = new Response("00","Operation Successful","success");
@@ -65,9 +64,7 @@ public class CustomizationController {
 
     @GetMapping(value = "/getusermeasurements")
     public Response getUserCustomization(){
-
         return new Response("00","Operation Successful",measurementService.getUserMeasurement());
-
     }
 
 
