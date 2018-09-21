@@ -155,14 +155,14 @@ public class DesignerServiceImpl implements DesignerService{
                 User currentUser = userTemp;
                 Designer currentDesigner = designerRepository.findByUser(currentUser);
 
-                currentDesigner.setAddress(user.getDesignerDTO().address);
-                currentDesigner.setCity(user.getDesignerDTO().city);
-                currentDesigner.setState(user.getDesignerDTO().state);
-                currentDesigner.setCountry(user.getDesignerDTO().country);
-                currentDesigner.setStoreName(user.getDesignerDTO().storeName);
-                currentDesigner.setLocalGovt(user.getDesignerDTO().localGovt);
-                currentDesigner.setSizeGuideFlag(user.getDesignerDTO().sizeGuideFlag);
-                currentDesigner.setRegisteredFlag(user.getDesignerDTO().registeredFlag);
+                currentDesigner.setAddress(user.getDesigner().address);
+                currentDesigner.setCity(user.getDesigner().city);
+                currentDesigner.setState(user.getDesigner().state);
+                currentDesigner.setCountry(user.getDesigner().country);
+                currentDesigner.setStoreName(user.getDesigner().storeName);
+                currentDesigner.setLocalGovt(user.getDesigner().localGovt);
+                currentDesigner.setSizeGuideFlag(user.getDesigner().sizeGuideFlag);
+                currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
 
                 if(currentDesigner.getSizeGuideFlag().equalsIgnoreCase("Y")){
 
@@ -174,15 +174,15 @@ public class DesignerServiceImpl implements DesignerService{
 
                     SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
 
-                    if(user.getDesignerDTO().femaleSizeGuide != null){
-                        if(!isUrl(user.getDesignerDTO().femaleSizeGuide)){
+                    if(user.getDesigner().femaleSizeGuide != null){
+                        if(!isUrl(user.getDesigner().femaleSizeGuide)){
                             if(currentSizeGuide.getFemaleSizeGuide() != null){
                                 cloudinaryService.deleteFromCloud(currentSizeGuide.getFemaleSizeGuidePublicId(), currentSizeGuide.getFemaleSizeGuide());
                             }
 
                             try {
                                 String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
-                                String base64Img = user.getDesignerDTO().femaleSizeGuide;
+                                String base64Img = user.getDesigner().femaleSizeGuide;
 
                                 CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
                                 currentSizeGuide.setFemaleSizeGuide(c.getUrl());
@@ -194,15 +194,15 @@ public class DesignerServiceImpl implements DesignerService{
                         }
                     }
 
-                    if(user.getDesignerDTO().maleSizeGuide != null){
-                        if(!isUrl(user.getDesignerDTO().maleSizeGuide)){
+                    if(user.getDesigner().maleSizeGuide != null){
+                        if(!isUrl(user.getDesigner().maleSizeGuide)){
                             if(currentSizeGuide.getMaleSizeGuide() != null){
                                 cloudinaryService.deleteFromCloud(currentSizeGuide.getMaleSizeGuidePublicId(), currentSizeGuide.getMaleSizeGuide());
                             }
 
                             try {
                                 String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
-                                String base64Img = user.getDesignerDTO().maleSizeGuide;
+                                String base64Img = user.getDesigner().maleSizeGuide;
 
                                 CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
                                 currentSizeGuide.setMaleSizeGuide(c.getUrl());
@@ -222,13 +222,13 @@ public class DesignerServiceImpl implements DesignerService{
 
                     SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
 
-                    currentSizeGuide.setMaleSizeGuide(user.getDesignerDTO().maleSizeGuide);
-                    currentSizeGuide.setFemaleSizeGuide(user.getDesignerDTO().femaleSizeGuide);
+                    currentSizeGuide.setMaleSizeGuide(user.getDesigner().maleSizeGuide);
+                    currentSizeGuide.setFemaleSizeGuide(user.getDesigner().femaleSizeGuide);
                 }
 
-                currentDesigner.setRegisteredFlag(user.getDesignerDTO().registeredFlag);
-                currentDesigner.setRegistrationNumber(user.getDesignerDTO().registeredFlag);
-                if(!isUrl(user.getDesignerDTO().registrationDocument)){
+                currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
+                currentDesigner.setRegistrationNumber(user.getDesigner().registeredFlag);
+                if(!isUrl(user.getDesigner().registrationDocument)){
                     if(currentDesigner.getRegistrationDocument() != null){
                         if(currentDesigner.getRegistrationDocument().equalsIgnoreCase("")){
                             cloudinaryService.deleteFromCloud(currentDesigner.getRegistrationDocumentPublicId(), currentDesigner.getRegistrationDocument());
@@ -237,7 +237,7 @@ public class DesignerServiceImpl implements DesignerService{
 
                     try {
                         String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
-                        String base64Img = user.getDesignerDTO().registrationDocument;
+                        String base64Img = user.getDesigner().registrationDocument;
 
                         CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designerregistrationdocument");
                         currentDesigner.setRegistrationDocument(c.getUrl());
@@ -265,12 +265,12 @@ public class DesignerServiceImpl implements DesignerService{
             if(user.getRole().equalsIgnoreCase("designer")){
                 Designer currentDesigner = designerRepository.findByUser(userTemp);
 
-                currentDesigner.setAccountNumber(user.getDesignerDTO().accountNumber);
-                currentDesigner.setBankName(user.getDesignerDTO().bankName);
-                currentDesigner.setCurrency(user.getDesignerDTO().currency);
-                currentDesigner.setAccountName(user.getDesignerDTO().accountName);
-                currentDesigner.setSwiftCode(user.getDesignerDTO().swiftCode);
-                currentDesigner.setSwiftCode(user.getDesignerDTO().swiftCode);
+                currentDesigner.setAccountNumber(user.getDesigner().accountNumber);
+                currentDesigner.setBankName(user.getDesigner().bankName);
+                currentDesigner.setCurrency(user.getDesigner().currency);
+                currentDesigner.setAccountName(user.getDesigner().accountName);
+                currentDesigner.setSwiftCode(user.getDesigner().swiftCode);
+                currentDesigner.setSwiftCode(user.getDesigner().swiftCode);
 
                 designerRepository.save(currentDesigner);
             }else{
@@ -426,6 +426,7 @@ public class DesignerServiceImpl implements DesignerService{
             Designer designer = designerRepository.findByUser(getCurrentUser());
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             Date startDate= DateUtils.ceiling(DateUtils.addMonths(new Date(),-6),Calendar.MONTH);
+            System.out.println(itemRepository.getTotalSales(designer.id,startDate,"P"));
             List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
             dto.setSalesChart(salesCharts);
             return dto;
