@@ -222,15 +222,15 @@ public class OrderServiceImpl implements OrderService {
                 totalAmount = Double.parseDouble(h.get("totalAmount").toString());
                 orders.setTotalAmount(totalAmount);
                 orderRepository.save(orders);
+                deleteCart(user);
                 return paymentService.initiatePayment(paymentRequest);
             }else{
                 h= saveItems(orderReq,date,orders,itemStatus);
                 totalAmount = Double.parseDouble(h.get("totalAmount").toString());
                 orders.setTotalAmount(totalAmount);
                 orderRepository.save(orders);
+                deleteCart(user);
             }
-
-            deleteCart(user);
 
             sendEmailAsync.sendEmailToUser(user,orderNumber);
             orderRespDTO.setStatus("00");
@@ -1094,6 +1094,7 @@ public class OrderServiceImpl implements OrderService {
                 itemStatuses.add(itemStatus4);
                 itemStatuses.add(itemStatus5);
                 itemStatuses.add(itemStatus6);
+
 
             return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusInOrderByOrders_OrderDateDesc(itemStatuses));
 
