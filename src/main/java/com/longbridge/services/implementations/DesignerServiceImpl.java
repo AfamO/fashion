@@ -7,7 +7,6 @@ import com.longbridge.exception.ObjectNotFoundException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
-import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.CloudinaryService;
@@ -28,9 +27,7 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.*;
 
-/**
- * Created by Longbridge on 15/11/2017.
- */
+
 @Service
 public class DesignerServiceImpl implements DesignerService{
 
@@ -84,7 +81,6 @@ public class DesignerServiceImpl implements DesignerService{
     @Override
     public DesignerDTO getDesignerById(Long designerId) {
         try {
-
             Designer designer = designerRepository.findOne(designerId);
             return generalUtil.convertDesigner2EntToDTO(designer);
         } catch (Exception e){
@@ -197,10 +193,11 @@ public class DesignerServiceImpl implements DesignerService{
                             if(currentSizeGuide.getMaleSizeGuide() != null){
                                 cloudinaryService.deleteFromCloud(currentSizeGuide.getMaleSizeGuidePublicId(), currentSizeGuide.getMaleSizeGuide());
                             }
-
                             try {
                                 String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
+
                                 String base64Img = user.getDesigner().maleSizeGuide;
+
 
                                 CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
                                 currentSizeGuide.setMaleSizeGuide(c.getUrl());
@@ -217,8 +214,8 @@ public class DesignerServiceImpl implements DesignerService{
                         sizeGuideRepository.save(currentSizeGuide);
                         currentDesigner.setSizeGuide(currentSizeGuide);
                     }
-
                     SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
+
 
                     currentSizeGuide.setMaleSizeGuide(user.getDesigner().maleSizeGuide);
                     currentSizeGuide.setFemaleSizeGuide(user.getDesigner().femaleSizeGuide);
@@ -227,12 +224,12 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
                 currentDesigner.setRegistrationNumber(user.getDesigner().registeredFlag);
                 if(!isUrl(user.getDesigner().registrationDocument)){
+
                     if(currentDesigner.getRegistrationDocument() != null){
                         if(currentDesigner.getRegistrationDocument().equalsIgnoreCase("")){
                             cloudinaryService.deleteFromCloud(currentDesigner.getRegistrationDocumentPublicId(), currentDesigner.getRegistrationDocument());
                         }
                     }
-
                     try {
                         String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
                         String base64Img = user.getDesigner().registrationDocument;
@@ -245,7 +242,6 @@ public class DesignerServiceImpl implements DesignerService{
                         throw new WawoohException();
                     }
                 }
-
                 designerRepository.save(currentDesigner);
             }else{
                 throw new WawoohException();
@@ -420,7 +416,6 @@ public class DesignerServiceImpl implements DesignerService{
     @Override
     public DesignerDTO getDesignerWithSalesChart() {
         try {
-
             Designer designer = designerRepository.findByUser(getCurrentUser());
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             Date startDate= DateUtils.ceiling(DateUtils.addMonths(new Date(),-6),Calendar.MONTH);

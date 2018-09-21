@@ -23,4 +23,5 @@ public class Size extends CommonFields {
     public void setName(String name) {
         this.name = name;
     }
+
 }

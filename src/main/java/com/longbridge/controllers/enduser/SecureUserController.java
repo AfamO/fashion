@@ -31,13 +31,14 @@ import java.util.Map;
 @RequestMapping("/fashion/secure")
 public class SecureUserController {
 
+    @Autowired
     UserUtil userUtil;
 
 
     @PostMapping(value = "/edituser")
     public Response updateUser(@RequestBody UserDTO passedUser){
         //======================================================
-
+        System.out.println(passedUser);
         userUtil.updateUser(passedUser);
         return new Response("00", "Operation Successful", "success");
     }
