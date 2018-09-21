@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
 /**
  * Created by longbridge on 10/18/17.
  */
 @Entity
-public class Style extends CommonFields {
+public class Style extends CommonFields implements Serializable {
     @JsonIgnore
     @ManyToOne
     private SubCategory subCategory;

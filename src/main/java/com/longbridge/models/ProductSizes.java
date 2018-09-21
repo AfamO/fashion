@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 public class ProductSizes extends CommonFields{
 
     private String name;
-    private int stockNo;
+    private int numberInStock;
 
     @JsonIgnore
     @ManyToOne
@@ -27,12 +27,12 @@ public class ProductSizes extends CommonFields{
         this.name = name;
     }
 
-    public int getStockNo() {
-        return stockNo;
+    public int getNumberInStock() {
+        return numberInStock;
     }
 
-    public void setStockNo(int stockNo) {
-        this.stockNo = stockNo;
+    public void setNumberInStock(int numberInStock) {
+        this.numberInStock = numberInStock;
     }
 
     public ProductAttribute getProductAttribute() {
@@ -47,7 +47,7 @@ public class ProductSizes extends CommonFields{
     public String toString() {
         return "ProductSizes{" +
                 "name='" + name + '\'' +
-                ", stockNo=" + stockNo +
+                ", numberInStock=" + numberInStock +
                 ", productAttribute=" + productAttribute +
                 '}';
     }

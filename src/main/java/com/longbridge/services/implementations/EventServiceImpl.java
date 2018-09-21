@@ -6,6 +6,7 @@ import com.longbridge.dto.*;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
+import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.EventService;
@@ -15,6 +16,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
@@ -57,13 +60,6 @@ public class EventServiceImpl implements EventService {
     @Autowired
     CloudinaryService cloudinaryService;
 
-
-    private ModelMapper modelMapper;
-
-    @Autowired
-    public EventServiceImpl(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
 
 //
 //    @Value("${event.mainpicture.folder}")
@@ -305,45 +301,28 @@ public class EventServiceImpl implements EventService {
         }
     }
 
+
     @Override
     public List<EventPicturesDTO> getEventById(Long id) {
 
         try {
-            Events event = eventRepository.findOne(id);
-            List<EventPictures> e = event.getEventPictures();
-            List<EventPicturesDTO> edto = new ArrayList<>();
-            for(EventPictures eventPictures : e){
-                EventPicturesDTO picturesDTO = convertEntityToDTO(eventPictures);
-                edto.add(picturesDTO);
-            }
-
-
-            return edto;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-
-    }
-
-
-    @Override
-    public List<EventPicturesDTO> getEventById(Long id, User user) {
-
-        try {
+            User user=getCurrentUser();
             Events event = eventRepository.findOne(id);
             List<EventPictures> e = event.getEventPictures();
             List<EventPicturesDTO> edto = new ArrayList<>();
 
             for(EventPictures eventPictures : e){
                 EventPicturesDTO picturesDTO = convertEntityToDTO(eventPictures);
-                Likes likes = likeRepository.findByUserAndEventPictures(user,eventPictures);
-                if(likes != null){
-                    picturesDTO.setLiked("true");
+                if(user != null) {
+                    Likes likes = likeRepository.findByUserAndEventPictures(user, eventPictures);
+                    if (likes != null) {
+                        picturesDTO.setLiked("true");
+                    } else {
+                        picturesDTO.setLiked("false");
+                    }
                     edto.add(picturesDTO);
                 }
                 else {
-                    picturesDTO.setLiked("false");
                     edto.add(picturesDTO);
                 }
             }
@@ -353,37 +332,29 @@ public class EventServiceImpl implements EventService {
             throw new WawoohException();
         }
     }
+
+
+
 
 
     @Override
     public EventPicturesDTO getEventPictureById(Long id) {
-        Map<String,Object> responseMap = new HashMap();
         try {
-            EventPictures eventPictures = eventPictureRepository.findOne(id);
-
-            EventPicturesDTO edto = convertEntityToDTO(eventPictures);
-
-            return edto;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-
-    }
-
-
-    @Override
-    public EventPicturesDTO getEventPictureById(Long id, User user) {
-        try {
+            User user = getCurrentUser();
             EventPictures eventPictures = eventPictureRepository.findOne(id);
             EventPicturesDTO edto = convertEntityToDTO(eventPictures);
-            Likes likes = likeRepository.findByUserAndEventPictures(user,eventPictures);
+            if(user != null) {
+                Likes likes = likeRepository.findByUserAndEventPictures(user, eventPictures);
+
             if(likes != null){
                 edto.setLiked("true");
                 return edto;
             }
             else {
                 edto.setLiked("false");
+                return edto;
+            }
+            }else {
                 return edto;
             }
         } catch (Exception e) {
@@ -416,11 +387,16 @@ public class EventServiceImpl implements EventService {
         return eventPictures != null ;
     }
 
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
+    }
 
     @Override
-    public List<CommentsDTO> addComment(CommentLikesDTO commentLikesDTO, User user) {
-
+    public List<CommentsDTO> addComment(CommentLikesDTO commentLikesDTO) {
         try {
+            User user = getCurrentUser();
             Date date = new Date();
             String comment = commentLikesDTO.getComment();
             Long eventPictureId = Long.parseLong(commentLikesDTO.getEventPictureId());
@@ -447,8 +423,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public String addLike(CommentLikesDTO commentLikesDTO, User user) {
-        Map<String,Object> responseMap = new HashMap();
+    public String addLike(CommentLikesDTO commentLikesDTO) {
+        User user = getCurrentUser();
         Date date = new Date();
         try {
             Long eventPictureId = Long.parseLong(commentLikesDTO.getEventPictureId());
@@ -516,7 +492,7 @@ public class EventServiceImpl implements EventService {
         eventsDTO.setEventDate(stringDate);
         eventsDTO.setEventName(events.getEventName());
         eventsDTO.setLocation(events.getLocation());
-        eventsDTO.eventType=events.getEventType();
+        eventsDTO.setEventType(events.getEventType());
 
         eventsDTO.setMainPicture(events.getMainPicture());
         int tags = 0;
@@ -524,7 +500,7 @@ public class EventServiceImpl implements EventService {
         for (EventPictures e:ep) {
             tags=tags+pictureTagRepository.countByEventPictures(e);
         }
-        eventsDTO.totalTags=tags;
+        eventsDTO.setTotalTags(tags);
         eventsDTO.setEventPictures(convertEvtPicEntToDTOsMin(eventPictureRepository.findFirst6ByEvents(events)));
 
         return eventsDTO;

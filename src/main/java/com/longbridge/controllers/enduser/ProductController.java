@@ -4,6 +4,7 @@ import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
 import com.longbridge.models.*;
 import com.longbridge.repository.DesignerRepository;
+import com.longbridge.repository.MeasurementRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.*;
@@ -36,26 +37,19 @@ public class ProductController {
     @Autowired
     CategoryService categoryService;
 
-    @Autowired
-    DesignerService designerService;
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
 
     @Autowired
-    UserUtil userUtil;
+    MeasurementService measurementService;
+
 
 
     @GetMapping(value = {"/{id}/getproductbyid/{reviews}","/{id}/getproductbyid"})
-    public Object getProductById(@PathVariable Long id, HttpServletRequest request, @PathVariable("reviews") Optional<String> reviews){
-
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
+    public Object getProductById(@PathVariable Long id, @PathVariable("reviews") Optional<String> reviews){
         ProductRespDTO products;
         if(reviews.isPresent()){
-           products = productService.getProductById(id,user,true);
+           products = productService.getProductById(id,true);
         }else {
-            products = productService.getProductById(id,user,false);
+            products = productService.getProductById(id,false);
         }
         return new Response("00","Operation Successful",products);
     }
@@ -63,57 +57,27 @@ public class ProductController {
 
     @GetMapping(value = {"/{id}/getproductattributebyid}"})
     public Object getProductPictureById(@PathVariable Long id){
-
         return new Response("00","Operation Successful",productService.getProductAttributesById(id));
     }
 
 
-
-
     @GetMapping(value = "/{id}/getproductbyid/getuserreview")
-    public Response getUserReviewForProduct(@PathVariable Long id, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        ProductRating productRating = productRatingService.getUserRating(user, id);
+    public Response getUserReviewForProduct(@PathVariable Long id){
+        ProductRating productRating = productRatingService.getUserRating(id);
         return new Response("00", "user review", productRating);
     }
 
 
     @GetMapping(value = "/{designerId}/getdesignerproducts")
     public Object getProductsByDesignerId(@PathVariable Long designerId){
-        Designer designer = designerService.getDesignrById(designerId);
-
-        List<ProductRespDTO> products= productService.getProductsByDesigner(designer.getUser());
+        List<ProductRespDTO> products= productService.getProductsByDesigner(designerId);
         return new Response("00","Operation Successful",products);
     }
 
 
-    @GetMapping(value = "/getdesignerproducts")
-    public Object getProductsByDesigner(HttpServletRequest request){
-
-        Map<String,Object> responseMap = new HashMap();
-
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
-
-
-        Long id = designerService.getDesigner(user).getId();
-        List<ProductRespDTO> products= productService.getProductsByDesigner(user);
-        return new Response("00","Operation Successful",products);
-    }
 
     @PostMapping(value = "/getproducts")
-    public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
+    public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<ProductRespDTO> products;
         products= productService.getAllProducts(pageableDetailsDTO);
         return new Response("00","Operation Successful",products);
@@ -131,8 +95,8 @@ public class ProductController {
     public Object filterProductsByPrice(@RequestBody FilterProductDTO filterProductDTO){
         List<ProductRespDTO> products= productService.filterProducts(filterProductDTO);
         return new Response("00","Operation Successful",products);
-
     }
+
 
     @PostMapping(value = "/getproductsbysub")
     public Object getProductsBySub(@RequestBody ProdSubCategoryDTO p){
@@ -190,17 +154,24 @@ public class ProductController {
 
 
     @PostMapping(value = "/getdesignerproductsbysub")
-    public Object getDesignerProductsBySub(@RequestBody ProdSubCategoryDTO p, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User user = null;
-        if(token != null){
-            user = userUtil.fetchUserDetails2(token);
-        }
-        List<ProductRespDTO> products= productService.getDesignerProductsBySubCatId(p,user);
+    public Object getDesignerProductsBySub(@RequestBody ProdSubCategoryDTO p){
+        List<ProductRespDTO> products= productService.getDesignerProductsBySubCatId(p);
         return new Response("00","Operation Successful",products);
-
     }
 
+
+    @GetMapping(value = "/{productId}/getmandatorymeasurements")
+    public Response getMandatoryMeasurements(@PathVariable Long productId){
+        return new Response("00","Operation Successful",measurementService.getMandatoryMeasurement(productId));
+    }
+
+
+
+    @PostMapping(value = "/getallratings")
+    public Response getAllRatings(HttpServletRequest request){
+        Response response = new Response("00","Operation Successful",productRatingService.getAllRatings());
+        return response;
+    }
 
     @RequestMapping(
             value = "/**",

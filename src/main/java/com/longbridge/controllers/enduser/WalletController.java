@@ -19,27 +19,16 @@ import javax.servlet.http.HttpServletRequest;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/wallet")
+@RequestMapping("/fashion/secure/wallet")
 public class WalletController {
-
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    @Autowired
-    UserUtil userUtil;
 
     @Autowired
     WalletService walletService;
 
     @PostMapping(value = "/validatebalance")
-    public Response validateBalance(@RequestBody OrderReqDTO orderReqDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        String resp = walletService.validateWalletBalance(orderReqDTO,userTemp);
+    public Response validateBalance(@RequestBody OrderReqDTO orderReqDTO){
+
+        String resp = walletService.validateWalletBalance(orderReqDTO);
         if(resp.equalsIgnoreCase("00")){
             return new Response("00","Operation Successful","Validation Successful");
         }

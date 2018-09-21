@@ -20,23 +20,14 @@ import java.util.Map;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/event")
+@RequestMapping("/fashion/secure/admin/event")
 public class AdminEventController {
     @Autowired
     EventService eventService;
 
-    @Autowired
-    UserUtil userUtil;
-
-    @Autowired
-    private HibernateSearchService searchservice;
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
 
     @PostMapping(value = "/createevent")
     public Response createEvent(@RequestBody Events events, HttpServletRequest request){
-
         Map<String, Object> responseMap = new HashMap();
         eventService.createEvent(events);
         return new Response("00", "Operation Successful", responseMap);
@@ -67,16 +58,12 @@ public class AdminEventController {
         Map<String, Object> responseMap = new HashMap();
         eventService.deleteEventPictures(pictureIdListDTO);
         return new Response("00", "Operation Successful", responseMap);
-
-
     }
 
     @GetMapping(value = "/{id}/delete")
     public Response deleteEvent(@PathVariable Long id){
         eventService.deleteEvent(id);
         return new Response("00", "Operation Successful", "success");
-
-
     }
 
 }

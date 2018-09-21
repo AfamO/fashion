@@ -19,9 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.JSONException;
 
 import static org.springframework.data.repository.init.ResourceReader.Type.JSON;
 
@@ -56,59 +53,47 @@ public class PaymentServiceImpl implements PaymentService {
     CartRepository cartRepository;
 
 
-    //Endpoint to initiate transaction
-    private final String INITIATE_ENDPOINT = "https://api.paystack.co/transaction/initialize";
-
-
-    //Endpoint to finally charge the user
-    private final String CHARGE_ENDPOINT = "https://api.paystack.co/transaction/charge_authorization";
-
-
     @Override
     public PaymentResponse initiatePayment(PaymentRequest paymentRequest) throws UnirestException {
-        
+
         PaymentResponse paymentResponse=new PaymentResponse();
-        try {
-            // This packages the payload
-            JSONObject data = new JSONObject();
-            data.put("reference", paymentRequest.getTransactionReference());
-            data.put("email", paymentRequest.getEmail());
-            data.put("amount", amount);
-            // end of payload
-            
-            // This sends the request to server with payload
-            HttpResponse<JsonNode> response = Unirest.post(INITIATE_ENDPOINT)
-                    .header("Content-Type", "application/json")
-                    .header("Authorization",secret)
-                    .body(data)
-                    .asJson();
-            
-            // This get the response from payload
-            JsonNode jsonNode = response.getBody();
-            
-            // This get the json object from payload
-            JSONObject responseObject = jsonNode.getObject();
-            
-            
-            // check of no object is returned
-            if (responseObject == null) {
-                data.put("status", "16");
-                // throw new Exception("No response from server");
-                paymentResponse.setStatus("16");
-                return paymentResponse;
-            }
-            
-            data = responseObject.getJSONObject("data");
-            
-            // This gets the redirectUrl from the server
-            String url  = data.getString("authorization_url");
-            paymentResponse.setStatus("00");
-            paymentResponse.setRedirectUrl(url);
-            paymentResponse.setTransactionReference(data.getString("reference"));
-            
-        } catch (JSONException ex) {
-            Logger.getLogger(PaymentServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        // This packages the payload
+        JSONObject data = new JSONObject();
+        data.put("reference", paymentRequest.getTransactionReference());
+        data.put("email", paymentRequest.getEmail());
+        data.put("amount", amount);
+        // end of payload
+
+        // This sends the request to server with payload
+        String INITIATE_ENDPOINT = "https://api.paystack.co/transaction/initialize";
+        HttpResponse<JsonNode> response = Unirest.post(INITIATE_ENDPOINT)
+                .header("Content-Type", "application/json")
+                .header("Authorization",secret)
+                .body(data)
+                .asJson();
+
+        // This get the response from payload
+        JsonNode jsonNode = response.getBody();
+
+        // This get the json object from payload
+        JSONObject responseObject = jsonNode.getObject();
+
+
+        // check of no object is returned
+        if (responseObject == null) {
+            data.put("status", "16");
+            // throw new Exception("No response from server");
+            paymentResponse.setStatus("16");
+            return paymentResponse;
         }
+
+        data = responseObject.getJSONObject("data");
+
+        // This gets the redirectUrl from the server
+        String url  = data.getString("authorization_url");
+        paymentResponse.setStatus("00");
+        paymentResponse.setRedirectUrl(url);
+        paymentResponse.setTransactionReference(data.getString("reference"));
         return paymentResponse;
     }
 
@@ -191,6 +176,7 @@ public class PaymentServiceImpl implements PaymentService {
             data.put("email", user.getEmail());
             data.put("amount", amount);
             // This sends the request to server with payload
+            String CHARGE_ENDPOINT = "https://api.paystack.co/transaction/charge_authorization";
             HttpResponse<JsonNode> response = Unirest.post(CHARGE_ENDPOINT)
                     .header("Content-Type", "application/json")
                     .header("Authorization", secret)
@@ -257,7 +243,7 @@ public class PaymentServiceImpl implements PaymentService {
         User user = userRepository.findById(items.getOrders().getUserId());
         Orders orders=items.getOrders();
         if(!orders.isPaystackFiftyAlreadyDeducted()){
-           orders.isPaystackFiftyAlreadyDeducted();
+            orders.setPaystackFiftyAlreadyDeducted(true);
            orderRepository.save(orders);
         }
 
@@ -280,9 +266,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void deleteCart(User user){
         List<Cart> carts = cartRepository.findByUser(user);
-        for (Cart c: carts) {
-            cartRepository.delete(c);
-        }
+        cartRepository.delete(carts);
     }
 
 

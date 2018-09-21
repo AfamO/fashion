@@ -18,28 +18,15 @@ import javax.servlet.http.HttpServletRequest;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/product/priceslash")
+@RequestMapping("/fashion/secure/designer/product/priceslash")
 public class PriceSlashController {
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    @Autowired
-    UserUtil userUtil;
 
     @Autowired
     PriceSlashService priceSlashService;
 
     @PostMapping(value = "/add")
-    public Response addPriceSlash(HttpServletRequest request, @RequestBody PriceSlash priceSlash){
-        String token = request.getHeader(tokenHeader);
-        User user1 = userUtil.fetchUserDetails2(token);
-        if(token==null || user1==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!user1.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","You are not a designer","error");
-        }
+    public Response addPriceSlash(@RequestBody PriceSlash priceSlash){
         priceSlashService.addPriceSlash(priceSlash);
         Response response = new Response("00","Operation Successful","success");
         return response;
@@ -47,15 +34,7 @@ public class PriceSlashController {
 
 
     @PostMapping(value = "/{productid}/remove")
-    public Response removePriceSlash(HttpServletRequest request,@PathVariable Long productid){
-        String token = request.getHeader(tokenHeader);
-        User user1 = userUtil.fetchUserDetails2(token);
-        if(token==null || user1==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!user1.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","You are not a designer","error");
-        }
+    public Response removePriceSlash(@PathVariable Long productid){
         priceSlashService.removePriceSlash(productid);
         Response response = new Response("00","Operation Successful","success");
         return response;

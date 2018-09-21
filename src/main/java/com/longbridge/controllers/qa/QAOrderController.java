@@ -8,6 +8,7 @@ import com.longbridge.models.MailError;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.repository.MailErrorRepository;
+import com.longbridge.services.AdminOrderService;
 import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.OrderService;
 import org.slf4j.Logger;
@@ -25,41 +26,23 @@ import javax.servlet.http.HttpServletRequest;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/order/qa")
+@RequestMapping("/fashion/secure/qa/order")
 public class QAOrderController {
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
-    OrderService orderService;
+    AdminOrderService orderService;
 
     @Autowired
     ItemStatusService itemStatusService;
 
     @Autowired
-    UserUtil userUtil;
-
-    @Autowired
     MailErrorRepository mailErrorRepository;
 
 
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-
-
-
-
     @PostMapping(value = "/updateorderitem")
-    public Response updateOrderStatusByQA(@RequestBody ItemsDTO item, HttpServletRequest request){
+    public Response updateOrderStatusByQA(@RequestBody ItemsDTO item){
         try{
-            String token = request.getHeader(tokenHeader);
-            User userTemp = userUtil.fetchUserDetails2(token);
-            if(token==null || userTemp==null){
-                return userUtil.tokenNullOrInvalidResponse(token);
-            }
-            orderService.updateOrderItemByAdmin(item,userTemp);
+            orderService.updateOrderItemByAdmin(item);
             return new Response("00","Operation Successful","success");
 
         }catch (AppException e){
@@ -81,23 +64,13 @@ public class QAOrderController {
 
 
     @GetMapping(value = "/getorders")
-    public Response getAllOrderItemsQa(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getAllOrdersByQA(userTemp));
-
+    public Response getAllOrderItemsQa(){
+        return new Response("00","Operation Successful",orderService.getAllOrdersByQA());
     }
-
-
 
     @GetMapping(value = "/getstatuses")
     public Response getStatuses(HttpServletRequest request){
-
         return new Response("00","Operation Successful",itemStatusService.getAllStatuses());
-
     }
 
 

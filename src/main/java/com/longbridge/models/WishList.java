@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import java.io.Serializable;
 
 /**
  * Created by longbridge on 10/18/17.
  */
 @Entity
-public class WishList extends CommonFields {
+public class WishList extends CommonFields implements Serializable {
     @OneToOne
     private User user;
 

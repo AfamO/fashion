@@ -9,9 +9,9 @@ import java.util.List;
  * Created by Longbridge on 25/04/2018.
  */
 public interface ProductRatingService {
-    Boolean RateProduct (User user, Long id, ProductRating productRating);
+    Boolean RateProduct (Long id, ProductRating productRating);
     void updateRating(ProductRating productRating);
-    ProductRating getUserRating(User user ,Long id);
+    ProductRating getUserRating(Long id);
     void verifyRating (User user, Long id);
     List<ProductRating> getVerifiedRatings();
     List<ProductRating> getAllRatings();

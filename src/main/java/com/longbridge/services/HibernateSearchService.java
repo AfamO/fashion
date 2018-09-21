@@ -138,7 +138,7 @@ import java.util.List;
 
 
     @Transactional
-    public List<ProductRespDTO> designerProductsFuzzySearch(String searchTerm, Designer designer) {
+    public List<ProductRespDTO> designerProductsFuzzySearch(String searchTerm) {
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
         QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Products.class).get();

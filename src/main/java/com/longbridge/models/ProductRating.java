@@ -6,12 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import java.io.Serializable;
 
 /**
  * Created by Longbridge on 24/04/2018.
  */
 @Entity
-public class ProductRating extends CommonFields{
+public class ProductRating extends CommonFields implements Serializable {
     @JsonIgnore
     @OneToOne
     private User user;

@@ -59,7 +59,7 @@ public class DesignerDTO {
     private List<ProductRespDTO> products;
     private String status;
 
-    private List<SalesChart> salesChart;
+    private List<ISalesChart> salesChart;
 
     public DesignerDTO() {
     }
@@ -248,11 +248,11 @@ public class DesignerDTO {
         this.status = status;
     }
 
-    public List<SalesChart> getSalesChart() {
+    public List<ISalesChart> getSalesChart() {
         return salesChart;
     }
 
-    public void setSalesChart(List<SalesChart> salesChart) {
+    public void setSalesChart(List<ISalesChart> salesChart) {
         this.salesChart = salesChart;
     }
 }

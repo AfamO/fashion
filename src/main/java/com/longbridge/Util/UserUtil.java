@@ -13,6 +13,7 @@ import com.longbridge.security.repository.UserRepository;
 import com.longbridge.security.service.JwtAuthenticationResponse;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.MailService;
+import com.longbridge.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -20,6 +21,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -54,7 +57,7 @@ public class UserUtil {
     MailService mailService;
 
     @Autowired
-    CloudinaryService cloudinaryService;
+    WalletService walletService;
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -80,31 +83,39 @@ public class UserUtil {
     private String designerLogoFolder;
 
 
-    public Response registerUser(User passedUser){
+    public Response registerUser(UserDTO passedUser){
         Map<String,Object> responseMap = new HashMap();
         try {
             Date date = new Date();
-
             User user = userRepository.findByEmail(passedUser.getEmail());
 
             List<String> errors = new ArrayList<String>();
+
             if(user != null){
                 errors.add("Email already exists");
             }
+            if(passedUser.getRole() == null){
+                return new Response("99", "User has no role", null);
+            }
 
             if(passedUser.getRole().equalsIgnoreCase("designer")){
-                User user1 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
-                if(user1 != null){
+                User user2 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
+                if(user2 != null){
                     errors.add("Phone number already exist");
                 }
             }
-
             if(errors.size() > 0){
                 return new Response("99",StringUtils.join(errors, ","), null);
-            }
-
-            if(passedUser.getRole() == null){
-                return new Response("99", "User has no role", null);
+            }else{
+                user=new User();
+                user.setEmail(passedUser.getEmail());
+                user.setPhoneNo(passedUser.getPhoneNo());
+                user.setPassword(Hash.createPassword(passedUser.getPassword()));
+                user.setFirstName(passedUser.getFirstName());
+                user.setLastName(passedUser.getLastName());
+                user.setDateOfBirth(passedUser.getDateOfBirth());
+                user.setGender(passedUser.getGender());
+                user.setRole(passedUser.getRole());
             }
 
             passedUser.setPassword(Hash.createPassword(passedUser.getPassword()));
@@ -112,13 +123,18 @@ public class UserUtil {
                 Designer designer = new Designer();
                 designer.setCreatedOn(date);
                 designer.setUpdatedOn(date);
-                designer.setUser(passedUser);
+                designer.setUser(user);
                 designerRepository.save(designer);
                 sendToken(passedUser.getEmail());
             }
-            getActivationLink(passedUser);
-            userRepository.save(passedUser);
-            sendEmailAsync.sendWelcomeEmailToUser(passedUser);
+            getActivationLink(user);
+
+
+            //todo create user wallet, call wallet api
+            walletService.createWallet(user);
+
+            userRepository.save(user);
+            sendEmailAsync.sendWelcomeEmailToUser(user);
 
             return new Response("00","Registration successful",responseMap);
 
@@ -270,13 +286,10 @@ public class UserUtil {
         String changePasswordLink="";
         try {
             User user = userRepository.findByEmail(passedUser.getEmail());
-            if(!user.getActivationFlag().equalsIgnoreCase("Y")){
-                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
-            }
-
             if(user!=null){
-                //newPassword = generalUtil.getCurrentTime();
-                //newPassword = RandomStringUtils.randomAlphanumeric(10);
+                if(!"Y".equalsIgnoreCase(user.getActivationFlag())){
+                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
+                }
                 newPassword=UUID.randomUUID().toString().substring(0,10);
                 user.setPassword(Hash.createPassword(newPassword));
                 user.setLinkClicked("N");
@@ -507,8 +520,15 @@ public class UserUtil {
         }
     }
 
-    public void updateUser(UserDTO passedUser, User userTemp){
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
+    }
+
+    public void updateUser(UserDTO passedUser){
     try {
+        User userTemp = getCurrentUser();
         Date date = new Date();
         userTemp.setPhoneNo(passedUser.getPhoneNo());
         userTemp.setLastName(passedUser.getLastName());

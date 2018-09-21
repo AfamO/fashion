@@ -22,68 +22,40 @@ import java.util.Map;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/address")
+@RequestMapping("/fashion/secure/address")
 public class AddressController {
-    Logger logger = LoggerFactory.getLogger(this.getClass());
-
-
     @Autowired
     private AddressService addressService;
 
-    @Autowired
-    UserUtil userUtil;
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
 
     @PostMapping(value = "/addaddress")
-    public Response addAddress(@RequestBody Address address, HttpServletRequest request){
+    public Response addAddress(@RequestBody Address address){
         Map<String, Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        addressService.addAddress(address,user);
+        addressService.addAddress(address);
         return new Response("00", "Operation Successful", responseMap);
 
     }
 
     @PostMapping(value = "/updateaddress")
-    public Response updateAddress(@RequestBody Address address, HttpServletRequest request){
+    public Response updateAddress(@RequestBody Address address){
         Map<String, Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        addressService.updateAddress(address,userTemp);
+        addressService.updateAddress(address);
         return new Response("00", "Operation Successful", responseMap);
 
     }
 
     @GetMapping(value = "/{id}/deleteaddress")
-    public Response deleteAddress(@PathVariable Long id, HttpServletRequest request){
+    public Response deleteAddress(@PathVariable Long id){
         Map<String, Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-
-        }
         addressService.deleteAddress(id);
        return new Response("00", "Operation Successful", responseMap);
-
     }
 
 
     @GetMapping(value = "/getaddress")
-    public Response getAddress(HttpServletRequest request){
+    public Response getAddress(){
         Map<String, Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00", "Operation Successful", addressService.getAddress(userTemp));
+        return new Response("00", "Operation Successful", addressService.getAddress());
 
     }
 

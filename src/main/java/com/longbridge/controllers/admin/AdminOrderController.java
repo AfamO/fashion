@@ -6,9 +6,7 @@ import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.respbodydto.OrderRespDTO;
-import com.longbridge.services.ItemStatusService;
-import com.longbridge.services.OrderService;
-import com.longbridge.services.ShippingPriceService;
+import com.longbridge.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +14,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 /**
  * Created by Longbridge on 21/12/2017.
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/order/admin")
+@RequestMapping("/fashion/secure/admin/order")
 public class AdminOrderController {
 
-
+    @Autowired
+    AdminOrderService adminOrderService;
 
     @Autowired
     OrderService orderService;
@@ -36,30 +38,20 @@ public class AdminOrderController {
     @Autowired
     ItemStatusService itemStatusService;
 
-    @Autowired
-    UserUtil userUtil;
 
     @Autowired
     MailErrorRepository mailErrorRepository;
 
-
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
+    @Autowired
+    TransferService transferService;
 
 
 
     @PostMapping(value = "/updateorder")
-    public Response updateOrderStatusByAdmin(@RequestBody OrderReqDTO orderReqDTO, HttpServletRequest request){
+    public Response updateOrderStatusByAdmin(@RequestBody OrderReqDTO orderReqDTO){
         try{
-            String token = request.getHeader(tokenHeader);
-            User userTemp = userUtil.fetchUserDetails2(token);
-            if(token==null || userTemp==null){
-                return userUtil.tokenNullOrInvalidResponse(token);
-            }
 
-            String message =  orderService.updateOrderByAdmin(orderReqDTO,userTemp);
+            String message =  adminOrderService.updateOrderByAdmin(orderReqDTO);
             if(message.equalsIgnoreCase("nopayment")){
                 return new Response("56","Unable to confirm payment","No payment has been made");
             }
@@ -92,149 +84,73 @@ public class AdminOrderController {
     }
 
     @PostMapping(value = "/updatetrackingnumber")
-    public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
+    public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO){
         orderService.updateTrackingNumber(itemsDTO);
         return new Response("00", "Operation successful", null);
     }
 
 
     @GetMapping(value = "/{id}/getorder")
-    public Response getOrderById(HttpServletRequest request, @PathVariable Long id){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+    public Response getOrderById(@PathVariable Long id){
         return new Response("00","Operation Successful",orderService.getOrdersById(id));
 
     }
 
     @GetMapping(value = "/{orderNum}/getorderbyNum")
-    public Response getOrderByOrderNumber(HttpServletRequest request, @PathVariable String orderNum){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+    public Response getOrderByOrderNumber(@PathVariable String orderNum){
         orderNum = "WAW#"+orderNum;
         return new Response("00","Operation Successful",orderService.getOrdersByOrderNum(orderNum));
-
     }
-
-
-
-    @GetMapping(value = "/{orderNum}/gettransferinfo")
-    public Response getOrderTransferInfo(@PathVariable String orderNum, HttpServletRequest request){
-
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        orderNum = "WAW"+orderNum;
-        return new Response("00", "Operation Successful", orderService.getOrderTransferInfo(orderNum));
-    }
-
 
 
 
     @GetMapping(value = "/getalltransferinfo")
-    public Response getAllTransferInfo(HttpServletRequest request){
-
-        return new Response("00", "operation successful", orderService.getAllTransferInfo());
+    public Response getAllTransferInfo(){
+        return new Response("00", "operation successful", transferService.getAllTransferInfo());
     }
 
 
     @GetMapping(value = "/{id}/getorderitemdetails")
-    public Response getOrderItemById(HttpServletRequest request, @PathVariable Long id){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+    public Response getOrderItemById(@PathVariable Long id){
         return new Response("00","Operation Successful",orderService.getOrderItemById(id));
 
     }
 
 
-
-
-
     @GetMapping(value = "/getall")
-    public Response getAllOrderItems(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getAllOrdersByAdmin(userTemp));
+    public Response getAllOrderItems(){
+        return new Response("00","Operation Successful",adminOrderService.getAllOrdersByAdmin());
 
     }
     @GetMapping(value = "/getorders")
-    public Response getAllOrders(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getAllOrdersByAdmin2(userTemp));
-
+    public Response getAllOrders(){
+        return new Response("00","Operation Successful",adminOrderService.getAllOrdersByAdmin2());
     }
 
 
-
-
-
     @GetMapping(value = "/{id}/deleteorder")
-    public Response deleteOrder(HttpServletRequest request, @PathVariable Long id){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        orderService.deleteOrder(id);
+    public Response deleteOrder(@PathVariable Long id){
+        adminOrderService.deleteOrder(id);
         return new Response("00","Operation Successful","success");
-
     }
 
 
     @GetMapping(value = "/getincompleteorders")
-    public Response getIncompleteOrders(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getIncompleteOrders(userTemp));
-
+    public Response getIncompleteOrders(){
+        return new Response("00","Operation Successful",adminOrderService.getIncompleteOrders());
     }
 
 
     @GetMapping(value = "/qa/getorders")
-    public Response getAllOrderItemsQa(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        return new Response("00","Operation Successful",orderService.getAllOrdersByQA(userTemp));
+    public Response getAllOrderItemsQa(){
+        return new Response("00","Operation Successful",adminOrderService.getAllOrdersByQA());
 
     }
 
 
-
     @GetMapping(value = "/getstatuses")
     public Response getStatuses(HttpServletRequest request){
-
         return new Response("00","Operation Successful",itemStatusService.getAllStatuses());
-
     }
 
 

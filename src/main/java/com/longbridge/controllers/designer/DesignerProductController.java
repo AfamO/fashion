@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/product/designer")
+@RequestMapping("/fashion/secure/designer/product")
 public class DesignerProductController {
     @Autowired
     ProductService productService;
@@ -38,74 +38,29 @@ public class DesignerProductController {
     @Autowired
     HibernateSearchService searchService;
 
-    @Autowired
-    MeasurementService measurementService;
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    @Autowired
-    UserUtil userUtil;
-
-    @Autowired
-    DesignerRepository designerRepository;
-
-
 
     @PostMapping(value = "/addproduct")
-    public Object addProduct(@RequestBody ProductDTO productDTO, HttpServletRequest request){
+    public Object addProduct(@RequestBody ProductDTO productDTO){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
-        productService.addProduct(productDTO,user);
+        productService.addProduct(productDTO);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
-
     }
 
 
     @PostMapping(value = "/updateproduct")
-    public Object updateProduct(@RequestBody ProductDTO productDTO, HttpServletRequest request){
+    public Object updateProduct(@RequestBody ProductDTO productDTO){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
-        productService.updateProduct(productDTO, user);
+        productService.updateProduct(productDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
     }
 
     @PostMapping(value = "/updateproductstock")
-    public Object updateProductStock(@RequestBody ProductDTO productDTO, HttpServletRequest request){
+    public Object updateProductStock(@RequestBody ProductDTO productDTO){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
-
-        productService.updateProductStock(productDTO, user);
+        productService.updateProductStock(productDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
@@ -115,13 +70,9 @@ public class DesignerProductController {
 
 
     @PostMapping(value = "/updateproductimage")
-    public Object updateProductImage(@RequestBody ProductDTO p, HttpServletRequest request){
+    public Object updateProductImage(@RequestBody ProductDTO p){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+
         productService.updateProductImages(p);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
@@ -129,16 +80,8 @@ public class DesignerProductController {
     }
 
     @PostMapping(value = "/updateproductartwork")
-    public Object updateProdArtMaterial(@RequestBody ArtPicReqDTO artPicReqDTO, HttpServletRequest request){
+    public Object updateProdArtMaterial(@RequestBody ArtPicReqDTO artPicReqDTO){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!userTemp.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
         productService.updateArtWorkImages(artPicReqDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
@@ -146,16 +89,8 @@ public class DesignerProductController {
     }
 
     @PostMapping(value = "/updateproductmaterial")
-    public Object updateProdArtMaterial(@RequestBody MatPicReqDTO matPicReqDTO, HttpServletRequest request){
+    public Object updateProdArtMaterial(@RequestBody MatPicReqDTO matPicReqDTO){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!userTemp.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
         productService.updateMaterialImages(matPicReqDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
@@ -165,16 +100,8 @@ public class DesignerProductController {
 
 
     @GetMapping(value = "/{id}/deleteproduct")
-    public Object deleteProduct(@PathVariable Long id, HttpServletRequest request){
+    public Object deleteProduct(@PathVariable Long id){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
         productService.deleteProduct(id);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
@@ -184,16 +111,8 @@ public class DesignerProductController {
 
 
     @GetMapping(value = "/{id}/deleteproductimage")
-    public Object deleteProductImages(@PathVariable Long id, HttpServletRequest request){
+    public Object deleteProductImages(@PathVariable Long id){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
         productService.deleteProductImage(id);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
@@ -201,16 +120,8 @@ public class DesignerProductController {
     }
 
     @PostMapping(value = "/deleteproductimage")
-    public Object deleteProductImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO, HttpServletRequest request){
+    public Object deleteProductImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
         productService.deleteProductImages(pictureIdListDTO);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
@@ -219,16 +130,8 @@ public class DesignerProductController {
 
 
     @PostMapping(value = "/deleteartworkimage")
-    public Object deleteArtWorkImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO, HttpServletRequest request){
+    public Object deleteArtWorkImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
         productService.deleteArtWorkImages(pictureIdListDTO);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
@@ -236,16 +139,8 @@ public class DesignerProductController {
     }
 
     @PostMapping(value = "/deletematerialimage")
-    public Object deleteMaterialImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO, HttpServletRequest request){
+    public Object deleteMaterialImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
         productService.deleteMaterialImages(pictureIdListDTO);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
@@ -255,15 +150,9 @@ public class DesignerProductController {
 
 
     @GetMapping(value = {"/{id}/designer/getproductbyid"})
-    public Object getDesignerProductById(@PathVariable Long id, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        JwtUser user = userUtil.getAuthenticationDetails(token);
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        User user1 = userUtil.fetchUserDetails2(token);
+    public Object getDesignerProductById(@PathVariable Long id){
 
-        ProductRespDTO products = productService.getDesignerProductById(id,user1);
+        ProductRespDTO products = productService.getDesignerProductById(id);
 
         return new Response("00","Operation Successful",products);
 
@@ -272,36 +161,17 @@ public class DesignerProductController {
 
 
     @GetMapping(value = "/getdesignerproducts")
-    public Object getProductsByDesigner(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        List<ProductRespDTO> products= productService.getProductsByDesigner(user);
+    public Object getProductsByDesigner(){
+        List<ProductRespDTO> products= productService.getProductsByDesigner();
         return new Response("00","Operation Successful",products);
 
     }
 
 
 
-
-
-
     @GetMapping(value = "/{id}/productvisibility/{status}")
-    public Object updateProductVisibility(@PathVariable Long id, @PathVariable String status, HttpServletRequest request){
+    public Object updateProductVisibility(@PathVariable Long id, @PathVariable String status){
         Map<String,Object> responseMap = new HashMap();
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",responseMap);
-        }
-
         productService.updateProductVisibility(id,status);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
@@ -309,31 +179,20 @@ public class DesignerProductController {
     }
 
 
-
     @GetMapping(value = "/{search}/designerprodsearch")
-    public Response searchProductsByDesigner(@PathVariable String search, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-
-        if(!user.getRole().equalsIgnoreCase("designer")){
-            return new Response("99","Operation Failed, Not a designer",null);
-        }
-
-        List<ProductRespDTO> products=searchService.designerProductsFuzzySearch(search,designerRepository.findByUser(user));
-
+    public Response searchProductsByDesigner(@PathVariable String search){
+        List<ProductRespDTO> products=searchService.designerProductsFuzzySearch(search);
         return new Response("00","Operation Successful",products);
-
     }
 
 
-    @GetMapping(value = "/{productId}/getmandatorymeasurements")
-    public Response getMandatoryMeasurements(@PathVariable Long productId){
-        return new Response("00","Operation Successful",measurementService.getMandatoryMeasurement(productId));
-    }
 
+    @RequestMapping(
+            value = "/**",
+            method = RequestMethod.OPTIONS
+    )
+    public ResponseEntity handle() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 }

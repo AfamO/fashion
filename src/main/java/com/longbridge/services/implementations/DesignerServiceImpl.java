@@ -3,18 +3,26 @@ package com.longbridge.services.implementations;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
+import com.longbridge.exception.ObjectNotFoundException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
+import com.longbridge.respbodydto.ProductRespDTO;
+import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.DesignerService;
 import com.longbridge.services.TokenService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -88,46 +96,6 @@ public class DesignerServiceImpl implements DesignerService{
 
     }
 
-//
-//    @Override
-//    public List<SalesChart> getSalesChart(Long designerId) {
-//        try {
-//
-//            Date current = new Date();
-//            List<SalesChart> salesCharts = new ArrayList<>();
-////            List<Date> months = new ArrayList<>();
-////            for(int i= 0; i < 6; i++ ){
-////                Calendar cal = Calendar.getInstance();
-////                cal.setTime(current);
-////                cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-i));
-////                months.add(cal.getTime());
-////            }
-//
-//            Calendar cal = Calendar.getInstance();
-//            cal.setTime(current);
-//            cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-6));
-//
-//            Date lastSixMonthDate = cal.getTime();
-//            List<Object[]> salesChart = itemRepository.getSalesChart(designerId,lastSixMonthDate,current);
-//            for (Object[] s: salesChart) {
-//                SalesChart salesChart1 = new SalesChart();
-//                salesChart1.setAmount((Double)s[0]);
-//                Date date = (Date)s[1];
-//                Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                salesChart1.setDate(formatter.format(date));
-//                salesChart1.setMonth((Integer.toString(date.getMonth()+1)));
-//                salesCharts.add(salesChart1);
-//            }
-//
-//
-//            return salesCharts;
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            throw new WawoohException();
-//        }
-//
-//
-//    }
 
     @Override
     public Designer getDesignrById(Long designerId) {
@@ -136,8 +104,8 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public Response updateEmailAddress(User userTemp, UserEmailTokenDTO userEmailTokenDTO, Device device) {
-
+    public Response updateEmailAddress( UserEmailTokenDTO userEmailTokenDTO, Device device) {
+        User userTemp = getCurrentUser();
         UserEmailTokenDTO userEmailTokenDTO1 = new UserEmailTokenDTO();
         userEmailTokenDTO1.setEmail(userTemp.getEmail());
         userEmailTokenDTO1.setToken(userEmailTokenDTO.getToken());
@@ -153,7 +121,7 @@ public class DesignerServiceImpl implements DesignerService{
             }
         }else{
             Response response = tokenService.validateToken(userEmailTokenDTO1, device);
-            if(response.status == "00"){
+            if(Objects.equals(response.status, "00")){
                 userTemp.setEmail(userEmailTokenDTO.getEmail());
                 userRepository.save(userTemp);
                 return new Response("00", "Email changed successfullly", null);
@@ -162,8 +130,9 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerPersonalInformation(User userTemp, UserDTO user) {
+    public void updateDesignerPersonalInformation(UserDTO user) {
         try {
+            User userTemp = getCurrentUser();
             if(userTemp.getRole().equalsIgnoreCase("designer")){
                 userTemp.setFirstName(user.getFirstName());
                 userTemp.setLastName(user.getLastName());
@@ -179,43 +148,41 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerBusinessInformation(User userTemp, UserDTO user) {
+    public void updateDesignerBusinessInformation(UserDTO user) {
         try {
+            User userTemp = getCurrentUser();
             if(userTemp.getRole().equalsIgnoreCase("designer")){
                 User currentUser = userTemp;
-                System.out.println(user);
                 Designer currentDesigner = designerRepository.findByUser(currentUser);
 
-                currentDesigner.setAddress(user.getDesigner().address);
-                currentDesigner.setCity(user.getDesigner().city);
-                currentDesigner.setState(user.getDesigner().state);
-                currentDesigner.setCountry(user.getDesigner().country);
-                currentDesigner.setStoreName(user.getDesigner().storeName);
-                currentDesigner.setLocalGovt(user.getDesigner().localGovt);
-                currentDesigner.setSizeGuideFlag(user.getDesigner().sizeGuideFlag);
-                currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
-                currentDesigner.setThreshold(user.getDesigner().threshold);
+                currentDesigner.setAddress(user.getDesignerDTO().address);
+                currentDesigner.setCity(user.getDesignerDTO().city);
+                currentDesigner.setState(user.getDesignerDTO().state);
+                currentDesigner.setCountry(user.getDesignerDTO().country);
+                currentDesigner.setStoreName(user.getDesignerDTO().storeName);
+                currentDesigner.setLocalGovt(user.getDesignerDTO().localGovt);
+                currentDesigner.setSizeGuideFlag(user.getDesignerDTO().sizeGuideFlag);
+                currentDesigner.setRegisteredFlag(user.getDesignerDTO().registeredFlag);
 
                 if(currentDesigner.getSizeGuideFlag().equalsIgnoreCase("Y")){
 
                     if(currentDesigner.getSizeGuide() == null){
                         SizeGuide currentSizeGuide = new SizeGuide();
-                        currentSizeGuide.setDesigner(currentDesigner);
                         sizeGuideRepository.save(currentSizeGuide);
                         currentDesigner.setSizeGuide(currentSizeGuide);
                     }
 
                     SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
 
-                    if(user.getDesigner().femaleSizeGuide != null){
-                        if(!isUrl(user.getDesigner().femaleSizeGuide)){
+                    if(user.getDesignerDTO().femaleSizeGuide != null){
+                        if(!isUrl(user.getDesignerDTO().femaleSizeGuide)){
                             if(currentSizeGuide.getFemaleSizeGuide() != null){
                                 cloudinaryService.deleteFromCloud(currentSizeGuide.getFemaleSizeGuidePublicId(), currentSizeGuide.getFemaleSizeGuide());
                             }
 
                             try {
                                 String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
-                                String base64Img = user.getDesigner().femaleSizeGuide;
+                                String base64Img = user.getDesignerDTO().femaleSizeGuide;
 
                                 CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
                                 currentSizeGuide.setFemaleSizeGuide(c.getUrl());
@@ -227,15 +194,15 @@ public class DesignerServiceImpl implements DesignerService{
                         }
                     }
 
-                    if(user.getDesigner().maleSizeGuide != null){
-                        if(!isUrl(user.getDesigner().maleSizeGuide)){
+                    if(user.getDesignerDTO().maleSizeGuide != null){
+                        if(!isUrl(user.getDesignerDTO().maleSizeGuide)){
                             if(currentSizeGuide.getMaleSizeGuide() != null){
                                 cloudinaryService.deleteFromCloud(currentSizeGuide.getMaleSizeGuidePublicId(), currentSizeGuide.getMaleSizeGuide());
                             }
 
                             try {
                                 String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
-                                String base64Img = user.getDesigner().maleSizeGuide;
+                                String base64Img = user.getDesignerDTO().maleSizeGuide;
 
                                 CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
                                 currentSizeGuide.setMaleSizeGuide(c.getUrl());
@@ -249,25 +216,19 @@ public class DesignerServiceImpl implements DesignerService{
                 }else{
                     if(currentDesigner.getSizeGuide() == null){
                         SizeGuide currentSizeGuide = new SizeGuide();
-                        currentSizeGuide.setDesigner(currentDesigner);
                         sizeGuideRepository.save(currentSizeGuide);
                         currentDesigner.setSizeGuide(currentSizeGuide);
                     }
 
                     SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
 
-                    currentSizeGuide.setMaleSizeGuide(user.getDesigner().maleSizeGuide);
-                    currentSizeGuide.setFemaleSizeGuide(user.getDesigner().femaleSizeGuide);
+                    currentSizeGuide.setMaleSizeGuide(user.getDesignerDTO().maleSizeGuide);
+                    currentSizeGuide.setFemaleSizeGuide(user.getDesignerDTO().femaleSizeGuide);
                 }
 
-                currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
-
-                if(currentDesigner.getRegisteredFlag().equalsIgnoreCase("Y")){
-                    currentDesigner.setRegistrationNumber(user.getDesigner().registrationNumber);
-                }else{
-                    currentDesigner.setRegistrationNumber("");
-                }
-                if(!isUrl(user.getDesigner().registrationDocument)){
+                currentDesigner.setRegisteredFlag(user.getDesignerDTO().registeredFlag);
+                currentDesigner.setRegistrationNumber(user.getDesignerDTO().registeredFlag);
+                if(!isUrl(user.getDesignerDTO().registrationDocument)){
                     if(currentDesigner.getRegistrationDocument() != null){
                         if(currentDesigner.getRegistrationDocument().equalsIgnoreCase("")){
                             cloudinaryService.deleteFromCloud(currentDesigner.getRegistrationDocumentPublicId(), currentDesigner.getRegistrationDocument());
@@ -276,7 +237,7 @@ public class DesignerServiceImpl implements DesignerService{
 
                     try {
                         String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
-                        String base64Img = user.getDesigner().registrationDocument;
+                        String base64Img = user.getDesignerDTO().registrationDocument;
 
                         CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designerregistrationdocument");
                         currentDesigner.setRegistrationDocument(c.getUrl());
@@ -298,17 +259,18 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerAccountInformation(User userTemp, UserDTO user) {
+    public void updateDesignerAccountInformation(UserDTO user) {
         try {
+            User userTemp = getCurrentUser();
             if(user.getRole().equalsIgnoreCase("designer")){
                 Designer currentDesigner = designerRepository.findByUser(userTemp);
 
-                currentDesigner.setAccountNumber(user.getDesigner().accountNumber);
-                currentDesigner.setBankName(user.getDesigner().bankName);
-                currentDesigner.setCurrency(user.getDesigner().currency);
-                currentDesigner.setAccountName(user.getDesigner().accountName);
-                currentDesigner.setSwiftCode(user.getDesigner().swiftCode);
-                currentDesigner.setSwiftCode(user.getDesigner().swiftCode);
+                currentDesigner.setAccountNumber(user.getDesignerDTO().accountNumber);
+                currentDesigner.setBankName(user.getDesignerDTO().bankName);
+                currentDesigner.setCurrency(user.getDesignerDTO().currency);
+                currentDesigner.setAccountName(user.getDesignerDTO().accountName);
+                currentDesigner.setSwiftCode(user.getDesignerDTO().swiftCode);
+                currentDesigner.setSwiftCode(user.getDesignerDTO().swiftCode);
 
                 designerRepository.save(currentDesigner);
             }else{
@@ -321,16 +283,16 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerInformation(User userTemp, UserDTO user) {
-
-        updateDesignerPersonalInformation(userTemp, user);
-        updateDesignerBusinessInformation(userTemp, user);
-        updateDesignerAccountInformation(userTemp, user);
+    public void updateDesignerInformation(UserDTO user) {
+        updateDesignerPersonalInformation( user);
+        updateDesignerBusinessInformation(user);
+        updateDesignerAccountInformation(user);
     }
 
     @Override
-    public void  updateDesignerLogo(User userTemp, DesignerDTO passedDesigner) {
+    public void  updateDesignerLogo(DesignerDTO passedDesigner) {
         try {
+            User userTemp = getCurrentUser();
             if(passedDesigner.id != null) {
 
                 if(passedDesigner.logo != null) {
@@ -445,9 +407,9 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public DesignerDTO getDesigner(User user) {
+    public DesignerDTO getDesigner() {
         try {
-            Designer designer = designerRepository.findByUser(user);
+            Designer designer = designerRepository.findByUser(getCurrentUser());
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             return dto;
 
@@ -458,42 +420,29 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public DesignerDTO getDesigner(User user, MonthsDTO months) {
+    public DesignerDTO getDesignerWithSalesChart() {
         try {
-            Designer designer = designerRepository.findByUser(user);
-            List<SalesChart> salesCharts = new ArrayList<>();
+
+            Designer designer = designerRepository.findByUser(getCurrentUser());
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
-            for (String month:months.getMonths()) {
-                YearMonth d = YearMonth.parse(month);
-                LocalDate startDateMonth = d.atDay(1);
-                LocalDate endDateMonth = d.atEndOfMonth();
-                //converting local date to date format
-                Date date1 = Date.from(startDateMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                Date date2 = Date.from(endDateMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-                SalesChart salesChart = new SalesChart();
-//                Calendar calendar = Calendar.getInstance();
-//                calendar.setTime(date1);
-//                salesChart.setMonth(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ));
-                    salesChart.setMonth(month.split("-")[1]);
-                    salesChart.setYear(month.split("-")[0]);
-                Double amnt = itemRepository.getSalesChart(designer.id,date1,date2,"C");
-                if(amnt != null){
-                salesChart.setAmount(amnt);
-                }
-                else {
-                    salesChart.setAmount(0.0);
-                }
-                salesCharts.add(salesChart);
-            }
-
-           dto.setSalesChart(salesCharts);
+            Date startDate= DateUtils.ceiling(DateUtils.addMonths(new Date(),-6),Calendar.MONTH);
+            List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
+            dto.setSalesChart(salesCharts);
             return dto;
 
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
         }
+    }
+
+
+
+
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        return jwtUser.getUser();
     }
 
     @Override

@@ -21,5 +21,13 @@
       <user-name>bd7c33fd72d350</user-name>
       <introspection-schemas>*:heroku_05de370f2f77858</introspection-schemas>
     </data-source>
+    <data-source name="Fashion@localhost" uuid="0f76c25b-2f74-4155-b07e-b42bae23f260">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <introspection-schemas>*:Fashion</introspection-schemas>
+    </data-source>
+    <data-source name="heroku_6724802313731b3@us-cdbr-iron-east-01.cleardb.net" uuid="9d876964-e2d9-4027-a14f-09b5ffaee1c1">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <introspection-schemas>*:heroku_6724802313731b3</introspection-schemas>
+    </data-source>
   </component>
 </project>

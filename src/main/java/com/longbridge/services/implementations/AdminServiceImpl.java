@@ -36,7 +36,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public AdminDashBoardDTO getDashboardData(User user) {
+    public AdminDashBoardDTO getDashboardData() {
         try {
             AdminDashBoardDTO adminDashBoardDTO = new AdminDashBoardDTO();
             Long totalProducts = productRepository.countByVerifiedFlag("Y");

@@ -13,13 +13,13 @@ import java.util.List;
  */
 public interface ProductService {
 
-    ProductRespDTO getProductById(Long id,User user, boolean reviews);
+    ProductRespDTO getProductById(Long id,boolean reviews);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    ProductRespDTO getDesignerProductById(Long id,User user);
+    ProductRespDTO getDesignerProductById(Long id);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void addProduct(ProductDTO productDTO, User user) throws WawoohException;
+    void addProduct(ProductDTO productDTO) throws WawoohException;
 
     void updateProductVisibility(Long id, String status);
 
@@ -28,10 +28,10 @@ public interface ProductService {
     void sponsorProduct(Long id, String status);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateProduct(ProductDTO productDTO, User user);
+    void updateProduct(ProductDTO productDTO);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateProductStock(ProductDTO productDTO, User user);
+    void updateProductStock(ProductDTO productDTO);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void updateProductImages(ProductDTO p);
@@ -57,7 +57,9 @@ public interface ProductService {
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void deleteMaterialImages(ProductPictureIdListDTO pictureIdListDTO);
 
-    List<ProductRespDTO> getProductsByDesigner(User user);
+    List<ProductRespDTO> getProductsByDesigner(Long designerId);
+
+    List<ProductRespDTO> getProductsByDesigner();
 
     List<ProductRespDTO> getAllProducts(PageableDetailsDTO pageableDetailsDTO);
 
@@ -85,7 +87,7 @@ public interface ProductService {
 
     List<ProductRespDTO> getFeaturedProducts();
 
-    List<ProductRespDTO> getDesignerProductsBySubCatId(ProdSubCategoryDTO p, User user);
+    List<ProductRespDTO> getDesignerProductsBySubCatId(ProdSubCategoryDTO p);
 
     void addCategory(CategoryDTO categoryDTO);
 
@@ -114,7 +116,7 @@ public interface ProductService {
 
     List<EventPicturesDTO> getTaggedPicturesByEvents(Long id);
 
-    int getTotalProducts(User user);
+    int getTotalProducts();
 
    ProductAttributeDTO getProductAttributesById(Long id);
 

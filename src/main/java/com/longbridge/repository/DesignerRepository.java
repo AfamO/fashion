@@ -16,4 +16,6 @@ public interface DesignerRepository extends JpaRepository<Designer,Long> {
     Designer findByUser(User user);
 
     List<Designer> findTop10ByOrderByCreatedOnDesc();
+
+    Designer findByUser_Email(String name);
 }

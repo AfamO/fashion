@@ -55,12 +55,10 @@ public class TokenServiceImpl implements TokenService {
     public Response validateToken(UserEmailTokenDTO userEmailTokenDTO, Device device) {
         Map<String, Object> responseMap = new HashMap();
         User user = userRepository.findByEmail(userEmailTokenDTO.getEmail());
-        System.out.println(userEmailTokenDTO.getEmail());
         Token token1 = tokenRepository.findByUserAndToken(user,userEmailTokenDTO.getToken());
-
         Date date = new Date();
         if (token1 == null) {
-            Response response = new Response("99", "Invalid token passed", responseMap);
+            Response response = new Response("99", "Error occurred while validating token", responseMap);
             return response;
         }
         else {

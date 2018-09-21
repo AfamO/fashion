@@ -19,60 +19,38 @@ import javax.servlet.http.HttpServletRequest;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/wishlist")
+@RequestMapping("/fashion/secure/wishlist")
 public class WishListController {
 
-    @Autowired
-    UserUtil userUtil;
 
     @Autowired
     WishListService wishListService;
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
 
 
     @PostMapping(value = "/add")
-    public Response addToWishList(@RequestBody WishListDTO wishListDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        Response response = new Response("00","Operation Successful",wishListService.addToWishList(wishListDTO,userTemp));
+    public Response addToWishList(@RequestBody WishListDTO wishListDTO){
+        Response response = new Response("00","Operation Successful",wishListService.addToWishList(wishListDTO));
         return response;
     }
 
 
     @PostMapping(value = "/notifyme")
-    public Response notifyMe(@RequestBody WishListDTO wishListDTO, HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        Response response = new Response("00","Operation Successful",wishListService.notifyMe(wishListDTO,userTemp));
+    public Response notifyMe(@RequestBody WishListDTO wishListDTO){
+
+        Response response = new Response("00","Operation Successful",wishListService.notifyMe(wishListDTO));
         return response;
     }
 
     @PostMapping(value = "/get")
-    public Response getWishLists(HttpServletRequest request, @RequestBody PageableDetailsDTO p){
-        String token = request.getHeader(tokenHeader);
-        User user = userUtil.fetchUserDetails2(token);
-        if(token==null || user==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
-        Response response = new Response("00","Operation Successful",wishListService.getWishLists(user,p));
+    public Response getWishLists(@RequestBody PageableDetailsDTO p){
+
+        Response response = new Response("00","Operation Successful",wishListService.getWishLists(p));
         return response;
     }
 
     @GetMapping(value = "/{id}/delete")
-    public Response deleteWishList(HttpServletRequest request, @PathVariable Long id){
-        String token = request.getHeader(tokenHeader);
-        User userTemp = userUtil.fetchUserDetails2(token);
-        if(token==null || userTemp==null){
-            return userUtil.tokenNullOrInvalidResponse(token);
-        }
+    public Response deleteWishList( @PathVariable Long id){
         wishListService.deleteWishList(id);
         Response response = new Response("00","Operation Successful","success");
         return response;

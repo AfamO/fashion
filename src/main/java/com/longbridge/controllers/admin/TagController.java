@@ -24,18 +24,11 @@ public class TagController {
     @Autowired
     ProductService productService;
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    @Autowired
-    UserUtil userUtil;
-
 
     @PostMapping(value = "/gettagproducts")
     public Object getProductsBySub(@RequestBody PicTagDTO picTagDTO){
         List<ProductRespDTO> products= productService.getTagProducts(picTagDTO);
         return new Response("00","Operation Successful",products);
-
     }
 
 
@@ -65,7 +58,6 @@ public class TagController {
     public Object getTags(@PathVariable Long eventPictureId){
         PictureTagDTO pictureTags=productService.getPictureTags(eventPictureId);
         return new Response("00","Operation Successful",pictureTags);
-
     }
 
 
@@ -87,15 +79,13 @@ public class TagController {
     public Response getUntaggedPicturesByEvent(@PathVariable Long eventid){
         List<EventPicturesDTO> eventpictures = productService.getUntaggedPicturesByEvents(eventid);
         return new Response("00", "Operation Successful", eventpictures);
-
     }
+
 
     @GetMapping(value = "/{eventid}/gettagged")
     public Response getTaggedPicturesByEvent(@PathVariable Long eventid){
         List<EventPicturesDTO> eventpictures = productService.getTaggedPicturesByEvents(eventid);
         return new Response("00", "Operation Successful", eventpictures);
-
     }
-
 
 }

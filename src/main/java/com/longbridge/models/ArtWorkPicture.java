@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
 /**
  * Created by Longbridge on 14/12/2017.
  */
 @Entity
-public class ArtWorkPicture extends CommonFields{
+public class ArtWorkPicture extends CommonFields implements Serializable {
     private Long id;
     private String pictureName;
     private String picture;
