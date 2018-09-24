@@ -105,6 +105,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     DesignerRepository designerRepository;
 
+    @Autowired
+    WalletService walletService;
+
 
     @Transactional
     @Override
@@ -171,13 +174,27 @@ public class OrderServiceImpl implements OrderService {
                orders.setDeliveryStatus("P");
             }
 
-            //updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
+            else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
+                itemStatus = itemStatusRepository.findByStatus("NV");
+                orders.setDeliveryStatus("NV");
+            }
+
+          //  updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
             totalAmount = Double.parseDouble(h.get("totalAmount").toString());
             orders.setTotalAmount(totalAmount);
 
-            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
+//
+//            if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
+//                    if(walletService.validateWalletBalance(totalAmount).equalsIgnoreCase("true")){
+//                        updateOrder(orders,user);
+//                    }
+//                    else{
+//                        orderRespDTO.setStatus("walletchargeerror");
+//                    }
+//            }
+           if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                 PaymentRequest paymentRequest = new PaymentRequest();
                 paymentRequest.setOrderId(orders.id);
                 paymentRequest.setTransactionAmount(totalAmount);
@@ -198,6 +215,19 @@ public class OrderServiceImpl implements OrderService {
             ex.printStackTrace();
             throw new WawoohException();
         }
+    }
+
+
+
+    private void updateOrder(Orders orders, User user) {
+        ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
+        for (Items item:orders.getItems()) {
+            item.setItemStatus(itemStatus);
+            itemRepository.save(item);
+        }
+        orders.setDeliveryStatus("P");
+        sendEmailAsync.sendEmailToUser(user, orders.getOrderNum());
+
     }
 
     private Boolean thresholdExceeded(Items items){

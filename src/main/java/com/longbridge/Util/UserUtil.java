@@ -113,9 +113,14 @@ public class UserUtil {
                 user.setDateOfBirth(passedUser.getDateOfBirth());
                 user.setGender(passedUser.getGender());
                 user.setRole(passedUser.getRole());
+
+                //todo create user wallet, call wallet api
+//                String walletId = walletService.createWallet(passedUser);
+//                if(!"false".equalsIgnoreCase(walletId)){
+//                    user.setUserWalletId(Long.parseLong(walletId));
+//                }
             }
 
-            passedUser.setPassword(Hash.createPassword(passedUser.getPassword()));
             if(passedUser.getRole().equalsIgnoreCase("designer")){
                 Designer designer = new Designer();
                 designer.setCreatedOn(date);
@@ -125,14 +130,8 @@ public class UserUtil {
                 sendToken(passedUser.getEmail());
             }
             getActivationLink(user);
-
-
-            //todo create user wallet, call wallet api
-           // walletService.createWallet(user);
-
-            userRepository.save(user);
             sendEmailAsync.sendWelcomeEmailToUser(user);
-
+            userRepository.save(user);
             return new Response("00","Registration successful",responseMap);
 
         } catch (Exception e) {

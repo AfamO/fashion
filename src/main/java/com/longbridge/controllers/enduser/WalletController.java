@@ -25,23 +25,23 @@ public class WalletController {
     @Autowired
     WalletService walletService;
 
-    @PostMapping(value = "/validatebalance")
-    public Response validateBalance(@RequestBody OrderReqDTO orderReqDTO){
-
-        String resp = walletService.validateWalletBalance(orderReqDTO);
-        if(resp.equalsIgnoreCase("00")){
-            return new Response("00","Operation Successful","Validation Successful");
-        }
-        else if(resp.equalsIgnoreCase("66")){
-            return new Response("66","Operation Successful","Insufficient Funds");
-        }else if(resp.equalsIgnoreCase("56")){
-            return new Response("56","Operation Successful","No amount in wallet");
-        }
-        else {
-            return new Response("99","Error occured","");
-        }
-
-    }
+//    @PostMapping(value = "/validatebalance")
+//    public Response validateBalance(@RequestBody OrderReqDTO orderReqDTO){
+//
+//        String resp = walletService.validateWalletBalance(orderReqDTO);
+//        if(resp.equalsIgnoreCase("00")){
+//            return new Response("00","Operation Successful","Validation Successful");
+//        }
+//        else if(resp.equalsIgnoreCase("66")){
+//            return new Response("66","Operation Successful","Insufficient Funds");
+//        }else if(resp.equalsIgnoreCase("56")){
+//            return new Response("56","Operation Successful","No amount in wallet");
+//        }
+//        else {
+//            return new Response("99","Error occured","");
+//        }
+//
+//    }
 
 
     @RequestMapping(

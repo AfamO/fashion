@@ -335,8 +335,6 @@ public class EventServiceImpl implements EventService {
 
 
 
-
-
     @Override
     public EventPicturesDTO getEventPictureById(Long id) {
         try {
