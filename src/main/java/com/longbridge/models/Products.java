@@ -57,7 +57,6 @@ public class Products extends CommonFields implements Serializable {
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     private List<ProductAttribute> productAttributes;
 
-
     @OneToOne
     private Style style;
 
