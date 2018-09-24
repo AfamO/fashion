@@ -1333,7 +1333,7 @@ public class ProductServiceImpl implements ProductService {
 
     private User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null) {
+        if(authentication.getPrincipal() != "anonymousUser") {
             JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
             return jwtUser.getUser();
         }else {

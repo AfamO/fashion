@@ -387,10 +387,16 @@ public class EventServiceImpl implements EventService {
         return eventPictures != null ;
     }
 
+
     private User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
-        return jwtUser.getUser();
+        if(authentication.getPrincipal() != "anonymousUser") {
+            JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+            return jwtUser.getUser();
+        }else {
+            return null;
+        }
+
     }
 
     @Override
