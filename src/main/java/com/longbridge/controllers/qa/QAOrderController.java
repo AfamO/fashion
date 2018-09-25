@@ -42,6 +42,9 @@ public class QAOrderController {
     @Autowired
     AdminService adminService;
 
+    @Autowired
+    AdminOrderService adminOrderService;
+
     @PostMapping(value = "/updateorderitem")
     public Response updateOrderStatusByQA(@RequestBody ItemsDTO item){
         try{
@@ -63,6 +66,12 @@ public class QAOrderController {
 
         }
 
+    }
+
+    @PostMapping(value = "/updatetrackingnumber")
+    public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO){
+        adminOrderService.updateTrackingNumber(itemsDTO);
+        return new Response("00", "Operation successful", null);
     }
 
 

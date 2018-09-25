@@ -30,9 +30,6 @@ public class AdminProductController {
     ProductService productService;
 
 
-
-
-
     @PostMapping(value = "/getproducts")
     public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<ProductRespDTO> products;

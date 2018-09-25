@@ -35,7 +35,7 @@ public class User extends CommonFields implements Serializable {
     private Date activationDate;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    public Wallet wallet;
+    public Pocket pocket;
 
     private Long userWalletId;
 
@@ -211,12 +211,12 @@ public class User extends CommonFields implements Serializable {
         this.activationDate = activationDate;
     }
 
-    public Wallet getWallet() {
-        return wallet;
+    public Pocket getPocket() {
+        return pocket;
     }
 
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
+    public void setPocket(Pocket pocket) {
+        this.pocket = pocket;
     }
 
     public List<Address> getAddresses() {

@@ -1,19 +1,14 @@
 package com.longbridge.services.implementations;
 
-import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.ShippingUtil;
-import com.longbridge.dto.OrderReqDTO;
 import com.longbridge.dto.UserDTO;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.AddressRepository;
 import com.longbridge.repository.ProductRepository;
-import com.longbridge.repository.WalletRepository;
+import com.longbridge.repository.PocketRepository;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.WalletService;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -26,8 +21,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 /**
  * Created by Longbridge on 03/08/2018.
@@ -44,7 +37,7 @@ public class WalletServiceImpl implements WalletService {
     AddressRepository addressRepository;
 
     @Autowired
-    WalletRepository walletRepository;
+    PocketRepository pocketRepository;
 
     @Value("${create.user.endpoint}")
     private String createUserEndPoint;

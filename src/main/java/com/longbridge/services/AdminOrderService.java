@@ -18,5 +18,5 @@ public interface AdminOrderService {
     List<ItemsRespDTO> getAllOrdersByAdmin();
     void deleteOrder(Long id);
     List<ItemsRespDTO> getAllOrdersByQA();
-
+    void updateTrackingNumber(ItemsDTO itemsDTO);
 }

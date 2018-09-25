@@ -1,5 +1,4 @@
 package com.longbridge.Util;
-import com.longbridge.dto.CloudinaryResponse;
 import com.longbridge.dto.UserDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.exception.PasswordException;
@@ -11,11 +10,9 @@ import com.longbridge.security.JwtTokenUtil;
 import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.security.service.JwtAuthenticationResponse;
-import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.MailService;
 import com.longbridge.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +26,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.util.ListUtils;
 import org.thymeleaf.util.StringUtils;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -70,7 +65,7 @@ public class UserUtil {
     TokenRepository tokenRepository;
 
     @Autowired
-    WalletRepository walletRepository;
+    PocketRepository pocketRepository;
 
     @Autowired
     SendEmailAsync sendEmailAsync;
@@ -455,11 +450,11 @@ public class UserUtil {
                  */
 //                refreshAuthenticationDetails(user,token);
 
-                Wallet wallet = walletRepository.findByUser(user);
-                if(wallet==null){
-                    user.wallet= new Wallet();
+                Pocket pocket = pocketRepository.findByUser(user);
+                if(pocket==null){
+                    user.pocket= new Pocket();
                 }else {
-                    user.wallet=wallet;
+                    user.pocket=pocket;
                 }
                 responseMap.put("userDetails",user);
                 return new Response("00","User found",responseMap);

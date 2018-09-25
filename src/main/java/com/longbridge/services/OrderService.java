@@ -40,5 +40,5 @@ public interface OrderService {
     ItemsRespDTO getOrderItemById(Long id);
 
 
-    void updateTrackingNumber(ItemsDTO itemsDTO);
+
 }

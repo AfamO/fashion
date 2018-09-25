@@ -12,7 +12,7 @@ import java.util.Date;
 public class Items extends CommonFields{
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public Orders orders;
 
     private Long productId;
