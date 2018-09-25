@@ -2,6 +2,7 @@ package com.longbridge.repository;
 
 import com.longbridge.models.PaymentRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,4 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PaymentRepository extends JpaRepository<PaymentRequest, Long> {
     PaymentRequest findByOrderId(Long orderId);
+    @Query("select sum(transactionAmount) from PaymentRequest")
+    Double getTotalPayment();
 }
