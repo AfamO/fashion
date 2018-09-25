@@ -73,6 +73,12 @@ public class QAOrderController {
         return new Response("00","Operation Successful",itemStatusService.getAllStatuses());
     }
 
+    @PostMapping(value = "/updatetrackingnumber")
+    public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO){
+        orderService.updateTrackingNumber(itemsDTO);
+        return new Response("00", "Operation successful", null);
+    }
+
 
     @RequestMapping(
             value = "/**",

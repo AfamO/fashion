@@ -38,7 +38,4 @@ public interface OrderService {
     OrderDTO getOrdersById(Long id);
     OrderDTO getOrdersByOrderNum(String orderNumber);
     ItemsRespDTO getOrderItemById(Long id);
-
-
-    void updateTrackingNumber(ItemsDTO itemsDTO);
 }

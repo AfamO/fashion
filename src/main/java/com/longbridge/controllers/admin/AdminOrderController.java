@@ -83,12 +83,6 @@ public class AdminOrderController {
 
     }
 
-    @PostMapping(value = "/updatetrackingnumber")
-    public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO){
-        orderService.updateTrackingNumber(itemsDTO);
-        return new Response("00", "Operation successful", null);
-    }
-
 
     @GetMapping(value = "/{id}/getorder")
     public Response getOrderById(@PathVariable Long id){

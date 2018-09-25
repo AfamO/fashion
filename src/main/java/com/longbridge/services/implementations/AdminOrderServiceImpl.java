@@ -315,6 +315,22 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         }
     }
 
+    @Override
+    public void updateTrackingNumber(ItemsDTO itemsDTO) {
+        try {
+            Items items = itemRepository.findOne(itemsDTO.getId());
+
+            if(items != null){
+                items.setTrackingNumber(itemsDTO.getTrackingNumber());
+                itemRepository.save(items);
+            }
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
     private User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
