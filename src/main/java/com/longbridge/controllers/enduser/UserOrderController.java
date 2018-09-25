@@ -149,7 +149,7 @@ public class UserOrderController {
 
 
     @GetMapping(value = "/getuserorder")
-    public Response getOrder(HttpServletRequest request){
+    public Response getOrder(){
         return new Response("00","Operation Successful",orderService.getOrdersByUser());
 
     }

@@ -14,6 +14,8 @@ import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.AdminOrderService;
 import com.longbridge.services.MailService;
+import com.longbridge.services.PocketService;
+import com.longbridge.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -60,7 +62,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
 
     @Autowired
-    WalletRepository walletRepository;
+    PocketService pocketService;
 
     @Autowired
     TransferInfoRepository transferInfoRepository;
@@ -153,15 +155,15 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     if(itemsDTO.getStatus().equalsIgnoreCase("D")){
                         items.setItemStatus(itemStatus);
                         //update wallet balance by removing item amount  from user wallet since item has been delivered
-                        updateWalletForOrderDelivery(items, customer);
+                        pocketService.updateWalletForOrderDelivery(items, customer);
                         //end updating wallet balance
                         String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
                         String link = messageSource.getMessage("order.complain",null, locale);
-                        String feedbacklink = messageSource.getMessage("order.feedback",null, locale);
+                        String feedBackLink = messageSource.getMessage("order.feedback",null, locale);
                         link = link+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
-                        feedbacklink=feedbacklink+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
+                        feedBackLink=feedBackLink+encryptedMail+"&itemId="+items.id+"&orderNum="+itemsDTO.getOrderNumber();
                         context.setVariable("link",link);
-                        context.setVariable("feedbacklink",feedbacklink);
+                        context.setVariable("feedbacklink",feedBackLink);
                         String message = templateEngine.process("oderdeliveredemail", context);
                         mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
 
@@ -228,7 +230,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 notifyDesigner(items);
             }
             //update wallet balance
-            updateWalletForOrderPayment(customer,transferInfo.getAmountPayed(),"Bank Transfer");
+            pocketService.updatePocketForOrderPayment(customer,transferInfo.getAmountPayed(),"Bank Transfer");
             //update orders
             orders.setDeliveryStatus("PC");
             orders.setUpdatedOn(date);
@@ -257,12 +259,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         }
     }
 
-    private void updateWalletForOrderDelivery(Items items, User customer) {
-        Wallet wallet = walletRepository.findByUser(customer);
-        wallet.setPendingSettlement(wallet.getPendingSettlement()-items.getAmount());
-        wallet.setBalance(wallet.getBalance()-items.getAmount());
-        walletRepository.save(wallet);
-    }
+
 
 
     @Override
@@ -355,22 +352,41 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         smsAlertUtil.sms(phoneNumbers,message);
     }
 
-    private void updateWalletForOrderPayment(User user,Double amount,String paymentType) {
+//    private void updateWalletForOrderPayment(User user,Double amount,String paymentType) {
+//
+//        Wallet w= pocketRepository.findByUser(user);
+//        if (w != null) {
+//            if(!paymentType.equalsIgnoreCase("Wallet")) {
+//                w.setBalance(w.getBalance() + amount);
+//            }
+//            w.setPendingSettlement(w.getPendingSettlement() + amount);
+//        } else {
+//            w = new Wallet();
+//            w.setBalance(amount);
+//            w.setPendingSettlement(amount);
+//            w.setUser(user);
+//        }
+//        System.out.println(w.getPendingSettlement());
+//        pocketRepository.save(w);
+//    }
+//
 
-        Wallet w= walletRepository.findByUser(user);
-        if (w != null) {
-            if(!paymentType.equalsIgnoreCase("Wallet")) {
-                w.setBalance(w.getBalance() + amount);
+
+    @Override
+    public void updateTrackingNumber(ItemsDTO itemsDTO) {
+        try {
+            Items items = itemRepository.findOne(itemsDTO.getId());
+
+            if(items != null){
+                items.setTrackingNumber(itemsDTO.getTrackingNumber());
+                itemRepository.save(items);
             }
-            w.setPendingSettlement(w.getPendingSettlement() + amount);
-        } else {
-            w = new Wallet();
-            w.setBalance(amount);
-            w.setPendingSettlement(amount);
-            w.setUser(user);
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
         }
-        System.out.println(w.getPendingSettlement());
-        walletRepository.save(w);
     }
+
 
 }

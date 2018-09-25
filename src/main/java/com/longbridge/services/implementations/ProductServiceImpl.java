@@ -1162,10 +1162,11 @@ public class ProductServiceImpl implements ProductService {
             List<Products> products1 = new ArrayList<>();
             products.forEach(productsWithRating ->{
                 Long longProducts= ((BigInteger) productsWithRating[0]).longValue();
-                //products1.add(productRepository.findOne((Long) productsWithRating[0]));
                 products1.add(productRepository.findOne(longProducts));
             });
-            return generalUtil.convertProdEntToProdRespDTOs(products1);
+
+
+            return generalUtil.convertProdEntToProdRespDTOs(generalUtil.getRandomProducts(products1,10));
 
 
         } catch (Exception e) {
@@ -1198,8 +1199,10 @@ public class ProductServiceImpl implements ProductService {
             products.addAll(prods);
 
             List<Products> prods1=productRepository.findFirst5ByPriceSlashEnabledTrue();
+
             products.addAll(prods1);
 
+            products=generalUtil.getRandomProducts(products,10);
             return generalUtil.convertProdEntToProdRespDTOs(products);
 
 
@@ -1333,7 +1336,7 @@ public class ProductServiceImpl implements ProductService {
 
     private User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null) {
+        if(authentication.getPrincipal() != "anonymousUser") {
             JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
             return jwtUser.getUser();
         }else {

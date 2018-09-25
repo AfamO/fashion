@@ -9,7 +9,7 @@ import javax.persistence.OneToOne;
  * Created by Longbridge on 31/07/2018.
  */
 @Entity
-public class Wallet extends CommonFields {
+public class Pocket extends CommonFields {
     @JsonIgnore
     @OneToOne
     private User user;
@@ -17,7 +17,7 @@ public class Wallet extends CommonFields {
     private double balance;
     private double pendingSettlement;
 
-    public Wallet(User user, double balance, double pendingSettlement) {
+    public Pocket(User user, double balance, double pendingSettlement) {
         this.user = user;
         this.balance = balance;
         this.pendingSettlement = pendingSettlement;
@@ -47,6 +47,6 @@ public class Wallet extends CommonFields {
         this.pendingSettlement = pendingSettlement;
     }
 
-    public Wallet() {
+    public Pocket() {
     }
 }

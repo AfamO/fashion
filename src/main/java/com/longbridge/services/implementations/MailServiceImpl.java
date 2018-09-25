@@ -77,7 +77,7 @@ public class MailServiceImpl implements MailService {
             logger.info("...trying to send mail from {}", sender);
             logger.info("...trying to send mail to {}", recipient);
 
-            mailSender.send(messagePreparator);
+             mailSender.send(messagePreparator);
             logger.info("Email successfully sent to {}", recipient);
 
         } catch (AppException e) {

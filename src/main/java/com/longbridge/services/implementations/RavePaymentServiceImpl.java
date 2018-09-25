@@ -41,7 +41,7 @@ public class RavePaymentServiceImpl implements RavePaymentService {
     ItemRepository itemRepository;
 
     @Autowired
-    WalletRepository walletRepository;
+    PocketRepository pocketRepository;
 
     @Autowired
     SendEmailAsync sendEmailAsync;
@@ -81,18 +81,18 @@ public class RavePaymentServiceImpl implements RavePaymentService {
                 User user = userRepository.findByEmail(cardPaymentDTO.getEmail());
                 deleteCart(user);
 
-               Wallet w= walletRepository.findByUser(user);
+               Pocket w= pocketRepository.findByUser(user);
                 if(w!=null){
                     w.setBalance(w.getBalance()+amount);
                     w.setPendingSettlement(w.getPendingSettlement()+amount);
                 }
                 else {
-                    w = new Wallet();
+                    w = new Pocket();
                     w.setBalance(amount);
                     w.setPendingSettlement(amount);
                     w.setUser(user);
                 }
-                walletRepository.save(w);
+                pocketRepository.save(w);
 
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("PC");
                 Orders orders = orderRepository.findOne(ravePayment.getOrderId());
