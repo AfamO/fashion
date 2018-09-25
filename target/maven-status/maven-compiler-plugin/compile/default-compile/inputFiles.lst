@@ -6,11 +6,13 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\EventDateDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\ItemStatus.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Email.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\SearchQueryRequest.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\RefundRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\Util\CustomBeanUtilsBean.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\OrderServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\EmailAlertAttachment.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\PaymentRepository.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\Aggregation.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\UserEmailTokenDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\exception\PasswordException.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\AddressServiceImpl.java
@@ -34,6 +36,8 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\security\controller\MethodProtectedRestController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\InspireMeDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\ItemStatusRepository.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\TermFilter.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\CreateIndexId.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\MaterialPicture.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Cart.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\ArtWorkPictureRepository.java
@@ -50,6 +54,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Shipping.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\CodeRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\CategoryDTO.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\ElasticSearchService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\exception\AppException.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\OrderItemProcessingPicture.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\qa\QAOrderController.java
@@ -71,9 +76,12 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\StatusMessageRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\OrderRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\general\EventController.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\SearchRequest.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\CustomJpaRepositoryFactoryBean.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Orders.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\exception\ObjectNotFoundException.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\ApiResponse.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\elasticSearch\MaterialPictureSearchDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\designer\DesignerProductController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\PriceSlashServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\designer\DesignerController.java
@@ -85,6 +93,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\AddressRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\DesignerDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\EventPictures.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\WildCard.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\UserDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\WishListServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\PaymentServiceImpl.java
@@ -101,6 +110,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Rating.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\AdminService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\OrderStatusServiceImpl.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\Should.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\exception\UnknownHostException.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\CommonRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\ProductAttributeDTO.java
@@ -108,6 +118,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\Util\UserUtil.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\RatingRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\enduser\SecureEventController.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\Amount.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Response.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\ZonePrice.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\Util\ResendMailUtil.java
@@ -118,6 +129,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\PageableDetailsDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Colour.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\general\FeedBackController.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\Util\SearchUtilities.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\CloudinaryService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\config\ResourceConfig.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\admin\AdminController.java
@@ -132,6 +144,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\RefundService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\enduser\ProductRatingController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\FeedBackReaction.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\Bool.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\OrderFeedBackRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\CategoryRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\ItemsDTO.java
@@ -141,6 +154,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\CategoryServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\respbodydto\ProductRespDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\respbodydto\LogInResp.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\Index.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\ProductRatingRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\MeasurementServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\ProductsWithRating.java
@@ -149,6 +163,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\NewsLetter.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\FilterProductDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\PicTagDTO.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\elasticSearch\ProductAttributeSearchDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\general\ControllerAdvice.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\general\SizeController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\enduser\AddressController.java
@@ -158,6 +173,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\security\repository\UserRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\CloudinaryResponse.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\EventService.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\Range.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\ProductPicture.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\CartListDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\Util\Hash.java
@@ -168,6 +184,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\ProductSizesRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\security\JwtAuthenticationTokenFilter.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\RavePayment.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\RangeFilter.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\CartDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\config\WebMvcConfig.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\ArtWorkPicture.java
@@ -177,9 +194,11 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\ProductDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\StyleDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\MatPicReqDTO.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\Filter.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\TransferInfo.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\ProductService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\DesignerRatingDTO.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\elasticSearch\ProductSearchDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\ShippingRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\exception\WriteFileException.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\OrderItemProcessingPictureRepository.java
@@ -202,6 +221,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\WalletServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\DesignerOrderService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\FeedBackServiceImpl.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\RangeFilterAmount.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Size.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\WishListRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\respbodydto\OrderDTO.java
@@ -209,6 +229,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\DesignerService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\NewsLetterService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\security\JwtAuthenticationEntryPoint.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\ProductQualityRating.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\OrderStatusService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\MeasurementRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\FashionApplication.java
@@ -220,6 +241,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\general\CategoryController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\Util\ShippingUtil.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\MailService.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\SlashedPrice.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\ProductSizes.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\ProductRatingServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\EventPicturesDTO.java
@@ -235,6 +257,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\MaterialPictureDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\StyleRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\enduser\RavePaymentController.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\elasticSearch\ProductPictureSearchDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\CommentsDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\WalletService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\exception\InvalidStatusUpdateException.java
@@ -248,6 +271,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\StatusMessageDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\designer\PriceSlashController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\security\controller\UserRestController.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\RangeFilterProductQualityRating.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\ProdSubCategoryDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\MailErrorRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\CardPaymentDTO.java
@@ -259,9 +283,11 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\TransferServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\enduser\ProductController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\PaymentDTO.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\elasticSearch\SearchApiController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\ItemStatusServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\admin\TagController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\ProductPictureRepository.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\Query.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\PriceSlashService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\EventsDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Category.java

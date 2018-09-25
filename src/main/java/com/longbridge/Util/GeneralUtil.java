@@ -237,9 +237,9 @@ public class GeneralUtil {
 
     public MaterialPictureDTO convertMatPictureEntityToDTO(MaterialPicture picture){
         MaterialPictureDTO pictureDTO = new MaterialPictureDTO();
-        pictureDTO.id=picture.getId();
-        pictureDTO.productId=picture.getProducts().id;
-        pictureDTO.materialPicture=picture.getPictureName();
+        pictureDTO.setId(picture.getId());
+        pictureDTO.setProductId(picture.getProducts().id);
+        pictureDTO.setMaterialPicture(picture.getPictureName());
         return pictureDTO;
 
     }
