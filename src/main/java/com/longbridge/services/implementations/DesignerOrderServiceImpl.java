@@ -81,6 +81,9 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
     @Autowired
     OrderItemProcessingPictureRepository orderItemProcessingPictureRepository;
 
+    @Autowired
+    AnonymousUserRepository anonymousUserRepository;
+
 
 
     @Override
@@ -212,7 +215,15 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
             // ItemsDTO itemsDTO1 = new ItemsDTO();
             User user=getCurrentUser();
             Date date = new Date();
-            User customer = userRepository.findOne(itemsDTO.getCustomerId());
+
+            User customer;
+            if(itemsDTO.getAnonymousFlag() != null && itemsDTO.getAnonymousFlag().equalsIgnoreCase("Y")){
+                AnonymousUser anonymousUser = anonymousUserRepository.findOne(itemsDTO.getAnonymousUserId());
+                customer = generalUtil.convertAnonymousUsertoTempUser(anonymousUser);
+            }else{
+                customer = userRepository.findOne(itemsDTO.getCustomerId());
+            }
+
             Items items = itemRepository.findOne(itemsDTO.getId());
             String customerEmail = customer.getEmail();
             String rejectDecisionLink;

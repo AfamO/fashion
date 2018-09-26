@@ -79,6 +79,9 @@ public class GeneralUtil {
     @Autowired
     ProductSizesRepository productSizesRepository;
 
+    @Autowired
+    AnonymousUserRepository anonymousUserRepository;
+
     public DesignerDTO convertDesigner2EntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
@@ -685,9 +688,20 @@ public class GeneralUtil {
             itemsDTO.setProductAvailability(p.getAvailability());
 
             itemsDTO.setAmount(items.getAmount().toString());
-            itemsDTO.setColor(items.getColor());
             itemsDTO.setQuantity(items.getQuantity());
-            User user=userRepository.findById(items.getOrders().getUserId());
+
+            User user;
+            if(items.getOrders().isAnonymousBuyer()){
+                user = new User();
+                AnonymousUser anonymousUser = anonymousUserRepository.findOne(items.getOrders().getAnonymousUserId());
+                user.setEmail(anonymousUser.getEmail());
+                user.setFirstName("Anonymous");
+                user.setLastName("Anonymous");
+            }else{
+                user = userRepository.findById(items.getOrders().getUserId());
+            }
+
+
             itemsDTO.setCustomerName(user.getLastName()+" "+user.getFirstName());
             itemsDTO.setCustomerId(user.id);
             itemsDTO.setProductPicture(items.getProductPicture());
@@ -764,6 +778,16 @@ public class GeneralUtil {
 
         return orderDTO;
 
+    }
+
+    public User convertAnonymousUsertoTempUser(AnonymousUser anonymousUser){
+        User customer = new User();
+        customer.setEmail(anonymousUser.getEmail());
+        customer.setPhoneNo(anonymousUser.getPhoneNo());
+        customer.setFirstName("User");
+        customer.setLastName("Anonymous");
+
+        return customer;
     }
 
 

@@ -55,6 +55,9 @@ public class ItemsDTO {
 
     private Long orderId;
 
+    private String anonymousFlag;
+    private Long anonymousUserId;
+
     private String customerName;
 
     private Long customerId;
@@ -94,7 +97,7 @@ public class ItemsDTO {
     public ItemsDTO() {
     }
 
-    public ItemsDTO(Long id, Long productId, String productName, String productAvailability, int quantity, Long designerId, String deliveryStatus, String deliveryDate, String orderDate, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, String orderNumber, String measurement, Long orderId, String customerName, Long customerId, String rejectReason, Long statusId, String status, String failedInspectionReason, Long messageId, String message, String waitTime, String action, String accountName, String accountNumber, String complain, boolean readyMade, String trackingNumber, String link, ArrayList<String> pictures) {
+    public ItemsDTO(Long id, Long productId, String productName, String productAvailability, int quantity, Long designerId, String deliveryStatus, String deliveryDate, String orderDate, String size, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, String materialLocation, String materialPickupDate, String orderNumber, String measurement, Long orderId, String anonymousFlag, Long anonymousUserId, String customerName, Long customerId, String rejectReason, Long statusId, String status, String failedInspectionReason, Long messageId, String message, String waitTime, String action, String accountName, String accountNumber, String complain, boolean readyMade, String trackingNumber, String link, ArrayList<String> pictures) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
@@ -118,6 +121,8 @@ public class ItemsDTO {
         this.orderNumber = orderNumber;
         this.measurement = measurement;
         this.orderId = orderId;
+        this.anonymousFlag = anonymousFlag;
+        this.anonymousUserId = anonymousUserId;
         this.customerName = customerName;
         this.customerId = customerId;
         this.rejectReason = rejectReason;
@@ -455,5 +460,21 @@ public class ItemsDTO {
 
     public void setTrackingNumber(String trackingNumber) {
         this.trackingNumber = trackingNumber;
+    }
+
+    public String getAnonymousFlag() {
+        return anonymousFlag;
+    }
+
+    public void setAnonymousFlag(String anonymousFlag) {
+        this.anonymousFlag = anonymousFlag;
+    }
+
+    public Long getAnonymousUserId() {
+        return anonymousUserId;
+    }
+
+    public void setAnonymousUserId(Long anonymousUserId) {
+        this.anonymousUserId = anonymousUserId;
     }
 }
