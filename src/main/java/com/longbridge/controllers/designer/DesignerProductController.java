@@ -37,12 +37,13 @@ public class DesignerProductController {
 
     @Autowired
     HibernateSearchService searchService;
-
+    @Value("${search.url}")
+    private String host_api_url; //host_api_url
 
     @PostMapping(value = "/addproduct")
     public Object addProduct(@RequestBody ProductDTO productDTO){
         Map<String,Object> responseMap = new HashMap();
-        productService.addProduct(productDTO);
+        productService.addProduct(productDTO,host_api_url);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
     }

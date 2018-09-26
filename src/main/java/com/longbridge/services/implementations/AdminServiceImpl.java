@@ -9,6 +9,7 @@ import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.repository.DesignerRepository;
 import com.longbridge.repository.OrderRepository;
+import com.longbridge.repository.PaymentRepository;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     GeneralUtil generalUtil;
+    @Autowired
+    PaymentRepository paymentRepository;
 
 
     @Override
@@ -48,8 +51,8 @@ public class AdminServiceImpl implements AdminService {
             adminDashBoardDTO.setRecentCustomers(generalUtil.convDesignerEntToDTOs(designers));
             adminDashBoardDTO.setRecentOrders(generalUtil.convertOrderEntsToDTOs(orders));
             adminDashBoardDTO.setNewOrders(orderRepository.NoOfOrdersByStatus("P")) ; //get the number of pending orders as new  new orders
-            adminDashBoardDTO.setTotalSales(orderRepository.NoOfOrdersByStatus("D"));// get the total  number of sold orders
-            adminDashBoardDTO.setTotalPayment(0);//  get the total payment of all orders sold . This is yet to be implemented. It is defaulted to zero for now.
+            adminDashBoardDTO.setTotalSales(orderRepository.NoOfOrdersByStatus("PC"));// get the total  number of sold orders
+            adminDashBoardDTO.setTotalPayment(paymentRepository.getTotalPayment());//  get the total payment of all orders sold.
             return adminDashBoardDTO;
         }catch (Exception ex){
             ex.printStackTrace();
