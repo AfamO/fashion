@@ -110,7 +110,6 @@ public class UserUtil {
 
                 //todo create user wallet, call wallet api
                 walletService.createWallet(passedUser,user);
-
             }
 
             if(passedUser.getRole().equalsIgnoreCase("designer")){
@@ -360,9 +359,14 @@ public class UserUtil {
                     if (!valid) {
                         //If N, validate password
                         valid = Hash.checkPassword(passedUser.getPassword(), user.getPassword());
-                        Response resp = walletService.getWalletBalance(user);
-                        if(resp.getStatus().equalsIgnoreCase("00")){
-                            user.setWalletBalance((Double) resp.getData());
+                        if(user.getUserWalletId() != null) {
+                            Response resp = walletService.getWalletBalance(user);
+                            if (resp.getStatus().equalsIgnoreCase("00")) {
+                                user.setWalletBalance((Double) resp.getData());
+                                userRepository.save(user);
+                            }
+                        }else {
+                            user.setWalletBalance(0.0);
                             userRepository.save(user);
                         }
 

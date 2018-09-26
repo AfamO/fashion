@@ -138,7 +138,6 @@ public class WalletServiceImpl implements WalletService {
                              walletId = data.get("walletId").toString();
                              user1.setUserWalletId(Long.parseLong(walletId));
                              user1.setWalletToken(data.get("token").toString());
-
                              return "SUCCESS";
                          }
                          else {
