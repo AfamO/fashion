@@ -54,16 +54,20 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public String validateWalletBalance(OrderReqDTO orderReqDTO) {
         try {
+            User user = getCurrentUser();
+
+            if(user.getUserWalletId() == null){
+                return  "NO_WALLET";
+            }
             Double amount = itemsUtil.getAmount(orderReqDTO);
             Double walletBalance = 0.0;
-            User user = getCurrentUser();
+
             DefaultHttpClient client = new DefaultHttpClient();
             HttpGet get = new HttpGet(getWalletEndPoint+user.getUserWalletId());
             try {
                 JSONObject data = new JSONObject();
                 get.setHeader("Accept", "application/json");
                 get.setHeader("Content-type", "application/json");
-
                 try {
                     org.apache.http.HttpResponse resp = client.execute(get);
                     HttpEntity resEntityPost = resp.getEntity();

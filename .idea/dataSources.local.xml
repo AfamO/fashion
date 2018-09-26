@@ -2,44 +2,24 @@
 <project version="4">
   <component name="dataSourceStorageLocal">
     <data-source name="heroku_f6dbdc37013716d@us-cdbr-iron-east-05.cleardb.net" uuid="9e293bdc-9744-40cc-81af-c14689dc939e">
-      <database-info product="MySQL" version="5.6.40-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.46 ( Revision: 9cc87a48e75c2d2e87c1a293b2862ce651cb256e )">
+      <database-info product="MySQL" version="5.6.40-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 )">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
-      <secret-storage>master_key</secret-storage>
       <user-name>b75a38a0de84ba</user-name>
       <introspection-schemas>*:heroku_f6dbdc37013716d</introspection-schemas>
     </data-source>
     <data-source name="heroku_05de370f2f77858@us-cdbr-iron-east-01.cleardb.net" uuid="aa020425-4140-475d-b13c-7bfd73ee49a5">
-      <database-info product="MySQL" version="5.5.56-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 )">
-        <extra-name-characters>#@</extra-name-characters>
-        <identifier-quote-string>`</identifier-quote-string>
-      </database-info>
-      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
-      <secret-storage>master_key</secret-storage>
-      <user-name>bd7c33fd72d350</user-name>
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
       <introspection-schemas>*:heroku_05de370f2f77858</introspection-schemas>
     </data-source>
     <data-source name="Fashion@localhost" uuid="0f76c25b-2f74-4155-b07e-b42bae23f260">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
-      <secret-storage>master_key</secret-storage>
-      <user-name>b41ec332b8f3ec</user-name>
-      <introspection-schemas>*:Fashion</introspection-schemas>
     </data-source>
     <data-source name="heroku_6724802313731b3@us-cdbr-iron-east-01.cleardb.net" uuid="9d876964-e2d9-4027-a14f-09b5ffaee1c1">
-<<<<<<< HEAD
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
       <user-name>b75a38a0de84ba</user-name>
-=======
-      <database-info product="MySQL" version="5.5.56-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 )">
-        <extra-name-characters>#@</extra-name-characters>
-        <identifier-quote-string>`</identifier-quote-string>
-      </database-info>
-      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
-      <secret-storage>master_key</secret-storage>
-      <user-name>b41ec332b8f3ec</user-name>
->>>>>>> e17a58b558f1b18a58c7f5016a1ae3ae4fbe7f5f
       <introspection-schemas>*:heroku_6724802313731b3</introspection-schemas>
     </data-source>
   </component>

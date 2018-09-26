@@ -992,7 +992,9 @@ public class ProductServiceImpl implements ProductService {
         int page = pageableDetailsDTO.getPage();
         int size = pageableDetailsDTO.getSize();
         try {
-            Page<Products> products = productRepository.findByVerfiedOnIsNull(new PageRequest(page,size));
+            //Page<Products> products = productRepository.findByVerfiedOnIsNull(new PageRequest(page,size));
+
+            Page<Products> products = productRepository.findByVerifiedFlagOrderByCreatedOnDesc(new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
 
@@ -1230,14 +1232,11 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             List<Object[]> products= productRatingRepository.findTop10Products();
-            System.out.println(products);
             List<Products> products1 = new ArrayList<>();
             products.forEach(productsWithRating ->{
                 Long longProducts= ((BigInteger) productsWithRating[0]).longValue();
                 products1.add(productRepository.findOne(longProducts));
             });
-
-
             return generalUtil.convertProdEntToProdRespDTOs(generalUtil.getRandomProducts(products1,10));
 
 

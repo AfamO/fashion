@@ -78,6 +78,9 @@ public class WalletController {
     public Response validateWalletBalance(@RequestBody OrderReqDTO orderReqDTO){
 
         String resp = walletService.validateWalletBalance(orderReqDTO);
+        if(resp.equalsIgnoreCase("NO_WALLET")){
+            return new Response("404","Error","User has no wallet");
+        }
         if(resp.equalsIgnoreCase("INSUFFICIENT_FUNDS")){
             return new Response("66","Error","Insufficient funds in wallet");
         }
