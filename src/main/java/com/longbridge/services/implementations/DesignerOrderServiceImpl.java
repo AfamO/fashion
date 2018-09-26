@@ -269,7 +269,10 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                        // debit user wallet
                         Orders orders = items.getOrders();
                         Double amount = items.getAmount()+orders.getShippingAmount();
-                        String resp = walletService.chargeWallet(amount,orders.getOrderNum());
+                        if(customer.getUserWalletId() == null){
+                            throw new InvalidStatusUpdateException();
+                        }
+                        String resp = walletService.chargeWallet(amount,orders.getOrderNum(), customer);
                         if(resp.equalsIgnoreCase("00")) {
                             itemsUtil.updateItems(items);
                         }else if(resp.equalsIgnoreCase("96")){
