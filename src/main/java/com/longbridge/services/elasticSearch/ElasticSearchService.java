@@ -240,7 +240,7 @@ import org.springframework.stereotype.Service;
             Query query=new Query();
             JSONObject anotherAggs = null;
             Multi_Match multi_Match=new Multi_Match();
-            multi_Match.setFuzziness("AUTO");
+            multi_Match.setFuzziness(2);
             multi_Match.setQuery(searchRequest.getSearchTerm().toLowerCase());
             multi_Match.setFields(productTextColumns);
             query.setMulti_match(multi_Match);
@@ -268,6 +268,10 @@ import org.springframework.stereotype.Service;
             .put("query_string", _query)
              );
             this.httpParameters.put("size",searchRequest.getSize());
+            httpParameters.put("aggs",SearchUtilities. getCustomAggregate("name","terms","group_by_name",
+            SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
+            SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
+            anotherAggs))));
             apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
             apiLogger.log(Level.INFO," Extra Composed New JSON httpParameters :::"+this.httpParameters);
             try {
@@ -275,9 +279,9 @@ import org.springframework.stereotype.Service;
                 remoteJsonObject = new JSONObject(remotePostGet.makeRemoteAPIConnectionRequest(httpMethod,this.httpParameters,null,path));
                 apiResponse=this.convertSearchResultsToResponseDTO(remoteJsonObject);
             }
-                catch (RemoteWebServiceException ex) {
-                apiLogger.log(Level.INFO, ex.getMessage());
-                throw new WawoohException(ex);
+            catch (RemoteWebServiceException ex) {
+            apiLogger.log(Level.INFO, ex.getMessage());
+            throw new WawoohException(ex);
             }
                 }
                 else{

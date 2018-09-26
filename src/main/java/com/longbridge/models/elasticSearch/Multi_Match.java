@@ -15,7 +15,7 @@ import java.util.List;
 public class Multi_Match {
     private String [] fields;
     private String query;
-    private String fuzziness;
+    private Object fuzziness;
     private int prefix_length;
     private int max_expansions=50;
 
@@ -35,11 +35,11 @@ public class Multi_Match {
         this.query = query;
     }
 
-    public String getFuzziness() {
+    public Object getFuzziness() {
         return fuzziness;
     }
 
-    public void setFuzziness(String fuzziness) {
+    public void setFuzziness(Object fuzziness) {
         this.fuzziness = fuzziness;
     }
 
