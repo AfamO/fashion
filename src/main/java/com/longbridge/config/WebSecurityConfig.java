@@ -74,6 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/fashion/secure/designer/**").hasAuthority("ROLE_DESIGNER")
                 .antMatchers("/fashion/secure/qa/**").hasAuthority("ROLE_QA")
                 .antMatchers("/fashion/secure/admin/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/fashion/secure/customer/**").hasAnyAuthority("ROLE_DESIGNER", "ROLE_USER")
                 .antMatchers("/fashion/secure/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_DESIGNER", "ROLE_QA", "ROLE_USER");
 
         // Custom JWT based security filter

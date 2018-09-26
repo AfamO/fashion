@@ -2,6 +2,7 @@ package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
 
+import com.longbridge.Util.ItemsUtil;
 import com.longbridge.Util.SendEmailAsync;
 
 import com.longbridge.dto.CloudinaryResponse;
@@ -16,6 +17,7 @@ import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.DesignerOrderService;
 import com.longbridge.services.PaymentService;
+import com.longbridge.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,6 +57,9 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
     @Autowired
     PaymentService paymentService;
 
+    @Autowired
+    WalletService walletService;
+
 
     @Autowired
     DesignerRepository designerRepository;
@@ -66,6 +71,9 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
 
     @Autowired
     GeneralUtil generalUtil;
+
+    @Autowired
+    ItemsUtil itemsUtil;
 
     @Autowired
     CloudinaryService cloudinaryService;
@@ -219,9 +227,6 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                 StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
             }
 
-
-
-
             //from payment confirmed to processing
             if(items.getItemStatus().getStatus().equalsIgnoreCase("PC")) {
 
@@ -248,11 +253,11 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("P")){
                 if(itemsDTO.getStatus().equalsIgnoreCase("A")){
 
-                    if(items.getOrders().getPaymentType().equalsIgnoreCase("Bank Transfer")){
+                    if(items.getOrders().getPaymentType().equalsIgnoreCase("BANK_TRANSFER")){
                         items.setItemStatus(itemStatus);
                         sendEmailAsync.sendTransferEmailToUser(customer, items.getOrders());
                     }
-                    else if(items.getOrders().getPaymentType().equalsIgnoreCase("Card Payment")){
+                    else if(items.getOrders().getPaymentType().equalsIgnoreCase("CARD_PAYMENT")){
                         items.setItemStatus(itemStatus);
                         PaymentResponse p = paymentService.chargeAuthorization(items);
                         if(p.getStatus().equalsIgnoreCase("99")){
@@ -260,10 +265,23 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                             items.setItemStatus(itemStatusRepository.findByStatus("C"));
                         }
                     }
-
-                    //statusMessage.setHasResponse(false);
-                    //items.setStatusMessage(statusMessage);
-
+                    else if(items.getOrders().getPaymentType().equalsIgnoreCase("WALLET")){
+                       // debit user wallet
+                        Orders orders = items.getOrders();
+                        Double amount = items.getAmount()+orders.getShippingAmount();
+                        String resp = walletService.chargeWallet(amount,orders.getOrderNum());
+                        if(resp.equalsIgnoreCase("00")) {
+                            itemsUtil.updateItems(items);
+                        }else if(resp.equalsIgnoreCase("96")){
+                           //send email to the user that he has inssuficient balance or cancel..
+                            //currently, we are cancelling
+                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                        }
+                        else {
+                            //unable to charge customer, cancel transaction
+                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                        }
+                    }
                 }
                 else  if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
                     items.setItemStatus(itemStatusRepository.findByStatus("C"));

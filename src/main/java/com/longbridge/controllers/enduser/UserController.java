@@ -8,9 +8,7 @@ import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.security.JwtUser;
-import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.TokenService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -20,17 +18,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-/**
- * Created by longbridge on 11/4/17.
- */
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/fashion")
 public class UserController {
-    Logger logger = Logger.getLogger(UserController.class);
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -91,7 +85,6 @@ public class UserController {
             return new Response("00", "Registration successful, Trying to send welcome email", "success");
         }
     }
-
 
 
 
@@ -161,7 +154,6 @@ public class UserController {
 
         }
     }
-
 
 
 

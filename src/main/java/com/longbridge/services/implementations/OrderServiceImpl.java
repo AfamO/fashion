@@ -109,13 +109,13 @@ public class OrderServiceImpl implements OrderService {
         try{
             Orders orders = new Orders();
             Double totalAmount = 0.0;
+            Double totalShippingAmount = 0.0;
             Date date = new Date();
             String orderNumber = "";
             if(orderReq.getItems().size() <1){
                 orderRespDTO.setStatus("noitems");
                 return orderRespDTO;
             }
-
             List<ProductSizes> productSizes = new ArrayList<ProductSizes>();
 
             for (Items items: orderReq.getItems()) {
@@ -141,13 +141,12 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
-            if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
-                if(!walletService.validateWalletBalance(totalAmount).equalsIgnoreCase("true")){
-                    orderRespDTO.setStatus("walletchargeerror");
-                    return orderRespDTO;
-                }
-            }
-
+//            if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
+//                if(!walletService.validateWalletBalance(totalAmount).equalsIgnoreCase("true")){
+//                    orderRespDTO.setStatus("walletchargeerror");
+//                    return orderRespDTO;
+//                }
+//            }
 
             do{
                 orderNumber = generateOrderNum();
@@ -164,27 +163,28 @@ public class OrderServiceImpl implements OrderService {
             orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
 
             ItemStatus itemStatus = null;
-            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
+            if(orderReq.getPaymentType().equalsIgnoreCase("CARD_PAYMENT")){
                itemStatus = itemStatusRepository.findByStatus("NV");
                orders.setDeliveryStatus("NV");
             }
-            else if(orderReq.getPaymentType().equalsIgnoreCase("Bank Transfer")){
+            else if(orderReq.getPaymentType().equalsIgnoreCase("BANK_TRANSFER")){
                itemStatus = itemStatusRepository.findByStatus("P");
                orders.setDeliveryStatus("P");
             }
 
-            else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
+            else if(orderReq.getPaymentType().equalsIgnoreCase("WALLET")){
                 itemStatus = itemStatusRepository.findByStatus("P");
                 orders.setDeliveryStatus("P");
             }
 
-
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
             totalAmount = Double.parseDouble(h.get("totalAmount").toString());
+            totalShippingAmount = Double.parseDouble(h.get("totalShippingAmount").toString());
             orders.setTotalAmount(totalAmount);
+            orders.setShippingAmount(totalShippingAmount);
             pocketService.updatePocketForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
-            if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
+            if(orderReq.getPaymentType().equalsIgnoreCase("CARD_PAYMENT")){
                 PaymentRequest paymentRequest = new PaymentRequest();
                 paymentRequest.setOrderId(orders.id);
                 paymentRequest.setTransactionAmount(totalAmount);
@@ -237,8 +237,8 @@ public class OrderServiceImpl implements OrderService {
 
     private HashMap saveItems(OrderReqDTO orderReq,Date date,Orders orders,ItemStatus itemStatus) {
         Double totalAmount=0.0;
-        Double amountWithoutShipping=0.0;
         Double shippingAmount = 0.0;
+        Double totalShippingAmount = 0.0;
         List<String> designerCities = new ArrayList<>();
         List<DesignerOrderDTO> designerDTOS = new ArrayList<>();
         for (Items items: orderReq.getItems()) {
@@ -253,7 +253,6 @@ public class OrderServiceImpl implements OrderService {
                     e.printStackTrace();
 
                 }
-
             }
             if(items.getArtWorkPictureId() != null){
                 items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).getPictureName());
@@ -270,14 +269,13 @@ public class OrderServiceImpl implements OrderService {
             }else {
                 amount=p.getAmount();
             }
-
             Double itemsAmount = amount*items.getQuantity();
             if(!designerCities.contains(p.getDesigner().getCity().toUpperCase().trim())){
                 shippingAmount = shippingUtil.getShipping(p.getDesigner().getCity().toUpperCase().trim(), orders.getDeliveryAddress().getCity().toUpperCase().trim(), items.getQuantity());
                 designerCities.add(p.getDesigner().getCity().toUpperCase().trim());
            }
-            amountWithoutShipping=itemsAmount;
             items.setAmount(itemsAmount);
+            totalShippingAmount = totalShippingAmount+shippingAmount;
             totalAmount=totalAmount+itemsAmount+shippingAmount;
             items.setOrders(orders);
             items.setProductName(p.getName());
@@ -315,7 +313,7 @@ public class OrderServiceImpl implements OrderService {
 
         HashMap hm = new HashMap();
         hm.put("totalAmount", totalAmount);
-        hm.put("amountWithoutShipping", amountWithoutShipping);
+        hm.put("totalShippingAmount", totalShippingAmount);
 
         return hm;
     }
@@ -613,7 +611,7 @@ public class OrderServiceImpl implements OrderService {
 //                        items.setItemStatus(itemStatus);
 //                        items.setStatusMessage(statusMessage);
  }
-itemRepository.save(items);
+                    itemRepository.save(items);
             }
 
         }catch (Exception ex){
@@ -627,15 +625,11 @@ itemRepository.save(items);
         try {
             if(itemsDTO.getId() != null) {
                 Items items = itemRepository.findOne(itemsDTO.getId());
-
                 if (items.getItemStatus().getStatus().equalsIgnoreCase("D")) {
                     items.setComplain(itemsDTO.getComplain());
-
                     itemRepository.save(items);
                 }
             }
-
-
             }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();

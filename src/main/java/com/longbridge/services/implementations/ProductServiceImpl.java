@@ -2,6 +2,7 @@ package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.dto.*;
+import com.longbridge.exception.InvalidAmountException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
@@ -335,8 +336,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void addProduct(ProductDTO productDTO) {
+    public String addProduct(ProductDTO productDTO) {
         try {
+
+            if(productDTO.amount < 0 || productDTO.slashedPrice < 0 || productDTO.percentageDiscount <0){
+                throw new InvalidAmountException();
+            }
             User user = getCurrentUser();
             Designer designer = designerRepository.findByUser(user);
             Date date = new Date();
@@ -349,6 +354,8 @@ public class ProductServiceImpl implements ProductService {
 
             products.setSubCategory( subCategoryRepository.findOne(subCategoryId));
             products.setName(productDTO.name);
+
+
             products.setAmount(productDTO.amount);
             products.setAvailability(productDTO.inStock);
             products.setAcceptCustomSizes(productDTO.acceptCustomSizes);
@@ -459,6 +466,7 @@ public class ProductServiceImpl implements ProductService {
 
             products.setStockNo(totalStock);
             productRepository.save(products);
+            return "true";
 
         } catch (Exception e) {
             e.printStackTrace();

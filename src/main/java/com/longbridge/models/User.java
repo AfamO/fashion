@@ -35,35 +35,42 @@ public class User extends CommonFields implements Serializable {
     private Date activationDate;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    public Pocket pocket;
+    private Pocket pocket;
 
     private Long userWalletId;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    public List<Address> addresses;
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    public List<Orders> orders;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
-    public List<Cart> carts;
+    private List<Address> addresses;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    public List<Measurement> measurements;
+    private List<Cart> carts;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Measurement> measurements;
 
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    public List<WishList> wishLists;
+    private List<WishList> wishLists;
+
     @OneToOne
-    public Rating rating;
+    private Rating rating;
     @Transient
-    public String address;
+    private String address;
     @Transient
-    public String passed_token;
+    private String passed_token;
     @Transient
-    public String refreshed_token;
+    private String refreshed_token;
+
+    @JsonIgnore
+    private String walletToken;
+
+    private Double walletBalance;
+
+
     public User(String firstName, String lastName, String email,String gender, String password, String phoneNo, String role,
                 List<Address> addresses, List<Orders> orders, List<Cart> carts,
                 List<WishList> wishLists, Rating rating) {
@@ -76,7 +83,6 @@ public class User extends CommonFields implements Serializable {
         this.role = role;
 
         this.addresses = addresses;
-        //this.orders = orders;
         this.carts = carts;
         this.wishLists = wishLists;
         this.rating = rating;
@@ -291,5 +297,21 @@ public class User extends CommonFields implements Serializable {
 
     public void setUserWalletId(Long userWalletId) {
         this.userWalletId = userWalletId;
+    }
+
+    public String getWalletToken() {
+        return walletToken;
+    }
+
+    public void setWalletToken(String walletToken) {
+        this.walletToken = walletToken;
+    }
+
+    public Double getWalletBalance() {
+        return walletBalance;
+    }
+
+    public void setWalletBalance(Double walletBalance) {
+        this.walletBalance = walletBalance;
     }
 }
