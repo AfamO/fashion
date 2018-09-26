@@ -247,13 +247,16 @@ import org.springframework.stereotype.Service;
             searchRequestQuery =new SearchQueryRequest();
             searchRequestQuery.setQuery(query);
             searchRequestQuery.setSize(searchRequest.getSize());
-            this.searchRequestQuery.setAggs(SearchUtilities. getCustomAggregate("subCategoryName","terms","group_by_subCategoryName",anotherAggs).toMap());
-            /**
-             * this.searchRequestQuery.setAggs(SearchUtilities. getCustomAggregate("name","terms","group_by_name",
-                SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
-                SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
-                anotherAggs))).toMap());
-             */
+            //Aggregate
+            this.searchRequestQuery.setAggs(SearchUtilities. getCustomAggregate("name","terms","group_by_name",
+            SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
+            SearchUtilities. getCustomAggregate("subCategoryName","terms","group_by_subCategoryName",
+            SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
+            SearchUtilities. getCustomAggregate("materialName","terms","group_by_materialName",
+            SearchUtilities. getCustomAggregate("acceptCustomSizes","terms","group_by_acceptCustomSizes",
+            SearchUtilities. getCustomAggregate("availability","terms","group_by_availability",
+            SearchUtilities. getCustomAggregate("inStock","terms","group_by_inStock",
+            anotherAggs)))))))).toMap());
             apiLogger.log(Level.INFO," Fuzzy Search Starting For.... :::"+searchRequest.getSearchTerm().toLowerCase());
             try {
                 // Then send for another search query using the new changed query
@@ -270,8 +273,13 @@ import org.springframework.stereotype.Service;
             this.httpParameters.put("size",searchRequest.getSize());
             httpParameters.put("aggs",SearchUtilities. getCustomAggregate("name","terms","group_by_name",
             SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
+            SearchUtilities. getCustomAggregate("subCategoryName","terms","group_by_subCategoryName",
             SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
-            anotherAggs))));
+            SearchUtilities. getCustomAggregate("materialName","terms","group_by_materialName",
+            SearchUtilities. getCustomAggregate("acceptCustomSizes","terms","group_by_acceptCustomSizes",
+            SearchUtilities. getCustomAggregate("availability","terms","group_by_availability",
+            SearchUtilities. getCustomAggregate("inStock","terms","group_by_inStock",
+            anotherAggs)))))))));
             apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
             apiLogger.log(Level.INFO," Extra Composed New JSON httpParameters :::"+this.httpParameters);
             try {
@@ -409,9 +417,14 @@ import org.springframework.stereotype.Service;
         }
         JSONObject anotherAggs=null;
         httpParameters.put("aggs",SearchUtilities. getCustomAggregate("name","terms","group_by_name",
-                SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
-                SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
-                anotherAggs))));
+            SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
+            SearchUtilities. getCustomAggregate("subCategoryName","terms","group_by_subCategoryName",
+            SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
+            SearchUtilities. getCustomAggregate("materialName","terms","group_by_materialName",
+            SearchUtilities. getCustomAggregate("acceptCustomSizes","terms","group_by_acceptCustomSizes",
+            SearchUtilities. getCustomAggregate("availability","terms","group_by_availability",
+            SearchUtilities. getCustomAggregate("inStock","terms","group_by_inStock",
+            anotherAggs)))))))));
         httpParameters.put("size",searchRequest.getSize());
         apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
         apiLogger.log(Level.INFO," Composed JSON httpParameters :::"+httpParameters);
