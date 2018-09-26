@@ -1,5 +1,7 @@
 package com.longbridge.services.implementations;
 
+import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.ItemsUtil;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
@@ -19,6 +21,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
 
 import static org.springframework.data.repository.init.ResourceReader.Type.JSON;
 
@@ -52,48 +57,56 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     CartRepository cartRepository;
 
+    @Autowired
+    ItemsUtil itemsUtil;
+
 
     @Override
     public PaymentResponse initiatePayment(PaymentRequest paymentRequest) throws UnirestException {
-
+        
         PaymentResponse paymentResponse=new PaymentResponse();
-        // This packages the payload
-        JSONObject data = new JSONObject();
-        data.put("reference", paymentRequest.getTransactionReference());
-        data.put("email", paymentRequest.getEmail());
-        data.put("amount", amount);
-        // end of payload
-
-        // This sends the request to server with payload
-        String INITIATE_ENDPOINT = "https://api.paystack.co/transaction/initialize";
-        HttpResponse<JsonNode> response = Unirest.post(INITIATE_ENDPOINT)
-                .header("Content-Type", "application/json")
-                .header("Authorization",secret)
-                .body(data)
-                .asJson();
-
-        // This get the response from payload
-        JsonNode jsonNode = response.getBody();
-
-        // This get the json object from payload
-        JSONObject responseObject = jsonNode.getObject();
-
-
-        // check of no object is returned
-        if (responseObject == null) {
-            data.put("status", "16");
-            // throw new Exception("No response from server");
-            paymentResponse.setStatus("16");
-            return paymentResponse;
+        try {
+            // This packages the payload
+            JSONObject data = new JSONObject();
+            data.put("reference", paymentRequest.getTransactionReference());
+            data.put("email", paymentRequest.getEmail());
+            data.put("amount", amount);
+            // end of payload
+            
+            // This sends the request to server with payload
+            String INITIATE_ENDPOINT = "https://api.paystack.co/transaction/initialize";
+            HttpResponse<JsonNode> response = Unirest.post(INITIATE_ENDPOINT)
+                    .header("Content-Type", "application/json")
+                    .header("Authorization",secret)
+                    .body(data)
+                    .asJson();
+            
+            // This get the response from payload
+            JsonNode jsonNode = response.getBody();
+            
+            // This get the json object from payload
+            JSONObject responseObject = jsonNode.getObject();
+            
+            
+            // check of no object is returned
+            if (responseObject == null) {
+                data.put("status", "16");
+                // throw new Exception("No response from server");
+                paymentResponse.setStatus("16");
+                return paymentResponse;
+            }
+            
+            data = responseObject.getJSONObject("data");
+            
+            // This gets the redirectUrl from the server
+            String url  = data.getString("authorization_url");
+            paymentResponse.setStatus("00");
+            paymentResponse.setRedirectUrl(url);
+            paymentResponse.setTransactionReference(data.getString("reference"));
+           
+        } catch (JSONException ex) {
+            Logger.getLogger(PaymentServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        data = responseObject.getJSONObject("data");
-
-        // This gets the redirectUrl from the server
-        String url  = data.getString("authorization_url");
-        paymentResponse.setStatus("00");
-        paymentResponse.setRedirectUrl(url);
-        paymentResponse.setTransactionReference(data.getString("reference"));
         return paymentResponse;
     }
 
@@ -204,7 +217,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             if (status.equalsIgnoreCase("success")) {
                 //PAYMENT IS SUCCESSFUL,
-                updateItems(items);
+                itemsUtil.updateItems(items);
                 paymentResponse.setStatus("00");
                 paymentResponse.setTransactionReference(data.getString("reference"));
             }
@@ -225,7 +238,6 @@ public class PaymentServiceImpl implements PaymentService {
         User user = userRepository.findById(orders.getUserId());
         deleteCart(user);
         ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
-
         for (Items item:orders.getItems()) {
             item.setItemStatus(itemStatus);
             itemRepository.save(item);
@@ -237,31 +249,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     }
 
-
-
-    private void updateItems(Items items) {
-        User user = userRepository.findById(items.getOrders().getUserId());
-        Orders orders=items.getOrders();
-        if(!orders.isPaystackFiftyAlreadyDeducted()){
-            orders.setPaystackFiftyAlreadyDeducted(true);
-           orderRepository.save(orders);
-        }
-
-        ItemStatus itemStatus;
-        if(items.getMeasurement() != null){
-            //means it is bespoke
-             itemStatus= itemStatusRepository.findByStatus("PC");
-        }
-        else {
-            //it is readymade
-            itemStatus = itemStatusRepository.findByStatus("RI");
-        }
-
-            items.setItemStatus(itemStatus);
-            itemRepository.save(items);
-            sendEmailAsync.sendPaymentConfEmailToUser(user, items.getOrders().getOrderNum());
-
-    }
 
 
     private void deleteCart(User user){

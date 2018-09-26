@@ -19,7 +19,7 @@ public interface ProductService {
     ProductRespDTO getDesignerProductById(Long id);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void addProduct(ProductDTO productDTO) throws WawoohException;
+    String addProduct(ProductDTO productDTO,String elastic_search_host_api_url) throws WawoohException;
 
     void updateProductVisibility(Long id, String status);
 

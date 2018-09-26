@@ -7,6 +7,7 @@ public class LogInResp {
     private String token;
     private int role;
 
+
     public LogInResp(String token, int role) {
         this.token = token;
         this.role = role;

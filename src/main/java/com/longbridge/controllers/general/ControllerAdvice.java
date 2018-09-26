@@ -2,6 +2,7 @@ package com.longbridge.controllers.general;
 
 import com.longbridge.exception.*;
 import com.longbridge.models.Response;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,6 +21,14 @@ public class ControllerAdvice {
         return new Response("99", "Error occurred here", responseMap);
 
     }
+
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public Response userNameNotFoundException() {
+        Map<String, Object> responseMap = new HashMap();
+        return new Response("99", "Invalid username", responseMap);
+    }
+
 
     @ExceptionHandler(PasswordException.class)
     public Response passwordException() {
@@ -55,6 +64,12 @@ public class ControllerAdvice {
     public Response statusUpdateException() {
         Map<String, Object> responseMap = new HashMap();
         return new Response("99", "Unable to update status", responseMap);
+    }
+
+    @ExceptionHandler(InvalidAmountException.class)
+    public Response amountException() {
+        Map<String, Object> responseMap = new HashMap();
+        return new Response("99", "An amount entered is invalid", responseMap);
     }
 
 }

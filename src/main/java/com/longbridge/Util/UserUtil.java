@@ -43,7 +43,6 @@ public class UserUtil {
     @Autowired
     SMSAlertUtil smsAlertUtil;
 
-
     @Autowired
     UniqueNumberUtil uniqueNumberUtil;
 
@@ -54,6 +53,7 @@ public class UserUtil {
 
     @Autowired
     WalletService walletService;
+
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -74,7 +74,6 @@ public class UserUtil {
     private UserDetailsService userDetailsService;
 
     private Locale locale = LocaleContextHolder.getLocale();
-
 
 
     public Response registerUser(UserDTO passedUser){
@@ -110,10 +109,7 @@ public class UserUtil {
                 user.setRole(passedUser.getRole());
 
                 //todo create user wallet, call wallet api
-//                String walletId = walletService.createWallet(passedUser);
-//                if(!"false".equalsIgnoreCase(walletId)){
-//                    user.setUserWalletId(Long.parseLong(walletId));
-//                }
+                walletService.createWallet(passedUser,user);
             }
 
             if(passedUser.getRole().equalsIgnoreCase("designer")){
@@ -140,7 +136,6 @@ public class UserUtil {
     public void sendToken(String email){
         try {
             User passedUser = userRepository.findByEmail(email);
-//            String name = passedUser.designer.storeName;
             char[] token = uniqueNumberUtil.OTP(5);
             List<String> phonenumbers = new ArrayList<>();
             phonenumbers.add(passedUser.getPhoneNo());
@@ -342,7 +337,6 @@ public class UserUtil {
     public Response validateUser(User passedUser, Device device){
         LogInResp logInResp = new LogInResp();
         try {
-
             User user = userRepository.findByEmail(passedUser.getEmail());
             boolean valid = false;
 
@@ -365,6 +359,17 @@ public class UserUtil {
                     if (!valid) {
                         //If N, validate password
                         valid = Hash.checkPassword(passedUser.getPassword(), user.getPassword());
+                        if(user.getUserWalletId() != null) {
+                            Response resp = walletService.getWalletBalance(user);
+                            if (resp.getStatus().equalsIgnoreCase("00")) {
+                                user.setWalletBalance((Double) resp.getData());
+                                userRepository.save(user);
+                            }
+                        }else {
+                            user.setWalletBalance(0.0);
+                            userRepository.save(user);
+                        }
+
                     }
                 }catch(Exception e)
                 {
@@ -435,8 +440,8 @@ public class UserUtil {
         try {
             User user = userRepository.findByEmail(email);
             if(user!=null){
-                if(user.addresses!=null) {
-                    user.addresses.forEach(address ->
+                if(user.getAddresses()!=null) {
+                    user.getAddresses().forEach(address ->
                     {
                         if (address.user != null) {
                             address.user = null;
@@ -452,9 +457,9 @@ public class UserUtil {
 
                 Pocket pocket = pocketRepository.findByUser(user);
                 if(pocket==null){
-                    user.pocket= new Pocket();
+                    user.setPocket(new Pocket());
                 }else {
-                    user.pocket=pocket;
+                    user.setPocket(pocket);
                 }
                 responseMap.put("userDetails",user);
                 return new Response("00","User found",responseMap);
@@ -494,14 +499,14 @@ public class UserUtil {
     public void refreshAuthenticationDetails(User passedUser, String token){
         JwtUser user = null;
         if(token!=null) {
-            passedUser.passed_token = token.replace("Bearer ","");
+            passedUser.setPassed_token(token.replace("Bearer ",""));
             String username = jwtTokenUtil.getUsernameFromToken(token.replace("Bearer ", ""));
             user = (JwtUser) userDetailsService.loadUserByUsername(username);
             if (user!=null) {
                 if (jwtTokenUtil.canTokenBeRefreshed(token.replace("Bearer ",""), user.getLastPasswordResetDate())) {
                     String refreshedToken = jwtTokenUtil.refreshToken(token.replace("Bearer ", ""));
                     ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
-                    passedUser.refreshed_token = refreshedToken;
+                    passedUser.setRefreshed_token(refreshedToken);
                 }
                 else{
                     System.out.println("Token cannot be refreshed");

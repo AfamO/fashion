@@ -16,6 +16,9 @@ public class Orders extends CommonFields {
     private List<Items> items;
 
     private Double totalAmount;
+
+    private Double shippingAmount;
+
     private String paymentType;
 
     private Long userId;
@@ -147,6 +150,14 @@ public class Orders extends CommonFields {
 
     public void setPaystackFiftyAlreadyDeducted(boolean paystackFiftyAlreadyDeducted) {
         this.paystackFiftyAlreadyDeducted = paystackFiftyAlreadyDeducted;
+    }
+
+    public Double getShippingAmount() {
+        return shippingAmount;
+    }
+
+    public void setShippingAmount(Double shippingAmount) {
+        this.shippingAmount = shippingAmount;
     }
 
     public Long getAnonymousUserId() {
