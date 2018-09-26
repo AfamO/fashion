@@ -125,14 +125,14 @@ public class GeneralUtil {
         dto.setProducts(products);
 
         List<String> stats = new ArrayList<>();
-        stats.add("OP");
-        stats.add("PC");
+        //stats.add("OP");
+        stats.add("P");
 
         List<ItemStatus> statuses = itemStatusRepository.findByStatusIn(stats);
-        dto.noOfPendingOders= itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"PC");
+        dto.noOfPendingOders= itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"P");
         dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"D");
         dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id, "OR");
-        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OP");
+        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"A");
         dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"RS");
         dto.noOfShippedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OS");
         Double amountOfPendingOrders = itemRepository.findSumOfPendingOrders(d.id,statuses);

@@ -69,7 +69,6 @@ public class DesignerProductController {
 
 
 
-
     @PostMapping(value = "/updateproductimage")
     public Object updateProductImage(@RequestBody ProductDTO p){
         Map<String,Object> responseMap = new HashMap();

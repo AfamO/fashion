@@ -67,8 +67,8 @@ public class RavePaymentServiceImpl implements RavePaymentService {
        //RavePayment ravePayment = ravePaymentRepository.findByOrderId(cardPaymentDTO.getOrderId());
         RavePayment ravePayment=null;
         if(ravePayment == null){
-            response.status="79";
-            response.message="Unable to complete payment.. Invalid order reference";
+            response.setStatus("79");
+            response.setMessage("Unable to complete payment.. Invalid order reference");
             return response;
         }
 
@@ -104,37 +104,37 @@ public class RavePaymentServiceImpl implements RavePaymentService {
                 orderRepository.save(orders);
                 sendEmailAsync.sendEmailToUser(user,orders.getOrderNum());
                 sendEmailAsync.sendPaymentConfEmailToUser(user,orders.getOrderNum());
-                response.status="00";
-                response.data=orders.getOrderNum();
-                response.message="Order sucessfully placed";
+                response.setStatus("00");
+                response.setData(orders.getOrderNum());
+                response.setMessage("Order sucessfully placed");
                 return response;
             }
 
             if(status.equalsIgnoreCase("56")){
-                response.status="56";
-                response.message="Amount does not match";
+                response.setStatus("56");
+                response.setMessage("Amount does not match");
                 return response;
             }
             else if(status.equalsIgnoreCase("16")){
-                response.status="16";
-                response.message= "No response from server";
+                response.setStatus("16");
+                response.setMessage("No response from server");
                 return response;
             }
             else if(status.equalsIgnoreCase("26")){
-                response.status="26";
-                response.message= "Transaction status unknown";
+                response.setStatus("26");
+                response.setMessage("Transaction status unknown");
                 return response;
             }
             else{
-               response.status="59";
-               response.message=status;
+                response.setStatus("59");
+                response.setMessage(status);
                return response;
             }
 
         }catch (Exception e){
             e.printStackTrace();
-            response.status="99";
-            response.message="Unable to complete payment, An error occurred";
+            response.setStatus("99");
+            response.setMessage("Unable to complete payment, An error occurred");
             return response;
         }
 

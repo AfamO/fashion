@@ -230,7 +230,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 notifyDesigner(items);
             }
             //update wallet balance
-            pocketService.updatePocketForOrderPayment(customer,transferInfo.getAmountPayed(),"Bank Transfer");
+            pocketService.updatePocketForOrderPayment(customer,transferInfo.getAmountPayed(),"BANK_TRANSFER");
             //update orders
             orders.setDeliveryStatus("PC");
             orders.setUpdatedOn(date);

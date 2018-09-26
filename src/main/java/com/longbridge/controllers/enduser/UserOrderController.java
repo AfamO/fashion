@@ -1,10 +1,7 @@
 package com.longbridge.controllers.enduser;
 
 import com.longbridge.Util.UserUtil;
-import com.longbridge.dto.CartListDTO;
-import com.longbridge.dto.ItemsDTO;
-import com.longbridge.dto.OrderReqDTO;
-import com.longbridge.dto.TransferInfoDTO;
+import com.longbridge.dto.*;
 import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
@@ -26,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fashion/secure/order")
+@RequestMapping("/fashion/secure/customer/order")
 public class UserOrderController {
 
     @Autowired
@@ -34,7 +31,6 @@ public class UserOrderController {
 
     @Autowired
     ShippingPriceService shippingPriceService;
-
 
 
     @Autowired
@@ -56,6 +52,9 @@ public class UserOrderController {
             }
             else if(orderRespDTO.getStatus().equalsIgnoreCase("noitems")){
                 response = new Response("67","Unable to process order, No items sent","");
+            }
+            else if(orderRespDTO.getStatus().equalsIgnoreCase("walletchargeerror")){
+                response = new Response("68","Unable to process order, Insufficient wallet balance","");
             }
             else if(orderRespDTO.getStatus().equalsIgnoreCase("16")){
                 response = new Response("99","Unable to process order, No response gotten from payment gateway","");
@@ -93,8 +92,9 @@ public class UserOrderController {
     }
 
 
+
     @PostMapping(value = "/complain")
-    public Response saveComplain(@RequestBody ItemsDTO item, HttpServletRequest request){
+    public Response saveComplain(@RequestBody ItemsDTO item){
         orderService.saveUserOrderComplain(item);
         return new Response("00","Operation Successful","success");
     }
@@ -153,8 +153,6 @@ public class UserOrderController {
         return new Response("00","Operation Successful",orderService.getOrdersByUser());
 
     }
-
-
 
 
     @PostMapping(value = "/getordershippingprice")

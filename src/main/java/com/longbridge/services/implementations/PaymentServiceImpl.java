@@ -1,5 +1,7 @@
 package com.longbridge.services.implementations;
 
+import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.ItemsUtil;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
@@ -54,6 +56,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     CartRepository cartRepository;
+
+    @Autowired
+    ItemsUtil itemsUtil;
 
 
     @Override
@@ -212,7 +217,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             if (status.equalsIgnoreCase("success")) {
                 //PAYMENT IS SUCCESSFUL,
-                updateItems(items);
+                itemsUtil.updateItems(items);
                 paymentResponse.setStatus("00");
                 paymentResponse.setTransactionReference(data.getString("reference"));
             }
@@ -245,31 +250,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     }
 
-
-
-    private void updateItems(Items items) {
-        User user = userRepository.findById(items.getOrders().getUserId());
-        Orders orders=items.getOrders();
-        if(!orders.isPaystackFiftyAlreadyDeducted()){
-            orders.setPaystackFiftyAlreadyDeducted(true);
-           orderRepository.save(orders);
-        }
-
-        ItemStatus itemStatus;
-        if(items.getMeasurement() != null){
-            //means it is bespoke
-             itemStatus= itemStatusRepository.findByStatus("PC");
-        }
-        else {
-            //it is readymade
-            itemStatus = itemStatusRepository.findByStatus("RI");
-        }
-
-            items.setItemStatus(itemStatus);
-            itemRepository.save(items);
-            sendEmailAsync.sendPaymentConfEmailToUser(user, items.getOrders().getOrderNum());
-
-    }
 
 
     private void deleteCart(User user){

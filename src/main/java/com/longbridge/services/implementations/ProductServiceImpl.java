@@ -9,6 +9,7 @@ import com.longbridge.dto.elasticSearch.MaterialPictureSearchDTO;
 import com.longbridge.dto.elasticSearch.ProductAttributeSearchDTO;
 import com.longbridge.dto.elasticSearch.ProductPictureSearchDTO;
 import com.longbridge.dto.elasticSearch.ProductSearchDTO;
+import com.longbridge.exception.InvalidAmountException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.models.elasticSearch.ApiResponse;
@@ -347,8 +348,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void addProduct(ProductDTO productDTO,String elastic_search_host_api_url) {
+    public String addProduct(ProductDTO productDTO,String elastic_search_host_api_url) {
         try {
+
+            if(productDTO.amount < 0 || productDTO.slashedPrice < 0 || productDTO.percentageDiscount <0){
+                throw new InvalidAmountException();
+            }
             User user = getCurrentUser();
             Designer designer = designerRepository.findByUser(user);
             Date date = new Date();
@@ -525,6 +530,7 @@ public class ProductServiceImpl implements ProductService {
             RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass()); 
             ApiResponse makeRemoteRequest = searchService.makeRemoteRequest( elastic_search_host_api_url,"/products/_doc/"+products.id+"/","put","create_index","products",productSearchDTOWriteValueAsString);
             apiLogger.log("The Result Of Indexing A  New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
+            return "true";
 
         } catch (Exception e) {
             e.printStackTrace();
