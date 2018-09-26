@@ -251,9 +251,11 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
 
 
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("P")){
+                System.out.println(itemsDTO.getStatus());
                 if(itemsDTO.getStatus().equalsIgnoreCase("A")){
 
                     if(items.getOrders().getPaymentType().equalsIgnoreCase("BANK_TRANSFER")){
+
                         items.setItemStatus(itemStatus);
                         sendEmailAsync.sendTransferEmailToUser(customer, items.getOrders());
                     }

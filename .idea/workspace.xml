@@ -2,259 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources/9e293bdc-9744-40cc-81af-c14689dc939e.corrupted.20180926-054345.reason.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources/9e293bdc-9744-40cc-81af-c14689dc939e.corrupted.20180926-054345.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/anonymoususer/AnonymousUserController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/anonymoususer/AnonymousUserOrderController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/dto/UserCartDTO.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/models/AnonymousUser.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/repository/AnonymousUserRepository.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/AnonymousOrderService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/AnonymousUserService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/AnonymousOrderServiceImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/AnonymousUserServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/FashionApplication.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/FashionApplication.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/CustomBeanUtilsBean.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/CustomBeanUtilsBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/GeneralUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/GeneralUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/Hash.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/Hash.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/ResendMailUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/ResendMailUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/SMSAlertUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/SMSAlertUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/SendEmailAsync.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/SendEmailAsync.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/ShippingUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/ShippingUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/UniqueNumberUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/UniqueNumberUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/UserUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/UserUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/config/HibernateSearchConfiguration.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/config/HibernateSearchConfiguration.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/config/ResourceConfig.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/config/ResourceConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/config/WebMvcConfig.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/config/WebMvcConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/config/WebSecurityConfig.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/config/WebSecurityConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/admin/AdminController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/admin/AdminController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/admin/AdminEventController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/admin/AdminEventController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/admin/AdminOrderController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/admin/AdminOrderController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/admin/AdminProductController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/admin/AdminProductController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/admin/TagController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/admin/TagController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerOrderController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerOrderController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerProductController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerProductController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/PriceSlashController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/PriceSlashController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/InspireMeController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/InspireMeController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/NewsLetterController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/NewsLetterController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/ProductController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/ProductController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/RavePaymentController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/RavePaymentController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/UserController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/UserController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/UserOrderController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/UserOrderController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/WalletController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/WalletController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/WishListController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/enduser/WishListController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/qa/QAOrderController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/qa/QAOrderController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/AdminDashBoardDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/AdminDashBoardDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPicReqDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPicReqDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPictureDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ArtPictureDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CardPaymentDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CardPaymentDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CartDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CartDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CartListDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CartListDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CategoryDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CategoryDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CloudinaryResponse.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CloudinaryResponse.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentLikesDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentLikesDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentsDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/CommentsDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerOrderDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerOrderDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerRatingDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/DesignerRatingDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventDateDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventDateDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventPicturesDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventPicturesDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventsDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/EventsDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/FilterProductDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/FilterProductDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ISalesChart.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ISalesChart.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/InspireMeDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/InspireMeDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ItemsDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ItemsDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/LikesDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/LikesDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MatPicReqDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MatPicReqDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MaterialPictureDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MaterialPictureDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MonthsDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/MonthsDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/OrderReqDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/OrderReqDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/OutfitRequestDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/OutfitRequestDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PageableDetailsDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PageableDetailsDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PaymentDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PaymentDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PicTagDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/PicTagDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProdPicReqDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProdPicReqDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProdSubCategoryDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProdSubCategoryDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductAttributeDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductAttributeDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductPictureDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductPictureDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductPictureIdListDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductPictureIdListDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductsWithRating.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductsWithRating.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/SalesChart.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/SalesChart.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/SubCategoryDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/SubCategoryDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/TagDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/TagDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/TransferInfoDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/TransferInfoDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/UserDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/UserDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/UserEmailTokenDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/UserEmailTokenDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/WishListDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/WishListDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/AppException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/AppException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/InvalidStatusUpdateException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/InvalidStatusUpdateException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/LinkExpiredException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/LinkExpiredException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/PasswordException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/PasswordException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/UnknownHostException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/UnknownHostException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/WawoohException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/WawoohException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/exception/WriteFileException.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/exception/WriteFileException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/ArtWorkPicture.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/ArtWorkPicture.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Cart.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Cart.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Code.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Code.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Colour.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Colour.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Comments.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Comments.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/CommonFields.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/CommonFields.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Designer.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Designer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Email$Builder.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Email$Builder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Email.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Email.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/EmailAlertAttachment.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/EmailAlertAttachment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/EventPictures.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/EventPictures.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Events.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Events.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/InspireMe.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/InspireMe.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/InspireMePictures.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/InspireMePictures.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/InspireMeProduct.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/InspireMeProduct.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Items.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Items.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Likes.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Likes.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/MailError.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/MailError.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/MaterialPicture.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/MaterialPicture.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Measurement.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Measurement.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/NewsLetter.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/NewsLetter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/OrderItemProcessingPicture.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/OrderItemProcessingPicture.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Orders.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Orders.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/PaymentRequest.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/PaymentRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/PaymentResponse.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/PaymentResponse.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/PictureTag.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/PictureTag.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/PriceSlash.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/PriceSlash.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductAttribute.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductAttribute.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductNotification.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductNotification.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductPicture.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductPicture.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductRating.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductRating.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductSizes.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/ProductSizes.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Products.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Products.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Rating.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Rating.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/RavePayment.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/RavePayment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Refund.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Refund.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Response.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Response.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Shipping.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Shipping.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Size.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Size.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/SizeGuide.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/SizeGuide.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Style.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Style.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/SubCategory.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/SubCategory.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Token.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Token.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/TransferInfo.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/TransferInfo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/User.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/WishList.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/WishList.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/ZonePrice.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/ZonePrice.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/AddressRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/AddressRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ArtWorkPictureRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ArtWorkPictureRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CartRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CartRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CodeRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CodeRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CommentRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CommentRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CustomJpaRepositoryFactoryBean$CustomJpaRepositoryFactory.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CustomJpaRepositoryFactoryBean$CustomJpaRepositoryFactory.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/DesignerRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/DesignerRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventPictureRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventPictureRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/EventRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/InspireMeProductRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/InspireMeProductRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/InspireMeRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/InspireMeRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ItemRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ItemRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ItemStatusRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ItemStatusRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MailErrorRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MailErrorRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MaterialPictureRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MaterialPictureRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MeasurementRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MeasurementRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/NewsLetterRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/NewsLetterRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/OrderItemProcessingPictureRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/OrderItemProcessingPictureRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/OrderRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/OrderRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PaymentRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PaymentRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PictureTagRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PictureTagRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PriceSlashRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PriceSlashRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductAttributeRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductAttributeRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductNotificationRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductNotificationRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductPictureRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductPictureRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductSizesRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductSizesRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/RatingRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/RatingRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ShippingRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ShippingRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/StyleRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/StyleRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/SubCategoryRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/SubCategoryRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/TokenRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/TokenRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/TransferInfoRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/TransferInfoRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/WishListRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/WishListRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ZonePriceRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ZonePriceRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/ItemsRespDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/ItemsRespDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/LogInResp.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/LogInResp.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/OrderDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/OrderDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/OrderRespDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/respbodydto/OrderRespDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationEntryPoint.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationEntryPoint.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationRequest.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationTokenFilter.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtAuthenticationTokenFilter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtTokenUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtTokenUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtUser.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/JwtUser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/AuthenticationRestController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/AuthenticationRestController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/MethodProtectedRestController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/MethodProtectedRestController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/UserRestController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/controller/UserRestController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/UserRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/repository/UserRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/service/JwtAuthenticationResponse.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/service/JwtAuthenticationResponse.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/security/service/JwtUserDetailsServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/security/service/JwtUserDetailsServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/AddressService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/AddressService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/AdminService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/AdminService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/CategoryService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/CategoryService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/CloudinaryService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/CloudinaryService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/CodeService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/CodeService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/DesignerService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/DesignerService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/EventService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/EventService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/HibernateSearchService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/HibernateSearchService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/InspireMeService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/InspireMeService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/MailService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/MailService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/MeasurementService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/MeasurementService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/NewsLetterService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/NewsLetterService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/OrderService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/OrderService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/PaymentService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/PaymentService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/PriceSlashService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/PriceSlashService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductRatingService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductRatingService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/RavePaymentService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/RavePaymentService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/RefundService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/RefundService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/ShippingPriceService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/ShippingPriceService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/SizeService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/SizeService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/TokenService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/TokenService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/WalletService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/WalletService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/WishListService.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/WishListService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/AddressServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/AddressServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/AdminServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/AdminServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/CategoryServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/CategoryServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/CodeServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/CodeServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/EventServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/EventServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/InspireMeServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/InspireMeServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/MailServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/MailServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/MeasurementServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/MeasurementServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/NewsLetterServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/NewsLetterServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/OrderServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/OrderServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/PaymentServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/PaymentServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/PriceSlashServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/PriceSlashServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductRatingServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductRatingServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/RavePaymentServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/RavePaymentServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/RefundServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/RefundServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ShippingPriceServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ShippingPriceServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/TokenServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/TokenServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WalletServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WalletServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WishListServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WishListServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fashion.iml" afterPath="$PROJECT_DIR$/fashion.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/ProductController.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/ProductController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/WalletController.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/WalletController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/qa/QAOrderController.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/qa/QAOrderController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/dto/CartDTO.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/dto/CartDTO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/dto/OrderReqDTO.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/dto/OrderReqDTO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ItemRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ItemRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/OrderService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/ShippingPriceService.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/ShippingPriceService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/WalletService.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/WalletService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerOrderServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerOrderServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/PaymentServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/PaymentServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ShippingPriceServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/WalletServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/WalletServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application-test.properties" afterPath="$PROJECT_DIR$/target/classes/application-test.properties" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -303,18 +51,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PaymentServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/PaymentServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1515">
-              <caret line="123" column="47" lean-forward="false" selection-start-line="123" selection-start-column="12" selection-end-line="123" selection-end-column="47" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="WalletController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/WalletController.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -328,8 +64,8 @@
       <file leaf-file-name="ProductController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/ProductController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="147" column="5" lean-forward="false" selection-start-line="147" selection-start-column="5" selection-end-line="147" selection-end-column="5" />
+            <state relative-caret-position="106">
+              <caret line="23" column="15" lean-forward="true" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -348,8 +84,8 @@
       <file leaf-file-name="DesignerOrderController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerOrderController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="41" column="40" lean-forward="false" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
+            <state relative-caret-position="88">
+              <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -365,22 +101,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DesignerOrderServiceImpl.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DesignerOrderServiceImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerOrderServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-327">
-              <caret line="272" column="42" lean-forward="false" selection-start-line="272" selection-start-column="42" selection-end-line="272" selection-end-column="42" />
+            <state relative-caret-position="61">
+              <caret line="259" column="81" lean-forward="true" selection-start-line="259" selection-start-column="81" selection-end-line="259" selection-end-column="81" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ControllerAdvice.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ControllerAdvice.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/general/ControllerAdvice.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
+            <state relative-caret-position="296">
               <caret line="65" column="31" lean-forward="false" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="heroku_f6dbdc37013716d.orders" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.orders">
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
@@ -397,8 +148,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="heroku_f6dbdc37013716d.user" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.user">
+      <file leaf-file-name="heroku_f6dbdc37013716d.items" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.items">
           <provider editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1295,12 +1046,12 @@
       <workItem from="1537782089918" duration="65546000" />
       <workItem from="1537970736176" duration="2140000" />
       <workItem from="1537977399922" duration="8511000" />
-      <workItem from="1537987342986" duration="1684000" />
+      <workItem from="1537987342986" duration="2802000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="764599000" />
+    <option name="totallyTimeSpent" value="765717000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1704,32 +1455,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.items">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.orders">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/9e293bdc-9744-40cc-81af-c14689dc939e/console.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-12">
@@ -1820,22 +1545,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/ProductController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="147" column="5" lean-forward="false" selection-start-line="147" selection-start-column="5" selection-end-line="147" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerOrderController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="41" column="40" lean-forward="false" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/DesignerOrderService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
@@ -1862,18 +1571,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerOrderServiceImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/general/ControllerAdvice.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-327">
-          <caret line="272" column="42" lean-forward="false" selection-start-line="272" selection-start-column="42" selection-end-line="272" selection-end-column="42" />
+        <state relative-caret-position="296">
+          <caret line="65" column="31" lean-forward="false" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/general/ControllerAdvice.java">
+    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.orders">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/b00b38af/9e293bdc-9744-40cc-81af-c14689dc939e/heroku_f6dbdc37013716d.items">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/ProductController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="65" column="31" lean-forward="false" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
+        <state relative-caret-position="106">
+          <caret line="23" column="15" lean-forward="true" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerOrderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerOrderServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="259" column="81" lean-forward="true" selection-start-line="259" selection-start-column="81" selection-end-line="259" selection-end-column="81" />
           <folding />
         </state>
       </provider>
