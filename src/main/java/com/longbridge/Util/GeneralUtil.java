@@ -129,10 +129,10 @@ public class GeneralUtil {
         stats.add("PC");
 
         List<ItemStatus> statuses = itemStatusRepository.findByStatusIn(stats);
-        dto.noOfPendingOders= itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"PC");
+        dto.noOfPendingOders= itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"P");
         dto.noOfDeliveredOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"D");
         dto.noOfCancelledOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id, "OR");
-        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OP");
+        dto.noOfConfirmedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"A");
         dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"RS");
         dto.noOfShippedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OS");
         Double amountOfPendingOrders = itemRepository.findSumOfPendingOrders(d.id,statuses);
@@ -602,13 +602,20 @@ public class GeneralUtil {
         cartDTO.setProductName(products.getName());
 
         cartDTO.setProductAttributeId(cart.getProductAttributeId());
-
+        cartDTO.setQuantity(cart.getQuantity());
+        cartDTO.setPrice(products.getAmount());
+        cartDTO.setSlashedPrice(0.0);
 
         if(products.getPriceSlash() != null) {
-            cartDTO.setSlashedPrice(products.getPriceSlash().getSlashedPrice());
+            if(products.getPriceSlash().getSlashedPrice() > 0){
+                cartDTO.setSlashedPrice(products.getPriceSlash().getSlashedPrice());
+            }
         }
-        else {
-            cartDTO.setSlashedPrice(0);
+
+        if(cartDTO.getSlashedPrice() > 0){
+            cartDTO.setTotalPrice(cartDTO.getSlashedPrice()*cartDTO.getQuantity());
+        }else{
+            cartDTO.setTotalPrice(cartDTO.getPrice()*cartDTO.getQuantity());
         }
 
         ProductPicture p = productPictureRepository.findFirst1ByProducts(products);
@@ -621,7 +628,6 @@ public class GeneralUtil {
             cartDTO.setArtWorkPictureId(cart.getArtWorkPictureId());
         }
 
-        System.out.println(cart.getMaterialPictureId());
         if(cart.getMaterialPictureId() != null) {
             System.out.println(cart.getMaterialPictureId());
             MaterialPicture m = materialPictureRepository.findOne(cart.getMaterialPictureId());
@@ -629,9 +635,7 @@ public class GeneralUtil {
             cartDTO.setMaterialPictureId(cart.getMaterialPictureId());
         }
 
-        cartDTO.setAmount(cart.getAmount().toString());
         cartDTO.setColor(cart.getColor());
-        cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setSize(cart.getSize());
         String acceptCustomSizes = productRepository.findOne(cart.getProductId()).getAcceptCustomSizes();
 

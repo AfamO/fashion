@@ -70,7 +70,7 @@ public class QAOrderController {
 
     @PostMapping(value = "/updatetrackingnumber")
     public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO){
-        adminOrderService.updateTrackingNumber(itemsDTO);
+        orderService.updateTrackingNumber(itemsDTO);
         return new Response("00", "Operation successful", null);
     }
 
@@ -88,12 +88,6 @@ public class QAOrderController {
     @GetMapping(value = "/getstatuses")
     public Response getStatuses(HttpServletRequest request){
         return new Response("00","Operation Successful",itemStatusService.getAllStatuses());
-    }
-
-    @PostMapping(value = "/updatetrackingnumber")
-    public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO){
-        orderService.updateTrackingNumber(itemsDTO);
-        return new Response("00", "Operation successful", null);
     }
 
 
