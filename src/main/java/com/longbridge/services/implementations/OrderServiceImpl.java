@@ -177,6 +177,7 @@ public class OrderServiceImpl implements OrderService {
                 orders.setDeliveryStatus("P");
             }
 
+            orderRepository.save(orders);
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
             totalAmount = Double.parseDouble(h.get("totalAmount").toString());
             totalShippingAmount = Double.parseDouble(h.get("totalShippingAmount").toString());

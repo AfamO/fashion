@@ -230,7 +230,6 @@ public class PaymentServiceImpl implements PaymentService {
         User user = userRepository.findById(orders.getUserId());
         deleteCart(user);
         ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
-
         for (Items item:orders.getItems()) {
             item.setItemStatus(itemStatus);
             itemRepository.save(item);
