@@ -91,10 +91,14 @@ public class ProductRatingServiceImpl implements ProductRatingService {
 
     private User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
-        return jwtUser.getUser();
-    }
+        if(authentication.getPrincipal() != "anonymousUser") {
+            JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+            return jwtUser.getUser();
+        }else {
+            return null;
+        }
 
+    }
 
     @Override
     public void verifyRating(User user, Long id) {

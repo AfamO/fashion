@@ -3,36 +3,25 @@ package com.longbridge.services.implementations;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longbridge.Util.GeneralUtil;
-import com.longbridge.Util.SMSAlertUtil;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.Util.ShippingUtil;
 import com.longbridge.dto.*;
-import com.longbridge.exception.AppException;
-import com.longbridge.exception.InvalidStatusUpdateException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.security.JwtUser;
-import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.*;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.mail.MailException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import sun.security.krb5.internal.crypto.Des;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -72,6 +61,9 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Autowired
+    PocketRepository pocketRepository;
+
+    @Autowired
     ProductSizesRepository productSizesRepository;
 
 
@@ -79,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
     PaymentRepository paymentRepository;
 
     @Autowired
-    WalletRepository walletRepository;
+    PocketService pocketService;
 
     @Autowired
     PaymentService paymentService;
@@ -104,6 +96,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     DesignerRepository designerRepository;
+
+    @Autowired
+    WalletService walletService;
 
 
     @Transactional
@@ -146,6 +141,13 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
+            if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
+                if(!walletService.validateWalletBalance(totalAmount).equalsIgnoreCase("true")){
+                    orderRespDTO.setStatus("walletchargeerror");
+                    return orderRespDTO;
+                }
+            }
+
 
             do{
                 orderNumber = generateOrderNum();
@@ -171,11 +173,16 @@ public class OrderServiceImpl implements OrderService {
                orders.setDeliveryStatus("P");
             }
 
-            //updateWalletForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
+            else if(orderReq.getPaymentType().equalsIgnoreCase("Wallet")){
+                itemStatus = itemStatusRepository.findByStatus("P");
+                orders.setDeliveryStatus("P");
+            }
+
 
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
             totalAmount = Double.parseDouble(h.get("totalAmount").toString());
             orders.setTotalAmount(totalAmount);
+            pocketService.updatePocketForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
             if(orderReq.getPaymentType().equalsIgnoreCase("Card Payment")){
                 PaymentRequest paymentRequest = new PaymentRequest();
@@ -198,6 +205,21 @@ public class OrderServiceImpl implements OrderService {
             ex.printStackTrace();
             throw new WawoohException();
         }
+    }
+
+
+
+
+
+    private void updateOrder(Orders orders, User user) {
+        ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
+        for (Items item:orders.getItems()) {
+            item.setItemStatus(itemStatus);
+            itemRepository.save(item);
+        }
+        orders.setDeliveryStatus("P");
+        sendEmailAsync.sendEmailToUser(user, orders.getOrderNum());
+
     }
 
     private Boolean thresholdExceeded(Items items){
@@ -341,7 +363,7 @@ public class OrderServiceImpl implements OrderService {
             if (items == null) {
                 throw new WawoohException();
             }else {
-                Wallet wallet = walletRepository.findByUser(user);
+                Pocket pocket = pocketRepository.findByUser(user);
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("OR");
                 if(items.getItemStatus() != itemStatus){
                     throw new WawoohException();
@@ -349,10 +371,9 @@ public class OrderServiceImpl implements OrderService {
                 if (itemsDTO.getAction().equalsIgnoreCase("accept")) {
                     items.setItemStatus(itemStatusRepository.findByStatus("PC"));
                 } else if (itemsDTO.getAction().equalsIgnoreCase("refund")) {
-                    wallet.setBalance(wallet.getBalance() - items.getAmount());
-                    wallet.setPendingSettlement(wallet.getPendingSettlement() - items.getAmount());
-                    walletRepository.save(wallet);
-
+                    pocket.setBalance(pocket.getBalance() - items.getAmount());
+                    pocket.setPendingSettlement(pocket.getPendingSettlement() - items.getAmount());
+                    pocketRepository.save(pocket);
                     Refund refund = new Refund();
                     refund.setAccountName(itemsDTO.getAccountName());
                     refund.setAccountNumber(itemsDTO.getAccountNumber());
@@ -364,8 +385,8 @@ public class OrderServiceImpl implements OrderService {
                     items.setItemStatus(itemStatusRepository.findByStatus("C"));
 
                 } else if (itemsDTO.getAction().equalsIgnoreCase("shopanother")) {
-                    wallet.setPendingSettlement(wallet.getPendingSettlement() - items.getAmount());
-                    walletRepository.save(wallet);
+                    pocket.setPendingSettlement(pocket.getPendingSettlement() - items.getAmount());
+                    pocketRepository.save(pocket);
                 }
                 itemRepository.save(items);
             }
@@ -621,22 +642,6 @@ itemRepository.save(items);
         }
     }
 
-
-    @Override
-    public void updateTrackingNumber(ItemsDTO itemsDTO) {
-        try {
-            Items items = itemRepository.findOne(itemsDTO.getId());
-
-            if(items != null){
-                items.setTrackingNumber(itemsDTO.getTrackingNumber());
-                itemRepository.save(items);
-            }
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
-    }
 
     @Override
     public Boolean orderNumExists(String orderNum) {

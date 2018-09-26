@@ -9,6 +9,7 @@ import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.services.AdminOrderService;
+import com.longbridge.services.AdminService;
 import com.longbridge.services.ItemStatusService;
 import com.longbridge.services.OrderService;
 import org.slf4j.Logger;
@@ -38,6 +39,11 @@ public class QAOrderController {
     @Autowired
     MailErrorRepository mailErrorRepository;
 
+    @Autowired
+    AdminService adminService;
+
+    @Autowired
+    AdminOrderService adminOrderService;
 
     @PostMapping(value = "/updateorderitem")
     public Response updateOrderStatusByQA(@RequestBody ItemsDTO item){
@@ -62,6 +68,17 @@ public class QAOrderController {
 
     }
 
+    @PostMapping(value = "/updatetrackingnumber")
+    public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO){
+        adminOrderService.updateTrackingNumber(itemsDTO);
+        return new Response("00", "Operation successful", null);
+    }
+
+
+    @GetMapping(value = "/getdashboarddata")
+    public Response getAdminDashboardData(){
+        return new Response("00","Operation Successful",adminService.getDashboardData());
+    }
 
     @GetMapping(value = "/getorders")
     public Response getAllOrderItemsQa(){

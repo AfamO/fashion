@@ -12,7 +12,7 @@ public class Orders extends CommonFields {
 
     private String orderNum;
 
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orders")
     private List<Items> items;
 
     private Double totalAmount;

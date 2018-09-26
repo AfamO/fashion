@@ -29,6 +29,14 @@ public class AdminProductController {
     @Autowired
     ProductService productService;
 
+
+    @PostMapping(value = "/getproducts")
+    public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
+        List<ProductRespDTO> products;
+        products= productService.getAllProducts(pageableDetailsDTO);
+        return new Response("00","Operation Successful",products);
+    }
+
     @PostMapping(value = "/getverifiedproducts")
     public Object getVerifiedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<ProductRespDTO> products;

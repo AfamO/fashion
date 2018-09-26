@@ -28,8 +28,6 @@ public class User extends CommonFields implements Serializable {
 
     private String socialFlag;
 
-
-
     private String linkClicked = "N";
 
     private String activationFlag = "N";
@@ -37,11 +35,9 @@ public class User extends CommonFields implements Serializable {
     private Date activationDate;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    public Wallet wallet;
+    public Pocket pocket;
 
-//
-//    @OneToOne(cascade = CascadeType.ALL)
-//    private Designer designer;
+    private Long userWalletId;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
@@ -215,12 +211,12 @@ public class User extends CommonFields implements Serializable {
         this.activationDate = activationDate;
     }
 
-    public Wallet getWallet() {
-        return wallet;
+    public Pocket getPocket() {
+        return pocket;
     }
 
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
+    public void setPocket(Pocket pocket) {
+        this.pocket = pocket;
     }
 
     public List<Address> getAddresses() {
@@ -287,11 +283,13 @@ public class User extends CommonFields implements Serializable {
         this.refreshed_token = refreshed_token;
     }
 
-//    public Designer getDesigner() {
-//        return designer;
-//    }
-//
-//    public void setDesigner(Designer designer) {
-//        this.designer = designer;
-//    }
+
+    public Long getUserWalletId() {
+        return userWalletId;
+    }
+
+
+    public void setUserWalletId(Long userWalletId) {
+        this.userWalletId = userWalletId;
+    }
 }
