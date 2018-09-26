@@ -49,7 +49,6 @@ public class WalletController {
            throw new WawoohException();
        }
 
-
     }
 
 

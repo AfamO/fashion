@@ -170,9 +170,9 @@ public class WalletServiceImpl implements WalletService {
 
 
     @Override
-    public String chargeWallet(Double amount, String orderNum) {
+    public String chargeWallet(Double amount, String orderNum, User user) {
         try {
-            User user = getCurrentUser();
+
             DefaultHttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(chargeWalletEndPoint);
             try {

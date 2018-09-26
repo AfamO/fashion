@@ -31,7 +31,9 @@ public class CartDTO {
 
     private int sizeStockNo;
 
-    private String amount;
+    private Double price;
+
+    private Double totalPrice;
 
     private String productPicture;
 
@@ -59,7 +61,7 @@ public class CartDTO {
 
     private int stockNo;
 
-    public CartDTO(User user, Long id, Long productId, String productName, double slashedPrice, int quantity, Long designerId, Long productAttributeId, String designerName, String size, int sizeStockNo, String amount, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, String materialPickupDate, Date expiryDate, String measurementName, Long measurementId, int stockNo) {
+    public CartDTO(User user, Long id, Long productId, String productName, double slashedPrice, int quantity, Long designerId, Long productAttributeId, String designerName, String size, int sizeStockNo, Double price, Double totalPrice, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, String materialPickupDate, Date expiryDate, String measurementName, Long measurementId, int stockNo) {
         this.user = user;
         this.id = id;
         this.productId = productId;
@@ -71,7 +73,8 @@ public class CartDTO {
         this.designerName = designerName;
         this.size = size;
         this.sizeStockNo = sizeStockNo;
-        this.amount = amount;
+        this.price = price;
+        this.totalPrice = price;
         this.productPicture = productPicture;
         this.artWorkPicture = artWorkPicture;
         this.materialPicture = materialPicture;
@@ -143,12 +146,20 @@ public class CartDTO {
         this.size = size;
     }
 
-    public String getAmount() {
-        return amount;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getProductPicture() {

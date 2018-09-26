@@ -35,6 +35,7 @@ public class Orders extends CommonFields {
     private Double paidAmount;
 
     private boolean anonymousBuyer;
+    private Long anonymousUserId;
 
     private String authorizationCode;
 
@@ -159,11 +160,19 @@ public class Orders extends CommonFields {
         this.shippingAmount = shippingAmount;
     }
 
+    public Long getAnonymousUserId() {
+        return anonymousUserId;
+    }
+
+    public void setAnonymousUserId(Long anonymousUserId) {
+        this.anonymousUserId = anonymousUserId;
+    }
+
     public void setAuthorizationCode(String authorizationCode) {
         this.authorizationCode = authorizationCode;
     }
 
-    public Orders(String orderNum, List<Items> items, Double totalAmount, String paymentType, Long userId, String deliveryStatus, Address deliveryAddress, Date orderDate, Date deliveredDate) {
+    public Orders(String orderNum, List<Items> items, Double totalAmount, String paymentType, Long userId, String deliveryStatus, Address deliveryAddress, Date orderDate, Date deliveredDate, Long anonymousUserId, Boolean anonymousBuyer) {
         this.orderNum = orderNum;
         this.items = items;
         this.totalAmount = totalAmount;
@@ -173,5 +182,7 @@ public class Orders extends CommonFields {
         this.deliveryAddress = deliveryAddress;
         this.orderDate = orderDate;
         this.deliveryDate = deliveredDate;
+        this.anonymousUserId = anonymousUserId;
+        this.anonymousBuyer = anonymousBuyer;
     }
 }

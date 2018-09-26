@@ -70,7 +70,7 @@ public class QAOrderController {
 
     @PostMapping(value = "/updatetrackingnumber")
     public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO){
-        adminOrderService.updateTrackingNumber(itemsDTO);
+        orderService.updateTrackingNumber(itemsDTO);
         return new Response("00", "Operation successful", null);
     }
 

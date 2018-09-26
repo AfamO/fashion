@@ -99,7 +99,6 @@ public class ProductController {
 
 
 
-
     @PostMapping(value = "/getproductsbysub")
     public Object getProductsBySub(@RequestBody ProdSubCategoryDTO p){
         List<ProductRespDTO> products= productService.getProductsBySubCatId(p);
