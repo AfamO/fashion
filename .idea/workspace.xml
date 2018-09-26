@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/PaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/PaymentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application-test.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application-test.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -60,20 +60,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AnonymousUserOrderController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/anonymoususer/AnonymousUserOrderController.java">
+      <file leaf-file-name="PaymentServiceImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/PaymentServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="35" column="54" selection-start-line="35" selection-start-column="54" selection-end-line="35" selection-end-column="54" />
+            <state relative-caret-position="-194">
+              <caret line="121" column="86" selection-start-line="121" selection-start-column="63" selection-end-line="121" selection-end-column="86" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PaymentServiceImpl.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/PaymentServiceImpl.java">
+      <file leaf-file-name="UserOrderPaymentController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserOrderPaymentController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="200" column="25" selection-start-line="200" selection-start-column="25" selection-end-line="200" selection-end-column="25" />
+            <state relative-caret-position="187">
+              <caret line="27" column="75" lean-forward="true" selection-start-line="27" selection-start-column="75" selection-end-line="27" selection-end-column="75" />
             </state>
           </provider>
         </entry>
@@ -87,11 +87,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AnonymousOrderService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/AnonymousOrderService.java">
+      <file leaf-file-name="application-test.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application-test.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+            <state>
+              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
             </state>
           </provider>
         </entry>
@@ -117,8 +117,8 @@
       <file leaf-file-name="PaymentService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/PaymentService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+            <state relative-caret-position="117">
+              <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -128,6 +128,15 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
               <caret line="31" column="35" lean-forward="true" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QAOrderController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/qa/QAOrderController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="171">
+              <caret line="82" column="35" selection-start-line="82" selection-start-column="26" selection-end-line="82" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -210,7 +219,6 @@
         <option value="$PROJECT_DIR$/src/main/resources/templates/oderdeliveredemail.html" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/admincancelordertemplate.html" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/designerwelcomeemail.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/application-test.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/models/Orders.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/DesignerOrderServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/AdminOrderServiceImpl.java" />
@@ -241,6 +249,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserOrderController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/PaymentServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application-test.properties" />
       </list>
     </option>
   </component>
@@ -324,7 +333,7 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="longbridge" type="462c0819:PsiDirectoryNode" />
               <item name="controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="anonymoususer" type="462c0819:PsiDirectoryNode" />
+              <item name="qa" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -644,12 +653,12 @@
       <workItem from="1537551080436" duration="120000" />
       <workItem from="1537551504409" duration="3877000" />
       <workItem from="1537782089918" duration="65546000" />
-      <workItem from="1537980226572" duration="1923000" />
+      <workItem from="1537980226572" duration="5009000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="754187000" />
+    <option name="totallyTimeSpent" value="757273000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -662,7 +671,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5063694" side_tool="true" weight="0.41880342" />
@@ -721,41 +729,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Response.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding>
-            <element signature="e#404#405#0" expanded="true" />
-            <element signature="e#433#434#0" expanded="true" />
-            <element signature="e#477#478#0" expanded="true" />
-            <element signature="e#513#514#0" expanded="true" />
-            <element signature="e#547#548#0" expanded="true" />
-            <element signature="e#577#578#0" expanded="true" />
-            <element signature="e#623#624#0" expanded="true" />
-            <element signature="e#661#662#0" expanded="true" />
-            <element signature="e#692#693#0" expanded="true" />
-            <element signature="e#719#720#0" expanded="true" />
-            <element signature="e#759#760#0" expanded="true" />
-            <element signature="e#791#792#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/respbodydto/LogInResp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/RavePaymentServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-233">
-          <caret line="136" column="81" selection-start-line="136" selection-start-column="81" selection-end-line="136" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/ProductController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
@@ -917,13 +890,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserOrderPaymentController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-99">
-          <caret line="23" column="29" lean-forward="true" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/WalletController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="807">
@@ -1047,13 +1013,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/PaymentService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -1061,10 +1020,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/PaymentService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/PaymentServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="200" column="25" selection-start-line="200" selection-start-column="25" selection-end-line="200" selection-end-column="25" />
+        <state relative-caret-position="-194">
+          <caret line="121" column="86" selection-start-line="121" selection-start-column="63" selection-end-line="121" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserOrderPaymentController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="27" column="75" lean-forward="true" selection-start-line="27" selection-start-column="75" selection-end-line="27" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application-test.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/qa/QAOrderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="82" column="35" selection-start-line="82" selection-start-column="26" selection-end-line="82" selection-end-column="35" />
         </state>
       </provider>
     </entry>
