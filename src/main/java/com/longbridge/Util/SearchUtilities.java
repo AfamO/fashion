@@ -8,7 +8,7 @@ package com.longbridge.Util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.longbridge.apps.searchengine.webservice.RemoteWebServiceLogger;
+import com.longbridge.services.elasticSearch.RemoteWebServiceLogger;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.elasticSearch.Bool;
 import com.longbridge.models.elasticSearch.Query;

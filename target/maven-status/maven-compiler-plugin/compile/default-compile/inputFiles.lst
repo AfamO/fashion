@@ -53,7 +53,6 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Shipping.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\CodeRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\CategoryDTO.java
-C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\ElasticSearchService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\exception\AppException.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\OrderItemProcessingPicture.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\qa\QAOrderController.java
@@ -61,6 +60,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\SizeGuideRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\AdminOrderServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\EventServiceImpl.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\elasticSearch\RemotePostGet.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\Items.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\RefundServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\enduser\UserOrderController.java
@@ -84,6 +84,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\elasticSearch\MaterialPictureSearchDTO.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\designer\DesignerProductController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\PriceSlashServiceImpl.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\elasticSearch\RemoteWebServiceLogger.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\controllers\designer\DesignerController.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\implementations\DesignerOrderServiceImpl.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\User.java
@@ -186,6 +187,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\ProductAttribute.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\ProductSizesRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\security\JwtAuthenticationTokenFilter.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\elasticSearch\ElasticSearchService.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\RavePayment.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\RangeFilter.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\dto\CartDTO.java
@@ -235,6 +237,7 @@ C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longb
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\security\JwtAuthenticationEntryPoint.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\elasticSearch\ProductQualityRating.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\OrderStatusService.java
+C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\services\elasticSearch\RemoteWebServiceException.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\repository\MeasurementRepository.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\FashionApplication.java
 C:\Users\Tivas-Tech\Documents\NetBeansProjects\wawoohapi\src\main\java\com\longbridge\models\StatusResponseMessage.java
