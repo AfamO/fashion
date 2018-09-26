@@ -13,6 +13,7 @@ package com.longbridge.models.elasticSearch;
 public class SearchQueryRequest {
     private Query query;
     private int size;
+    private Object aggs;
 
     public int getSize() {
         return size;
@@ -28,6 +29,14 @@ public class SearchQueryRequest {
 
     public void setQuery(Query query) {
         this.query = query;
+    }
+
+    public Object getAggs() {
+        return aggs;
+    }
+
+    public void setAggs(Object aggs) {
+        this.aggs = aggs;
     }
     
 }

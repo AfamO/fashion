@@ -17,6 +17,15 @@ import org.json.JSONObject;
 public class ApiResponse {
    private  long status;
    private  Object data;
+   private  Object aggregations;
+
+    public Object getAggregations() {
+        return aggregations;
+    }
+
+    public void setAggregations(Object aggregations) {
+        this.aggregations = aggregations;
+    }
    private int total;
 
     public int getTotal() {
@@ -86,12 +95,13 @@ public class ApiResponse {
         this.status = status;
         this.data=json;
     }
-     public ApiResponse(long status, List<Object> json,int total,int took,Boolean timed_out) {
+     public ApiResponse(long status, List<Object> json,int total,int took,Boolean timed_out,Object aggregations) {
         this.status = status;
         this.data=json;
         this.total=total;
         this.took=took;
         this.timed_out=timed_out;
+        this.aggregations=aggregations;
     }
 
     @Override

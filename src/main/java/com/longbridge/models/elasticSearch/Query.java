@@ -6,21 +6,18 @@
 
 package com.longbridge.models.elasticSearch;
 
-import org.json.JSONObject;
-
 /**
  *
  * @author Tivas-Tech
  */
 public class Query {
-    public Object query_string;
-    private Bool bool;
+    private Multi_Match multi_match;
 
-    public Bool getBool() {
-        return bool;
+    public Multi_Match getMulti_match() {
+        return multi_match;
     }
 
-    public void setBool(Bool bool) {
-        this.bool = bool;
+    public void setMulti_match(Multi_Match multi_match) {
+        this.multi_match = multi_match;
     }
 }

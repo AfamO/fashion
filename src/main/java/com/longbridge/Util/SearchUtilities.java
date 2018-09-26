@@ -9,6 +9,7 @@ package com.longbridge.Util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longbridge.apps.searchengine.webservice.RemoteWebServiceLogger;
+import com.longbridge.exception.WawoohException;
 import com.longbridge.models.elasticSearch.Bool;
 import com.longbridge.models.elasticSearch.Query;
 import com.longbridge.models.elasticSearch.Range;
@@ -88,7 +89,7 @@ public class SearchUtilities {
         //shouldQuery.setShould(shouldArrays);
         Bool boolQuery=new Bool();
         Query query=new Query();
-        query.setBool(boolQuery);
+        //query.setBool(boolQuery);
         SearchQueryRequest searchQueryRequest=new SearchQueryRequest();
         searchQueryRequest.setQuery(query);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -183,6 +184,19 @@ public class SearchUtilities {
             return jsonNewSearchResultsArray;
         else
             return searchResultsArray;
+    }
+    public static String convertObjectToJson(Object object){
+       ObjectMapper objectMapper = new ObjectMapper();
+       String objectWriteValueAsString=null;
+       try {
+             objectWriteValueAsString = objectMapper.writeValueAsString(object);
+             System.out.println("The Equivalent  convertObjectToJson Result is::"+objectWriteValueAsString);
+             
+            
+         } catch ( JsonProcessingException ex) {
+             throw new WawoohException(ex);
+         }
+       return objectWriteValueAsString;
     }
 
     

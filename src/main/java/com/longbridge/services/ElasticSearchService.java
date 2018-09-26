@@ -16,6 +16,7 @@ import com.longbridge.models.elasticSearch.Bool;
 import com.longbridge.models.elasticSearch.CreateIndexId;
 import com.longbridge.models.elasticSearch.Filter;
 import com.longbridge.models.elasticSearch.Index;
+import com.longbridge.models.elasticSearch.Multi_Match;
 import com.longbridge.models.elasticSearch.ProductQualityRating;
 import com.longbridge.models.elasticSearch.Query;
 import com.longbridge.models.elasticSearch.Range;
@@ -62,8 +63,14 @@ import org.springframework.stereotype.Service;
      @Autowired
      GeneralUtil generalUtil;
      SearchRequest searchRequest;
+      RemotePostGet remotePostGet = null;
+      SearchQueryRequest searchRequestQuery=null;
+      JSONArray jsonNewSearchResultsArrayAggs= null;
+      JSONObject remoteJsonObjectNewAggs=null;
+      String currentColumName="";
      String[] productTextColumns= {"name", "categoryName","description","designerName","status","designerStatus","subCategoryName","colourName","prodSummary","materialName", "inStock","availability", "mandatoryMeasurements","sizeGuide","acceptCustomSizes"};
      String[] productNumberColumns= {"amount","percentageDiscount","materialPrice", "stockNo","slashedPrice","numOfTimesOrdered","productQualityRating","productDeliveryRating","productServiceRating","numOfDaysToComplete","totalSales","salesInQueue"};
+     String[] productAggreationsFieldColumns= {"name", "categoryName","designerName","status","subCategoryName","materialName", "inStock","availability","acceptCustomSizes"};
    public ApiResponse makeRemoteRequest(String host_api_url,String path,String httpMethod,String requestedServiceName,String requestedIndexName,Object httpParameters)
    {
        
@@ -85,7 +92,6 @@ import org.springframework.stereotype.Service;
        }
       
        //**/
-        RemotePostGet remotePostGet = null;
        
         Object object = null;
         ApiResponse apiResponse=null;
@@ -127,40 +133,10 @@ import org.springframework.stereotype.Service;
                         apiLogger.log(Level.FATAL, ex.getMessage());
                     }
                      remoteJsonObject = new JSONObject(remotePostGet.makeRemoteAPIConnectionRequest(httpMethod,httpParameters,null,path));
-                     JSONObject remoteJsonObjectNew = new JSONObject();
                      if(requestedServiceName.equalsIgnoreCase("search_index")){
                          apiLogger.log(Level.INFO, "Caught  search_term is here ...");
-                         //Did it fail to find any search item
-                         if(remoteJsonObject.getJSONObject("hits").getJSONArray("hits").length()==0){
-                             // Then refine and change the search query
-                             this.httpParameters=new JSONObject();
-                              // Set the first query fails. I mean since the item is not found in any of the listed fields in the productColumns.
-                            JSONObject _query = new JSONObject().accumulate("query", searchRequest.getSearchTerm().toLowerCase());
-                             this.httpParameters.accumulate("query", new JSONObject()
-                             .put("query_string", _query)
-                              );
-                             this.httpParameters.put("size",searchRequest.getSize());
-                             apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
-                             apiLogger.log(Level.INFO," Extra Composed New JSON httpParameters :::"+this.httpParameters);
-                             // Then send for another search query using the new changed query
-                             remoteJsonObject = new JSONObject(remotePostGet.makeRemoteAPIConnectionRequest(httpMethod,this.httpParameters,null,path));
-                         }
-                          JSONArray jsonNewSearchResultsArray= new JSONArray();
-                          JSONArray jsonSearchData =remoteJsonObject.getJSONObject("hits").getJSONArray("hits");
-                          for (Object objec:jsonSearchData){
-                          JSONObject singleSearchResultVal=(JSONObject)objec;
-                        //Does this user requested indice exist in the DB?
-                         jsonNewSearchResultsArray.put(singleSearchResultVal.getJSONObject("_source"));
-                          }
-                          remoteJsonObjectNew.put("hits", remoteJsonObject.getJSONObject("hits").getJSONArray("hits"));
-                          remoteJsonObjectNew.put("total", remoteJsonObject.getJSONObject("hits").getInt("total"));
-                          remoteJsonObjectNew.put("took", remoteJsonObject.getInt("took"));
-                          remoteJsonObjectNew.put("timed_out", remoteJsonObject.getBoolean("timed_out"));
-                          //remoteJsonObjectNew.put("_shards", remoteJsonObject.getJSONObject("_shards"));
-                          //Filter results
-                          jsonNewSearchResultsArray=SearchUtilities.filterSearchResults(searchRequest, jsonNewSearchResultsArray);
-                         apiResponse= new ApiResponse(HttpStatus.OK.value(),jsonNewSearchResultsArray.toList(),jsonNewSearchResultsArray.length(),
-                         remoteJsonObject.getInt("took"),remoteJsonObject.getBoolean("timed_out"));
+                         //process search results
+                         return this.processSearchResults(remoteJsonObject, httpMethod, path);
                      }
                      //The fellow must have requested for only aggregations
                      else if(requestedServiceName.equalsIgnoreCase("search_index_aggs")){
@@ -180,6 +156,7 @@ import org.springframework.stereotype.Service;
                      }
                      //In any case, send 'success' message.
                      apiResponse.setMessage("success");
+                     
                 }
                 else{
                     //The index name request for is not found in the server.
@@ -252,9 +229,101 @@ import org.springframework.stereotype.Service;
         return makeRemoteRequestIndexProducts;
          
    }
+   
+   public ApiResponse processSearchResults(JSONObject remoteJsonObject, String httpMethod,String path) {
+       ApiResponse apiResponse=null;
+        //Did it fail to find any search item
+        if(remoteJsonObject.getJSONObject("hits").getJSONArray("hits").length()==0){
+            
+            // Then refine and change the search query
+            // Prepare this for fuzziness incase if no results where found for lettered search values.
+            Query query=new Query();
+            JSONObject anotherAggs = null;
+            Multi_Match multi_Match=new Multi_Match();
+            multi_Match.setFuzziness("AUTO");
+            multi_Match.setQuery(searchRequest.getSearchTerm().toLowerCase());
+            multi_Match.setFields(productTextColumns);
+            query.setMulti_match(multi_Match);
+            searchRequestQuery =new SearchQueryRequest();
+            searchRequestQuery.setQuery(query);
+            searchRequestQuery.setSize(searchRequest.getSize());
+            this.searchRequestQuery.setAggs(SearchUtilities. getCustomAggregate("subCategoryName","terms","group_by_subCategoryName",anotherAggs).toMap());
+            /**
+             * this.searchRequestQuery.setAggs(SearchUtilities. getCustomAggregate("name","terms","group_by_name",
+                SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
+                SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
+                anotherAggs))).toMap());
+             */
+            apiLogger.log(Level.INFO," Fuzzy Search Starting For.... :::"+searchRequest.getSearchTerm().toLowerCase());
+            try {
+                // Then send for another search query using the new changed query
+                remoteJsonObject = new JSONObject(remotePostGet.makeRemoteAPIConnectionRequest(httpMethod,SearchUtilities.convertObjectToJson(searchRequestQuery),null,path));
+                //Further Refine the query
+                if(remoteJsonObject.getJSONObject("hits").getJSONArray("hits").length()==0){
+                    // Then refine and change the search query
+            this.httpParameters=new JSONObject();
+             // Since the first query fails. I mean since the item is not found in any of the listed fields in the productColumns.
+           JSONObject _query = new JSONObject().accumulate("query", searchRequest.getSearchTerm().toLowerCase());
+            this.httpParameters.accumulate("query", new JSONObject()
+            .put("query_string", _query)
+             );
+            this.httpParameters.put("size",searchRequest.getSize());
+            apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
+            apiLogger.log(Level.INFO," Extra Composed New JSON httpParameters :::"+this.httpParameters);
+            try {
+                // Then send for another search query using the new changed query
+                remoteJsonObject = new JSONObject(remotePostGet.makeRemoteAPIConnectionRequest(httpMethod,this.httpParameters,null,path));
+                apiResponse=this.convertSearchResultsToResponseDTO(remoteJsonObject);
+            }
+                catch (RemoteWebServiceException ex) {
+                apiLogger.log(Level.INFO, ex.getMessage());
+                throw new WawoohException(ex);
+            }
+                }
+                else{
+                    apiResponse=this.convertSearchResultsToResponseDTO(remoteJsonObject);
+                }
+            } catch (RemoteWebServiceException ex) {
+                apiLogger.log(Level.INFO, ex.getMessage());
+                throw new WawoohException(ex);
+            }
+             
+        }
+        else{
+            apiResponse=this.convertSearchResultsToResponseDTO(remoteJsonObject);
+        }
+        return apiResponse;
+   }
+   /**
+    * Renders the results in such a way as to be easily used by api consumer.
+    * @param remoteJsonObject
+    * @return 
+    */
+   private ApiResponse convertSearchResultsToResponseDTO(JSONObject remoteJsonObject){
+       
+       JSONObject remoteJsonObjectNew = new JSONObject();
+       JSONArray jsonNewSearchResultsArray= new JSONArray();
+         JSONArray jsonSearchData =remoteJsonObject.getJSONObject("hits").getJSONArray("hits");
+         for (Object objec:jsonSearchData){
+         JSONObject singleSearchResultVal=(JSONObject)objec;
+       //Does this user requested indice exist in the DB?
+        jsonNewSearchResultsArray.put(singleSearchResultVal.getJSONObject("_source"));
+         }
+         remoteJsonObjectNew.put("hits", remoteJsonObject.getJSONObject("hits").getJSONArray("hits"));
+         remoteJsonObjectNew.put("total", remoteJsonObject.getJSONObject("hits").getInt("total"));
+         remoteJsonObjectNew.put("took", remoteJsonObject.getInt("took"));
+         remoteJsonObjectNew.put("timed_out", remoteJsonObject.getBoolean("timed_out"));
+         //remoteJsonObjectNew.put("_shards", remoteJsonObject.getJSONObject("_shards"));
+         //Filter results
+         jsonNewSearchResultsArray=SearchUtilities.filterSearchResults(searchRequest, jsonNewSearchResultsArray);
+        ApiResponse apiResponse= new ApiResponse(HttpStatus.OK.value(),jsonNewSearchResultsArray.toList(),jsonNewSearchResultsArray.length(),
+        remoteJsonObject.getInt("took"),remoteJsonObject.getBoolean("timed_out"),remoteJsonObject.getJSONObject("aggregations").toMap());
+        
+        return apiResponse;
+       
+   }
 
     public ApiResponse elasticSearch(SearchRequest searchRequest,String host_api_url) {
-       JSONObject range;
         this.httpParameters=new JSONObject();
         this.searchRequest=searchRequest;
         boolObject = new JSONObject();
@@ -289,7 +358,6 @@ import org.springframework.stereotype.Service;
         }
         apiLogger.log(Level.INFO," Received searchTerm :::"+searchRequest.getSearchTerm()); 
         requestedServiceName="search_index";//This data is used for logging.
-        Query query=new Query();
         int shouldCounter=0;
         String searchTerm=searchRequest.getSearchTerm().trim().replace("$", "").replace("@", "").replace("#", "")
                 .replace("£", "").replace("€", "").replace("₦", "");
@@ -318,7 +386,6 @@ import org.springframework.stereotype.Service;
             httpParameters.accumulate("query", new JSONObject()
                 .put("query_string", _query)
                 );
-            query.query_string=_query.toMap();
         }
         else{
             // It must be first few characterss of a text or a whole word
@@ -340,7 +407,7 @@ import org.springframework.stereotype.Service;
         httpParameters.put("aggs",SearchUtilities. getCustomAggregate("name","terms","group_by_name",
                 SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
                 SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
-                SearchUtilities. getCustomAggregate("amount","avg","average_amount",anotherAggs)))));
+                anotherAggs))));
         httpParameters.put("size",searchRequest.getSize());
         apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
         apiLogger.log(Level.INFO," Composed JSON httpParameters :::"+httpParameters);
@@ -360,15 +427,15 @@ import org.springframework.stereotype.Service;
             else{
                 this.requestedIndexName=searchRequest.getIndexName();
             }
-            JSONObject anotherAggs=null;
-            String fieldToAggregate=searchRequest.getAggs().getFieldName();
-            httpParameters.put("aggs",SearchUtilities. getCustomAggregate(fieldToAggregate,searchRequest.getAggs().getType(),"aggs_result",
-            anotherAggs));
-            httpParameters.put("size",0); //Since you are just aggregating. It needs to be zero 0.
-            apiLogger.log(Level.INFO," The requestedServiceName  Is :::"+requestedServiceName+" For ONLY AGGREGATION OPERATION");
-            apiLogger.log(Level.INFO," Composed JSON httpParameters :::"+httpParameters);
-            return makeRemoteRequest(host_api_url,requestedEndPointPath,"post",requestedServiceName, this.requestedIndexName, httpParameters);
-
+                JSONObject anotherAggs=null;
+                String fieldToAggregate=searchRequest.getAggs().getFieldName();
+                httpParameters.put("aggs",SearchUtilities. getCustomAggregate(fieldToAggregate,searchRequest.getAggs().getType(),"aggs_result",
+                anotherAggs));
+                httpParameters.put("size",0); //Since you are just aggregating. It needs to be zero 0.
+                apiLogger.log(Level.INFO," The requestedServiceName  Is :::"+requestedServiceName+" For ONLY AGGREGATION OPERATION");
+                apiLogger.log(Level.INFO," Composed JSON httpParameters :::"+httpParameters);
+               return  makeRemoteRequest(host_api_url,requestedEndPointPath,"post",requestedServiceName, this.requestedIndexName, httpParameters);
+                  
     }
  
 }
