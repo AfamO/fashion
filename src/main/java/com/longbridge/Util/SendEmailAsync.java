@@ -51,9 +51,6 @@ public class SendEmailAsync {
     ProductRepository productRepository;
 
 
-    @Autowired
-    OrderRepository orderRepository;
-
     private Locale locale = LocaleContextHolder.getLocale();
 
     @Async
@@ -376,5 +373,40 @@ public class SendEmailAsync {
         }
 
     }
+
+
+
+    @Async
+    public void sendOrderPaymentErrorToUser(User user, String orderNumber, String productName) {
+        String link = "";
+        try {
+            System.out.println("Execute method asynchronously - "
+                    + Thread.currentThread().getName());
+
+            try {
+                String mail = user.getEmail();
+                String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
+                link=messageSource.getMessage("order.status.track", null, locale)+encryptedMail+"&orderNum="+orderNumber;
+                Context context = new Context();
+                context.setVariable("name", user.getFirstName() + " "+ user.getLastName());
+                context.setVariable("orderNum",orderNumber);
+                context.setVariable("productName",productName);
+                context.setVariable("link",link);
+                String message = templateEngine.process("orderpaymenttemplate", context);
+                mailService.prepareAndSend(message,mail,messageSource.getMessage("order.status.subject", null, locale));
+
+            }catch (MailException me){
+                me.printStackTrace();
+                throw new AppException(user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("order.status.subject", null, locale),orderNumber,link,productName);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+
+    }
+
+
 
 }

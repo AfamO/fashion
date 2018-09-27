@@ -136,11 +136,15 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                 ItemStatus itemStatus2 = itemStatusRepository.findByStatus("CO");
                 ItemStatus itemStatus3 = itemStatusRepository.findByStatus("RI");
                 ItemStatus itemStatus4 = itemStatusRepository.findByStatus("A");
+                ItemStatus itemStatus5 = itemStatusRepository.findByStatus("PC");
+                ItemStatus itemStatus6 = itemStatusRepository.findByStatus("WR");
                 List<ItemStatus> itemStatuses = new ArrayList();
                 itemStatuses.add(itemStatus1);
                 itemStatuses.add(itemStatus2);
                 itemStatuses.add(itemStatus3);
                 itemStatuses.add(itemStatus4);
+                itemStatuses.add(itemStatus5);
+                itemStatuses.add(itemStatus6);
 
                 return generalUtil.convertItemsEntToDTOs(itemRepository.findActiveOrders(designer.id,itemStatuses));
 
@@ -216,8 +220,7 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
     //todo later
     @Override
     public void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO) {
-       // try{
-            // ItemsDTO itemsDTO1 = new ItemsDTO();
+
             User user=getCurrentUser();
             Date date = new Date();
 
@@ -230,14 +233,12 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
             }
 
             Items items = itemRepository.findOne(itemsDTO.getId());
-            String customerEmail = customer.getEmail();
-            String rejectDecisionLink;
+
             String customerName = customer.getLastName()+" "+ customer.getFirstName();
             Context context = new Context();
             context.setVariable("name", customerName);
             context.setVariable("productName",items.getProductName());
 
-            Products products = productRepository.findOne(items.getProductId());
             ItemStatus itemStatus = itemStatusRepository.findOne(itemsDTO.getStatusId());
             if(itemsDTO.getMessageId() != null) {
                 StatusMessage statusMessage = statusMessageRepository.findOne(itemsDTO.getMessageId());
@@ -271,7 +272,6 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                 if(itemsDTO.getStatus().equalsIgnoreCase("A")){
 
                     if(items.getOrders().getPaymentType().equalsIgnoreCase("BANK_TRANSFER")){
-
                         items.setItemStatus(itemStatus);
                         sendEmailAsync.sendTransferEmailToUser(customer, items.getOrders());
                     }
@@ -282,19 +282,19 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                             //unable to charge customer, cancel transaction
                             items.setItemStatus(itemStatusRepository.findByStatus("P"));
                             itemRepository.save(items);
+                            sendEmailAsync.sendOrderPaymentErrorToUser(customer,items.getOrders().getOrderNum(),items.getProductName());
                             throw new PaymentValidationException();
                         }
                     }
                     else if(items.getOrders().getPaymentType().equalsIgnoreCase("WALLET")){
-
                             // debit user wallet
                             Orders orders = items.getOrders();
                             Double amount = items.getAmount()+orders.getShippingAmount();
                             if(customer.getUserWalletId() == null){
                                 items.setItemStatus(itemStatusRepository.findByStatus("P"));
                                 itemRepository.save(items);
+                                sendEmailAsync.sendOrderPaymentErrorToUser(customer,orders.getOrderNum(),items.getProductName());
                                 throw new PaymentValidationException();
-
                             }
                             String resp = walletService.chargeWallet(amount,orders.getOrderNum(), customer);
                             if(resp.equalsIgnoreCase("00")) {
@@ -304,12 +304,14 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                                 //currently, we are cancelling
                                 items.setItemStatus(itemStatusRepository.findByStatus("P"));
                                 itemRepository.save(items);
+                                sendEmailAsync.sendOrderPaymentErrorToUser(customer,orders.getOrderNum(),items.getProductName());
                                 throw new PaymentValidationException();
                             }
                             else {
                                 //unable to charge customer, cancel transaction
                                 items.setItemStatus(itemStatusRepository.findByStatus("P"));
                                 itemRepository.save(items);
+                                sendEmailAsync.sendOrderPaymentErrorToUser(customer,orders.getOrderNum(),items.getProductName());
                                 throw new PaymentValidationException();
                             }
                     }
@@ -333,7 +335,6 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                     throw new InvalidStatusUpdateException();
                 }
             }
-
 
 
             items.setUpdatedOn(date);
@@ -390,7 +391,6 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
             }
         }
     }
-
 
 
 }
