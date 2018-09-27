@@ -98,9 +98,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     DesignerRepository designerRepository;
 
-    @Autowired
-    WalletService walletService;
-
 
     @Transactional
     @Override
@@ -213,7 +210,6 @@ public class OrderServiceImpl implements OrderService {
             throw new WawoohException();
         }
     }
-
 
 
 

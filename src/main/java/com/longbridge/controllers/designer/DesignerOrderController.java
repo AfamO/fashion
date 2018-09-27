@@ -48,7 +48,12 @@ public class DesignerOrderController {
             String recipient = e.getRecipient();
             String subject = e.getSubject();
             MailError mailError = new MailError();
-            mailError.setProductName(e.getItemsDTO().getProductName());
+            mailError.setOrderNum(e.getOrderNum());
+            if(e.getItemsDTO() != null){
+                mailError.setProductName(e.getItemsDTO().getProductName());
+            }else {
+                mailError.setProductName(e.getProductName());
+            }
             mailError.setOrderItemStatus(e.getItemsDTO().getDeliveryStatus());
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);

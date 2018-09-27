@@ -13,6 +13,7 @@ public class AppException extends RuntimeException{
     private String subject;
     private String link;
     private String orderNum;
+    private String productName;
     private DesignerOrderDTO designerOrderDTO;
     private ItemsDTO itemsDTO;
     public String getNewPassword() {
@@ -71,6 +72,14 @@ public class AppException extends RuntimeException{
         this.designerOrderDTO = designerOrderDTO;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     public ItemsDTO getItemsDTO() {
         return itemsDTO;
     }
@@ -100,22 +109,18 @@ public class AppException extends RuntimeException{
 
     }
 
-    public AppException(String name, String recipient, String subject, String orderNum,String link,String empty) {
+    public AppException(String name, String recipient, String subject, String orderNum,String link,String productName) {
 //        super("Failed to perform the requested action");
-        System.out.println("i got here");
-
         this.name=name;
         this.recipient=recipient;
         this.subject=subject;
         this.orderNum=orderNum;
         this.link=link;
-
+        this.productName=productName;
     }
 
     public AppException(String name, String recipient, String subject, ItemsDTO itemsDTO) {
 //        super("Failed to perform the requested action");
-        System.out.println("i got here");
-
         this.name=name;
         this.recipient=recipient;
         this.subject=subject;
@@ -125,7 +130,6 @@ public class AppException extends RuntimeException{
 
     public AppException(DesignerOrderDTO designerOrderDTO, String recipient, String subject, String orderNum) {
 //        super("Failed to perform the requested action");
-        System.out.println("i got here");
         this.designerOrderDTO=designerOrderDTO;
         this.recipient=recipient;
         this.subject=subject;
@@ -137,8 +141,6 @@ public class AppException extends RuntimeException{
 
     public AppException(String name, String recipient, String subject) {
 //        super("Failed to perform the requested action");
-        System.out.println("i got here");
-
         this.name=name;
         this.recipient=recipient;
         this.subject=subject;
