@@ -221,7 +221,12 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 return "lesspayment";
             }
             for (Items items: orders.getItems()) {
-                items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                if (items.getMeasurement() != null) {
+                    items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                }
+                else {
+                    items.setItemStatus(itemStatusRepository.findByStatus("RI"));
+                }
                 itemRepository.save(items);
                 notifyDesigner(items);
             }

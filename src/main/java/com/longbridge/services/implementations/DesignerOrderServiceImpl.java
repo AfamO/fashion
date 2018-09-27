@@ -133,11 +133,13 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                 ItemStatus itemStatus2 = itemStatusRepository.findByStatus("CO");
                 ItemStatus itemStatus3 = itemStatusRepository.findByStatus("RI");
                 ItemStatus itemStatus4 = itemStatusRepository.findByStatus("A");
+                ItemStatus itemStatus5 = itemStatusRepository.findByStatus("PC");
                 List<ItemStatus> itemStatuses = new ArrayList();
                 itemStatuses.add(itemStatus1);
                 itemStatuses.add(itemStatus2);
                 itemStatuses.add(itemStatus3);
                 itemStatuses.add(itemStatus4);
+                itemStatuses.add(itemStatus5);
 
                 return generalUtil.convertItemsEntToDTOs(itemRepository.findActiveOrders(designer.id,itemStatuses));
 
