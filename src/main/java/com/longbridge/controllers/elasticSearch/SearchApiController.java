@@ -192,20 +192,9 @@ public class SearchApiController {
                 return searchService.elasticSearch(searchRequest,host_api_url);
             } 
         }
-        //Do you want to just aggregate?
-        else if(searchRequest.getAggs()!=null){
-            if(searchRequest.getAggs().getFieldName().equals("")||searchRequest.getAggs().getType().equals("")){
-                apiLogger.log(Level.INFO,"The 'fieldName' and 'type' of aggregation you want to do must be provided!");
-                return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The 'fieldName' and 'type' of aggregation you want to do must be provided!");
-            }
-            else
-            {
-                return searchService.elasticSearchAggregate(searchRequest,host_api_url);
-            }
-        }
         else{
-                apiLogger.log(Level.INFO,"You must request either search or aggregations using 'searchTerm' or 'aggs' respectively");
-                return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"You must request either search or aggregations using 'searchTerm' or 'aggs' respectively");
+                apiLogger.log(Level.INFO,"You must request for search using 'searchTerm' json property");
+                return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"You must request for search using 'searchTerm' json property");
         }        
    }
    @RequestMapping("/list/indices")

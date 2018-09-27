@@ -4,42 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.SearchUtilities;
-import com.longbridge.services.elasticSearch.RemotePostGet;
-import com.longbridge.services.elasticSearch.RemoteWebServiceException;
-import com.longbridge.services.elasticSearch.RemoteWebServiceLogger;
 import com.longbridge.controllers.elasticSearch.SearchApiController;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.Products;
-import com.longbridge.models.elasticSearch.Amount;
 import com.longbridge.models.elasticSearch.ApiResponse;
-import com.longbridge.models.elasticSearch.Bool;
 import com.longbridge.models.elasticSearch.CreateIndexId;
-import com.longbridge.models.elasticSearch.Filter;
 import com.longbridge.models.elasticSearch.Index;
 import com.longbridge.models.elasticSearch.Multi_Match;
-import com.longbridge.models.elasticSearch.ProductQualityRating;
 import com.longbridge.models.elasticSearch.Query;
-import com.longbridge.models.elasticSearch.Range;
-import com.longbridge.models.elasticSearch.RangeFilter;
-import com.longbridge.models.elasticSearch.RangeFilterAmount;
-import com.longbridge.models.elasticSearch.RangeFilterProductQualityRating;
 import com.longbridge.models.elasticSearch.SearchQueryRequest;
 import com.longbridge.models.elasticSearch.SearchRequest;
-import com.longbridge.models.elasticSearch.Should;
-import com.longbridge.models.elasticSearch.TermFilter;
-import com.longbridge.repository.ProductAttributeRepository;
-import com.longbridge.repository.ProductPictureRepository;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Level;
-import org.aspectj.util.FileUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -248,15 +226,7 @@ import org.springframework.stereotype.Service;
             searchRequestQuery.setQuery(query);
             searchRequestQuery.setSize(searchRequest.getSize());
             //Aggregate
-            this.searchRequestQuery.setAggs(SearchUtilities. getCustomAggregate("name","terms","group_by_name",
-            SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
-            SearchUtilities. getCustomAggregate("subCategoryName","terms","group_by_subCategoryName",
-            SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
-            SearchUtilities. getCustomAggregate("materialName","terms","group_by_materialName",
-            SearchUtilities. getCustomAggregate("acceptCustomSizes","terms","group_by_acceptCustomSizes",
-            SearchUtilities. getCustomAggregate("availability","terms","group_by_availability",
-            SearchUtilities. getCustomAggregate("inStock","terms","group_by_inStock",
-            anotherAggs)))))))).toMap());
+            this.searchRequestQuery.setAggs(getAggregationRequestCommand().toMap());
             apiLogger.log(Level.INFO," Fuzzy Search Starting For.... :::"+searchRequest.getSearchTerm().toLowerCase());
             try {
                 // Then send for another search query using the new changed query
@@ -271,15 +241,7 @@ import org.springframework.stereotype.Service;
             .put("query_string", _query)
              );
             this.httpParameters.put("size",searchRequest.getSize());
-            httpParameters.put("aggs",SearchUtilities. getCustomAggregate("name","terms","group_by_name",
-            SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
-            SearchUtilities. getCustomAggregate("subCategoryName","terms","group_by_subCategoryName",
-            SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
-            SearchUtilities. getCustomAggregate("materialName","terms","group_by_materialName",
-            SearchUtilities. getCustomAggregate("acceptCustomSizes","terms","group_by_acceptCustomSizes",
-            SearchUtilities. getCustomAggregate("availability","terms","group_by_availability",
-            SearchUtilities. getCustomAggregate("inStock","terms","group_by_inStock",
-            anotherAggs)))))))));
+            httpParameters.put("aggs",getAggregationRequestCommand());
             apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
             apiLogger.log(Level.INFO," Extra Composed New JSON httpParameters :::"+this.httpParameters);
             try {
@@ -415,8 +377,29 @@ import org.springframework.stereotype.Service;
             .put("must_not", mustArray));
             //httpParameters.accumulate("query", boolObject);
         }
+        httpParameters.put("aggs",this.getAggregationRequestCommand());
+        httpParameters.put("size",searchRequest.getSize());
+        apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
+        apiLogger.log(Level.INFO," Composed JSON httpParameters :::"+httpParameters);
+        return makeRemoteRequest(host_api_url,requestedEndPointPath,"post",requestedServiceName, this.requestedIndexName,httpParameters);
+
+    }/**
+     * Prepares the aggregations commands needed by search query.
+     * @return 
+     */
+    private JSONObject getAggregationRequestCommand(){
         JSONObject anotherAggs=null;
-        httpParameters.put("aggs",SearchUtilities. getCustomAggregate("name","terms","group_by_name",
+        JSONObject aggregationRequestCommand=null;
+        //Does the user want to request for a particular aggregation field?
+        if(searchRequest.getAggs()!=null && !searchRequest.getAggs().equals("")){
+            String fieldToAggregate=searchRequest.getAggs().getFieldName();
+            aggregationRequestCommand=SearchUtilities.getCustomAggregate(fieldToAggregate,
+            searchRequest.getAggs().getType(),"group_by_"+fieldToAggregate,
+            anotherAggs);    
+        }
+        else{
+            //Then aggregate these fields in a nested way since Elastic Search doesn't support multiple aggregations in a top level way for now.
+            aggregationRequestCommand=SearchUtilities. getCustomAggregate("name","terms","group_by_name",
             SearchUtilities. getCustomAggregate("categoryName","terms","group_by_categoryName",
             SearchUtilities. getCustomAggregate("subCategoryName","terms","group_by_subCategoryName",
             SearchUtilities. getCustomAggregate("designerName","terms","group_by_designerName",
@@ -424,12 +407,9 @@ import org.springframework.stereotype.Service;
             SearchUtilities. getCustomAggregate("acceptCustomSizes","terms","group_by_acceptCustomSizes",
             SearchUtilities. getCustomAggregate("availability","terms","group_by_availability",
             SearchUtilities. getCustomAggregate("inStock","terms","group_by_inStock",
-            anotherAggs)))))))));
-        httpParameters.put("size",searchRequest.getSize());
-        apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
-        apiLogger.log(Level.INFO," Composed JSON httpParameters :::"+httpParameters);
-        return makeRemoteRequest(host_api_url,requestedEndPointPath,"post",requestedServiceName, this.requestedIndexName,httpParameters);
-
+            anotherAggs))))))));
+        }
+        return aggregationRequestCommand;
     }
     public ApiResponse elasticSearchAggregate(SearchRequest searchRequest,String host_api_url) {
         this.httpParameters=new JSONObject();
