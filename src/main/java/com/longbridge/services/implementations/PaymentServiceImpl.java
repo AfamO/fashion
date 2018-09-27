@@ -100,12 +100,15 @@ public class PaymentServiceImpl implements PaymentService {
             
             // This gets the redirectUrl from the server
             String url  = data.getString("authorization_url");
+            System.out.println(url);
             paymentResponse.setStatus("00");
             paymentResponse.setRedirectUrl(url);
             paymentResponse.setTransactionReference(data.getString("reference"));
            
-        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
             Logger.getLogger(PaymentServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return paymentResponse;
     }

@@ -177,6 +177,10 @@ public class OrderServiceImpl implements OrderService {
                 itemStatus = itemStatusRepository.findByStatus("P");
                 orders.setDeliveryStatus("P");
             }
+            else {
+                System.out.println("Invalid payment type");
+                throw new WawoohException();
+            }
 
             orderRepository.save(orders);
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
@@ -662,14 +666,15 @@ public class OrderServiceImpl implements OrderService {
         return status;
     }
 
+
     @Override
     public Boolean orderNumExists(String orderNum) {
         Orders orders = orderRepository.findByOrderNum(orderNum);
         return (orders != null) ? true : false;
     }
 
-    private String generateOrderNum(){
 
+    private String generateOrderNum(){
         Random r = new Random(System.currentTimeMillis() );
         int random = 1000000000 + r.nextInt(9999999);
         String orderNum = Integer.toString(random);

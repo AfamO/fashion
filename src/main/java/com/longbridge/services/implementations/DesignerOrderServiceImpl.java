@@ -7,7 +7,9 @@ import com.longbridge.Util.SendEmailAsync;
 
 import com.longbridge.dto.CloudinaryResponse;
 import com.longbridge.dto.ItemsDTO;
+import com.longbridge.exception.InvalidAmountException;
 import com.longbridge.exception.InvalidStatusUpdateException;
+import com.longbridge.exception.PaymentValidationException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
@@ -129,13 +131,16 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
             User user= getCurrentUser();
             Designer designer = designerRepository.findByUser(user);
             if(user.getRole().equalsIgnoreCase("designer")) {
+
                 ItemStatus itemStatus1 = itemStatusRepository.findByStatus("OP");
                 ItemStatus itemStatus2 = itemStatusRepository.findByStatus("CO");
                 ItemStatus itemStatus3 = itemStatusRepository.findByStatus("RI");
+                ItemStatus itemStatus4 = itemStatusRepository.findByStatus("A");
                 List<ItemStatus> itemStatuses = new ArrayList();
                 itemStatuses.add(itemStatus1);
                 itemStatuses.add(itemStatus2);
                 itemStatuses.add(itemStatus3);
+                itemStatuses.add(itemStatus4);
 
                 return generalUtil.convertItemsEntToDTOs(itemRepository.findActiveOrders(designer.id,itemStatuses));
 
@@ -211,7 +216,7 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
     //todo later
     @Override
     public void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO) {
-        try{
+       // try{
             // ItemsDTO itemsDTO1 = new ItemsDTO();
             User user=getCurrentUser();
             Date date = new Date();
@@ -262,9 +267,11 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
 
 
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("P")){
+                System.out.println(itemsDTO.getStatus());
                 if(itemsDTO.getStatus().equalsIgnoreCase("A")){
 
                     if(items.getOrders().getPaymentType().equalsIgnoreCase("BANK_TRANSFER")){
+
                         items.setItemStatus(itemStatus);
                         sendEmailAsync.sendTransferEmailToUser(customer, items.getOrders());
                     }
@@ -273,28 +280,38 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                         PaymentResponse p = paymentService.chargeAuthorization(items);
                         if(p.getStatus().equalsIgnoreCase("99")){
                             //unable to charge customer, cancel transaction
-                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                            items.setItemStatus(itemStatusRepository.findByStatus("P"));
+                            itemRepository.save(items);
+                            throw new PaymentValidationException();
                         }
                     }
                     else if(items.getOrders().getPaymentType().equalsIgnoreCase("WALLET")){
-                       // debit user wallet
-                        Orders orders = items.getOrders();
-                        Double amount = items.getAmount()+orders.getShippingAmount();
-                        if(customer.getUserWalletId() == null){
-                            throw new InvalidStatusUpdateException();
-                        }
-                        String resp = walletService.chargeWallet(amount,orders.getOrderNum(), customer);
-                        if(resp.equalsIgnoreCase("00")) {
-                            itemsUtil.updateItems(items);
-                        }else if(resp.equalsIgnoreCase("96")){
-                           //send email to the user that he has inssuficient balance or cancel..
-                            //currently, we are cancelling
-                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
-                        }
-                        else {
-                            //unable to charge customer, cancel transaction
-                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
-                        }
+
+                            // debit user wallet
+                            Orders orders = items.getOrders();
+                            Double amount = items.getAmount()+orders.getShippingAmount();
+                            if(customer.getUserWalletId() == null){
+                                items.setItemStatus(itemStatusRepository.findByStatus("P"));
+                                itemRepository.save(items);
+                                throw new PaymentValidationException();
+
+                            }
+                            String resp = walletService.chargeWallet(amount,orders.getOrderNum(), customer);
+                            if(resp.equalsIgnoreCase("00")) {
+                                itemsUtil.updateItems(items);
+                            }else if(resp.equalsIgnoreCase("96")){
+                                //send email to the user that he has inssuficient balance or cancel..
+                                //currently, we are cancelling
+                                items.setItemStatus(itemStatusRepository.findByStatus("P"));
+                                itemRepository.save(items);
+                                throw new PaymentValidationException();
+                            }
+                            else {
+                                //unable to charge customer, cancel transaction
+                                items.setItemStatus(itemStatusRepository.findByStatus("P"));
+                                itemRepository.save(items);
+                                throw new PaymentValidationException();
+                            }
                     }
                 }
                 else  if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
@@ -327,10 +344,10 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
             orderRepository.save(orders);
 
 
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
+//        }catch (Exception ex){
+//            ex.printStackTrace();
+//            throw new WawoohException();
+//        }
     }
 
     private User getCurrentUser(){

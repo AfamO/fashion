@@ -20,12 +20,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 
-/**
- * Created by Longbridge on 03/08/2018.
- */
+
 @Service
 public class WalletServiceImpl implements WalletService {
 
@@ -107,7 +104,6 @@ public class WalletServiceImpl implements WalletService {
             ex.printStackTrace();
             throw new WawoohException();
         }
-
     }
 
 

@@ -109,7 +109,7 @@ public class UserUtil {
                 user.setRole(passedUser.getRole());
 
                 //todo create user wallet, call wallet api
-                walletService.createWallet(passedUser,user);
+                //walletService.createWallet(passedUser,user);
             }
 
             if(passedUser.getRole().equalsIgnoreCase("designer")){
