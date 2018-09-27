@@ -278,7 +278,7 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                             Orders orders = items.getOrders();
                             Double amount = items.getAmount()+orders.getShippingAmount();
                             if(customer.getUserWalletId() == null){
-                                items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                                items.setItemStatus(itemStatusRepository.findByStatus("P"));
                                 itemRepository.save(items);
                                 throw new PaymentValidationException();
 
@@ -289,12 +289,12 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                             }else if(resp.equalsIgnoreCase("96")){
                                 //send email to the user that he has inssuficient balance or cancel..
                                 //currently, we are cancelling
-                                items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                                items.setItemStatus(itemStatusRepository.findByStatus("P"));
                                 throw new PaymentValidationException();
                             }
                             else {
                                 //unable to charge customer, cancel transaction
-                                items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                                items.setItemStatus(itemStatusRepository.findByStatus("P"));
                                 throw new PaymentValidationException();
                             }
                     }

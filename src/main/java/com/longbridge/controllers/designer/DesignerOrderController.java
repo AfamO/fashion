@@ -3,6 +3,7 @@ package com.longbridge.controllers.designer;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.ItemsDTO;
 import com.longbridge.exception.AppException;
+import com.longbridge.exception.InvalidStatusUpdateException;
 import com.longbridge.exception.PaymentValidationException;
 import com.longbridge.models.MailError;
 import com.longbridge.models.Response;
@@ -57,9 +58,11 @@ public class DesignerOrderController {
             mailErrorRepository.save(mailError);
             return new Response("00", "Operation Successful, Trying to send email", "success");
 
-        }catch (Exception ex){
-            return new Response("99", "Unable to update status", "error");
+        }catch (PaymentValidationException ex){
+            return new Response("99", "Payment could not be validated. Order has been cancelled automatically", "error");
 
+        }catch (InvalidStatusUpdateException i){
+            return new Response("99", "Invalid status update", "error");
         }
     }
 
