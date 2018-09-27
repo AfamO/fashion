@@ -30,9 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Longbridge on 20/09/2018.
- */
+
 @Service
 public class DesignerOrderServiceImpl implements DesignerOrderService {
 
@@ -128,7 +126,6 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
             User user= getCurrentUser();
             Designer designer = designerRepository.findByUser(user);
             if(user.getRole().equalsIgnoreCase("designer")) {
-
                 ItemStatus itemStatus1 = itemStatusRepository.findByStatus("OP");
                 ItemStatus itemStatus2 = itemStatusRepository.findByStatus("CO");
                 ItemStatus itemStatus3 = itemStatusRepository.findByStatus("RI");
@@ -142,14 +139,10 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                 itemStatuses.add(itemStatus4);
                 itemStatuses.add(itemStatus5);
                 itemStatuses.add(itemStatus6);
-
                 return generalUtil.convertItemsEntToDTOs(itemRepository.findActiveOrders(designer.id,itemStatuses));
-
-
             }else {
                 throw new WawoohException();
             }
-
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();

@@ -29,9 +29,7 @@ import org.thymeleaf.context.Context;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by Longbridge on 20/09/2018.
- */
+
 @Service
 public class AdminOrderServiceImpl implements AdminOrderService {
 
@@ -131,6 +129,12 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                         itemsDTO.setProductName(items.getProductName());
                         sendEmailAsync.sendFailedInspEmailToUser(customer,itemsDTO);
                         sendEmailAsync.sendFailedInspToDesigner(itemsDTO);
+                    }
+
+                }
+                else if(items.getItemStatus().getStatus().equalsIgnoreCase("WR")){
+                    if(itemsDTO.getStatus().equalsIgnoreCase("DP")){
+                        items.setItemStatus(itemStatusRepository.findByStatus("RI"));
                     }
                 }
 
