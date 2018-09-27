@@ -273,27 +273,29 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                         }
                     }
                     else if(items.getOrders().getPaymentType().equalsIgnoreCase("WALLET")){
-                       // debit user wallet
-                        Orders orders = items.getOrders();
-                        Double amount = items.getAmount()+orders.getShippingAmount();
-                        if(customer.getUserWalletId() == null){
-                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
-                            throw new PaymentValidationException();
-                        }
-                        String resp = walletService.chargeWallet(amount,orders.getOrderNum(), customer);
-                        if(resp.equalsIgnoreCase("00")) {
-                            itemsUtil.updateItems(items);
-                        }else if(resp.equalsIgnoreCase("96")){
-                           //send email to the user that he has inssuficient balance or cancel..
-                            //currently, we are cancelling
-                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
-                            throw new PaymentValidationException();
-                        }
-                        else {
-                            //unable to charge customer, cancel transaction
-                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
-                            throw new PaymentValidationException();
-                        }
+
+                            // debit user wallet
+                            Orders orders = items.getOrders();
+                            Double amount = items.getAmount()+orders.getShippingAmount();
+                            if(customer.getUserWalletId() == null){
+                                items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                                throw new PaymentValidationException();
+
+                            }
+                            String resp = walletService.chargeWallet(amount,orders.getOrderNum(), customer);
+                            if(resp.equalsIgnoreCase("00")) {
+                                itemsUtil.updateItems(items);
+                            }else if(resp.equalsIgnoreCase("96")){
+                                //send email to the user that he has inssuficient balance or cancel..
+                                //currently, we are cancelling
+                                items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                                throw new PaymentValidationException();
+                            }
+                            else {
+                                //unable to charge customer, cancel transaction
+                                items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                                throw new PaymentValidationException();
+                            }
                     }
                 }
                 else  if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
