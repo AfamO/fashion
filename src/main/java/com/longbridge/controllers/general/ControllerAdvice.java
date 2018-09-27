@@ -18,8 +18,7 @@ public class ControllerAdvice {
     @ExceptionHandler(WawoohException.class)
     public Response notFoundException() {
         Map<String, Object> responseMap = new HashMap();
-        return new Response("99", "Error occurred here", responseMap);
-
+        return new Response("99", "Failed to perform the requested action", responseMap);
     }
 
 
@@ -41,7 +40,6 @@ public class ControllerAdvice {
     public Response linkExpiredException() {
         Map<String, Object> responseMap = new HashMap();
         return new Response("99", "Link expired", responseMap);
-
     }
 
 

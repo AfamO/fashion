@@ -177,6 +177,10 @@ public class OrderServiceImpl implements OrderService {
                 itemStatus = itemStatusRepository.findByStatus("P");
                 orders.setDeliveryStatus("P");
             }
+            else {
+                System.out.println("Invalid payment type");
+                throw new WawoohException();
+            }
 
             orderRepository.save(orders);
             HashMap h= saveItems(orderReq,date,orders,itemStatus);

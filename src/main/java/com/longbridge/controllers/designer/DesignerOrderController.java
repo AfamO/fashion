@@ -59,7 +59,7 @@ public class DesignerOrderController {
             return new Response("00", "Operation Successful, Trying to send email", "success");
 
         }catch (PaymentValidationException ex){
-            return new Response("99", "Payment could not be validated. Order has been cancelled automatically", "error");
+            return new Response("99", "Payment could not be validated. You cannot update this order", "error");
 
         }catch (InvalidStatusUpdateException i){
             return new Response("99", "Invalid status update", "error");
