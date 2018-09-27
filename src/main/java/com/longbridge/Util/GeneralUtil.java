@@ -142,6 +142,7 @@ public class GeneralUtil {
         dto.noOfShippedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OS");
         Double amountOfPendingOrders = itemRepository.findSumOfPendingOrders(d.id,statuses);
         Double amountOfTotalOrders = itemRepository.findSumOfOrders(d.id);
+        dto.setTotalOrders(itemRepository.countByDesignerId(d.id));
 
         if(amountOfTotalOrders != null){
             dto.amountOfOrders = amountOfTotalOrders;
