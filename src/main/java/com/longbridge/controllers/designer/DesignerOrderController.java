@@ -57,8 +57,8 @@ public class DesignerOrderController {
             mailErrorRepository.save(mailError);
             return new Response("00", "Operation Successful, Trying to send email", "success");
 
-        }catch (PaymentValidationException ex){
-            return new Response("99", "Payment could not be validated. Order has been cancelled automatically", "error");
+        }catch (Exception ex){
+            return new Response("99", "Unable to update status", "error");
 
         }
     }

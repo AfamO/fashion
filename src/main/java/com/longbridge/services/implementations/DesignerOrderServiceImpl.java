@@ -213,7 +213,7 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
     //todo later
     @Override
     public void updateOrderItemByDesignerWithMessage(ItemsDTO itemsDTO) {
-        try{
+       // try{
             // ItemsDTO itemsDTO1 = new ItemsDTO();
             User user=getCurrentUser();
             Date date = new Date();
@@ -279,6 +279,7 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                             Double amount = items.getAmount()+orders.getShippingAmount();
                             if(customer.getUserWalletId() == null){
                                 items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                                itemRepository.save(items);
                                 throw new PaymentValidationException();
 
                             }
@@ -328,10 +329,10 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
             orderRepository.save(orders);
 
 
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
+//        }catch (Exception ex){
+//            ex.printStackTrace();
+//            throw new WawoohException();
+//        }
     }
 
     private User getCurrentUser(){
