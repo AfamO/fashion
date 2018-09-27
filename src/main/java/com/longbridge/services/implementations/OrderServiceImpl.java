@@ -668,8 +668,8 @@ public class OrderServiceImpl implements OrderService {
         return (orders != null) ? true : false;
     }
 
-    private String generateOrderNum(){
 
+    private String generateOrderNum(){
         Random r = new Random(System.currentTimeMillis() );
         int random = 1000000000 + r.nextInt(9999999);
         String orderNum = Integer.toString(random);
