@@ -233,10 +233,18 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 }
                 itemRepository.save(items);
                 notifyDesigner(items);
+
+                if (items.getMeasurement() != null) {
+                    items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                }
+                else {
+                    items.setItemStatus(itemStatusRepository.findByStatus("RI"));
+                }
             }
             //update wallet balance
             pocketService.updatePocketForOrderPayment(customer,transferInfo.getAmountPayed(),"BANK_TRANSFER");
             //update orders
+
             orders.setDeliveryStatus("PC");
             orders.setUpdatedOn(date);
             orders.setUpdatedBy(getCurrentUser().getEmail());

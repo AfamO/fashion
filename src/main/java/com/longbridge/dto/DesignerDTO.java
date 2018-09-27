@@ -60,11 +60,12 @@ public class DesignerDTO {
     private String status;
 
     private List<ISalesChart> salesChart;
+    private int totalOrders;
 
     public DesignerDTO() {
     }
 
-    public DesignerDTO(Long id, Long userId, String logo, String storeName, String address, String productsId, String firstName, String lastName, String email, String phoneNo, String gender, String createdDate, List<ProductRespDTO> products) {
+    public DesignerDTO(Long id, Long userId, String logo, String storeName, String address, String productsId, String firstName, String lastName, String email, String phoneNo, String gender, String createdDate, List<ProductRespDTO> products, int totalOrders) {
         this.id = id;
         this.userId = userId;
         this.logo = logo;
@@ -78,6 +79,7 @@ public class DesignerDTO {
         this.gender = gender;
         this.createdDate = createdDate;
         this.products = products;
+        this.totalOrders = totalOrders;
     }
 
     public Long getId() {
@@ -254,5 +256,13 @@ public class DesignerDTO {
 
     public void setSalesChart(List<ISalesChart> salesChart) {
         this.salesChart = salesChart;
+    }
+
+    public int getTotalOrders() {
+        return totalOrders;
+    }
+
+    public void setTotalOrders(int totalOrders) {
+        this.totalOrders = totalOrders;
     }
 }

@@ -19,6 +19,7 @@ import java.io.File;
 import java.math.BigInteger;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,6 +80,9 @@ public class GeneralUtil {
     @Autowired
     ProductSizesRepository productSizesRepository;
 
+    @Autowired
+    AnonymousUserRepository anonymousUserRepository;
+
     public DesignerDTO convertDesigner2EntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
@@ -138,6 +142,7 @@ public class GeneralUtil {
         dto.noOfShippedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OS");
         Double amountOfPendingOrders = itemRepository.findSumOfPendingOrders(d.id,statuses);
         Double amountOfTotalOrders = itemRepository.findSumOfOrders(d.id);
+        dto.setTotalOrders(itemRepository.countByDesignerId(d.id));
 
         if(amountOfTotalOrders != null){
             dto.amountOfOrders = amountOfTotalOrders;
@@ -279,6 +284,7 @@ public class GeneralUtil {
 
     public ProductRespDTO convertEntityToDTO(Products products){
         ProductRespDTO productDTO = new ProductRespDTO();
+        DecimalFormat df = new DecimalFormat("#.00");
         productDTO.id=products.id;
         productDTO.amount=products.getAmount();
       //  productDTO.color=products.color;
@@ -313,7 +319,7 @@ public class GeneralUtil {
         PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
         if(priceSlash != null){
             productDTO.slashedPrice = priceSlash.getSlashedPrice();
-            productDTO.percentageDiscount=priceSlash.getPercentageDiscount();
+            productDTO.percentageDiscount = Double.parseDouble(df.format(priceSlash.getPercentageDiscount()));
         }
 
         List<ProductPicture> productPictures = products.getPicture();
@@ -376,6 +382,7 @@ public class GeneralUtil {
 
     public ProductRespDTO convertEntityToDTOWithReviews(Products products){
         ProductRespDTO productDTO = new ProductRespDTO();
+        DecimalFormat df = new DecimalFormat("#.00");
         productDTO.id=products.id;
         productDTO.amount=products.getAmount();
         //productDTO.productAttributes=products.productAttributes;
@@ -422,7 +429,7 @@ public class GeneralUtil {
         PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
         if(priceSlash != null){
             productDTO.slashedPrice = priceSlash.getSlashedPrice();
-            productDTO.percentageDiscount=priceSlash.getPercentageDiscount();
+            productDTO.percentageDiscount = Double.parseDouble(df.format(priceSlash.getPercentageDiscount()));
         }
 
         productDTO.productType = products.getProductType();
@@ -683,9 +690,20 @@ public class GeneralUtil {
             itemsDTO.setProductAvailability(p.getAvailability());
 
             itemsDTO.setAmount(items.getAmount().toString());
-            itemsDTO.setColor(items.getColor());
             itemsDTO.setQuantity(items.getQuantity());
-            User user=userRepository.findById(items.getOrders().getUserId());
+
+            User user;
+            if(items.getOrders().isAnonymousBuyer()){
+                user = new User();
+                AnonymousUser anonymousUser = anonymousUserRepository.findOne(items.getOrders().getAnonymousUserId());
+                user.setEmail(anonymousUser.getEmail());
+                user.setFirstName("Anonymous");
+                user.setLastName("Anonymous");
+            }else{
+                user = userRepository.findById(items.getOrders().getUserId());
+            }
+
+
             itemsDTO.setCustomerName(user.getLastName()+" "+user.getFirstName());
             itemsDTO.setCustomerId(user.id);
             itemsDTO.setProductPicture(items.getProductPicture());
@@ -762,6 +780,16 @@ public class GeneralUtil {
 
         return orderDTO;
 
+    }
+
+    public User convertAnonymousUsertoTempUser(AnonymousUser anonymousUser){
+        User customer = new User();
+        customer.setEmail(anonymousUser.getEmail());
+        customer.setPhoneNo(anonymousUser.getPhoneNo());
+        customer.setFirstName("User");
+        customer.setLastName("Anonymous");
+
+        return customer;
     }
 
 
