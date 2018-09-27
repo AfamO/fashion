@@ -7,7 +7,9 @@ import com.longbridge.Util.SendEmailAsync;
 
 import com.longbridge.dto.CloudinaryResponse;
 import com.longbridge.dto.ItemsDTO;
+import com.longbridge.exception.InvalidAmountException;
 import com.longbridge.exception.InvalidStatusUpdateException;
+import com.longbridge.exception.PaymentValidationException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
@@ -126,13 +128,16 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
             User user= getCurrentUser();
             Designer designer = designerRepository.findByUser(user);
             if(user.getRole().equalsIgnoreCase("designer")) {
+
                 ItemStatus itemStatus1 = itemStatusRepository.findByStatus("OP");
                 ItemStatus itemStatus2 = itemStatusRepository.findByStatus("CO");
                 ItemStatus itemStatus3 = itemStatusRepository.findByStatus("RI");
+                ItemStatus itemStatus4 = itemStatusRepository.findByStatus("A");
                 List<ItemStatus> itemStatuses = new ArrayList();
                 itemStatuses.add(itemStatus1);
                 itemStatuses.add(itemStatus2);
                 itemStatuses.add(itemStatus3);
+                itemStatuses.add(itemStatus4);
 
                 return generalUtil.convertItemsEntToDTOs(itemRepository.findActiveOrders(designer.id,itemStatuses));
 
@@ -272,7 +277,8 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                         Orders orders = items.getOrders();
                         Double amount = items.getAmount()+orders.getShippingAmount();
                         if(customer.getUserWalletId() == null){
-                            throw new InvalidStatusUpdateException();
+                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                            throw new PaymentValidationException();
                         }
                         String resp = walletService.chargeWallet(amount,orders.getOrderNum(), customer);
                         if(resp.equalsIgnoreCase("00")) {
@@ -281,10 +287,12 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                            //send email to the user that he has inssuficient balance or cancel..
                             //currently, we are cancelling
                             items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                            throw new PaymentValidationException();
                         }
                         else {
                             //unable to charge customer, cancel transaction
                             items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                            throw new PaymentValidationException();
                         }
                     }
                 }

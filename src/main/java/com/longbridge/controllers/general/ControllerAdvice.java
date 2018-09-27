@@ -72,4 +72,10 @@ public class ControllerAdvice {
         return new Response("99", "An amount entered is invalid", responseMap);
     }
 
+    @ExceptionHandler(PaymentValidationException.class)
+    public Response paymentValidationException() {
+        Map<String, Object> responseMap = new HashMap();
+        return new Response("99", "Payment could not be validated. Order has been cancelled automatically", responseMap);
+    }
+
 }
