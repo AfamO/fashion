@@ -69,7 +69,7 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 
     @Query(value = "SELECT SUM(amount) as amount,  MONTH(created_on) as month ,YEAR(created_on) as year FROM items WHERE  " +
             "designer_id =:designerid and delivery_status =:deliveryStatus and created_on between :startDate and current_date() " +
-            "GROUP BY id, MONTH(created_on)",nativeQuery = true)
+            "GROUP BY MONTH(created_on)",nativeQuery = true)
     List<ISalesChart> getTotalSales(@Param("designerid") Long designerId, @Param("startDate") Date startDate, @Param("deliveryStatus") String deliveryStatus);
 
 
