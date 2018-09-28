@@ -16,10 +16,12 @@ public class ProductRating extends CommonFields implements Serializable {
     @JsonIgnore
     @OneToOne
     private User user;
+
     private int deliveryTimeRating;
     private int productQualityRating;
     private int serviceRating;
     private String subject;
+
     @Lob
     private String review;
 

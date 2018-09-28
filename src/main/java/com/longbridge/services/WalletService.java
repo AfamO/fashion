@@ -13,7 +13,7 @@ public interface WalletService {
 
         String createWallet(UserDTO user, User user1);
 
-        String chargeWallet(Double amount, String orderNum);
+        String chargeWallet(Double amount, String orderNum, User user);
 
         String generateToken(UserDTO user);
 

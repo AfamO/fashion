@@ -5,10 +5,7 @@ import com.longbridge.Util.ItemsUtil;
 import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
-import com.longbridge.repository.CartRepository;
-import com.longbridge.repository.ItemRepository;
-import com.longbridge.repository.ItemStatusRepository;
-import com.longbridge.repository.OrderRepository;
+import com.longbridge.repository.*;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.PaymentService;
 import com.mashape.unirest.http.HttpResponse;
@@ -50,6 +47,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    AnonymousUserRepository anonymousUserRepository;
 
     @Autowired
     SendEmailAsync sendEmailAsync;
@@ -100,12 +100,15 @@ public class PaymentServiceImpl implements PaymentService {
             
             // This gets the redirectUrl from the server
             String url  = data.getString("authorization_url");
+            System.out.println(url);
             paymentResponse.setStatus("00");
             paymentResponse.setRedirectUrl(url);
             paymentResponse.setTransactionReference(data.getString("reference"));
            
-        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
             Logger.getLogger(PaymentServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return paymentResponse;
     }
@@ -181,7 +184,15 @@ public class PaymentServiceImpl implements PaymentService {
                 amount = amount*100;
             }
 
-            User user = userRepository.findOne(items.getOrders().getUserId());
+            User user;
+            if(items.getOrders().isAnonymousBuyer()){
+                user = new User();
+                AnonymousUser anonymousUser = anonymousUserRepository.findOne(items.getOrders().getAnonymousUserId());
+                user.setEmail(anonymousUser.getEmail());
+            }else{
+                user = userRepository.findOne(items.getOrders().getUserId());
+            }
+
             PaymentResponse paymentResponse = new PaymentResponse();
             JSONObject data = new JSONObject();
 
@@ -235,10 +246,21 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void updateOrder(PaymentRequest paymentRequest, String authorizationCode) {
         Orders orders = orderRepository.findByOrderNum(paymentRequest.getTransactionReference());
-        User user = userRepository.findById(orders.getUserId());
-        deleteCart(user);
-        ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
 
+        User user;
+        if(orders.isAnonymousBuyer()){
+            user = new User();
+            AnonymousUser anonymousUser = anonymousUserRepository.findOne(orders.getAnonymousUserId());
+            user.setEmail(anonymousUser.getEmail());
+            user.setPhoneNo(anonymousUser.getPhoneNo());
+            user.setFirstName("Sir");
+            user.setLastName("sir");
+        }else{
+            user = userRepository.findById(orders.getUserId());
+            deleteCart(user);
+        }
+
+        ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
         for (Items item:orders.getItems()) {
             item.setItemStatus(itemStatus);
             itemRepository.save(item);

@@ -30,7 +30,9 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
     Long countByVerifiedFlag(String flag);
     List<Products> findTop10ByDesignerStatusAndNumOfTimesOrderedNotOrderByNumOfTimesOrderedDesc(String designerStatus,int no);
 
-    Page<Products> findByVerfiedOnIsNull(Pageable pageable);
+   // Page<Products> findByVerfiedOnIsNull(Pageable pageable);
+
+    Page<Products> findByVerifiedFlagOrderByCreatedOnDesc(Pageable pageable);
 
     Page<Products> findByVerifiedFlag(String verifiedFlag,Pageable pageable);
 

@@ -3,6 +3,8 @@ package com.longbridge.controllers.designer;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.ItemsDTO;
 import com.longbridge.exception.AppException;
+import com.longbridge.exception.InvalidStatusUpdateException;
+import com.longbridge.exception.PaymentValidationException;
 import com.longbridge.models.MailError;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
@@ -46,7 +48,12 @@ public class DesignerOrderController {
             String recipient = e.getRecipient();
             String subject = e.getSubject();
             MailError mailError = new MailError();
-            mailError.setProductName(e.getItemsDTO().getProductName());
+            mailError.setOrderNum(e.getOrderNum());
+            if(e.getItemsDTO() != null){
+                mailError.setProductName(e.getItemsDTO().getProductName());
+            }else {
+                mailError.setProductName(e.getProductName());
+            }
             mailError.setOrderItemStatus(e.getItemsDTO().getDeliveryStatus());
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);
@@ -56,6 +63,11 @@ public class DesignerOrderController {
             mailErrorRepository.save(mailError);
             return new Response("00", "Operation Successful, Trying to send email", "success");
 
+        }catch (PaymentValidationException ex){
+            return new Response("99", "Payment could not be validated. You cannot update this order", "error");
+
+        }catch (InvalidStatusUpdateException i){
+            return new Response("99", "Invalid status update", "error");
         }
     }
 

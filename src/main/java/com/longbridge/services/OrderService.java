@@ -24,7 +24,7 @@ public interface OrderService {
     String addItemsToCart(CartListDTO cart);
     void deleteCart(Long id);
     void emptyCart();
-    List<CartDTO> getCarts();
+    UserCartDTO getCarts();
 
 
 
@@ -33,12 +33,12 @@ public interface OrderService {
 
     List<StatusMessageDTO> updateOrderItemByDesignerr(ItemsDTO itemsDTO, User user);
 
+    String validateItemQuantity(List<Items> items);
     Boolean orderNumExists(String orderNum);
-
+    PaymentResponse cardPayment(Orders orders, String email);
     OrderDTO getOrdersById(Long id);
     OrderDTO getOrdersByOrderNum(String orderNumber);
     ItemsRespDTO getOrderItemById(Long id);
-
-
+    Boolean thresholdExceeded(Items items);
 
 }

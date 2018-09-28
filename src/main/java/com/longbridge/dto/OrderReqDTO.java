@@ -1,5 +1,6 @@
 package com.longbridge.dto;
 
+import com.longbridge.models.AnonymousUser;
 import com.longbridge.models.Items;
 
 import java.util.List;
@@ -24,8 +25,11 @@ public class OrderReqDTO {
     private String deliveredDate;
     private Double paidAmount;
 
+    private String anonymousFlag;
+    private AnonymousUser anonymousUser;
 
-    public OrderReqDTO(List<Items> items, String totalAmount, String paymentType, Long userId, String deliveryStatus, Long deliveryAddressId, String orderDate, String deliveredDate) {
+
+    public OrderReqDTO(List<Items> items, String totalAmount, String paymentType, Long userId, String deliveryStatus, Long deliveryAddressId, String orderDate, String deliveredDate, String anonymousFlag, AnonymousUser anonymousUser) {
         this.items = items;
         this.totalAmount = totalAmount;
         this.paymentType = paymentType;
@@ -34,6 +38,8 @@ public class OrderReqDTO {
         this.deliveryAddressId = deliveryAddressId;
         this.orderDate = orderDate;
         this.deliveredDate = deliveredDate;
+        this.anonymousFlag = anonymousFlag;
+        this.anonymousUser = anonymousUser;
     }
 
     public List<Items> getItems() {
@@ -117,6 +123,22 @@ public class OrderReqDTO {
 
     public void setPaidAmount(Double paidAmount) {
         this.paidAmount = paidAmount;
+    }
+
+    public String getAnonymousFlag() {
+        return anonymousFlag;
+    }
+
+    public void setAnonymousFlag(String anonymousFlag) {
+        this.anonymousFlag = anonymousFlag;
+    }
+
+    public AnonymousUser getAnonymousUser() {
+        return anonymousUser;
+    }
+
+    public void setAnonymousUser(AnonymousUser anonymousUser) {
+        this.anonymousUser = anonymousUser;
     }
 
     @Override

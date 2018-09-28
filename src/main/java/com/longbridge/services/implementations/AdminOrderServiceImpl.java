@@ -29,9 +29,7 @@ import org.thymeleaf.context.Context;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by Longbridge on 20/09/2018.
- */
+
 @Service
 public class AdminOrderServiceImpl implements AdminOrderService {
 
@@ -46,7 +44,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Autowired
     SendEmailAsync sendEmailAsync;
-
 
     @Autowired
     UserRepository userRepository;
@@ -84,7 +81,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     GeneralUtil generalUtil;
 
 
-
     @Override
     public void updateOrderItemByAdmin(ItemsDTO itemsDTO) {
         try{
@@ -93,7 +89,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
             Orders orders=orderRepository.findOne(items.getOrders().id);
             Date date = new Date();
             items.setUpdatedOn(date);
-
             User customer = userRepository.findOne(itemsDTO.getCustomerId());
             String customerEmail = customer.getEmail();
             String customerName = customer.getLastName()+" "+ customer.getFirstName();
@@ -106,7 +101,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 if(items.getItemStatus().getStatus().equalsIgnoreCase("CO")) {
                     if (itemsDTO.getStatus().equalsIgnoreCase("RI")) {
                         items.setItemStatus(itemStatus);
-
                         //notify designer to bring items to wawooh office
                         String message = templateEngine.process("readyforinsptemplate", context);
                         mailService.prepareAndSend(message, customerEmail, messageSource.getMessage("order.inspection.subject", null, locale));
@@ -135,6 +129,12 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                         itemsDTO.setProductName(items.getProductName());
                         sendEmailAsync.sendFailedInspEmailToUser(customer,itemsDTO);
                         sendEmailAsync.sendFailedInspToDesigner(itemsDTO);
+                    }
+
+                }
+                else if(items.getItemStatus().getStatus().equalsIgnoreCase("WR")){
+                    if(itemsDTO.getStatus().equalsIgnoreCase("DP")){
+                        items.setItemStatus(itemStatusRepository.findByStatus("RI"));
                     }
                 }
 
@@ -225,13 +225,26 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 return "lesspayment";
             }
             for (Items items: orders.getItems()) {
-                items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                if (items.getMeasurement() != null) {
+                    items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                }
+                else {
+                    items.setItemStatus(itemStatusRepository.findByStatus("RI"));
+                }
                 itemRepository.save(items);
                 notifyDesigner(items);
+
+                if (items.getMeasurement() != null) {
+                    items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                }
+                else {
+                    items.setItemStatus(itemStatusRepository.findByStatus("RI"));
+                }
             }
             //update wallet balance
             pocketService.updatePocketForOrderPayment(customer,transferInfo.getAmountPayed(),"BANK_TRANSFER");
             //update orders
+
             orders.setDeliveryStatus("PC");
             orders.setUpdatedOn(date);
             orders.setUpdatedBy(getCurrentUser().getEmail());

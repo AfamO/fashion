@@ -10,9 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by longbridge on 10/18/17.
- */
+
 @Indexed
 @Entity
 public class Products extends CommonFields implements Serializable {
@@ -26,20 +24,17 @@ public class Products extends CommonFields implements Serializable {
     @OneToOne
     private SubCategory subCategory;
 
+
     @JsonIgnore
     @ManyToOne
     private Designer designer;
 
-
     private String designerStatus="A";
-
 
     @Lob
     private String prodDesc;
 
-
     private String prodSummary;
-
 
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     private List<ArtWorkPicture> artWorkPicture;
@@ -59,7 +54,6 @@ public class Products extends CommonFields implements Serializable {
 
     @OneToOne
     private Style style;
-
 
     private int stockNo;
 
@@ -84,7 +78,6 @@ public class Products extends CommonFields implements Serializable {
 
     @OneToMany(mappedBy = "products",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<WishList> wishLists;
-
 
     @JsonIgnore
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
@@ -331,9 +324,4 @@ public class Products extends CommonFields implements Serializable {
     }
 
 
-    //    @Override
-//    @JsonIgnore
-//    public List<String> getDefaultSearchFields() {
-//        return Arrays.asList("name");
-//    }
 }

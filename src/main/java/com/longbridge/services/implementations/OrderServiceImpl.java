@@ -13,6 +13,7 @@ import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.*;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.time.DateUtils;
@@ -97,9 +98,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     DesignerRepository designerRepository;
 
-    @Autowired
-    WalletService walletService;
-
 
     @Transactional
     @Override
@@ -176,7 +174,12 @@ public class OrderServiceImpl implements OrderService {
                 itemStatus = itemStatusRepository.findByStatus("P");
                 orders.setDeliveryStatus("P");
             }
+            else {
+                System.out.println("Invalid payment type");
+                throw new WawoohException();
+            }
 
+            orderRepository.save(orders);
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
             totalAmount = Double.parseDouble(h.get("totalAmount").toString());
             totalShippingAmount = Double.parseDouble(h.get("totalShippingAmount").toString());
@@ -194,6 +197,7 @@ public class OrderServiceImpl implements OrderService {
                 return paymentService.initiatePayment(paymentRequest);
             }
 
+
             orderRepository.save(orders);
             deleteCart(user);
             sendEmailAsync.sendEmailToUser(user,orderNumber);
@@ -210,7 +214,6 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-
     private void updateOrder(Orders orders, User user) {
         ItemStatus itemStatus = itemStatusRepository.findByStatus("P");
         for (Items item:orders.getItems()) {
@@ -222,7 +225,8 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    private Boolean thresholdExceeded(Items items){
+    @Override
+    public Boolean thresholdExceeded(Items items){
 
         int threshold = designerRepository.findById(items.getDesignerId()).getThreshold();
         int activeOrders = itemRepository.countByDesignerIdAndDeliveryStatusIn(items.getDesignerId(), Arrays.asList("A", "PC", "OP", "CO", "RI", "OS", "WR", "WC", "P"));
@@ -264,10 +268,10 @@ public class OrderServiceImpl implements OrderService {
             items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).getPictureName());
 
             Double amount;
-            if(p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice()>0){
-                amount=p.getAmount()-p.getPriceSlash().getSlashedPrice();
+            if(p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0){
+                amount = p.getPriceSlash().getSlashedPrice();
             }else {
-                amount=p.getAmount();
+                amount = p.getAmount();
             }
             Double itemsAmount = amount*items.getQuantity();
             if(!designerCities.contains(p.getDesigner().getCity().toUpperCase().trim())){
@@ -301,13 +305,12 @@ public class OrderServiceImpl implements OrderService {
             }
 
             productRepository.save(p);
-
-                DesignerOrderDTO dto= new DesignerOrderDTO();
-                dto.setProductName(p.getName());
-                dto.setStoreName(p.getDesigner().getStoreName());
-                dto.setDesignerEmail(p.getDesigner().getUser().getEmail());
-                designerDTOS.add(dto);
-                sendEmailAsync.sendEmailToDesigner(designerDTOS,orders.getOrderNum());
+            DesignerOrderDTO dto= new DesignerOrderDTO();
+            dto.setProductName(p.getName());
+            dto.setStoreName(p.getDesigner().getStoreName());
+            dto.setDesignerEmail(p.getDesigner().getUser().getEmail());
+            designerDTOS.add(dto);
+            sendEmailAsync.sendEmailToDesigner(designerDTOS,orders.getOrderNum());
         }
 
 
@@ -317,8 +320,6 @@ public class OrderServiceImpl implements OrderService {
 
         return hm;
     }
-
-
 
     @Override
     public List<StatusMessageDTO> updateOrderItemByDesignerr(ItemsDTO itemsDTO, User user) {
@@ -346,10 +347,6 @@ public class OrderServiceImpl implements OrderService {
 
         return null;
     }
-
-
-    //pp
-
 
     @Transactional
     @Override
@@ -399,10 +396,6 @@ public class OrderServiceImpl implements OrderService {
         JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
         return jwtUser.getUser();
     }
-
-
-
-
 
     @Override
     public List<Orders> getOrdersByUser() {
@@ -464,9 +457,9 @@ public class OrderServiceImpl implements OrderService {
             double amount;
             Products products = productRepository.findOne(cartTemp.getProductId());
             if(products.getPriceSlash() != null && products.getPriceSlash().getSlashedPrice()>0){
-                amount=products.getAmount()-products.getPriceSlash().getSlashedPrice();
+                amount = products.getPriceSlash().getSlashedPrice();
             }else {
-                amount=products.getAmount();
+                amount = products.getAmount();
             }
 
             int qty = cart.getQuantity();
@@ -508,10 +501,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<CartDTO> getCarts() {
+    public UserCartDTO getCarts() {
         try {
             List<Cart> carts= cartRepository.findByUser(getCurrentUser());
-            return generalUtil.convertCartEntsToDTOs(carts);
+            List<CartDTO> cartDTOS = generalUtil.convertCartEntsToDTOs(carts);
+            Double totalPrice = 0.0;
+
+            for (CartDTO cartDTO : cartDTOS) {
+                totalPrice += cartDTO.getTotalPrice();
+            }
+
+            UserCartDTO userCartDTO = new UserCartDTO();
+            userCartDTO.setCartItems(cartDTOS);
+            userCartDTO.setTotalPrice(totalPrice);
+
+            return userCartDTO;
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -531,9 +535,6 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
-
-
     @Override
     public void emptyCart() {
         try {
@@ -545,10 +546,6 @@ public class OrderServiceImpl implements OrderService {
         }
 
     }
-
-
-
-
 
     @Override
     public OrderDTO getOrdersById(Long id) {
@@ -586,7 +583,6 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
     @Override
     public void saveUserOrderDecision(ItemsDTO itemsDTO) {
         try {
@@ -595,23 +591,21 @@ public class OrderServiceImpl implements OrderService {
                 Items items = itemRepository.findOne(itemsDTO.getId());
 
                 if(items.getItemStatus().getStatus().equalsIgnoreCase("OR")){
-                        if(itemsDTO.getAction().equalsIgnoreCase("A")){
-                            items.setItemStatus(itemStatusRepository.findByStatus("PC"));
-                        }
-                        else if(itemsDTO.getAction().equalsIgnoreCase("R")){
-                            items.setItemStatus(itemStatusRepository.findByStatus("C"));
-                            Refund refund = new Refund();
-                            refund.setAccountName(itemsDTO.getAccountName());
-                            refund.setAccountNumber(itemsDTO.getAccountNumber());
-                            refund.setAmount(items.getAmount());
-                            refund.setUserId(user.id);
-                            refundRepository.save(refund);
+                    if(itemsDTO.getAction().equalsIgnoreCase("A")){
+                        items.setItemStatus(itemStatusRepository.findByStatus("PC"));
+                    }
+                    else if(itemsDTO.getAction().equalsIgnoreCase("R")){
+                        items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                        Refund refund = new Refund();
+                        refund.setAccountName(itemsDTO.getAccountName());
+                        refund.setAccountNumber(itemsDTO.getAccountNumber());
+                        refund.setAmount(items.getAmount());
+                        refund.setUserId(user.id);
+                        refundRepository.save(refund);
 
-                        }
-//                        items.setItemStatus(itemStatus);
-//                        items.setStatusMessage(statusMessage);
- }
-                    itemRepository.save(items);
+                    }
+                }
+                itemRepository.save(items);
             }
 
         }catch (Exception ex){
@@ -636,6 +630,38 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public String validateItemQuantity(List<Items> item){
+        List<ProductSizes> productSizes = new ArrayList<ProductSizes>();
+        String status = "";
+
+        for (Items items: item) {
+            if(items.getProductAttributeId() != null){
+                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+
+                if(itemAttribute != null){
+                    ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                    if(items.getMeasurementId() == null){
+                        if(sizes.getNumberInStock() < items.getQuantity()){
+                            status = "false";
+                        }
+                        sizes.setNumberInStock(sizes.getNumberInStock() - items.getQuantity());
+                        productSizes.add(sizes);
+                    }else{
+                        if(thresholdExceeded(items)){
+                            status = "thresholdLimit";
+                        }
+                    }
+                }
+            }
+        }
+
+        if(status.equalsIgnoreCase("")){
+            productSizesRepository.save(productSizes);
+        }
+        return status;
+    }
+
 
     @Override
     public Boolean orderNumExists(String orderNum) {
@@ -643,15 +669,28 @@ public class OrderServiceImpl implements OrderService {
         return (orders != null) ? true : false;
     }
 
-    private String generateOrderNum(){
 
+    private String generateOrderNum(){
         Random r = new Random(System.currentTimeMillis() );
         int random = 1000000000 + r.nextInt(9999999);
         String orderNum = Integer.toString(random);
         return orderNum;
     }
 
-
+    @Override
+    public PaymentResponse cardPayment(Orders orders, String email){
+        PaymentRequest paymentRequest = new PaymentRequest();
+        paymentRequest.setOrderId(orders.id);
+        paymentRequest.setTransactionAmount(orders.getTotalAmount());
+        paymentRequest.setTransactionReference(orders.getOrderNum());
+        paymentRequest.setEmail(email);
+        paymentRepository.save(paymentRequest);
+        try {
+            return paymentService.initiatePayment(paymentRequest);
+        } catch (UnirestException e) {
+            throw new WawoohException();
+        }
+    }
 
     private void deleteCart(User user){
         System.out.println( "cart repo"+ cartRepository.findByUser(user));
@@ -659,6 +698,5 @@ public class OrderServiceImpl implements OrderService {
         cartRepository.delete(carts);
 
     }
-
 
 }

@@ -98,6 +98,7 @@ public class ProductController {
     }
 
 
+
     @PostMapping(value = "/getproductsbysub")
     public Object getProductsBySub(@RequestBody ProdSubCategoryDTO p){
         List<ProductRespDTO> products= productService.getProductsBySubCatId(p);
@@ -136,18 +137,18 @@ public class ProductController {
     //get top products based on the number of orders
 
     @GetMapping(value = "/gettopproducts")
-    public Response getTopProducts(HttpServletRequest request){
+    public Response getTopProducts(){
         Response response = new Response("00", "Operation Successful", productService.getTopProducts());
         return response;
     }
 
     @GetMapping(value = "/getfreqboughtproducts")
-    public Response getFreqBoughtProducts(HttpServletRequest request){
+    public Response getFreqBoughtProducts(){
         return new Response("00", "Operation Successful", productService.getFreqBoughtProducts());
     }
 
     @GetMapping(value = "/getfeaturedproducts")
-    public Response getFeaturedProducts(HttpServletRequest request){
+    public Response getFeaturedProducts(){
         return new Response("00", "Operation Successful", productService.getFeaturedProducts());
 
     }
@@ -164,7 +165,6 @@ public class ProductController {
     public Response getMandatoryMeasurements(@PathVariable Long productId){
         return new Response("00","Operation Successful",measurementService.getMandatoryMeasurement(productId));
     }
-
 
 
     @PostMapping(value = "/getallratings")

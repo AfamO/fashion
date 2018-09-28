@@ -32,14 +32,12 @@ public class UserOrderController {
     @Autowired
     ShippingPriceService shippingPriceService;
 
-
     @Autowired
     MailErrorRepository mailErrorRepository;
 
 
     @PostMapping(value = "/addorder")
     public Response createOrder(@RequestBody OrderReqDTO orders, HttpServletRequest request){
-
         PaymentResponse orderRespDTO = new PaymentResponse();
         try {
             orderRespDTO = orderService.addOrder(orders);

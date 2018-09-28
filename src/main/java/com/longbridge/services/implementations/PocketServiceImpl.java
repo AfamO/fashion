@@ -8,9 +8,7 @@ import com.longbridge.services.PocketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by Longbridge on 25/09/2018.
- */
+
 @Service
 public class PocketServiceImpl implements PocketService{
 

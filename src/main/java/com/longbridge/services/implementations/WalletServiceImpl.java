@@ -20,12 +20,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 
-/**
- * Created by Longbridge on 03/08/2018.
- */
+
 @Service
 public class WalletServiceImpl implements WalletService {
 
@@ -54,16 +51,20 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public String validateWalletBalance(OrderReqDTO orderReqDTO) {
         try {
+            User user = getCurrentUser();
+
+            if(user.getUserWalletId() == null){
+                return  "NO_WALLET";
+            }
             Double amount = itemsUtil.getAmount(orderReqDTO);
             Double walletBalance = 0.0;
-            User user = getCurrentUser();
+
             DefaultHttpClient client = new DefaultHttpClient();
             HttpGet get = new HttpGet(getWalletEndPoint+user.getUserWalletId());
             try {
                 JSONObject data = new JSONObject();
                 get.setHeader("Accept", "application/json");
                 get.setHeader("Content-type", "application/json");
-
                 try {
                     org.apache.http.HttpResponse resp = client.execute(get);
                     HttpEntity resEntityPost = resp.getEntity();
@@ -103,7 +104,6 @@ public class WalletServiceImpl implements WalletService {
             ex.printStackTrace();
             throw new WawoohException();
         }
-
     }
 
 
@@ -138,7 +138,6 @@ public class WalletServiceImpl implements WalletService {
                              walletId = data.get("walletId").toString();
                              user1.setUserWalletId(Long.parseLong(walletId));
                              user1.setWalletToken(data.get("token").toString());
-
                              return "SUCCESS";
                          }
                          else {
@@ -167,9 +166,9 @@ public class WalletServiceImpl implements WalletService {
 
 
     @Override
-    public String chargeWallet(Double amount, String orderNum) {
+    public String chargeWallet(Double amount, String orderNum, User user) {
         try {
-            User user = getCurrentUser();
+
             DefaultHttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(chargeWalletEndPoint);
             try {
