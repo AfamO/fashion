@@ -28,12 +28,12 @@ public class AdminProductController {
         return new Response("00","Operation Successful",products);
     }
 
+
     @PostMapping(value = "/getverifiedproducts")
     public Object getVerifiedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<ProductRespDTO> products;
         products= productService.getVerifiedProducts(pageableDetailsDTO);
         return new Response("00","Operation Successful",products);
-
     }
 
 

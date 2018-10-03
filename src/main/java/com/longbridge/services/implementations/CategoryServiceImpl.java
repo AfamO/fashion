@@ -45,13 +45,12 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             Category category = categoryRepository.findOne(categoryId);
             if(category != null) {
-                subCategories= subCategoryRepository.findByCategory(category);
+                subCategories= subCategoryRepository.findByDelFlagAndCategory("N",category);
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
         }
-
         return subCategories;
     }
 

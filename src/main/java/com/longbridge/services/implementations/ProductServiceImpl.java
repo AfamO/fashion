@@ -210,7 +210,6 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             Date date = new Date();
-
             SubCategory subCategory = subCategoryRepository.findOne(id);
             subCategory.setDelFlag("Y");
             subCategory.setUpdatedOn(date);
@@ -529,8 +528,9 @@ public class ProductServiceImpl implements ProductService {
 
             RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass()); 
             ApiResponse makeRemoteRequest = searchService.makeRemoteRequest( elastic_search_host_api_url,"/products/_doc/"+products.id+"/","put","create_index","products",productSearchDTOWriteValueAsString);
-            apiLogger.log("The Result Of Indexing A  New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
+            apiLogger.log("The Result Of Indexing A New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
             return "true";
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -598,6 +598,7 @@ public class ProductServiceImpl implements ProductService {
                     priceSlashRepository.delete(priceSlash);
                 }
             }
+
 
             productRepository.save(products);
 
@@ -696,6 +697,7 @@ public class ProductServiceImpl implements ProductService {
             }
 
             products.setStockNo(totalStock);
+            products.setVerifiedFlag("N");
             productRepository.save(products);
 
         }catch (Exception e){
@@ -738,6 +740,8 @@ public class ProductServiceImpl implements ProductService {
                 }
 
             }
+            products.setVerifiedFlag("N");
+            productRepository.save(products);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -775,6 +779,8 @@ public class ProductServiceImpl implements ProductService {
                     materialPictureRepository.save(materialPicture);
                 }
             }
+            products.setVerifiedFlag("N");
+            productRepository.save(products);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -1289,7 +1295,7 @@ public class ProductServiceImpl implements ProductService {
 
             //products.addAll(prods1);
 
-            products=generalUtil.getRandomProducts(products,10);
+            products=generalUtil.getRandomProducts(products,products.size());
             return generalUtil.convertProdEntToProdRespDTOs(products);
 
 

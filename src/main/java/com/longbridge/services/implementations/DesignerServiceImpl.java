@@ -1,6 +1,8 @@
 package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.SMSAlertUtil;
+import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
 import com.longbridge.exception.ObjectNotFoundException;
@@ -65,6 +67,9 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    SMSAlertUtil smsAlertUtil;
+
 
     @Override
     public List<DesignerDTO> getDesigners() {
@@ -93,8 +98,8 @@ public class DesignerServiceImpl implements DesignerService{
 
     @Override
     public Designer getDesignrById(Long designerId) {
-            Designer designer = designerRepository.findOne(designerId);
-            return designer;
+            return designerRepository.findOne(designerId);
+
     }
 
     @Override
@@ -149,7 +154,6 @@ public class DesignerServiceImpl implements DesignerService{
             if(userTemp.getRole().equalsIgnoreCase("designer")){
                 User currentUser = userTemp;
                 Designer currentDesigner = designerRepository.findByUser(currentUser);
-
                 currentDesigner.setAddress(user.getDesigner().address);
                 currentDesigner.setCity(user.getDesigner().city);
                 currentDesigner.setState(user.getDesigner().state);
@@ -158,6 +162,7 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.setLocalGovt(user.getDesigner().localGovt);
                 currentDesigner.setSizeGuideFlag(user.getDesigner().sizeGuideFlag);
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
+                currentDesigner.setRegistrationProgress(20);
 
                 if(currentDesigner.getSizeGuideFlag().equalsIgnoreCase("Y")){
 
@@ -174,7 +179,6 @@ public class DesignerServiceImpl implements DesignerService{
                             if(currentSizeGuide.getFemaleSizeGuide() != null){
                                 cloudinaryService.deleteFromCloud(currentSizeGuide.getFemaleSizeGuidePublicId(), currentSizeGuide.getFemaleSizeGuide());
                             }
-
                             try {
                                 String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
                                 String base64Img = user.getDesigner().femaleSizeGuide;
@@ -270,8 +274,8 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.setAccountName(user.getDesigner().accountName);
                 currentDesigner.setSwiftCode(user.getDesigner().swiftCode);
                 currentDesigner.setSwiftCode(user.getDesigner().swiftCode);
-
                 designerRepository.save(currentDesigner);
+
             }else{
                 throw new WawoohException();
             }
