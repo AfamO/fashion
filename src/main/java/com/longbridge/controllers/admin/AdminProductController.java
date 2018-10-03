@@ -28,7 +28,8 @@ import java.util.Map;
 public class AdminProductController {
     @Autowired
     ProductService productService;
-
+     @Value("${search.url}")
+    private String elastic_host_api_url; //host_api_url for elastic search
 
     @PostMapping(value = "/getproducts")
     public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
@@ -66,7 +67,7 @@ public class AdminProductController {
     @GetMapping(value = "/{id}/verifyproduct/{flag}")
     public Object updateProductStatus(@PathVariable Long id, @PathVariable String flag){
         Map<String,Object> responseMap = new HashMap();
-        productService.updateProductStatus(id,flag);
+        productService.updateProductStatus(id,flag,elastic_host_api_url);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
     }

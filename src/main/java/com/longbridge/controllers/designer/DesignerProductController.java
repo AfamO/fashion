@@ -52,7 +52,7 @@ public class DesignerProductController {
     @PostMapping(value = "/updateproduct")
     public Object updateProduct(@RequestBody ProductDTO productDTO){
         Map<String,Object> responseMap = new HashMap();
-        productService.updateProduct(productDTO);
+        productService.updateProduct(productDTO,host_api_url);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
@@ -73,7 +73,7 @@ public class DesignerProductController {
     public Object updateProductImage(@RequestBody ProductDTO p){
         Map<String,Object> responseMap = new HashMap();
 
-        productService.updateProductImages(p);
+        productService.updateProductImages(p,host_api_url);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 

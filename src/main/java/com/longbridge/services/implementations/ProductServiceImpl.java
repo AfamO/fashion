@@ -3,6 +3,7 @@ package com.longbridge.services.implementations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.SearchUtilities;
 import com.longbridge.services.elasticSearch.RemoteWebServiceLogger;
 import com.longbridge.dto.*;
 import com.longbridge.dto.elasticSearch.MaterialPictureSearchDTO;
@@ -25,6 +26,7 @@ import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -109,8 +111,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductAttributeRepository productAttributeRepository;
-
-
+    RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass()); 
 
     @Override
     public ProductRespDTO getDesignerProductById(Long id) {
@@ -370,7 +371,7 @@ public class ProductServiceImpl implements ProductService {
             productSearchDTO.setName(productDTO.name);
             products.setAmount(productDTO.amount);
             productSearchDTO.setAmount(productDTO.amount);
-            productSearchDTO.setPicture(productDTO.picture);
+            //productSearchDTO.setPicture(productDTO.picture);
             productSearchDTO.setAvailability(productDTO.inStock);
             products.setAvailability(productDTO.inStock);
             products.setAcceptCustomSizes(productDTO.acceptCustomSizes);
@@ -390,7 +391,8 @@ public class ProductServiceImpl implements ProductService {
             productSearchDTO.setDesignerId(Long.toString(designer.id));
             productSearchDTO.setDesignerStatus(designer.getStatus());
             productSearchDTO.setStatus(productDTO.status);
-            productSearchDTO.setDesignerName(designer.getUser().getFirstName()+" "+designer.getUser().getLastName());
+            productSearchDTO.setDesignerName(designer.getStoreName());
+            System.out.println("The Designer Name Is::"+designer.getStoreName());
             products.setDesigner(designer);
             productSearchDTO.setProductType(productDTO.productType);
             products.setProductType(productDTO.productType);
@@ -414,7 +416,7 @@ public class ProductServiceImpl implements ProductService {
             List<ProductAttributeSearchDTO> productAttributesListSearchDTO =  new ArrayList<>();
             List<ProductPictureSearchDTO> productPicturseSearchDTOList =  new ArrayList<>();
             List<MaterialPictureSearchDTO> materialPictureSearchDTOList=new ArrayList<>();
-            List<ProductSizes> productSizesSearchDTOList =  new ArrayList<ProductSizes>();
+            List<ProductSizes> productSizesSearchDTOList =  new ArrayList<>();
             for (ProductAttributeDTO pa: productDTO.productAttributes) {
                 ProductAttribute productAttribute=new ProductAttribute();
                 ProductAttributeSearchDTO productAttributeSearch=new ProductAttributeSearchDTO();
@@ -427,7 +429,7 @@ public class ProductServiceImpl implements ProductService {
                 productAttribute.setColourPicture(c.getUrl());
                 productAttributeSearch.setColourPicture(c.getUrl());
                 productAttributeRepository.save(productAttribute);
-
+                    
                 for (ProductSizes p: pa.getProductSizes()) {
                     ProductSizes productSizes = new ProductSizes();
                     productSizes.setName(p.getName());
@@ -493,8 +495,7 @@ public class ProductServiceImpl implements ProductService {
                     //materialPicture.pictureName = matName;
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(mp.getMaterialPicture(), matName, "materialpictures");
                     materialPicture.setPictureName(c.getUrl());
-                    materialPictureSearchDTO.setPicture(c.getUrl());
-                    materialPictureSearchDTO.setPictureName(c.getUrl());
+                    materialPictureSearchDTO.setMaterialPicture(c.getUrl());
                     materialPicture.setPicture(c.getPublicId());
                     materialPictureSearchDTO.setMaterialName(mp.getMaterialName());
                     materialPicture.setMaterialName(mp.getMaterialName());
@@ -526,8 +527,6 @@ public class ProductServiceImpl implements ProductService {
             Gson gson= new Gson();
             ObjectMapper objectMapper = new ObjectMapper();
             String productSearchDTOWriteValueAsString = objectMapper.writeValueAsString(productSearchDTO);
-
-            RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass()); 
             ApiResponse makeRemoteRequest = searchService.makeRemoteRequest( elastic_search_host_api_url,"/products/_doc/"+products.id+"/","put","create_index","products",productSearchDTOWriteValueAsString);
             apiLogger.log("The Result Of Indexing A  New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
             return "true";
@@ -539,13 +538,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(ProductDTO productDTO) {
+    public void updateProduct(ProductDTO productDTO,String elastic_search_host_api_url) {
         try {
             User user = getCurrentUser();
             Date date = new Date();
             Designer designer = designerRepository.findByUser(user);
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             Products products = productRepository.findOne(productDTO.id);
+            //Get the product from elastic search 'products' index
+            ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url,productDTO.id, "products"));
             products.setSubCategory(subCategoryRepository.findOne(subCategoryId));
             products.setName(productDTO.name);
             products.setAmount(productDTO.amount);
@@ -553,26 +554,51 @@ public class ProductServiceImpl implements ProductService {
             products.setProdDesc(productDTO.description);
             products.setProdSummary(productDTO.prodSummary);
             products.setDesigner(designer);
+            productSearchDTO.setSubCategoryId(productDTO.subCategoryId);
+            productSearchDTO.setName(productDTO.name);
+            productSearchDTO.setAmount(productDTO.amount);
+            productSearchDTO.setAvailability(productDTO.inStock);
+            productSearchDTO.setNumOfDaysToComplete(productDTO.numOfDaysToComplete);
+            productSearchDTO.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
+            productSearchDTO.setMaterialPrice(productDTO.materialPrice);
+            productSearchDTO.setMaterialName(productDTO.materialName);
+            productSearchDTO.setCategoryName(products.getSubCategory().getCategory().categoryName);
+            productSearchDTO.setSubCategoryName(products.getSubCategory().getSubCategory());
+            productSearchDTO.setProdSummary(productDTO.prodSummary);
+            productSearchDTO.setDescription(productDTO.description);
+            productSearchDTO.setDesignerId(Long.toString(designer.id));
+            productSearchDTO.setDesignerStatus(designer.getStatus());
+            productSearchDTO.setStatus(productDTO.status);
+            productSearchDTO.setDesignerName(designer.getStoreName());
+            System.out.println("The Designer Name Is::"+designer.getStoreName());
+            productSearchDTO.setProductType(productDTO.productType);
+            //
             if(!"null".equalsIgnoreCase(productDTO.styleId)) {
                 if(!productDTO.styleId.isEmpty()) {
                     Long styleId = Long.parseLong(productDTO.styleId);
                     products.setStyle(styleRepository.findOne(styleId));
+                    productSearchDTO.setStyleId(productDTO.styleId);
                 }
             }
             products.setStockNo(productDTO.stockNo);
             products.setUpdatedOn(date);
+            productSearchDTO.setStockNo(productDTO.stockNo);
 
             if(productDTO.slashedPrice > 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
                 if(priceSlash != null){
                     priceSlash.setSlashedPrice(productDTO.slashedPrice);
                     priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
+                    productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
+                    productSearchDTO.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
                 }else {
                     priceSlash=new PriceSlash();
                     products.setPriceSlashEnabled(true);
                     priceSlash.setProducts(products);
                     priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
                     priceSlash.setSlashedPrice(productDTO.slashedPrice);
+                    productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
+                    productSearchDTO.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
                 }
 
                 priceSlashRepository.save(priceSlash);
@@ -582,12 +608,16 @@ public class ProductServiceImpl implements ProductService {
                 if(priceSlash != null){
                     priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getAmount()));
                     priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
+                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getAmount()));
+                    productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
                 }else {
                     priceSlash=new PriceSlash();
                     products.setPriceSlashEnabled(true);
                     priceSlash.setProducts(products);
                     priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getAmount()));
                     priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
+                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getAmount()));
+                    productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
                 }
 
                 priceSlashRepository.save(priceSlash);
@@ -600,6 +630,11 @@ public class ProductServiceImpl implements ProductService {
             }
 
             productRepository.save(products);
+            //Then save the Updated product status
+            //Update the search index to display verified products only
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO, "products");
+            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -633,16 +668,25 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public void updateProductImages(ProductDTO p) {
+    public void updateProductImages(ProductDTO p,String elastic_search_host_api_url) {
         Date date = new Date();
         try {
             Products products = productRepository.findOne(p.id);
+            //Get the product from elastic search 'products' index
+            ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url,p.id, "products"));
+            List<ProductAttributeSearchDTO> productAttributesListSearchDTO =  new ArrayList<>();
+            List<ProductPictureSearchDTO> productPicturseSearchDTOList =  new ArrayList<>();
+            List<MaterialPictureSearchDTO> materialPictureSearchDTOList=new ArrayList<>();
+            List<ProductSizes> productSizesSearchDTOList =  new ArrayList<ProductSizes>();
             int totalStock = 0;
             List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
             List<String> reOccuringPictures = new ArrayList<String>();
             products.setAcceptCustomSizes( p.acceptCustomSizes);
             products.setInStock(p.inStock);
             products.setNumOfDaysToComplete( p.numOfDaysToComplete);
+            productSearchDTO.setAcceptCustomSizes(p.acceptCustomSizes);
+            productSearchDTO.setNumOfDaysToComplete(p.numOfDaysToComplete);
+            productSearchDTO.setInStock(p.inStock);
 
             if(productAttributes.size()>0){
 
@@ -668,7 +712,11 @@ public class ProductServiceImpl implements ProductService {
                 productAttribute.setColourName(pa.getColourName());
                 productAttribute.setColourPicture(c.getUrl());
                 productAttributeRepository.save(productAttribute);
-
+                ProductAttributeSearchDTO productAttributeSearch=new ProductAttributeSearchDTO();
+                productAttributeSearch.setProductId(p.id);
+                productAttributeSearch.setColourName(colourName);
+                productAttributeSearch.setColourPicture(c.getUrl());
+                productAttributeRepository.save(productAttribute);
 
 
                 for (ProductSizes prodSizes: pa.getProductSizes()) {
@@ -678,8 +726,9 @@ public class ProductServiceImpl implements ProductService {
                     totalStock += prodSizes.getNumberInStock();
                     productSizes.setProductAttribute(productAttribute);
                     productSizesRepository.save(productSizes);
+                    productSizesSearchDTOList.add(productSizes);
                 }
-
+                productAttributeSearch.setProductSizes(productSizesSearchDTOList);
                 for(String pp : pa.getPicture()){
 
                         ProductPicture productPicture = new ProductPicture();
@@ -692,11 +741,25 @@ public class ProductServiceImpl implements ProductService {
                         productPicture.setUpdatedOn(date);
                         productPicture.setProductAttribute(productAttribute);
                         productPictureRepository.save(productPicture);
+                        ProductPictureSearchDTO productPictureSearchDTO = new ProductPictureSearchDTO();
+                        productPictureSearchDTO.picture=c.getUrl();
+                        productPictureSearchDTO.createdOn = date;
+                        productPictureSearchDTO.updatedOn=date;
+                        productPictureSearchDTO.setId(productPicture.getId());
+                        productPicturseSearchDTOList.add(productPictureSearchDTO);
                     }
+                        productAttributeSearch.setProductPictureSearchDTOS(productPicturseSearchDTOList);
+                        productAttributesListSearchDTO.add(productAttributeSearch);
+                        productSearchDTO.setProductAttributeDTOS(productAttributesListSearchDTO);
             }
 
             products.setStockNo(totalStock);
+            productSearchDTO.setStockNo(totalStock);
             productRepository.save(products);
+            //Then save the Updated product status
+            //Update the search index to display verified products only
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO, "products");
+            apiLogger.log("The Result Of ReIndexing An Updated Product Images/Properties For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -797,14 +860,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProductStatus(Long id, String status) {
+    public void updateProductStatus(Long id, String status,String elastic_search_host_api_url) {
 
         try {
             Date date = new Date();
+            //get the product to update
+            ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url, id, "products"));
+            productSearchDTO.setVerifiedFlag(status);
             Products products = productRepository.findOne(id);
             products.setVerifiedFlag(status);
             products.setVerfiedOn(date);
             productRepository.save(products);
+            //Then save the Updated product status
+            //Update the search index to display verified products only
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO, "products");
+            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
         }catch (Exception e) {
             e.printStackTrace();

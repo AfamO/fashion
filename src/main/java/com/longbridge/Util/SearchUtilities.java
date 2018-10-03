@@ -145,12 +145,21 @@ public class SearchUtilities {
     public static JSONArray filterSearchResults(SearchRequest searchRequest,JSONArray searchResultsArray){
         
         JSONArray jsonNewSearchResultsArray= new JSONArray();
+        //Filter by verified products first:
+        for (Object objec:searchResultsArray){
+                        JSONObject currentVal=(JSONObject)objec;
+                        // Has the product been verified
+                        System.out.println("At Field "+searchRequest.getVerifiedFlag()+" The Value Is::"+searchRequest.getVerifiedFlagValue());
+                        if(currentVal.getString(searchRequest.getVerifiedFlag()).equalsIgnoreCase(searchRequest.getVerifiedFlagValue())){
+                        jsonNewSearchResultsArray.put(currentVal);
+                   }
+                }
          if(searchRequest.getRanges()!=null && searchRequest.getRanges().size()>0){
             List<Range> rangesList=searchRequest.getRanges();
             for(Range currentRange:rangesList){
                 int min=currentRange.getMin();
                 int max=currentRange.getMax();
-                for (Object objec:searchResultsArray){
+                for (Object objec:jsonNewSearchResultsArray){
                         JSONObject currentVal=(JSONObject)objec;
                         System.out.println(" At Field "+currentRange.getFieldName()+" Min Is::"+min+" Max Is::"+max+" Val Is::"+currentVal.getInt(currentRange.getFieldName()));
                         //Is the requested value within the range?
@@ -161,16 +170,16 @@ public class SearchUtilities {
                 }
             }
         }
-        //Did the user request to filter search results by terms
+        //Did the user request to filter search results by any terms
         if(searchRequest.getTerms()!=null&& searchRequest.getTerms().size()>0){
             
             List<TermFilter> termsList=searchRequest.getTerms();
             for(TermFilter currentTermFilter:termsList){
                 List<String> termValues=currentTermFilter.getValues();
                 for(String termValue:termValues){
-                    for (Object objec:searchResultsArray){
+                    for (Object objec:jsonNewSearchResultsArray){
                         JSONObject currentVal=(JSONObject)objec;
-                        //Is the requested value found?
+                        //Is the requested filter term value found?
                         if(currentVal.getString(currentTermFilter.getFieldName()).equalsIgnoreCase(termValue)){
                         jsonNewSearchResultsArray.put(currentVal);
                    }
@@ -180,10 +189,7 @@ public class SearchUtilities {
             }
             
         }
-        if(jsonNewSearchResultsArray.length()>0)
-            return jsonNewSearchResultsArray;
-        else
-            return searchResultsArray;
+        return jsonNewSearchResultsArray;
     }
     public static String convertObjectToJson(Object object){
        ObjectMapper objectMapper = new ObjectMapper();

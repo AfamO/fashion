@@ -1,6 +1,8 @@
 package com.longbridge.dto.elasticSearch;
 import com.longbridge.dto.MaterialPictureDTO;
+import com.longbridge.dto.ProductPictureDTO;
 import com.longbridge.dto.SizeGuideDTO;
+import com.longbridge.models.ArtWorkPicture;
 import com.longbridge.models.ProductRating;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +36,9 @@ public class ProductSearchDTO {
 
     private int productType;
 
-    private ArrayList<String> picture;
+    private List<ProductPictureDTO> picture;
 
-    private ArrayList<String> artWorkPicture;
+    private ArrayList<ArtWorkPictureDTO> artWorkPicture;
 
     private List<MaterialPictureSearchDTO> materialPicture;
 
@@ -217,19 +219,19 @@ public class ProductSearchDTO {
         this.productType = productType;
     }
 
-    public ArrayList<String> getPicture() {
+    public List<ProductPictureDTO> getPicture() {
         return picture;
     }
 
-    public void setPicture(ArrayList<String> picture) {
+    public void setPicture(List<ProductPictureDTO> picture) {
         this.picture = picture;
     }
 
-    public ArrayList<String> getArtWorkPicture() {
+    public ArrayList<ArtWorkPictureDTO> getArtWorkPicture() {
         return artWorkPicture;
     }
 
-    public void setArtWorkPicture(ArrayList<String> artWorkPicture) {
+    public void setArtWorkPicture(ArrayList<ArtWorkPictureDTO> artWorkPicture) {
         this.artWorkPicture = artWorkPicture;
     }
 

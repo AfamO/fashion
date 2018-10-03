@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.SearchUtilities;
 import com.longbridge.controllers.elasticSearch.SearchApiController;
+import com.longbridge.dto.PageableDetailsDTO;
+import com.longbridge.dto.elasticSearch.ProductSearchDTO;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.Products;
 import com.longbridge.models.elasticSearch.ApiResponse;
@@ -19,6 +21,7 @@ import com.longbridge.respbodydto.ProductRespDTO;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Level;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -170,9 +173,11 @@ import org.springframework.stereotype.Service;
 
         return apiResponse;
        }
-   public ApiResponse LoadSearchDataFromDatabase(String host_api_url,int size){
+   public ApiResponse LoadSearchDataFromDatabase(String host_api_url,PageableDetailsDTO pageableDetailsDTO){
        
-        Page<Products> products = productRepository.findAll(new PageRequest(0,size));
+        int page = pageableDetailsDTO.getPage();
+        int size = pageableDetailsDTO.getSize(); 
+        Page<Products> products = productRepository.findByVerifiedFlag("Y",new PageRequest(page,size));
         StringBuilder productDTOS = new StringBuilder();
         Index index=new Index();
         CreateIndexId createIndexId= new CreateIndexId(); 
@@ -207,7 +212,45 @@ import org.springframework.stereotype.Service;
         return makeRemoteRequestIndexProducts;
          
    }
-   
+   public ApiResponse UpdateProductIndex(String host_api_url,ProductSearchDTO productSearchDTO,String indexName){
+       if(productSearchDTO!=null){
+            this.httpParameters=new JSONObject().put("doc",new JSONObject(SearchUtilities.convertObjectToJson(productSearchDTO)));
+            apiLogger.log(Level.INFO," Received JSON Object To Be Updated Is :::"+httpParameters); 
+            requestedEndPointPath="/"+indexName+"/_doc/"+productSearchDTO.getId()+"/_update";
+            requestedServiceName="update_index";//This data is used for logging.
+            this.requestedIndexName=indexName;
+            return makeRemoteRequest(host_api_url,requestedEndPointPath,"post",requestedServiceName, requestedIndexName, httpParameters);
+        }
+        else{
+             return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The the json data to update must be provided!");
+        }
+       
+   }
+   public ProductSearchDTO convertIndexApiReponseToProductDTO(ApiResponse apiResponse){
+       JSONObject productObjectResponse=new JSONObject(SearchUtilities.convertObjectToJson(apiResponse));
+       ObjectMapper objectMapper = new ObjectMapper();
+       ProductSearchDTO  productSearchDTO = objectMapper.convertValue(productObjectResponse.getJSONObject("data").getJSONObject("_source").toMap(),ProductSearchDTO.class);
+       return productSearchDTO;
+       
+   }
+   public ApiResponse getProduct(String host_api_url,Long id,String indexName){
+       if(id==null)
+        {
+            
+            apiLogger.log(Level.INFO,"The product id to get its index must be provided");
+            return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The product id to get its index must be provided!");
+        }
+         if(indexName==null)
+        {
+            
+            apiLogger.log(Level.INFO,"The indexName must be provided");
+           return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The indexName must be provided!");
+        }
+        requestedEndPointPath="/"+indexName+"/_doc/"+id;
+        requestedServiceName="query_index";//This data is used for logging.
+        this.requestedIndexName=indexName;
+        return makeRemoteRequest(host_api_url,requestedEndPointPath,"get",requestedServiceName, requestedIndexName, httpParameters);
+   }
    public ApiResponse processSearchResults(JSONObject remoteJsonObject, String httpMethod,String path) {
        ApiResponse apiResponse=null;
         //Did it fail to find any search item
