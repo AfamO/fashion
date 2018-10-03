@@ -198,8 +198,10 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     @Override
     public void deleteOrder(Long id) {
         try {
-
-            orderRepository.delete(id);
+            Orders orders = orderRepository.findOne(id);
+            List<Items> items = itemRepository.findByOrders(orders);
+            itemRepository.delete(items);
+            orderRepository.delete(orders);
 
         }catch (Exception ex){
             ex.printStackTrace();

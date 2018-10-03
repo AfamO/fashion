@@ -65,7 +65,7 @@ public class AdminProductController {
         return new Response("00", "Operation Successful", responseMap);
     }
 
-    @PostMapping(value = "/{id}/unverifyproduct")
+    @PostMapping(value = "/unverifyproduct")
     public Object unverifyProduct(@RequestBody VerifyDTO verifyDTO){
         Map<String,Object> responseMap = new HashMap();
         productService.unVerifyProduct(verifyDTO);

@@ -570,7 +570,7 @@ public class ProductServiceImpl implements ProductService {
             productSearchDTO.setDesignerStatus(designer.getStatus());
             productSearchDTO.setStatus(productDTO.status);
             productSearchDTO.setDesignerName(designer.getStoreName());
-            System.out.println("The Designer Name Is::"+designer.getStoreName());
+
             productSearchDTO.setProductType(productDTO.productType);
             //
             if(!"null".equalsIgnoreCase(productDTO.styleId)) {
@@ -628,7 +628,7 @@ public class ProductServiceImpl implements ProductService {
                     priceSlashRepository.delete(priceSlash);
                 }
             }
-
+            products.setVerifiedFlag("N");
 
             productRepository.save(products);
             //Then save the Updated product status
