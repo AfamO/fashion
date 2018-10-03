@@ -6,6 +6,7 @@
 
 package com.longbridge.models.elasticSearch;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,11 +17,13 @@ public class SearchRequest {
 
     private String indexName;
     private String searchTerm;
+    private String verifiedFlag="verifiedFlag";
+    private String verifiedFlagValue="Y";
     private int pageNumber;
     private List<Range> ranges;
     private List<TermFilter> terms;
     private Aggregation aggs;
-
+    
     public Aggregation getAggs() {
         return aggs;
     }
@@ -117,6 +120,22 @@ public class SearchRequest {
      */
     public void setIndexName(String indexName) {
         this.indexName = indexName;
+    }
+
+    public String getVerifiedFlag() {
+        return verifiedFlag;
+    }
+
+    public void setVerifiedFlag(String verifiedFlag) {
+        this.verifiedFlag = "verifiedFlag";
+    }
+
+    public String getVerifiedFlagValue() {
+        return verifiedFlagValue;
+    }
+
+    public void setVerifiedFlagValue(String verifiedFlagValue) {
+        this.verifiedFlagValue = "Y";
     }
 
     

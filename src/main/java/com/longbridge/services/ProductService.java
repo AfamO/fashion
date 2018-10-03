@@ -23,20 +23,20 @@ public interface ProductService {
 
     void updateProductVisibility(Long id, String status);
 
-    void updateProductStatus(Long id, String status);
+    void updateProductStatus(Long id, String status,String elastic_search_host_api_url);
 
     void unVerifyProduct(VerifyDTO verifyDTO);
 
     void sponsorProduct(Long id, String status);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateProduct(ProductDTO productDTO);
+    void updateProduct(ProductDTO productDTO,String elastic_search_host_api_url);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void updateProductStock(ProductDTO productDTO);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateProductImages(ProductDTO p);
+    void updateProductImages(ProductDTO p,String elastic_search_host_api_url);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void updateArtWorkImages(ArtPicReqDTO artPictureDTO);

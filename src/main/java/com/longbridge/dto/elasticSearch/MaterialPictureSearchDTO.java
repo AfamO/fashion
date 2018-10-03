@@ -1,13 +1,14 @@
 package com.longbridge.dto.elasticSearch;
 
+import com.longbridge.models.CommonFields;
+
 /**
  * Created by Longbridge on 14/12/2017.
  */
-public class MaterialPictureSearchDTO {
+public class MaterialPictureSearchDTO{
     private Long id;
     private Long productId;
-    private String pictureName;
-    private String picture;
+    private String materialPicture;
     private String materialName;
 
     public MaterialPictureSearchDTO() {
@@ -16,7 +17,7 @@ public class MaterialPictureSearchDTO {
     public MaterialPictureSearchDTO(Long id, Long productId, String materialPicture) {
         this.id = id;
         this.productId = productId;
-        this.picture = materialPicture;
+        this.materialPicture = materialPicture;
     }
 
     public Long getId() {
@@ -35,27 +36,19 @@ public class MaterialPictureSearchDTO {
         this.productId = productId;
     }
 
-    public String getPictureName() {
-        return pictureName;
-    }
-
-    public void setPictureName(String pictureName) {
-        this.pictureName = pictureName;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
     public String getMaterialName() {
         return materialName;
     }
 
     public void setMaterialName(String materialName) {
         this.materialName = materialName;
+    }
+
+    public String getMaterialPicture() {
+        return materialPicture;
+    }
+
+    public void setMaterialPicture(String materialPicture) {
+        this.materialPicture = materialPicture;
     }
 }

@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.SearchUtilities;
-import com.longbridge.services.elasticSearch.RemotePostGet;
-import com.longbridge.services.elasticSearch.RemoteWebServiceException;
-import com.longbridge.services.elasticSearch.RemoteWebServiceLogger;
+import com.longbridge.dto.PageableDetailsDTO;
 import com.longbridge.models.Products;
 import com.longbridge.models.Response;
 import com.longbridge.models.elasticSearch.ApiResponse;
@@ -24,6 +22,9 @@ import com.longbridge.repository.ProductPictureRepository;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.services.elasticSearch.ElasticSearchService;
+import com.longbridge.services.elasticSearch.RemotePostGet;
+import com.longbridge.services.elasticSearch.RemoteWebServiceException;
+import com.longbridge.services.elasticSearch.RemoteWebServiceLogger;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -203,9 +204,9 @@ public class SearchApiController {
         requestedServiceName="list_indices";//This data is used for logging.
         return searchService.makeRemoteRequest(host_api_url,requestedEndPointPath,"get",requestedServiceName, requestedIndexName, httpParameters);
    }
-    @RequestMapping("/load/bulk/{size}")
-    public ApiResponse LoadBulkDataFromDBIntoElasticSearch( @PathVariable("size") int size) {
+    @RequestMapping(value="/load/bulk",method=RequestMethod.POST)
+    public ApiResponse LoadBulkDataFromDBIntoElasticSearch(@RequestBody PageableDetailsDTO pageableDetailsDTO) {
     
-        return searchService.LoadSearchDataFromDatabase(host_api_url,size);
+        return searchService.LoadSearchDataFromDatabase(host_api_url,pageableDetailsDTO);
    }  
 }
