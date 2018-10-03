@@ -3,6 +3,7 @@ package com.longbridge.services.implementations;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.ItemsUtil;
 import com.longbridge.Util.SendEmailAsync;
+import com.longbridge.dto.DesignerOrderDTO;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,6 +49,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    DesignerRepository designerRepository;
 
     @Autowired
     AnonymousUserRepository anonymousUserRepository;
@@ -246,7 +251,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void updateOrder(PaymentRequest paymentRequest, String authorizationCode) {
         Orders orders = orderRepository.findByOrderNum(paymentRequest.getTransactionReference());
-
+        List<DesignerOrderDTO> designerDTOS = new ArrayList<>();
         User user;
         if(orders.isAnonymousBuyer()){
             user = new User();
@@ -264,6 +269,14 @@ public class PaymentServiceImpl implements PaymentService {
         for (Items item:orders.getItems()) {
             item.setItemStatus(itemStatus);
             itemRepository.save(item);
+
+            DesignerOrderDTO dto= new DesignerOrderDTO();
+            Designer designer = designerRepository.findById(item.getDesignerId());
+            dto.setProductName(item.getProductName());
+            dto.setStoreName(designer.getStoreName());
+            dto.setDesignerEmail(designer.getUser().getEmail());
+            designerDTOS.add(dto);
+            sendEmailAsync.sendEmailToDesigner(designerDTOS,orders.getOrderNum());
         }
         orders.setDeliveryStatus("P");
         orders.setAuthorizationCode(authorizationCode);

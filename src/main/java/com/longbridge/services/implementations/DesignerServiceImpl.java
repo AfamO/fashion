@@ -142,8 +142,9 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerBusinessInformation(UserDTO user) {
+    public SizeGuide updateDesignerBusinessInformation(UserDTO user) {
         try {
+            SizeGuide currentSizeGuide;
             User userTemp = getCurrentUser();
             if(userTemp.getRole().equalsIgnoreCase("designer")){
                 User currentUser = userTemp;
@@ -161,12 +162,12 @@ public class DesignerServiceImpl implements DesignerService{
                 if(currentDesigner.getSizeGuideFlag().equalsIgnoreCase("Y")){
 
                     if(currentDesigner.getSizeGuide() == null){
-                        SizeGuide currentSizeGuide = new SizeGuide();
+                        currentSizeGuide = new SizeGuide();
                         sizeGuideRepository.save(currentSizeGuide);
                         currentDesigner.setSizeGuide(currentSizeGuide);
                     }
 
-                    SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
+                    currentSizeGuide = currentDesigner.getSizeGuide();
 
                     if(user.getDesigner().femaleSizeGuide != null){
                         if(!isUrl(user.getDesigner().femaleSizeGuide)){
@@ -210,15 +211,18 @@ public class DesignerServiceImpl implements DesignerService{
                     }
                 }else{
                     if(currentDesigner.getSizeGuide() == null){
-                        SizeGuide currentSizeGuide = new SizeGuide();
+                        currentSizeGuide = new SizeGuide();
+
                         sizeGuideRepository.save(currentSizeGuide);
                         currentDesigner.setSizeGuide(currentSizeGuide);
                     }
-                    SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
+                    currentSizeGuide = currentDesigner.getSizeGuide();
 
 
                     currentSizeGuide.setMaleSizeGuide(user.getDesigner().maleSizeGuide);
                     currentSizeGuide.setFemaleSizeGuide(user.getDesigner().femaleSizeGuide);
+                    sizeGuideRepository.save(currentSizeGuide);
+                    currentDesigner.setSizeGuide(currentSizeGuide);
                 }
 
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
@@ -243,6 +247,7 @@ public class DesignerServiceImpl implements DesignerService{
                     }
                 }
                 designerRepository.save(currentDesigner);
+                return currentSizeGuide;
             }else{
                 throw new WawoohException();
             }
@@ -256,7 +261,7 @@ public class DesignerServiceImpl implements DesignerService{
     public void updateDesignerAccountInformation(UserDTO user) {
         try {
             User userTemp = getCurrentUser();
-            if(user.getRole().equalsIgnoreCase("designer")){
+            if(userTemp.getRole().equalsIgnoreCase("designer")){
                 Designer currentDesigner = designerRepository.findByUser(userTemp);
 
                 currentDesigner.setAccountNumber(user.getDesigner().accountNumber);
@@ -419,7 +424,6 @@ public class DesignerServiceImpl implements DesignerService{
             Designer designer = designerRepository.findByUser(getCurrentUser());
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             Date startDate= DateUtils.ceiling(DateUtils.addMonths(new Date(),-6),Calendar.MONTH);
-            System.out.println(itemRepository.getTotalSales(designer.id,startDate,"P"));
             List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
             dto.setSalesChart(salesCharts);
             return dto;

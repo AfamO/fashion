@@ -52,7 +52,9 @@ public class AdminServiceImpl implements AdminService {
             adminDashBoardDTO.setRecentOrders(generalUtil.convertOrderEntsToDTOs(orders));
             adminDashBoardDTO.setNewOrders(orderRepository.NoOfOrdersByStatus("P")) ; //get the number of pending orders as new  new orders
             adminDashBoardDTO.setTotalSales(orderRepository.NoOfOrdersByStatus("PC"));// get the total  number of sold orders
-            adminDashBoardDTO.setTotalPayment(paymentRepository.getTotalPayment());//  get the total payment of all orders sold.
+
+                adminDashBoardDTO.setTotalPayment(paymentRepository.getTotalPayment());//  get the total payment of all orders sold.
+
             return adminDashBoardDTO;
         }catch (Exception ex){
             ex.printStackTrace();

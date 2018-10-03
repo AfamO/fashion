@@ -560,9 +560,7 @@ public class UserUtil {
                     userTemp.setLinkClicked("Y");
 
                     final UserDetails userDetails = userDetailsService.loadUserByUsername(passedUser.getEmail());
-                    System.out.println("userdetails is "+userDetails.toString());
                     final String token = jwtTokenUtil.generateToken(userDetails, device);
-                    System.out.println("Token is "+token);
                     //implement sessionid
 
                     logInResp.setToken(token);

@@ -441,7 +441,7 @@ public class ProductServiceImpl implements ProductService {
                 productAttributeSearch.setProductSizes(productSizesSearchDTOList);
                 for(String p:pa.getPicture()){
                     ProductPicture productPicture = new ProductPicture();
-                    String  productPictureName= generalUtil.getPicsName("prodpic",products.getName());
+                    String  productPictureName= generalUtil.getPicsName("prodpic",products.getSubCategory().getSubCategory());
                     ProductPictureSearchDTO productPictureSearchDTO = new ProductPictureSearchDTO();
                     c = cloudinaryService.uploadToCloud(p,productPictureName,"productpictures");
                     productPicture.setPictureName(c.getUrl());
@@ -489,7 +489,7 @@ public class ProductServiceImpl implements ProductService {
                 for (MaterialPictureDTO mp : materialPics) {
                     MaterialPicture materialPicture = new MaterialPicture();
                     MaterialPictureSearchDTO  materialPictureSearchDTO  =new MaterialPictureSearchDTO ();
-                    String matName = generalUtil.getPicsName("materialpic", products.getName());
+                    String matName = generalUtil.getPicsName("materialpic", products.getSubCategory().getSubCategory());
                     //materialPicture.pictureName = matName;
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(mp.getMaterialPicture(), matName, "materialpictures");
                     materialPicture.setPictureName(c.getUrl());
@@ -508,7 +508,7 @@ public class ProductServiceImpl implements ProductService {
                 productSearchDTO.setMaterialPicture(materialPictureSearchDTOList);
                 for (String ap : artWorkPics) {
                     ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-                    String artName = generalUtil.getPicsName("artworkpic", products.getName());
+                    String artName = generalUtil.getPicsName("artworkpic", products.getSubCategory().getSubCategory());
                     //artWorkPicture.pictureName = artName;
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(ap, artName, "artworkpictures");
                     artWorkPicture.setPictureName(c.getUrl());
@@ -683,7 +683,7 @@ public class ProductServiceImpl implements ProductService {
                 for(String pp : pa.getPicture()){
 
                         ProductPicture productPicture = new ProductPicture();
-                        c = cloudinaryService.uploadToCloud(pp, generalUtil.getPicsName("prodpic", products.getName()), "productpictures");
+                        c = cloudinaryService.uploadToCloud(pp, generalUtil.getPicsName("prodpic", products.getSubCategory().getSubCategory()), "productpictures");
                         System.out.println("i got here no id");
                         productPicture.setPictureName(c.getUrl());
                         productPicture.setPicture(c.getPublicId());
@@ -721,14 +721,14 @@ public class ProductServiceImpl implements ProductService {
 
                     cloudinaryService.deleteFromCloud(artWorkPicture.getPicture(), artWorkPicture.getPictureName());
 
-                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.getName()), "artworkpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.getSubCategory().getSubCategory()), "artworkpictures");
                     artWorkPicture.setPictureName(c.getUrl());
                     artWorkPicture.setPicture( c.getPublicId());
 
                     artWorkPictureRepository.save(artWorkPicture);
                 }else {
                     ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.getName()), "artworkpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.getSubCategory().getSubCategory()), "artworkpictures");
                     artWorkPicture.setPictureName(c.getUrl());
                     artWorkPicture.setPicture( c.getPublicId());
                     artWorkPicture.setProducts(products);
@@ -756,7 +756,7 @@ public class ProductServiceImpl implements ProductService {
                     Long id = pp.getId();
                     MaterialPicture materialPicture = materialPictureRepository.findOne(id);
                     cloudinaryService.deleteFromCloud(materialPicture.getPicture(), materialPicture.getPictureName());
-                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.getMaterialPicture(), generalUtil.getPicsName("materialpic", products.getName()), "materialpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.getMaterialPicture(), generalUtil.getPicsName("materialpic", products.getSubCategory().getSubCategory()), "materialpictures");
                     materialPicture.setPictureName(c.getUrl());
                     materialPicture.setPicture(c.getPublicId());
                     materialPicture.setMaterialName(pp.getMaterialName());
@@ -766,7 +766,7 @@ public class ProductServiceImpl implements ProductService {
                 }else {
                     MaterialPicture materialPicture = new MaterialPicture();
 
-                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.getMaterialPicture(), generalUtil.getPicsName("materialpic", products.getName()), "materialpictures");
+                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.getMaterialPicture(), generalUtil.getPicsName("materialpic", products.getSubCategory().getSubCategory()), "materialpictures");
                     materialPicture.setPictureName(c.getUrl());
                     materialPicture.setPicture(c.getPublicId());
                     materialPicture.setProducts(products);
@@ -1102,11 +1102,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p) {
 
-        int page = Integer.parseInt(p.page);
-        int size = Integer.parseInt(p.size);
+        int page = p.getPage();
+        int size = p.getSize();
         Page<Products> products;
         try {
-            SubCategory subCategory = subCategoryRepository.findOne(p.subcategoryId);
+            SubCategory subCategory = subCategoryRepository.findOne(p.getSubcategoryId());
                 products = productRepository.findBySubCategoryAndVerifiedFlagAndDesigner_Status(new PageRequest(page, size), subCategory, "Y","A");
 
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
@@ -1118,7 +1118,23 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-//    @Override
+    @Override
+    public List<ProductRespDTO> getProductsByCatId(ProdSubCategoryDTO p) {
+        Page<Products> products;
+        try {
+            Category category = categoryRepository.findOne(p.getCategoryId());
+            products = productRepository.findBySubCategory_CategoryAndVerifiedFlagAndDesigner_Status(new PageRequest(p.getPage(), p.getSize()), category, "Y","A");
+
+            List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
+            return productDTOS;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    //    @Override
 //    public List<ProductRespDTO> searchProductsBySubCat(String search, ProdSubCategoryDTO p) {
 //
 //        int page = Integer.parseInt(p.page);
@@ -1262,16 +1278,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductRespDTO> getFeaturedProducts() {
+    public List<ProductRespDTO> getFeaturedProducts(PageableDetailsDTO pageableDetailsDTO) {
         try {
 
             List<Products> products= new ArrayList<>();
-            List<Products> prods = productRepository.findFirst5BySponsoredFlag("Y");
-            products.addAll(prods);
+            Page<Products> prods = productRepository.findBySponsoredFlag(new PageRequest(pageableDetailsDTO.getPage(),pageableDetailsDTO.getSize()),"Y");
+            products.addAll(prods.getContent());
 
-            List<Products> prods1=productRepository.findFirst5ByPriceSlashEnabledTrue();
+           // List<Products> prods1=productRepository.findFirst5ByPriceSlashEnabledTrue();
 
-            products.addAll(prods1);
+            //products.addAll(prods1);
 
             products=generalUtil.getRandomProducts(products,10);
             return generalUtil.convertProdEntToProdRespDTOs(products);
@@ -1283,17 +1299,33 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+
+    @Override
+    public List<ProductRespDTO> getAllFeaturedProducts() {
+        try {
+            List<Products> products = new ArrayList<>();
+            List<Products> prods = productRepository.findBySponsoredFlag("Y");
+
+            products=generalUtil.getRandomProducts(prods,prods.size());
+            return generalUtil.convertProdEntToProdRespDTOs(products);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
     @Override
     public List<ProductRespDTO> getDesignerProductsBySubCatId(ProdSubCategoryDTO p) {
         User user = getCurrentUser();
-        int page = Integer.parseInt(p.page);
-        int size = Integer.parseInt(p.size);
+        int page = p.getPage();
+        int size = p.getSize();
         Page<Products> products;
         Designer designer = null;
         try {
-            SubCategory subCategory = subCategoryRepository.findOne(p.subcategoryId);
-            if(p.designerId != null) {
-                designer = designerRepository.findOne(p.designerId);
+            SubCategory subCategory = subCategoryRepository.findOne(p.getSubcategoryId());
+            if(p.getDesignerId() != null) {
+                designer = designerRepository.findOne(p.getDesignerId());
             }
 
             if(user != null && user.getRole().equalsIgnoreCase("designer")){

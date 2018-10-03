@@ -39,7 +39,6 @@ public class DesignerController {
     }
 
 
-
     @GetMapping(value = "/getdesignerbystorename/{storename}")
     public Response getDesignerByStoreName(@PathVariable String storename){
         DesignerDTO designer = designerService.getDesignerByStoreName(storename);

@@ -1,19 +1,12 @@
 package com.longbridge.controllers.enduser;
-
-import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
 import com.longbridge.models.*;
-import com.longbridge.repository.DesignerRepository;
-import com.longbridge.repository.MeasurementRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
-import com.longbridge.security.JwtUser;
 import com.longbridge.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -106,6 +99,13 @@ public class ProductController {
 
     }
 
+    @PostMapping(value = "/getproductsbycat")
+    public Object getProductsByCat(@RequestBody ProdSubCategoryDTO p){
+        List<ProductRespDTO> products= productService.getProductsBySubCatId(p);
+        return new Response("00","Operation Successful",products);
+
+    }
+
     @PostMapping(value = "/getsubcatbyproducttype")
     public Object getSubCategories(@RequestBody SubCategoryDTO subCategoryDTO){
         List<SubCategory> subCategories = categoryService.getSubCategoriesByProductType(subCategoryDTO);
@@ -147,9 +147,16 @@ public class ProductController {
         return new Response("00", "Operation Successful", productService.getFreqBoughtProducts());
     }
 
-    @GetMapping(value = "/getfeaturedproducts")
-    public Response getFeaturedProducts(){
-        return new Response("00", "Operation Successful", productService.getFeaturedProducts());
+    @PostMapping(value = "/getfeaturedproducts")
+    public Response getFeaturedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
+        return new Response("00", "Operation Successful", productService.getFeaturedProducts(pageableDetailsDTO));
+
+    }
+
+
+    @GetMapping(value = "/getallfeaturedproducts")
+    public Response getAllFeaturedProducts(){
+        return new Response("00", "Operation Successful", productService.getAllFeaturedProducts());
 
     }
 

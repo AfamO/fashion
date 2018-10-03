@@ -22,11 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/fashion/secure/wishlist")
 public class WishListController {
 
-
     @Autowired
     WishListService wishListService;
-
-
 
     @PostMapping(value = "/add")
     public Response addToWishList(@RequestBody WishListDTO wishListDTO){

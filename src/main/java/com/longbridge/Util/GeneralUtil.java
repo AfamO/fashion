@@ -141,7 +141,7 @@ public class GeneralUtil {
         dto.noOfReadyToShipOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"RS");
         dto.noOfShippedOrders=itemRepository.countByDesignerIdAndItemStatus_Status(d.id,"OS");
         Double amountOfPendingOrders = itemRepository.findSumOfPendingOrders(d.id,statuses);
-        Double amountOfTotalOrders = itemRepository.findSumOfOrders(d.id);
+        Double amountOfTotalOrders = itemRepository.findSumOfOrders(d.id,Arrays.asList(itemStatusRepository.findByStatus("NV")));
         dto.setTotalOrders(itemRepository.countByDesignerId(d.id));
 
         if(amountOfTotalOrders != null){
@@ -449,7 +449,7 @@ public class GeneralUtil {
     public String getPicsName(String picsArrayType, String productName){
 
         String timeStamp = picsArrayType + getCurrentTime();
-        System.out.println(productName);
+
         String fName = productName.replaceAll("\\s","") + timeStamp;
         return  fName;
     }
