@@ -303,9 +303,7 @@ public class OrderServiceImpl implements OrderService {
                     p.setInStock("N");
                 }
             }
-
             productRepository.save(p);
-
         }
 
 

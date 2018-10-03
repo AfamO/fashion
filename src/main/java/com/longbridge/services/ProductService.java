@@ -25,6 +25,8 @@ public interface ProductService {
 
     void updateProductStatus(Long id, String status);
 
+    void unVerifyProduct(VerifyDTO verifyDTO);
+
     void sponsorProduct(Long id, String status);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")

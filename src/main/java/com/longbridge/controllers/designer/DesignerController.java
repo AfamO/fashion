@@ -1,22 +1,13 @@
 package com.longbridge.controllers.designer;
 
-import com.longbridge.Util.UserUtil;
+
 import com.longbridge.dto.*;
-import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
-import com.longbridge.models.User;
 import com.longbridge.services.DesignerService;
-import com.longbridge.services.OrderService;
-import com.longbridge.services.ProductService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mobile.device.Device;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**

@@ -818,6 +818,23 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+
+    @Override
+    public void unVerifyProduct(VerifyDTO verifyDTO) {
+
+        try {
+            Date date = new Date();
+            Products products = productRepository.findOne(verifyDTO.getId());
+            products.setVerifiedFlag(verifyDTO.getFlag());
+            products.setVerfiedOn(date);
+            productRepository.save(products);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
     @Override
     public void sponsorProduct(Long id, String status) {
         try {
@@ -984,7 +1001,6 @@ public class ProductServiceImpl implements ProductService {
         try {
             Page<Products> products = productRepository.findByVerifiedFlag("N",new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
-
             return productDTOS;
 
         } catch (Exception e) {

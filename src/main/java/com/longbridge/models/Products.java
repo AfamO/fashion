@@ -65,6 +65,8 @@ public class Products extends CommonFields implements Serializable {
 
     private String verifiedFlag = "N";
 
+    private String unVerifiedReason;
+
     private String sponsoredFlag = "N";
 
     private String availability;
@@ -323,5 +325,11 @@ public class Products extends CommonFields implements Serializable {
         this.numOfDaysToComplete = numOfDaysToComplete;
     }
 
+    public String getUnVerifiedReason() {
+        return unVerifiedReason;
+    }
 
+    public void setUnVerifiedReason(String unVerifiedReason) {
+        this.unVerifiedReason = unVerifiedReason;
+    }
 }
