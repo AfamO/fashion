@@ -1,20 +1,13 @@
 package com.longbridge.controllers.enduser;
 
-
-import com.longbridge.models.Address;
 import com.longbridge.models.Response;
-import com.longbridge.models.User;
 import com.longbridge.services.NewsLetterService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Longbridge on 31/07/2018.
@@ -32,7 +25,6 @@ public class NewsLetterController{
     public Response addUser(@PathVariable String email){
         newsLetterService.addUser(email);
         return new Response("00", "Operation Successful", "successully subscribed");
-
     }
 
     @RequestMapping(

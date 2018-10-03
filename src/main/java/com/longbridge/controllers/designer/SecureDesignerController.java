@@ -56,8 +56,8 @@ public class SecureDesignerController {
     @PostMapping(value = "/updatebusinessinformation")
     public Response updateBusinessInformation(@RequestBody UserDTO user){
 
-        designerService.updateDesignerBusinessInformation(user);
-        return new Response("00", "Profile updated", null);
+
+        return new Response("00", "Profile updated", designerService.updateDesignerBusinessInformation(user));
     }
 
     @PostMapping(value = "/updateaccountinformation")

@@ -244,7 +244,7 @@ public class OrderServiceImpl implements OrderService {
         Double shippingAmount = 0.0;
         Double totalShippingAmount = 0.0;
         List<String> designerCities = new ArrayList<>();
-        List<DesignerOrderDTO> designerDTOS = new ArrayList<>();
+
         for (Items items: orderReq.getItems()) {
             Products p = productRepository.findOne(items.getProductId());
             if(items.getMeasurementId() != null) {
@@ -305,12 +305,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
             productRepository.save(p);
-            DesignerOrderDTO dto= new DesignerOrderDTO();
-            dto.setProductName(p.getName());
-            dto.setStoreName(p.getDesigner().getStoreName());
-            dto.setDesignerEmail(p.getDesigner().getUser().getEmail());
-            designerDTOS.add(dto);
-            sendEmailAsync.sendEmailToDesigner(designerDTOS,orders.getOrderNum());
+
         }
 
 

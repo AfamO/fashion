@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PaymentRepository extends JpaRepository<PaymentRequest, Long> {
     PaymentRequest findByOrderId(Long orderId);
+
     @Query("select sum(transactionAmount) from PaymentRequest")
     Double getTotalPayment();
 }

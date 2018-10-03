@@ -3,6 +3,7 @@ package com.longbridge.services;
 import com.longbridge.dto.*;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
+import com.longbridge.models.SizeGuide;
 import com.longbridge.models.User;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +21,7 @@ public interface DesignerService {
 
     void updateDesignerPersonalInformation(UserDTO user);
 
-    void updateDesignerBusinessInformation(UserDTO user);
+    SizeGuide updateDesignerBusinessInformation(UserDTO user);
 
     void updateDesignerAccountInformation(UserDTO user);
 

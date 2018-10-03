@@ -37,7 +37,7 @@ public class AdminCategoryController {
     }
 
     @GetMapping(value = "/getallsubcategories")
-    public Object getAllSubCategories(HttpServletRequest request){
+    public Object getAllSubCategories(){
 
         List<SubCategory> subCategories = categoryService.getAllSubCategories();
         return new Response("00","Operation Successful",subCategories);
@@ -56,7 +56,6 @@ public class AdminCategoryController {
     public Response deleteSub(@PathVariable Long id){
         productService.deleteSubCategory(id);
         return new Response("00","Operation Successful","success");
-
     }
 
 

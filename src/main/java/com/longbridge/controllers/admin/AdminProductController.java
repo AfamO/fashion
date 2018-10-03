@@ -1,27 +1,19 @@
 package com.longbridge.controllers.admin;
 
-import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.PageableDetailsDTO;
 import com.longbridge.models.Response;
-import com.longbridge.models.User;
 import com.longbridge.respbodydto.ProductRespDTO;
-import com.longbridge.services.HibernateSearchService;
-import com.longbridge.services.ProductRatingService;
 import com.longbridge.services.ProductService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-/**
- * Created by Longbridge on 27/08/2018.
- */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/fashion/secure/admin/product")
@@ -38,12 +30,12 @@ public class AdminProductController {
         return new Response("00","Operation Successful",products);
     }
 
+
     @PostMapping(value = "/getverifiedproducts")
     public Object getVerifiedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         List<ProductRespDTO> products;
         products= productService.getVerifiedProducts(pageableDetailsDTO);
         return new Response("00","Operation Successful",products);
-
     }
 
 

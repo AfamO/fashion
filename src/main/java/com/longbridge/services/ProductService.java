@@ -77,6 +77,8 @@ public interface ProductService {
 
     List<ProductRespDTO> getProductsBySubCatId(ProdSubCategoryDTO p);
 
+    List<ProductRespDTO> getProductsByCatId(ProdSubCategoryDTO p);
+
     //List<ProductRespDTO> searchProductsBySubCat(String search, ProdSubCategoryDTO p);
 
     List<ProductRespDTO> getTagProducts(PicTagDTO p);
@@ -85,7 +87,9 @@ public interface ProductService {
 
     List<ProductRespDTO> getFreqBoughtProducts();
 
-    List<ProductRespDTO> getFeaturedProducts();
+    List<ProductRespDTO> getFeaturedProducts(PageableDetailsDTO pageableDetailsDTO);
+
+    List<ProductRespDTO> getAllFeaturedProducts();
 
     List<ProductRespDTO> getDesignerProductsBySubCatId(ProdSubCategoryDTO p);
 

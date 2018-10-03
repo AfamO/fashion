@@ -1,5 +1,6 @@
 package com.longbridge.repository;
 
+import com.longbridge.models.Category;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Products;
 import com.longbridge.models.SubCategory;
@@ -20,12 +21,14 @@ public interface ProductRepository extends JpaRepository<Products,Long> {
     List<Products> findByDesignerAndVerifiedFlag(Designer designer, String flag);
     List<Products> findByDesigner(Designer designer);
     Page<Products> findBySubCategoryAndVerifiedFlagAndDesigner_Status(Pageable pageable, SubCategory subCategory,String flag,String status);
+    Page<Products> findBySubCategory_CategoryAndVerifiedFlagAndDesigner_Status(Pageable pageable, Category category, String flag, String status);
     List<Products> findFirst9BySubCategoryAndSponsoredFlagAndVerifiedFlag(SubCategory subCategory,String sponsoredFlag,String flag);
     List<Products> findFirst10BySubCategoryAndSponsoredFlagAndVerifiedFlag(SubCategory subCategory,String sponsoredFlag,String flag);
     Page<Products> findByDesignerAndSubCategoryAndVerifiedFlag(Pageable pageable, Designer designer, SubCategory subCategory, String flag);
     int countByDesigner(Designer designer);
     List<Products> findFirst8ByDesignerAndVerifiedFlag(Designer designer,String flag);
-    List<Products> findFirst5BySponsoredFlag(String flag);
+    List<Products> findBySponsoredFlag(String flag);
+    Page<Products> findBySponsoredFlag(Pageable pageable,String flag);
     List<Products> findFirst5ByPriceSlashEnabledTrue();
     Long countByVerifiedFlag(String flag);
     List<Products> findTop10ByDesignerStatusAndNumOfTimesOrderedNotOrderByNumOfTimesOrderedDesc(String designerStatus,int no);

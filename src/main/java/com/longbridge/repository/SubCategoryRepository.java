@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Longbridge on 13/11/2017.
  */
 public interface SubCategoryRepository extends JpaRepository<SubCategory, Long> {
-    List<SubCategory> findByCategory(Category category);
+    List<SubCategory> findByDelFlagAndCategory(String delFlag,Category category);
     List<SubCategory> findBySubCategory(String subCategory);
 
     List<SubCategory> findByDelFlag(String delFlag);

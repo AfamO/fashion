@@ -2434,7 +2434,7 @@
     </column>
     <column id="609" parent="42" name="prod_desc">
       <Position>11</Position>
-      <DataType>varchar(255)|0</DataType>
+      <DataType>blob|0</DataType>
     </column>
     <column id="610" parent="42" name="sizes">
       <Position>12</Position>

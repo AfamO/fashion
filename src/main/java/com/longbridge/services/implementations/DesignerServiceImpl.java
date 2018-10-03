@@ -1,6 +1,8 @@
 package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
+import com.longbridge.Util.SMSAlertUtil;
+import com.longbridge.Util.SendEmailAsync;
 import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
 import com.longbridge.exception.ObjectNotFoundException;
@@ -65,6 +67,9 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    SMSAlertUtil smsAlertUtil;
+
 
     @Override
     public List<DesignerDTO> getDesigners() {
@@ -93,8 +98,8 @@ public class DesignerServiceImpl implements DesignerService{
 
     @Override
     public Designer getDesignrById(Long designerId) {
-            Designer designer = designerRepository.findOne(designerId);
-            return designer;
+            return designerRepository.findOne(designerId);
+
     }
 
     @Override
@@ -142,13 +147,13 @@ public class DesignerServiceImpl implements DesignerService{
     }
 
     @Override
-    public void updateDesignerBusinessInformation(UserDTO user) {
+    public SizeGuide updateDesignerBusinessInformation(UserDTO user) {
         try {
+            SizeGuide currentSizeGuide;
             User userTemp = getCurrentUser();
             if(userTemp.getRole().equalsIgnoreCase("designer")){
                 User currentUser = userTemp;
                 Designer currentDesigner = designerRepository.findByUser(currentUser);
-
                 currentDesigner.setAddress(user.getDesigner().address);
                 currentDesigner.setCity(user.getDesigner().city);
                 currentDesigner.setState(user.getDesigner().state);
@@ -157,23 +162,23 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.setLocalGovt(user.getDesigner().localGovt);
                 currentDesigner.setSizeGuideFlag(user.getDesigner().sizeGuideFlag);
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
+                currentDesigner.setRegistrationProgress(20);
 
                 if(currentDesigner.getSizeGuideFlag().equalsIgnoreCase("Y")){
 
                     if(currentDesigner.getSizeGuide() == null){
-                        SizeGuide currentSizeGuide = new SizeGuide();
+                        currentSizeGuide = new SizeGuide();
                         sizeGuideRepository.save(currentSizeGuide);
                         currentDesigner.setSizeGuide(currentSizeGuide);
                     }
 
-                    SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
+                    currentSizeGuide = currentDesigner.getSizeGuide();
 
                     if(user.getDesigner().femaleSizeGuide != null){
                         if(!isUrl(user.getDesigner().femaleSizeGuide)){
                             if(currentSizeGuide.getFemaleSizeGuide() != null){
                                 cloudinaryService.deleteFromCloud(currentSizeGuide.getFemaleSizeGuidePublicId(), currentSizeGuide.getFemaleSizeGuide());
                             }
-
                             try {
                                 String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
                                 String base64Img = user.getDesigner().femaleSizeGuide;
@@ -210,15 +215,18 @@ public class DesignerServiceImpl implements DesignerService{
                     }
                 }else{
                     if(currentDesigner.getSizeGuide() == null){
-                        SizeGuide currentSizeGuide = new SizeGuide();
+                        currentSizeGuide = new SizeGuide();
+
                         sizeGuideRepository.save(currentSizeGuide);
                         currentDesigner.setSizeGuide(currentSizeGuide);
                     }
-                    SizeGuide currentSizeGuide = currentDesigner.getSizeGuide();
+                    currentSizeGuide = currentDesigner.getSizeGuide();
 
 
                     currentSizeGuide.setMaleSizeGuide(user.getDesigner().maleSizeGuide);
                     currentSizeGuide.setFemaleSizeGuide(user.getDesigner().femaleSizeGuide);
+                    sizeGuideRepository.save(currentSizeGuide);
+                    currentDesigner.setSizeGuide(currentSizeGuide);
                 }
 
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
@@ -243,6 +251,7 @@ public class DesignerServiceImpl implements DesignerService{
                     }
                 }
                 designerRepository.save(currentDesigner);
+                return currentSizeGuide;
             }else{
                 throw new WawoohException();
             }
@@ -256,7 +265,7 @@ public class DesignerServiceImpl implements DesignerService{
     public void updateDesignerAccountInformation(UserDTO user) {
         try {
             User userTemp = getCurrentUser();
-            if(user.getRole().equalsIgnoreCase("designer")){
+            if(userTemp.getRole().equalsIgnoreCase("designer")){
                 Designer currentDesigner = designerRepository.findByUser(userTemp);
 
                 currentDesigner.setAccountNumber(user.getDesigner().accountNumber);
@@ -265,8 +274,8 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.setAccountName(user.getDesigner().accountName);
                 currentDesigner.setSwiftCode(user.getDesigner().swiftCode);
                 currentDesigner.setSwiftCode(user.getDesigner().swiftCode);
-
                 designerRepository.save(currentDesigner);
+
             }else{
                 throw new WawoohException();
             }
@@ -419,7 +428,6 @@ public class DesignerServiceImpl implements DesignerService{
             Designer designer = designerRepository.findByUser(getCurrentUser());
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             Date startDate= DateUtils.ceiling(DateUtils.addMonths(new Date(),-6),Calendar.MONTH);
-            System.out.println(itemRepository.getTotalSales(designer.id,startDate,"P"));
             List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
             dto.setSalesChart(salesCharts);
             return dto;

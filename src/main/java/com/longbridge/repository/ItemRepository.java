@@ -65,8 +65,8 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
     @Query("select sum(amount) from Items where designerId = :designerId and itemStatus in :itemStatus")
     Double findSumOfPendingOrders(@Param("designerId") Long designerId, @Param("itemStatus") List<ItemStatus> itemStatus);
 
-    @Query("select sum(amount) from Items where designerId = :designerId")
-    Double findSumOfOrders(@Param("designerId") Long designerId);
+    @Query("select sum(amount) from Items where designerId = :designerId and itemStatus not in :itemStatus")
+    Double findSumOfOrders(@Param("designerId") Long designerId,  @Param("itemStatus") List<ItemStatus> itemStatus);
 
 
     @Query(value = "SELECT SUM(amount) as amount,  MONTH(created_on) as month ,YEAR(created_on) as year FROM items WHERE  " +
