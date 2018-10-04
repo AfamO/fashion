@@ -6,6 +6,8 @@ import com.longbridge.services.NewsLetterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Longbridge on 31/07/2018.
  */
@@ -22,7 +24,10 @@ public class NewsLetterServiceImpl implements NewsLetterService {
             newsLetter.setEmail(email);
             newsLetterRepository.save(newsLetter);
         }
+    }
 
-
+    @Override
+    public List<NewsLetter> getAll() {
+        return newsLetterRepository.findAll();
     }
 }

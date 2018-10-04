@@ -6,6 +6,7 @@ import com.longbridge.models.Response;
 import com.longbridge.models.User;
 import com.longbridge.services.AdminService;
 import com.longbridge.services.CodeService;
+import com.longbridge.services.DesignerService;
 import com.longbridge.services.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,9 @@ public class AdminController {
 
     @Autowired
     UserUtil userUtil;
+
+    @Autowired
+    DesignerService designerService;
 
 
     @GetMapping(value = "/getusers")
@@ -101,7 +105,15 @@ public class AdminController {
         codeService.deleteCode(id);
         return new Response("00", "Operation successful", null);
     }
-    
+
+
+    @GetMapping(value = "/{designerId}/{status}/deactivate")
+    public Object updateDesignerStatus(@PathVariable Long designerId, @PathVariable String status){
+        designerService.updateDesignerStatus(designerId,status);
+        return new Response("00","Operation Successful","success");
+
+    }
+
 
 
     @RequestMapping(

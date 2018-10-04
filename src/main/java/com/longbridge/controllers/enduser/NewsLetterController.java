@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/fashion/newsletter")
 public class NewsLetterController{
 
-
     @Autowired
     NewsLetterService newsLetterService;
 
@@ -26,6 +25,12 @@ public class NewsLetterController{
         newsLetterService.addUser(email);
         return new Response("00", "Operation Successful", "successully subscribed");
     }
+
+    @GetMapping(value = "/getall")
+    public Response addUser(){
+        return new Response("00", "Operation Successful", newsLetterService.getAll());
+    }
+
 
     @RequestMapping(
             value = "/**",

@@ -67,9 +67,6 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     TokenService tokenService;
 
-    @Autowired
-    SMSAlertUtil smsAlertUtil;
-
 
     @Override
     public List<DesignerDTO> getDesigners() {
