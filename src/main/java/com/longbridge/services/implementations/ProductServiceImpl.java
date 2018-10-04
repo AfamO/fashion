@@ -407,11 +407,10 @@ public class ProductServiceImpl implements ProductService {
             productSearchDTO.setStockNo(productDTO.stockNo);
             products.setInStock(productDTO.inStock);
             productSearchDTO.setInStock(productDTO.inStock);
-            productSearchDTO.setId(products.id);
             products.setCreatedOn(date);
             products.setUpdatedOn(date);
-
             productRepository.save(products);
+            productSearchDTO.setId(products.id);
             List<ProductAttributeSearchDTO> productAttributesListSearchDTO =  new ArrayList<>();
             List<ProductPictureSearchDTO> productPicturseSearchDTOList =  new ArrayList<>();
             List<MaterialPictureSearchDTO> materialPictureSearchDTOList=new ArrayList<>();
@@ -455,9 +454,9 @@ public class ProductServiceImpl implements ProductService {
                     productPicture.createdOn = date;
                     productPicture.setUpdatedOn(date);
                     productPicture.setProductAttribute(productAttribute);
-                    productPictureSearchDTO.setId(productPicture.getId());
                     productPicturseSearchDTOList.add(productPictureSearchDTO);
                     productPictureRepository.save(productPicture);
+                    productPictureSearchDTO.setId(productPicture.getId());
                 }
                 productAttributeSearch.setProductPictureSearchDTOS(productPicturseSearchDTOList);
                 productAttributesListSearchDTO.add(productAttributeSearch);
@@ -547,7 +546,10 @@ public class ProductServiceImpl implements ProductService {
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             Products products = productRepository.findOne(productDTO.id);
             //Get the product from elastic search 'products' index
-            ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url,productDTO.id, "products"));
+            ProductSearchDTO productSearchDTO=null;
+            if(products!=null){
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url,productDTO.id, "products"));
+            }
             products.setSubCategory(subCategoryRepository.findOne(subCategoryId));
             products.setName(productDTO.name);
             products.setAmount(productDTO.amount);
@@ -873,9 +875,12 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             //get the product to update
-            ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url, id, "products"));
+            ProductSearchDTO productSearchDTO=null;
             productSearchDTO.setVerifiedFlag(status);
             Products products = productRepository.findOne(id);
+            if(products!=null){
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url, id, "products"));
+            }
             products.setVerifiedFlag(status);
             products.setVerfiedOn(date);
             productRepository.save(products);
