@@ -177,7 +177,7 @@ import org.springframework.stereotype.Service;
        
         int page = pageableDetailsDTO.getPage();
         int size = pageableDetailsDTO.getSize(); 
-        Page<Products> products = productRepository.findByVerifiedFlag("Y",new PageRequest(page,size));
+        Page<Products> products = productRepository.findAll(new PageRequest(page,size));
         StringBuilder productDTOS = new StringBuilder();
         Index index=new Index();
         CreateIndexId createIndexId= new CreateIndexId(); 
