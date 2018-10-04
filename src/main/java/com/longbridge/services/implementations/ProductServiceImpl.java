@@ -421,7 +421,8 @@ public class ProductServiceImpl implements ProductService {
                 ProductAttributeSearchDTO productAttributeSearch=new ProductAttributeSearchDTO();
                 productAttribute.setProducts(products);
                 productAttributeSearch.setProductId(productDTO.id);
-                String colourName= generalUtil.getPicsName("prodcolour",pa.getColourName());
+                String name = pa.getColourName().replace("&","");
+                String colourName= generalUtil.getPicsName("prodcolour",name);
                 CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
                 productAttribute.setColourName(pa.getColourName());
                 productAttributeSearch.setColourName(colourName);
