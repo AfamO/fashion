@@ -521,6 +521,7 @@ public class ProductServiceImpl implements ProductService {
 
             products.setStockNo(totalStock);
             productSearchDTO.setStockNo(totalStock);
+            productSearchDTO.setVerifiedFlag("N");
             productRepository.save(products);
             Gson gson= new Gson();
             ObjectMapper objectMapper = new ObjectMapper();
