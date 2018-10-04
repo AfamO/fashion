@@ -107,7 +107,7 @@ public class AdminController {
     }
 
 
-    @GetMapping(value = "/{designerId}/{status}/deactivate")
+    @GetMapping(value = "/{designerId}/{status}/update")
     public Object updateDesignerStatus(@PathVariable Long designerId, @PathVariable String status){
         designerService.updateDesignerStatus(designerId,status);
         return new Response("00","Operation Successful","success");
