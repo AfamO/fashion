@@ -4,6 +4,7 @@ import com.longbridge.dto.ISalesChart;
 import com.longbridge.dto.SalesChart;
 import com.longbridge.models.ItemStatus;
 import com.longbridge.models.Items;
+import com.longbridge.models.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,14 +24,9 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
 
     List<Items> findByItemStatusNotOrderByOrders_OrderDateDesc(ItemStatus status);
     List<Items> findByDesignerIdAndItemStatusNotInOrderByOrders_OrderDateDesc(Long designerId,List<ItemStatus> status);
-    //List<Items> findByDesignerIdAndItemStatusNot(Long designerId,ItemStatus itemStatus);
+
     List<Items> findByDesignerIdAndItemStatus(Long designerId, ItemStatus status);
 
-
-
-    List<Items> findByItemStatusNot(ItemStatus status);
-
-    List<Items> findByDesignerIdAndItemStatusNotIn(Long designerId,List<ItemStatus> status);
 
     List<Items> findByItemStatusInOrderByOrders_OrderDateDesc(List<ItemStatus> status);
 
@@ -57,10 +53,7 @@ public interface ItemRepository extends JpaRepository<Items, Long> {
     @Query("select sum(quantity) from Items where designerId = :designerId and deliveryStatus = :deliveryStatus")
     int  countPendingItemQuantities(Long designerId, String status);
 
-    int countByDesignerIdAndDeliveryStatusNotIn(Long designerId, List<String> statuses);
-
-//    @Query("select productId, count(productId) as 'mcount', productId from Items group by productId order by 'mcount' desc")
-//    Page<Long> findTopByCustomQuery(Pageable pageable);
+    List<Items> findByOrders(Orders orders);
 
     @Query("select sum(amount) from Items where designerId = :designerId and itemStatus in :itemStatus")
     Double findSumOfPendingOrders(@Param("designerId") Long designerId, @Param("itemStatus") List<ItemStatus> itemStatus);

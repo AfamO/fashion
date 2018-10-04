@@ -127,8 +127,8 @@ public class OrderServiceImpl implements OrderService {
                                 orderRespDTO.setStatus("false");
                                 return orderRespDTO;
                             }
-                            sizes.setNumberInStock(sizes.getNumberInStock() - items.getQuantity());
-                            productSizes.add(sizes);
+//                            sizes.setNumberInStock(sizes.getNumberInStock() - items.getQuantity());
+//                            productSizes.add(sizes);
                         }else{
                             if(thresholdExceeded(items)){
                                 orderRespDTO.setStatus("thresholdLimit");
@@ -185,7 +185,6 @@ public class OrderServiceImpl implements OrderService {
             totalShippingAmount = Double.parseDouble(h.get("totalShippingAmount").toString());
             orders.setTotalAmount(totalAmount);
             orders.setShippingAmount(totalShippingAmount);
-            pocketService.updatePocketForOrderPayment(user,Double.parseDouble(h.get("totalAmount").toString()),orderReq.getPaymentType());
 
             if(orderReq.getPaymentType().equalsIgnoreCase("CARD_PAYMENT")){
                 PaymentRequest paymentRequest = new PaymentRequest();
@@ -196,6 +195,20 @@ public class OrderServiceImpl implements OrderService {
                 paymentRepository.save(paymentRequest);
                 return paymentService.initiatePayment(paymentRequest);
             }
+
+
+            for (Items items: orderReq.getItems()) {
+                if(items.getProductAttributeId() != null){
+                    ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                    if(itemAttribute != null){
+                        ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                        if(items.getMeasurementId() == null){
+                            sizes.setNumberInStock(sizes.getNumberInStock() - items.getQuantity());
+                            productSizes.add(sizes);
+                        }
+                    }
+                    }
+                }
 
 
             orderRepository.save(orders);
@@ -303,9 +316,7 @@ public class OrderServiceImpl implements OrderService {
                     p.setInStock("N");
                 }
             }
-
             productRepository.save(p);
-
         }
 
 

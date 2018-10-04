@@ -136,6 +136,7 @@ public class DesignerServiceImpl implements DesignerService{
                 userTemp.setFirstName(user.getFirstName());
                 userTemp.setLastName(user.getLastName());
                 userTemp.setGender(user.getGender());
+                userTemp.setDateOfBirth(user.dateOfBirth);
                 userRepository.save(userTemp);
             }else{
                 throw new WawoohException();

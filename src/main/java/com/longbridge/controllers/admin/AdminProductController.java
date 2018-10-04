@@ -1,6 +1,7 @@
 package com.longbridge.controllers.admin;
 
 import com.longbridge.dto.PageableDetailsDTO;
+import com.longbridge.dto.VerifyDTO;
 import com.longbridge.models.Response;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.services.ProductService;
@@ -64,6 +65,13 @@ public class AdminProductController {
         return new Response("00", "Operation Successful", responseMap);
     }
 
+    @PostMapping(value = "/unverifyproduct")
+    public Object unverifyProduct(@RequestBody VerifyDTO verifyDTO){
+        Map<String,Object> responseMap = new HashMap();
+        productService.unVerifyProduct(verifyDTO);
+        responseMap.put("success", "success");
+        return new Response("00", "Operation Successful", responseMap);
+    }
 
     @RequestMapping(
             value = "/**",

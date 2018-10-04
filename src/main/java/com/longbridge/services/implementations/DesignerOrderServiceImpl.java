@@ -291,7 +291,7 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                             }
                             String resp = walletService.chargeWallet(amount,orders.getOrderNum(), customer);
                             if(resp.equalsIgnoreCase("00")) {
-                                itemsUtil.updateItems(items);
+                                itemsUtil.updateItems(items,amount,items.getOrders().getPaymentType());
                             }else if(resp.equalsIgnoreCase("96")){
                                 //send email to the user that he has inssuficient balance or cancel..
                                 //currently, we are cancelling

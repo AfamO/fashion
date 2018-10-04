@@ -4,6 +4,7 @@ import com.longbridge.dto.OrderReqDTO;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.security.repository.UserRepository;
+import com.longbridge.services.PocketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +38,15 @@ public class ItemsUtil {
     @Autowired
     ShippingUtil shippingUtil;
 
+    @Autowired
+    PocketService pocketService;
 
 
-    public void updateItems(Items items) {
+
+    public void updateItems(Items items, Double amount, String paymentType) {
         User user = userRepository.findById(items.getOrders().getUserId());
         Orders orders=items.getOrders();
-        if(orders.getPaymentType().equalsIgnoreCase("Card Payment")) {
+        if(orders.getPaymentType().equalsIgnoreCase("CARD_PAYMENT")) {
             if (!orders.isPaystackFiftyAlreadyDeducted()) {
                 orders.setPaystackFiftyAlreadyDeducted(true);
                 orderRepository.save(orders);
@@ -59,6 +63,8 @@ public class ItemsUtil {
             itemStatus = itemStatusRepository.findByStatus("RI");
         }
         items.setItemStatus(itemStatus);
+
+        pocketService.updatePocketForOrderPayment(user,amount,orders.getPaymentType());
         itemRepository.save(items);
         sendEmailAsync.sendPaymentConfEmailToUser(user, items.getOrders().getOrderNum());
 

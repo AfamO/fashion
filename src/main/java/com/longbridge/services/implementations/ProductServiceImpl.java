@@ -570,7 +570,7 @@ public class ProductServiceImpl implements ProductService {
             productSearchDTO.setDesignerStatus(designer.getStatus());
             productSearchDTO.setStatus(productDTO.status);
             productSearchDTO.setDesignerName(designer.getStoreName());
-            System.out.println("The Designer Name Is::"+designer.getStoreName());
+
             productSearchDTO.setProductType(productDTO.productType);
             //
             if(!"null".equalsIgnoreCase(productDTO.styleId)) {
@@ -628,7 +628,7 @@ public class ProductServiceImpl implements ProductService {
                     priceSlashRepository.delete(priceSlash);
                 }
             }
-
+            products.setVerifiedFlag("N");
 
             productRepository.save(products);
             //Then save the Updated product status
@@ -889,6 +889,23 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+
+    @Override
+    public void unVerifyProduct(VerifyDTO verifyDTO) {
+
+        try {
+            Date date = new Date();
+            Products products = productRepository.findOne(verifyDTO.getId());
+            products.setVerifiedFlag(verifyDTO.getFlag());
+            products.setVerfiedOn(date);
+            productRepository.save(products);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
     @Override
     public void sponsorProduct(Long id, String status) {
         try {
@@ -1055,7 +1072,6 @@ public class ProductServiceImpl implements ProductService {
         try {
             Page<Products> products = productRepository.findByVerifiedFlag("N",new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
-
             return productDTOS;
 
         } catch (Exception e) {

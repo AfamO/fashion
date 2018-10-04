@@ -35,7 +35,6 @@ public class ProductController {
     MeasurementService measurementService;
 
 
-
     @GetMapping(value = {"/{id}/getproductbyid/{reviews}","/{id}/getproductbyid"})
     public Object getProductById(@PathVariable Long id, @PathVariable("reviews") Optional<String> reviews){
         ProductRespDTO products;
@@ -101,7 +100,7 @@ public class ProductController {
 
     @PostMapping(value = "/getproductsbycat")
     public Object getProductsByCat(@RequestBody ProdSubCategoryDTO p){
-        List<ProductRespDTO> products= productService.getProductsBySubCatId(p);
+        List<ProductRespDTO> products= productService.getProductsByCatId(p);
         return new Response("00","Operation Successful",products);
 
     }

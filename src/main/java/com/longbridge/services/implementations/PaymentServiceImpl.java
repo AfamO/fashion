@@ -9,6 +9,7 @@ import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.PaymentService;
+import com.longbridge.services.PocketService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -64,6 +65,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     ItemsUtil itemsUtil;
+
+    @Autowired
+    PocketService pocketService;
 
 
     @Override
@@ -151,7 +155,6 @@ public class PaymentServiceImpl implements PaymentService {
                 return paymentResponse;
             }
 
-            System.out.println(responseObject);
 
             data = responseObject.getJSONObject("data");
 
@@ -164,7 +167,7 @@ public class PaymentServiceImpl implements PaymentService {
             if (status.equalsIgnoreCase("success")) {
                 //PAYMENT IS SUCCESSFUL,
                JSONObject auth = data.getJSONObject("authorization");
-               System.out.println(auth);
+
                 updateOrder(paymentRequest,auth.getString("authorization_code"));
                 paymentResponse.setStatus("00");
                 paymentResponse.setTransactionReference(data.getString("reference"));
@@ -233,7 +236,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             if (status.equalsIgnoreCase("success")) {
                 //PAYMENT IS SUCCESSFUL,
-                itemsUtil.updateItems(items);
+                itemsUtil.updateItems(items,amount,items.getOrders().getPaymentType());
                 paymentResponse.setStatus("00");
                 paymentResponse.setTransactionReference(data.getString("reference"));
             }
@@ -278,6 +281,7 @@ public class PaymentServiceImpl implements PaymentService {
             designerDTOS.add(dto);
             sendEmailAsync.sendEmailToDesigner(designerDTOS,orders.getOrderNum());
         }
+
         orders.setDeliveryStatus("P");
         orders.setAuthorizationCode(authorizationCode);
         orderRepository.save(orders);

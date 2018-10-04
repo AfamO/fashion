@@ -37,7 +37,7 @@ public class UserOrderController {
 
 
     @PostMapping(value = "/addorder")
-    public Response createOrder(@RequestBody OrderReqDTO orders, HttpServletRequest request){
+    public Response createOrder(@RequestBody OrderReqDTO orders){
         PaymentResponse orderRespDTO = new PaymentResponse();
         try {
             orderRespDTO = orderService.addOrder(orders);
