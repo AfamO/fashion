@@ -876,10 +876,10 @@ public class ProductServiceImpl implements ProductService {
             Date date = new Date();
             //get the product to update
             ProductSearchDTO productSearchDTO=null;
-            productSearchDTO.setVerifiedFlag(status);
             Products products = productRepository.findOne(id);
             if(products!=null){
                 productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url, id, "products"));
+                productSearchDTO.setVerifiedFlag(status);
             }
             products.setVerifiedFlag(status);
             products.setVerfiedOn(date);
