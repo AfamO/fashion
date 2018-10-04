@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminProductController {
     @Autowired
     ProductService productService;
+
      @Value("${search.url}")
     private String elastic_host_api_url; //host_api_url for elastic search
 

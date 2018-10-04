@@ -67,9 +67,6 @@ public class DesignerServiceImpl implements DesignerService{
     @Autowired
     TokenService tokenService;
 
-    @Autowired
-    SMSAlertUtil smsAlertUtil;
-
 
     @Override
     public List<DesignerDTO> getDesigners() {
@@ -399,7 +396,7 @@ public class DesignerServiceImpl implements DesignerService{
             Designer designer = designerRepository.findOne(id);
             designer.setStatus(status);
             designer.getProducts().forEach(products -> {
-                products.setDesignerStatus("D");
+                products.setDesignerStatus(status);
             });
             designerRepository.save(designer);
 
