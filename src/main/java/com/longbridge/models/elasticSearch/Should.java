@@ -14,13 +14,13 @@ import java.util.List;
  * @author Tivas-Tech
  */
 public class Should {
-    private ArrayList<Object> should=new ArrayList<Object>();
+    private Object should;
 
-    public ArrayList<Object> getShould() {
+    public Object getShould() {
         return should;
     }
 
-    public void setShould(ArrayList<Object> should) {
+    public void setShould(Object should) {
         this.should = should;
     }
     

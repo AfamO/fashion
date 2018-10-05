@@ -14,6 +14,7 @@ public class SearchQueryRequest {
     private Query query;
     private int size;
     private Object aggs;
+    private int from=0;
 
     public int getSize() {
         return size;
