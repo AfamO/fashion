@@ -578,10 +578,13 @@ public class ProductServiceImpl implements ProductService {
             productSearchDTO.setProductType(productDTO.productType);
             //
             if(!"null".equalsIgnoreCase(productDTO.styleId)) {
-                if(!productDTO.styleId.isEmpty()) {
+                if(productDTO.styleId!=null)
+                {
+                   if(!productDTO.styleId.isEmpty()) {
                     Long styleId = Long.parseLong(productDTO.styleId);
                     products.setStyle(styleRepository.findOne(styleId));
                     productSearchDTO.setStyleId(productDTO.styleId);
+                } 
                 }
             }
             products.setStockNo(productDTO.stockNo);
