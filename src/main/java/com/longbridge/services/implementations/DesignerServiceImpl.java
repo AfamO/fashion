@@ -105,7 +105,6 @@ public class DesignerServiceImpl implements DesignerService{
         UserEmailTokenDTO userEmailTokenDTO1 = new UserEmailTokenDTO();
         userEmailTokenDTO1.setEmail(userTemp.getEmail());
         userEmailTokenDTO1.setToken(userEmailTokenDTO.getToken());
-
         if(userEmailTokenDTO.getToken() == null){
 
             User usert = userRepository.findByEmail(userEmailTokenDTO.getEmail());
@@ -161,7 +160,7 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.setSizeGuideFlag(user.getDesigner().sizeGuideFlag);
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
                 currentDesigner.setRegistrationProgress(20);
-
+                currentDesigner.setThreshold(user.getDesigner().threshold);
                 if(currentDesigner.getSizeGuideFlag().equalsIgnoreCase("Y")){
 
                     if(currentDesigner.getSizeGuide() == null){
@@ -304,18 +303,11 @@ public class DesignerServiceImpl implements DesignerService{
                     try {
                         String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
                         String base64Img = passedDesigner.logo;
-//                        byte[] imgBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Img);
-//                        ByteArrayInputStream bs = new ByteArrayInputStream(imgBytes);
-//                        File imgfilee = new File(designerLogoFolder + fileName);
+
                         CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img,fileName,"designerlogos");
                         d.setLogo(c.getUrl());
                         d.setPublicId(c.getPublicId());
-//                        FileOutputStream f = new FileOutputStream(imgfilee);
-//                        int rd = 0;
-//                        final byte[] byt = new byte[1024];
-//                        while ((rd = bs.read(byt)) != -1) {
-//                            f.write(byt, 0, rd);
-//                        }
+
                         designerRepository.save(d);
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -339,8 +331,7 @@ public class DesignerServiceImpl implements DesignerService{
             int ratingCount;
             int userCount;
             Double average;
-            //Long userId = designerRepository.findOne(ratingDTO.designerId).userId;
-            //User user = userRepository.findOne(userId);
+
             User user = designerRepository.findOne(ratingDTO.designerId).getUser();
             Rating rating=ratingRepository.findByUser(user);
             if (rating != null){
@@ -390,6 +381,7 @@ public class DesignerServiceImpl implements DesignerService{
         }
     }
 
+
     @Override
     public void updateDesignerStatus(Long id,String status) {
         try {
@@ -399,8 +391,6 @@ public class DesignerServiceImpl implements DesignerService{
                 products.setDesignerStatus(status);
             });
             designerRepository.save(designer);
-
-
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
@@ -413,7 +403,6 @@ public class DesignerServiceImpl implements DesignerService{
             Designer designer = designerRepository.findByUser(getCurrentUser());
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             return dto;
-
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
@@ -429,14 +418,11 @@ public class DesignerServiceImpl implements DesignerService{
             List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
             dto.setSalesChart(salesCharts);
             return dto;
-
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
         }
     }
-
-
 
 
     private User getCurrentUser(){
@@ -448,11 +434,9 @@ public class DesignerServiceImpl implements DesignerService{
     @Override
     public DesignerDTO getDesignerByStoreName(String storeName) {
         try {
-
             Designer designer = designerRepository.findByStoreName(storeName);
             DesignerDTO dto = generalUtil.convertDesignerEntToDTO(designer);
             return dto;
-
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();

@@ -207,6 +207,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void editSubCategory(SubCategoryDTO subCategoryDTO) {
+        try {
+            Date date = new Date();
+                SubCategory subCategory = subCategoryRepository.findOne(subCategoryDTO.id);
+                subCategory.setSubCategory(subCategoryDTO.name);
+                subCategory.setProductType(subCategoryDTO.productType);
+                subCategory.setCreatedOn(date);
+                subCategory.setUpdatedOn(date);
+                subCategoryRepository.save(subCategory);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public void deleteSubCategory(Long id) {
 
         try {

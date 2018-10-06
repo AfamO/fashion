@@ -29,7 +29,7 @@ public interface EventService {
 
     List<EventsDTO> getEvents(EventDateDTO eventDateDTO);
 
-    List<EventPicturesDTO> getEventById(Long id);
+    EventsDTO getEventById(Long id);
 
 
     EventPicturesDTO getEventPictureById(Long id);

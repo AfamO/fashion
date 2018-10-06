@@ -40,8 +40,6 @@ public class AdminEventController {
         Map<String, Object> responseMap = new HashMap();
         eventService.updateEvent(events);
         return new Response("00", "Operation Successful", responseMap);
-
-
     }
 
     @PostMapping(value = "/updateeventpictures")

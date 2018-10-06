@@ -28,25 +28,29 @@ public class AdminCategoryController {
     @Autowired
     CategoryService categoryService;
 
-
     @PostMapping(value = "/addcategory")
     public Response addCategory(@RequestBody CategoryDTO categoryDTO){
         productService.addCategory(categoryDTO);
         return new Response("00","Operation Successful","success");
-
     }
 
     @GetMapping(value = "/getallsubcategories")
     public Object getAllSubCategories(){
-
         List<SubCategory> subCategories = categoryService.getAllSubCategories();
         return new Response("00","Operation Successful",subCategories);
-
     }
+
 
     @PostMapping(value = "/addsubcategory")
     public Response addCategory(@RequestBody SubCategoryDTO subCategoryDTO){
         productService.addSubCategory(subCategoryDTO);
+        return new Response("00","Operation Successful","success");
+    }
+
+
+    @PostMapping(value = "/editsubcategory")
+    public Response editCategory(@RequestBody SubCategoryDTO subCategoryDTO){
+        productService.editSubCategory(subCategoryDTO);
         return new Response("00","Operation Successful","success");
 
     }

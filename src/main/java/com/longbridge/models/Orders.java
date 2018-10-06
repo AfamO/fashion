@@ -39,6 +39,8 @@ public class Orders extends CommonFields {
 
     private String authorizationCode;
 
+    private String deliveryType;
+
     private boolean paystackFiftyAlreadyDeducted;
 
     public Orders() {
@@ -170,6 +172,14 @@ public class Orders extends CommonFields {
 
     public void setAuthorizationCode(String authorizationCode) {
         this.authorizationCode = authorizationCode;
+    }
+
+    public String getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(String deliveryType) {
+        this.deliveryType = deliveryType;
     }
 
     public Orders(String orderNum, List<Items> items, Double totalAmount, String paymentType, Long userId, String deliveryStatus, Address deliveryAddress, Date orderDate, Date deliveredDate, Long anonymousUserId, Boolean anonymousBuyer) {
