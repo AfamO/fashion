@@ -77,7 +77,9 @@ import org.springframework.stereotype.Service;
         Object object = null;
         ApiResponse apiResponse=null;
         try {
-            remotePostGet = new RemotePostGet(host_api_url,"074163a43568414d83eabd26d27c09bc");
+            //Construct a constructor for Listing the indices first.
+            String indices_host=host_api_url.substring(0, host_api_url.lastIndexOf('/'));
+            remotePostGet = new RemotePostGet(indices_host,"074163a43568414d83eabd26d27c09bc");
         } 
         catch (RemoteWebServiceException ex) 
         {
@@ -90,7 +92,7 @@ import org.springframework.stereotype.Service;
             Boolean IsIndexFound=false;
             if(requestedServiceName.equalsIgnoreCase("list_indices")||requestedServiceName.equalsIgnoreCase("query_index")
             || requestedServiceName.equalsIgnoreCase("search_index")|| requestedServiceName.equalsIgnoreCase("delete_index")||requestedServiceName.equalsIgnoreCase("search_index_aggs")){
-                apiLogger.log(Level.INFO, "The indices is here being listed.....");
+                apiLogger.log(Level.INFO, "The indices is here being listed.....");//update_index
                //We assign 'get'method below since  we want to query the list of indices first.
                 indices =new JSONArray(remotePostGet.makeRemoteAPIConnectionRequest("get",httpParameters,null,"/_cat/indices?pretty"));
                 if(requestedServiceName.equalsIgnoreCase("query_index")|| requestedServiceName.equalsIgnoreCase("search_index")
@@ -157,9 +159,16 @@ import org.springframework.stereotype.Service;
             }
              else
              {
+                  try {
+                        remotePostGet = new RemotePostGet(host_api_url,"074163a43568414d83eabd26d27c09bc");
+                    } 
+                    catch (RemoteWebServiceException ex) 
+                    {
+                        apiLogger.log(Level.FATAL, ex.getMessage());
+                    }
                  remoteJsonObject = new JSONObject(remotePostGet.makeRemoteAPIConnectionRequest(httpMethod,httpParameters,null,path));
                  apiResponse= new ApiResponse(HttpStatus.OK.value(),remoteJsonObject);
-                  apiResponse.setMessage("success");
+                 apiResponse.setMessage("success");
              }
         } 
         catch (RemoteWebServiceException ex){
@@ -206,19 +215,19 @@ import org.springframework.stereotype.Service;
        apiLogger.log(Level.INFO,"The Total productDTO is::"+productDTOS.toString());
        
        Gson gson= new Gson();
-         
-        ApiResponse makeRemoteRequestIndexProducts = makeRemoteRequest( host_api_url,"/products/_doc/_bulk","put","create_index","products",productDTOS.toString());
+        this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
+        ApiResponse makeRemoteRequestIndexProducts = makeRemoteRequest( host_api_url,"/_doc/_bulk","put","create_index",requestedIndexName,productDTOS.toString());
         apiLogger.log("The Result Of Indexing A  New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequestIndexProducts));
         return makeRemoteRequestIndexProducts;
          
    }
-   public ApiResponse UpdateProductIndex(String host_api_url,ProductSearchDTO productSearchDTO,String indexName){
+   public ApiResponse UpdateProductIndex(String host_api_url,ProductSearchDTO productSearchDTO){
        if(productSearchDTO!=null){
             this.httpParameters=new JSONObject().put("doc",new JSONObject(SearchUtilities.convertObjectToJson(productSearchDTO)));
             apiLogger.log(Level.INFO," Received JSON Object To Be Updated Is :::"+httpParameters); 
-            requestedEndPointPath="/"+indexName+"/_doc/"+productSearchDTO.getId()+"/_update";
+            requestedEndPointPath="/_doc/"+productSearchDTO.getId()+"/_update";
             requestedServiceName="update_index";//This data is used for logging.
-            this.requestedIndexName=indexName;
+            this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
             return makeRemoteRequest(host_api_url,requestedEndPointPath,"post",requestedServiceName, requestedIndexName, httpParameters);
         }
         else{
@@ -233,22 +242,16 @@ import org.springframework.stereotype.Service;
        return productSearchDTO;
        
    }
-   public ApiResponse getProduct(String host_api_url,Long id,String indexName){
+   public ApiResponse getProduct(String host_api_url,Long id){
        if(id==null)
         {
             
             apiLogger.log(Level.INFO,"The product id to get its index must be provided");
             return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The product id to get its index must be provided!");
         }
-         if(indexName==null)
-        {
-            
-            apiLogger.log(Level.INFO,"The indexName must be provided");
-           return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The indexName must be provided!");
-        }
-        requestedEndPointPath="/"+indexName+"/_doc/"+id;
+        requestedEndPointPath="/_doc/"+id;
         requestedServiceName="query_index";//This data is used for logging.
-        this.requestedIndexName=indexName;
+        this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
         return makeRemoteRequest(host_api_url,requestedEndPointPath,"get",requestedServiceName, requestedIndexName, httpParameters);
    }
    public ApiResponse processSearchResults(JSONObject remoteJsonObject, String httpMethod,String path) {
@@ -362,16 +365,16 @@ import org.springframework.stereotype.Service;
         if(searchRequest.getIndexName()==null)
         {
             apiLogger.log(Level.INFO,"The indexName is not provided");
-            requestedEndPointPath="/products/_search";  // Defaults to 'products' when no index is given'
-            this.requestedIndexName="products";
+            requestedEndPointPath="/_search";  // Defaults to 'products' when no index is given'
+            this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
         }
         else if (searchRequest.getIndexName().equalsIgnoreCase("all")){ //search all available indices in the cluster
             requestedEndPointPath="/_search"; //Search all indices in the cluster.
-            this.requestedIndexName="products";// Just default this to products to avoid giving an exception when looking for 'all'
+            this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());// Just default this to the one in property file to avoid giving an exception when looking for 'all'
         }
         else{
-            requestedEndPointPath="/"+searchRequest.getIndexName()+"/_search"; //search for the given indice
-            this.requestedIndexName=searchRequest.getIndexName();
+            requestedEndPointPath="/_search"; //search for the given indice
+            this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
         }
         apiLogger.log(Level.INFO," Received searchTerm :::"+searchRequest.getSearchTerm()); 
         requestedServiceName="search_index";//This data is used for logging.
