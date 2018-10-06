@@ -118,7 +118,6 @@ public class UserOrderController {
 
     @PostMapping(value = "/additemstocart")
     public Response addCartToCart(@RequestBody CartListDTO cartListDTO){
-
         return new Response("00","Operation Successful",orderService.addItemsToCart(cartListDTO));
 
     }
@@ -157,6 +156,7 @@ public class UserOrderController {
     public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO){
         return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId()));
     }
+
 
 
     @GetMapping(value = "/{orderNum}/getorderbynum")

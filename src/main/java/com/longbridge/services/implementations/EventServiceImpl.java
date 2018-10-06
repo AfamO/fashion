@@ -123,9 +123,10 @@ public class EventServiceImpl implements EventService {
             eventsTemp.setEventName(events.getEventName());
             eventsTemp.setLocation(events.getLocation());
             eventsTemp.setEventDate(events.getEventDate());
+            //eventsTemp.setEventDate(events.getEventDate());
+            System.out.println(events.getDescription());
             eventsTemp.setDescription(events.getDescription());
             eventRepository.save(eventsTemp);
-
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -303,12 +304,13 @@ public class EventServiceImpl implements EventService {
 
 
     @Override
-    public List<EventPicturesDTO> getEventById(Long id) {
+    public EventsDTO getEventById(Long id) {
 
         try {
             User user=getCurrentUser();
             Events event = eventRepository.findOne(id);
             List<EventPictures> e = event.getEventPictures();
+            EventsDTO eventsDTO = new EventsDTO();
             List<EventPicturesDTO> edto = new ArrayList<>();
 
             for(EventPictures eventPictures : e){
@@ -326,7 +328,16 @@ public class EventServiceImpl implements EventService {
                     edto.add(picturesDTO);
                 }
             }
-            return edto;
+            eventsDTO.setEventPictures(edto);
+
+            eventsDTO.setId(event.id);
+            eventsDTO.setEventType(event.getEventType());
+            eventsDTO.setDescription(event.getDescription());
+            eventsDTO.setEventName(event.getEventName());
+            eventsDTO.setLocation(event.getLocation());
+            eventsDTO.setEventDate(event.getEventDate().toString());
+
+            return eventsDTO;
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();

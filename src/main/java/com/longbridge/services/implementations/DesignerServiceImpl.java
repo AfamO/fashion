@@ -381,6 +381,7 @@ public class DesignerServiceImpl implements DesignerService{
         }
     }
 
+
     @Override
     public void updateDesignerStatus(Long id,String status) {
         try {
@@ -390,8 +391,6 @@ public class DesignerServiceImpl implements DesignerService{
                 products.setDesignerStatus(status);
             });
             designerRepository.save(designer);
-
-
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
@@ -404,7 +403,6 @@ public class DesignerServiceImpl implements DesignerService{
             Designer designer = designerRepository.findByUser(getCurrentUser());
             DesignerDTO dto = generalUtil.convertDesigner2EntToDTO(designer);
             return dto;
-
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
@@ -420,14 +418,11 @@ public class DesignerServiceImpl implements DesignerService{
             List<ISalesChart> salesCharts = itemRepository.getTotalSales(designer.id,startDate,"P");
             dto.setSalesChart(salesCharts);
             return dto;
-
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
         }
     }
-
-
 
 
     private User getCurrentUser(){
@@ -439,11 +434,9 @@ public class DesignerServiceImpl implements DesignerService{
     @Override
     public DesignerDTO getDesignerByStoreName(String storeName) {
         try {
-
             Designer designer = designerRepository.findByStoreName(storeName);
             DesignerDTO dto = generalUtil.convertDesignerEntToDTO(designer);
             return dto;
-
         } catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();

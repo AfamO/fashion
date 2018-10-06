@@ -27,7 +27,7 @@ public class OrderReqDTO {
 
     private String anonymousFlag;
     private AnonymousUser anonymousUser;
-
+    private String deliveryType;
 
     public OrderReqDTO(List<Items> items, String totalAmount, String paymentType, Long userId, String deliveryStatus, Long deliveryAddressId, String orderDate, String deliveredDate, String anonymousFlag, AnonymousUser anonymousUser) {
         this.items = items;
@@ -139,6 +139,14 @@ public class OrderReqDTO {
 
     public void setAnonymousUser(AnonymousUser anonymousUser) {
         this.anonymousUser = anonymousUser;
+    }
+
+    public String getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(String deliveryType) {
+        this.deliveryType = deliveryType;
     }
 
     @Override

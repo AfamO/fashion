@@ -207,6 +207,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void editSubCategory(SubCategoryDTO subCategoryDTO) {
+        try {
+            Date date = new Date();
+                SubCategory subCategory = subCategoryRepository.findOne(subCategoryDTO.id);
+                subCategory.setSubCategory(subCategoryDTO.name);
+                subCategory.setProductType(subCategoryDTO.productType);
+                subCategory.setCreatedOn(date);
+                subCategory.setUpdatedOn(date);
+                subCategoryRepository.save(subCategory);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+    @Override
     public void deleteSubCategory(Long id) {
 
         try {
@@ -877,10 +894,10 @@ public class ProductServiceImpl implements ProductService {
             Date date = new Date();
             //get the product to update
             ProductSearchDTO productSearchDTO=null;
-            productSearchDTO.setVerifiedFlag(status);
             Products products = productRepository.findOne(id);
             if(products!=null){
                 productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url, id, "products"));
+                productSearchDTO.setVerifiedFlag(status);
             }
             products.setVerifiedFlag(status);
             products.setVerfiedOn(date);

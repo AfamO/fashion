@@ -50,7 +50,6 @@ public class AdminOrderController {
     @PostMapping(value = "/updateorder")
     public Response updateOrderStatusByAdmin(@RequestBody OrderReqDTO orderReqDTO){
         try{
-
             String message =  adminOrderService.updateOrderByAdmin(orderReqDTO);
             if(message.equalsIgnoreCase("nopayment")){
                 return new Response("56","Unable to confirm payment","No payment has been made");

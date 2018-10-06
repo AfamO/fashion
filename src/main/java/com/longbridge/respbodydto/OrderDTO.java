@@ -18,10 +18,11 @@ public class OrderDTO {
     private Long userId;
 
     private String customerName;
+    private String customerPhoneNumber;
     private String deliveryStatus;
     private String deliveryAddress;
     private String deliveryDate;
-
+    private String deliveryType;
 
 
 
@@ -89,6 +90,15 @@ public class OrderDTO {
         this.customerName = customerName;
     }
 
+
+    public String getCustomerPhoneNumber() {
+        return customerPhoneNumber;
+    }
+
+    public void setCustomerPhoneNumber(String customerPhoneNumber) {
+        this.customerPhoneNumber = customerPhoneNumber;
+    }
+
     public String getDeliveryStatus() {
         return deliveryStatus;
     }
@@ -121,7 +131,15 @@ public class OrderDTO {
         this.paidAmount = paidAmount;
     }
 
-    public OrderDTO(Long id, String orderNumber,String orderDate, String totalAmount, String paymentType, Long userId, String deliveryStatus, String deliveryAddress, String deliveryDate) {
+    public String getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(String deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public OrderDTO(Long id, String orderNumber, String orderDate, String totalAmount, String paymentType, Long userId, String deliveryStatus, String deliveryAddress, String deliveryDate) {
         this.id = id;
         this.orderNumber = orderNumber;
 

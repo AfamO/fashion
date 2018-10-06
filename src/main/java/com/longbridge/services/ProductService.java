@@ -99,6 +99,8 @@ public interface ProductService {
 
     void addSubCategory(SubCategoryDTO subCategoryDTO);
 
+    void editSubCategory(SubCategoryDTO subCategoryDTO);
+
     void deleteSubCategory(Long id);
 
     void addPictureTag(PictureTagDTO pictureTagDTO);

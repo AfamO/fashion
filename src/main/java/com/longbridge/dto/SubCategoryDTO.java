@@ -10,6 +10,10 @@ public class SubCategoryDTO {
 
     public List<String> subCategoryName;
 
+    public  Long id;
+
+    public String name;
+
     public int productType;
 
     public SubCategoryDTO(Long categoryId, List<String> subCategoryName) {
