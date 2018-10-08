@@ -603,6 +603,7 @@ public class ProductServiceImpl implements ProductService {
                     productSearchDTO.setStyleId(productDTO.styleId);
                 } 
                 }
+                
             }
             products.setStockNo(productDTO.stockNo);
             products.setUpdatedOn(date);

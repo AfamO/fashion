@@ -194,6 +194,35 @@ public class SearchUtilities {
         }
         return jsonNewSearchResultsArray;
     }
+    public static JSONArray getfilterQueryArray(SearchRequest searchRequest){
+        
+         JSONArray filterQueryArray= new JSONArray();
+         //Does the user want to filter by any ranges?
+         if(searchRequest.getRanges()!=null && searchRequest.getRanges().size()>0){
+            List<Range> rangesList=searchRequest.getRanges();
+            for(Range currentRange:rangesList){
+                int min=currentRange.getMin();
+                int max=currentRange.getMax();
+                JSONObject rangefieldNameComparator=new JSONObject() .accumulate(currentRange.getFieldName(),new JSONObject()
+                .put("gte", min)
+                .put("lte", max));
+                JSONObject range=new JSONObject() .accumulate("range",rangefieldNameComparator);
+                filterQueryArray.put(range);
+                System.out.println(" At Field "+currentRange.getFieldName()+"  Curr Range Val Is::"+range);            
+            }
+        }
+        //Did the user request to filter search results by any terms?
+        if(searchRequest.getTerms()!=null&& searchRequest.getTerms().size()>0){
+            List<TermFilter> termsList=searchRequest.getTerms();
+            for(TermFilter currentTermFilter:termsList){
+                JSONObject termsfieldNameComparator=new JSONObject() .accumulate(currentTermFilter.getFieldName(),SearchUtilities.convertStringsListToLowerCase(currentTermFilter.getValues()));
+                JSONObject terms=new JSONObject() .accumulate("terms",termsfieldNameComparator);
+                filterQueryArray.put(terms);   
+                System.out.println(" At Field "+currentTermFilter.getFieldName()+"  Curr Terms Val Is::"+terms);
+            }   
+        }
+        return filterQueryArray;
+    }
     public static String convertObjectToJson(Object object){
        ObjectMapper objectMapper = new ObjectMapper();
        String objectWriteValueAsString=null;
