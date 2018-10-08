@@ -108,6 +108,7 @@ public class OrderServiceImpl implements OrderService {
             Orders orders = new Orders();
             Double totalAmount = 0.0;
             Double totalShippingAmount = 0.0;
+            Double totalAmountWithoutShipping = 0.0;
             Date date = new Date();
             String orderNumber = "";
             if(orderReq.getItems().size() <1){
@@ -183,6 +184,7 @@ public class OrderServiceImpl implements OrderService {
             HashMap h= saveItems(orderReq,date,orders,itemStatus);
             totalAmount = Double.parseDouble(h.get("totalAmount").toString());
             totalShippingAmount = Double.parseDouble(h.get("totalShippingAmount").toString());
+
             orders.setTotalAmount(totalAmount);
             orders.setShippingAmount(totalShippingAmount);
 
@@ -256,6 +258,7 @@ public class OrderServiceImpl implements OrderService {
         Double totalAmount=0.0;
         Double shippingAmount = 0.0;
         Double totalShippingAmount = 0.0;
+
         List<String> designerCities = new ArrayList<>();
 
         for (Items items: orderReq.getItems()) {
@@ -292,8 +295,14 @@ public class OrderServiceImpl implements OrderService {
                 designerCities.add(p.getDesigner().getCity().toUpperCase().trim());
            }
             items.setAmount(itemsAmount);
-            totalShippingAmount = totalShippingAmount+shippingAmount;
-            totalAmount=totalAmount+itemsAmount+shippingAmount;
+
+            if(orderReq.getDeliveryType().equalsIgnoreCase("PICK_UP")){
+                totalAmount = totalAmount+itemsAmount;
+            }else {
+                totalAmount = totalAmount + itemsAmount + shippingAmount;
+                totalShippingAmount = totalShippingAmount+shippingAmount;
+            }
+
             items.setOrders(orders);
             items.setProductName(p.getName());
             items.setCreatedOn(date);
@@ -323,6 +332,7 @@ public class OrderServiceImpl implements OrderService {
         HashMap hm = new HashMap();
         hm.put("totalAmount", totalAmount);
         hm.put("totalShippingAmount", totalShippingAmount);
+       // hm.put("totalAmountWithoutShipping", totalAmountWithoutShipping);
 
         return hm;
     }
