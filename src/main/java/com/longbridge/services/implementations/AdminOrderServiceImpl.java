@@ -81,8 +81,10 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     GeneralUtil generalUtil;
 
 
+
     @Override
     public void updateOrderItemByAdmin(ItemsDTO itemsDTO) {
+
         try{
             ItemsDTO itemsDTO1 = new ItemsDTO();
             Items items = itemRepository.findOne(itemsDTO.getId());
@@ -166,9 +168,9 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                         context.setVariable("feedbacklink",feedBackLink);
                         String message = templateEngine.process("oderdeliveredemail", context);
                         mailService.prepareAndSend(message,customerEmail,messageSource.getMessage("order.delivered.subject", null, locale));
-
                     }
                 }
+
                 //Orders orders = orderRepository.findByOrderNum(itemsDTO.getOrderNumber());
                 items.setUpdatedOn(date);
                 itemRepository.save(items);

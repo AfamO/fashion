@@ -42,8 +42,6 @@ public class QAOrderController {
     @Autowired
     AdminService adminService;
 
-    @Autowired
-    AdminOrderService adminOrderService;
 
     @PostMapping(value = "/updateorderitem")
     public Response updateOrderStatusByQA(@RequestBody ItemsDTO item){

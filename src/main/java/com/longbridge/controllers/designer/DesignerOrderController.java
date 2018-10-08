@@ -58,7 +58,7 @@ public class DesignerOrderController {
             mailError.setRecipient(recipient);
             mailError.setSubject(subject);
             mailError.setLink(e.getItemsDTO().getLink());
-            mailError.setWaitTime(e.getItemsDTO().getWaitTime());
+           // mailError.setWaitTime(e.getItemsDTO().getWaitTime());
             mailError.setMailType("adminConfirmOrRejectItem");
             mailErrorRepository.save(mailError);
             return new Response("00", "Operation Successful, Trying to send email", "success");

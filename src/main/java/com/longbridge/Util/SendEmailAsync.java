@@ -124,6 +124,38 @@ public class SendEmailAsync {
 
     }
 
+
+    @Async
+    public void sendDeclinedOrderEmailToUser(User user, ItemsDTO itemsDTO) {
+        String link = "";
+        try {
+
+            try {
+                String mail = user.getEmail();
+                String encryptedMail = Base64.getEncoder().encodeToString(mail.getBytes());
+                link=messageSource.getMessage("order.decline.decision", null, locale)+encryptedMail+"&orderNum="+itemsDTO.getOrderNumber();
+                Context context = new Context();
+                context.setVariable("name", user.getFirstName() + " "+ user.getLastName());
+                context.setVariable("productName",itemsDTO.getProductName());
+                context.setVariable("link",link);
+                itemsDTO.setLink(link);
+                String message = templateEngine.process("admincancelordertemplate", context);
+                mailService.prepareAndSend(message,mail,messageSource.getMessage("order.status.subject", null, locale));
+
+            }catch (MailException me){
+                me.printStackTrace();
+
+                throw new AppException(user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("order.status.subject", null, locale),itemsDTO);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+
     @Async
     public void sendPaymentConfEmailToUser(User user, String orderNumber) {
         String link = "";

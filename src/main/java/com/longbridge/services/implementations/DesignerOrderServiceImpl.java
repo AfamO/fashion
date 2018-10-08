@@ -85,7 +85,6 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
     AnonymousUserRepository anonymousUserRepository;
 
 
-
     @Override
     public List<ItemsRespDTO> getCancelledOrders() {
         try {
@@ -310,6 +309,7 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                     }
                 }
                 else  if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
+                sendEmailAsync.sendDeclinedOrderEmailToUser(user,itemsDTO);
                     items.setItemStatus(itemStatusRepository.findByStatus("C"));
                 }
                 else {
