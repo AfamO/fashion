@@ -566,7 +566,7 @@ public class ProductServiceImpl implements ProductService {
             //Get the product from elastic search 'products' index
             ProductSearchDTO productSearchDTO=null;
             if(products!=null){
-                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url,productDTO.id, "products"));
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url,productDTO.id));
             }
             products.setSubCategory(subCategoryRepository.findOne(subCategoryId));
             products.setName(productDTO.name);
@@ -595,10 +595,13 @@ public class ProductServiceImpl implements ProductService {
             productSearchDTO.setProductType(productDTO.productType);
             //
             if(!"null".equalsIgnoreCase(productDTO.styleId)) {
-                if(!productDTO.styleId.isEmpty()) {
+                if(productDTO.styleId!=null)
+                {
+                   if(!productDTO.styleId.isEmpty()) {
                     Long styleId = Long.parseLong(productDTO.styleId);
                     products.setStyle(styleRepository.findOne(styleId));
                     productSearchDTO.setStyleId(productDTO.styleId);
+                } 
                 }
             }
             products.setStockNo(productDTO.stockNo);
@@ -654,7 +657,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(products);
             //Then save the Updated product status
             //Update the search index to display verified products only
-            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO, "products");
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO);
             apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
 
@@ -695,7 +698,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             Products products = productRepository.findOne(p.id);
             //Get the product from elastic search 'products' index
-            ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url,p.id, "products"));
+            ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url,p.id));
             List<ProductAttributeSearchDTO> productAttributesListSearchDTO =  new ArrayList<>();
             List<ProductPictureSearchDTO> productPicturseSearchDTOList =  new ArrayList<>();
             List<MaterialPictureSearchDTO> materialPictureSearchDTOList=new ArrayList<>();
@@ -782,7 +785,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(products);
             //Then save the Updated product status
             //Update the search index to display verified products only
-            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO, "products");
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO);
             apiLogger.log("The Result Of ReIndexing An Updated Product Images/Properties For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
         }catch (Exception e){
@@ -896,7 +899,7 @@ public class ProductServiceImpl implements ProductService {
             ProductSearchDTO productSearchDTO=null;
             Products products = productRepository.findOne(id);
             if(products!=null){
-                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url, id, "products"));
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url, id));
                 productSearchDTO.setVerifiedFlag(status);
             }
             products.setVerifiedFlag(status);
@@ -904,7 +907,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(products);
             //Then save the Updated product status
             //Update the search index to display verified products only
-            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO, "products");
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO);
             apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
         }catch (Exception e) {
