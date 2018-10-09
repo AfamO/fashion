@@ -238,6 +238,20 @@ import org.springframework.stereotype.Service;
         }
        
    }
+   public ApiResponse AddSearchProductIndex(String host_api_url,ProductSearchDTO productSearchDTO){
+       if(productSearchDTO!=null){
+            this.httpParameters=new JSONObject(SearchUtilities.convertObjectToJson(productSearchDTO));
+            apiLogger.log(Level.INFO," Received JSON Object To Be Indexed Is :::"+httpParameters); 
+            requestedEndPointPath="/_doc/"+productSearchDTO.getId()+"/";
+            requestedServiceName="create_index";//This data is used for logging.
+            this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
+            return makeRemoteRequest(host_api_url,requestedEndPointPath,"put",requestedServiceName, requestedIndexName, httpParameters);
+        }
+        else{
+             return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The the json data to update must be provided!");
+        }
+       
+   }
    public ProductSearchDTO convertIndexApiReponseToProductDTO(ApiResponse apiResponse){
        JSONObject productObjectResponse=new JSONObject(SearchUtilities.convertObjectToJson(apiResponse));
        ObjectMapper objectMapper = new ObjectMapper();
