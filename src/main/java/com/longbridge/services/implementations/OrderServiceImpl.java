@@ -158,8 +158,13 @@ public class OrderServiceImpl implements OrderService {
             orders.setOrderDate(date);
             orders.setPaymentType(orderReq.getPaymentType());
             orders.setPaidAmount(orderReq.getPaidAmount());
-            orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
-
+            if(orderReq.getDeliveryType().equalsIgnoreCase("STANDARD_DELIVERY")) {
+                if(orderReq.getDeliveryAddressId() != null) {
+                    orders.setDeliveryAddress(addressRepository.findOne(orderReq.getDeliveryAddressId()));
+                }else {
+                    throw new WawoohException();
+                }
+            }
             ItemStatus itemStatus = null;
             if(orderReq.getPaymentType().equalsIgnoreCase("CARD_PAYMENT")){
                itemStatus = itemStatusRepository.findByStatus("NV");
