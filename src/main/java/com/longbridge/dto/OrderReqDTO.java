@@ -23,6 +23,9 @@ public class OrderReqDTO {
 
     private String orderDate;
     private String deliveredDate;
+
+    private String deliveryPhoneNumber;
+
     private Double paidAmount;
 
     private String anonymousFlag;
@@ -112,6 +115,14 @@ public class OrderReqDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDeliveryPhoneNumber() {
+        return deliveryPhoneNumber;
+    }
+
+    public void setDeliveryPhoneNumber(String deliveryPhoneNumber) {
+        this.deliveryPhoneNumber = deliveryPhoneNumber;
     }
 
     public OrderReqDTO() {
