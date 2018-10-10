@@ -14,14 +14,15 @@ import java.util.List;
  * @author Tivas-Tech
  */
 public class Bool {
-    public List<Object> should;
-    private List<RangeFilter> filter;
+    public Object should;
+    public Object must;
+    private List<Object> filter;
 
-    public List<RangeFilter> getFilter() {
+    public List<Object> getFilter() {
         return filter;
     }
 
-    public void setFilter(List<RangeFilter> filter) {
+    public void setFilter(List<Object> filter) {
         this.filter = filter;
     }
 

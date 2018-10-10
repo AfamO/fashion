@@ -770,7 +770,7 @@ public class GeneralUtil {
         orderDTO.setPaidAmount(orders.getPaidAmount());
         User user=userRepository.findById(orders.getUserId());
         orderDTO.setCustomerName(user.getLastName()+user.getFirstName());
-        orderDTO.setCustomerPhoneNumber(user.getPhoneNo());
+        orderDTO.setCustomerPhoneNumber(orders.getDeliveryAddress().getPhoneNo());
         orderDTO.setUserId(orders.getUserId());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(orders.getDeliveryDate() != null) {

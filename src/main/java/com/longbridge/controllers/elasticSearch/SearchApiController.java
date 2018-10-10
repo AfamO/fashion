@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.SearchUtilities;
 import com.longbridge.dto.PageableDetailsDTO;
+import com.longbridge.dto.elasticSearch.ProductSearchDTO;
 import com.longbridge.models.Products;
 import com.longbridge.models.Response;
 import com.longbridge.models.elasticSearch.ApiResponse;
@@ -115,6 +116,18 @@ public class SearchApiController {
      }
      else{
              return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The the json data to index must be provided!");
+        }
+        
+        
+   }
+    @PutMapping("/indexProduct")
+    public ApiResponse createProductIndex(@RequestBody ProductSearchDTO productSearchDTO) {
+        if(productSearchDTO!=null){
+         requestedServiceName="create_index";//This data is used for logging.
+         return searchService.AddSearchProductIndex(host_api_url, productSearchDTO);
+     }
+     else{
+             return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The product data to index must be provided!");
         }
         
         

@@ -542,9 +542,7 @@ public class ProductServiceImpl implements ProductService {
             productSearchDTO.setVerifiedFlag("N");
             productRepository.save(products);
             Gson gson= new Gson();
-            ObjectMapper objectMapper = new ObjectMapper();
-            String productSearchDTOWriteValueAsString = objectMapper.writeValueAsString(productSearchDTO);
-            ApiResponse makeRemoteRequest = searchService.makeRemoteRequest( elastic_search_host_api_url,"/products/_doc/"+products.id+"/","put","create_index","products",productSearchDTOWriteValueAsString);
+            ApiResponse makeRemoteRequest = searchService.AddSearchProductIndex(elastic_search_host_api_url, productSearchDTO);      
             apiLogger.log("The Result Of Indexing A New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
             return "true";
 
@@ -603,6 +601,7 @@ public class ProductServiceImpl implements ProductService {
                     productSearchDTO.setStyleId(productDTO.styleId);
                 } 
                 }
+                
             }
             products.setStockNo(productDTO.stockNo);
             products.setUpdatedOn(date);

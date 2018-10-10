@@ -10,14 +10,17 @@ import com.longbridge.dto.elasticSearch.ProductSearchDTO;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.Products;
 import com.longbridge.models.elasticSearch.ApiResponse;
+import com.longbridge.models.elasticSearch.Bool;
 import com.longbridge.models.elasticSearch.CreateIndexId;
 import com.longbridge.models.elasticSearch.Index;
 import com.longbridge.models.elasticSearch.Multi_Match;
 import com.longbridge.models.elasticSearch.Query;
 import com.longbridge.models.elasticSearch.SearchQueryRequest;
 import com.longbridge.models.elasticSearch.SearchRequest;
+import com.longbridge.models.elasticSearch.Should;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
+import java.util.ArrayList;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Level;
 import org.json.JSONArray;
@@ -119,7 +122,7 @@ import org.springframework.stereotype.Service;
                      if(requestedServiceName.equalsIgnoreCase("search_index")){
                          apiLogger.log(Level.INFO, "Caught  search_term is here ...");
                          //process search results
-                         return this.processSearchResults(remoteJsonObject, httpMethod, path);
+                         return this.convertSearchResultsToResponseDTO(remoteJsonObject);
                      }
                      //The fellow must have requested for only aggregations
                      else if(requestedServiceName.equalsIgnoreCase("search_index_aggs")){
@@ -235,6 +238,20 @@ import org.springframework.stereotype.Service;
         }
        
    }
+   public ApiResponse AddSearchProductIndex(String host_api_url,ProductSearchDTO productSearchDTO){
+       if(productSearchDTO!=null){
+            this.httpParameters=new JSONObject(SearchUtilities.convertObjectToJson(productSearchDTO));
+            apiLogger.log(Level.INFO," Received JSON Object To Be Indexed Is :::"+httpParameters); 
+            requestedEndPointPath="/_doc/"+productSearchDTO.getId()+"/";
+            requestedServiceName="create_index";//This data is used for logging.
+            this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
+            return makeRemoteRequest(host_api_url,requestedEndPointPath,"put",requestedServiceName, requestedIndexName, httpParameters);
+        }
+        else{
+             return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The the json data to update must be provided!");
+        }
+       
+   }
    public ProductSearchDTO convertIndexApiReponseToProductDTO(ApiResponse apiResponse){
        JSONObject productObjectResponse=new JSONObject(SearchUtilities.convertObjectToJson(apiResponse));
        ObjectMapper objectMapper = new ObjectMapper();
@@ -262,7 +279,6 @@ import org.springframework.stereotype.Service;
             // Then refine and change the search query
             // Prepare this for fuzziness incase if no results where found for lettered search values.
             Query query=new Query();
-            JSONObject anotherAggs = null;
             Multi_Match multi_Match=new Multi_Match();
             multi_Match.setFuzziness(2);
             multi_Match.setQuery(searchRequest.getSearchTerm().toLowerCase());
@@ -378,16 +394,17 @@ import org.springframework.stereotype.Service;
         }
         apiLogger.log(Level.INFO," Received searchTerm :::"+searchRequest.getSearchTerm()); 
         requestedServiceName="search_index";//This data is used for logging.
-        int shouldCounter=0;
         String searchTerm=searchRequest.getSearchTerm().trim().replace("$", "").replace("@", "").replace("#", "")
                 .replace("£", "").replace("€", "").replace("₦", "");
         //Is it a number ?
+        /** 
+         * Close this for now.
         if(NumberUtils.isCreatable(searchTerm)){
             for(String ColumName:productNumberColumns){
            JSONObject match= new JSONObject().accumulate("match", new JSONObject()
                    .put(ColumName,Double.parseDouble(searchTerm))
            );
-           shouldArray.put(shouldCounter++, match); 
+          // shouldArray.put(shouldCounter++, match); 
 
         }
             boolObject=  new JSONObject()
@@ -399,35 +416,55 @@ import org.springframework.stereotype.Service;
             httpParameters.accumulate("query", boolObject);
             
         }
+        **/
         
         //Or a long text with atleast two words ?
-        else if(SearchUtilities.countWords(searchRequest.getSearchTerm())>1){
-          JSONObject  _query = new JSONObject().accumulate("query", searchRequest.getSearchTerm().toLowerCase());
-            httpParameters.accumulate("query", new JSONObject()
-                .put("query_string", _query)
-                );
-        }
-        else{
+        //else if(SearchUtilities.countWords(searchRequest.getSearchTerm())>1){
+          JSONObject  _query = new JSONObject().accumulate("query", searchTerm.toLowerCase());
+          JSONObject  query_string=new JSONObject().put("query_string", _query);
+            shouldArray.put(query_string);
+            
+        //}
+        //else{
             // It must be first few characterss of a text or a whole word
              JSONObject _queryString = new JSONObject();
-             _queryString.put("query", searchRequest.getSearchTerm().toLowerCase()+"*").put("fields", productTextColumns).put("lowercase_expanded_terms",false);
-            httpParameters.accumulate("query", new JSONObject()
-            .put("query_string", _queryString)
-              );
-            shouldCounter=0;
+             _queryString.put("query", searchTerm.toLowerCase()+"*").put("fields", productTextColumns).put("lowercase_expanded_terms",false);
+             //httpParameters.accumulate("query", new JSONObject().put("query_string", _queryString));
+            query_string=new JSONObject().put("query_string", _queryString);
+            shouldArray.put(query_string);
+       // }
+         // Then refine and change the search query
+            // Prepare this for fuzziness incase if no results where found for lettered search values.
+            Query query=new Query();
+            Multi_Match multi_Match=new Multi_Match();
+            multi_Match.setFuzziness(2);
+            multi_Match.setQuery(searchTerm.toLowerCase());
+            multi_Match.setFields(productTextColumns);
+            query.setMulti_match(multi_Match);
+            JSONObject _fuzzifiedSearchQuery=new JSONObject(SearchUtilities.convertObjectToJson(query));
+            shouldArray.put(_fuzzifiedSearchQuery);
+            Bool bool= new Bool();
+            bool.should=shouldArray.toList();
+            bool.setFilter(new ArrayList<>());
+            bool.must=new ArrayList<>();
+            boolObject=  new JSONObject()
+            .accumulate("bool",new JSONObject(SearchUtilities.convertObjectToJson(bool)));
+            //Add Verified Flag as a 'MUST' or 'COMPULSORY' query requirement
+            JSONObject  verifiedFlag = new JSONObject().accumulate(searchRequest.getVerifiedFlag(), searchRequest.getVerifiedFlagValue());
+            JSONObject matchVerifiedFlag= new JSONObject().accumulate("match", verifiedFlag);
+            mustArray.put(matchVerifiedFlag);
+            //Add boolObject as a 'MUST' or 'COMPULSORY' query requirement
+            mustArray.put(boolObject);//Add boolObject 
             boolObject=  new JSONObject()
             .accumulate("bool",new JSONObject()
             .put("must", mustArray)
-            .put("should", shouldArray)
-            .put("filter", filterArray)
-            .put("must_not", mustArray));
-            //httpParameters.accumulate("query", boolObject);
-        }
-        httpParameters.put("aggs",this.getAggregationRequestCommand());
-        httpParameters.put("size",searchRequest.getSize());
-        apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
-        apiLogger.log(Level.INFO," Composed JSON httpParameters :::"+httpParameters);
-        return makeRemoteRequest(host_api_url,requestedEndPointPath,"post",requestedServiceName, this.requestedIndexName,httpParameters);
+            .put("filter", SearchUtilities.getfilterQueryArray(searchRequest)));
+            httpParameters.put("aggs",this.getAggregationRequestCommand());
+            httpParameters.accumulate("query",boolObject);
+            httpParameters.put("size",searchRequest.getSize());
+            apiLogger.log(Level.INFO," The requestedServiceName :::"+requestedServiceName);
+            apiLogger.log(Level.INFO," Composed JSON httpParameters :::"+httpParameters);
+            return makeRemoteRequest(host_api_url,requestedEndPointPath,"post",requestedServiceName, this.requestedIndexName,httpParameters);
 
     }/**
      * Prepares the aggregations commands needed by search query.

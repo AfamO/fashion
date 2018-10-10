@@ -2,6 +2,7 @@ package com.longbridge.services.implementations;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.SMSAlertUtil;
 import com.longbridge.Util.SendEmailAsync;
+import com.longbridge.dto.CloudinaryResponse;
 import com.longbridge.dto.ItemsDTO;
 import com.longbridge.dto.OrderReqDTO;
 import com.longbridge.exception.AppException;
@@ -13,9 +14,12 @@ import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.AdminOrderService;
+import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.MailService;
 import com.longbridge.services.PocketService;
 import com.longbridge.services.WalletService;
+import java.io.IOException;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -25,9 +29,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
-import java.io.IOException;
-import java.util.*;
 
 
 @Service
@@ -65,7 +66,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     TransferInfoRepository transferInfoRepository;
 
 
-
+   @Autowired
+    CloudinaryService  cloudinaryService;
     private Locale locale = LocaleContextHolder.getLocale();
 
 
@@ -121,6 +123,14 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     if(itemsDTO.getStatus().equalsIgnoreCase("PI")){
                         if(items.getFailedInspectionReason() != null){
                             items.setFailedInspectionReason(null);
+                        }
+                        // Send picture as email to the customer that his order has passed physical inspection.
+                        if(itemsDTO.getProductPicture()!=null){
+                            System.out.println("The Item Picture Name Is:"+itemsDTO.getProductPicture());
+                            String  passedItemPictureName= generalUtil.getPicsName("qaPassedItemPic",items.getProductName());
+                            CloudinaryResponse c = cloudinaryService.uploadToCloud(itemsDTO.getProductPicture(),passedItemPictureName,"QAPassedProductPictures");
+                            System.out.println("The QAPassedPictureName:"+c.getUrl());
+                            sendEmailAsync.sendPassedInspectionnToCustomer(customerEmail,customerName, c);
                         }
                         items.setItemStatus(itemStatusRepository.findByStatus("RS"));
                     }
