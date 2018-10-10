@@ -1,6 +1,7 @@
 package com.longbridge.Util;
 
 import com.longbridge.dto.OrderReqDTO;
+import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.security.repository.UserRepository;
@@ -40,6 +41,13 @@ public class ItemsUtil {
 
     @Autowired
     PocketService pocketService;
+
+    @Autowired
+    ProductSizesRepository productSizesRepository;
+
+
+    @Autowired
+    ProductAttributeRepository productAttributeRepository;
 
 
 
@@ -94,4 +102,22 @@ public class ItemsUtil {
     }
 
 
+    public void updateStockForDesignerDecline(Items items) {
+        try {
+            if (items.getProductAttributeId() != null) {
+                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+
+                if (itemAttribute != null) {
+                    ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                    if (items.getMeasurementId() == null) {
+                        sizes.setNumberInStock(sizes.getNumberInStock() + items.getQuantity());
+                        productSizesRepository.save(sizes);
+                    }
+                }
+            }
+        }catch (Exception ex){
+            throw new WawoohException();
+        }
+
+    }
 }

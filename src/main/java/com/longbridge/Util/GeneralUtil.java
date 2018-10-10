@@ -307,6 +307,7 @@ public class GeneralUtil {
         productDTO.designerName=products.getDesigner().getStoreName();
         productDTO.status=products.getStatus();
         productDTO.sponsoredFlag=products.getSponsoredFlag();
+        productDTO.unVerifiedReason=products.getUnVerifiedReason();
         productDTO.verifiedFlag=products.getVerifiedFlag();
         productDTO.subCategoryId=products.getSubCategory().id.toString();
         productDTO.subCategoryName=products.getSubCategory().getSubCategory();

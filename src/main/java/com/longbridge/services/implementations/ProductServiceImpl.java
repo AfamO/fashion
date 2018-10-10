@@ -924,6 +924,7 @@ public class ProductServiceImpl implements ProductService {
             Date date = new Date();
             Products products = productRepository.findOne(verifyDTO.getId());
             products.setVerifiedFlag(verifyDTO.getFlag());
+            products.setUnVerifiedReason(verifyDTO.getUnverifyReason());
             products.setVerfiedOn(date);
             productRepository.save(products);
 

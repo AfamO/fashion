@@ -108,7 +108,6 @@ public class OrderServiceImpl implements OrderService {
             Orders orders = new Orders();
             Double totalAmount = 0.0;
             Double totalShippingAmount = 0.0;
-            Double totalAmountWithoutShipping = 0.0;
             Date date = new Date();
             String orderNumber = "";
             if(orderReq.getItems().size() <1){

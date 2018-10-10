@@ -1,6 +1,7 @@
 package com.longbridge.controllers.enduser;
 
 import com.longbridge.models.Response;
+import com.longbridge.models.User;
 import com.longbridge.services.NewsLetterService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,13 @@ public class NewsLetterController{
     @Autowired
     NewsLetterService newsLetterService;
 
-    @PostMapping(value = "/{email}/adduser")
-    public Response addUser(@PathVariable String email){
-        newsLetterService.addUser(email);
+    @PostMapping(value = "/add")
+    public Response addUser(@RequestBody User user){
+        newsLetterService.addUser(user.getEmail());
         return new Response("00", "Operation Successful", "successully subscribed");
     }
+
+
 
     @GetMapping(value = "/getall")
     public Response addUser(){

@@ -24,14 +24,8 @@ public class ShippingUtil {
 
         double shippingPriceGIG = 0;
         List<Shipping> shippings = shippingRepository.getPrice(designerCity,userCity);
-        System.out.println(designerCity);
-        System.out.println(userCity);
-        System.out.println(shippings);
 
         for (Shipping shipping : shippings){
-
-            //ZonePrice zonePrice = null;
-            System.out.println(shipping.getSource());
             if(shipping.getSource() != null) {
                 Double zonePrice;
                 int currentShipping = 0;

@@ -308,8 +308,9 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                             }
                     }
                 }
-                else  if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
-                sendEmailAsync.sendDeclinedOrderEmailToUser(user,itemsDTO);
+                else if(itemsDTO.getStatus().equalsIgnoreCase("OR")){
+                   itemsUtil.updateStockForDesignerDecline(items);
+                    sendEmailAsync.sendDeclinedOrderEmailToUser(user,itemsDTO);
                     items.setItemStatus(itemStatusRepository.findByStatus("C"));
                 }
                 else {
