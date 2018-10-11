@@ -59,6 +59,8 @@ public class ProductRespDTO {
 
     public String verifiedFlag;
 
+    public String unVerifiedReason;
+
     public String sponsoredFlag;
 
     public int numOfTimesOrdered;

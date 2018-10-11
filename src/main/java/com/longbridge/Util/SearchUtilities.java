@@ -215,10 +215,10 @@ public class SearchUtilities {
         if(searchRequest.getTerms()!=null&& searchRequest.getTerms().size()>0){
             List<TermFilter> termsList=searchRequest.getTerms();
             for(TermFilter currentTermFilter:termsList){
-                JSONObject termsfieldNameComparator=new JSONObject() .accumulate(currentTermFilter.getFieldName(),SearchUtilities.convertStringsListToLowerCase(currentTermFilter.getValues()));
-                JSONObject terms=new JSONObject() .accumulate("terms",termsfieldNameComparator);
-                filterQueryArray.put(terms);   
-                System.out.println(" At Field "+currentTermFilter.getFieldName()+"  Curr Terms Val Is::"+terms);
+                JSONObject termsfieldNameComparator=new JSONObject() .accumulate(currentTermFilter.getFieldName(),currentTermFilter.getValues().get(0));
+                JSONObject match=new JSONObject() .accumulate("match",termsfieldNameComparator);
+                filterQueryArray.put(match);   
+                System.out.println(" At Field "+currentTermFilter.getFieldName()+"  Curr Terms/Match Val Is::"+match);
             }   
         }
         return filterQueryArray;

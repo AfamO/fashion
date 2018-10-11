@@ -19,6 +19,7 @@ public class OrderDTO {
 
     private String customerName;
     private String customerPhoneNumber;
+    private String deliveryPhoneNumber;
     private String deliveryStatus;
     private String deliveryAddress;
     private String deliveryDate;
@@ -137,6 +138,15 @@ public class OrderDTO {
 
     public void setDeliveryType(String deliveryType) {
         this.deliveryType = deliveryType;
+    }
+
+
+    public String getDeliveryPhoneNumber() {
+        return deliveryPhoneNumber;
+    }
+
+    public void setDeliveryPhoneNumber(String deliveryPhoneNumber) {
+        this.deliveryPhoneNumber = deliveryPhoneNumber;
     }
 
     public OrderDTO(Long id, String orderNumber, String orderDate, String totalAmount, String paymentType, Long userId, String deliveryStatus, String deliveryAddress, String deliveryDate) {

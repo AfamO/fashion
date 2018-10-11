@@ -307,6 +307,7 @@ public class GeneralUtil {
         productDTO.designerName=products.getDesigner().getStoreName();
         productDTO.status=products.getStatus();
         productDTO.sponsoredFlag=products.getSponsoredFlag();
+        productDTO.unVerifiedReason=products.getUnVerifiedReason();
         productDTO.verifiedFlag=products.getVerifiedFlag();
         productDTO.subCategoryId=products.getSubCategory().id.toString();
         productDTO.subCategoryName=products.getSubCategory().getSubCategory();
@@ -769,6 +770,7 @@ public class GeneralUtil {
         orderDTO.setPaidAmount(orders.getPaidAmount());
         User user=userRepository.findById(orders.getUserId());
         orderDTO.setCustomerName(user.getLastName()+user.getFirstName());
+        orderDTO.setDeliveryPhoneNumber(orders.getDeliveryAddress().getPhoneNo());
         orderDTO.setCustomerPhoneNumber(user.getPhoneNo());
         orderDTO.setUserId(orders.getUserId());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
