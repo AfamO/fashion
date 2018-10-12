@@ -543,7 +543,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(products);
             Gson gson= new Gson();
             ApiResponse makeRemoteRequest = searchService.AddSearchProductIndex(elastic_search_host_api_url, productSearchDTO);      
-            apiLogger.log("The Result Of Indexing A New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
+            //apiLogger.log("The Result Of Indexing A New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
             return "true";
 
 
@@ -657,7 +657,7 @@ public class ProductServiceImpl implements ProductService {
             //Then save the Updated product status
             //Update the search index to display verified products only
             Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO);
-            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+            //apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
 
         }catch (Exception e) {
@@ -785,7 +785,7 @@ public class ProductServiceImpl implements ProductService {
             //Then save the Updated product status
             //Update the search index to display verified products only
             Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO);
-            apiLogger.log("The Result Of ReIndexing An Updated Product Images/Properties For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+           // apiLogger.log("The Result Of ReIndexing An Updated Product Images/Properties For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -907,7 +907,7 @@ public class ProductServiceImpl implements ProductService {
             //Then save the Updated product status
             //Update the search index to display verified products only
             Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO);
-            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+           // apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
         }catch (Exception e) {
             e.printStackTrace();

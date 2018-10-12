@@ -71,8 +71,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     PaymentRepository paymentRepository;
 
-    @Autowired
-    PocketService pocketService;
 
     @Autowired
     PaymentService paymentService;
@@ -286,7 +284,8 @@ public class OrderServiceImpl implements OrderService {
                 items.setMaterialPicture(materialPictureRepository.findOne(items.getMaterialPictureId()).getPictureName());
             }
 
-            items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).getPictureName());
+            ProductAttribute productAttribute=productAttributeRepository.findOne(items.getProductAttributeId());
+            items.setProductPicture(productPictureRepository.findFirst1ByProductAttribute(productAttribute).getPictureName());
 
             Double amount;
             if(p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0){
