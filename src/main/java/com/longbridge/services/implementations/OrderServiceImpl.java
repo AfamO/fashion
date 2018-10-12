@@ -71,8 +71,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     PaymentRepository paymentRepository;
 
-    @Autowired
-    PocketService pocketService;
 
     @Autowired
     PaymentService paymentService;
@@ -165,6 +163,7 @@ public class OrderServiceImpl implements OrderService {
                     throw new WawoohException();
                 }
             }
+            orders.setDeliveryType(orderReq.getDeliveryType());
             ItemStatus itemStatus = null;
             if(orderReq.getPaymentType().equalsIgnoreCase("CARD_PAYMENT")){
                itemStatus = itemStatusRepository.findByStatus("NV");
@@ -285,7 +284,8 @@ public class OrderServiceImpl implements OrderService {
                 items.setMaterialPicture(materialPictureRepository.findOne(items.getMaterialPictureId()).getPictureName());
             }
 
-            items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).getPictureName());
+            ProductAttribute productAttribute=productAttributeRepository.findOne(items.getProductAttributeId());
+            items.setProductPicture(productPictureRepository.findFirst1ByProductAttribute(productAttribute).getPictureName());
 
             Double amount;
             if(p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0){
@@ -294,15 +294,15 @@ public class OrderServiceImpl implements OrderService {
                 amount = p.getAmount();
             }
             Double itemsAmount = amount*items.getQuantity();
-            if(!designerCities.contains(p.getDesigner().getCity().toUpperCase().trim())){
-                shippingAmount = shippingUtil.getShipping(p.getDesigner().getCity().toUpperCase().trim(), orders.getDeliveryAddress().getCity().toUpperCase().trim(), items.getQuantity());
-                designerCities.add(p.getDesigner().getCity().toUpperCase().trim());
-           }
-            items.setAmount(itemsAmount);
 
+            items.setAmount(itemsAmount);
             if(orderReq.getDeliveryType().equalsIgnoreCase("PICK_UP")){
                 totalAmount = totalAmount+itemsAmount;
             }else {
+                if(!designerCities.contains(p.getDesigner().getCity().toUpperCase().trim())){
+                    shippingAmount = shippingUtil.getShipping(p.getDesigner().getCity().toUpperCase().trim(), orders.getDeliveryAddress().getCity().toUpperCase().trim(), items.getQuantity());
+                    designerCities.add(p.getDesigner().getCity().toUpperCase().trim());
+                }
                 totalAmount = totalAmount + itemsAmount + shippingAmount;
                 totalShippingAmount = totalShippingAmount+shippingAmount;
             }

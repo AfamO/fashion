@@ -762,7 +762,11 @@ public class GeneralUtil {
     public OrderDTO convertOrderEntToDTOs(Orders orders){
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(orders.id);
-        orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
+        if(orders.getDeliveryAddress() != null) {
+            orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
+            orderDTO.setDeliveryPhoneNumber(orders.getDeliveryAddress().getPhoneNo());
+        }
+        orderDTO.setDeliveryType(orders.getDeliveryType());
         orderDTO.setDeliveryStatus(orders.getDeliveryStatus());
         orderDTO.setOrderNumber(orders.getOrderNum());
         orderDTO.setPaymentType(orders.getPaymentType());
@@ -770,7 +774,6 @@ public class GeneralUtil {
         orderDTO.setPaidAmount(orders.getPaidAmount());
         User user=userRepository.findById(orders.getUserId());
         orderDTO.setCustomerName(user.getLastName()+user.getFirstName());
-        orderDTO.setDeliveryPhoneNumber(orders.getDeliveryAddress().getPhoneNo());
         orderDTO.setCustomerPhoneNumber(user.getPhoneNo());
         orderDTO.setUserId(orders.getUserId());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
