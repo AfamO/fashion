@@ -294,15 +294,15 @@ public class OrderServiceImpl implements OrderService {
                 amount = p.getAmount();
             }
             Double itemsAmount = amount*items.getQuantity();
-            if(!designerCities.contains(p.getDesigner().getCity().toUpperCase().trim())){
-                shippingAmount = shippingUtil.getShipping(p.getDesigner().getCity().toUpperCase().trim(), orders.getDeliveryAddress().getCity().toUpperCase().trim(), items.getQuantity());
-                designerCities.add(p.getDesigner().getCity().toUpperCase().trim());
-           }
-            items.setAmount(itemsAmount);
 
+            items.setAmount(itemsAmount);
             if(orderReq.getDeliveryType().equalsIgnoreCase("PICK_UP")){
                 totalAmount = totalAmount+itemsAmount;
             }else {
+                if(!designerCities.contains(p.getDesigner().getCity().toUpperCase().trim())){
+                    shippingAmount = shippingUtil.getShipping(p.getDesigner().getCity().toUpperCase().trim(), orders.getDeliveryAddress().getCity().toUpperCase().trim(), items.getQuantity());
+                    designerCities.add(p.getDesigner().getCity().toUpperCase().trim());
+                }
                 totalAmount = totalAmount + itemsAmount + shippingAmount;
                 totalShippingAmount = totalShippingAmount+shippingAmount;
             }
