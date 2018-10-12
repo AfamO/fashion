@@ -672,7 +672,6 @@ public class GeneralUtil {
             cartDTO.setMeasurementId(cart.getMeasurementId());
         }
         return cartDTO;
-
     }
 
 
@@ -708,8 +707,7 @@ public class GeneralUtil {
             itemsDTO.setCustomerName(user.getLastName()+" "+user.getFirstName());
             itemsDTO.setCustomerId(user.id);
             itemsDTO.setProductPicture(items.getProductPicture());
-
-
+            itemsDTO.setCustomerEmail(user.getEmail());
             itemsDTO.setArtWorkPicture(items.getArtWorkPicture());
 
             itemsDTO.setMaterialPicture(items.getMaterialPicture());
