@@ -19,46 +19,25 @@ public interface ProductService {
     ProductRespDTO getDesignerProductById(Long id);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    String addProduct(ProductDTO productDTO,String elastic_search_host_api_url) throws WawoohException;
+    String addProduct(ProductDTO productDTO) throws WawoohException;
 
     void updateProductVisibility(Long id, String status);
 
-    void updateProductStatus(Long id, String status,String elastic_search_host_api_url);
+    void updateProductStatus(Long id, String status);
 
     void unVerifyProduct(VerifyDTO verifyDTO);
 
     void sponsorProduct(Long id, String status);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateProduct(ProductDTO productDTO,String elastic_search_host_api_url);
+    void updateProduct(ProductDTO productDTO);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void updateProductStock(ProductDTO productDTO);
-
-    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateProductImages(ProductDTO p,String elastic_search_host_api_url);
-
-    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateArtWorkImages(ArtPicReqDTO artPictureDTO);
-
-    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateMaterialImages(MatPicReqDTO materialPictureDTO);
-
+    
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void deleteProduct(Long id);
-
-    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void deleteProductImages(ProductPictureIdListDTO pictureIdListDTO);
-
-    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void deleteProductImage(Long id);
-
-    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void deleteArtWorkImages(ProductPictureIdListDTO pictureIdListDTO);
-
-    @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void deleteMaterialImages(ProductPictureIdListDTO pictureIdListDTO);
-
+    
     List<ProductRespDTO> getProductsByDesigner(Long designerId);
 
     List<ProductRespDTO> getProductsByDesigner();
@@ -103,26 +82,9 @@ public interface ProductService {
 
     void deleteSubCategory(Long id);
 
-    void addPictureTag(PictureTagDTO pictureTagDTO);
-
-    void deletePictureTag(Long id);
-
-    TagDTO getPictureTagById(Long id);
-
-    PictureTagDTO getPictureTags(Long eventPictureId);
-
     void addStyle(StyleDTO styleDTO);
 
-
     List<Style> getStyles(Long subCategoryId);
-
-    List<EventPicturesDTO> getUntaggedPictures(PageableDetailsDTO pageableDetailsDTO);
-
-    List<EventPicturesDTO> getTaggedPictures(PageableDetailsDTO pageableDetailsDTO);
-
-    List<EventPicturesDTO> getUntaggedPicturesByEvents(Long id);
-
-    List<EventPicturesDTO> getTaggedPicturesByEvents(Long id);
 
     int getTotalProducts();
 

@@ -11,6 +11,7 @@ import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.HibernateSearchService;
 import com.longbridge.services.MeasurementService;
+import com.longbridge.services.ProductPictureService;
 import com.longbridge.services.ProductRatingService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +35,17 @@ import java.util.Map;
 public class DesignerProductController {
     @Autowired
     ProductService productService;
+    
+    @Autowired
+    ProductPictureService productPictureService;
 
     @Autowired
     HibernateSearchService searchService;
-    @Value("${search.url}")
-    private String host_api_url; //host_api_url
 
     @PostMapping(value = "/addproduct")
     public Object addProduct(@RequestBody ProductDTO productDTO){
         Map<String,Object> responseMap = new HashMap();
-        productService.addProduct(productDTO,host_api_url);
+        productService.addProduct(productDTO);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
     }
@@ -52,7 +54,7 @@ public class DesignerProductController {
     @PostMapping(value = "/updateproduct")
     public Object updateProduct(@RequestBody ProductDTO productDTO){
         Map<String,Object> responseMap = new HashMap();
-        productService.updateProduct(productDTO,host_api_url);
+        productService.updateProduct(productDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
@@ -73,7 +75,7 @@ public class DesignerProductController {
     public Object updateProductImage(@RequestBody ProductDTO p){
         Map<String,Object> responseMap = new HashMap();
 
-        productService.updateProductImages(p,host_api_url);
+        productPictureService.updateProductImages(p);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
@@ -82,7 +84,7 @@ public class DesignerProductController {
     @PostMapping(value = "/updateproductartwork")
     public Object updateProdArtMaterial(@RequestBody ArtPicReqDTO artPicReqDTO){
         Map<String,Object> responseMap = new HashMap();
-        productService.updateArtWorkImages(artPicReqDTO);
+        productPictureService.updateArtWorkImages(artPicReqDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
@@ -91,7 +93,7 @@ public class DesignerProductController {
     @PostMapping(value = "/updateproductmaterial")
     public Object updateProdArtMaterial(@RequestBody MatPicReqDTO matPicReqDTO){
         Map<String,Object> responseMap = new HashMap();
-        productService.updateMaterialImages(matPicReqDTO);
+        productPictureService.updateMaterialImages(matPicReqDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
@@ -113,7 +115,7 @@ public class DesignerProductController {
     @GetMapping(value = "/{id}/deleteproductimage")
     public Object deleteProductImages(@PathVariable Long id){
         Map<String,Object> responseMap = new HashMap();
-        productService.deleteProductImage(id);
+        productPictureService.deleteProductImage(id);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
 
@@ -122,7 +124,7 @@ public class DesignerProductController {
     @PostMapping(value = "/deleteproductimage")
     public Object deleteProductImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO){
         Map<String,Object> responseMap = new HashMap();
-        productService.deleteProductImages(pictureIdListDTO);
+        productPictureService.deleteProductImages(pictureIdListDTO);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
 
@@ -132,7 +134,7 @@ public class DesignerProductController {
     @PostMapping(value = "/deleteartworkimage")
     public Object deleteArtWorkImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO){
         Map<String,Object> responseMap = new HashMap();
-        productService.deleteArtWorkImages(pictureIdListDTO);
+        productPictureService.deleteArtWorkImages(pictureIdListDTO);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
 
@@ -141,7 +143,7 @@ public class DesignerProductController {
     @PostMapping(value = "/deletematerialimage")
     public Object deleteMaterialImages(@RequestBody ProductPictureIdListDTO pictureIdListDTO){
         Map<String,Object> responseMap = new HashMap();
-        productService.deleteMaterialImages(pictureIdListDTO);
+        productPictureService.deleteMaterialImages(pictureIdListDTO);
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
 

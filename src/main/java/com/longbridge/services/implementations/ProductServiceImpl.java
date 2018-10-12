@@ -1,6 +1,5 @@
 package com.longbridge.services.implementations;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.SearchUtilities;
@@ -23,15 +22,10 @@ import com.longbridge.services.ProductService;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.*;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import org.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -112,6 +106,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductAttributeRepository productAttributeRepository;
     RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass()); 
+    
+    @Value("${search.url}")
+    private String elastic_host_api_url; //host_api_url for elastic search
 
     @Override
     public ProductRespDTO getDesignerProductById(Long id) {
@@ -239,89 +236,6 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-
-
-    @Override
-    public void addPictureTag(PictureTagDTO pictureTagDTO) {
-
-        try {
-            Long designerId;
-            Long productId;
-            Long subCategoryId=0L;
-            Date date = new Date();
-
-            List<TagDTO> tag = pictureTagDTO.tags;
-            for(TagDTO tagDTO: tag){
-                PictureTag pictureTag = new PictureTag();
-                if(!tagDTO.designerId.equalsIgnoreCase("")) {
-                    designerId = Long.parseLong(tagDTO.designerId);
-                    pictureTag.setDesigner(designerRepository.findOne(designerId));
-                }
-                Long eventPictureId = Long.parseLong(pictureTagDTO.eventPicturesId);
-                pictureTag.setLeftCoordinate(tagDTO.leftCoordinate);
-                pictureTag.setTopCoordinate(tagDTO.topCoordinate);
-                pictureTag.setImageSize(tagDTO.imageSize);
-                pictureTag.setEventPictures( eventPictureRepository.findOne(eventPictureId));
-                if(!tagDTO.subCategoryId.equalsIgnoreCase("")){
-                    subCategoryId = Long.parseLong(tagDTO.subCategoryId);
-                    pictureTag.setSubCategory(subCategoryRepository.findOne(subCategoryId));
-                }
-
-                if(!tagDTO.productId.equalsIgnoreCase("")) {
-                    productId = Long.parseLong(tagDTO.productId);
-                    pictureTag.setProducts(productRepository.findOne(productId));
-                }
-                pictureTag.setCreatedOn(date);
-                pictureTag.setUpdatedOn(date);
-                pictureTagRepository.save(pictureTag);
-
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-    @Override
-    public void deletePictureTag(Long id) {
-        try {
-            pictureTagRepository.delete(id);
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-
-    @Override
-    public TagDTO getPictureTagById(Long id) {
-        try {
-            PictureTag pictureTag = pictureTagRepository.findOne(id);
-            return convertPicTagEntityToDTO(pictureTag);
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-    @Override
-    public PictureTagDTO getPictureTags(Long eventPictureId) {
-
-        try {
-            List<PictureTag> pictureTags = pictureTagRepository.findPictureTagsByEventPictures(eventPictureRepository.findOne(eventPictureId));
-            PictureTagDTO pictureTagDTO = new PictureTagDTO();
-            pictureTagDTO.tags=convertPictureTagEntityToDTO(pictureTags);
-           pictureTagDTO.picture=eventPictureRepository.findOne(eventPictureId).getPictureName();
-            return pictureTagDTO;
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        throw new WawoohException();
-    }
-
     @Override
     public void addStyle(StyleDTO styleDTO) {
         Map<String,Object> responseMap = new HashMap();
@@ -365,7 +279,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public String addProduct(ProductDTO productDTO,String elastic_search_host_api_url) {
+    public String addProduct(ProductDTO productDTO) {
         try {
 
             if(productDTO.amount < 0 || productDTO.slashedPrice < 0 || productDTO.percentageDiscount <0){
@@ -542,7 +456,7 @@ public class ProductServiceImpl implements ProductService {
             productSearchDTO.setVerifiedFlag("N");
             productRepository.save(products);
             Gson gson= new Gson();
-            ApiResponse makeRemoteRequest = searchService.AddSearchProductIndex(elastic_search_host_api_url, productSearchDTO);      
+            ApiResponse makeRemoteRequest = searchService.AddSearchProductIndex(elastic_host_api_url, productSearchDTO);      
             apiLogger.log("The Result Of Indexing A New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
             return "true";
 
@@ -554,7 +468,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(ProductDTO productDTO,String elastic_search_host_api_url) {
+    public void updateProduct(ProductDTO productDTO) {
         try {
             User user = getCurrentUser();
             Date date = new Date();
@@ -564,7 +478,7 @@ public class ProductServiceImpl implements ProductService {
             //Get the product from elastic search 'products' index
             ProductSearchDTO productSearchDTO=null;
             if(products!=null){
-                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url,productDTO.id));
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url,productDTO.id));
             }
             products.setSubCategory(subCategoryRepository.findOne(subCategoryId));
             products.setName(productDTO.name);
@@ -656,7 +570,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(products);
             //Then save the Updated product status
             //Update the search index to display verified products only
-            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO);
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
             apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
 
@@ -689,193 +603,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-
-
-    @Override
-    public void updateProductImages(ProductDTO p,String elastic_search_host_api_url) {
-        Date date = new Date();
-        try {
-            Products products = productRepository.findOne(p.id);
-            //Get the product from elastic search 'products' index
-            ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url,p.id));
-            List<ProductAttributeSearchDTO> productAttributesListSearchDTO =  new ArrayList<>();
-            List<ProductPictureSearchDTO> productPicturseSearchDTOList =  new ArrayList<>();
-            List<MaterialPictureSearchDTO> materialPictureSearchDTOList=new ArrayList<>();
-            List<ProductSizes> productSizesSearchDTOList =  new ArrayList<ProductSizes>();
-            int totalStock = 0;
-            List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
-            List<String> reOccuringPictures = new ArrayList<String>();
-            products.setAcceptCustomSizes( p.acceptCustomSizes);
-            products.setInStock(p.inStock);
-            products.setNumOfDaysToComplete( p.numOfDaysToComplete);
-            productSearchDTO.setAcceptCustomSizes(p.acceptCustomSizes);
-            productSearchDTO.setNumOfDaysToComplete(p.numOfDaysToComplete);
-            productSearchDTO.setInStock(p.inStock);
-
-            if(productAttributes.size()>0){
-
-                for (ProductAttribute prA: productAttributes) {
-                    List<ProductSizes> productSizes = productSizesRepository.findByProductAttribute(prA);
-                    productSizesRepository.delete(productSizes);
-
-                    for(ProductPicture pp:prA.getProductPictures()) {
-                        Long id = pp.getId();
-                        ProductPicture productPicture = productPictureRepository.findOne(id);
-                        cloudinaryService.deleteFromCloud(productPicture.getPicture(), productPicture.getPictureName());
-                    }
-                }
-                productAttributeRepository.delete(productAttributes);
-            }
-
-            for (ProductAttributeDTO pa: p.productAttributes) {
-                ProductAttribute productAttribute = new ProductAttribute();
-                productAttribute.setProducts(products);
-                String  colourName= generalUtil.getPicsName("prodcolour",pa.getColourName());
-                System.out.println(pa.getColourPicture());
-                CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
-                productAttribute.setColourName(pa.getColourName());
-                productAttribute.setColourPicture(c.getUrl());
-                productAttributeRepository.save(productAttribute);
-                ProductAttributeSearchDTO productAttributeSearch=new ProductAttributeSearchDTO();
-                productAttributeSearch.setProductId(p.id);
-                productAttributeSearch.setColourName(colourName);
-                productAttributeSearch.setColourPicture(c.getUrl());
-                productAttributeRepository.save(productAttribute);
-
-
-                for (ProductSizes prodSizes: pa.getProductSizes()) {
-                    ProductSizes productSizes = new ProductSizes();
-                    productSizes.setName(prodSizes.getName());
-                    productSizes.setNumberInStock(prodSizes.getNumberInStock());
-                    totalStock += prodSizes.getNumberInStock();
-                    productSizes.setProductAttribute(productAttribute);
-                    productSizesRepository.save(productSizes);
-                    productSizesSearchDTOList.add(productSizes);
-                }
-                productAttributeSearch.setProductSizes(productSizesSearchDTOList);
-                for(String pp : pa.getPicture()){
-
-                        ProductPicture productPicture = new ProductPicture();
-                        c = cloudinaryService.uploadToCloud(pp, generalUtil.getPicsName("prodpic", products.getSubCategory().getSubCategory()), "productpictures");
-                        System.out.println("i got here no id");
-                        productPicture.setPictureName(c.getUrl());
-                        productPicture.setPicture(c.getPublicId());
-                        productPicture.setProducts(products);
-                        productPicture.createdOn = date;
-                        productPicture.setUpdatedOn(date);
-                        productPicture.setProductAttribute(productAttribute);
-                        productPictureRepository.save(productPicture);
-                        ProductPictureSearchDTO productPictureSearchDTO = new ProductPictureSearchDTO();
-                        productPictureSearchDTO.picture=c.getUrl();
-                        productPictureSearchDTO.createdOn = date;
-                        productPictureSearchDTO.updatedOn=date;
-                        productPictureSearchDTO.setId(productPicture.getId());
-                        productPicturseSearchDTOList.add(productPictureSearchDTO);
-                    }
-                        productAttributeSearch.setProductPictureSearchDTOS(productPicturseSearchDTOList);
-                        productAttributesListSearchDTO.add(productAttributeSearch);
-                        productSearchDTO.setProductAttributeDTOS(productAttributesListSearchDTO);
-            }
-
-            products.setStockNo(totalStock);
-            productSearchDTO.setStockNo(totalStock);
-            products.setVerifiedFlag("N");
-            productSearchDTO.setVerifiedFlag("N");
-            productRepository.save(products);
-            //Then save the Updated product status
-            //Update the search index to display verified products only
-            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO);
-            apiLogger.log("The Result Of ReIndexing An Updated Product Images/Properties For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
-
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-
-    }
-
-
-
-    @Override
-    public void updateArtWorkImages(ArtPicReqDTO artPicReqDTO) {
-
-        try {
-            Date date = new Date();
-            Products products = productRepository.findOne(artPicReqDTO.productId);
-            for(ArtPictureDTO pp : artPicReqDTO.artWorkPicture){
-
-                if(pp.id != null) {
-                    Long id = pp.id;
-                    ArtWorkPicture artWorkPicture = artWorkPictureRepository.findOne(id);
-
-                    cloudinaryService.deleteFromCloud(artWorkPicture.getPicture(), artWorkPicture.getPictureName());
-
-                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.getSubCategory().getSubCategory()), "artworkpictures");
-                    artWorkPicture.setPictureName(c.getUrl());
-                    artWorkPicture.setPicture( c.getPublicId());
-
-                    artWorkPictureRepository.save(artWorkPicture);
-                }else {
-                    ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.getSubCategory().getSubCategory()), "artworkpictures");
-                    artWorkPicture.setPictureName(c.getUrl());
-                    artWorkPicture.setPicture( c.getPublicId());
-                    artWorkPicture.setProducts(products);
-                    artWorkPicture.createdOn = date;
-                    artWorkPicture.setUpdatedOn(date);
-                    artWorkPictureRepository.save(artWorkPicture);
-                }
-
-            }
-            products.setVerifiedFlag("N");
-            productRepository.save(products);
-
-        }catch (Exception e){
-            e.printStackTrace();
-           throw new WawoohException();
-        }
-    }
-
-    @Override
-    public void updateMaterialImages(MatPicReqDTO matPicReqDTO) {
-        Date date = new Date();
-        try {
-
-            Products products = productRepository.findOne(matPicReqDTO.productId);
-            for (MaterialPictureDTO pp : matPicReqDTO.materialPicture) {
-                if(pp.getId() != null) {
-                    Long id = pp.getId();
-                    MaterialPicture materialPicture = materialPictureRepository.findOne(id);
-                    cloudinaryService.deleteFromCloud(materialPicture.getPicture(), materialPicture.getPictureName());
-                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.getMaterialPicture(), generalUtil.getPicsName("materialpic", products.getSubCategory().getSubCategory()), "materialpictures");
-                    materialPicture.setPictureName(c.getUrl());
-                    materialPicture.setPicture(c.getPublicId());
-                    materialPicture.setMaterialName(pp.getMaterialName());
-
-
-                    materialPictureRepository.save(materialPicture);
-                }else {
-                    MaterialPicture materialPicture = new MaterialPicture();
-
-                    CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.getMaterialPicture(), generalUtil.getPicsName("materialpic", products.getSubCategory().getSubCategory()), "materialpictures");
-                    materialPicture.setPictureName(c.getUrl());
-                    materialPicture.setPicture(c.getPublicId());
-                    materialPicture.setProducts(products);
-                    materialPicture.createdOn = date;
-                    materialPicture.setUpdatedOn(date);
-                    materialPictureRepository.save(materialPicture);
-                }
-            }
-            products.setVerifiedFlag("N");
-            productRepository.save(products);
-
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new WawoohException();
-        }
-
-    }
-
     @Override
     public void updateProductVisibility(Long id, String status) {
         try {
@@ -890,7 +617,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProductStatus(Long id, String status,String elastic_search_host_api_url) {
+    public void updateProductStatus(Long id, String status) {
 
         try {
             Date date = new Date();
@@ -898,7 +625,7 @@ public class ProductServiceImpl implements ProductService {
             ProductSearchDTO productSearchDTO=null;
             Products products = productRepository.findOne(id);
             if(products!=null){
-                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_search_host_api_url, id));
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, id));
                 productSearchDTO.setVerifiedFlag(status);
             }
             products.setVerifiedFlag(status);
@@ -906,7 +633,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(products);
             //Then save the Updated product status
             //Update the search index to display verified products only
-            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_search_host_api_url, productSearchDTO);
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
             apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
         }catch (Exception e) {
@@ -969,59 +696,6 @@ public class ProductServiceImpl implements ProductService {
 
         }catch (Exception e) {
             e.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-    @Override
-    public void deleteProductImages(ProductPictureIdListDTO ids) {
-        try {
-        for (Long id:ids.getIds()) {
-            ProductPicture p = productPictureRepository.findOne(id);
-            cloudinaryService.deleteFromCloud(p.getPicture(), p.getPictureName());
-            productPictureRepository.delete(p);
-        }
-        }
-         catch (Exception ex){
-                ex.printStackTrace();
-                throw new WawoohException();
-            }
-    }
-
-    @Override
-    public void deleteProductImage(Long id) {
-        try{
-            productPictureRepository.delete(id);
-        }catch (Exception ex){
-            ex.printStackTrace();;
-            throw new WawoohException();
-        }
-    }
-
-    @Override
-    public void deleteArtWorkImages(ProductPictureIdListDTO ids) {
-        try {
-            for (Long id:ids.getIds()) {
-                ArtWorkPicture p = artWorkPictureRepository.findOne(id);
-                cloudinaryService.deleteFromCloud(p.getPicture(), p.getPictureName());
-                artWorkPictureRepository.delete(id);
-            }
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-    @Override
-    public void deleteMaterialImages(ProductPictureIdListDTO ids) {
-        try {
-            for (Long id:ids.getIds()) {
-                MaterialPicture p = materialPictureRepository.findOne(id);
-                cloudinaryService.deleteFromCloud(p.getPicture(), p.getPictureName());
-                materialPictureRepository.delete(id);
-            }
-        }catch (Exception ex){
-            ex.printStackTrace();
             throw new WawoohException();
         }
     }
@@ -1461,101 +1135,6 @@ public class ProductServiceImpl implements ProductService {
             throw new WawoohException();
         }
     }
-
-    @Override
-    public List<EventPicturesDTO> getUntaggedPictures(PageableDetailsDTO pageableDetailsDTO) {
-        int page = pageableDetailsDTO.getPage();
-        int size = pageableDetailsDTO.getSize();
-        List<EventPictures> ev = new ArrayList<>();
-        try {
-
-            Page<EventPictures> e = eventPictureRepository.findAll(new PageRequest(page, size));
-
-            for(EventPictures pictures: e) {
-                if (pictureTagRepository.findByEventPictures(pictures).size() < 1) {
-                    ev.add(pictures);
-                }
-            }
-
-            return generalUtil.convertEntsToDTOs(ev);
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-
-    @Override
-    public List<EventPicturesDTO> getTaggedPictures(PageableDetailsDTO pageableDetailsDTO) {
-        int page = pageableDetailsDTO.getPage();
-        int size = pageableDetailsDTO.getSize();
-
-        try {
-            List<EventPicturesDTO> eventPicturesDTOS= new ArrayList<>();
-
-           Page<Long> eventPictures=pictureTagRepository.getTagged(new PageRequest(page, size));
-
-            for(Long eventPictures1: eventPictures){
-                eventPicturesDTOS.add(generalUtil.convertEntityToDTO(eventPictureRepository.findOne(eventPictures1)));
-            }
-
-        return eventPicturesDTOS;
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-    @Override
-    public List<EventPicturesDTO> getUntaggedPicturesByEvents(Long id) {
-
-        List<EventPicturesDTO> ev = new ArrayList<>();
-        List<EventPictures> e;
-        try {
-             e = eventPictureRepository.findByEvents(eventRepository.findOne(id));
-                if(e!=null) {
-                    for (EventPictures pictures : e) {
-                        if (pictureTagRepository.findByEventPictures(pictures).size() < 1) {
-                            EventPicturesDTO picturesDTO = generalUtil.convertEntityToDTO(pictures);
-                            ev.add(picturesDTO);
-                        }
-                    }
-                }
-                return ev;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
-    @Override
-    public List<EventPicturesDTO> getTaggedPicturesByEvents(Long id) {
-
-        List<EventPicturesDTO> ev = new ArrayList<>();
-        List<EventPictures> e;
-        try {
-                    e = eventPictureRepository.findByEvents(eventRepository.findOne(id));
-                if(e!=null) {
-                    for (EventPictures pictures : e) {
-                        if (pictureTagRepository.findByEventPictures(pictures).size() > 0) {
-                            EventPicturesDTO picturesDTO = generalUtil.convertEntityToDTO(pictures);
-                            ev.add(picturesDTO);
-                        }
-
-                    }
-                }
-                return ev;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new WawoohException();
-        }
-    }
-
 
     private User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
