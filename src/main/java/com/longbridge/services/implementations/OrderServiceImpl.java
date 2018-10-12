@@ -165,6 +165,7 @@ public class OrderServiceImpl implements OrderService {
                     throw new WawoohException();
                 }
             }
+            orders.setDeliveryType(orderReq.getDeliveryType());
             ItemStatus itemStatus = null;
             if(orderReq.getPaymentType().equalsIgnoreCase("CARD_PAYMENT")){
                itemStatus = itemStatusRepository.findByStatus("NV");

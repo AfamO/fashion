@@ -762,7 +762,10 @@ public class GeneralUtil {
     public OrderDTO convertOrderEntToDTOs(Orders orders){
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(orders.id);
-        orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
+        if(orders.getDeliveryAddress() != null) {
+            orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
+        }
+        orderDTO.setDeliveryType(orders.getDeliveryType());
         orderDTO.setDeliveryStatus(orders.getDeliveryStatus());
         orderDTO.setOrderNumber(orders.getOrderNum());
         orderDTO.setPaymentType(orders.getPaymentType());
