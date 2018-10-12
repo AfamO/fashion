@@ -206,7 +206,7 @@ import org.springframework.stereotype.Service;
              productDTOS.append("\n");
              productSearchDTOWriteValueAsString = objectMapper.writeValueAsString(productDTO );
              productDTOS.append(productSearchDTOWriteValueAsString);
-             apiLogger.log(Level.INFO,"The productDTOS's Body is::"+productSearchDTOWriteValueAsString);
+             //apiLogger.log(Level.INFO,"The productDTOS's Body is::"+productSearchDTOWriteValueAsString);
              productDTOS.append("\n");
             
          } catch ( JsonProcessingException ex) {
@@ -215,19 +215,19 @@ import org.springframework.stereotype.Service;
          }
             
         }
-       apiLogger.log(Level.INFO,"The Total productDTO is::"+productDTOS.toString());
+       //apiLogger.log(Level.INFO,"The Total productDTO is::"+productDTOS.toString());
        
        Gson gson= new Gson();
         this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
         ApiResponse makeRemoteRequestIndexProducts = makeRemoteRequest( host_api_url,"/_doc/_bulk","put","create_index",requestedIndexName,productDTOS.toString());
-        apiLogger.log("The Result Of Indexing A  New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequestIndexProducts));
+        //apiLogger.log("The Result Of Indexing A  New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequestIndexProducts));
         return makeRemoteRequestIndexProducts;
          
    }
    public ApiResponse UpdateProductIndex(String host_api_url,ProductSearchDTO productSearchDTO){
        if(productSearchDTO!=null){
             this.httpParameters=new JSONObject().put("doc",new JSONObject(SearchUtilities.convertObjectToJson(productSearchDTO)));
-            apiLogger.log(Level.INFO," Received JSON Object To Be Updated Is :::"+httpParameters); 
+            //apiLogger.log(Level.INFO," Received JSON Object To Be Updated Is :::"+httpParameters); 
             requestedEndPointPath="/_doc/"+productSearchDTO.getId()+"/_update";
             requestedServiceName="update_index";//This data is used for logging.
             this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
@@ -241,7 +241,7 @@ import org.springframework.stereotype.Service;
    public ApiResponse AddSearchProductIndex(String host_api_url,ProductSearchDTO productSearchDTO){
        if(productSearchDTO!=null){
             this.httpParameters=new JSONObject(SearchUtilities.convertObjectToJson(productSearchDTO));
-            apiLogger.log(Level.INFO," Received JSON Object To Be Indexed Is :::"+httpParameters); 
+            //apiLogger.log(Level.INFO," Received JSON Object To Be Indexed Is :::"+httpParameters); 
             requestedEndPointPath="/_doc/"+productSearchDTO.getId()+"/";
             requestedServiceName="create_index";//This data is used for logging.
             this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());

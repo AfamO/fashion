@@ -114,7 +114,7 @@ public final class RemotePostGet {
 
                         httpPost.setEntity(new StringEntity(httpParameters.toString()));
                         System.out.println("URL encoded format IS: " +httpParameters);
-                        System.out.println("postEntity:::"+httpParameters.toString());
+                        //System.out.println("postEntity:::"+httpParameters.toString());
                         httpPost.addHeader("Content-Type", "application/json");
                         httpPost.addHeader("Accept", "application/json");
                     }
@@ -135,8 +135,8 @@ public final class RemotePostGet {
                     HttpEntity httpEntity = httpResponse.getEntity();
                     inputStream = httpEntity.getContent();
                     statusCode=httpResponse.getStatusLine().getStatusCode();
-                    webServiceLogger.log(Level.INFO,"Content lent="+httpEntity.getContentLength());
-                    webServiceLogger.log(Level.INFO, "content is: " +httpEntity.getContent().toString()+" while the Status Code is::"+statusCode);
+                    //webServiceLogger.log(Level.INFO,"Content lent="+httpEntity.getContentLength());
+                    //webServiceLogger.log(Level.INFO, "content is: " +httpEntity.getContent().toString()+" while the Status Code is::"+statusCode);
 
                 }
                 if(httpMethod.equalsIgnoreCase(PUT_METHOD))
@@ -150,7 +150,7 @@ public final class RemotePostGet {
                             
                             httpPut.setEntity(new StringEntity(httpParameters.toString()));
                             System.out.println("URL encoded format IS: " +httpParameters);
-                            System.out.println("putEntity:::"+httpParameters.toString());
+                            //System.out.println("putEntity:::"+httpParameters.toString());
                             httpPut.addHeader("Content-Type", "application/json");
                             httpPut.addHeader("Accept", "application/json");
                         }
@@ -171,8 +171,8 @@ public final class RemotePostGet {
                         HttpEntity httpEntity = httpResponse.getEntity();
                         inputStream = httpEntity.getContent();
                         statusCode=httpResponse.getStatusLine().getStatusCode();
-                        webServiceLogger.log(Level.INFO,"Content lent="+httpEntity.getContentLength());
-                        webServiceLogger.log(Level.INFO, "content is: " +httpEntity.getContent().toString()+" while the Status Code is::"+statusCode);
+                        //webServiceLogger.log(Level.INFO,"Content lent="+httpEntity.getContentLength());
+                        //webServiceLogger.log(Level.INFO, "content is: " +httpEntity.getContent().toString()+" while the Status Code is::"+statusCode);
                         
                     }
                 if(httpMethod.equalsIgnoreCase(GET_METHOD))
@@ -203,7 +203,7 @@ public final class RemotePostGet {
                         inputStream = httpEntity.getContent();
                         //httpEntity.getContentType().
                          statusCode=httpResponse.getStatusLine().getStatusCode();
-                         webServiceLogger.log(Level.INFO, "content is: " +httpEntity.getContent().toString()+" while the Status Code is::"+httpResponse.getStatusLine().getStatusCode());   
+                         //webServiceLogger.log(Level.INFO, "content is: " +httpEntity.getContent().toString()+" while the Status Code is::"+httpResponse.getStatusLine().getStatusCode());   
                     }
                 if(httpMethod.equalsIgnoreCase(DELETE_METHOD))
                     {
@@ -211,7 +211,7 @@ public final class RemotePostGet {
                        CloseableHttpClient httpClient = HttpClients.createDefault();
                         remoteUrl +=apiPath;
                         webServiceLogger.log(Level.INFO,"log_tag:GET's URL IS: " + remoteUrl);
-                        System.out.println("postEntity:::"+httpParameters.toString());
+                        //System.out.println("postEntity:::"+httpParameters.toString());
                         System.out.println("log_tag:DELETE's URL IS: " + remoteUrl);
                         System.out.println("The JSON httpParameters IS: " +httpParameters);
                         HttpDelete httpDelete = new HttpDelete(remoteUrl);
@@ -225,7 +225,7 @@ public final class RemotePostGet {
                         inputStream = httpEntity.getContent();
                         //httpEntity.getContentType().
                          statusCode=httpResponse.getStatusLine().getStatusCode();
-                         webServiceLogger.log(Level.INFO, "content is: " +httpEntity.getContent().toString()+" while the Status Code is::"+httpResponse.getStatusLine().getStatusCode());   
+                         //webServiceLogger.log(Level.INFO, "content is: " +httpEntity.getContent().toString()+" while the Status Code is::"+httpResponse.getStatusLine().getStatusCode());   
                     }
         } 
         catch (UnsupportedEncodingException | UnknownHostException e) {
@@ -255,7 +255,7 @@ public final class RemotePostGet {
             if(inputStream!=null)
                 inputStream.close();
             result = sb.toString();
-            System.out.println("The RESULT FROM REMOTE SERVER for http method "+httpMethod+" is: "+result+" StatusCode is:: "+statusCode);
+            //System.out.println("The RESULT FROM REMOTE SERVER for http method "+httpMethod+" is: "+result+" StatusCode is:: "+statusCode);
            
             //gloSmsLogger.log(Level.INFO,"The RESULT FROM REMOTE SERVER for http method "+httpMethod+" is: "+result);
             //jsonObject = new JSONObject(result);
