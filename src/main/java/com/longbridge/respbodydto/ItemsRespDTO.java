@@ -40,6 +40,8 @@ public class ItemsRespDTO {
 
     private String materialPicture;
 
+    private String materialName;
+
     private Long artWorkPictureId;
 
     private Long materialPictureId;
@@ -59,6 +61,8 @@ public class ItemsRespDTO {
     private Long orderId;
 
     private String customerName;
+
+    private String customerEmail;
 
     private Long customerId;
 
@@ -372,5 +376,21 @@ public class ItemsRespDTO {
 
     public void setTrackingNumber(String trackingNumber) {
         this.trackingNumber = trackingNumber;
+    }
+
+    public String getMaterialName() {
+        return materialName;
+    }
+
+    public void setMaterialName(String materialName) {
+        this.materialName = materialName;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 }

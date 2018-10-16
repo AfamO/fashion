@@ -1033,7 +1033,6 @@ public class ProductServiceImpl implements ProductService {
             List<Products> products = productRepository.findByDesigner(designerRepository.findOne(designer.id));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
             return productDTOS;
-
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
@@ -1402,7 +1401,7 @@ public class ProductServiceImpl implements ProductService {
         try {
 
             List<Products> products= new ArrayList<>();
-            Page<Products> prods = productRepository.findBySponsoredFlag(new PageRequest(pageableDetailsDTO.getPage(),pageableDetailsDTO.getSize()),"Y");
+            Page<Products> prods = productRepository.findBySponsoredFlagAndVerifiedFlagAndDesigner_Status(new PageRequest(pageableDetailsDTO.getPage(),pageableDetailsDTO.getSize()),"Y", "Y","A");
             products.addAll(prods.getContent());
 
            // List<Products> prods1=productRepository.findFirst5ByPriceSlashEnabledTrue();
@@ -1424,7 +1423,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductRespDTO> getAllFeaturedProducts() {
         try {
             List<Products> products = new ArrayList<>();
-            List<Products> prods = productRepository.findBySponsoredFlag("Y");
+            List<Products> prods = productRepository.findBySponsoredFlagAndVerifiedFlagAndDesigner_Status("Y","Y","A");
 
             products=generalUtil.getRandomProducts(prods,prods.size());
             return generalUtil.convertProdEntToProdRespDTOs(products);

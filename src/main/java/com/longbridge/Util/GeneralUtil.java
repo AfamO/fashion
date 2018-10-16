@@ -182,7 +182,6 @@ public class GeneralUtil {
             dto.setProducts(products);
         }
         return dto;
-
     }
 
     public List<DesignerDTO> convDesignerEntToDTOs(List<Designer> designers){
@@ -204,14 +203,15 @@ public class GeneralUtil {
         return productPictureDTOS;
     }
 
+
     public ProductPictureDTO convertProdPictureEntityToDTO(ProductPicture picture){
         ProductPictureDTO pictureDTO = new ProductPictureDTO();
         pictureDTO.id=picture.getId();
         pictureDTO.productId=picture.getProducts().id;
         pictureDTO.picture=picture.getPictureName();
         return pictureDTO;
-
     }
+
 
     public List<ArtPictureDTO> convertArtPictureEntitiesToDTO(List<ArtWorkPicture> artWorkPictures){
         List<ArtPictureDTO> artPictureDTOS = new ArrayList<ArtPictureDTO>();
@@ -287,14 +287,11 @@ public class GeneralUtil {
         DecimalFormat df = new DecimalFormat("#.00");
         productDTO.id=products.id;
         productDTO.amount=products.getAmount();
-      //  productDTO.color=products.color;
         productDTO.description=products.getProdDesc();
         productDTO.prodSummary=products.getProdSummary();
         productDTO.name=products.getName();
 
         productDTO.productAttributeDTOS=convertProductAttributeEntitiesToDTOs(products.getProductAttributes());
-
-      //  productDTO.productSizes=products.productSizes;
         if(products.getStyle() != null) {
             productDTO.styleId = products.getStyle().id.toString();
         }
@@ -386,13 +383,10 @@ public class GeneralUtil {
         DecimalFormat df = new DecimalFormat("#.00");
         productDTO.id=products.id;
         productDTO.amount=products.getAmount();
-        //productDTO.productAttributes=products.productAttributes;
         productDTO.productAttributeDTOS=convertProductAttributeEntitiesToDTOs(products.getProductAttributes());
-        //productDTO.color=products.color;
         productDTO.description=products.getProdDesc();
         productDTO.prodSummary=products.getProdSummary();
         productDTO.name=products.getName();
-       // productDTO.productSizes=products.productSizes;
         if(products.getStyle() != null) {
             productDTO.styleId = products.getStyle().id.toString();
         }
@@ -441,16 +435,12 @@ public class GeneralUtil {
             productDTO.sizeGuide.femaleSizeGuide = sizeGuide.getFemaleSizeGuide();
             productDTO.sizeGuide.maleSizeGuide = sizeGuide.getMaleSizeGuide();
         }
-
         return productDTO;
-
     }
 
 
     public String getPicsName(String picsArrayType, String productName){
-
         String timeStamp = picsArrayType + getCurrentTime();
-
         String fName = productName.replaceAll("\\s","") + timeStamp;
         return  fName;
     }
@@ -461,7 +451,6 @@ public class GeneralUtil {
         int length = 10;
         SecureRandom random = new SecureRandom();
         BigInteger bigInteger = new BigInteger(130, random);
-
         String sessionId = String.valueOf(bigInteger.toString(length));
         return sessionId.toUpperCase();
     }
@@ -470,16 +459,13 @@ public class GeneralUtil {
 
     public EventPicturesDTO convertEntityToDTO(EventPictures eventPictures){
         EventPicturesDTO eventPicturesDTO = new EventPicturesDTO();
-
         eventPicturesDTO.setId(eventPictures.id);
         eventPicturesDTO.setPicture(eventPictures.pictureName);
         return eventPicturesDTO;
-
     }
 
 
     public List<ProductAttributeDTO> convertProductAttributeEntitiesToDTOs(List<ProductAttribute> productAttributes){
-
         List<ProductAttributeDTO> productAttributeDTOS = new ArrayList<ProductAttributeDTO>();
         for(ProductAttribute p: productAttributes){
             ProductAttributeDTO productAttributeDTO = convertProductAttributeEntityToDTO(p);
@@ -490,7 +476,6 @@ public class GeneralUtil {
 
     public ProductAttributeDTO convertProductAttributeEntityToDTO(ProductAttribute productAttribute){
         ProductAttributeDTO productAttributeDTO = new ProductAttributeDTO();
-
         productAttributeDTO.setId(productAttribute.id);
         productAttributeDTO.setColourPicture(productAttribute.getColourPicture());
         productAttributeDTO.setColourName(productAttribute.getColourName());
@@ -502,9 +487,7 @@ public class GeneralUtil {
 
 
     public List<EventsDTO> convertEntitiesToDTOs(List<Events> events){
-
         List<EventsDTO> eventsDTOS = new ArrayList<EventsDTO>();
-
         for(Events events1: events){
             EventsDTO eventsDTO = convertEntityToDTO(events1);
             eventsDTOS.add(eventsDTO);
@@ -514,9 +497,7 @@ public class GeneralUtil {
 
 
     public List<EventPicturesDTO> convertEntsToDTOs(List<EventPictures> events){
-
         List<EventPicturesDTO> picturesDTOS = new ArrayList<EventPicturesDTO>();
-
         for(EventPictures eventsp: events){
             EventPicturesDTO picturesDTO = convertEntityToDTO(eventsp);
             picturesDTOS.add(picturesDTO);
@@ -529,23 +510,17 @@ public class GeneralUtil {
         eventsDTO.setId(events.id);
         eventsDTO.setDescription(events.getDescription());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         String stringDate = formatter.format(events.getEventDate());
         eventsDTO.setEventDate(stringDate);
         eventsDTO.setEventName(events.getEventName());
         eventsDTO.setLocation(events.getLocation());
-
         eventsDTO.setMainPicture(events.getMainPicture());
         eventsDTO.setEventPictures(convertEvtPicEntToDTOsMin(eventPictureRepository.findFirst6ByEvents(events)));
-
         return eventsDTO;
-
     }
 
     public List<EventPicturesDTO> convertEvtPicEntToDTOsMin(List<EventPictures> eventPictures){
-
         List<EventPicturesDTO> eventPicturesDTOS = new ArrayList<EventPicturesDTO>();
-
         for(EventPictures eventPictures1: eventPictures){
             EventPicturesDTO eventPicturesDTO = convertEntityToDTOMin(eventPictures1);
             eventPicturesDTOS.add(eventPicturesDTO);
@@ -561,13 +536,11 @@ public class GeneralUtil {
         eventPicturesDTO.setPicture(eventPictures.pictureName);
         eventPicturesDTO.setPictureDesc(eventPictures.getPictureDesc());
         return eventPicturesDTO;
-
     }
 
     public List<Products> getRandomProducts(List<Products> products, int numberOfProducts) {
         List<Products> randomProducts = new ArrayList<>();
         List<Products> copy = new ArrayList<>(products);
-
         SecureRandom rand = new SecureRandom();
         for (int i = 0; i < Math.min(numberOfProducts, products.size()); i++) {
             randomProducts.add( copy.remove( rand.nextInt( copy.size() ) ));
@@ -579,9 +552,7 @@ public class GeneralUtil {
 
 
     public List<ItemsRespDTO> convertItemsEntToDTOs(List<Items> items){
-
         List<ItemsRespDTO> itemsDTOS = new ArrayList<ItemsRespDTO>();
-
         for(Items items1: items){
             ItemsRespDTO itemsDTO = convertEntityToDTO(items1);
             itemsDTOS.add(itemsDTO);
@@ -601,15 +572,10 @@ public class GeneralUtil {
 
     public CartDTO convertCartEntToDTO(Cart cart){
         CartDTO cartDTO = new CartDTO();
-
         cartDTO.setId(cart.id);
-
         cartDTO.setProductId(cart.getProductId());
-
         Products products = productRepository.findOne(cart.getProductId());
-
         cartDTO.setProductName(products.getName());
-
         cartDTO.setProductAttributeId(cart.getProductAttributeId());
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setPrice(products.getAmount());
@@ -620,7 +586,6 @@ public class GeneralUtil {
                 cartDTO.setSlashedPrice(products.getPriceSlash().getSlashedPrice());
             }
         }
-
         if(cartDTO.getSlashedPrice() > 0){
             cartDTO.setTotalPrice(cartDTO.getSlashedPrice()*cartDTO.getQuantity());
         }else{
@@ -672,7 +637,6 @@ public class GeneralUtil {
             cartDTO.setMeasurementId(cart.getMeasurementId());
         }
         return cartDTO;
-
     }
 
 
@@ -708,8 +672,7 @@ public class GeneralUtil {
             itemsDTO.setCustomerName(user.getLastName()+" "+user.getFirstName());
             itemsDTO.setCustomerId(user.id);
             itemsDTO.setProductPicture(items.getProductPicture());
-
-
+            itemsDTO.setCustomerEmail(user.getEmail());
             itemsDTO.setArtWorkPicture(items.getArtWorkPicture());
 
             itemsDTO.setMaterialPicture(items.getMaterialPicture());
