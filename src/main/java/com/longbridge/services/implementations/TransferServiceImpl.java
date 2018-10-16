@@ -7,10 +7,13 @@ import com.longbridge.models.TransferInfo;
 import com.longbridge.repository.OrderRepository;
 import com.longbridge.repository.TransferInfoRepository;
 import com.longbridge.services.TransferService;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +27,7 @@ public class TransferServiceImpl implements TransferService{
 
     @Autowired
     OrderRepository orderRepository;
-
+    Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public void saveOrderTransferInfo(TransferInfoDTO transferInfoDTO) {
@@ -34,7 +37,7 @@ public class TransferServiceImpl implements TransferService{
                 if(orders.getDeliveryStatus().equalsIgnoreCase("P")) {
                     TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
                     if(transferInfo != null){
-                        transferInfo.setPaymentDate(transferInfoDTO.getPaymentDate());
+                        transferInfo.setPaymentDate(new Date(transferInfoDTO.getPaymentDate()));
                         transferInfo.setAccountName(transferInfoDTO.getAccountName());
                         transferInfo.setAmountPayed(transferInfoDTO.getAmountPayed());
                         transferInfo.setBank(transferInfoDTO.getBank());
@@ -43,7 +46,7 @@ public class TransferServiceImpl implements TransferService{
                     else {
                         transferInfo = new TransferInfo();
                         transferInfo.setOrders(orders);
-                        transferInfo.setPaymentDate(transferInfoDTO.getPaymentDate());
+                        transferInfo.setPaymentDate(new Date(transferInfoDTO.getPaymentDate()));
                         transferInfo.setAccountName(transferInfoDTO.getAccountName());
                         transferInfo.setAmountPayed(transferInfoDTO.getAmountPayed());
                         transferInfo.setBank(transferInfoDTO.getBank());
@@ -71,7 +74,7 @@ public class TransferServiceImpl implements TransferService{
         if(orders != null){
             TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
             TransferInfoDTO transferInfoDTO = new TransferInfoDTO();
-            transferInfoDTO.setPaymentDate(transferInfo.getPaymentDate());
+            transferInfoDTO.setPaymentDate(formatter.format(transferInfo.getPaymentDate()));
             transferInfoDTO.setAccountName(transferInfo.getAccountName());
             transferInfoDTO.setAmountPayed(transferInfo.getAmountPayed());
             transferInfoDTO.setBank(transferInfo.getBank());
@@ -90,7 +93,9 @@ public class TransferServiceImpl implements TransferService{
         for (TransferInfo transferInfo : transferInfos) {
             TransferInfoDTO transferInfoDTO = new TransferInfoDTO();
             transferInfoDTO.setId(transferInfo.id);
-            transferInfoDTO.setPaymentDate(transferInfo.getPaymentDate());
+            if(transferInfo.getPaymentDate() != null) {
+                transferInfoDTO.setPaymentDate(formatter.format(transferInfo.getPaymentDate()));
+            }
             transferInfoDTO.setAccountName(transferInfo.getAccountName());
             transferInfoDTO.setAmountPayed(transferInfo.getAmountPayed());
             transferInfoDTO.setBank(transferInfo.getBank());
