@@ -126,10 +126,10 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                         }
                         // Send picture as email to the customer that his order has passed physical inspection.
                         if(itemsDTO.getProductPicture()!=null){
-                            System.out.println("The Item Picture Name Is:"+itemsDTO.getProductPicture());
+
                             String  passedItemPictureName= generalUtil.getPicsName("qaPassedItemPic",items.getProductName());
                             CloudinaryResponse c = cloudinaryService.uploadToCloud(itemsDTO.getProductPicture(),passedItemPictureName,"QAPassedProductPictures");
-                            System.out.println("The QAPassedPictureName:"+c.getUrl());
+
                             sendEmailAsync.sendPassedInspectionnToCustomer(customerEmail,customerName, c);
                         }
                         items.setItemStatus(itemStatusRepository.findByStatus("RS"));
@@ -149,7 +149,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                         items.setItemStatus(itemStatusRepository.findByStatus("RI"));
                     }
                 }
-
 
 
                 else if(items.getItemStatus().getStatus().equalsIgnoreCase("RS")){
@@ -200,7 +199,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
             }
 
-
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
@@ -247,13 +245,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 }
                 itemRepository.save(items);
                 notifyDesigner(items);
-
-                if (items.getMeasurement() != null) {
-                    items.setItemStatus(itemStatusRepository.findByStatus("PC"));
-                }
-                else {
-                    items.setItemStatus(itemStatusRepository.findByStatus("RI"));
-                }
             }
             //update wallet balance
             pocketService.updatePocketForOrderPayment(customer,transferInfo.getAmountPayed(),"BANK_TRANSFER");

@@ -1033,7 +1033,6 @@ public class ProductServiceImpl implements ProductService {
             List<Products> products = productRepository.findByDesigner(designerRepository.findOne(designer.id));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
             return productDTOS;
-
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();

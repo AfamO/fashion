@@ -64,19 +64,15 @@ public class DesignerProductController {
         productService.updateProductStock(productDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
-
     }
-
 
 
     @PostMapping(value = "/updateproductimage")
     public Object updateProductImage(@RequestBody ProductDTO p){
         Map<String,Object> responseMap = new HashMap();
-
         productService.updateProductImages(p,host_api_url);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
-
     }
 
     @PostMapping(value = "/updateproductartwork")
@@ -155,8 +151,6 @@ public class DesignerProductController {
         ProductRespDTO products = productService.getDesignerProductById(id);
 
         return new Response("00","Operation Successful",products);
-
-
     }
 
 
@@ -166,7 +160,6 @@ public class DesignerProductController {
         return new Response("00","Operation Successful",products);
 
     }
-
 
 
     @GetMapping(value = "/{id}/productvisibility/{status}")
