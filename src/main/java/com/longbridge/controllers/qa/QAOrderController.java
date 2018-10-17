@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 public class QAOrderController {
 
     @Autowired
-    AdminOrderService orderService;
+    AdminOrderService adminOrderService;
 
     @Autowired
     ItemStatusService itemStatusService;
@@ -43,13 +43,13 @@ public class QAOrderController {
     AdminService adminService;
 
     @Autowired
-    AdminOrderService adminOrderService;
+    OrderService orderService;
 
 
     @PostMapping(value = "/updateorderitem")
     public Response updateOrderStatusByQA(@RequestBody ItemsDTO item){
         try{
-            orderService.updateOrderItemByAdmin(item);
+            adminOrderService.updateOrderItemByAdmin(item);
             return new Response("00","Operation Successful","success");
 
         }catch (AppException e){
@@ -71,7 +71,7 @@ public class QAOrderController {
 
     @PostMapping(value = "/updatetrackingnumber")
     public Response updateItemTrackingNumber(@RequestBody ItemsDTO itemsDTO){
-        orderService.updateTrackingNumber(itemsDTO);
+        adminOrderService.updateTrackingNumber(itemsDTO);
         return new Response("00", "Operation successful", null);
     }
 
@@ -83,12 +83,19 @@ public class QAOrderController {
 
     @GetMapping(value = "/getorders")
     public Response getAllOrderItemsQa(){
-        return new Response("00","Operation Successful",orderService.getAllOrdersByQA());
+        return new Response("00","Operation Successful",adminOrderService.getAllOrdersByQA());
     }
+
     @GetMapping(value = "/getallorders")
     public Response getAllOrders(){
         return new Response("00","Operation Successful",adminOrderService.getAllOrdersByAdmin2());
     }
+
+    @GetMapping(value = "/{id}/getorder")
+    public Response getOrderById(@PathVariable Long id){
+        return new Response("00","Operation Successful",orderService.getOrdersById(id));
+    }
+
 
     @GetMapping(value = "/getstatuses")
     public Response getStatuses(HttpServletRequest request){
