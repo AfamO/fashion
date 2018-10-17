@@ -42,6 +42,9 @@ public class QAOrderController {
     @Autowired
     AdminService adminService;
 
+    @Autowired
+    AdminOrderService adminOrderService;
+
 
     @PostMapping(value = "/updateorderitem")
     public Response updateOrderStatusByQA(@RequestBody ItemsDTO item){
@@ -81,6 +84,10 @@ public class QAOrderController {
     @GetMapping(value = "/getorders")
     public Response getAllOrderItemsQa(){
         return new Response("00","Operation Successful",orderService.getAllOrdersByQA());
+    }
+    @GetMapping(value = "/getallorders")
+    public Response getAllOrders(){
+        return new Response("00","Operation Successful",adminOrderService.getAllOrdersByAdmin2());
     }
 
     @GetMapping(value = "/getstatuses")
