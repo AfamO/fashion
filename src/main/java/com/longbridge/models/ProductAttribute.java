@@ -12,7 +12,8 @@ import java.util.List;
  * Created by Longbridge on 15/08/2018.
  */
 @Entity
-public class ProductAttribute extends CommonFields implements Serializable {
+public class
+ProductAttribute extends CommonFields implements Serializable {
 
     private String colourPicture;
     private String colourName;
