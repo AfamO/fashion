@@ -6,11 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Created by Longbridge on 10/07/2018.
+ * Created by Longbridge on 16/10/2018.
  */
 @Entity
-public class Shipping{
-
+public class InternationalShipping{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,14 +18,8 @@ public class Shipping{
 
     private String receiving;
 
-    private String source;
-
     private String zone;
 
-
-
-    public Shipping() {
-    }
 
     public Long getId() {
         return id;
@@ -60,19 +53,12 @@ public class Shipping{
         this.zone = zone;
     }
 
-    public String getSource() {
-        return source;
+    public InternationalShipping() {
     }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-
-    public Shipping(String sending, String receiving, String zone, String source) {
+    public InternationalShipping(String sending, String receiving, String zone) {
         this.sending = sending;
         this.receiving = receiving;
         this.zone = zone;
-        this.source = source;
     }
 }

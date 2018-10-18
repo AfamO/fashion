@@ -154,8 +154,10 @@ public class UserOrderController {
 
     @PostMapping(value = "/getordershippingprice")
     public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO){
-        return new Response("00", "Operation successful", shippingPriceService.getShippingPrice(orderReqDTO.getDeliveryAddressId()));
+        return new Response("00", "Operation successful", shippingPriceService.getLocalShippingPrice(orderReqDTO.getDeliveryAddressId()));
     }
+
+
 
 
 

@@ -145,7 +145,7 @@ public class AnonymousOrderServiceImpl implements AnonymousOrderService {
             Double itemsAmount = amount*items.getQuantity();
             if(!designerCities.contains(p.getDesigner().getCity().toUpperCase().trim())){
                 AnonymousUser anonymousUser = anonymousUserRepository.findOne(orders.getAnonymousUserId());
-                shippingAmount = shippingUtil.getShipping(p.getDesigner().getCity().toUpperCase().trim(), anonymousUser.getCity().toUpperCase().trim(), items.getQuantity());
+                shippingAmount = shippingUtil.getLocalShipping(p.getDesigner().getCity().toUpperCase().trim(), anonymousUser.getCity().toUpperCase().trim(), items.getQuantity());
                 designerCities.add(p.getDesigner().getCity().toUpperCase().trim());
             }
 

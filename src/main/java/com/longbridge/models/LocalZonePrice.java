@@ -9,7 +9,7 @@ import javax.persistence.Id;
  * Created by Longbridge on 10/07/2018.
  */
 @Entity
-public class ZonePrice {
+public class LocalZonePrice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -89,6 +89,6 @@ public class ZonePrice {
         this.id = id;
     }
 
-    public ZonePrice() {
+    public LocalZonePrice() {
     }
 }
