@@ -28,7 +28,7 @@ import com.longbridge.models.ArtWorkPicture;
 import com.longbridge.models.EventPictures;
 import com.longbridge.models.MaterialPicture;
 import com.longbridge.models.PictureTag;
-import com.longbridge.models.ProductAttribute;
+import com.longbridge.models.ProductColorStyles;
 import com.longbridge.models.ProductPicture;
 import com.longbridge.models.ProductSizes;
 import com.longbridge.models.Products;
@@ -211,23 +211,23 @@ public class ProductPictureServiceImpl implements ProductPictureService{
             Products products = productRepository.findOne(p.id);
             //Get the product from elastic search 'products' index
             ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url,p.id));
-            List<ProductAttributeSearchDTO> productAttributesListSearchDTO =  new ArrayList<>();
+            List<ProductAttributeSearchDTO> productColorStylesListSearchDTO =  new ArrayList<>();
             List<ProductPictureSearchDTO> productPicturseSearchDTOList =  new ArrayList<>();
             List<MaterialPictureSearchDTO> materialPictureSearchDTOList=new ArrayList<>();
             List<ProductSizes> productSizesSearchDTOList =  new ArrayList<ProductSizes>();
             int totalStock = 0;
-            List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
+            List<ProductColorStyles> productColorStyles=productAttributeRepository.findByProducts(products);
             List<String> reOccuringPictures = new ArrayList<String>();
-            products.setAcceptCustomSizes( p.acceptCustomSizes);
-            products.setInStock(p.inStock);
+            products.getProductStatuses().setAcceptCustomSizes( p.acceptCustomSizes);
+            products.getProductItem().setInStock(p.inStock);
             products.setNumOfDaysToComplete( p.numOfDaysToComplete);
             productSearchDTO.setAcceptCustomSizes(p.acceptCustomSizes);
             productSearchDTO.setNumOfDaysToComplete(p.numOfDaysToComplete);
             productSearchDTO.setInStock(p.inStock);
 
-            if(productAttributes.size()>0){
+            if(productColorStyles.size()>0){
 
-                for (ProductAttribute prA: productAttributes) {
+                for (ProductColorStyles prA: productColorStyles) {
                     List<ProductSizes> productSizes = productSizesRepository.findByProductAttribute(prA);
                     productSizesRepository.delete(productSizes);
 
@@ -237,11 +237,11 @@ public class ProductPictureServiceImpl implements ProductPictureService{
                         cloudinaryService.deleteFromCloud(productPicture.getPicture(), productPicture.getPictureName());
                     }
                 }
-                productAttributeRepository.delete(productAttributes);
+                productAttributeRepository.delete(productColorStyles);
             }
 
             for (ProductAttributeDTO pa: p.productAttributes) {
-                ProductAttribute productAttribute = new ProductAttribute();
+                ProductColorStyles productAttribute = new ProductColorStyles();
                 productAttribute.setProducts(products);
                 String  colourName= generalUtil.getPicsName("prodcolour",pa.getColourName());
                 System.out.println(pa.getColourPicture());
@@ -273,10 +273,10 @@ public class ProductPictureServiceImpl implements ProductPictureService{
                         System.out.println("i got here no id");
                         productPicture.setPictureName(c.getUrl());
                         productPicture.setPicture(c.getPublicId());
-                        productPicture.setProducts(products);
+                        productPicture.getProductColorStyles().setProducts(products);
                         productPicture.createdOn = date;
                         productPicture.setUpdatedOn(date);
-                        productPicture.setProductAttribute(productAttribute);
+                        productPicture.setProductColorStyles(productAttribute);
                         productPictureRepository.save(productPicture);
                         ProductPictureSearchDTO productPictureSearchDTO = new ProductPictureSearchDTO();
                         productPictureSearchDTO.picture=c.getUrl();
@@ -286,13 +286,13 @@ public class ProductPictureServiceImpl implements ProductPictureService{
                         productPicturseSearchDTOList.add(productPictureSearchDTO);
                     }
                         productAttributeSearch.setProductPictureSearchDTOS(productPicturseSearchDTOList);
-                        productAttributesListSearchDTO.add(productAttributeSearch);
-                        productSearchDTO.setProductAttributeDTOS(productAttributesListSearchDTO);
+                        productColorStylesListSearchDTO.add(productAttributeSearch);
+                        productSearchDTO.setProductAttributeDTOS(productColorStylesListSearchDTO);
             }
 
-            products.setStockNo(totalStock);
+            products.getProductItem().setStockNo(totalStock);
             productSearchDTO.setStockNo(totalStock);
-            products.setVerifiedFlag("N");
+            products.getProductStatuses().setVerifiedFlag("N");
             productSearchDTO.setVerifiedFlag("N");
             productRepository.save(products);
             //Then save the Updated product status
@@ -333,14 +333,14 @@ public class ProductPictureServiceImpl implements ProductPictureService{
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", products.getSubCategory().getSubCategory()), "artworkpictures");
                     artWorkPicture.setPictureName(c.getUrl());
                     artWorkPicture.setPicture( c.getPublicId());
-                    artWorkPicture.setProducts(products);
+                    artWorkPicture.getProductStyle().setProducts(products);
                     artWorkPicture.createdOn = date;
                     artWorkPicture.setUpdatedOn(date);
                     artWorkPictureRepository.save(artWorkPicture);
                 }
 
             }
-            products.setVerifiedFlag("N");
+            products.getProductStatuses().setVerifiedFlag("N");
             productRepository.save(products);
 
         }catch (Exception e){
@@ -373,13 +373,13 @@ public class ProductPictureServiceImpl implements ProductPictureService{
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.getMaterialPicture(), generalUtil.getPicsName("materialpic", products.getSubCategory().getSubCategory()), "materialpictures");
                     materialPicture.setPictureName(c.getUrl());
                     materialPicture.setPicture(c.getPublicId());
-                    materialPicture.setProducts(products);
+                    materialPicture.getProductStyle().setProducts(products);
                     materialPicture.createdOn = date;
                     materialPicture.setUpdatedOn(date);
                     materialPictureRepository.save(materialPicture);
                 }
             }
-            products.setVerifiedFlag("N");
+            products.getProductStatuses().setVerifiedFlag("N");
             productRepository.save(products);
 
         }catch (Exception e){

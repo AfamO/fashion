@@ -135,33 +135,33 @@ public class WishListServiceImpl implements WishListService{
     private ProductRespDTO convertEntityToDTO(Products products){
         ProductRespDTO productDTO = new ProductRespDTO();
         productDTO.id=products.id;
-        productDTO.amount=products.getAmount();
+        productDTO.amount=products.getPrice().getAmount();
        // productDTO.color=products.color;
         productDTO.description=products.getProdDesc();
         productDTO.name=products.getName();
       //  productDTO.productSizes=products.productSizes;
 
-        productDTO.productAttributeDTOS=generalUtil.convertProductAttributeEntitiesToDTOs(products.getProductAttributes());
-        if(products.getStyle() != null) {
-            productDTO.styleId = products.getStyle().id.toString();
+        productDTO.productAttributeDTOS=generalUtil.convertProductAttributeEntitiesToDTOs(products.getProductStyle().getProductColorStyles());
+        if(products.getProductStyle().getStyle() != null) {
+            productDTO.styleId = products.getProductStyle().getStyle().id.toString();
         }
 
         productDTO.designerId=products.getDesigner().id.toString();
-        productDTO.stockNo=products.getStockNo();
-        productDTO.inStock=products.getInStock();
+        productDTO.stockNo=products.getProductItem().getStockNo();
+        productDTO.inStock=products.getProductItem().getInStock();
         productDTO.designerName=products.getDesigner().getStoreName();
-        productDTO.status=products.getStatus();
-        productDTO.verifiedFlag=products.getVerifiedFlag();
+        productDTO.status=products.getProductStatuses().getStatus();
+        productDTO.verifiedFlag=products.getProductStatuses().getVerifiedFlag();
         productDTO.subCategoryId=products.getSubCategory().id.toString();
         productDTO.categoryId=products.getSubCategory().getCategory().id.toString();
 
-        List<ProductPicture> productPictures = products.getPicture();
+        List<ProductPicture> productPictures = products.getProductStyle().getPicture();
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 
-        List<ArtWorkPicture> artWorkPictures = products.getArtWorkPicture();
+        List<ArtWorkPicture> artWorkPictures = products.getProductStyle().getArtWorkPicture();
         productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
 
-        List<MaterialPicture> materialPictures = products.getMaterialPicture();
+        List<MaterialPicture> materialPictures = products.getProductStyle().getMaterialPicture();
         productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
 
         return productDTO;
@@ -182,7 +182,7 @@ public class WishListServiceImpl implements WishListService{
     private ProductPictureDTO convertProdPictureEntityToDTO(ProductPicture picture){
         ProductPictureDTO pictureDTO = new ProductPictureDTO();
         pictureDTO.id=picture.getId();
-        pictureDTO.productId=picture.getProducts().id;
+        pictureDTO.productId=picture.getProductColorStyles().getProducts().id;
         pictureDTO.picture=picture.getPictureName();
         return pictureDTO;
 
@@ -201,7 +201,7 @@ public class WishListServiceImpl implements WishListService{
     private ArtPictureDTO convertArtPictureEntityToDTO(ArtWorkPicture picture){
         ArtPictureDTO pictureDTO = new ArtPictureDTO();
         pictureDTO.id=picture.getId();
-        pictureDTO.productId=picture.getProducts().id;
+        pictureDTO.productId=picture.getProductStyle().getProducts().id;
         pictureDTO.artWorkPicture=picture.getPictureName();
         return pictureDTO;
 
@@ -220,7 +220,7 @@ public class WishListServiceImpl implements WishListService{
     private MaterialPictureDTO convertMatPictureEntityToDTO(MaterialPicture picture){
         MaterialPictureDTO pictureDTO = new MaterialPictureDTO();
         pictureDTO.setId(picture.getId());
-        pictureDTO.setProductId(picture.getProducts().id);
+        pictureDTO.setProductId(picture.getProductStyle().getProducts().id);
         pictureDTO.setMaterialPicture(picture.getPictureName());
         return pictureDTO;
 

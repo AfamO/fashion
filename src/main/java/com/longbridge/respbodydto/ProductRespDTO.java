@@ -1,7 +1,7 @@
 package com.longbridge.respbodydto;
 
 import com.longbridge.dto.*;
-import com.longbridge.models.ProductAttribute;
+import com.longbridge.models.ProductColorStyles;
 import com.longbridge.models.ProductRating;
 import com.longbridge.models.ProductSizes;
 

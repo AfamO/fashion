@@ -18,11 +18,19 @@ public class ProductPicture extends CommonFields implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    private ProductAttribute productAttribute;
+    private ProductStyle productStyle;
+
+    public ProductStyle getProductStyle() {
+        return productStyle;
+    }
+
+    public void setProductStyle(ProductStyle productStyle) {
+        this.productStyle = productStyle;
+    }
 
     @JsonIgnore
     @ManyToOne
-    private Products products;
+    private ProductColorStyles productColorStyles;
 
 
     public ProductPicture() {
@@ -52,19 +60,11 @@ public class ProductPicture extends CommonFields implements Serializable {
         this.picture = picture;
     }
 
-    public ProductAttribute getProductAttribute() {
-        return productAttribute;
+    public ProductColorStyles getProductColorStyles() {
+        return productColorStyles;
     }
 
-    public void setProductAttribute(ProductAttribute productAttribute) {
-        this.productAttribute = productAttribute;
-    }
-
-    public Products getProducts() {
-        return products;
-    }
-
-    public void setProducts(Products products) {
-        this.products = products;
+    public void setProductColorStyles(ProductColorStyles productColorStyles) {
+        this.productColorStyles = productColorStyles;
     }
 }

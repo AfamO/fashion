@@ -136,10 +136,10 @@ public class AnonymousOrderServiceImpl implements AnonymousOrderService {
             items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).getPictureName());
 
             Double amount;
-            if(p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0){
-                amount = p.getPriceSlash().getSlashedPrice();
+            if(p.getPrice().getPriceSlash() != null && p.getPrice().getPriceSlash().getSlashedPrice() > 0){
+                amount = p.getPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount = p.getAmount();
+                amount = p.getPrice().getAmount();
             }
 
             Double itemsAmount = amount*items.getQuantity();
@@ -159,14 +159,14 @@ public class AnonymousOrderServiceImpl implements AnonymousOrderService {
             items.setItemStatus(itemStatus);
             itemRepository.save(items);
             p.setNumOfTimesOrdered(p.getNumOfTimesOrdered()+1);
-            if (p.getStockNo() != 0) {
-                p.setStockNo(p.getStockNo() - items.getQuantity());
+            if (p.getProductItem().getStockNo() != 0) {
+                p.getProductItem().setStockNo(p.getProductItem().getStockNo() - items.getQuantity());
             } else {
-                p.setInStock("N");
+                p.getProductItem().setInStock("N");
             }
 
-            if (p.getStockNo() == 0) {
-                p.setInStock("N");
+            if (p.getProductItem().getStockNo() == 0) {
+                p.getProductItem().setInStock("N");
             }
 
             productRepository.save(p);

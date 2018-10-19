@@ -87,10 +87,10 @@ public class ItemsUtil {
             Products p = productRepository.findOne(items.getProductId());
 
             Double amount;
-            if (p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0) {
-                amount = p.getAmount() - p.getPriceSlash().getSlashedPrice();
+            if (p.getPrice().getPriceSlash() != null && p.getPrice().getPriceSlash().getSlashedPrice() > 0) {
+                amount = p.getPrice().getAmount() - p.getPrice().getPriceSlash().getSlashedPrice();
             } else {
-                amount = p.getAmount();
+                amount = p.getPrice().getAmount();
             }
 
             Double itemsAmount = amount * items.getQuantity();
@@ -105,7 +105,7 @@ public class ItemsUtil {
     public void updateStockForDesignerDecline(Items items) {
         try {
             if (items.getProductAttributeId() != null) {
-                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                ProductColorStyles itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
 
                 if (itemAttribute != null) {
                     ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());

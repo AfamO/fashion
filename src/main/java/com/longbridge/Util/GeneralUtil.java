@@ -207,7 +207,7 @@ public class GeneralUtil {
     public ProductPictureDTO convertProdPictureEntityToDTO(ProductPicture picture){
         ProductPictureDTO pictureDTO = new ProductPictureDTO();
         pictureDTO.id=picture.getId();
-        pictureDTO.productId=picture.getProducts().id;
+        pictureDTO.productId=picture.getProductColorStyles().getProducts().id;
         pictureDTO.picture=picture.getPictureName();
         return pictureDTO;
 
@@ -225,7 +225,7 @@ public class GeneralUtil {
     public ArtPictureDTO convertArtPictureEntityToDTO(ArtWorkPicture picture){
         ArtPictureDTO pictureDTO = new ArtPictureDTO();
         pictureDTO.id=picture.getId();
-        pictureDTO.productId=picture.getProducts().id;
+        pictureDTO.productId=picture.getProductStyle().getProducts().id;
         pictureDTO.artWorkPicture=picture.getPictureName();
         return pictureDTO;
 
@@ -244,7 +244,7 @@ public class GeneralUtil {
     public MaterialPictureDTO convertMatPictureEntityToDTO(MaterialPicture picture){
         MaterialPictureDTO pictureDTO = new MaterialPictureDTO();
         pictureDTO.setId(picture.getId());
-        pictureDTO.setProductId(picture.getProducts().id);
+        pictureDTO.setProductId(picture.getProductStyle().getProducts().id);
         pictureDTO.setMaterialPicture(picture.getPictureName());
         return pictureDTO;
 
@@ -286,29 +286,29 @@ public class GeneralUtil {
         ProductRespDTO productDTO = new ProductRespDTO();
         DecimalFormat df = new DecimalFormat("#.00");
         productDTO.id=products.id;
-        productDTO.amount=products.getAmount();
+        productDTO.amount=products.getPrice().getAmount();
       //  productDTO.color=products.color;
         productDTO.description=products.getProdDesc();
         productDTO.prodSummary=products.getProdSummary();
         productDTO.name=products.getName();
 
-        productDTO.productAttributeDTOS=convertProductAttributeEntitiesToDTOs(products.getProductAttributes());
+        productDTO.productAttributeDTOS=convertProductAttributeEntitiesToDTOs(products.getProductStyle().getProductColorStyles());
 
       //  productDTO.productSizes=products.productSizes;
-        if(products.getStyle() != null) {
-            productDTO.styleId = products.getStyle().id.toString();
+        if(products.getProductStyle().getStyle() != null) {
+            productDTO.styleId = products.getProductStyle().getStyle().id.toString();
         }
         productDTO.designerId=products.getDesigner().id.toString();
         productDTO.designerStatus=products.getDesigner().getStatus();
-        productDTO.stockNo=products.getStockNo();
-        productDTO.inStock=products.getInStock();
-        productDTO.availability=products.getAvailability();
-        productDTO.acceptCustomSizes=products.getAcceptCustomSizes();
+        productDTO.stockNo=products.getProductItem().getStockNo();
+        productDTO.inStock=products.getProductItem().getInStock();
+        productDTO.availability=products.getProductStatuses().getAvailability();
+        productDTO.acceptCustomSizes=products.getProductStatuses().getAcceptCustomSizes();
         productDTO.designerName=products.getDesigner().getStoreName();
-        productDTO.status=products.getStatus();
-        productDTO.sponsoredFlag=products.getSponsoredFlag();
-        productDTO.unVerifiedReason=products.getUnVerifiedReason();
-        productDTO.verifiedFlag=products.getVerifiedFlag();
+        productDTO.status=products.getProductStatuses().getStatus();
+        productDTO.sponsoredFlag=products.getProductStatuses().getSponsoredFlag();
+        productDTO.unVerifiedReason=products.getProductStatuses().getUnVerifiedReason();
+        productDTO.verifiedFlag=products.getProductStatuses().getVerifiedFlag();
         productDTO.subCategoryId=products.getSubCategory().id.toString();
         productDTO.subCategoryName=products.getSubCategory().getSubCategory();
         productDTO.categoryId=products.getSubCategory().getCategory().id.toString();
@@ -323,14 +323,14 @@ public class GeneralUtil {
             productDTO.percentageDiscount = Double.parseDouble(df.format(priceSlash.getPercentageDiscount()));
         }
 
-        List<ProductPicture> productPictures = products.getPicture();
+        List<ProductPicture> productPictures = products.getProductStyle().getPicture();
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 
         if(products.getProductType() == 1){
-            List<ArtWorkPicture> artWorkPictures = products.getArtWorkPicture();
+            List<ArtWorkPicture> artWorkPictures = products.getProductStyle().getArtWorkPicture();
             productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
 
-            List<MaterialPicture> materialPictures = products.getMaterialPicture();
+            List<MaterialPicture> materialPictures = products.getProductStyle().getMaterialPicture();
             productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
         }else{
             productDTO.artWorkPicture = null;
@@ -385,26 +385,26 @@ public class GeneralUtil {
         ProductRespDTO productDTO = new ProductRespDTO();
         DecimalFormat df = new DecimalFormat("#.00");
         productDTO.id=products.id;
-        productDTO.amount=products.getAmount();
-        //productDTO.productAttributes=products.productAttributes;
-        productDTO.productAttributeDTOS=convertProductAttributeEntitiesToDTOs(products.getProductAttributes());
+        productDTO.amount=products.getPrice().getAmount();
+        //productDTO.productColorStyles=products.productColorStyles;
+        productDTO.productAttributeDTOS=convertProductAttributeEntitiesToDTOs(products.getProductStyle().getProductColorStyles());
         //productDTO.color=products.color;
         productDTO.description=products.getProdDesc();
         productDTO.prodSummary=products.getProdSummary();
         productDTO.name=products.getName();
        // productDTO.productSizes=products.productSizes;
-        if(products.getStyle() != null) {
-            productDTO.styleId = products.getStyle().id.toString();
+        if(products.getProductStyle().getStyle() != null) {
+            productDTO.styleId = products.getProductStyle().getStyle().id.toString();
         }
         productDTO.designerId=products.getDesigner().id.toString();
-        productDTO.stockNo=products.getStockNo();
-        productDTO.inStock=products.getInStock();
-        productDTO.acceptCustomSizes=products.getAcceptCustomSizes();
-        productDTO.availability=products.getAvailability();
+        productDTO.stockNo=products.getProductItem().getStockNo();
+        productDTO.inStock=products.getProductItem().getInStock();
+        productDTO.acceptCustomSizes=products.getProductStatuses().getAcceptCustomSizes();
+        productDTO.availability=products.getProductStatuses().getAvailability();
         productDTO.designerName=products.getDesigner().getStoreName();
-        productDTO.status=products.getStatus();
-        productDTO.sponsoredFlag=products.getSponsoredFlag();
-        productDTO.verifiedFlag=products.getVerifiedFlag();
+        productDTO.status=products.getProductStatuses().getStatus();
+        productDTO.sponsoredFlag=products.getProductStatuses().getSponsoredFlag();
+        productDTO.verifiedFlag=products.getProductStatuses().getVerifiedFlag();
         productDTO.subCategoryId=products.getSubCategory().id.toString();
         productDTO.subCategoryName=products.getSubCategory().getSubCategory();
         productDTO.categoryId=products.getSubCategory().getCategory().id.toString();
@@ -412,14 +412,14 @@ public class GeneralUtil {
         productDTO.numOfTimesOrdered = products.getNumOfTimesOrdered();
         productDTO.numOfDaysToComplete=products.getNumOfDaysToComplete();
         productDTO.mandatoryMeasurements=products.getMandatoryMeasurements();
-        List<ProductPicture> productPictures = products.getPicture();
+        List<ProductPicture> productPictures = products.getProductStyle().getPicture();
         productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 
         if(products.getProductType() == 1){
-            List<ArtWorkPicture> artWorkPictures = products.getArtWorkPicture();
+            List<ArtWorkPicture> artWorkPictures = products.getProductStyle().getArtWorkPicture();
             productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
 
-            List<MaterialPicture> materialPictures = products.getMaterialPicture();
+            List<MaterialPicture> materialPictures = products.getProductStyle().getMaterialPicture();
             productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
         }else{
             productDTO.artWorkPicture = null;
@@ -478,17 +478,17 @@ public class GeneralUtil {
     }
 
 
-    public List<ProductAttributeDTO> convertProductAttributeEntitiesToDTOs(List<ProductAttribute> productAttributes){
+    public List<ProductAttributeDTO> convertProductAttributeEntitiesToDTOs(List<ProductColorStyles> productColorStyles){
 
         List<ProductAttributeDTO> productAttributeDTOS = new ArrayList<ProductAttributeDTO>();
-        for(ProductAttribute p: productAttributes){
+        for(ProductColorStyles p: productColorStyles){
             ProductAttributeDTO productAttributeDTO = convertProductAttributeEntityToDTO(p);
             productAttributeDTOS.add(productAttributeDTO);
         }
         return productAttributeDTOS;
     }
 
-    public ProductAttributeDTO convertProductAttributeEntityToDTO(ProductAttribute productAttribute){
+    public ProductAttributeDTO convertProductAttributeEntityToDTO(ProductColorStyles productAttribute){
         ProductAttributeDTO productAttributeDTO = new ProductAttributeDTO();
 
         productAttributeDTO.setId(productAttribute.id);
@@ -612,12 +612,12 @@ public class GeneralUtil {
 
         cartDTO.setProductAttributeId(cart.getProductAttributeId());
         cartDTO.setQuantity(cart.getQuantity());
-        cartDTO.setPrice(products.getAmount());
+        cartDTO.setPrice(products.getPrice().getAmount());
         cartDTO.setSlashedPrice(0.0);
 
-        if(products.getPriceSlash() != null) {
-            if(products.getPriceSlash().getSlashedPrice() > 0){
-                cartDTO.setSlashedPrice(products.getPriceSlash().getSlashedPrice());
+        if(products.getPrice().getPriceSlash() != null) {
+            if(products.getPrice().getPriceSlash().getSlashedPrice() > 0){
+                cartDTO.setSlashedPrice(products.getPrice().getPriceSlash().getSlashedPrice());
             }
         }
 
@@ -629,7 +629,7 @@ public class GeneralUtil {
 
         ProductPicture p = productPictureRepository.findFirst1ByProducts(products);
         cartDTO.setProductPicture(p.getPictureName());
-        cartDTO.setStockNo(products.getStockNo());
+        cartDTO.setStockNo(products.getProductItem().getStockNo());
 
         if(cart.getArtWorkPictureId() != null) {
             ArtWorkPicture a = artWorkPictureRepository.findOne(cart.getArtWorkPictureId());
@@ -646,12 +646,12 @@ public class GeneralUtil {
 
         cartDTO.setColor(cart.getColor());
         cartDTO.setSize(cart.getSize());
-        String acceptCustomSizes = productRepository.findOne(cart.getProductId()).getAcceptCustomSizes();
+        String acceptCustomSizes = productRepository.findOne(cart.getProductId()).getProductStatuses().getAcceptCustomSizes();
 
         if(cart.getProductAttributeId() == null){
             cartDTO.setSizeStockNo(1);
         }else{
-           ProductAttribute productAttribute =  productAttributeRepository.findOne(cart.getProductAttributeId());
+           ProductColorStyles productAttribute =  productAttributeRepository.findOne(cart.getProductAttributeId());
            if(productAttribute != null){
                ProductSizes productSizes = productSizesRepository.findByProductAttributeAndName(productAttribute, cart.getSize());
                cartDTO.setSize(productSizes.getName());
@@ -688,7 +688,7 @@ public class GeneralUtil {
             itemsDTO.setProductId(items.getProductId());
             Products p = productRepository.findOne(items.getProductId());
             itemsDTO.setProductName(p.getName());
-            itemsDTO.setProductAvailability(p.getAvailability());
+            itemsDTO.setProductAvailability(p.getProductStatuses().getAvailability());
 
             itemsDTO.setAmount(items.getAmount().toString());
             itemsDTO.setQuantity(items.getQuantity());

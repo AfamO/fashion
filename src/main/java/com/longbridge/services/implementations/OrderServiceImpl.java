@@ -118,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
 
             for (Items items: orderReq.getItems()) {
                 if(items.getProductAttributeId() != null){
-                    ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                    ProductColorStyles itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
 
                     if(itemAttribute != null){
                         ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
@@ -205,7 +205,7 @@ public class OrderServiceImpl implements OrderService {
 
             for (Items items: orderReq.getItems()) {
                 if(items.getProductAttributeId() != null){
-                    ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                    ProductColorStyles itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
                     if(itemAttribute != null){
                         ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
                         if(items.getMeasurementId() == null){
@@ -288,10 +288,10 @@ public class OrderServiceImpl implements OrderService {
             items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).getPictureName());
 
             Double amount;
-            if(p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0){
-                amount = p.getPriceSlash().getSlashedPrice();
+            if(p.getPrice().getPriceSlash() != null && p.getPrice().getPriceSlash().getSlashedPrice() > 0){
+                amount = p.getPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount = p.getAmount();
+                amount = p.getPrice().getAmount();
             }
             Double itemsAmount = amount*items.getQuantity();
             if(!designerCities.contains(p.getDesigner().getCity().toUpperCase().trim())){
@@ -315,18 +315,18 @@ public class OrderServiceImpl implements OrderService {
             itemRepository.save(items);
             p.setNumOfTimesOrdered(p.getNumOfTimesOrdered()+1);
             if(items.getMeasurement() == null) {
-                if (p.getStockNo() != 0) {
-                    p.setStockNo(p.getStockNo() - items.getQuantity());
+                if (p.getProductItem().getStockNo() != 0) {
+                    p.getProductItem().setStockNo(p.getProductItem().getStockNo() - items.getQuantity());
                    // ProductSizes productSizes = productSizesRepository.findByProductsAndName(p, items.getSize());
                     //productSizes.setStockNo(productSizes.getStockNo() - items.getQuantity());
                     //productSizesRepository.save(productSizes);
 
                 } else {
-                    p.setInStock("N");
+                    p.getProductItem().setInStock("N");
                 }
 
-                if (p.getStockNo() == 0) {
-                    p.setInStock("N");
+                if (p.getProductItem().getStockNo() == 0) {
+                    p.getProductItem().setInStock("N");
                 }
             }
             productRepository.save(p);
@@ -447,10 +447,10 @@ public class OrderServiceImpl implements OrderService {
             }
             Products products = productRepository.findOne(cart.getProductId());
             Double amount;
-            if(products.getPriceSlash() != null && products.getPriceSlash().getSlashedPrice()>0){
-                amount=products.getAmount()-products.getPriceSlash().getSlashedPrice();
+            if(products.getPrice().getPriceSlash() != null && products.getPrice().getPriceSlash().getSlashedPrice()>0){
+                amount=products.getPrice().getAmount()-products.getPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount=products.getAmount();
+                amount=products.getPrice().getAmount();
             }
 
             cart.setAmount(amount*cart.getQuantity());
@@ -476,10 +476,10 @@ public class OrderServiceImpl implements OrderService {
             Cart cartTemp = cartRepository.findOne(cart.id);
             double amount;
             Products products = productRepository.findOne(cartTemp.getProductId());
-            if(products.getPriceSlash() != null && products.getPriceSlash().getSlashedPrice()>0){
-                amount = products.getPriceSlash().getSlashedPrice();
+            if(products.getPrice().getPriceSlash() != null && products.getPrice().getPriceSlash().getSlashedPrice()>0){
+                amount = products.getPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount = products.getAmount();
+                amount = products.getPrice().getAmount();
             }
 
             int qty = cart.getQuantity();
@@ -657,7 +657,7 @@ public class OrderServiceImpl implements OrderService {
 
         for (Items items: item) {
             if(items.getProductAttributeId() != null){
-                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                ProductColorStyles itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
 
                 if(itemAttribute != null){
                     ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());

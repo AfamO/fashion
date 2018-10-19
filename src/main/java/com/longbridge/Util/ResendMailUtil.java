@@ -213,7 +213,7 @@ public class ResendMailUtil {
         List<ProductNotification> productNotifications=productNotificationRepository.findAll();
         for (ProductNotification p:productNotifications) {
             Products products = productRepository.findOne(p.getProductId());
-            if(products.getStockNo() >0){
+            if(products.getProductItem().getStockNo() >0){
                 Context context = new Context();
                 context.setVariable("productName", products.getName());
                 String mail = p.getEmail();

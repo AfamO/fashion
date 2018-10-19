@@ -10,22 +10,13 @@ import java.io.Serializable;
 @Entity
 public class PriceSlash extends CommonFields implements Serializable{
     @OneToOne
-    private Products products;
+    private ProductPrice price;
 
     private double slashedPrice;
 
     private double percentageDiscount;
 
     public PriceSlash() {
-    }
-
-
-    public Products getProducts() {
-        return products;
-    }
-
-    public void setProducts(Products products) {
-        this.products = products;
     }
 
     public double getSlashedPrice() {
@@ -42,5 +33,13 @@ public class PriceSlash extends CommonFields implements Serializable{
 
     public void setPercentageDiscount(double percentageDiscount) {
         this.percentageDiscount = percentageDiscount;
+    }
+
+    public ProductPrice getPrice() {
+        return price;
+    }
+
+    public void setPrice(ProductPrice price) {
+        this.price = price;
     }
 }

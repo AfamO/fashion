@@ -13,17 +13,21 @@ import java.util.List;
  */
 @Entity
 public class
-ProductAttribute extends CommonFields implements Serializable {
+ProductColorStyles extends CommonFields implements Serializable {
 
     private String colourPicture;
     private String colourName;
 
-    @OneToMany(mappedBy = "productAttribute", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "productColorStyles", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<ProductSizes> productSizes;
 
 
-    @OneToMany(mappedBy = "productAttribute", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "productColorStyles", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<ProductPicture> productPictures;
+    
+    @JsonIgnore
+    @ManyToOne
+    private List<ProductStyle> productStyle;
 
     @JsonIgnore
     @ManyToOne
@@ -69,6 +73,14 @@ ProductAttribute extends CommonFields implements Serializable {
 
     public void setProductPictures(List<ProductPicture> productPictures) {
         this.productPictures = productPictures;
+    }
+
+    public List<ProductStyle> getProductStyle() {
+        return productStyle;
+    }
+
+    public void setProductStyle(List<ProductStyle> productStyle) {
+        this.productStyle = productStyle;
     }
 }
 

@@ -5,7 +5,7 @@ import com.longbridge.dto.OutfitRequestDTO;
 import com.longbridge.models.Code;
 import com.longbridge.models.InspireMe;
 import com.longbridge.models.InspireMeProduct;
-import com.longbridge.models.ProductAttribute;
+import com.longbridge.models.ProductColorStyles;
 import com.longbridge.repository.CodeRepository;
 import com.longbridge.repository.InspireMeProductRepository;
 import com.longbridge.repository.InspireMeRepository;

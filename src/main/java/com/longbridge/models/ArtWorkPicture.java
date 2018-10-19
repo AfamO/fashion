@@ -14,18 +14,19 @@ public class ArtWorkPicture extends CommonFields implements Serializable {
     private Long id;
     private String pictureName;
     private String picture;
+    
     @JsonIgnore
     @ManyToOne
-    private Products products;
+    private ProductStyle productStyle;
 
     public ArtWorkPicture() {
     }
 
-    public ArtWorkPicture(Long id, String pictureName, String picture, Products products) {
+    public ArtWorkPicture(Long id, String pictureName, String picture, ProductStyle productStyle) {
         this.id = id;
         this.pictureName = pictureName;
         this.picture = picture;
-        this.products = products;
+        this.productStyle = productStyle;
     }
 
     public Long getId() {
@@ -52,11 +53,11 @@ public class ArtWorkPicture extends CommonFields implements Serializable {
         this.picture = picture;
     }
 
-    public Products getProducts() {
-        return products;
+    public ProductStyle getProductStyle() {
+        return productStyle;
     }
 
-    public void setProducts(Products products) {
-        this.products = products;
+    public void setProductStyle(ProductStyle productStyle) {
+        this.productStyle = productStyle;
     }
 }

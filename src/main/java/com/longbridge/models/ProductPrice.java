@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
  * @author longbridge
  */
 @Entity
-public class Price extends CommonFields implements Serializable{
+public class ProductPrice extends CommonFields implements Serializable{
 
 private double amount;
 
@@ -29,6 +29,8 @@ private Products products;
 private PriceSlash priceSlash;
 
 private boolean priceSlashEnabled = false;
+
+private Double materialPrice;
 
     public Products getProducts() {
         return products;
@@ -59,6 +61,13 @@ private boolean priceSlashEnabled = false;
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+    public Double getMaterialPrice() {
+        return materialPrice;
+    }
+
+    public void setMaterialPrice(Double materialPrice) {
+        this.materialPrice = materialPrice;
     }
     
 }

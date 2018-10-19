@@ -7,7 +7,6 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,66 +16,48 @@ public class Products extends CommonFields implements Serializable {
     @Field
     private String name;
 
-    private double amount;
-
-
     @IndexedEmbedded(depth = 1)
     @OneToOne
     private SubCategory subCategory;
-
+    
+    @OneToOne
+    private ProductItem productItem;
 
     @JsonIgnore
     @ManyToOne
     private Designer designer;
 
-    private String designerStatus="A";
-
     @Lob
     private String prodDesc;
-
+    
+    @OneToOne
+    private ProductStatuses productStatuses;
+    
     private String prodSummary;
 
-    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
-    private List<ArtWorkPicture> artWorkPicture;
+    public ProductPrice getPrice() {
+        return price;
+    }
 
-    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
-    private List<MaterialPicture> materialPicture;
-
-    private Double materialPrice;
-
-    private String  materialName;
-
-    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
-    private List<ProductPicture> picture;
-
-    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
-    private List<ProductAttribute> productAttributes;
-
-    @OneToOne
-    private Style style;
-
-    private int stockNo;
-
-    private String inStock;
-
-    private String acceptCustomSizes;
-
-    private String status = "A";
-
-    private String verifiedFlag = "N";
-
-    private String unVerifiedReason;
-
-    private String sponsoredFlag = "N";
-
-    private String availability;
+    public void setPrice(ProductPrice price) {
+        this.price = price;
+    }
 
     private int productType;
+
+    @OneToOne
+    private ProductPrice price;
 
     @Lob
     private String mandatoryMeasurements;
 
     private int numOfTimesOrdered = 0;
+    
+    @OneToOne
+    private ProductStyle productStyle;
+    
+    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    private List<ProductColorStyles> productColorStyles;
 
     @OneToMany(mappedBy = "products",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<WishList> wishLists;
@@ -84,12 +65,6 @@ public class Products extends CommonFields implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     private List<ProductRating> reviews;
-
-    private boolean priceSlashEnabled = false;
-
-    @JsonIgnore
-    @OneToOne (mappedBy = "products", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private PriceSlash priceSlash;
 
     private int numOfDaysToComplete;
 
@@ -99,14 +74,6 @@ public class Products extends CommonFields implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
     }
 
     public SubCategory getSubCategory() {
@@ -124,15 +91,7 @@ public class Products extends CommonFields implements Serializable {
     public void setDesigner(Designer designer) {
         this.designer = designer;
     }
-
-    public String getDesignerStatus() {
-        return designerStatus;
-    }
-
-    public void setDesignerStatus(String designerStatus) {
-        this.designerStatus = designerStatus;
-    }
-
+    
     public String getProdDesc() {
         return prodDesc;
     }
@@ -147,118 +106,6 @@ public class Products extends CommonFields implements Serializable {
 
     public void setProdSummary(String prodSummary) {
         this.prodSummary = prodSummary;
-    }
-
-    public List<ArtWorkPicture> getArtWorkPicture() {
-        return artWorkPicture;
-    }
-
-    public void setArtWorkPicture(List<ArtWorkPicture> artWorkPicture) {
-        this.artWorkPicture = artWorkPicture;
-    }
-
-    public List<MaterialPicture> getMaterialPicture() {
-        return materialPicture;
-    }
-
-    public void setMaterialPicture(List<MaterialPicture> materialPicture) {
-        this.materialPicture = materialPicture;
-    }
-
-    public Double getMaterialPrice() {
-        return materialPrice;
-    }
-
-    public void setMaterialPrice(Double materialPrice) {
-        this.materialPrice = materialPrice;
-    }
-
-    public String getMaterialName() {
-        return materialName;
-    }
-
-    public void setMaterialName(String materialName) {
-        this.materialName = materialName;
-    }
-
-    public List<ProductPicture> getPicture() {
-        return picture;
-    }
-
-    public void setPicture(List<ProductPicture> picture) {
-        this.picture = picture;
-    }
-
-    public List<ProductAttribute> getProductAttributes() {
-        return productAttributes;
-    }
-
-    public void setProductAttributes(List<ProductAttribute> productAttributes) {
-        this.productAttributes = productAttributes;
-    }
-
-    public Style getStyle() {
-        return style;
-    }
-
-    public void setStyle(Style style) {
-        this.style = style;
-    }
-
-    public int getStockNo() {
-        return stockNo;
-    }
-
-    public void setStockNo(int stockNo) {
-        this.stockNo = stockNo;
-    }
-
-    public String getInStock() {
-        return inStock;
-    }
-
-    public void setInStock(String inStock) {
-        this.inStock = inStock;
-    }
-
-    public String getAcceptCustomSizes() {
-        return acceptCustomSizes;
-    }
-
-    public void setAcceptCustomSizes(String acceptCustomSizes) {
-        this.acceptCustomSizes = acceptCustomSizes;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getVerifiedFlag() {
-        return verifiedFlag;
-    }
-
-    public void setVerifiedFlag(String verifiedFlag) {
-        this.verifiedFlag = verifiedFlag;
-    }
-
-    public String getSponsoredFlag() {
-        return sponsoredFlag;
-    }
-
-    public void setSponsoredFlag(String sponsoredFlag) {
-        this.sponsoredFlag = sponsoredFlag;
-    }
-
-    public String getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(String availability) {
-        this.availability = availability;
     }
 
     public int getProductType() {
@@ -301,22 +148,6 @@ public class Products extends CommonFields implements Serializable {
         this.reviews = reviews;
     }
 
-    public boolean isPriceSlashEnabled() {
-        return priceSlashEnabled;
-    }
-
-    public void setPriceSlashEnabled(boolean priceSlashEnabled) {
-        this.priceSlashEnabled = priceSlashEnabled;
-    }
-
-    public PriceSlash getPriceSlash() {
-        return priceSlash;
-    }
-
-    public void setPriceSlash(PriceSlash priceSlash) {
-        this.priceSlash = priceSlash;
-    }
-
     public int getNumOfDaysToComplete() {
         return numOfDaysToComplete;
     }
@@ -324,12 +155,35 @@ public class Products extends CommonFields implements Serializable {
     public void setNumOfDaysToComplete(int numOfDaysToComplete) {
         this.numOfDaysToComplete = numOfDaysToComplete;
     }
-
-    public String getUnVerifiedReason() {
-        return unVerifiedReason;
+    public ProductStyle getProductStyle() {
+        return productStyle;
     }
 
-    public void setUnVerifiedReason(String unVerifiedReason) {
-        this.unVerifiedReason = unVerifiedReason;
+    public void setProductStyle(ProductStyle productStyle) {
+        this.productStyle = productStyle;
+    }
+
+    public ProductItem getProductItem() {
+        return productItem;
+    }
+
+    public void setProductItem(ProductItem productItem) {
+        this.productItem = productItem;
+    }
+
+    public ProductStatuses getProductStatuses() {
+        return productStatuses;
+    }
+
+    public void setProductStatuses(ProductStatuses productStatuses) {
+        this.productStatuses = productStatuses;
+    }
+
+    public List<ProductColorStyles> getProductColorStyles() {
+        return productColorStyles;
+    }
+
+    public void setProductColorStyles(List<ProductColorStyles> productColorStyles) {
+        this.productColorStyles = productColorStyles;
     }
 }

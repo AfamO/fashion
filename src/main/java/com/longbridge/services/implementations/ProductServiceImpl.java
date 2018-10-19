@@ -299,17 +299,17 @@ public class ProductServiceImpl implements ProductService {
             products.setSubCategory( subCategoryRepository.findOne(subCategoryId));
             products.setName(productDTO.name);
             productSearchDTO.setName(productDTO.name);
-            products.setAmount(productDTO.amount);
+            products.getPrice().setAmount(productDTO.amount);
             productSearchDTO.setAmount(productDTO.amount);
             //productSearchDTO.setPicture(productDTO.picture);
             productSearchDTO.setAvailability(productDTO.inStock);
-            products.setAvailability(productDTO.inStock);
-            products.setAcceptCustomSizes(productDTO.acceptCustomSizes);
+            products.getProductStatuses().setAvailability(productDTO.inStock);
+            products.getProductStatuses().setAcceptCustomSizes(productDTO.acceptCustomSizes);
             productSearchDTO.setNumOfDaysToComplete(productDTO.numOfDaysToComplete);
             products.setNumOfDaysToComplete(productDTO.numOfDaysToComplete);
             productSearchDTO.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
             products.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
-            products.setMaterialPrice(productDTO.materialPrice);
+            products.getPrice().setMaterialPrice(productDTO.materialPrice);
             productSearchDTO.setMaterialPrice(productDTO.materialPrice);
             productSearchDTO.setMaterialName(productDTO.materialName);
             productSearchDTO.setCategoryName(products.getSubCategory().getCategory().categoryName);
@@ -330,13 +330,13 @@ public class ProductServiceImpl implements ProductService {
             if(productDTO.styleId != null && !productDTO.styleId.equalsIgnoreCase("null")) {
                 if(!productDTO.styleId.isEmpty()) {
                     Long styleId = Long.parseLong(productDTO.styleId);
-                    products.setStyle(styleRepository.findOne(styleId));
+                    products.getProductStyle().setStyle(styleRepository.findOne(styleId));
                 }
             }
 
-            products.setStockNo(productDTO.stockNo);
+            products.getProductItem().setStockNo(productDTO.stockNo);
             productSearchDTO.setStockNo(productDTO.stockNo);
-            products.setInStock(productDTO.inStock);
+            products.getProductItem().setInStock(productDTO.inStock);
             productSearchDTO.setInStock(productDTO.inStock);
             products.setCreatedOn(date);
             products.setUpdatedOn(date);
@@ -347,7 +347,7 @@ public class ProductServiceImpl implements ProductService {
             List<MaterialPictureSearchDTO> materialPictureSearchDTOList=new ArrayList<>();
             List<ProductSizes> productSizesSearchDTOList =  new ArrayList<>();
             for (ProductAttributeDTO pa: productDTO.productAttributes) {
-                ProductAttribute productAttribute=new ProductAttribute();
+                ProductColorStyles productAttribute=new ProductColorStyles();
                 ProductAttributeSearchDTO productAttributeSearch=new ProductAttributeSearchDTO();
                 productAttribute.setProducts(products);
                 productAttributeSearch.setProductId(productDTO.id);
@@ -379,12 +379,12 @@ public class ProductServiceImpl implements ProductService {
                     productPicture.setPictureName(c.getUrl());
                     productPicture.setPicture(c.getPublicId());
                     productPictureSearchDTO.picture=c.getUrl();
-                    productPicture.setProducts(products);
+                    productPicture.getProductColorStyles().setProducts(products);
                     productPictureSearchDTO.createdOn = date;
                     productPictureSearchDTO.updatedOn=date;
                     productPicture.createdOn = date;
                     productPicture.setUpdatedOn(date);
-                    productPicture.setProductAttribute(productAttribute);
+                    productPicture.setProductColorStyles(productAttribute);
                     productPicturseSearchDTOList.add(productPictureSearchDTO);
                     productPictureRepository.save(productPicture);
                     productPictureSearchDTO.setId(productPicture.getId());
@@ -396,8 +396,8 @@ public class ProductServiceImpl implements ProductService {
 
             if(productDTO.slashedPrice > 0){
                 PriceSlash priceSlash = new PriceSlash();
-                products.setPriceSlashEnabled(true);
-                priceSlash.setProducts(products);
+                products.getPrice().setPriceSlashEnabled(true);
+                priceSlash.getPrice().setProducts(products);
                 priceSlash.setSlashedPrice(productDTO.slashedPrice);
                 priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
                 productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
@@ -406,11 +406,11 @@ public class ProductServiceImpl implements ProductService {
             } else if(productDTO.percentageDiscount > 0){
 
                 PriceSlash priceSlash=new PriceSlash();
-                products.setPriceSlashEnabled(true);
-                priceSlash.setProducts(products);
-                priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getAmount()));
+                products.getPrice().setPriceSlashEnabled(true);
+                priceSlash.getPrice().setProducts(products);
+                priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getPrice().getAmount()));
                 priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-                productSearchDTO.setSlashedPrice((productDTO.percentageDiscount/100)*products.getAmount());
+                productSearchDTO.setSlashedPrice((productDTO.percentageDiscount/100)*products.getPrice().getAmount());
                 productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
                 priceSlashRepository.save(priceSlash);
             }
@@ -429,7 +429,7 @@ public class ProductServiceImpl implements ProductService {
                     materialPicture.setPicture(c.getPublicId());
                     materialPictureSearchDTO.setMaterialName(mp.getMaterialName());
                     materialPicture.setMaterialName(mp.getMaterialName());
-                    materialPicture.setProducts(products);
+                    materialPicture.getProductStyle().setProducts(products);
                     materialPicture.createdOn = date;
                     materialPicture.setUpdatedOn(date);
                     materialPictureRepository.save(materialPicture);
@@ -444,14 +444,14 @@ public class ProductServiceImpl implements ProductService {
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(ap, artName, "artworkpictures");
                     artWorkPicture.setPictureName(c.getUrl());
                     artWorkPicture.setPicture(c.getPublicId());
-                    artWorkPicture.setProducts(products);
+                    artWorkPicture.getProductStyle().setProducts(products);
                     artWorkPicture.createdOn = date;
                     artWorkPicture.setUpdatedOn(date);
                     artWorkPictureRepository.save(artWorkPicture);
                 }
             }
 
-            products.setStockNo(totalStock);
+            products.getProductItem().setStockNo(totalStock);
             productSearchDTO.setStockNo(totalStock);
             productSearchDTO.setVerifiedFlag("N");
             productRepository.save(products);
@@ -482,7 +482,7 @@ public class ProductServiceImpl implements ProductService {
             }
             products.setSubCategory(subCategoryRepository.findOne(subCategoryId));
             products.setName(productDTO.name);
-            products.setAmount(productDTO.amount);
+            products.getPrice().setAmount(productDTO.amount);
             products.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
             products.setProdDesc(productDTO.description);
             products.setProdSummary(productDTO.prodSummary);
@@ -511,13 +511,13 @@ public class ProductServiceImpl implements ProductService {
                 {
                    if(!productDTO.styleId.isEmpty()) {
                     Long styleId = Long.parseLong(productDTO.styleId);
-                    products.setStyle(styleRepository.findOne(styleId));
+                    products.getProductStyle().setStyle(styleRepository.findOne(styleId));
                     productSearchDTO.setStyleId(productDTO.styleId);
                 } 
                 }
                 
             }
-            products.setStockNo(productDTO.stockNo);
+            products.getProductItem().setStockNo(productDTO.stockNo);
             products.setUpdatedOn(date);
             productSearchDTO.setStockNo(productDTO.stockNo);
 
@@ -530,8 +530,8 @@ public class ProductServiceImpl implements ProductService {
                     productSearchDTO.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
                 }else {
                     priceSlash=new PriceSlash();
-                    products.setPriceSlashEnabled(true);
-                    priceSlash.setProducts(products);
+                    products.getPrice().setPriceSlashEnabled(true);
+                    priceSlash.getPrice().setProducts(products);
                     priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
                     priceSlash.setSlashedPrice(productDTO.slashedPrice);
                     productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
@@ -543,29 +543,29 @@ public class ProductServiceImpl implements ProductService {
             else if(productDTO.percentageDiscount > 0){
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
                 if(priceSlash != null){
-                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getAmount()));
+                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getPrice().getAmount()));
                     priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getAmount()));
+                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getPrice().getAmount()));
                     productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
                 }else {
                     priceSlash=new PriceSlash();
-                    products.setPriceSlashEnabled(true);
-                    priceSlash.setProducts(products);
-                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getAmount()));
+                    products.getPrice().setPriceSlashEnabled(true);
+                    priceSlash.getPrice().setProducts(products);
+                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getPrice().getAmount()));
                     priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getAmount()));
+                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)*products.getPrice().getAmount()));
                     productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
                 }
 
                 priceSlashRepository.save(priceSlash);
             }else{
-                products.setPriceSlashEnabled(false);
+                products.getPrice().setPriceSlashEnabled(false);
                 PriceSlash priceSlash =priceSlashRepository.findByProducts(products);
                 if(priceSlash != null){
                     priceSlashRepository.delete(priceSlash);
                 }
             }
-            products.setVerifiedFlag("N");
+            products.getProductStatuses().setVerifiedFlag("N");
 
             productRepository.save(products);
             //Then save the Updated product status
@@ -589,7 +589,7 @@ public class ProductServiceImpl implements ProductService {
 
 
             if(productDTO.productAttributes != null){
-                List<ProductAttribute> productAttributes=productAttributeRepository.findByProducts(products);
+                List<ProductColorStyles> productAttributes=productAttributeRepository.findByProducts(products);
                 productAttributeRepository.delete(productAttributes);
                 for (ProductAttributeDTO p: productDTO.productAttributes) {
 //                    p.setProducts(products);
@@ -607,7 +607,7 @@ public class ProductServiceImpl implements ProductService {
     public void updateProductVisibility(Long id, String status) {
         try {
             Products products = productRepository.findOne(id);
-            products.setStatus(status);
+            products.getProductStatuses().setStatus(status);
             productRepository.save(products);
 
         }catch (Exception e) {
@@ -628,7 +628,7 @@ public class ProductServiceImpl implements ProductService {
                 productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, id));
                 productSearchDTO.setVerifiedFlag(status);
             }
-            products.setVerifiedFlag(status);
+            products.getProductStatuses().setVerifiedFlag(status);
             products.setVerfiedOn(date);
             productRepository.save(products);
             //Then save the Updated product status
@@ -649,8 +649,8 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             Products products = productRepository.findOne(verifyDTO.getId());
-            products.setVerifiedFlag(verifyDTO.getFlag());
-            products.setUnVerifiedReason(verifyDTO.getUnverifyReason());
+            products.getProductStatuses().setVerifiedFlag(verifyDTO.getFlag());
+            products.getProductStatuses().setUnVerifiedReason(verifyDTO.getUnverifyReason());
             products.setVerfiedOn(date);
             productRepository.save(products);
 
@@ -664,7 +664,7 @@ public class ProductServiceImpl implements ProductService {
     public void sponsorProduct(Long id, String status) {
         try {
             Products products = productRepository.findOne(id);
-            products.setSponsoredFlag(status);
+            products.getProductStatuses().setSponsoredFlag(status);
             productRepository.save(products);
 
         }catch (Exception e) {
@@ -842,7 +842,7 @@ public class ProductServiceImpl implements ProductService {
                 List<Long> tempIds = new ArrayList<Long>();
                 products = productRepository.findByIdIn(ids);
                 for (Products p : products) {
-                    if(p.getAmount() >= fromAmount && p.getAmount() <= toAmount){
+                    if(p.getPrice().getAmount() >= fromAmount && p.getPrice().getAmount() <= toAmount){
                         tempIds.add(p.id);
                     }
                 }
@@ -987,7 +987,7 @@ public class ProductServiceImpl implements ProductService {
                     System.out.println(products);
                 }
                 System.out.println(pictureTag.getProducts());
-                if(pictureTag.getProducts().getVerifiedFlag().equalsIgnoreCase("Y")) {
+                if(pictureTag.getProducts().getProductStatuses().getVerifiedFlag().equalsIgnoreCase("Y")) {
                     products.add(pictureTag.getProducts());
                 }
 
@@ -1218,7 +1218,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductAttributeDTO getProductAttributesById(Long id) {
         try {
 
-           ProductAttribute productAttribute = productAttributeRepository.findOne(id);
+           ProductColorStyles productAttribute = productAttributeRepository.findOne(id);
             return generalUtil.convertProductAttributeEntityToDTO(productAttribute);
 
         } catch (Exception ex) {
