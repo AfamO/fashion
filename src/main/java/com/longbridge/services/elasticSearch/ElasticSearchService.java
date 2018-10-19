@@ -438,6 +438,7 @@ import org.springframework.stereotype.Service;
             Query query=new Query();
             Multi_Match multi_Match=new Multi_Match();
             multi_Match.setFuzziness(2);
+            multi_Match.setPrefix_length(3);//Ignore and Start fuzzifying  after prefix length(first three words) 3, not from beginning.
             multi_Match.setQuery(searchTerm.toLowerCase());
             multi_Match.setFields(productTextColumns);
             query.setMulti_match(multi_Match);
