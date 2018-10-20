@@ -21,8 +21,6 @@ public class LocalShipping {
 
     private String zone;
 
-
-
     public LocalShipping() {
     }
 

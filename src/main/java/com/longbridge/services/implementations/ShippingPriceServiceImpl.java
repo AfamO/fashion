@@ -48,6 +48,8 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
             return null;
         }
 
+        System.out.println(userAddress.getCountry());
+
         if(!userAddress.getCountry().equalsIgnoreCase("NIGERIA")){
             String sending = "NIGERIA";
             Double price = shippingUtil.getInternationalShipping(sending, userAddress.getCountry(), carts.size());
