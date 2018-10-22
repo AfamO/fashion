@@ -2,9 +2,7 @@ package com.longbridge.models;
 
 import javax.persistence.*;
 
-/**
- * Created by Longbridge on 10/07/2018.
- */
+
 @Entity
 @Table(name = "Shipping")
 public class LocalShipping {

@@ -168,12 +168,21 @@ public class GeneralUtil {
         dto.logo=d.getLogo();
         dto.storeName=d.getStoreName();
         dto.address=d.getAddress();
+
+        dto.accountNumber=d.getAccountNumber();
+        dto.accountName = d.getAccountName();
+        dto.bankName=d.getBankName();
+        dto.swiftCode=d.getSwiftCode();
+        dto.country=d.getCountry();
+        dto.state=d.getState();
+
         User u = d.getUser();
         dto.firstName=u.getFirstName();
         dto.lastName=u.getLastName();
         dto.phoneNo=u.getPhoneNo();
         dto.email=u.getEmail();
         dto.gender=u.getGender();
+
         dto.setStatus(d.getStatus());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.createdDate = formatter.format(d.createdOn);
