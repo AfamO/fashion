@@ -94,7 +94,7 @@ public class ItemsUtil {
             }
 
             Double itemsAmount = amount * items.getQuantity();
-            Double shippingAmount = shippingUtil.getShipping(p.getDesigner().getCity().toUpperCase().trim(), deliveryAddress.getCity().toUpperCase().trim(), items.getQuantity());
+            Double shippingAmount = shippingUtil.getLocalShipping(p.getDesigner().getCity().toUpperCase().trim(), deliveryAddress.getCity().toUpperCase().trim(), items.getQuantity());
             items.setAmount(itemsAmount);
             totalAmount = totalAmount + itemsAmount + shippingAmount;
         }

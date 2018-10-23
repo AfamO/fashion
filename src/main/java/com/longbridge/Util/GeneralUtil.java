@@ -728,6 +728,7 @@ public class GeneralUtil {
         if(orders.getDeliveryAddress() != null) {
             orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
             orderDTO.setDeliveryPhoneNumber(orders.getDeliveryAddress().getPhoneNo());
+            orderDTO.setDeliveryName(orders.getDeliveryAddress().getFirstName() + " " + orders.getDeliveryAddress().getLastName() );
         }
         orderDTO.setDeliveryType(orders.getDeliveryType());
         orderDTO.setDeliveryStatus(orders.getDeliveryStatus());

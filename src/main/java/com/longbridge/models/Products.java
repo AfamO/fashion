@@ -19,6 +19,9 @@ public class Products extends CommonFields implements Serializable {
 
     private double amount;
 
+    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    private List<Price> price;
+
 
     @IndexedEmbedded(depth = 1)
     @OneToOne
@@ -331,5 +334,13 @@ public class Products extends CommonFields implements Serializable {
 
     public void setUnVerifiedReason(String unVerifiedReason) {
         this.unVerifiedReason = unVerifiedReason;
+    }
+
+    public List<Price> getPrice() {
+        return price;
+    }
+
+    public void setPrice(List<Price> price) {
+        this.price = price;
     }
 }

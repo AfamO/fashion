@@ -20,6 +20,7 @@ public class OrderDTO {
     private String customerName;
     private String customerPhoneNumber;
     private String deliveryPhoneNumber;
+    private String deliveryName;
     private String deliveryStatus;
     private String deliveryAddress;
     private String deliveryDate;
@@ -141,6 +142,13 @@ public class OrderDTO {
         this.deliveryType = deliveryType;
     }
 
+    public String getDeliveryName() {
+        return deliveryName;
+    }
+
+    public void setDeliveryName(String deliveryName) {
+        this.deliveryName = deliveryName;
+    }
 
     public String getDeliveryPhoneNumber() {
         return deliveryPhoneNumber;

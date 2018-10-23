@@ -5,6 +5,8 @@ import com.longbridge.models.User;
 
 public interface ShippingPriceService {
 
-    Object getShippingPrice(Long addresId);
+    Object getLocalShippingPrice(Long addresId);
+
+
     Object getShippingPriceAnonymous(OrderReqDTO orderReqDTO);
 }

@@ -15,6 +15,7 @@ public class MaterialPicture extends CommonFields implements Serializable{
     private String pictureName;
     private String picture;
     private String materialName;
+    private double price;
     @JsonIgnore
     @ManyToOne
     private Products products;
@@ -68,5 +69,13 @@ public class MaterialPicture extends CommonFields implements Serializable{
 
     public void setProducts(Products products) {
         this.products = products;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

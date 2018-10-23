@@ -34,7 +34,7 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
     AnonymousUserRepository anonymousUserRepository;
 
     @Override
-    public Object getShippingPrice(Long addressId) {
+    public Object getLocalShippingPrice(Long addressId) {
         User user=getCurrentUser();
         List<Cart> carts = cartRepository.findByUser(user);
         double shippingPriceGIG = 0;
@@ -42,31 +42,59 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
         Address userAddress = addressRepository.findOne(addressId);
         String userCity;
 
-        if(userAddress != null){
+        if (userAddress != null) {
             userCity = userAddress.getCity().toUpperCase().trim();
-        }else{
+        } else {
             return null;
         }
 
-        ArrayList<String> designerCities = new ArrayList<>();
-        for (Cart cart : carts) {
-            String designerCity = productRepository.findOne(cart.getProductId()).getDesigner().getCity().toUpperCase().trim();
-            int cartQuantity = cart.getQuantity();
-            if(!designerCities.contains(designerCity)){
-                designerCities.add(designerCity);
-                Double price = shippingUtil.getShipping(designerCity,userCity,cartQuantity);
-                if(price != 0){
-                    shippingPriceGIG +=shippingUtil.getShipping(designerCity,userCity,cartQuantity);
-                }
-                else {
-                    //todo later
-                    return  null;
-                }
-            }
+        System.out.println(userAddress.getCountry());
 
+        if(!userAddress.getCountry().equalsIgnoreCase("NIGERIA")){
+            String sending = "NIGERIA";
+            Double price = shippingUtil.getInternationalShipping(sending, userAddress.getCountry(), carts.size());
+            if(price != 0){
+                shippingPriceGIG += price;
+            }
+        }else {
+
+            ArrayList<String> designerCities = new ArrayList<>();
+            for (Cart cart : carts) {
+                String designerCity = productRepository.findOne(cart.getProductId()).getDesigner().getCity().toUpperCase().trim();
+                int cartQuantity = cart.getQuantity();
+                if (!designerCities.contains(designerCity)) {
+                    designerCities.add(designerCity);
+                    Double price = shippingUtil.getLocalShipping(designerCity, userCity, cartQuantity);
+                    if (price != 0) {
+                        shippingPriceGIG += shippingUtil.getLocalShipping(designerCity, userCity, cartQuantity);
+                    } else {
+                        //todo later
+                        return null;
+                    }
+                }
+
+            }
         }
         return shippingPriceGIG;
     }
+
+//    @Override
+//    public Object getInternationalShippingPrice(Long addressId) {
+//        User user=getCurrentUser();
+//        List<Cart> carts = cartRepository.findByUser(user);
+//        double shippingPrice = 0;
+//
+//        Address userAddress = addressRepository.findOne(addressId);
+//        if(!userAddress.getCountry().equalsIgnoreCase("NIGERIA")){
+//            String sending = "NIGERIA";
+//            Double price = shippingUtil.getInternationalShipping(sending, userAddress.getCountry(), carts.size());
+//            if(price != 0){
+//                shippingPrice += price;
+//            }
+//        }
+//
+//        return shippingPrice;
+//    }
 
     @Override
     public Object getShippingPriceAnonymous(OrderReqDTO orderReqDTO) {
@@ -88,7 +116,7 @@ public class ShippingPriceServiceImpl implements ShippingPriceService {
 
             if(!designerCities.contains(designerCity)){
                 designerCities.add(designerCity);
-                Double price = shippingUtil.getShipping(designerCity, userCity, quantity);
+                Double price = shippingUtil.getLocalShipping(designerCity, userCity, quantity);
                 if(price != 0){
                     shippingPriceGIG += price;
                 }
