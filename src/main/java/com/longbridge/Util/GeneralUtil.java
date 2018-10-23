@@ -174,6 +174,10 @@ public class GeneralUtil {
         dto.phoneNo=u.getPhoneNo();
         dto.email=u.getEmail();
         dto.gender=u.getGender();
+        dto.accountName=d.getAccountName();
+        dto.accountNumber=d.getAccountNumber();
+        dto.swiftCode=d.getSwiftCode();
+        dto.bankName=d.getBankName();
         dto.setStatus(d.getStatus());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.createdDate = formatter.format(d.createdOn);
