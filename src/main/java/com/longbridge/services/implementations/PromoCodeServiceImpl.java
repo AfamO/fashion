@@ -1,8 +1,10 @@
 package com.longbridge.services.implementations;
 
+import com.longbridge.Util.GeneralUtil;
 import com.longbridge.dto.PageableDetailsDTO;
 import com.longbridge.dto.PromoCodeDTO;
 import com.longbridge.dto.PromoItemDTO;
+import com.longbridge.exception.WawoohException;
 import com.longbridge.models.PromoCode;
 import com.longbridge.models.PromoItem;
 import com.longbridge.repository.EventRepository;
@@ -13,9 +15,10 @@ import com.longbridge.services.PromoCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import sun.jvm.hotspot.debugger.Page;
 
-import java.util.ArrayList;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,22 +35,38 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 
     @Autowired
     PromoItemsRepository promoItemsRepository;
+
+    @Autowired
+    GeneralUtil generalUtil;
+
+    Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Override
     public void addPromoCode(PromoCodeDTO promoCodeDTO) {
 
-        PromoCode promoCode= new PromoCode();
-        promoCode.setCode(promoCodeDTO.getCode());
-        promoCode.setValue(promoCodeDTO.getValue());
-        promoCode.setExpiryDate(promoCodeDTO.getExpiryDate());
-        promoCode.setIsUsedStatus("N");
+        try {
 
-        promoCode.setPromoItems(promoCodeDTO.getPromoItems());
+            PromoCode promoCode= new PromoCode();
+            promoCode.setCode(promoCodeDTO.getCode());
+            promoCode.setValue(promoCodeDTO.getValue());
+            promoCode.setExpiryDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(promoCodeDTO.getExpiryDate()));
+            promoCode.setValueType(promoCodeDTO.getValueType());
+            promoCode.setIsUsedStatus("N");
+            promoCode.setCreatedOn(new Date());
 
-        promoCodeRepository.save(promoCode);
-        for (PromoItem promoItem:promoCodeDTO.getPromoItems()){
-             promoItem.setPromoCode(promoCode);
-             promoItemsRepository.save(promoItem);
+            promoCode.setPromoItems(promoCodeDTO.getPromoItems());
+
+            promoCodeRepository.save(promoCode);
+            for (PromoItem promoItem:promoCodeDTO.getPromoItems()){
+                promoItem.setPromoCode(promoCode);
+                promoItemsRepository.save(promoItem);
+            }
+
         }
+        catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+
 
 
 
@@ -66,49 +85,46 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     }
 
     @Override
-    public PromoCode getPromoCode(Long id) {
-        return promoCodeRepository.findOne(id);
+    public PromoCodeDTO getPromoCode(Long id) {
+        PromoCodeDTO promoCodeDTO=null;
+        try {
+            promoCodeDTO=generalUtil.convertSinglePromoCodeToDTO(promoCodeRepository.findOne(id));
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+        return promoCodeDTO;
     }
 
     @Override
     public List<PromoCodeDTO> getAllPromoCodes(PageableDetailsDTO pageableDetailsDTO) {
 
 
-       List<PromoCodeDTO> promoCodeDTOLists= this.convertToDTO(promoCodeRepository.findAll(new PageRequest(pageableDetailsDTO.getPage(),pageableDetailsDTO.getSize())).getContent());
+       List<PromoCodeDTO> promoCodeDTOLists= generalUtil.convertPromoCodeListsToDTO(promoCodeRepository.findAll(new PageRequest(pageableDetailsDTO.getPage(),pageableDetailsDTO.getSize())).getContent());
 
          return promoCodeDTOLists;
 
     }
 
-     private List<PromoCodeDTO> convertToDTO(List<PromoCode> promoCodeList){
-
-                 List<PromoCodeDTO> promoCodeDTOLists= new ArrayList<>();
-                 for(PromoCode promoCode :promoCodeList){
-                     PromoCodeDTO promoCodeDTO=new PromoCodeDTO();
-                     promoCodeDTO.setCode(promoCode.getCode());
-                     List<PromoItemDTO> promoItemDTOLists = new ArrayList<>();
-                     for(PromoItem promoItem: promoCode.getPromoItems())
-                     {
-                            PromoItemDTO promoItemDTO =new PromoItemDTO();
-                            promoItemDTO.setItemId(promoItem.getItemId());
-                            promoItemDTO.setItemType(promoItem.getItemType());
-                            promoItemDTOLists.add(promoItemDTO);
-                     }
-                     promoCodeDTO.setPromoItemsDTO(promoItemDTOLists);
-                     promoCodeDTO.setValue(promoCode.getValue());
-                     promoCodeDTO.setExpiryDate(promoCode.getExpiryDate());
-                     promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
-                     promoCodeDTOLists.add(promoCodeDTO);
-                 }
-                 return promoCodeDTOLists;
-     }
     @Override
-    public List<PromoCode> getUsedPromoCodes(PageableDetailsDTO pageableDetailsDTO) {
-        return promoCodeRepository.findByIsUsedStatusNot("N");
+    public List<PromoCodeDTO> getUsedPromoCodes(PageableDetailsDTO pageableDetailsDTO) {
+        return generalUtil.convertPromoCodeListsToDTO(promoCodeRepository.findByIsUsedStatusNot("N"));
     }
 
     @Override
-    public List<PromoCode> getUnUsedPromoCodes(PageableDetailsDTO pageableDetailsDTO) {
-        return promoCodeRepository.findByIsUsedStatusNot("Y");
+    public List<PromoCodeDTO> getUnUsedPromoCodes(PageableDetailsDTO pageableDetailsDTO) {
+        return generalUtil.convertPromoCodeListsToDTO(promoCodeRepository.findByIsUsedStatusNot("Y"));
     }
+
+    @Override
+    public List<PromoCodeDTO> getExpiredPromoCodes(PageableDetailsDTO pageableDetailsDTO) {
+        return generalUtil.convertPromoCodeListsToDTO(promoCodeRepository.findExpiredPromoCodes());
+    }
+
+    @Override
+    public List<PromoCodeDTO> getActiveAndStillValidPromoCodes(PageableDetailsDTO pageableDetailsDTO) {
+        return generalUtil.convertPromoCodeListsToDTO(promoCodeRepository.findUnExpiredPromoCodes());
+    }
+
+
 }

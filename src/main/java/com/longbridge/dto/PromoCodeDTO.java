@@ -1,6 +1,5 @@
 package com.longbridge.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.longbridge.models.PromoItem;
 
 import java.util.List;
@@ -12,6 +11,16 @@ public class PromoCodeDTO {
     private String value;
 
     private String expiryDate;
+
+    private String valueType="discount";
+
+    public String getValueType() {
+        return valueType;
+    }
+
+    public void setValueType(String valueType) {
+        this.valueType = valueType;
+    }
 
     public String getIsUsedStatus() {
         return isUsedStatus;

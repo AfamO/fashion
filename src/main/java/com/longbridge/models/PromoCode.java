@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,9 +14,27 @@ public class PromoCode extends CommonFields implements Serializable {
 
     private String value;
 
-    private String expiryDate;
+    private Date expiryDate;
 
     private String  isUsedStatus="N";
+
+    private String valueType="discount";
+
+    public String getValueType() {
+        return valueType;
+    }
+
+    public void setValueType(String valueType) {
+        this.valueType = valueType;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
 
     @OneToMany(mappedBy = "promoCode",cascade = CascadeType.ALL)
     private List<PromoItem> promoItems;
@@ -52,12 +71,5 @@ public class PromoCode extends CommonFields implements Serializable {
         this.value = value;
     }
 
-    public String getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(String expiryDate) {
-        this.expiryDate = expiryDate;
-    }
 
 }

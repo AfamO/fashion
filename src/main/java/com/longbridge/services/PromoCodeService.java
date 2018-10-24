@@ -14,13 +14,17 @@ public interface PromoCodeService {
 
     void  deletePromoCode(Long id);
 
-    PromoCode getPromoCode(Long id);
+    PromoCodeDTO getPromoCode(Long id);
 
     List<PromoCodeDTO> getAllPromoCodes(PageableDetailsDTO pageableDetailsDTO);
 
-    List<PromoCode> getUsedPromoCodes(PageableDetailsDTO pageableDetailsDTO);
+    List<PromoCodeDTO> getUsedPromoCodes(PageableDetailsDTO pageableDetailsDTO);
 
-    List<PromoCode> getUnUsedPromoCodes(PageableDetailsDTO pageableDetailsDTO);
+    List<PromoCodeDTO> getUnUsedPromoCodes(PageableDetailsDTO pageableDetailsDTO);
+
+    List<PromoCodeDTO> getExpiredPromoCodes(PageableDetailsDTO pageableDetailsDTO);
+
+    List<PromoCodeDTO> getActiveAndStillValidPromoCodes(PageableDetailsDTO pageableDetailsDTO);
 
 
 }

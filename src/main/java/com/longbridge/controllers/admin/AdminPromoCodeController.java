@@ -33,16 +33,16 @@ public class AdminPromoCodeController {
     }
 
 
-    @GetMapping(value = "/getunusedpromocode")
+    @PostMapping(value = "/getunusedpromocode")
     public Object getUnUsedPromoCodes(@RequestBody PageableDetailsDTO pageableDetailsDTO){
-        List<PromoCode> promoCodes;
+        List<PromoCodeDTO> promoCodes;
         promoCodes= promoCodeService.getUnUsedPromoCodes(pageableDetailsDTO);
         return new Response("00","Operation Successful",promoCodes);
     }
 
     @PostMapping(value = "/getusedpromocode")
     public Object getUsedPromoCodes(@RequestBody PageableDetailsDTO pageableDetailsDTO){
-        List<PromoCode> promoCodes;
+        List<PromoCodeDTO> promoCodes;
         promoCodes= promoCodeService.getUsedPromoCodes(pageableDetailsDTO);
         return new Response("00","Operation Successful",promoCodes);
     }
@@ -51,16 +51,23 @@ public class AdminPromoCodeController {
     @GetMapping(value = "/getpromocode/{id}")
     public Object getPromocode(@PathVariable Long id){
         Map<String,Object> responseMap = new HashMap();
-        PromoCode promoCode=  promoCodeService.getPromoCode(id);
         responseMap.put("success", "success");
-        return new Response("00", "Operation Successful", promoCode);
+        return new Response("00", "Operation Successful", promoCodeService.getPromoCode(id));
     }
 
     @GetMapping(value = "/getexpiredpromocode")
     public Object getExpiredPromocode(){
         PageableDetailsDTO pageableDetailsDTO = null;
         Map<String,Object> responseMap = new HashMap();
-        List<PromoCode> promoCodes=promoCodeService.getUsedPromoCodes(pageableDetailsDTO);
+        List<PromoCodeDTO> promoCodes=promoCodeService.getExpiredPromoCodes(pageableDetailsDTO);
+        responseMap.put("success", "success");
+        return new Response("00", "Operation Successful", promoCodes);
+    }
+    @GetMapping(value = "/getunexpiredpromocode")
+    public Object getActivePromocode(){
+        PageableDetailsDTO pageableDetailsDTO = null;
+        Map<String,Object> responseMap = new HashMap();
+        List<PromoCodeDTO> promoCodes=promoCodeService.getActiveAndStillValidPromoCodes(pageableDetailsDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", promoCodes);
     }
