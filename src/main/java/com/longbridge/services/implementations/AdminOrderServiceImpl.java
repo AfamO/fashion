@@ -17,7 +17,7 @@ import com.longbridge.services.AdminOrderService;
 import com.longbridge.services.CloudinaryService;
 import com.longbridge.services.MailService;
 import com.longbridge.services.PocketService;
-import com.longbridge.services.WalletService;
+
 import java.io.IOException;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -337,7 +337,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     }
 
     private void notifyDesigner(Items items) throws IOException {
-        Products p = productRepository.findOne(items.getProductId());
+        Product p = productRepository.findOne(items.getProductId());
         String storeName = p.getDesigner().getStoreName();
         storeName=storeName.replaceAll(" ","");
         List<String> phoneNumbers = new ArrayList<>();

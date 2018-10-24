@@ -388,7 +388,7 @@ public class DesignerServiceImpl implements DesignerService{
             Designer designer = designerRepository.findOne(id);
             designer.setStatus(status);
             designer.getProducts().forEach(products -> {
-                products.setDesignerStatus(status);
+                products.getProductStatuses().setDesignerStatus(status);
             });
             designerRepository.save(designer);
         } catch (Exception e){

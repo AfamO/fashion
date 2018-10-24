@@ -18,17 +18,18 @@ public class MaterialPicture extends CommonFields implements Serializable{
     private double price;
     @JsonIgnore
     @ManyToOne
-    private Products products;
+    private BespokeProduct bespokeProduct;
 
     public MaterialPicture() {
     }
 
-    public MaterialPicture(Long id, String pictureName, String picture, String materialName, Products products) {
+    public MaterialPicture(Long id, String pictureName, String picture, String materialName, double price, BespokeProduct bespokeProduct) {
         this.id = id;
         this.pictureName = pictureName;
         this.picture = picture;
         this.materialName = materialName;
-        this.products = products;
+        this.price = price;
+        this.bespokeProduct = bespokeProduct;
     }
 
     public Long getId() {
@@ -63,12 +64,12 @@ public class MaterialPicture extends CommonFields implements Serializable{
         this.materialName = materialName;
     }
 
-    public Products getProducts() {
-        return products;
+    public BespokeProduct getBespokeProduct() {
+        return bespokeProduct;
     }
 
-    public void setProducts(Products products) {
-        this.products = products;
+    public void setBespokeProduct(BespokeProduct bespokeProduct) {
+        this.bespokeProduct = bespokeProduct;
     }
 
     public double getPrice() {

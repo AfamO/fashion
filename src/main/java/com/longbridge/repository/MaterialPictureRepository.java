@@ -1,7 +1,7 @@
 package com.longbridge.repository;
 
 import com.longbridge.models.MaterialPicture;
-import com.longbridge.models.Products;
+import com.longbridge.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +12,5 @@ import java.util.List;
  */
 @Repository
 public interface MaterialPictureRepository extends JpaRepository<MaterialPicture, Long> {
-    List<MaterialPicture> findByProducts(Products products);
+    List<MaterialPicture> findByBespokeProduct_Product(Product product);
 }

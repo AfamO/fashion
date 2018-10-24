@@ -16,14 +16,14 @@ public class WishList extends CommonFields implements Serializable {
 
     @JsonIgnore
     @OneToOne
-    private Products products;
+    private Product product;
 
     public WishList() {
     }
 
-    public WishList(User user, Products products) {
+    public WishList(User user, Product product) {
         this.user = user;
-        this.products = products;
+        this.product = product;
     }
 
     public User getUser() {
@@ -34,11 +34,11 @@ public class WishList extends CommonFields implements Serializable {
         this.user = user;
     }
 
-    public Products getProducts() {
-        return products;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProducts(Products products) {
-        this.products = products;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

@@ -132,14 +132,14 @@ public class AnonymousOrderServiceImpl implements AnonymousOrderService {
         List<String> designerCities = new ArrayList<>();
         List<DesignerOrderDTO> designerDTOS = new ArrayList<>();
         for (Items items: orderReq.getItems()) {
-            Products p = productRepository.findOne(items.getProductId());
-            items.setProductPicture(productPictureRepository.findFirst1ByProducts(p).getPictureName());
+            Product p = productRepository.findOne(items.getProductId());
+            items.setProductPicture(productPictureRepository.findFirst1ByProductStyle_Product(p).getPictureName());
 
             Double amount;
-            if(p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0){
-                amount = p.getPriceSlash().getSlashedPrice();
+            if(p.getProductPrice().getPriceSlash() != null && p.getProductPrice().getPriceSlash().getSlashedPrice() > 0){
+                amount = p.getProductPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount = p.getAmount();
+                amount = p.getProductPrice().getAmount();
             }
 
             Double itemsAmount = amount*items.getQuantity();
@@ -159,15 +159,15 @@ public class AnonymousOrderServiceImpl implements AnonymousOrderService {
             items.setItemStatus(itemStatus);
             itemRepository.save(items);
             p.setNumOfTimesOrdered(p.getNumOfTimesOrdered()+1);
-            if (p.getStockNo() != 0) {
-                p.setStockNo(p.getStockNo() - items.getQuantity());
-            } else {
-                p.setInStock("N");
-            }
-
-            if (p.getStockNo() == 0) {
-                p.setInStock("N");
-            }
+//            if (p.getProductItem().getStockNo() != 0) {
+//                p.getProductItem().setStockNo(p.getProductItem().getStockNo() - items.getQuantity());
+//            } else {
+//                p.getProductItem().setInStock("N");
+//            }
+//
+//            if (p.getProductItem().getStockNo() == 0) {
+//                p.getProductItem().setInStock("N");
+//            }
 
             productRepository.save(p);
             DesignerOrderDTO dto= new DesignerOrderDTO();

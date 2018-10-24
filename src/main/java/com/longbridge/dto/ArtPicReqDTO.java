@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class ArtPicReqDTO {
    public Long productId;
+    public Long bespokeProductId;
     public List<ArtPictureDTO> artWorkPicture;
 
     public ArtPicReqDTO() {

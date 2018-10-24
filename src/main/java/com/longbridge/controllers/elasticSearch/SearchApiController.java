@@ -1,45 +1,20 @@
 package com.longbridge.controllers.elasticSearch;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.longbridge.Util.GeneralUtil;
-import com.longbridge.Util.SearchUtilities;
 import com.longbridge.dto.PageableDetailsDTO;
 import com.longbridge.dto.elasticSearch.ProductSearchDTO;
-import com.longbridge.models.Products;
-import com.longbridge.models.Response;
 import com.longbridge.models.elasticSearch.ApiResponse;
-import com.longbridge.models.elasticSearch.Bool;
-import com.longbridge.models.elasticSearch.Query;
-import com.longbridge.models.elasticSearch.Range;
-import com.longbridge.models.elasticSearch.SearchQueryRequest;
 import com.longbridge.models.elasticSearch.SearchRequest;
-import com.longbridge.models.elasticSearch.Should;
-import com.longbridge.models.elasticSearch.TermFilter;
-import com.longbridge.models.elasticSearch.WildCard;
-import com.longbridge.repository.ProductAttributeRepository;
-import com.longbridge.repository.ProductPictureRepository;
-import com.longbridge.repository.ProductRepository;
-import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.services.elasticSearch.ElasticSearchService;
-import com.longbridge.services.elasticSearch.RemotePostGet;
-import com.longbridge.services.elasticSearch.RemoteWebServiceException;
 import com.longbridge.services.elasticSearch.RemoteWebServiceLogger;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
-import org.apache.commons.lang3.math.NumberUtils;
+
 import org.apache.log4j.Level;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;

@@ -29,7 +29,7 @@ public class ProductRating extends CommonFields implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    private Products products;
+    private Product product;
 
 
     public ProductRating() {
@@ -91,12 +91,12 @@ public class ProductRating extends CommonFields implements Serializable {
         this.verifiedFlag = verifiedFlag;
     }
 
-    public Products getProducts() {
-        return products;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProducts(Products products) {
-        this.products = products;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public ProductRating(User user, int deliveryTimeRating, int productQualityRating, int serviceRating, String subject, String review) {

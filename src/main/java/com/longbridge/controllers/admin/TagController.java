@@ -7,6 +7,7 @@ import com.longbridge.dto.PicTagDTO;
 import com.longbridge.dto.PictureTagDTO;
 import com.longbridge.models.Response;
 import com.longbridge.respbodydto.ProductRespDTO;
+import com.longbridge.services.ProductPictureService;
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,9 @@ import java.util.List;
 public class TagController {
     @Autowired
     ProductService productService;
+    
+    @Autowired
+    ProductPictureService productPictureService;
 
 
     @PostMapping(value = "/gettagproducts")
@@ -34,7 +38,7 @@ public class TagController {
 
     @PostMapping(value = "/addTag")
     public Response addTag(@RequestBody PictureTagDTO pictureTagDTO){
-        productService.addPictureTag(pictureTagDTO);
+        productPictureService.addPictureTag(pictureTagDTO);
         return new Response("00","Operation Successful","success");
 
 
@@ -42,49 +46,49 @@ public class TagController {
 
     @GetMapping(value = "/{id}/deletetag")
     public Response deleteTag(@PathVariable Long id){
-        productService.deletePictureTag(id);
+        productPictureService.deletePictureTag(id);
         return new Response("00","Operation Successful","success");
 
     }
 
     @GetMapping(value = "/{id}/gettag")
     public Response getTag(@PathVariable Long id){
-        return new Response("00","Operation Successful",productService.getPictureTagById(id));
+        return new Response("00","Operation Successful",productPictureService.getPictureTagById(id));
 
     }
 
 
     @GetMapping(value = "/{eventPictureId}/gettags")
     public Object getTags(@PathVariable Long eventPictureId){
-        PictureTagDTO pictureTags=productService.getPictureTags(eventPictureId);
+        PictureTagDTO pictureTags=productPictureService.getPictureTags(eventPictureId);
         return new Response("00","Operation Successful",pictureTags);
     }
 
 
     @PostMapping(value = "/getuntagged")
     public Response getUntaggedPictures(@RequestBody PageableDetailsDTO pageableDetailsDTO){
-        List<EventPicturesDTO> eventpictures = productService.getUntaggedPictures(pageableDetailsDTO);
+        List<EventPicturesDTO> eventpictures = productPictureService.getUntaggedPictures(pageableDetailsDTO);
         return new Response("00", "Operation Successful", eventpictures);
 
     }
 
     @PostMapping(value = "/gettagged")
     public Response getTaggedPictures(@RequestBody PageableDetailsDTO pageableDetailsDTO){
-        List<EventPicturesDTO> eventpictures = productService.getTaggedPictures(pageableDetailsDTO);
+        List<EventPicturesDTO> eventpictures = productPictureService.getTaggedPictures(pageableDetailsDTO);
         return new Response("00", "Operation Successful", eventpictures);
 
     }
 
     @GetMapping(value = "/{eventid}/getuntagged")
     public Response getUntaggedPicturesByEvent(@PathVariable Long eventid){
-        List<EventPicturesDTO> eventpictures = productService.getUntaggedPicturesByEvents(eventid);
+        List<EventPicturesDTO> eventpictures = productPictureService.getUntaggedPicturesByEvents(eventid);
         return new Response("00", "Operation Successful", eventpictures);
     }
 
 
     @GetMapping(value = "/{eventid}/gettagged")
     public Response getTaggedPicturesByEvent(@PathVariable Long eventid){
-        List<EventPicturesDTO> eventpictures = productService.getTaggedPicturesByEvents(eventid);
+        List<EventPicturesDTO> eventpictures = productPictureService.getTaggedPicturesByEvents(eventid);
         return new Response("00", "Operation Successful", eventpictures);
     }
 

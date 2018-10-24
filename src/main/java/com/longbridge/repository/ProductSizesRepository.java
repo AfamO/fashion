@@ -1,8 +1,7 @@
 package com.longbridge.repository;
 
-import com.longbridge.models.ProductAttribute;
+import com.longbridge.models.ProductColorStyle;
 import com.longbridge.models.ProductSizes;
-import com.longbridge.models.Products;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +12,6 @@ import java.util.List;
  */
 @Repository
 public interface ProductSizesRepository extends JpaRepository<ProductSizes,Long>{
-    ProductSizes findByProductAttributeAndName(ProductAttribute productAttribute, String size);
-    List<ProductSizes> findByProductAttribute(ProductAttribute productAttribute);
+    ProductSizes findByProductColorStyleAndName(ProductColorStyle productAttribute, String size);
+    List<ProductSizes> findByProductColorStyle(ProductColorStyle productAttribute);
 }

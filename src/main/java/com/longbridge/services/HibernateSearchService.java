@@ -1,7 +1,6 @@
 package com.longbridge.services;
 import com.longbridge.Util.GeneralUtil;
-import com.longbridge.models.Designer;
-import com.longbridge.models.Products;
+import com.longbridge.models.Product;
 import com.longbridge.models.SubCategory;
 import com.longbridge.repository.SubCategoryRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
@@ -107,7 +106,7 @@ import java.util.List;
         Query luceneQuery = null;
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
-        QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Products.class).get();
+        QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Product.class).get();
         if(subCategory.size() > 0){
            luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(2).onFields("subCategory.subCategory")
                     .matching(searchTerm).createQuery();
@@ -117,7 +116,7 @@ import java.util.List;
                     .matching(searchTerm).createQuery();
         }
 
-        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Products.class);
+        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Product.class);
 
         // execute search
 
@@ -141,11 +140,11 @@ import java.util.List;
     public List<ProductRespDTO> designerProductsFuzzySearch(String searchTerm) {
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
-        QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Products.class).get();
+        QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Product.class).get();
         Query luceneQuery = qb.keyword().fuzzy().withEditDistanceUpTo(2).withPrefixLength(1).onFields("name")
                 .matching(searchTerm).createQuery();
 
-        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Products.class);
+        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Product.class);
 
         // execute search
 

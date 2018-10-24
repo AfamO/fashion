@@ -47,7 +47,7 @@ public class ItemsUtil {
 
 
     @Autowired
-    ProductAttributeRepository productAttributeRepository;
+    ProductColorStyleRepository productColorStyleRepository;
 
 
 
@@ -84,13 +84,13 @@ public class ItemsUtil {
         Address deliveryAddress = addressRepository.findOne(orderReqDTO.getDeliveryAddressId());
         Double totalAmount = 0.0;
         for (Items items : orderReqDTO.getItems()) {
-            Products p = productRepository.findOne(items.getProductId());
+            Product p = productRepository.findOne(items.getProductId());
 
             Double amount;
-            if (p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0) {
-                amount = p.getAmount() - p.getPriceSlash().getSlashedPrice();
+            if (p.getProductPrice().getPriceSlash() != null && p.getProductPrice().getPriceSlash().getSlashedPrice() > 0) {
+                amount = p.getProductPrice().getAmount() - p.getProductPrice().getPriceSlash().getSlashedPrice();
             } else {
-                amount = p.getAmount();
+                amount = p.getProductPrice().getAmount();
             }
 
             Double itemsAmount = amount * items.getQuantity();
@@ -105,10 +105,10 @@ public class ItemsUtil {
     public void updateStockForDesignerDecline(Items items) {
         try {
             if (items.getProductAttributeId() != null) {
-                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductAttributeId());
 
                 if (itemAttribute != null) {
-                    ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                    ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());
                     if (items.getMeasurementId() == null) {
                         sizes.setNumberInStock(sizes.getNumberInStock() + items.getQuantity());
                         productSizesRepository.save(sizes);

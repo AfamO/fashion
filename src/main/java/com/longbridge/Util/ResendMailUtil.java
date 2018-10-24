@@ -4,14 +4,8 @@ package com.longbridge.Util;
 import com.longbridge.dto.DesignerOrderDTO;
 import com.longbridge.dto.ItemsDTO;
 import com.longbridge.exception.AppException;
-import com.longbridge.models.MailError;
-import com.longbridge.models.ProductNotification;
-import com.longbridge.models.Products;
-import com.longbridge.models.User;
-import com.longbridge.repository.DesignerRepository;
-import com.longbridge.repository.MailErrorRepository;
-import com.longbridge.repository.ProductNotificationRepository;
-import com.longbridge.repository.ProductRepository;
+import com.longbridge.models.*;
+import com.longbridge.repository.*;
 import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +52,9 @@ public class ResendMailUtil {
 
     @Autowired
     DesignerRepository designerRepository;
+
+    @Autowired
+    ProductColorStyleRepository productColorStyleRepository;
 
 
     @Scheduled(cron = "${wawooh.status.check.rate}")
@@ -212,10 +209,11 @@ public class ResendMailUtil {
     private String notifyMe(){
         List<ProductNotification> productNotifications=productNotificationRepository.findAll();
         for (ProductNotification p:productNotifications) {
-            Products products = productRepository.findOne(p.getProductId());
-            if(products.getStockNo() >0){
+            ProductColorStyle productColorStyle = productColorStyleRepository.findOne(p.getProductColorStyleId());
+
+            if(productColorStyle.getStockNo() >0){
                 Context context = new Context();
-                context.setVariable("productName", products.getName());
+                context.setVariable("productName", productColorStyle.getProduct().getName());
                 String mail = p.getEmail();
                 String message = templateEngine.process("notifymetemplate", context);
                 String subject = messageSource.getMessage("notifyme.subject",null,locale);

@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class AdminProductController {
     @Autowired
     ProductService productService;
-
-     @Value("${search.url}")
-    private String elastic_host_api_url; //host_api_url for elastic search
 
     @PostMapping(value = "/getproducts")
     public Object getProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
@@ -61,7 +57,7 @@ public class AdminProductController {
     @GetMapping(value = "/{id}/verifyproduct/{flag}")
     public Object updateProductStatus(@PathVariable Long id, @PathVariable String flag){
         Map<String,Object> responseMap = new HashMap();
-        productService.updateProductStatus(id,flag,elastic_host_api_url);
+        productService.updateProductStatus(id,flag);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
     }

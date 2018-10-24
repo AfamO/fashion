@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
     ShippingUtil shippingUtil;
 
     @Autowired
-    ProductAttributeRepository productAttributeRepository;
+    ProductColorStyleRepository productColorStyleRepository;
 
     @Autowired
     DesignerRepository designerRepository;
@@ -116,10 +116,10 @@ public class OrderServiceImpl implements OrderService {
 
             for (Items items: orderReq.getItems()) {
                 if(items.getProductAttributeId() != null){
-                    ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                    ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductAttributeId());
 
                     if(itemAttribute != null){
-                        ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                        ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());
                         if(items.getMeasurementId() == null){
                             if(sizes.getNumberInStock() < items.getQuantity()){
                                 orderRespDTO.setStatus("false");
@@ -204,9 +204,9 @@ public class OrderServiceImpl implements OrderService {
 
             for (Items items: orderReq.getItems()) {
                 if(items.getProductAttributeId() != null){
-                    ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                    ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductAttributeId());
                     if(itemAttribute != null){
-                        ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                        ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());
                         if(items.getMeasurementId() == null){
                             sizes.setNumberInStock(sizes.getNumberInStock() - items.getQuantity());
                             productSizes.add(sizes);
@@ -265,7 +265,7 @@ public class OrderServiceImpl implements OrderService {
         List<String> designerCities = new ArrayList<>();
 
         for (Items items: orderReq.getItems()) {
-            Products p = productRepository.findOne(items.getProductId());
+            Product p = productRepository.findOne(items.getProductId());
             if(items.getMeasurementId() != null) {
                 Measurement measurement = measurementRepository.findOne(items.getMeasurementId());
                 try {
@@ -284,14 +284,14 @@ public class OrderServiceImpl implements OrderService {
                 items.setMaterialPicture(materialPictureRepository.findOne(items.getMaterialPictureId()).getPictureName());
             }
 
-            ProductAttribute productAttribute=productAttributeRepository.findOne(items.getProductAttributeId());
-            items.setProductPicture(productPictureRepository.findFirst1ByProductAttribute(productAttribute).getPictureName());
+            ProductColorStyle productColorStyle =productColorStyleRepository.findOne(items.getProductAttributeId());
+            items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle(productColorStyle).getPictureName());
 
             Double amount;
-            if(p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0){
-                amount = p.getPriceSlash().getSlashedPrice();
+            if(p.getProductPrice().getPriceSlash() != null && p.getProductPrice().getPriceSlash().getSlashedPrice() > 0){
+                amount = p.getProductPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount = p.getAmount();
+                amount = p.getProductPrice().getAmount();
             }
             Double itemsAmount = amount*items.getQuantity();
 
@@ -319,18 +319,18 @@ public class OrderServiceImpl implements OrderService {
             itemRepository.save(items);
             p.setNumOfTimesOrdered(p.getNumOfTimesOrdered()+1);
             if(items.getMeasurement() == null) {
-                if (p.getStockNo() != 0) {
-                    p.setStockNo(p.getStockNo() - items.getQuantity());
+                if (productColorStyle.getStockNo() != 0) {
+                    productColorStyle.setStockNo(productColorStyle.getStockNo() - items.getQuantity());
                    // ProductSizes productSizes = productSizesRepository.findByProductsAndName(p, items.getSize());
                     //productSizes.setStockNo(productSizes.getStockNo() - items.getQuantity());
                     //productSizesRepository.save(productSizes);
 
                 } else {
-                    p.setInStock("N");
+                    productColorStyle.setInStock("N");
                 }
 
-                if (p.getStockNo() == 0) {
-                    p.setInStock("N");
+                if (productColorStyle.getStockNo() == 0) {
+                    productColorStyle.setInStock("N");
                 }
             }
             productRepository.save(p);
@@ -449,12 +449,12 @@ public class OrderServiceImpl implements OrderService {
             }else if(cart.getMaterialPickUpAddressId() != null){
             cart.setMaterialLocation(addressRepository.findOne(cart.getMaterialPickUpAddressId()));
             }
-            Products products = productRepository.findOne(cart.getProductId());
+            Product product = productRepository.findOne(cart.getProductId());
             Double amount;
-            if(products.getPriceSlash() != null && products.getPriceSlash().getSlashedPrice()>0){
-                amount=products.getAmount()-products.getPriceSlash().getSlashedPrice();
+            if(product.getProductPrice().getPriceSlash() != null && product.getProductPrice().getPriceSlash().getSlashedPrice()>0){
+                amount= product.getProductPrice().getAmount()- product.getProductPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount=products.getAmount();
+                amount= product.getProductPrice().getAmount();
             }
 
             cart.setAmount(amount*cart.getQuantity());
@@ -479,11 +479,11 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
             Cart cartTemp = cartRepository.findOne(cart.id);
             double amount;
-            Products products = productRepository.findOne(cartTemp.getProductId());
-            if(products.getPriceSlash() != null && products.getPriceSlash().getSlashedPrice()>0){
-                amount = products.getPriceSlash().getSlashedPrice();
+            Product product = productRepository.findOne(cartTemp.getProductId());
+            if(product.getProductPrice().getPriceSlash() != null && product.getProductPrice().getPriceSlash().getSlashedPrice()>0){
+                amount = product.getProductPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount = products.getAmount();
+                amount = product.getProductPrice().getAmount();
             }
 
             int qty = cart.getQuantity();
@@ -661,10 +661,10 @@ public class OrderServiceImpl implements OrderService {
 
         for (Items items: item) {
             if(items.getProductAttributeId() != null){
-                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductAttributeId());
 
                 if(itemAttribute != null){
-                    ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                    ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());
                     if(items.getMeasurementId() == null){
                         if(sizes.getNumberInStock() < items.getQuantity()){
                             status = "false";

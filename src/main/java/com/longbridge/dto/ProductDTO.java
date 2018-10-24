@@ -1,7 +1,5 @@
 package com.longbridge.dto;
 
-import com.longbridge.models.*;
-
 import javax.persistence.Lob;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +20,6 @@ public class ProductDTO {
 
     public String prodSummary;
 
-//    public ArrayList<String> color;
-
 
     public String styleId;
     public String subCategoryId;
@@ -37,23 +33,13 @@ public class ProductDTO {
 
     public ArrayList<String> picture;
 
-    public ArrayList<String> artWorkPicture;
-
-    public ArrayList<MaterialPictureDTO> materialPicture;
-
-    public Double materialPrice;
-
-    public String materialName;
-
-    public int stockNo;
-
-    public String inStock;
+    public BespokeProductDTO bespokeProductDTO;
 
     public String availability;
 
    // public List<ProductSizes> productSizes;
 
-    public List<ProductAttributeDTO> productAttributes;
+    public List<ProductColorStyleDTO> productColorStyleDTOS;
 
     public String acceptCustomSizes;
 

@@ -4,14 +4,10 @@ import com.longbridge.dto.InspireMeDTO;
 import com.longbridge.dto.OutfitRequestDTO;
 import com.longbridge.models.Code;
 import com.longbridge.models.InspireMe;
-import com.longbridge.models.InspireMeProduct;
-import com.longbridge.models.ProductAttribute;
 import com.longbridge.repository.CodeRepository;
-import com.longbridge.repository.InspireMeProductRepository;
 import com.longbridge.repository.InspireMeRepository;
-import com.longbridge.repository.ProductAttributeRepository;
+import com.longbridge.repository.ProductColorStyleRepository;
 import com.longbridge.services.InspireMeService;
-import org.apache.lucene.util.LongValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +29,7 @@ public class InspireMeServiceImpl implements InspireMeService {
     InspireMeProductRepository inspireMeProductRepository;*/
 
     @Autowired
-    ProductAttributeRepository productAttributeRepository;
+    ProductColorStyleRepository productColorStyleRepository;
 
     @Override
     public List<Code> findEventsByGender(String gender) {
@@ -151,7 +147,7 @@ public class InspireMeServiceImpl implements InspireMeService {
             }
         }*/
 
-        //inspireMeDTO.setProducts(clotheProducts);
+        //inspireMeDTO.setProduct(clotheProducts);
         //inspireMeDTO.setAccessories(accessoriesProducts);
 
         return inspireMeDTO;

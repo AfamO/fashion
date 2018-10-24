@@ -42,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
     public AdminDashBoardDTO getDashboardData() {
         try {
             AdminDashBoardDTO adminDashBoardDTO = new AdminDashBoardDTO();
-            Long totalProducts = productRepository.countByVerifiedFlag("Y");
+            Long totalProducts = productRepository.countByProductStatuses_VerifiedFlag("Y");
             Long totalOrders = (long) orderRepository.findAll().size();
             List<Designer> designers = designerRepository.findTop10ByOrderByCreatedOnDesc();
             List<Orders> orders = orderRepository.findByDeliveryStatusNot("NV");

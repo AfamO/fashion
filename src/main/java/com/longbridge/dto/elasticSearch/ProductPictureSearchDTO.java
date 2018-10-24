@@ -1,11 +1,5 @@
 package com.longbridge.dto.elasticSearch;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.longbridge.models.ProductAttribute;
-import com.longbridge.models.ProductPicture;
-import com.longbridge.models.Products;
-
-import javax.persistence.ManyToOne;
 import java.util.Date;
 import java.util.List;
 

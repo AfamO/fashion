@@ -6,11 +6,10 @@ import com.longbridge.dto.ItemsDTO;
 import com.longbridge.exception.AppException;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.Orders;
-import com.longbridge.models.Products;
+import com.longbridge.models.Product;
 import com.longbridge.models.User;
 import com.longbridge.repository.DesignerRepository;
 import com.longbridge.repository.ItemRepository;
-import com.longbridge.repository.OrderRepository;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -354,20 +353,20 @@ public class SendEmailAsync {
         try {
             System.out.println("Execute method asynchronously - "
                     + Thread.currentThread().getName());
-            Products products = productRepository.findOne((itemRepository.findOne(itemsDTO.getId())).getProductId());
-            User user = products.getDesigner().getUser();
+            Product product = productRepository.findOne((itemRepository.findOne(itemsDTO.getId())).getProductId());
+            User user = product.getDesigner().getUser();
             try {
                 String mail = user.getEmail();
                 Context context = new Context();
                 context.setVariable("name", user.getFirstName() + " "+ user.getLastName());
-                context.setVariable("productName",products.getName());
+                context.setVariable("productName", product.getName());
                 context.setVariable("failedInspectionReason",itemsDTO.getAction());
                 String message = templateEngine.process("failedinspfordesigner", context);
                 mailService.prepareAndSend(message,mail,messageSource.getMessage("order.failedinspection.subject", null, locale));
 
             }catch (MailException me){
                 me.printStackTrace();
-                throw new AppException(user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("order.failedinspection.subject", null, locale),products.getName());
+                throw new AppException(user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("order.failedinspection.subject", null, locale), product.getName());
 
             }
         } catch (Exception e) {

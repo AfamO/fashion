@@ -1,11 +1,8 @@
 package com.longbridge.respbodydto;
 
 import com.longbridge.dto.*;
-import com.longbridge.models.ProductAttribute;
 import com.longbridge.models.ProductRating;
-import com.longbridge.models.ProductSizes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +22,7 @@ public class ProductRespDTO {
     public String prodSummary;
 
    // public ArrayList<String> color;
-   public List<ProductAttributeDTO> productAttributeDTOS;
+   public List<ProductColorStyleDTO> productColorStyleDTOS;
     //public ArrayList<String> sizes;
    // public List<ProductSizes> productSizes;
     public String styleId;
