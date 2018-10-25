@@ -51,6 +51,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
             promoCode.setExpiryDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(promoCodeDTO.getExpiryDate()));
             promoCode.setValueType(promoCodeDTO.getValueType());
             promoCode.setIsUsedStatus("N");
+            promoCode.setNumberOfUsage(promoCodeDTO.getNumberOfUsage());
             promoCode.setCreatedOn(new Date());
 
             promoCode.setPromoItems(promoCodeDTO.getPromoItems());

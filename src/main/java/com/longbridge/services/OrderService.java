@@ -25,6 +25,7 @@ public interface OrderService {
     void deleteCart(Long id);
     void emptyCart();
     UserCartDTO getCarts();
+    String getPromoCodeErrorMessage();
 
 
 

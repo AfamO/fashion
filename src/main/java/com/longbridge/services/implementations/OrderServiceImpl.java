@@ -96,6 +96,14 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     DesignerRepository designerRepository;
 
+    @Autowired
+    PromoCodeRepository promoCodeRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+    
+    private String promoCodeErrorMessage="Operation Successful";;
+
 
     @Transactional
     @Override
@@ -428,6 +436,10 @@ public class OrderServiceImpl implements OrderService {
             throw new WawoohException();
         }
     }
+    @Override
+    public String getPromoCodeErrorMessage(){
+        return this.promoCodeErrorMessage;
+    }
 
     @Override
     public String addToCart(Cart cart) {
@@ -451,6 +463,112 @@ public class OrderServiceImpl implements OrderService {
                 amount=products.getAmount()-products.getPriceSlash().getSlashedPrice();
             }else {
                 amount=products.getAmount();
+            }
+            System.out.println("The Initial Amount Is::"+amount);
+            // Apply PromoCode Here if any
+            if(cart.getPromoCode()!=null){
+                //Since this item has a promo Code, we check for it before applying it.
+                PromoCode promoCode=promoCodeRepository.findByCode(cart.getPromoCode());
+                //Does it exist in the DB?
+                if(promoCode!=null){
+                    //Has the promoCode expired?
+                    if(promoCode.getExpiryDate().after(new Date())){
+                        //Has the PromoCode been used
+                        if(promoCode.getNumberOfUsage().equalsIgnoreCase("single") && promoCode.getIsUsedStatus().equalsIgnoreCase("N")){
+
+                            //Find out if this product has a promo code assigned to it.
+                            for(PromoItem promoItem:promoCode.getPromoItems()){
+
+                                System.out.println("The Size Of the PromoCode Items Is::"+promoCode.getPromoItems().size());
+                                System.out.println("ItemType=="+promoItem.getItemType()+", ItemId=="+promoItem.getItemId()+" While ProductId=="+products.id);
+                                if(promoItem.getItemType().equalsIgnoreCase("p") && promoItem.getItemId()==products.id){
+                                    Double promoValue=Double.parseDouble(promoCode.getValue());
+                                    // Is it percentage discount(pd)
+                                    if(promoCode.getValueType().equalsIgnoreCase("pd")){
+                                        //multiply
+                                        amount= amount- (amount*(promoValue)/100);
+                                        break;
+                                    }
+                                    //Is it normal monetary value discount(vd)
+                                    else if(promoCode.getValueType().equalsIgnoreCase("vd")){
+                                        //multiply
+                                        amount-= promoValue;
+                                        break;
+                                    }
+                                    //It must be free shipping.
+                                    else {
+                                        // Apply free shipping discount here.
+                                        break;
+
+                                    }
+                                    /**
+                                     * Yet to be implemented later.
+                                    if(promoCode.getNumberOfUsage().equalsIgnoreCase("Y")){
+                                        promoCode.setIsUsedStatus("Y");
+                                        promoCodeRepository.save(promoCode);
+                                    }
+                                     **/
+                                }
+                                // Is this promoCode applied to a category instead of to a product?
+                                else if(promoItem.getItemType().equalsIgnoreCase("c")){
+                                    Category category= categoryRepository.findOne(promoItem.getItemId());
+                                    if(category!=null){
+                                        //look for the sub category
+                                        for(SubCategory subCategory: category.subCategories){
+                                            promoCodeErrorMessage=null;
+                                            //Does the product belong to the subcategory of this category?
+                                            if(subCategory.id==products.getSubCategory().id){
+                                                //Then apply the promocode discount
+                                                Double promoValue=Double.parseDouble(promoCode.getValue());
+                                                // Is it percentage discount(pd)
+                                                if(promoCode.getValueType().equalsIgnoreCase("pd")){
+                                                    //multiply
+                                                    amount= amount- (amount*(promoValue/100));
+                                                    break;
+                                                }
+                                                //Is it normal monetary value discount(vd)
+                                                else if(promoCode.getValueType().equalsIgnoreCase("vd")){
+                                                    //multiply
+                                                    amount-= promoValue;
+                                                    break;
+                                                }
+                                                //It must be free shipping.
+                                                else {
+                                                    // Apply free shipping discount here.
+                                                    break;
+
+                                                }
+
+                                            }
+                                            else {
+                                                promoCodeErrorMessage= "OOOps! The PromoCode You entered is not applicable to this item.";
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        promoCodeErrorMessage= "OOOps! The item category for this PromoCode can't be found .";
+                                    }
+                                }
+                                else {
+                                    promoCodeErrorMessage= "OOOps! The PromoCode You entered is not applicable to this item.";
+                                }
+                            }
+                        }
+                        else {
+                            promoCodeErrorMessage= "OOOps! This PromoCode has already been used.";
+                        }
+
+                    }
+                    else {
+                        promoCodeErrorMessage= "OOOps! The PromoCode You entered has expired!";
+                    }
+
+                }
+                else {
+                    promoCodeErrorMessage= "OOOps! The PromoCode You entered does not exist.";
+                }
+                System.out.println("The Amount After Applying PromoCode Is::"+amount);
             }
 
             cart.setAmount(amount*cart.getQuantity());

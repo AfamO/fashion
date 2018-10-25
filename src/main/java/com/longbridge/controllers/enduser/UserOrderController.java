@@ -106,7 +106,8 @@ public class UserOrderController {
 
     @PostMapping(value = "/addtocart")
     public Response addToCart(@RequestBody Cart cart){
-        return new Response("00","Operation Successful",orderService.addToCart(cart));
+
+        return new Response("00",orderService.getPromoCodeErrorMessage(),orderService.addToCart(cart));
     }
 
     //todo later

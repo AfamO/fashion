@@ -780,6 +780,7 @@ public class GeneralUtil {
             promoCodeDTO.setValueType(promoCode.getValueType());
             promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
             promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
+            promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
             promoCodeDTOLists.add(promoCodeDTO);
         }
         return promoCodeDTOLists;
@@ -802,6 +803,7 @@ public class GeneralUtil {
         promoCodeDTO.setValueType(promoCode.getValueType());
         promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
         promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
+        promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
 
 
         return promoCodeDTO;

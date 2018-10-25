@@ -20,7 +20,7 @@ public interface PromoCodeRepository extends JpaRepository<PromoCode,Long> {
 
     List<PromoCode> findByIsUsedStatusNot(String status);
 
-    List<PromoCode> findByCode(String code);
+    PromoCode findByCode(String code);
 
     List<PromoCode> findByExpiryDate(String expiryDate);
 

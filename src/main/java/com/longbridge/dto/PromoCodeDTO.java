@@ -12,7 +12,9 @@ public class PromoCodeDTO {
 
     private String expiryDate;
 
-    private String valueType="discount";
+    private String valueType="pd";
+
+    private String numberOfUsage="multiple"; // It can also be 'single'
 
     public String getValueType() {
         return valueType;
@@ -77,4 +79,11 @@ public class PromoCodeDTO {
         this.expiryDate = expiryDate;
     }
 
+    public String getNumberOfUsage() {
+        return numberOfUsage;
+    }
+
+    public void setNumberOfUsage(String numberOfUsage) {
+        this.numberOfUsage = numberOfUsage;
+    }
 }
