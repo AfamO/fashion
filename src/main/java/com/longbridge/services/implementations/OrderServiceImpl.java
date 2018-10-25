@@ -474,7 +474,7 @@ public class OrderServiceImpl implements OrderService {
                     //Has the promoCode expired?
                     if(promoCode.getExpiryDate().after(new Date())){
                         //Has the PromoCode been used
-                        if(promoCode.getNumberOfUsage().equalsIgnoreCase("single") && promoCode.getIsUsedStatus().equalsIgnoreCase("N")){
+                        if((promoCode.getNumberOfUsage().equalsIgnoreCase("single") ||promoCode.getNumberOfUsage().equalsIgnoreCase("multiple")) && promoCode.getIsUsedStatus().equalsIgnoreCase("N")){
 
                             //Find out if this product has a promo code assigned to it.
                             for(PromoItem promoItem:promoCode.getPromoItems()){
@@ -518,6 +518,7 @@ public class OrderServiceImpl implements OrderService {
                                             promoCodeErrorMessage=null;
                                             //Does the product belong to the subcategory of this category?
                                             if(subCategory.id==products.getSubCategory().id){
+                                                System.out.println("Product Subcategory is same as PromoCode Item SubCategory ");
                                                 //Then apply the promocode discount
                                                 Double promoValue=Double.parseDouble(promoCode.getValue());
                                                 // Is it percentage discount(pd)
