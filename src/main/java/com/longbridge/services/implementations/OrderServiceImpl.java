@@ -102,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     CategoryRepository categoryRepository;
     
-    private String promoCodeErrorMessage="Operation Successful";;
+    private String promoCodeAddToCartStatusMessage="Operation Successful";;
 
 
     @Transactional
@@ -437,12 +437,16 @@ public class OrderServiceImpl implements OrderService {
         }
     }
     @Override
-    public String getPromoCodeErrorMessage(){
-        return this.promoCodeErrorMessage;
+    public String getPromoCodeAddToCartStatusMessage(){
+        return this.promoCodeAddToCartStatusMessage;
+    }
+    @Override
+   public void setPromoCodeAddToCartStatusMessage(String promoCodeAddToCartStatusMessage){
+           this.promoCodeAddToCartStatusMessage=promoCodeAddToCartStatusMessage;
     }
 
     @Override
-    public String addToCart(Cart cart) {
+    public String[] addToCart(Cart cart) {
         try{
             User user = getCurrentUser();
             Date date = new Date();
@@ -515,7 +519,7 @@ public class OrderServiceImpl implements OrderService {
                                     if(category!=null){
                                         //look for the sub category
                                         for(SubCategory subCategory: category.subCategories){
-                                            promoCodeErrorMessage=null;
+                                            promoCodeAddToCartStatusMessage=null;
                                             //Does the product belong to the subcategory of this category?
                                             if(subCategory.id==products.getSubCategory().id){
                                                 System.out.println("Product Subcategory is same as PromoCode Item SubCategory ");
@@ -542,32 +546,32 @@ public class OrderServiceImpl implements OrderService {
 
                                             }
                                             else {
-                                                promoCodeErrorMessage= "OOOps! The PromoCode You entered is not applicable to this item.";
+                                                promoCodeAddToCartStatusMessage= "OOOps! The PromoCode You entered is not applicable to this item.";
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        promoCodeErrorMessage= "OOOps! The item category for this PromoCode can't be found .";
+                                        promoCodeAddToCartStatusMessage= "OOOps! The item category for this PromoCode can't be found .";
                                     }
                                 }
                                 else {
-                                    promoCodeErrorMessage= "OOOps! The PromoCode You entered is not applicable to this item.";
+                                    promoCodeAddToCartStatusMessage= "OOOps! The PromoCode You entered is not applicable to this item.";
                                 }
                             }
                         }
                         else {
-                            promoCodeErrorMessage= "OOOps! This PromoCode has already been used.";
+                            promoCodeAddToCartStatusMessage= "OOOps! This PromoCode has already been used.";
                         }
 
                     }
                     else {
-                        promoCodeErrorMessage= "OOOps! The PromoCode You entered has expired!";
+                        promoCodeAddToCartStatusMessage= "OOOps! The PromoCode You entered has expired!";
                     }
 
                 }
                 else {
-                    promoCodeErrorMessage= "OOOps! The PromoCode You entered does not exist.";
+                    promoCodeAddToCartStatusMessage= "OOOps! The PromoCode You entered does not exist.";
                 }
                 System.out.println("The Amount After Applying PromoCode Is::"+amount);
             }
@@ -580,7 +584,7 @@ public class OrderServiceImpl implements OrderService {
             cart.setUser(user);
             cartRepository.save(cart);
             String carts=cartRepository.countByUser(user).toString();
-            return carts;
+            return new String[]{promoCodeAddToCartStatusMessage,carts};
 
         }catch (Exception ex){
             ex.printStackTrace();
