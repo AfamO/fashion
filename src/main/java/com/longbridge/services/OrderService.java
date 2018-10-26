@@ -5,7 +5,6 @@ import com.longbridge.dto.*;
 import com.longbridge.models.*;
 import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
-import com.longbridge.respbodydto.OrderRespDTO;
 
 import java.util.List;
 
@@ -19,17 +18,12 @@ public interface OrderService {
     List<Orders> getOrdersByUser();
 
 
-    String [] addToCart(Cart cart);
+    String addToCart(Cart cart);
     String updateCart(Cart cart);
     String addItemsToCart(CartListDTO cart);
     void deleteCart(Long id);
     void emptyCart();
     UserCartDTO getCarts();
-    String getPromoCodeAddToCartStatusMessage();
-    void setPromoCodeAddToCartStatusMessage(String promoCodeAddToCartStatusMessage);
-
-
-
     void saveUserOrderDecision(ItemsDTO itemsDTO);
     void saveUserOrderComplain(ItemsDTO itemsDTO);
 

@@ -1,6 +1,7 @@
 package com.longbridge.services;
 
 import com.longbridge.dto.PageableDetailsDTO;
+import com.longbridge.dto.PromoCodeApplyReqDTO;
 import com.longbridge.dto.PromoCodeDTO;
 import com.longbridge.models.PromoCode;
 
@@ -15,6 +16,8 @@ public interface PromoCodeService {
     void  deletePromoCode(Long id);
 
     PromoCodeDTO getPromoCode(Long id);
+
+    Object[] applyPromoCode(PromoCodeApplyReqDTO promoCodeApplyReqDTO);
 
     List<PromoCodeDTO> getAllPromoCodes(PageableDetailsDTO pageableDetailsDTO);
 

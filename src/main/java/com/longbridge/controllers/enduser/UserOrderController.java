@@ -6,10 +6,7 @@ import com.longbridge.exception.AppException;
 import com.longbridge.models.*;
 import com.longbridge.repository.MailErrorRepository;
 import com.longbridge.respbodydto.OrderRespDTO;
-import com.longbridge.services.ItemStatusService;
-import com.longbridge.services.OrderService;
-import com.longbridge.services.PaymentService;
-import com.longbridge.services.ShippingPriceService;
+import com.longbridge.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -34,6 +31,9 @@ public class UserOrderController {
 
     @Autowired
     MailErrorRepository mailErrorRepository;
+
+    @Autowired
+    PromoCodeService promoCodeService;
 
 
     @PostMapping(value = "/addorder")
@@ -106,8 +106,7 @@ public class UserOrderController {
 
     @PostMapping(value = "/addtocart")
     public Response addToCart(@RequestBody Cart cart){
-        String results[]=orderService.addToCart(cart);// Returns both status message and actual data value.
-        return new Response("00",results[0],results[1]);
+        return new Response("00","Operation Successful",orderService.addToCart(cart));
     }
 
     //todo later
@@ -121,6 +120,12 @@ public class UserOrderController {
     public Response addCartToCart(@RequestBody CartListDTO cartListDTO){
         return new Response("00","Operation Successful",orderService.addItemsToCart(cartListDTO));
 
+    }
+
+    @PostMapping(value = "/applyPromoCode")
+    public Response addToCart(@RequestBody PromoCodeApplyReqDTO promoCodeApplyReqDTO){
+        Object [] response=promoCodeService.applyPromoCode(promoCodeApplyReqDTO);
+        return new Response("00",response[0].toString(),response[1]);
     }
 
     @GetMapping(value = "/getcart")
