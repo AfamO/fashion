@@ -106,7 +106,8 @@ public class UserOrderController {
 
     @PostMapping(value = "/addtocart")
     public Response addToCart(@RequestBody Cart cart){
-        return new Response("00","Operation Successful",orderService.addToCart(cart));
+        String results[]=orderService.addToCart(cart);// Returns both status message and actual data value.
+        return new Response("00",results[0],results[1]);
     }
 
     //todo later

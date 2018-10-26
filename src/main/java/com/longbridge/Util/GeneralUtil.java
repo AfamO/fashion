@@ -766,6 +766,54 @@ public class GeneralUtil {
         return customer;
     }
 
+    public List<PromoCodeDTO> convertPromoCodeListsToDTO(List<PromoCode> promoCodeList){
+
+        List<PromoCodeDTO> promoCodeDTOLists= new ArrayList<>();
+        for(PromoCode promoCode :promoCodeList){
+            PromoCodeDTO promoCodeDTO=new PromoCodeDTO();
+            promoCodeDTO.setCode(promoCode.getCode());
+            List<PromoItemDTO> promoItemDTOLists = new ArrayList<>();
+            for(PromoItem promoItem: promoCode.getPromoItems())
+            {
+                PromoItemDTO promoItemDTO =new PromoItemDTO();
+                promoItemDTO.setItemId(promoItem.getItemId());
+                promoItemDTO.setItemType(promoItem.getItemType());
+                promoItemDTOLists.add(promoItemDTO);
+            }
+            promoCodeDTO.setPromoItemsDTO(promoItemDTOLists);
+            promoCodeDTO.setValue(promoCode.getValue());
+            promoCodeDTO.setValueType(promoCode.getValueType());
+            promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
+            promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
+            promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
+            promoCodeDTOLists.add(promoCodeDTO);
+        }
+        return promoCodeDTOLists;
+    }
+
+    public PromoCodeDTO convertSinglePromoCodeToDTO(PromoCode promoCode){
+
+        PromoCodeDTO promoCodeDTO=new PromoCodeDTO();
+        promoCodeDTO.setCode(promoCode.getCode());
+        List<PromoItemDTO> promoItemDTOLists = new ArrayList<>();
+        for(PromoItem promoItem: promoCode.getPromoItems())
+        {
+            PromoItemDTO promoItemDTO =new PromoItemDTO();
+            promoItemDTO.setItemId(promoItem.getItemId());
+            promoItemDTO.setItemType(promoItem.getItemType());
+            promoItemDTOLists.add(promoItemDTO);
+        }
+        promoCodeDTO.setPromoItemsDTO(promoItemDTOLists);
+        promoCodeDTO.setValue(promoCode.getValue());
+        promoCodeDTO.setValueType(promoCode.getValueType());
+        promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
+        promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
+        promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
+
+
+        return promoCodeDTO;
+    }
+
 
 
 }

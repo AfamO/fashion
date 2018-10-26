@@ -19,12 +19,14 @@ public interface OrderService {
     List<Orders> getOrdersByUser();
 
 
-    String addToCart(Cart cart);
+    String [] addToCart(Cart cart);
     String updateCart(Cart cart);
     String addItemsToCart(CartListDTO cart);
     void deleteCart(Long id);
     void emptyCart();
     UserCartDTO getCarts();
+    String getPromoCodeAddToCartStatusMessage();
+    void setPromoCodeAddToCartStatusMessage(String promoCodeAddToCartStatusMessage);
 
 
 

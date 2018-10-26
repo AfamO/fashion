@@ -12,6 +12,7 @@
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/controllers/designer/SecureDesignerController.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/FashionApplication.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/implementations/DesignerOrderServiceImpl.java
+/Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/repository/PromoCodeRepository.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/TransferService.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/FeedBackReaction.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/MeasurementService.java
@@ -49,6 +50,7 @@
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/repository/OrderItemProcessingPictureRepository.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/security/controller/UserRestController.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/repository/LikeRepository.java
+/Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/dto/PromoItemDTO.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/Cart.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/dto/ProductAttributeDTO.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/respbodydto/ProductRespDTO.java
@@ -92,8 +94,10 @@
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/controllers/general/GeneralFeedBackController.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/ProductRating.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/ProductRatingService.java
+/Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/dto/PromoCodeDTO.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/Util/SMSAlertUtil.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/Designer.java
+/Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/implementations/PromoCodeServiceImpl.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/dto/ProductsWithRating.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/Refund.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/repository/MeasurementRepository.java
@@ -109,6 +113,7 @@
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/implementations/AnonymousOrderServiceImpl.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/exception/LinkExpiredException.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/exception/WriteFileException.java
+/Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/repository/PromoItemsRepository.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/SizeGuide.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/dto/UserEmailTokenDTO.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/implementations/CodeServiceImpl.java
@@ -131,6 +136,7 @@
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/security/controller/AuthenticationRestController.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/WishListService.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/implementations/OrderServiceImpl.java
+/Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/controllers/admin/AdminPromoCodeController.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/LocalZonePrice.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/Util/SendEmailAsync.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/implementations/PriceSlashServiceImpl.java
@@ -259,6 +265,7 @@
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/Util/UserUtil.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/controllers/enduser/WishListController.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/Util/GeneralUtil.java
+/Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/PromoItemsService.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/LocalShipping.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/config/WebSecurityConfig.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/dto/SubCategoryDTO.java
@@ -306,6 +313,7 @@
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/EmailAlertAttachment.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/Measurement.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/dto/MaterialPictureDTO.java
+/Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/PromoCodeService.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/dto/elasticSearch/ProductPictureSearchDTO.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/elasticSearch/Query.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/implementations/EventServiceImpl.java
@@ -333,6 +341,7 @@
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/services/implementations/AddressServiceImpl.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/CommonFields.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/controllers/admin/AdminEventController.java
+/Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/PromoItem.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/dto/PaymentDTO.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/controllers/enduser/RavePaymentController.java
 /Users/longbridge/IdeaProjects/wawoohapi/src/main/java/com/longbridge/models/Products.java
