@@ -11,7 +11,9 @@ public class ProductDTO {
     public double amount;
     public double percentageDiscount;
     public double slashedPrice;
+
     public String designerId;
+
     public String designerName;
 
     public String description;
@@ -19,15 +21,12 @@ public class ProductDTO {
     public String prodSummary;
 
     public Long styleId;
-    public String subCategoryId;
 
+    public String subCategoryId;
 
     public String categoryId;
 
-
     public int productType;
-
-
 
     public BespokeProductDTO bespokeProductDTO;
 

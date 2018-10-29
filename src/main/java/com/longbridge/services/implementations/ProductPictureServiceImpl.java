@@ -290,7 +290,7 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 
             Product product = productRepository.findOne(p.id);
 
-            List<ProductColorStyle> productColorStyles=productColorStyleRepository.findByProduct(product);
+            List<ProductColorStyle> productColorStyles=productColorStyleRepository.findByProductStyle(product.getProductStyle());
 
             if(productColorStyles.size()>0){
 
@@ -324,7 +324,6 @@ public class ProductPictureServiceImpl implements ProductPictureService{
                     productSizes.setName(pSizes.getName());
                     productSizes.setNumberInStock(pSizes.getNumberInStock());
                     productSizes.setProductColorStyle(productColorStyle);
-                    productSizes.setProductColorStyle(productColorStyle);
                     productSizesRepository.save(productSizes);
                 }
                 saveProductPicture(pa.getPicture(),date,product.getSubCategory().getSubCategory(),productColorStyle);
@@ -338,6 +337,7 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 
     private void saveProductPicture(List<String> pictures, Date date, String subCategory, ProductColorStyle productColorStyle) {
         for(String p:pictures){
+            System.out.println(pictures);
             ProductPicture productPicture = new ProductPicture();
             String  productPictureName= generalUtil.getPicsName("prodpic", subCategory);
             CloudinaryResponse c = cloudinaryService.uploadToCloud(p,productPictureName,"productpictures");

@@ -21,23 +21,17 @@ public class ProductRespDTO {
 
     public String prodSummary;
 
-   // public ArrayList<String> color;
+
    public List<ProductColorStyleDTO> productColorStyleDTOS;
-    //public ArrayList<String> sizes;
-   // public List<ProductSizes> productSizes;
+
+    public BespokeProductDTO bespokeProductDTO;
+
     public String styleId;
     public String subCategoryId;
     public String subCategoryName;
     public String categoryId;
     public String categoryName;
 
-//    public List<ProductPictureDTO> picture;
-
-    public List<ArtPictureDTO> artWorkPicture;
-
-    public List<MaterialPictureDTO> materialPicture;
-
-    public Double materialPrice;
 
 
     public List<ProductRating> reviews;
@@ -70,9 +64,6 @@ public class ProductRespDTO {
 
     public String wishListFlag;
 
-    public int numOfDaysToComplete;
-
-    public String mandatoryMeasurements;
 
     public int salesInQueue;
 

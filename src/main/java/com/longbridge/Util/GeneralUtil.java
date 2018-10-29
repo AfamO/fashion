@@ -334,18 +334,22 @@ public class GeneralUtil {
 //            }
 //        }
 
+
         if(product.getProductStyle().getBespokeProduct() != null) {
-            productDTO.numOfDaysToComplete=product.getProductStyle().getBespokeProduct().getNumOfDaysToComplete();
-            productDTO.mandatoryMeasurements= product.getProductStyle().getBespokeProduct().getMandatoryMeasurements();
+            BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
             if(product.getProductType() == 1) {
-                BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
+
                 bespokeProductDTO.setArtPictureDTOS(convertArtPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getArtWorkPicture()));
                 bespokeProductDTO.setMaterialPicture(convertMatPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getMaterialPicture()));
             }
             else{
-                productDTO.artWorkPicture = null;
-                productDTO.materialPicture = null;
+                bespokeProductDTO.setArtPictureDTOS(null);
+                bespokeProductDTO.setMaterialPicture(null);
             }
+                bespokeProductDTO.setNumOfDaysToComplete(product.getProductStyle().getBespokeProduct().getNumOfDaysToComplete());
+                bespokeProductDTO.setMandatoryMeasurements(product.getProductStyle().getBespokeProduct().getMandatoryMeasurements());
+
+            productDTO.bespokeProductDTO=bespokeProductDTO;
         }
 
         int sum = 0;
@@ -438,18 +442,22 @@ public class GeneralUtil {
 //        }
 
         if(product.getProductStyle().getBespokeProduct() != null) {
-            productDTO.numOfDaysToComplete=product.getProductStyle().getBespokeProduct().getNumOfDaysToComplete();
-            productDTO.mandatoryMeasurements= product.getProductStyle().getBespokeProduct().getMandatoryMeasurements();
+            BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
             if(product.getProductType() == 1) {
-                BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
+
                 bespokeProductDTO.setArtPictureDTOS(convertArtPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getArtWorkPicture()));
                 bespokeProductDTO.setMaterialPicture(convertMatPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getMaterialPicture()));
             }
             else{
-                productDTO.artWorkPicture = null;
-                productDTO.materialPicture = null;
+                bespokeProductDTO.setArtPictureDTOS(null);
+                bespokeProductDTO.setMaterialPicture(null);
             }
+            bespokeProductDTO.setNumOfDaysToComplete(product.getProductStyle().getBespokeProduct().getNumOfDaysToComplete());
+            bespokeProductDTO.setMandatoryMeasurements(product.getProductStyle().getBespokeProduct().getMandatoryMeasurements());
+
+            productDTO.bespokeProductDTO=bespokeProductDTO;
         }
+
 
         productDTO.reviews= product.getReviews();
         PriceSlash priceSlash = priceSlashRepository.findByProductPrice_Product(product);
