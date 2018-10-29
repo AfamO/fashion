@@ -66,9 +66,6 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     ItemsUtil itemsUtil;
 
-    @Autowired
-    PocketService pocketService;
-
 
     @Override
     public PaymentResponse initiatePayment(PaymentRequest paymentRequest) throws UnirestException {
@@ -147,7 +144,7 @@ public class PaymentServiceImpl implements PaymentService {
             // This get the json object from payload
             JSONObject responseObject = jsonNode.getObject();
 
-            // check of no object is returned
+            // check if no object is returned
             if (responseObject == null) {
                 data.put("status", "16");
                 // throw new Exception("No response from server");
@@ -251,6 +248,8 @@ public class PaymentServiceImpl implements PaymentService {
             throw new WawoohException();
         }
     }
+
+
 
     private void updateOrder(PaymentRequest paymentRequest, String authorizationCode) {
         Orders orders = orderRepository.findByOrderNum(paymentRequest.getTransactionReference());

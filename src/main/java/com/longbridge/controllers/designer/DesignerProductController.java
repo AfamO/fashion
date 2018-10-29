@@ -1,27 +1,21 @@
 package com.longbridge.controllers.designer;
 
-import com.longbridge.Util.UserUtil;
 import com.longbridge.dto.*;
-import com.longbridge.models.Designer;
+
 import com.longbridge.models.Response;
-import com.longbridge.models.Style;
-import com.longbridge.models.User;
-import com.longbridge.repository.DesignerRepository;
+
 import com.longbridge.respbodydto.ProductRespDTO;
-import com.longbridge.security.JwtUser;
-import com.longbridge.services.HibernateSearchService;
-import com.longbridge.services.MeasurementService;
+
 import com.longbridge.services.ProductPictureService;
-import com.longbridge.services.ProductRatingService;
+
 import com.longbridge.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +33,7 @@ public class DesignerProductController {
     @Autowired
     ProductPictureService productPictureService;
 
-    @Autowired
-    HibernateSearchService searchService;
+
 
     @PostMapping(value = "/addproduct")
     public Object addProduct(@RequestBody ProductDTO productDTO){
@@ -75,7 +68,7 @@ public class DesignerProductController {
     public Object updateProductImage(@RequestBody ProductDTO p){
         Map<String,Object> responseMap = new HashMap();
 
-        productPictureService.updateProductImages(p);
+     productPictureService.updateProductImages(p);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
@@ -181,11 +174,11 @@ public class DesignerProductController {
     }
 
 
-    @GetMapping(value = "/{search}/designerprodsearch")
-    public Response searchProductsByDesigner(@PathVariable String search){
-        List<ProductRespDTO> products=searchService.designerProductsFuzzySearch(search);
-        return new Response("00","Operation Successful",products);
-    }
+//    @GetMapping(value = "/{search}/designerprodsearch")
+//    public Response searchProductsByDesigner(@PathVariable String search){
+//        List<ProductRespDTO> products=searchService.designerProductsFuzzySearch(search);
+//        return new Response("00","Operation Successful",products);
+//    }
 
 
 

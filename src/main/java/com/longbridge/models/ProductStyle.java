@@ -21,26 +21,19 @@ public class ProductStyle extends CommonFields implements Serializable{
     
     @OneToOne
     private Product product;
-    
-    @OneToMany(mappedBy = "productStyle", cascade = CascadeType.ALL)
-    private List<ProductPicture> productPictures;
 
-    @OneToMany(mappedBy = "productStyle", cascade = CascadeType.ALL)
-    private List<ProductColorStyle> productColorStyles;
 
     @OneToOne(mappedBy = "productStyle", cascade = CascadeType.ALL)
     private BespokeProduct bespokeProduct;
 
+
+    @OneToMany(mappedBy = "productStyle", cascade = CascadeType.ALL)
+    private List<ProductColorStyle> productColorStyles;
+
+
     @OneToOne
     private Style style;
 
-    public List<ProductPicture> getProductPictures() {
-        return productPictures;
-    }
-
-    public void setProductPictures(List<ProductPicture> productPictures) {
-        this.productPictures = productPictures;
-    }
 
     public Style getStyle() {
         return style;

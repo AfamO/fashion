@@ -13,17 +13,17 @@ public class ProductColorStyleDTO {
     private String colourPicture;
 
     private String colourName;
+
     private List<ProductSizes> productSizes;
 
-    private ArrayList<String> picture;
+    private BespokeProductDTO bespokeProductDTO;
 
- private List<ProductPictureDTO> productPictureDTOS;
+    public ArrayList<String> picture;
+
+     private List<ProductPictureDTO> productPictureDTOS;
 
     private Long productId;
 
-    private int stockNo;
-
-    private String inStock;
 
 
     public ProductColorStyleDTO() {
@@ -77,21 +77,7 @@ public class ProductColorStyleDTO {
         this.colourName = colourName;
     }
 
-    public int getStockNo() {
-        return stockNo;
-    }
 
-    public void setStockNo(int stockNo) {
-        this.stockNo = stockNo;
-    }
-
-    public String getInStock() {
-        return inStock;
-    }
-
-    public void setInStock(String inStock) {
-        this.inStock = inStock;
-    }
 
     public List<ProductPictureDTO> getProductPictureDTOS() {
         return productPictureDTOS;
@@ -99,5 +85,13 @@ public class ProductColorStyleDTO {
 
     public void setProductPictureDTOS(List<ProductPictureDTO> productPictureDTOS) {
         this.productPictureDTOS = productPictureDTOS;
+    }
+
+    public BespokeProductDTO getBespokeProductDTO() {
+        return bespokeProductDTO;
+    }
+
+    public void setBespokeProductDTO(BespokeProductDTO bespokeProductDTO) {
+        this.bespokeProductDTO = bespokeProductDTO;
     }
 }

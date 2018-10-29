@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 @Entity
 public class ProductStatuses extends CommonFields implements Serializable {
+
     @OneToOne
     private Product product;
     
@@ -86,9 +87,5 @@ public class ProductStatuses extends CommonFields implements Serializable {
     public void setAvailability(String availability) {
         this.availability = availability;
     }
-    
-
-
-    
 
 }

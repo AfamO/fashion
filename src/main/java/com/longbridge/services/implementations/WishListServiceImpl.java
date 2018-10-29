@@ -154,16 +154,7 @@ public class WishListServiceImpl implements WishListService{
         productDTO.subCategoryId= product.getSubCategory().id.toString();
         productDTO.categoryId= product.getSubCategory().getCategory().id.toString();
 
-        List<ProductPicture> productPictures = product.getProductStyle().getProductPictures();
-        productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
 
-        if(product.getProductStyle().getBespokeProduct() != null) {
-            List<ArtWorkPicture> artWorkPictures = product.getProductStyle().getBespokeProduct().getArtWorkPicture();
-            productDTO.artWorkPicture = convertArtPictureEntitiesToDTO(artWorkPictures);
-
-            List<MaterialPicture> materialPictures = product.getProductStyle().getBespokeProduct().getMaterialPicture();
-            productDTO.materialPicture = convertMatPictureEntitiesToDTO(materialPictures);
-        }
         return productDTO;
 
     }

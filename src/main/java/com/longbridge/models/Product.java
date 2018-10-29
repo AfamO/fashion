@@ -10,10 +10,10 @@ import java.io.Serializable;
 import java.util.List;
 
 
-@Indexed
+
 @Entity
 public class Product extends CommonFields implements Serializable {
-    @Field
+
     private String name;
 
     private String prodSummary;
@@ -21,7 +21,7 @@ public class Product extends CommonFields implements Serializable {
     @Lob
     private String prodDesc;
 
-    @IndexedEmbedded(depth = 1)
+
     @OneToOne
     private SubCategory subCategory;
 
@@ -30,20 +30,19 @@ public class Product extends CommonFields implements Serializable {
     @ManyToOne
     private Designer designer;
 
-    @OneToOne
-    private ProductItem productItem;
 
-    @OneToOne
+
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductStatuses productStatuses;
     
 
-    @OneToOne
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductPrice productPrice;
 
 
     private int numOfTimesOrdered = 0;
     
-    @OneToOne
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductStyle productStyle;
     
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -150,13 +149,6 @@ public class Product extends CommonFields implements Serializable {
         this.productStyle = productStyle;
     }
 
-    public ProductItem getProductItem() {
-        return productItem;
-    }
-
-    public void setProductItem(ProductItem productItem) {
-        this.productItem = productItem;
-    }
 
     public ProductStatuses getProductStatuses() {
         return productStatuses;

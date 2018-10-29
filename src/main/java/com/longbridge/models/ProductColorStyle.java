@@ -16,13 +16,15 @@ public class ProductColorStyle extends CommonFields implements Serializable {
     private String colourName;
 
 
+    @OneToMany(mappedBy = "productColorStyle", cascade = CascadeType.ALL)
+    private List<ProductPicture> productPictures;
+
     @OneToMany(mappedBy = "productColorStyle", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<ProductSizes> productSizes;
 
     private int stockNo;
 
     private String inStock;
-
 
     @JsonIgnore
     @ManyToOne
@@ -32,6 +34,14 @@ public class ProductColorStyle extends CommonFields implements Serializable {
     @ManyToOne
     private Product product;
 
+
+    public List<ProductPicture> getProductPictures() {
+        return productPictures;
+    }
+
+    public void setProductPictures(List<ProductPicture> productPictures) {
+        this.productPictures = productPictures;
+    }
 
     public String getColourPicture() {
         return colourPicture;
@@ -88,5 +98,13 @@ public class ProductColorStyle extends CommonFields implements Serializable {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+//    public BespokeProduct getBespokeProduct() {
+//        return bespokeProduct;
+//    }
+//
+//    public void setBespokeProduct(BespokeProduct bespokeProduct) {
+//        this.bespokeProduct = bespokeProduct;
+//    }
 }
 

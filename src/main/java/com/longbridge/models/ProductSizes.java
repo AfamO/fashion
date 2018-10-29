@@ -10,6 +10,7 @@ public class ProductSizes extends CommonFields{
 
     private String name;
     private int numberInStock;
+    private String inStock;
 
     @JsonIgnore
     @ManyToOne
@@ -37,6 +38,15 @@ public class ProductSizes extends CommonFields{
 
     public ProductColorStyle getProductColorStyle() {
         return productColorStyle;
+    }
+
+
+    public String getInStock() {
+        return inStock;
+    }
+
+    public void setInStock(String inStock) {
+        this.inStock = inStock;
     }
 
     public void setProductColorStyle(ProductColorStyle productColorStyle) {

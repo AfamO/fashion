@@ -202,7 +202,7 @@ public class GeneralUtil {
     public ProductPictureDTO convertProdPictureEntityToDTO(ProductPicture picture){
         ProductPictureDTO pictureDTO = new ProductPictureDTO();
         pictureDTO.id=picture.getId();
-        pictureDTO.productId=picture.getProductColorStyle().getProduct().id;
+        pictureDTO.productId=picture.getProductColorStyle().getProductStyle().getProduct().id;
         pictureDTO.picture=picture.getPictureName();
         return pictureDTO;
 
@@ -317,21 +317,32 @@ public class GeneralUtil {
             productDTO.percentageDiscount = Double.parseDouble(df.format(priceSlash.getPercentageDiscount()));
         }
 
-        List<ProductPicture> productPictures = product.getProductStyle().getProductPictures();
-        productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
+//
+//        BespokeProduct bespokeProduct = bespokeProductRepository.findByProduct(product);
+//        if(bespokeProduct != null){
+//            productDTO.numOfDaysToComplete=bespokeProduct.getNumOfDaysToComplete();
+//            productDTO.mandatoryMeasurements= bespokeProduct.getMandatoryMeasurements();
+//            if(product.getProductType() == 1){
+//                List<ArtWorkPicture> artWorkPictures = bespokeProduct.getArtWorkPicture();
+//                productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
+//
+//                List<MaterialPicture> materialPictures = bespokeProduct.getMaterialPicture();
+//                productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
+//            }else{
+//                productDTO.artWorkPicture = null;
+//                productDTO.materialPicture = null;
+//            }
+//        }
 
-
-        BespokeProduct bespokeProduct = bespokeProductRepository.findByProduct(product);
-        if(bespokeProduct != null){
-            productDTO.numOfDaysToComplete=bespokeProduct.getNumOfDaysToComplete();
-            productDTO.mandatoryMeasurements= bespokeProduct.getMandatoryMeasurements();
-            if(product.getProductType() == 1){
-                List<ArtWorkPicture> artWorkPictures = bespokeProduct.getArtWorkPicture();
-                productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
-
-                List<MaterialPicture> materialPictures = bespokeProduct.getMaterialPicture();
-                productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
-            }else{
+        if(product.getProductStyle().getBespokeProduct() != null) {
+            productDTO.numOfDaysToComplete=product.getProductStyle().getBespokeProduct().getNumOfDaysToComplete();
+            productDTO.mandatoryMeasurements= product.getProductStyle().getBespokeProduct().getMandatoryMeasurements();
+            if(product.getProductType() == 1) {
+                BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
+                bespokeProductDTO.setArtPictureDTOS(convertArtPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getArtWorkPicture()));
+                bespokeProductDTO.setMaterialPicture(convertMatPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getMaterialPicture()));
+            }
+            else{
                 productDTO.artWorkPicture = null;
                 productDTO.materialPicture = null;
             }
@@ -410,21 +421,31 @@ public class GeneralUtil {
         productDTO.categoryName= product.getSubCategory().getCategory().categoryName;
         productDTO.numOfTimesOrdered = product.getNumOfTimesOrdered();
 
-        List<ProductPicture> productPictures = product.getProductStyle().getProductPictures();
-        productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
+        //BespokeProduct bespokeProduct = bespokeProductRepository.findByProduct(product);
+//        if(bespokeProduct != null){
+//            productDTO.numOfDaysToComplete=bespokeProduct.getNumOfDaysToComplete();
+//            productDTO.mandatoryMeasurements= bespokeProduct.getMandatoryMeasurements();
+//            if(product.getProductType() == 1){
+//                List<ArtWorkPicture> artWorkPictures = bespokeProduct.getArtWorkPicture();
+//                productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
+//
+//                List<MaterialPicture> materialPictures = bespokeProduct.getMaterialPicture();
+//                productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
+//            }else{
+//                productDTO.artWorkPicture = null;
+//                productDTO.materialPicture = null;
+//            }
+//        }
 
-
-        BespokeProduct bespokeProduct = bespokeProductRepository.findByProduct(product);
-        if(bespokeProduct != null){
-            productDTO.numOfDaysToComplete=bespokeProduct.getNumOfDaysToComplete();
-            productDTO.mandatoryMeasurements= bespokeProduct.getMandatoryMeasurements();
-            if(product.getProductType() == 1){
-                List<ArtWorkPicture> artWorkPictures = bespokeProduct.getArtWorkPicture();
-                productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
-
-                List<MaterialPicture> materialPictures = bespokeProduct.getMaterialPicture();
-                productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
-            }else{
+        if(product.getProductStyle().getBespokeProduct() != null) {
+            productDTO.numOfDaysToComplete=product.getProductStyle().getBespokeProduct().getNumOfDaysToComplete();
+            productDTO.mandatoryMeasurements= product.getProductStyle().getBespokeProduct().getMandatoryMeasurements();
+            if(product.getProductType() == 1) {
+                BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
+                bespokeProductDTO.setArtPictureDTOS(convertArtPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getArtWorkPicture()));
+                bespokeProductDTO.setMaterialPicture(convertMatPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getMaterialPicture()));
+            }
+            else{
                 productDTO.artWorkPicture = null;
                 productDTO.materialPicture = null;
             }
@@ -498,7 +519,8 @@ public class GeneralUtil {
         productColorStyleDTO.setId(productAttribute.id);
         productColorStyleDTO.setColourPicture(productAttribute.getColourPicture());
         productColorStyleDTO.setColourName(productAttribute.getColourName());
-        productColorStyleDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductStyle().getProductPictures()));
+
+        productColorStyleDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductPictures()));
         productColorStyleDTO.setProductSizes(productAttribute.getProductSizes());
         return productColorStyleDTO;
 
@@ -631,7 +653,7 @@ public class GeneralUtil {
             cartDTO.setTotalPrice(cartDTO.getPrice()*cartDTO.getQuantity());
         }
 
-        ProductPicture p = productPictureRepository.findFirst1ByProductStyle_Product(product);
+        ProductPicture p = productPictureRepository.findFirst1ByProductColorStyle_Product(product);
         cartDTO.setProductPicture(p.getPictureName());
 
 

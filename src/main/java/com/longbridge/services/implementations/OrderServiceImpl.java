@@ -285,7 +285,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
             ProductColorStyle productColorStyle =productColorStyleRepository.findOne(items.getProductAttributeId());
-            items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle(productColorStyle).getPictureName());
+            items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle(p.getProductStyle()).getPictureName());
 
             Double amount;
             if(p.getProductPrice().getPriceSlash() != null && p.getProductPrice().getPriceSlash().getSlashedPrice() > 0){

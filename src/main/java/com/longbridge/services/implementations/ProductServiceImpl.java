@@ -77,6 +77,15 @@ public class ProductServiceImpl implements ProductService {
     ProductSizesRepository productSizesRepository;
 
     @Autowired
+    ProductPriceRepository productPriceRepository;
+
+    @Autowired
+    ProductStyleRepository productStyleRepository;
+
+    @Autowired
+    ProductStatusesRepository productStatusesRepository;
+
+    @Autowired
     public ProductServiceImpl(GeneralUtil generalUtil) {
         this.generalUtil = generalUtil;
     }
@@ -88,8 +97,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     DesignerRepository designerRepository;
 
-    @Autowired
-    EventPictureRepository eventPictureRepository;
 
     @Autowired
     StyleRepository styleRepository;
@@ -282,198 +289,162 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public String addProduct(ProductDTO productDTO) {
         try {
-
             if(productDTO.amount < 0 || productDTO.slashedPrice < 0 || productDTO.percentageDiscount <0){
                 throw new InvalidAmountException();
             }
             User user = getCurrentUser();
             Designer designer = designerRepository.findByUser(user);
             Date date = new Date();
-            int totalStock = 0;
-            Product product = new Product();
-            ProductSearchDTO productSearchDTO= new ProductSearchDTO();
-            Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
-
-            ArrayList<String> artWorkPics = productDTO.bespokeProductDTO.getArtWorkPicture();
-            ArrayList<MaterialPictureDTO> materialPics = productDTO.bespokeProductDTO.getMaterialPicture();
-            productSearchDTO.setSubCategoryId(productDTO.subCategoryId);
-            product.setSubCategory( subCategoryRepository.findOne(subCategoryId));
-            product.setName(productDTO.name);
-            productSearchDTO.setName(productDTO.name);
-            product.getProductPrice().setAmount(productDTO.amount);
-            productSearchDTO.setAmount(productDTO.amount);
-            //productSearchDTO.setPicture(productDTO.picture);
-           productSearchDTO.setAvailability(productDTO.availability);
-            product.getProductStatuses().setAvailability(productDTO.availability);
-            product.getProductStatuses().setAcceptCustomSizes(productDTO.acceptCustomSizes);
-            productSearchDTO.setNumOfDaysToComplete(productDTO.numOfDaysToComplete);
-           // product.setNumOfDaysToComplete(productDTO.numOfDaysToComplete);
-            productSearchDTO.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
-           // product.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
-//            product.getPrice().setMaterialPrice(productDTO.materialPrice);
-//            productSearchDTO.setMaterialPrice(productDTO.materialPrice);
-//            productSearchDTO.setMaterialName(productDTO.materialName);
-            productSearchDTO.setCategoryName(product.getSubCategory().getCategory().categoryName);
-            productSearchDTO.setSubCategoryName(product.getSubCategory().getSubCategory());
-            productSearchDTO.setProdSummary(productDTO.prodSummary);
-            product.setProdSummary(productDTO.prodSummary);
-            productSearchDTO.setDescription(productDTO.description);
-            product.setProdDesc(productDTO.description);
-            productSearchDTO.setDesignerId(Long.toString(designer.id));
-            productSearchDTO.setDesignerStatus(designer.getStatus());
-            productSearchDTO.setStatus(productDTO.status);
-            productSearchDTO.setDesignerName(designer.getStoreName());
-            System.out.println("The Designer Name Is::"+designer.getStoreName());
-            product.setDesigner(designer);
-            productSearchDTO.setProductType(productDTO.productType);
-            product.setProductType(productDTO.productType);
-
-            if(productDTO.styleId != null && !productDTO.styleId.equalsIgnoreCase("null")) {
-                if(!productDTO.styleId.isEmpty()) {
-                    Long styleId = Long.parseLong(productDTO.styleId);
-                    product.getProductStyle().setStyle(styleRepository.findOne(styleId));
-                }
+            Product product = saveProduct(productDTO, designer, date);
+            ProductStyle productStyle = saveProductStyle(productDTO.styleId, product,productDTO);
+            saveProductColorStyle(productDTO.productColorStyleDTOS, productDTO,product.getSubCategory().getSubCategory(), productStyle);
+            savePriceDetails(productDTO.slashedPrice,productDTO.amount,productDTO.percentageDiscount,product);
+            ProductStatuses productStatuses = new ProductStatuses();
+            if(productDTO.bespokeProductDTO != null){
+                productStatuses.setAcceptCustomSizes("Y");
+            }else {
+                productStatuses.setAcceptCustomSizes("N");
+                productStatuses.setAvailability("Y");
             }
-
-
-            product.setCreatedOn(date);
-            product.setUpdatedOn(date);
             productRepository.save(product);
-            productSearchDTO.setId(product.id);
-            List<ProductAttributeSearchDTO> productAttributesListSearchDTO =  new ArrayList<>();
-            List<ProductPictureSearchDTO> productPicturseSearchDTOList =  new ArrayList<>();
-            List<MaterialPictureSearchDTO> materialPictureSearchDTOList=new ArrayList<>();
-            List<ProductSizes> productSizesSearchDTOList =  new ArrayList<>();
-            for (ProductColorStyleDTO pa: productDTO.productColorStyleDTOS) {
-                ProductColorStyle productColorStyle=new ProductColorStyle();
-                ProductAttributeSearchDTO productAttributeSearch=new ProductAttributeSearchDTO();
-                productColorStyle.setProduct(product);
+            productStatuses.setProduct(product);
+            productStatusesRepository.save(productStatuses);
 
-                productColorStyle.setStockNo(pa.getStockNo());
-                productColorStyle.setInStock(pa.getInStock());
-                //productSearchDTO.setInStock(productDTO.inStock);
-                productAttributeSearch.setProductId(productDTO.id);
-                String name = pa.getColourName().replace("&","");
-                String colourName= generalUtil.getPicsName("prodcolour",name);
-                CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
-                productColorStyle.setColourName(pa.getColourName());
-                productAttributeSearch.setColourName(colourName);
-                productColorStyle.setColourPicture(c.getUrl());
-                productAttributeSearch.setColourPicture(c.getUrl());
-                productColorStyleRepository.save(productColorStyle);
-                    
-                for (ProductSizes p: pa.getProductSizes()) {
-                    ProductSizes productSizes = new ProductSizes();
-                    productSizes.setName(p.getName());
-                    productSizes.setNumberInStock(p.getNumberInStock());
-                    totalStock += p.getNumberInStock();
-                    productSizes.setProductColorStyle(productColorStyle);
-                    System.out.println(productSizes);
-                    productSizesRepository.save(productSizes);
-                    productSizesSearchDTOList.add(productSizes);
-                }
-                productAttributeSearch.setProductSizes(productSizesSearchDTOList);
-                for(String p:pa.getPicture()){
-                    ProductPicture productPicture = new ProductPicture();
-                    String  productPictureName= generalUtil.getPicsName("prodpic", product.getSubCategory().getSubCategory());
-                    ProductPictureSearchDTO productPictureSearchDTO = new ProductPictureSearchDTO();
-                    c = cloudinaryService.uploadToCloud(p,productPictureName,"productpictures");
-                    productPicture.setPictureName(c.getUrl());
-                    productPicture.setPicture(c.getPublicId());
-                    productPictureSearchDTO.picture=c.getUrl();
-                    productPicture.getProductColorStyle().setProduct(product);
-                    productPictureSearchDTO.createdOn = date;
-                    productPictureSearchDTO.updatedOn=date;
-                    productPicture.createdOn = date;
-                    productPicture.setUpdatedOn(date);
-                    productPicture.setProductColorStyle(productColorStyle);
-                    productPicturseSearchDTOList.add(productPictureSearchDTO);
-                    productPictureRepository.save(productPicture);
-                    productPictureSearchDTO.setId(productPicture.getId());
-                }
-                productAttributeSearch.setProductPictureSearchDTOS(productPicturseSearchDTOList);
-                productAttributesListSearchDTO.add(productAttributeSearch);
-                productSearchDTO.setProductAttributeDTOS(productAttributesListSearchDTO) ;
-            }
-
-            if(productDTO.slashedPrice > 0){
-                PriceSlash priceSlash = new PriceSlash();
-                product.getProductPrice().setPriceSlashEnabled(true);
-                priceSlash.getProductPrice().setProduct(product);
-                priceSlash.setSlashedPrice(productDTO.slashedPrice);
-                priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
-                productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
-                productSearchDTO.setPercentageDiscount((productDTO.slashedPrice/productDTO.amount)*100);
-                priceSlashRepository.save(priceSlash);
-            } else if(productDTO.percentageDiscount > 0){
-
-                PriceSlash priceSlash=new PriceSlash();
-                product.getProductPrice().setPriceSlashEnabled(true);
-                priceSlash.getProductPrice().setProduct(product);
-                priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
-                priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-                productSearchDTO.setSlashedPrice((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount());
-                productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
-                priceSlashRepository.save(priceSlash);
-            }
-
-
-            //check if bespoke is not null
-            if(productDTO.bespokeProductDTO != null) {
-
-                if (productDTO.productType == 1) {
-
-                    BespokeProduct bespokeProduct=new BespokeProduct();
-                    bespokeProduct.setProduct(product);
-
-                    for (MaterialPictureDTO mp : materialPics) {
-                        MaterialPicture materialPicture = new MaterialPicture();
-                        MaterialPictureSearchDTO materialPictureSearchDTO = new MaterialPictureSearchDTO();
-                        String matName = generalUtil.getPicsName("materialpic", product.getSubCategory().getSubCategory());
-                        //materialPicture.pictureName = matName;
-                        CloudinaryResponse c = cloudinaryService.uploadToCloud(mp.getMaterialPicture(), matName, "materialpictures");
-                        materialPicture.setPictureName(c.getUrl());
-                        materialPictureSearchDTO.setMaterialPicture(c.getUrl());
-                        materialPicture.setPicture(c.getPublicId());
-                        materialPictureSearchDTO.setMaterialName(mp.getMaterialName());
-                        materialPicture.setMaterialName(mp.getMaterialName());
-                        materialPicture.setBespokeProduct(bespokeProduct);
-                        materialPicture.createdOn = date;
-                        materialPicture.setUpdatedOn(date);
-                        materialPictureRepository.save(materialPicture);
-                        materialPictureSearchDTO.setId(materialPicture.getId());
-                        materialPictureSearchDTOList.add(materialPictureSearchDTO);
-                    }
-                    productSearchDTO.setMaterialPicture(materialPictureSearchDTOList);
-                    for (String ap : artWorkPics) {
-                        ArtWorkPicture artWorkPicture = new ArtWorkPicture();
-                        String artName = generalUtil.getPicsName("artworkpic", product.getSubCategory().getSubCategory());
-                        //artWorkPicture.pictureName = artName;
-                        CloudinaryResponse c = cloudinaryService.uploadToCloud(ap, artName, "artworkpictures");
-                        artWorkPicture.setPictureName(c.getUrl());
-                        artWorkPicture.setPicture(c.getPublicId());
-                        artWorkPicture.setBespokeProduct(bespokeProduct);
-                        artWorkPicture.createdOn = date;
-                        artWorkPicture.setUpdatedOn(date);
-                        artWorkPictureRepository.save(artWorkPicture);
-                    }
-
-                    bespokeProductRepository.save(bespokeProduct);
-                }
-            }
-
-            productSearchDTO.setStockNo(totalStock);
-            productSearchDTO.setVerifiedFlag("N");
-            productRepository.save(product);
-            Gson gson= new Gson();
-            ApiResponse makeRemoteRequest = searchService.AddSearchProductIndex(elastic_host_api_url, productSearchDTO);      
-            apiLogger.log("The Result Of Indexing A New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
             return "true";
 
 
         } catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
+        }
+    }
+
+    private Product saveProduct(ProductDTO productDTO, Designer designer, Date date) {
+        Product product = new Product();
+        Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
+        product.setSubCategory( subCategoryRepository.findOne(subCategoryId));
+        product.setName(productDTO.name);
+        product.setProdSummary(productDTO.prodSummary);
+        product.setProdDesc(productDTO.description);
+        product.setDesigner(designer);
+        product.setProductType(productDTO.productType);
+        product.setCreatedOn(date);
+        product.setUpdatedOn(date);
+        productRepository.save(product);
+        return product;
+    }
+
+    private ProductStyle saveProductStyle(Long styleId, Product product, ProductDTO productDTO) {
+        ProductStyle productStyle = new ProductStyle();
+        if(styleId != null ) {
+                productStyle.setStyle(styleRepository.findOne(styleId));
+        }
+        productStyle.setProduct(product);
+        productStyleRepository.save(productStyle);
+
+        if(productDTO.bespokeProductDTO != null) {
+            saveBespokeProduct(productDTO.productType, productDTO.bespokeProductDTO, new Date(),productStyle,product.getSubCategory().getSubCategory());
+
+        }
+        return productStyle;
+    }
+
+    private void saveBespokeProduct(int productType, BespokeProductDTO bespokeProductDTO, Date date,ProductStyle productStyle, String subCategory) {
+        if (productType == 1) {
+            BespokeProduct bespokeProduct=new BespokeProduct();
+            bespokeProduct.setProduct(productStyle.getProduct());
+            bespokeProduct.setNumOfDaysToComplete(bespokeProductDTO.getNumOfDaysToComplete());
+            bespokeProduct.setMandatoryMeasurements(bespokeProductDTO.getMandatoryMeasurements());
+            bespokeProduct.setProductStyle(productStyle);
+            bespokeProductRepository.save(bespokeProduct);
+            for (MaterialPictureDTO mp : bespokeProductDTO.getMaterialPicture()) {
+                MaterialPicture materialPicture = new MaterialPicture();
+                String matName = generalUtil.getPicsName("materialpic", subCategory);
+                CloudinaryResponse c = cloudinaryService.uploadToCloud(mp.getMaterialPicture(), matName, "materialpictures");
+                materialPicture.setPictureName(c.getUrl());
+                materialPicture.setPicture(c.getPublicId());
+                materialPicture.setMaterialName(mp.getMaterialName());
+                materialPicture.setPrice(mp.getMaterialPrice());
+                materialPicture.setBespokeProduct(bespokeProduct);
+                materialPicture.createdOn = date;
+                materialPicture.setUpdatedOn(date);
+                materialPictureRepository.save(materialPicture);
+            }
+            for (String ap : bespokeProductDTO.getArtWorkPicture()) {
+                ArtWorkPicture artWorkPicture = new ArtWorkPicture();
+                String artName = generalUtil.getPicsName("artworkpic", subCategory);
+                CloudinaryResponse c = cloudinaryService.uploadToCloud(ap, artName, "artworkpictures");
+                artWorkPicture.setPictureName(c.getUrl());
+                artWorkPicture.setPicture(c.getPublicId());
+                artWorkPicture.setBespokeProduct(bespokeProduct);
+                artWorkPicture.createdOn = date;
+                artWorkPicture.setUpdatedOn(date);
+                artWorkPictureRepository.save(artWorkPicture);
+            }
+        }
+    }
+
+    private void savePriceDetails(Double slashedPrice, Double amount, Double percentageDiscount,Product product) {
+        ProductPrice productPrice = new ProductPrice();
+        productPrice.setAmount(amount);
+        productPrice.setProduct(product);
+        PriceSlash priceSlash = null;
+        if(slashedPrice > 0){
+            priceSlash = new PriceSlash();
+            productPrice.setPriceSlashEnabled(true);
+            priceSlash.setSlashedPrice(slashedPrice);
+            priceSlash.setPercentageDiscount(((amount - slashedPrice)/amount)*100);
+            priceSlashRepository.save(priceSlash);
+        } else if(percentageDiscount > 0){
+            priceSlash=new PriceSlash();
+            productPrice.setPriceSlashEnabled(true);
+           productPrice.setProduct(product);
+            priceSlash.setSlashedPrice(amount - ((percentageDiscount/100)* productPrice.getAmount()));
+            priceSlash.setPercentageDiscount(percentageDiscount);
+            priceSlashRepository.save(priceSlash);
+        }
+        productPrice.setPriceSlash(priceSlash);
+        productPriceRepository.save(productPrice);
+    }
+
+    private void saveProductColorStyle(List<ProductColorStyleDTO> productColorStyleDTOS,ProductDTO productDTO, String subCategory, ProductStyle productStyle) {
+        Date date = new Date();
+        for (ProductColorStyleDTO pa: productColorStyleDTOS) {
+            ProductColorStyle productColorStyle=new ProductColorStyle();
+           // productColorStyle.setProduct(product);
+            String name = pa.getColourName().replace("&","");
+            String colourName= generalUtil.getPicsName("prodcolour",name);
+            CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
+            productColorStyle.setColourName(pa.getColourName());
+            productColorStyle.setColourPicture(c.getUrl());
+            productColorStyle.setProductStyle(productStyle);
+            productColorStyleRepository.save(productColorStyle);
+
+            for (ProductSizes p: pa.getProductSizes()){
+                ProductSizes productSizes = new ProductSizes();
+                productSizes.setName(p.getName());
+                productSizes.setNumberInStock(p.getNumberInStock());
+                productSizes.setProductColorStyle(productColorStyle);
+                productSizes.setProductColorStyle(productColorStyle);
+                productSizesRepository.save(productSizes);
+            }
+                saveProductPicture(pa.getPicture(),date,subCategory,productColorStyle);
+
+
+        }
+    }
+
+    private void saveProductPicture(List<String> pictures, Date date, String subCategory, ProductColorStyle productColorStyle) {
+        for(String p:pictures){
+            ProductPicture productPicture = new ProductPicture();
+            String  productPictureName= generalUtil.getPicsName("prodpic", subCategory);
+            CloudinaryResponse c = cloudinaryService.uploadToCloud(p,productPictureName,"productpictures");
+            productPicture.setPictureName(c.getUrl());
+            productPicture.setPicture(c.getPublicId());
+            productPicture.setProductColorStyle(productColorStyle);
+            productPicture.createdOn = date;
+            productPicture.setUpdatedOn(date);
+            productPictureRepository.save(productPicture);
         }
     }
 
@@ -486,10 +457,10 @@ public class ProductServiceImpl implements ProductService {
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             Product product = productRepository.findOne(productDTO.id);
             //Get the product from elastic search 'product' index
-            ProductSearchDTO productSearchDTO=null;
-            if(product !=null){
-                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url,productDTO.id));
-            }
+//            ProductSearchDTO productSearchDTO=null;
+//            if(product !=null){
+//                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url,productDTO.id));
+//            }
             product.setSubCategory(subCategoryRepository.findOne(subCategoryId));
             product.setName(productDTO.name);
             product.getProductPrice().setAmount(productDTO.amount);
@@ -497,91 +468,87 @@ public class ProductServiceImpl implements ProductService {
             product.setProdDesc(productDTO.description);
             product.setProdSummary(productDTO.prodSummary);
             product.setDesigner(designer);
-            productSearchDTO.setSubCategoryId(productDTO.subCategoryId);
-            productSearchDTO.setName(productDTO.name);
-            productSearchDTO.setAmount(productDTO.amount);
+//            productSearchDTO.setSubCategoryId(productDTO.subCategoryId);
+//            productSearchDTO.setName(productDTO.name);
+//            productSearchDTO.setAmount(productDTO.amount);
             //productSearchDTO.setAvailability(productDTO.inStock);
-            productSearchDTO.setNumOfDaysToComplete(productDTO.numOfDaysToComplete);
-            productSearchDTO.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
+           // productSearchDTO.setNumOfDaysToComplete(productDTO.numOfDaysToComplete);
+           // productSearchDTO.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
 //            productSearchDTO.setMaterialPrice(productDTO.materialPrice);
 //            productSearchDTO.setMaterialName(productDTO.materialName);
-            productSearchDTO.setCategoryName(product.getSubCategory().getCategory().categoryName);
-            productSearchDTO.setSubCategoryName(product.getSubCategory().getSubCategory());
-            productSearchDTO.setProdSummary(productDTO.prodSummary);
-            productSearchDTO.setDescription(productDTO.description);
-            productSearchDTO.setDesignerId(Long.toString(designer.id));
-            productSearchDTO.setDesignerStatus(designer.getStatus());
-            productSearchDTO.setStatus(productDTO.status);
-            productSearchDTO.setDesignerName(designer.getStoreName());
-
-            productSearchDTO.setProductType(productDTO.productType);
+//            productSearchDTO.setCategoryName(product.getSubCategory().getCategory().categoryName);
+//            productSearchDTO.setSubCategoryName(product.getSubCategory().getSubCategory());
+//            productSearchDTO.setProdSummary(productDTO.prodSummary);
+//            productSearchDTO.setDescription(productDTO.description);
+//            productSearchDTO.setDesignerId(Long.toString(designer.id));
+//            productSearchDTO.setDesignerStatus(designer.getStatus());
+//            productSearchDTO.setStatus(productDTO.status);
+//            productSearchDTO.setDesignerName(designer.getStoreName());
+//
+//            productSearchDTO.setProductType(productDTO.productType);
             //
-            if(!"null".equalsIgnoreCase(productDTO.styleId)) {
+
                 if(productDTO.styleId!=null)
                 {
-                   if(!productDTO.styleId.isEmpty()) {
-                    Long styleId = Long.parseLong(productDTO.styleId);
-                    product.getProductStyle().setStyle(styleRepository.findOne(styleId));
-                    productSearchDTO.setStyleId(productDTO.styleId);
-                } 
+                    product.getProductStyle().setStyle(styleRepository.findOne(productDTO.styleId));
+                   // productSearchDTO.setStyleId(productDTO.styleId);
+
                 }
-                
-            }
            // product.getProductItem().setStockNo(productDTO.stockNo);
             product.setUpdatedOn(date);
            // productSearchDTO.setStockNo(productDTO.stockNo);
-
-            if(productDTO.slashedPrice > 0){
-                PriceSlash priceSlash =priceSlashRepository.findByProductPrice_Product(product);
-                if(priceSlash != null){
-                    priceSlash.setSlashedPrice(productDTO.slashedPrice);
-                    priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
-                    productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
-                    productSearchDTO.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
-                }else {
-                    priceSlash=new PriceSlash();
-                    product.getProductPrice().setPriceSlashEnabled(true);
-                    priceSlash.getProductPrice().setProduct(product);
-                    priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
-                    priceSlash.setSlashedPrice(productDTO.slashedPrice);
-                    productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
-                    productSearchDTO.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
-                }
-
-                priceSlashRepository.save(priceSlash);
-            }
-            else if(productDTO.percentageDiscount > 0){
-                PriceSlash priceSlash =priceSlashRepository.findByProductPrice_Product(product);
-                if(priceSlash != null){
-                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
-                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
-                    productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
-                }else {
-                    priceSlash=new PriceSlash();
-                    product.getProductPrice().setPriceSlashEnabled(true);
-                    priceSlash.getProductPrice().setProduct(product);
-                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
-                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
-                    productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
-                }
-
-                priceSlashRepository.save(priceSlash);
-            }else{
-                product.getProductPrice().setPriceSlashEnabled(false);
-                PriceSlash priceSlash =priceSlashRepository.findByProductPrice_Product(product);
-                if(priceSlash != null){
-                    priceSlashRepository.delete(priceSlash);
-                }
-            }
+//
+//            if(productDTO.slashedPrice > 0){
+//                PriceSlash priceSlash =priceSlashRepository.findByProductPrice_Product(product);
+//                if(priceSlash != null){
+//                    priceSlash.setSlashedPrice(productDTO.slashedPrice);
+//                    priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
+////                    productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
+////                    productSearchDTO.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
+//                }else {
+//
+//                    priceSlash=new PriceSlash();
+//                    product.getProductPrice().setPriceSlashEnabled(true);
+//                    priceSlash.getProductPrice().setProduct(product);
+//                    priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
+//                    priceSlash.setSlashedPrice(productDTO.slashedPrice);
+////                    productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
+////                    productSearchDTO.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
+//                }
+//
+//                priceSlashRepository.save(priceSlash);
+//            }
+//            else if(productDTO.percentageDiscount > 0){
+//                PriceSlash priceSlash =priceSlashRepository.findByProductPrice_Product(product);
+//                if(priceSlash != null){
+//                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
+//                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
+//                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
+//                    productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
+//                }else {
+//                    priceSlash=new PriceSlash();
+//                    product.getProductPrice().setPriceSlashEnabled(true);
+//                    priceSlash.getProductPrice().setProduct(product);
+//                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
+//                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
+//                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
+//                    productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
+//                }
+//
+//                priceSlashRepository.save(priceSlash);
+//            }else{
+//                product.getProductPrice().setPriceSlashEnabled(false);
+//                PriceSlash priceSlash =priceSlashRepository.findByProductPrice_Product(product);
+//                if(priceSlash != null){
+//                    priceSlashRepository.delete(priceSlash);
+//                }
+//            }
             product.getProductStatuses().setVerifiedFlag("N");
-
             productRepository.save(product);
             //Then save the Updated product status
             //Update the search index to display verified product only
-            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
-            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+//            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
+//            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
 
         }catch (Exception e) {
@@ -687,24 +654,24 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id) {
         try {
             Product p = productRepository.findOne(id);
-            BespokeProduct bespokeProduct = p.getProductStyle().getBespokeProduct();
-            productPictureRepository.findByProductStyle_Product(p).forEach(pictures -> {
+            //BespokeProduct bespokeProduct = p.getProductStyle().getBespokeProduct();
+            productPictureRepository.findByProductColorStyle_Product(p).forEach(pictures -> {
                 cloudinaryService.deleteFromCloud(pictures.getPicture(),pictures.getPictureName());
              //deletePics(pictures.pictureName,productPicturesFolder);
             });
 
-            if(bespokeProduct != null){
-                artWorkPictureRepository.findByBespokeProduct_Product(p).forEach(pictures -> {
-                    cloudinaryService.deleteFromCloud(pictures.getPicture(),pictures.getPictureName());
-                    //deletePics(pictures.pictureName,artworkPictureFolder);
-                });
-
-
-            materialPictureRepository.findByBespokeProduct_Product(p).forEach(pictures -> {
-                cloudinaryService.deleteFromCloud(pictures.getPicture(),pictures.getPictureName());
-                //deletePics(pictures.pictureName,artworkPictureFolder);
-            });
-            }
+//            if(bespokeProduct != null){
+//                artWorkPictureRepository.findByBespokeProduct_Product(p).forEach(pictures -> {
+//                    cloudinaryService.deleteFromCloud(pictures.getPicture(),pictures.getPictureName());
+//                    //deletePics(pictures.pictureName,artworkPictureFolder);
+//                });
+//
+//
+//            materialPictureRepository.findByBespokeProduct_Product(p).forEach(pictures -> {
+//                cloudinaryService.deleteFromCloud(pictures.getPicture(),pictures.getPictureName());
+//                //deletePics(pictures.pictureName,artworkPictureFolder);
+//            });
+//            }
 
             productRepository.delete(id);
 

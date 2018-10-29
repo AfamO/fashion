@@ -179,25 +179,118 @@ public class ProductPictureServiceImpl implements ProductPictureService{
         throw new WawoohException();
     }
     
+//    @Override
+//    public void updateProductImages(ProductDTO p) {
+//        Date date = new Date();
+//        try {
+//            Product product = productRepository.findOne(p.id);
+//            //Get the product from elastic search 'product' index
+//            ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url,p.id));
+//            List<ProductAttributeSearchDTO> productColorStylesListSearchDTO =  new ArrayList<>();
+//            List<ProductPictureSearchDTO> productPicturseSearchDTOList =  new ArrayList<>();
+//            List<MaterialPictureSearchDTO> materialPictureSearchDTOList=new ArrayList<>();
+//            List<ProductSizes> productSizesSearchDTOList =  new ArrayList<ProductSizes>();
+//
+//            List<ProductColorStyle> productColorStyles=productColorStyleRepository.findByProduct(product);
+//
+//            product.getProductStatuses().setAcceptCustomSizes( p.acceptCustomSizes);
+//
+////            productSearchDTO.setAcceptCustomSizes(p.acceptCustomSizes);
+////            productSearchDTO.setNumOfDaysToComplete(p.numOfDaysToComplete);
+//            //productSearchDTO.setInStock(p.inStock);
+//
+//            if(productColorStyles.size()>0){
+//
+//                for (ProductColorStyle productColorStyle: productColorStyles) {
+//                    List<ProductSizes> productSizes = productSizesRepository.findByProductColorStyle(productColorStyle);
+//                    productSizesRepository.delete(productSizes);
+//
+//                    for(ProductPicture pp:productColorStyle.getProductStyle().getProductPictures()) {
+//                        Long id = pp.getId();
+//                        ProductPicture productPicture = productPictureRepository.findOne(id);
+//                        cloudinaryService.deleteFromCloud(productPicture.getPicture(), productPicture.getPictureName());
+//                    }
+//                }
+//                productColorStyleRepository.delete(productColorStyles);
+//            }
+//
+//            for (ProductColorStyleDTO pa: p.productColorStyleDTOS) {
+//                ProductColorStyle productColorStyle = new ProductColorStyle();
+//                productColorStyle.setProduct(product);
+//                String  colourName= generalUtil.getPicsName("prodcolour",pa.getColourName());
+//                System.out.println(pa.getColourPicture());
+//                CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
+//                productColorStyle.setColourName(pa.getColourName());
+//                productColorStyle.setColourPicture(c.getUrl());
+//              //  productColorStyle.setStockNo(pa.getStockNo());
+//                productColorStyleRepository.save(productColorStyle);
+//                ProductAttributeSearchDTO productAttributeSearch=new ProductAttributeSearchDTO();
+//                productAttributeSearch.setProductId(p.id);
+//                productAttributeSearch.setColourName(colourName);
+//                productAttributeSearch.setColourPicture(c.getUrl());
+//                productColorStyleRepository.save(productColorStyle);
+//
+//
+//                for (ProductSizes prodSizes: pa.getProductSizes()) {
+//                    ProductSizes productSizes = new ProductSizes();
+//                    productSizes.setName(prodSizes.getName());
+//                    productSizes.setNumberInStock(prodSizes.getNumberInStock());
+//                    //totalStock += prodSizes.getNumberInStock();
+//                    productSizes.setProductColorStyle(productColorStyle);
+//                    productSizesRepository.save(productSizes);
+//                    productSizesSearchDTOList.add(productSizes);
+//                }
+//                productAttributeSearch.setProductSizes(productSizesSearchDTOList);
+//                for(String pp : pa.getPicture()){
+//
+//                        ProductPicture productPicture = new ProductPicture();
+//                        c = cloudinaryService.uploadToCloud(pp, generalUtil.getPicsName("prodpic", product.getSubCategory().getSubCategory()), "productpictures");
+//                        System.out.println("i got here no id");
+//                        productPicture.setPictureName(c.getUrl());
+//                        productPicture.setPicture(c.getPublicId());
+//                        productPicture.setProductStyle(productstyle);
+//                        productPicture.createdOn = date;
+//                        productPicture.setUpdatedOn(date);
+//                        productPictureRepository.save(productPicture);
+//                        ProductPictureSearchDTO productPictureSearchDTO = new ProductPictureSearchDTO();
+//                        productPictureSearchDTO.picture=c.getUrl();
+//                        productPictureSearchDTO.createdOn = date;
+//                        productPictureSearchDTO.updatedOn=date;
+//                        productPictureSearchDTO.setId(productPicture.getId());
+//                        productPicturseSearchDTOList.add(productPictureSearchDTO);
+//                    }
+//                        productAttributeSearch.setProductPictureSearchDTOS(productPicturseSearchDTOList);
+//                        productColorStylesListSearchDTO.add(productAttributeSearch);
+//                        productSearchDTO.setProductAttributeDTOS(productColorStylesListSearchDTO);
+//            }
+//
+//           // product.getProductItem().setStockNo(totalStock);
+//            productSearchDTO.setStockNo(totalStock);
+//            product.getProductStatuses().setVerifiedFlag("N");
+//            productSearchDTO.setVerifiedFlag("N");
+//            productRepository.save(product);
+//            //Then save the Updated product status
+//            //Update the search index to display verified product only
+//            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
+//            apiLogger.log("The Result Of ReIndexing An Updated Product Images/Properties For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            throw new WawoohException();
+//        }
+//
+//    }
+//
+
+
     @Override
     public void updateProductImages(ProductDTO p) {
         Date date = new Date();
         try {
-            Product product = productRepository.findOne(p.id);
-            //Get the product from elastic search 'product' index
-            ProductSearchDTO productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url,p.id));
-            List<ProductAttributeSearchDTO> productColorStylesListSearchDTO =  new ArrayList<>();
-            List<ProductPictureSearchDTO> productPicturseSearchDTOList =  new ArrayList<>();
-            List<MaterialPictureSearchDTO> materialPictureSearchDTOList=new ArrayList<>();
-            List<ProductSizes> productSizesSearchDTOList =  new ArrayList<ProductSizes>();
-            int totalStock = 0;
-            List<ProductColorStyle> productColorStyles=productColorStyleRepository.findByProduct(product);
-            List<String> reOccuringPictures = new ArrayList<String>();
-            product.getProductStatuses().setAcceptCustomSizes( p.acceptCustomSizes);
 
-            productSearchDTO.setAcceptCustomSizes(p.acceptCustomSizes);
-            productSearchDTO.setNumOfDaysToComplete(p.numOfDaysToComplete);
-            //productSearchDTO.setInStock(p.inStock);
+            Product product = productRepository.findOne(p.id);
+
+            List<ProductColorStyle> productColorStyles=productColorStyleRepository.findByProduct(product);
 
             if(productColorStyles.size()>0){
 
@@ -205,83 +298,57 @@ public class ProductPictureServiceImpl implements ProductPictureService{
                     List<ProductSizes> productSizes = productSizesRepository.findByProductColorStyle(productColorStyle);
                     productSizesRepository.delete(productSizes);
 
-                    for(ProductPicture pp:productColorStyle.getProductStyle().getProductPictures()) {
+                    for(ProductPicture pp:productColorStyle.getProductPictures()) {
                         Long id = pp.getId();
                         ProductPicture productPicture = productPictureRepository.findOne(id);
                         cloudinaryService.deleteFromCloud(productPicture.getPicture(), productPicture.getPictureName());
+                        productPictureRepository.delete(productPicture);
                     }
                 }
                 productColorStyleRepository.delete(productColorStyles);
             }
 
             for (ProductColorStyleDTO pa: p.productColorStyleDTOS) {
-                ProductColorStyle productColorStyle = new ProductColorStyle();
-                productColorStyle.setProduct(product);
-                String  colourName= generalUtil.getPicsName("prodcolour",pa.getColourName());
-                System.out.println(pa.getColourPicture());
+                ProductColorStyle productColorStyle=new ProductColorStyle();
+                // productColorStyle.setProduct(product);
+                String name = pa.getColourName().replace("&","");
+                String colourName= generalUtil.getPicsName("prodcolour",name);
                 CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
                 productColorStyle.setColourName(pa.getColourName());
                 productColorStyle.setColourPicture(c.getUrl());
-                productColorStyle.setStockNo(pa.getStockNo());
-                productColorStyleRepository.save(productColorStyle);
-                ProductAttributeSearchDTO productAttributeSearch=new ProductAttributeSearchDTO();
-                productAttributeSearch.setProductId(p.id);
-                productAttributeSearch.setColourName(colourName);
-                productAttributeSearch.setColourPicture(c.getUrl());
+                productColorStyle.setProductStyle(product.getProductStyle());
                 productColorStyleRepository.save(productColorStyle);
 
-
-                for (ProductSizes prodSizes: pa.getProductSizes()) {
+                for (ProductSizes pSizes: pa.getProductSizes()){
                     ProductSizes productSizes = new ProductSizes();
-                    productSizes.setName(prodSizes.getName());
-                    productSizes.setNumberInStock(prodSizes.getNumberInStock());
-                    totalStock += prodSizes.getNumberInStock();
+                    productSizes.setName(pSizes.getName());
+                    productSizes.setNumberInStock(pSizes.getNumberInStock());
+                    productSizes.setProductColorStyle(productColorStyle);
                     productSizes.setProductColorStyle(productColorStyle);
                     productSizesRepository.save(productSizes);
-                    productSizesSearchDTOList.add(productSizes);
                 }
-                productAttributeSearch.setProductSizes(productSizesSearchDTOList);
-                for(String pp : pa.getPicture()){
-
-                        ProductPicture productPicture = new ProductPicture();
-                        c = cloudinaryService.uploadToCloud(pp, generalUtil.getPicsName("prodpic", product.getSubCategory().getSubCategory()), "productpictures");
-                        System.out.println("i got here no id");
-                        productPicture.setPictureName(c.getUrl());
-                        productPicture.setPicture(c.getPublicId());
-                        productPicture.getProductColorStyle().setProduct(product);
-                        productPicture.createdOn = date;
-                        productPicture.setUpdatedOn(date);
-                        productPicture.setProductColorStyle(productColorStyle);
-                        productPictureRepository.save(productPicture);
-                        ProductPictureSearchDTO productPictureSearchDTO = new ProductPictureSearchDTO();
-                        productPictureSearchDTO.picture=c.getUrl();
-                        productPictureSearchDTO.createdOn = date;
-                        productPictureSearchDTO.updatedOn=date;
-                        productPictureSearchDTO.setId(productPicture.getId());
-                        productPicturseSearchDTOList.add(productPictureSearchDTO);
-                    }
-                        productAttributeSearch.setProductPictureSearchDTOS(productPicturseSearchDTOList);
-                        productColorStylesListSearchDTO.add(productAttributeSearch);
-                        productSearchDTO.setProductAttributeDTOS(productColorStylesListSearchDTO);
+                saveProductPicture(pa.getPicture(),date,product.getSubCategory().getSubCategory(),productColorStyle);
             }
 
-           // product.getProductItem().setStockNo(totalStock);
-            productSearchDTO.setStockNo(totalStock);
-            product.getProductStatuses().setVerifiedFlag("N");
-            productSearchDTO.setVerifiedFlag("N");
-            productRepository.save(product);
-            //Then save the Updated product status
-            //Update the search index to display verified product only
-            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
-            apiLogger.log("The Result Of ReIndexing An Updated Product Images/Properties For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
-
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new WawoohException();
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
-
     }
 
+
+    private void saveProductPicture(List<String> pictures, Date date, String subCategory, ProductColorStyle productColorStyle) {
+        for(String p:pictures){
+            ProductPicture productPicture = new ProductPicture();
+            String  productPictureName= generalUtil.getPicsName("prodpic", subCategory);
+            CloudinaryResponse c = cloudinaryService.uploadToCloud(p,productPictureName,"productpictures");
+            productPicture.setPictureName(c.getUrl());
+            productPicture.setPicture(c.getPublicId());
+            productPicture.setProductColorStyle(productColorStyle);
+            productPicture.createdOn = date;
+            productPicture.setUpdatedOn(date);
+            productPictureRepository.save(productPicture);
+        }
+    }
 
 
     @Override

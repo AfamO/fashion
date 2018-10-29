@@ -12,7 +12,9 @@ public class BespokeProductDTO {
 
     private ArrayList<String> artWorkPicture;
 
-    private ArrayList<MaterialPictureDTO> materialPicture;
+    private List<MaterialPictureDTO> materialPicture;
+
+    private List<ArtPictureDTO> artPictureDTOS;
 
     private int numOfDaysToComplete;
 
@@ -36,11 +38,11 @@ public class BespokeProductDTO {
         this.artWorkPicture = artWorkPicture;
     }
 
-    public ArrayList<MaterialPictureDTO> getMaterialPicture() {
+    public List<MaterialPictureDTO> getMaterialPicture() {
         return materialPicture;
     }
 
-    public void setMaterialPicture(ArrayList<MaterialPictureDTO> materialPicture) {
+    public void setMaterialPicture(List<MaterialPictureDTO> materialPicture) {
         this.materialPicture = materialPicture;
     }
 
@@ -58,6 +60,14 @@ public class BespokeProductDTO {
 
     public void setMandatoryMeasurements(String mandatoryMeasurements) {
         this.mandatoryMeasurements = mandatoryMeasurements;
+    }
+
+    public List<ArtPictureDTO> getArtPictureDTOS() {
+        return artPictureDTOS;
+    }
+
+    public void setArtPictureDTOS(List<ArtPictureDTO> artPictureDTOS) {
+        this.artPictureDTOS = artPictureDTOS;
     }
 
     public BespokeProductDTO() {

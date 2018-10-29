@@ -31,7 +31,7 @@ public class ProductRespDTO {
     public String categoryId;
     public String categoryName;
 
-    public List<ProductPictureDTO> picture;
+//    public List<ProductPictureDTO> picture;
 
     public List<ArtPictureDTO> artWorkPicture;
 

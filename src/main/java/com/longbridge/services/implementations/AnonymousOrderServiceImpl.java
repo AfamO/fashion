@@ -133,7 +133,7 @@ public class AnonymousOrderServiceImpl implements AnonymousOrderService {
         List<DesignerOrderDTO> designerDTOS = new ArrayList<>();
         for (Items items: orderReq.getItems()) {
             Product p = productRepository.findOne(items.getProductId());
-            items.setProductPicture(productPictureRepository.findFirst1ByProductStyle_Product(p).getPictureName());
+            items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle_Product(p).getPictureName());
 
             Double amount;
             if(p.getProductPrice().getPriceSlash() != null && p.getProductPrice().getPriceSlash().getSlashedPrice() > 0){

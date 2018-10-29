@@ -26,11 +26,9 @@ private Product product;
 
 @JsonIgnore
 @OneToOne (mappedBy = "productPrice", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-private PriceSlash priceSlash;
+    private PriceSlash priceSlash;
 
-private boolean priceSlashEnabled = false;
-
-private Double materialPrice;
+    private boolean priceSlashEnabled = false;
 
     public Product getProduct() {
         return product;
@@ -62,12 +60,6 @@ private Double materialPrice;
     public void setAmount(double amount) {
         this.amount = amount;
     }
-    public Double getMaterialPrice() {
-        return materialPrice;
-    }
 
-    public void setMaterialPrice(Double materialPrice) {
-        this.materialPrice = materialPrice;
-    }
     
 }
