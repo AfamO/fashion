@@ -123,8 +123,8 @@ public class UserOrderController {
     }
 
     @PostMapping(value = "/applyPromoCode")
-    public Response addToCart(@RequestBody PromoCodeApplyReqDTO promoCodeApplyReqDTO){
-        Object [] response=promoCodeService.applyPromoCode(promoCodeApplyReqDTO);
+    public Response applyPromoCode(@RequestBody Cart cart){
+        Object [] response=promoCodeService.applyPromoCode(cart);
         return new Response("00",response[0].toString(),response[1]);
     }
 

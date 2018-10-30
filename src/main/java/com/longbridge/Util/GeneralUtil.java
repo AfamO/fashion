@@ -83,6 +83,12 @@ public class GeneralUtil {
     @Autowired
     AnonymousUserRepository anonymousUserRepository;
 
+    @Autowired
+    PromoCodeRepository promoCodeRepository;
+
+    @Autowired
+    PromoItemsRepository promoItemsRepository;
+
     public DesignerDTO convertDesigner2EntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
@@ -575,10 +581,27 @@ public class GeneralUtil {
     }
 
     public CartDTO convertCartEntToDTO(Cart cart){
+
+        //System.out.println("The ProductId=="+cart.getProductId());
         CartDTO cartDTO = new CartDTO();
         cartDTO.setId(cart.id);
         cartDTO.setProductId(cart.getProductId());
         Products products = productRepository.findOne(cart.getProductId());
+        //System.out.println("The Saved Total Amount For this cart "+cart.id+"==="+cart.getAmount());
+        // Hence search for itemtype of either 'product' or 'category'
+        List<PromoItem> promoItemList=promoItemsRepository.findAllPromoItemsBelongToCategoryAndProduct(cart.getProductId(),"p","c");
+        //System.out.println("Retrieved promoItemsList Size=="+promoItemList.size());
+        if(promoItemList!=null && promoItemList.size()>0){
+
+            PromoCode promoCode=promoItemList.get(0).getPromoCode(); // Ensure that alteast one of the items has a promoCode attached to it.
+            //System.out.println("Retrieved PromoCode=="+promoCode.getCode());
+            //Does this product have a promocode and it has not been used by the same user?
+            if(promoCode!=null && !cart.getPromoCode().equalsIgnoreCase("USER_USED")){
+                //Then set 'Y' for yes so that the user is allowed to enter the promocode and use it.
+                cartDTO.setHasPromoCode("Y");
+            }
+
+        }
         cartDTO.setProductName(products.getName());
         cartDTO.setProductAttributeId(cart.getProductAttributeId());
         cartDTO.setQuantity(cart.getQuantity());

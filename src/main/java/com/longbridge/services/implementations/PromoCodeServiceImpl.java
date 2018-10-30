@@ -8,6 +8,7 @@ import com.longbridge.dto.PromoItemDTO;
 import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
+import com.longbridge.respbodydto.PromoCodeApplyRespDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.PromoCodeService;
 import org.apache.commons.lang3.time.DateUtils;
@@ -51,25 +52,29 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     CartRepository cartRepository;
     
     @Override
-    public void addPromoCode(PromoCodeDTO promoCodeDTO) {
+    public String addPromoCode(PromoCodeDTO promoCodeDTO) {
 
         try {
+            if(promoCodeRepository.findByCode(promoCodeDTO.getCode())==null){
+                PromoCode promoCode= new PromoCode();
+                promoCode.setCode(promoCodeDTO.getCode());
+                promoCode.setValue(promoCodeDTO.getValue());
+                promoCode.setExpiryDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(promoCodeDTO.getExpiryDate()));
+                promoCode.setValueType(promoCodeDTO.getValueType());
+                promoCode.setIsUsedStatus("N");
+                promoCode.setNumberOfUsage(promoCodeDTO.getNumberOfUsage());
+                promoCode.setCreatedOn(new Date());
+                promoCode.setPromoItems(promoCodeDTO.getPromoItems());
 
-            PromoCode promoCode= new PromoCode();
-            promoCode.setCode(promoCodeDTO.getCode());
-            promoCode.setValue(promoCodeDTO.getValue());
-            promoCode.setExpiryDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(promoCodeDTO.getExpiryDate()));
-            promoCode.setValueType(promoCodeDTO.getValueType());
-            promoCode.setIsUsedStatus("N");
-            promoCode.setNumberOfUsage(promoCodeDTO.getNumberOfUsage());
-            promoCode.setCreatedOn(new Date());
-
-            promoCode.setPromoItems(promoCodeDTO.getPromoItems());
-
-            promoCodeRepository.save(promoCode);
-            for (PromoItem promoItem:promoCodeDTO.getPromoItems()){
-                promoItem.setPromoCode(promoCode);
-                promoItemsRepository.save(promoItem);
+                promoCodeRepository.save(promoCode);
+                for (PromoItem promoItem:promoCodeDTO.getPromoItems()){
+                    promoItem.setPromoCode(promoCode);
+                    promoItemsRepository.save(promoItem);
+                }
+                promoCodeStatusMessage="Operation Successful";
+            }
+            else {
+                promoCodeStatusMessage="OOps! This promoCode already exists.";
             }
 
         }
@@ -78,7 +83,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
             throw new WawoohException();
         }
 
-
+        return promoCodeStatusMessage;
 
 
     }
@@ -108,9 +113,8 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     }
 
     @Override
-    public Object[] applyPromoCode(PromoCodeApplyReqDTO promoCodeApplyReqDTO) {
+    public Object[] applyPromoCode(Cart cart) {
 
-        Cart cart=promoCodeApplyReqDTO.getCart();
         User user = getCurrentUser();
         Products products = productRepository.findOne(cart.getProductId());
             Double amount;
@@ -120,11 +124,12 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                 amount=products.getAmount();
             }
             Double intialAmount=amount;
+            PromoCodeApplyRespDTO promoCodeApplyRespDTO=null;
             System.out.println("The Initial Amount Is::"+amount);
             // Apply PromoCode Here if any
-            if(promoCodeApplyReqDTO.getPromoCode()!=null){
+            if(cart.getPromoCode()!=null){
                 //Since this item has a promo Code, we check for it before applying it.
-                PromoCode promoCode=promoCodeRepository.findByCode(promoCodeApplyReqDTO.getPromoCode());
+                PromoCode promoCode=promoCodeRepository.findByCode(cart.getPromoCode());
                 //Does it exist in the DB?
                 if(promoCode!=null){
                     //Has the promoCode expired?
@@ -220,10 +225,10 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                 }
                 if(amount!=intialAmount){
                     //The promoCode must have been applied successfully
-
+                    promoCodeStatusMessage="Operation Successful";
                     // Update the used status if it is a 'single' use type
 
-                     if(promoCode.getNumberOfUsage().equalsIgnoreCase("Y")){
+                     if(promoCode.getNumberOfUsage().equalsIgnoreCase("single")){
                      promoCode.setIsUsedStatus("Y");
                      promoCodeRepository.save(promoCode);
                      }
@@ -235,14 +240,22 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                     cart.setUpdatedOn(date);
                     cart.setExpiryDate(DateUtils.addDays(date,7));
                     cart.setUser(user);
+                    //Indicate that this user has used the PromoCode
+                    cart.setPromoCode("USER_USED");
                     cartRepository.save(cart);
+                    // Set the new pricing details
+                    promoCodeApplyRespDTO=new PromoCodeApplyRespDTO();
+                    promoCodeApplyRespDTO.setPrice(amount);
+                    promoCodeApplyRespDTO.setQuantity(cart.getQuantity());
+                    promoCodeApplyRespDTO.setTotalPrice(cart.getAmount());
 
 
                 }
 
                 System.out.println("The Final Amount After Applying PromoCode Is::"+amount);
             }
-            return new Object [] {promoCodeStatusMessage,amount};
+            //Return the PromoCode Response DTO and the Status Message
+            return new Object [] {promoCodeStatusMessage,promoCodeApplyRespDTO};
     }
     private User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -15,8 +15,15 @@ import java.util.List;
  */
 @Repository
 public interface PromoItemsRepository extends JpaRepository<PromoItem,Long> {
-    List<PromoItem> findByItemIdAndItemType(PromoItem promoItem, String itemType);
+    List<PromoItem> findByItemIdAndItemType(Long itemId, String itemType);
 
     List<PromoItem> findByItemType(String itemType);
+
+    PromoItem findByItemType(Long itemId, String itemType);
+
+
+    @Query("Select pI from PromoItem pI  where pI.itemId=:itemId AND (pI.itemType =:itemTypeP OR pI.itemType =:itemTypeC ) ")
+    List<PromoItem> findAllPromoItemsBelongToCategoryAndProduct(@Param("itemId") Long itemId,@Param("itemTypeP") String itemTypeP,@Param("itemTypeC")String itemTypeC);
+
 
 }

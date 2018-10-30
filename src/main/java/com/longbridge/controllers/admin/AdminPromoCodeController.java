@@ -75,9 +75,9 @@ public class AdminPromoCodeController {
     @PostMapping(value = "/addpromocode")
     public Object addPromoCode(@RequestBody PromoCodeDTO promoCodeDTO){
         Map<String,Object> responseMap = new HashMap();
-        promoCodeService.addPromoCode(promoCodeDTO);
-        responseMap.put("success", "success");
-        return new Response("00", "Operation Successful", responseMap);
+        String statusMessage = promoCodeService.addPromoCode(promoCodeDTO);
+        //responseMap.put("success", "success");
+        return new Response("00", statusMessage, responseMap);
     }
 
     @RequestMapping(

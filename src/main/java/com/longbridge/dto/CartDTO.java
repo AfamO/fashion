@@ -61,6 +61,8 @@ public class CartDTO {
 
     private int stockNo;
 
+    private String hasPromoCode="N";
+
     public CartDTO(User user, Long id, Long productId, String productName, double slashedPrice, int quantity, Long designerId, Long productAttributeId, String designerName, String size, int sizeStockNo, Double price, Double totalPrice, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, String materialPickupDate, Date expiryDate, String measurementName, Long measurementId, int stockNo) {
         this.user = user;
         this.id = id;
@@ -296,6 +298,14 @@ public class CartDTO {
 
     public void setSlashedPrice(double slashedPrice) {
         this.slashedPrice = slashedPrice;
+    }
+
+    public String getHasPromoCode() {
+        return hasPromoCode;
+    }
+
+    public void setHasPromoCode(String hasPromoCode) {
+        this.hasPromoCode = hasPromoCode;
     }
 
     public CartDTO() {

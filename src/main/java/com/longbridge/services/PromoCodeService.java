@@ -3,13 +3,14 @@ package com.longbridge.services;
 import com.longbridge.dto.PageableDetailsDTO;
 import com.longbridge.dto.PromoCodeApplyReqDTO;
 import com.longbridge.dto.PromoCodeDTO;
+import com.longbridge.models.Cart;
 import com.longbridge.models.PromoCode;
 
 import java.util.List;
 
 public interface PromoCodeService {
 
-    void addPromoCode(PromoCodeDTO promoCodeDTO);
+    String addPromoCode(PromoCodeDTO promoCodeDTO);
 
     void updatePromoCode(PromoCodeDTO promoCodeDTO);
 
@@ -17,7 +18,7 @@ public interface PromoCodeService {
 
     PromoCodeDTO getPromoCode(Long id);
 
-    Object[] applyPromoCode(PromoCodeApplyReqDTO promoCodeApplyReqDTO);
+    Object[] applyPromoCode(Cart cart);
 
     List<PromoCodeDTO> getAllPromoCodes(PageableDetailsDTO pageableDetailsDTO);
 
