@@ -284,12 +284,23 @@ public class GeneralUtil {
 
     public List<ProductRespDTO> convertProdEntToProdRespDTOs(List<Products> products){
 
-        List<ProductRespDTO> productDTOS = new ArrayList<ProductRespDTO>();
+        List<ProductRespDTO> totalProductDTOS = new ArrayList<ProductRespDTO>();
+        List<ProductRespDTO> verifiedProductDTOS = new ArrayList<ProductRespDTO>();
+        List<ProductRespDTO> unVerfiedproductDTOS = new ArrayList<ProductRespDTO>();
         for(Products p: products){
-            ProductRespDTO productDTO = convertEntityToDTO(p);
-            productDTOS.add(productDTO);
+            if(p.getVerifiedFlag().equalsIgnoreCase("Y")){
+                ProductRespDTO productDTO = convertEntityToDTO(p);
+                verifiedProductDTOS.add(productDTO);
+            }
+            else {
+                ProductRespDTO productDTO = convertEntityToDTO(p);
+                unVerfiedproductDTOS.add(productDTO);
+            }
+
         }
-        return productDTOS;
+        totalProductDTOS.addAll(verifiedProductDTOS);
+        totalProductDTOS.addAll(unVerfiedproductDTOS);
+        return totalProductDTOS;
     }
 
     public ProductRespDTO convertEntityToDTO(Products products){
