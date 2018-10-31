@@ -22,9 +22,6 @@ public class ProductColorStyle extends CommonFields implements Serializable {
     @OneToMany(mappedBy = "productColorStyle", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<ProductSizes> productSizes;
 
-    private int stockNo;
-
-    private String inStock;
 
     @JsonIgnore
     @ManyToOne
@@ -65,22 +62,6 @@ public class ProductColorStyle extends CommonFields implements Serializable {
 
     public void setProductSizes(List<ProductSizes> productSizes) {
         this.productSizes = productSizes;
-    }
-
-    public int getStockNo() {
-        return stockNo;
-    }
-
-    public void setStockNo(int stockNo) {
-        this.stockNo = stockNo;
-    }
-
-    public String getInStock() {
-        return inStock;
-    }
-
-    public void setInStock(String inStock) {
-        this.inStock = inStock;
     }
 
     public ProductStyle getProductStyle() {

@@ -281,8 +281,6 @@ public class GeneralUtil {
         ProductRespDTO productDTO = new ProductRespDTO();
         DecimalFormat df = new DecimalFormat("#.00");
         productDTO.id= product.id;
-        productDTO.amount= product.getProductPrice().getAmount();
-      //  productDTO.color=product.color;
         productDTO.description= product.getProdDesc();
         productDTO.prodSummary= product.getProdSummary();
         productDTO.name= product.getName();
@@ -310,30 +308,11 @@ public class GeneralUtil {
         productDTO.categoryName= product.getSubCategory().getCategory().categoryName;
         productDTO.numOfTimesOrdered = product.getNumOfTimesOrdered();
 
-
-        PriceSlash priceSlash = priceSlashRepository.findByProductPrice_Product(product);
-        if(priceSlash != null){
-            productDTO.slashedPrice = priceSlash.getSlashedPrice();
-            productDTO.percentageDiscount = Double.parseDouble(df.format(priceSlash.getPercentageDiscount()));
+        productDTO.amount=product.getProductPrice().getAmount();
+        if(product.getProductPrice().getPriceSlash() != null){
+            productDTO.slashedPrice = product.getProductPrice().getPriceSlash().getSlashedPrice();
+            productDTO.percentageDiscount = Double.parseDouble(df.format(product.getProductPrice().getPriceSlash().getPercentageDiscount()));
         }
-
-//
-//        BespokeProduct bespokeProduct = bespokeProductRepository.findByProduct(product);
-//        if(bespokeProduct != null){
-//            productDTO.numOfDaysToComplete=bespokeProduct.getNumOfDaysToComplete();
-//            productDTO.mandatoryMeasurements= bespokeProduct.getMandatoryMeasurements();
-//            if(product.getProductType() == 1){
-//                List<ArtWorkPicture> artWorkPictures = bespokeProduct.getArtWorkPicture();
-//                productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
-//
-//                List<MaterialPicture> materialPictures = bespokeProduct.getMaterialPicture();
-//                productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
-//            }else{
-//                productDTO.artWorkPicture = null;
-//                productDTO.materialPicture = null;
-//            }
-//        }
-
 
         if(product.getProductStyle().getBespokeProduct() != null) {
             BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
@@ -400,14 +379,10 @@ public class GeneralUtil {
         ProductRespDTO productDTO = new ProductRespDTO();
         DecimalFormat df = new DecimalFormat("#.00");
         productDTO.id= product.id;
-        productDTO.amount= product.getProductPrice().getAmount();
-        //productDTO.productColorStyles=product.productColorStyles;
         productDTO.productColorStyleDTOS =convertProductAttributeEntitiesToDTOs(product.getProductStyle().getProductColorStyles());
-        //productDTO.color=product.color;
         productDTO.description= product.getProdDesc();
         productDTO.prodSummary= product.getProdSummary();
         productDTO.name= product.getName();
-       // productDTO.productSizes=product.productSizes;
         if(product.getProductStyle().getStyle() != null) {
             productDTO.styleId = product.getProductStyle().getStyle().id.toString();
         }
@@ -425,21 +400,11 @@ public class GeneralUtil {
         productDTO.categoryName= product.getSubCategory().getCategory().categoryName;
         productDTO.numOfTimesOrdered = product.getNumOfTimesOrdered();
 
-        //BespokeProduct bespokeProduct = bespokeProductRepository.findByProduct(product);
-//        if(bespokeProduct != null){
-//            productDTO.numOfDaysToComplete=bespokeProduct.getNumOfDaysToComplete();
-//            productDTO.mandatoryMeasurements= bespokeProduct.getMandatoryMeasurements();
-//            if(product.getProductType() == 1){
-//                List<ArtWorkPicture> artWorkPictures = bespokeProduct.getArtWorkPicture();
-//                productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
-//
-//                List<MaterialPicture> materialPictures = bespokeProduct.getMaterialPicture();
-//                productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
-//            }else{
-//                productDTO.artWorkPicture = null;
-//                productDTO.materialPicture = null;
-//            }
-//        }
+        productDTO.amount=product.getProductPrice().getAmount();
+        if(product.getProductPrice().getPriceSlash() != null){
+            productDTO.slashedPrice = product.getProductPrice().getPriceSlash().getSlashedPrice();
+            productDTO.percentageDiscount = Double.parseDouble(df.format(product.getProductPrice().getPriceSlash().getPercentageDiscount()));
+        }
 
         if(product.getProductStyle().getBespokeProduct() != null) {
             BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
@@ -460,11 +425,7 @@ public class GeneralUtil {
 
 
         productDTO.reviews= product.getReviews();
-        PriceSlash priceSlash = priceSlashRepository.findByProductPrice_Product(product);
-        if(priceSlash != null){
-            productDTO.slashedPrice = priceSlash.getSlashedPrice();
-            productDTO.percentageDiscount = Double.parseDouble(df.format(priceSlash.getPercentageDiscount()));
-        }
+
 
         productDTO.productType = product.getProductType();
 
@@ -624,7 +585,7 @@ public class GeneralUtil {
     }
 
 
-    public List<CartDTO>    convertCartEntsToDTOs(List<Cart> carts){
+    public List<CartDTO> convertCartEntsToDTOs(List<Cart> carts){
         List<CartDTO> cartDTOS = new ArrayList<>();
         for(Cart cart:carts){
             CartDTO cartDTO = convertCartEntToDTO(cart);
@@ -664,8 +625,7 @@ public class GeneralUtil {
         ProductPicture p = productPictureRepository.findFirst1ByProductColorStyle_Product(product);
         cartDTO.setProductPicture(p.getPictureName());
 
-
-        cartDTO.setStockNo(productColorStyleRepository.findOne(cart.getProductColorStyleId()).getStockNo());
+        cartDTO.setStockNo(productSizesRepository.findOne(cart.getProductSizeId()).getNumberInStock());
 
         if(cart.getArtWorkPictureId() != null) {
             ArtWorkPicture a = artWorkPictureRepository.findOne(cart.getArtWorkPictureId());

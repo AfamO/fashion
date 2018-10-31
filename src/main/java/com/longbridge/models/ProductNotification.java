@@ -11,6 +11,8 @@ public class ProductNotification extends CommonFields{
 
     private Long productColorStyleId;
 
+    private Long productSizesId;
+
     public String getEmail() {
         return email;
     }
@@ -25,6 +27,14 @@ public class ProductNotification extends CommonFields{
 
     public void setProductColorStyleId(Long productColorStyleId) {
         this.productColorStyleId = productColorStyleId;
+    }
+
+    public Long getProductSizesId() {
+        return productSizesId;
+    }
+
+    public void setProductSizesId(Long productSizesId) {
+        this.productSizesId = productSizesId;
     }
 
     public ProductNotification(String email, Long productColorStyleId) {

@@ -25,6 +25,8 @@ public class CartDTO {
 
     private Long productColorStyleId;
 
+    private Long productSizeId;
+
     private String designerName;
 
     private String size;
@@ -296,6 +298,14 @@ public class CartDTO {
 
     public void setSlashedPrice(double slashedPrice) {
         this.slashedPrice = slashedPrice;
+    }
+
+    public Long getProductSizeId() {
+        return productSizeId;
+    }
+
+    public void setProductSizeId(Long productSizeId) {
+        this.productSizeId = productSizeId;
     }
 
     public CartDTO() {

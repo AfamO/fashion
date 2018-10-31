@@ -16,7 +16,9 @@ public class Product extends CommonFields implements Serializable {
 
     private String name;
 
+
     private String prodSummary;
+
 
     @Lob
     private String prodDesc;

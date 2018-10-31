@@ -115,8 +115,8 @@ public class OrderServiceImpl implements OrderService {
             List<ProductSizes> productSizes = new ArrayList<ProductSizes>();
 
             for (Items items: orderReq.getItems()) {
-                if(items.getProductAttributeId() != null){
-                    ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductAttributeId());
+                if(items.getProductColorStyleId() != null){
+                    ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductColorStyleId());
 
                     if(itemAttribute != null){
                         ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());
@@ -203,8 +203,8 @@ public class OrderServiceImpl implements OrderService {
 
 
             for (Items items: orderReq.getItems()) {
-                if(items.getProductAttributeId() != null){
-                    ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductAttributeId());
+                if(items.getProductColorStyleId() != null){
+                    ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductColorStyleId());
                     if(itemAttribute != null){
                         ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());
                         if(items.getMeasurementId() == null){
@@ -284,7 +284,7 @@ public class OrderServiceImpl implements OrderService {
                 items.setMaterialPicture(materialPictureRepository.findOne(items.getMaterialPictureId()).getPictureName());
             }
 
-            ProductColorStyle productColorStyle =productColorStyleRepository.findOne(items.getProductAttributeId());
+            ProductColorStyle productColorStyle =productColorStyleRepository.findOne(items.getProductColorStyleId());
             items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle(p.getProductStyle()).getPictureName());
 
             Double amount;
@@ -318,20 +318,18 @@ public class OrderServiceImpl implements OrderService {
             items.setItemStatus(itemStatus);
             itemRepository.save(items);
             p.setNumOfTimesOrdered(p.getNumOfTimesOrdered()+1);
-            if(items.getMeasurement() == null) {
-                if (productColorStyle.getStockNo() != 0) {
-                    productColorStyle.setStockNo(productColorStyle.getStockNo() - items.getQuantity());
-                   // ProductSizes productSizes = productSizesRepository.findByProductsAndName(p, items.getSize());
-                    //productSizes.setStockNo(productSizes.getStockNo() - items.getQuantity());
-                    //productSizesRepository.save(productSizes);
 
-                } else {
-                    productColorStyle.setInStock("N");
+            if(items.getBespokeProductId() == null) {
+                if(items.getProductSizesId() != null){
+                    //todo later, write a reduce stock method
+                    ProductSizes productSizes = productSizesRepository.findOne(items.getProductSizesId());
+                    if(productSizes != null){
+                        if(productSizes.getNumberInStock() != 0){
+                            productSizes.setNumberInStock(productSizes.getNumberInStock()-items.getQuantity());
+                        }
+                    }
                 }
 
-                if (productColorStyle.getStockNo() == 0) {
-                    productColorStyle.setInStock("N");
-                }
             }
             productRepository.save(p);
         }
@@ -660,8 +658,8 @@ public class OrderServiceImpl implements OrderService {
         String status = "";
 
         for (Items items: item) {
-            if(items.getProductAttributeId() != null){
-                ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductAttributeId());
+            if(items.getProductColorStyleId() != null){
+                ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductColorStyleId());
 
                 if(itemAttribute != null){
                     ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());

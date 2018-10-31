@@ -54,7 +54,9 @@ public class ResendMailUtil {
     DesignerRepository designerRepository;
 
     @Autowired
-    ProductColorStyleRepository productColorStyleRepository;
+    ProductSizesRepository productSizesRepository;
+
+
 
 
     @Scheduled(cron = "${wawooh.status.check.rate}")
@@ -209,11 +211,11 @@ public class ResendMailUtil {
     private String notifyMe(){
         List<ProductNotification> productNotifications=productNotificationRepository.findAll();
         for (ProductNotification p:productNotifications) {
-            ProductColorStyle productColorStyle = productColorStyleRepository.findOne(p.getProductColorStyleId());
+            ProductSizes productSizes = productSizesRepository.findOne(p.getProductSizesId());
 
-            if(productColorStyle.getStockNo() >0){
+            if(productSizes.getNumberInStock() >0){
                 Context context = new Context();
-                context.setVariable("productName", productColorStyle.getProduct().getName());
+                context.setVariable("productName", productSizes.getProductColorStyle().getProductStyle().getProduct().getName());
                 String mail = p.getEmail();
                 String message = templateEngine.process("notifymetemplate", context);
                 String subject = messageSource.getMessage("notifyme.subject",null,locale);

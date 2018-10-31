@@ -319,6 +319,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+
     private Product saveProduct(ProductDTO productDTO, Designer designer, Date date) {
         Product product = new Product();
         Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
@@ -334,6 +335,7 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+
     private ProductStyle saveProductStyle(Long styleId, Product product, ProductDTO productDTO) {
         ProductStyle productStyle = new ProductStyle();
         if(styleId != null ) {
@@ -341,7 +343,6 @@ public class ProductServiceImpl implements ProductService {
         }
         productStyle.setProduct(product);
         productStyleRepository.save(productStyle);
-
         if(productDTO.bespokeProductDTO != null) {
             saveBespokeProduct(productDTO.productType, productDTO.bespokeProductDTO, new Date(),productStyle,product.getSubCategory().getSubCategory());
 
@@ -398,7 +399,7 @@ public class ProductServiceImpl implements ProductService {
         } else if(percentageDiscount > 0){
             priceSlash=new PriceSlash();
             productPrice.setPriceSlashEnabled(true);
-           productPrice.setProduct(product);
+            productPrice.setProduct(product);
             priceSlash.setSlashedPrice(amount - ((percentageDiscount/100)* productPrice.getAmount()));
             priceSlash.setPercentageDiscount(percentageDiscount);
             priceSlashRepository.save(priceSlash);
@@ -456,101 +457,22 @@ public class ProductServiceImpl implements ProductService {
             Designer designer = designerRepository.findByUser(user);
             Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
             Product product = productRepository.findOne(productDTO.id);
-            //Get the product from elastic search 'product' index
-//            ProductSearchDTO productSearchDTO=null;
-//            if(product !=null){
-//                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url,productDTO.id));
-//            }
             product.setSubCategory(subCategoryRepository.findOne(subCategoryId));
             product.setName(productDTO.name);
             product.getProductPrice().setAmount(productDTO.amount);
-           // product.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
             product.setProdDesc(productDTO.description);
             product.setProdSummary(productDTO.prodSummary);
             product.setDesigner(designer);
-//            productSearchDTO.setSubCategoryId(productDTO.subCategoryId);
-//            productSearchDTO.setName(productDTO.name);
-//            productSearchDTO.setAmount(productDTO.amount);
-            //productSearchDTO.setAvailability(productDTO.inStock);
-           // productSearchDTO.setNumOfDaysToComplete(productDTO.numOfDaysToComplete);
-           // productSearchDTO.setMandatoryMeasurements(productDTO.mandatoryMeasurements);
-//            productSearchDTO.setMaterialPrice(productDTO.materialPrice);
-//            productSearchDTO.setMaterialName(productDTO.materialName);
-//            productSearchDTO.setCategoryName(product.getSubCategory().getCategory().categoryName);
-//            productSearchDTO.setSubCategoryName(product.getSubCategory().getSubCategory());
-//            productSearchDTO.setProdSummary(productDTO.prodSummary);
-//            productSearchDTO.setDescription(productDTO.description);
-//            productSearchDTO.setDesignerId(Long.toString(designer.id));
-//            productSearchDTO.setDesignerStatus(designer.getStatus());
-//            productSearchDTO.setStatus(productDTO.status);
-//            productSearchDTO.setDesignerName(designer.getStoreName());
-//
-//            productSearchDTO.setProductType(productDTO.productType);
-            //
-
                 if(productDTO.styleId!=null)
                 {
                     product.getProductStyle().setStyle(styleRepository.findOne(productDTO.styleId));
-                   // productSearchDTO.setStyleId(productDTO.styleId);
 
                 }
-           // product.getProductItem().setStockNo(productDTO.stockNo);
+
+
             product.setUpdatedOn(date);
-           // productSearchDTO.setStockNo(productDTO.stockNo);
-//
-//            if(productDTO.slashedPrice > 0){
-//                PriceSlash priceSlash =priceSlashRepository.findByProductPrice_Product(product);
-//                if(priceSlash != null){
-//                    priceSlash.setSlashedPrice(productDTO.slashedPrice);
-//                    priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
-////                    productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
-////                    productSearchDTO.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
-//                }else {
-//
-//                    priceSlash=new PriceSlash();
-//                    product.getProductPrice().setPriceSlashEnabled(true);
-//                    priceSlash.getProductPrice().setProduct(product);
-//                    priceSlash.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
-//                    priceSlash.setSlashedPrice(productDTO.slashedPrice);
-////                    productSearchDTO.setSlashedPrice(productDTO.slashedPrice);
-////                    productSearchDTO.setPercentageDiscount(((productDTO.amount - productDTO.slashedPrice)/productDTO.amount)*100);
-//                }
-//
-//                priceSlashRepository.save(priceSlash);
-//            }
-//            else if(productDTO.percentageDiscount > 0){
-//                PriceSlash priceSlash =priceSlashRepository.findByProductPrice_Product(product);
-//                if(priceSlash != null){
-//                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
-//                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-//                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
-//                    productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
-//                }else {
-//                    priceSlash=new PriceSlash();
-//                    product.getProductPrice().setPriceSlashEnabled(true);
-//                    priceSlash.getProductPrice().setProduct(product);
-//                    priceSlash.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
-//                    priceSlash.setPercentageDiscount(productDTO.percentageDiscount);
-//                    productSearchDTO.setSlashedPrice(productDTO.amount - ((productDTO.percentageDiscount/100)* product.getProductPrice().getAmount()));
-//                    productSearchDTO.setPercentageDiscount(productDTO.percentageDiscount);
-//                }
-//
-//                priceSlashRepository.save(priceSlash);
-//            }else{
-//                product.getProductPrice().setPriceSlashEnabled(false);
-//                PriceSlash priceSlash =priceSlashRepository.findByProductPrice_Product(product);
-//                if(priceSlash != null){
-//                    priceSlashRepository.delete(priceSlash);
-//                }
-//            }
             product.getProductStatuses().setVerifiedFlag("N");
             productRepository.save(product);
-            //Then save the Updated product status
-            //Update the search index to display verified product only
-//            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
-//            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
-
-
         }catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
@@ -566,8 +488,8 @@ public class ProductServiceImpl implements ProductService {
 
 
             if(productDTO.productColorStyleDTOS != null){
-                List<ProductColorStyle> productAttributes=productColorStyleRepository.findByProduct(product);
-                productColorStyleRepository.delete(productAttributes);
+                List<ProductSizes> productSizes=productSizesRepository.findByProductColorStyle_ProductStyle_Product(product);
+                productSizesRepository.delete(productSizes);
                 for (ProductColorStyleDTO p: productDTO.productColorStyleDTOS) {
 //                    p.setProduct(product);
 //                    productAttributeRepository.save(p);
@@ -586,7 +508,6 @@ public class ProductServiceImpl implements ProductService {
             Product product = productRepository.findOne(id);
             product.getProductStatuses().setStatus(status);
             productRepository.save(product);
-
         }catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();

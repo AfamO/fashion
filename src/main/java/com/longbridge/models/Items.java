@@ -41,7 +41,11 @@ public class Items extends CommonFields{
 
     private Long materialPictureId;
 
-    private Long productAttributeId;
+    private Long productColorStyleId;
+
+    private Long bespokeProductId;
+
+    private Long productSizesId;
 
     private String color;
 
@@ -195,13 +199,6 @@ public class Items extends CommonFields{
         this.measurementId = measurementId;
     }
 
-//    public String getMeasurementName() {
-//        return measurementName;
-//    }
-//
-//    public void setMeasurementName(String measurementName) {
-//        this.measurementName = measurementName;
-//    }
 
 
     public String getRejectReason() {
@@ -285,12 +282,20 @@ public class Items extends CommonFields{
         this.complain = complain;
     }
 
-    public Long getProductAttributeId() {
-        return productAttributeId;
+    public Long getProductColorStyleId() {
+        return productColorStyleId;
     }
 
-    public void setProductAttributeId(Long productAttributeId) {
-        this.productAttributeId = productAttributeId;
+    public void setProductColorStyleId(Long productColorStyleId) {
+        this.productColorStyleId = productColorStyleId;
+    }
+
+    public Long getProductSizesId() {
+        return productSizesId;
+    }
+
+    public void setProductSizesId(Long productSizesId) {
+        this.productSizesId = productSizesId;
     }
 
     public String getTrackingNumber() {
@@ -301,10 +306,18 @@ public class Items extends CommonFields{
         this.trackingNumber = trackingNumber;
     }
 
+    public Long getBespokeProductId() {
+        return bespokeProductId;
+    }
+
+    public void setBespokeProductId(Long bespokeProductId) {
+        this.bespokeProductId = bespokeProductId;
+    }
+
     public Items() {
     }
 
-    public Items(Orders orders, Long productId, String productName, String productPicture, String artWorkPicture, String materialPicture, int quantity, Long designerId, String deliveryStatus, Date deliveryDate, String size, Double amount, Long artWorkPictureId, Long materialPictureId, Long productAttributeId, String color, String materialStatus, Long materialLocation, String materialPickupDate, Long measurementId, String rejectReason, String failedInspectionReason, String complain, String trackingNumber, String measurement, ItemStatus itemStatus, StatusMessage statusMessage) {
+    public Items(Orders orders, Long productId, String productName, String productPicture, String artWorkPicture, String materialPicture, int quantity, Long designerId, String deliveryStatus, Date deliveryDate, String size, Double amount, Long artWorkPictureId, Long materialPictureId, Long productColorStyleId, Long productSizesId, String color, String materialStatus, Long materialLocation, String materialPickupDate, Long measurementId, String rejectReason, String failedInspectionReason, String complain, String trackingNumber, String measurement, ItemStatus itemStatus, StatusMessage statusMessage) {
         this.orders = orders;
         this.productId = productId;
         this.productName = productName;
@@ -319,7 +332,8 @@ public class Items extends CommonFields{
         this.amount = amount;
         this.artWorkPictureId = artWorkPictureId;
         this.materialPictureId = materialPictureId;
-        this.productAttributeId = productAttributeId;
+        this.productColorStyleId = productColorStyleId;
+        this.productSizesId = productSizesId;
         this.color = color;
         this.materialStatus = materialStatus;
         this.materialLocation = materialLocation;
@@ -351,7 +365,7 @@ public class Items extends CommonFields{
                 ", amount=" + amount +
                 ", artWorkPictureId=" + artWorkPictureId +
                 ", materialPictureId=" + materialPictureId +
-                ", productAttributeId=" + productAttributeId +
+
                 ", color='" + color + '\'' +
                 ", materialStatus='" + materialStatus + '\'' +
                 ", materialLocation=" + materialLocation +

@@ -104,8 +104,8 @@ public class ItemsUtil {
 
     public void updateStockForDesignerDecline(Items items) {
         try {
-            if (items.getProductAttributeId() != null) {
-                ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductAttributeId());
+            if (items.getProductColorStyleId() != null) {
+                ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductColorStyleId());
 
                 if (itemAttribute != null) {
                     ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());
