@@ -46,7 +46,18 @@ public class Cart extends CommonFields {
 
     private Long measurementId;
 
-    public Cart(User user, Long productId, int quantity, Long designerId, String size, Double amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, Long materialPickUpAddressId, String materialPickupDate, Date expiryDate, Long productColorStyleId, Long measurementId) {
+
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(String promoCode) {
+        this.promoCode = promoCode;
+    }
+
+    private String promoCode="";
+
+    public Cart(User user, Long productId, int quantity, Long designerId, String size, Double amount, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, Long materialPickUpAddressId, String materialPickupDate, Date expiryDate, Long productAttributeId, Long measurementId) {
         this.user = user;
         this.productId = productId;
         this.quantity = quantity;

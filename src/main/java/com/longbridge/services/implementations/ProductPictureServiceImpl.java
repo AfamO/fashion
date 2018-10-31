@@ -374,7 +374,7 @@ public class ProductPictureServiceImpl implements ProductPictureService{
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", product.getSubCategory().getSubCategory()), "artworkpictures");
                     artWorkPicture.setPictureName(c.getUrl());
                     artWorkPicture.setPicture( c.getPublicId());
-                    artWorkPicture.setBespokeProduct(bespokeProductRepository.findOne(artPicReqDTO.bespokeProductId));
+                    //artWorkPicture.setBespokeProduct(bespokeProductRepository.findOne(artPicReqDTO.bespokeProductId));
                     artWorkPicture.createdOn = date;
                     artWorkPicture.setUpdatedOn(date);
                     artWorkPictureRepository.save(artWorkPicture);

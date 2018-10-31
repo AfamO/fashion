@@ -175,4 +175,5 @@ public class OrderReqDTO {
                 ", paidAmount=" + paidAmount +
                 '}';
     }
+
 }

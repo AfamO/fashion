@@ -53,6 +53,8 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     List<Product> findByIdIn(List<Long> ids);
 
+
+
     Page<Product> findByProductStatuses_VerifiedFlagAndNameLike(String verifiedFlag, String name, Pageable pageable);
 
     List<Product> findByProductStatuses_VerifiedFlagAndNameLike(String verifiedFlag, String name);

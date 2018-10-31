@@ -5,7 +5,7 @@ import java.util.Date;
 public class TransferInfoDTO {
 
     private Long id;
-    private Date paymentDate;
+    private String paymentDate;
     private String accountName;
     private double amountPayed;
     private String bank;
@@ -16,7 +16,7 @@ public class TransferInfoDTO {
 
     }
 
-    public TransferInfoDTO(Long id, Date paymentDate, String accountName, double amountPayed, String bank, String paymentNote, String orderNum) {
+    public TransferInfoDTO(Long id, String paymentDate, String accountName, double amountPayed, String bank, String paymentNote, String orderNum) {
         this.id = id;
         this.paymentDate = paymentDate;
         this.accountName = accountName;
@@ -34,11 +34,11 @@ public class TransferInfoDTO {
         this.id = id;
     }
 
-    public Date getPaymentDate() {
+    public String getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(String paymentDate) {
         this.paymentDate = paymentDate;
     }
 

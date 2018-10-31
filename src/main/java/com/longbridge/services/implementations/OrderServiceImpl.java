@@ -96,7 +96,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     DesignerRepository designerRepository;
 
-
+    @Autowired
+    CategoryRepository categoryRepository;
     @Transactional
     @Override
     public PaymentResponse addOrder(OrderReqDTO orderReq) {
@@ -430,7 +431,6 @@ public class OrderServiceImpl implements OrderService {
             throw new WawoohException();
         }
     }
-
     @Override
     public String addToCart(Cart cart) {
         try{
@@ -454,7 +454,6 @@ public class OrderServiceImpl implements OrderService {
             }else {
                 amount= product.getProductPrice().getAmount();
             }
-
             cart.setAmount(amount*cart.getQuantity());
             //cart.setAmount(newAmount);
             cart.setCreatedOn(date);

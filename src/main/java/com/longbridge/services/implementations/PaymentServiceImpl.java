@@ -181,13 +181,14 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponse chargeAuthorization(Items items) {
         try {
             Double amount = 0.0;
+            Double shippingAmount=items.getOrders().getShippingAmount();
             if(items.getOrders().isPaystackFiftyAlreadyDeducted()){
                 amount = items.getAmount();
-                amount = amount*100;
-            }else {
-                amount=items.getAmount()-50;
-                amount = amount*100;
             }
+            else {
+                amount=items.getAmount()-50;
+            }
+            amount = (amount+shippingAmount)*100;
 
             User user;
             if(items.getOrders().isAnonymousBuyer()){

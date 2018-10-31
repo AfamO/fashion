@@ -32,7 +32,7 @@ public class User extends CommonFields implements Serializable {
 
     private String activationFlag = "N";
 
-    private Date activationDate;
+    private String activationDate;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Pocket pocket;
@@ -209,11 +209,11 @@ public class User extends CommonFields implements Serializable {
         this.activationFlag = activationFlag;
     }
 
-    public Date getActivationDate() {
+    public String getActivationDate() {
         return activationDate;
     }
 
-    public void setActivationDate(Date activationDate) {
+    public void setActivationDate(String activationDate) {
         this.activationDate = activationDate;
     }
 

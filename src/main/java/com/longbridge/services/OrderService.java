@@ -5,7 +5,6 @@ import com.longbridge.dto.*;
 import com.longbridge.models.*;
 import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
-import com.longbridge.respbodydto.OrderRespDTO;
 
 import java.util.List;
 
@@ -25,9 +24,6 @@ public interface OrderService {
     void deleteCart(Long id);
     void emptyCart();
     UserCartDTO getCarts();
-
-
-
     void saveUserOrderDecision(ItemsDTO itemsDTO);
     void saveUserOrderComplain(ItemsDTO itemsDTO);
 

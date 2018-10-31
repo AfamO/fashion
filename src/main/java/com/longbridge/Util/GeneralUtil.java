@@ -78,6 +78,12 @@ public class GeneralUtil {
     @Autowired
     AnonymousUserRepository anonymousUserRepository;
 
+    @Autowired
+    PromoCodeRepository promoCodeRepository;
+
+    @Autowired
+    PromoItemsRepository promoItemsRepository;
+
     public DesignerDTO convertDesigner2EntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
@@ -169,6 +175,10 @@ public class GeneralUtil {
         dto.phoneNo=u.getPhoneNo();
         dto.email=u.getEmail();
         dto.gender=u.getGender();
+        dto.accountName=d.getAccountName();
+        dto.accountNumber=d.getAccountNumber();
+        dto.swiftCode=d.getSwiftCode();
+        dto.bankName=d.getBankName();
         dto.setStatus(d.getStatus());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.createdDate = formatter.format(d.createdOn);
@@ -269,12 +279,23 @@ public class GeneralUtil {
 
     public List<ProductRespDTO> convertProdEntToProdRespDTOs(List<Product> products){
 
-        List<ProductRespDTO> productDTOS = new ArrayList<ProductRespDTO>();
+
+        List<ProductRespDTO> totalProductDTOS = new ArrayList<ProductRespDTO>();
+        List<ProductRespDTO> verifiedProductDTOS = new ArrayList<ProductRespDTO>();
+        List<ProductRespDTO> unVerfiedproductDTOS = new ArrayList<ProductRespDTO>();
         for(Product p: products){
-            ProductRespDTO productDTO = convertEntityToDTO(p);
-            productDTOS.add(productDTO);
+            if(p.getProductStatuses().getVerifiedFlag().equalsIgnoreCase("Y")){
+                ProductRespDTO productDTO = convertEntityToDTO(p);
+                verifiedProductDTOS.add(productDTO);
+            }
+            else {
+                ProductRespDTO productDTO = convertEntityToDTO(p);
+                unVerfiedproductDTOS.add(productDTO);
+            }
         }
-        return productDTOS;
+        totalProductDTOS.addAll(verifiedProductDTOS);
+        totalProductDTOS.addAll(unVerfiedproductDTOS);
+        return totalProductDTOS;
     }
 
     public ProductRespDTO convertEntityToDTO(Product product){
@@ -595,6 +616,8 @@ public class GeneralUtil {
     }
 
     public CartDTO convertCartEntToDTO(Cart cart){
+
+        //System.out.println("The ProductId=="+cart.getProductId());
         CartDTO cartDTO = new CartDTO();
 
         cartDTO.setId(cart.id);
@@ -602,10 +625,24 @@ public class GeneralUtil {
         cartDTO.setProductId(cart.getProductId());
 
         Product product = productRepository.findOne(cart.getProductId());
+        //System.out.println("The Saved Total Amount For this cart "+cart.id+"==="+cart.getAmount());
+        // Hence search for itemtype of either 'product' or 'category'
+        List<PromoItem> promoItemList=promoItemsRepository.findAllPromoItemsBelongToCategoryAndProduct(cart.getProductId(),"p","c");
+        //System.out.println("Retrieved promoItemsList Size=="+promoItemList.size());
+        if(promoItemList!=null && promoItemList.size()>0){
 
+            PromoCode promoCode=promoItemList.get(0).getPromoCode(); // Ensure that alteast one of the items has a promoCode attached to it.
+            //System.out.println("Retrieved PromoCode=="+promoCode.getCode());
+            //Does this product have a promocode and it has not been used by the same user?
+            if(promoCode!=null && !cart.getPromoCode().equalsIgnoreCase("USER_USED")){
+                //Then set 'Y' for yes so that the user is allowed to enter the promocode and use it.
+                cartDTO.setHasPromoCode("Y");
+            }
+
+        }
         cartDTO.setProductName(product.getName());
-
         cartDTO.setProductColorStyleId(cart.getProductColorStyleId());
+
         cartDTO.setQuantity(cart.getQuantity());
         cartDTO.setPrice(product.getProductPrice().getAmount());
         cartDTO.setSlashedPrice(0.0);
@@ -789,6 +826,54 @@ public class GeneralUtil {
         customer.setLastName("Anonymous");
 
         return customer;
+    }
+
+    public List<PromoCodeDTO> convertPromoCodeListsToDTO(List<PromoCode> promoCodeList){
+
+        List<PromoCodeDTO> promoCodeDTOLists= new ArrayList<>();
+        for(PromoCode promoCode :promoCodeList){
+            PromoCodeDTO promoCodeDTO=new PromoCodeDTO();
+            promoCodeDTO.setCode(promoCode.getCode());
+            List<PromoItemDTO> promoItemDTOLists = new ArrayList<>();
+            for(PromoItem promoItem: promoCode.getPromoItems())
+            {
+                PromoItemDTO promoItemDTO =new PromoItemDTO();
+                promoItemDTO.setItemId(promoItem.getItemId());
+                promoItemDTO.setItemType(promoItem.getItemType());
+                promoItemDTOLists.add(promoItemDTO);
+            }
+            promoCodeDTO.setPromoItemsDTO(promoItemDTOLists);
+            promoCodeDTO.setValue(promoCode.getValue());
+            promoCodeDTO.setValueType(promoCode.getValueType());
+            promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
+            promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
+            promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
+            promoCodeDTOLists.add(promoCodeDTO);
+        }
+        return promoCodeDTOLists;
+    }
+
+    public PromoCodeDTO convertSinglePromoCodeToDTO(PromoCode promoCode){
+
+        PromoCodeDTO promoCodeDTO=new PromoCodeDTO();
+        promoCodeDTO.setCode(promoCode.getCode());
+        List<PromoItemDTO> promoItemDTOLists = new ArrayList<>();
+        for(PromoItem promoItem: promoCode.getPromoItems())
+        {
+            PromoItemDTO promoItemDTO =new PromoItemDTO();
+            promoItemDTO.setItemId(promoItem.getItemId());
+            promoItemDTO.setItemType(promoItem.getItemType());
+            promoItemDTOLists.add(promoItemDTO);
+        }
+        promoCodeDTO.setPromoItemsDTO(promoItemDTOLists);
+        promoCodeDTO.setValue(promoCode.getValue());
+        promoCodeDTO.setValueType(promoCode.getValueType());
+        promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
+        promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
+        promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
+
+
+        return promoCodeDTO;
     }
 
 

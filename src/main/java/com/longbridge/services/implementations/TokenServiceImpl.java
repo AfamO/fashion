@@ -71,7 +71,7 @@ public class TokenServiceImpl implements TokenService {
                 System.out.println("Token validated => yes");
                 token1.setValidated(true);
                 tokenRepository.save(token1);
-                user.setActivationDate(date);
+                user.setActivationDate(date.toString());
                 user.setUpdatedOn(date);
                 user.setActivationFlag("Y");
                 userRepository.save(user);
