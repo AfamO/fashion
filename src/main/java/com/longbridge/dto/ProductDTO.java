@@ -8,9 +8,6 @@ import java.util.List;
 public class ProductDTO {
     public Long id;
     public String name;
-    public double amount;
-    public double percentageDiscount;
-    public double slashedPrice;
 
     public String designerId;
 
@@ -27,6 +24,8 @@ public class ProductDTO {
     public String categoryId;
 
     public int productType;
+
+    public ProductPriceDTO productPriceDTO;
 
     public BespokeProductDTO bespokeProductDTO;
 

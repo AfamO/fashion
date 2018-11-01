@@ -14,7 +14,8 @@ public class ArtWorkPicture extends CommonFields implements Serializable {
     private Long id;
     private String pictureName;
     private String picture;
-    
+    private double price;
+
     @JsonIgnore
     @ManyToOne
     private BespokeProduct bespokeProduct;
@@ -60,5 +61,13 @@ public class ArtWorkPicture extends CommonFields implements Serializable {
 
     public void setBespokeProduct(BespokeProduct bespokeProduct) {
         this.bespokeProduct = bespokeProduct;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

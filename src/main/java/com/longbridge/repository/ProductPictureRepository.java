@@ -16,5 +16,5 @@ import java.util.List;
 public interface ProductPictureRepository extends JpaRepository<ProductPicture, Long> {
     List<ProductPicture> findByProductColorStyle_Product(Product product);
     ProductPicture findFirst1ByProductColorStyle_Product(Product product);
-    ProductPicture findFirst1ByProductColorStyle(ProductStyle productStyle);
+    ProductPicture findFirst1ByProductColorStyle(ProductColorStyle productColorStyle);
 }

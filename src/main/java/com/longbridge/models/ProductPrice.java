@@ -21,6 +21,9 @@ public class ProductPrice extends CommonFields implements Serializable{
 
 private double amount;
 
+private double sewingAmount;
+
+@JsonIgnore
 @OneToOne
 private Product product;
 
@@ -61,5 +64,11 @@ private Product product;
         this.amount = amount;
     }
 
-    
+    public double getSewingAmount() {
+        return sewingAmount;
+    }
+
+    public void setSewingAmount(double sewingAmount) {
+        this.sewingAmount = sewingAmount;
+    }
 }

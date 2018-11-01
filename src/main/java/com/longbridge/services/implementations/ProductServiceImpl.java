@@ -289,7 +289,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public String addProduct(ProductDTO productDTO) {
         try {
-            if(productDTO.amount < 0 || productDTO.slashedPrice < 0 || productDTO.percentageDiscount <0){
+            if(productDTO.productPriceDTO.getAmount() < 0 || productDTO.productPriceDTO.getSlashedPrice() < 0 || productDTO.productPriceDTO.getPercentageDiscount() <0){
                 throw new InvalidAmountException();
             }
             User user = getCurrentUser();
@@ -298,7 +298,7 @@ public class ProductServiceImpl implements ProductService {
             Product product = saveProduct(productDTO, designer, date);
             ProductStyle productStyle = saveProductStyle(productDTO.styleId, product,productDTO);
             saveProductColorStyle(productDTO.productColorStyleDTOS, productDTO,product.getSubCategory().getSubCategory(), productStyle);
-            savePriceDetails(productDTO.slashedPrice,productDTO.amount,productDTO.percentageDiscount,product);
+            savePriceDetails(productDTO.productPriceDTO,product);
             ProductStatuses productStatuses = new ProductStatuses();
             if(productDTO.bespokeProductDTO != null){
                 productStatuses.setAcceptCustomSizes("Y");
@@ -385,23 +385,24 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    private void savePriceDetails(Double slashedPrice, Double amount, Double percentageDiscount,Product product) {
+    private void savePriceDetails(ProductPriceDTO productPriceDTO, Product product) {
         ProductPrice productPrice = new ProductPrice();
-        productPrice.setAmount(amount);
+        productPrice.setAmount(productPriceDTO.getAmount());
         productPrice.setProduct(product);
+        productPrice.setSewingAmount(productPriceDTO.getSewingAmount());
         PriceSlash priceSlash = null;
-        if(slashedPrice > 0){
+        if(productPriceDTO.getSlashedPrice() > 0){
             priceSlash = new PriceSlash();
             productPrice.setPriceSlashEnabled(true);
-            priceSlash.setSlashedPrice(slashedPrice);
-            priceSlash.setPercentageDiscount(((amount - slashedPrice)/amount)*100);
+            priceSlash.setSlashedPrice(productPriceDTO.getSlashedPrice());
+            priceSlash.setPercentageDiscount(((productPriceDTO.getAmount() - productPriceDTO.getSlashedPrice())/productPriceDTO.getAmount())*100);
             priceSlashRepository.save(priceSlash);
-        } else if(percentageDiscount > 0){
+        } else if(productPriceDTO.getPercentageDiscount() > 0){
             priceSlash=new PriceSlash();
             productPrice.setPriceSlashEnabled(true);
             productPrice.setProduct(product);
-            priceSlash.setSlashedPrice(amount - ((percentageDiscount/100)* productPrice.getAmount()));
-            priceSlash.setPercentageDiscount(percentageDiscount);
+            priceSlash.setSlashedPrice(productPriceDTO.getAmount() - ((productPriceDTO.getPercentageDiscount()/100)* productPrice.getAmount()));
+            priceSlash.setPercentageDiscount(productPriceDTO.getPercentageDiscount());
             priceSlashRepository.save(priceSlash);
         }
         productPrice.setPriceSlash(priceSlash);
@@ -459,7 +460,7 @@ public class ProductServiceImpl implements ProductService {
             Product product = productRepository.findOne(productDTO.id);
             product.setSubCategory(subCategoryRepository.findOne(subCategoryId));
             product.setName(productDTO.name);
-            product.getProductPrice().setAmount(productDTO.amount);
+            product.getProductPrice().setAmount(productDTO.productPriceDTO.getAmount());
             product.setProdDesc(productDTO.description);
             product.setProdSummary(productDTO.prodSummary);
             product.setDesigner(designer);

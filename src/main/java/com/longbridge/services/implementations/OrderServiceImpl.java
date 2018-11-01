@@ -96,8 +96,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     DesignerRepository designerRepository;
 
-    @Autowired
-    CategoryRepository categoryRepository;
     @Transactional
     @Override
     public PaymentResponse addOrder(OrderReqDTO orderReq) {
@@ -262,39 +260,53 @@ public class OrderServiceImpl implements OrderService {
         Double totalAmount=0.0;
         Double shippingAmount = 0.0;
         Double totalShippingAmount = 0.0;
+        MaterialPicture material = null;
+        Double materialPrice=0.0;
+        Double amount;
+        Double itemsAmount;
 
         List<String> designerCities = new ArrayList<>();
 
         for (Items items: orderReq.getItems()) {
             Product p = productRepository.findOne(items.getProductId());
-            if(items.getMeasurementId() != null) {
-                Measurement measurement = measurementRepository.findOne(items.getMeasurementId());
-                try {
-                ObjectMapper mapper = new ObjectMapper();
-                String saveMeasurement=mapper.writeValueAsString(measurement);
-                    items.setMeasurement(saveMeasurement);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
+            saveOrderMeasurement(items);
 
+            if(items.getBespokeProductId() != null){
+
+                if(items.getArtWorkPictureId() != null){
+                    items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).getPictureName());
                 }
+                if(items.getMaterialPictureId() != null){
+                    material = materialPictureRepository.findOne(items.getMaterialPictureId());
+                    items.setMaterialPicture(material.getPictureName());
+                    materialPrice=material.getPrice();
+                    amount= p.getProductPrice().getSewingAmount()+materialPrice;
+                }
+                else {
+                    if(items.getMaterialStatus().equalsIgnoreCase("Y")){
+                       amount = p.getProductPrice().getSewingAmount();
+                    }
+                    else {
+                        amount = p.getProductPrice().getAmount();
+                    }
+                }
+
             }
-            if(items.getArtWorkPictureId() != null){
-                items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).getPictureName());
+            else {
+
+                if(p.getProductPrice().getPriceSlash() != null && p.getProductPrice().getPriceSlash().getSlashedPrice() > 0){
+                    amount = p.getProductPrice().getPriceSlash().getSlashedPrice();
+                }else {
+                    amount = p.getProductPrice().getAmount();
+                }
+
             }
-            if(items.getMaterialPictureId() != null){
-                items.setMaterialPicture(materialPictureRepository.findOne(items.getMaterialPictureId()).getPictureName());
-            }
+
+            itemsAmount = amount*items.getQuantity();
+
 
             ProductColorStyle productColorStyle =productColorStyleRepository.findOne(items.getProductColorStyleId());
-            items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle(p.getProductStyle()).getPictureName());
-
-            Double amount;
-            if(p.getProductPrice().getPriceSlash() != null && p.getProductPrice().getPriceSlash().getSlashedPrice() > 0){
-                amount = p.getProductPrice().getPriceSlash().getSlashedPrice();
-            }else {
-                amount = p.getProductPrice().getAmount();
-            }
-            Double itemsAmount = amount*items.getQuantity();
+            items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle(productColorStyle).getPictureName());
 
             items.setAmount(itemsAmount);
             if(orderReq.getDeliveryType().equalsIgnoreCase("PICK_UP")){
@@ -342,6 +354,20 @@ public class OrderServiceImpl implements OrderService {
        // hm.put("totalAmountWithoutShipping", totalAmountWithoutShipping);
 
         return hm;
+    }
+
+    private void saveOrderMeasurement(Items items) {
+        if(items.getMeasurementId() != null) {
+            Measurement measurement = measurementRepository.findOne(items.getMeasurementId());
+            try {
+            ObjectMapper mapper = new ObjectMapper();
+            String saveMeasurement=mapper.writeValueAsString(measurement);
+                items.setMeasurement(saveMeasurement);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+
+            }
+        }
     }
 
     @Override
