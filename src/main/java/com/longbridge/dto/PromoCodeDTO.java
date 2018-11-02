@@ -16,6 +16,16 @@ public class PromoCodeDTO {
 
     private String numberOfUsage="multiple"; // It can also be 'single'
 
+    public List<String> getPromoItemSizes() {
+        return promoItemSizes;
+    }
+
+    public void setPromoItemSizes(List<String> promoItemSizes) {
+        this.promoItemSizes = promoItemSizes;
+    }
+
+    private List<String> promoItemSizes;
+
     public String getValueType() {
         return valueType;
     }

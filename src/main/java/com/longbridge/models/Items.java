@@ -60,7 +60,6 @@ public class Items extends CommonFields{
     private String complain;
 
     private String trackingNumber;
-
     @Lob
     private String measurement;
 

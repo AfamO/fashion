@@ -11,6 +11,7 @@ import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
+import com.longbridge.respbodydto.PromoCodeApplyRespDTO;
 import com.longbridge.security.JwtUser;
 import com.longbridge.services.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -98,6 +99,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    PromoCodeService promoCodeService;
+
+    @Autowired
+    PromoCodeUserStatusRepository promoCodeUserStatusRepository;
     @Transactional
     @Override
     public PaymentResponse addOrder(OrderReqDTO orderReq) {
@@ -262,6 +269,7 @@ public class OrderServiceImpl implements OrderService {
         Double totalAmount=0.0;
         Double shippingAmount = 0.0;
         Double totalShippingAmount = 0.0;
+        HashMap hm = new HashMap();
 
         List<String> designerCities = new ArrayList<>();
 
@@ -294,6 +302,20 @@ public class OrderServiceImpl implements OrderService {
             }else {
                 amount = p.getAmount();
             }
+
+            //Apply PromoCode Here if the product/item has a promocode
+            PromoCodeUserStatus promoCodeUserStatus= promoCodeService.getPromoCodeUserStatus();
+            PromoCode promoCode=promoCodeUserStatus.getPromoCode();
+            if(promoCodeUserStatus!=null && promoCodeUserStatus.getProductId()==p.id) { // Is the promocode assigned to this product?
+                //Is the value type free shipping?
+                if( !promoCode.getValueType().equalsIgnoreCase("fs")){ // It is either of type percentage discount or normal value discount
+
+                    // Set the new amount to the discounted amount
+                    amount = promoCodeUserStatus.getDiscountedAmount();
+                }
+
+            }
+
             Double itemsAmount = amount*items.getQuantity();
 
             items.setAmount(itemsAmount);
@@ -304,8 +326,15 @@ public class OrderServiceImpl implements OrderService {
                     totalShippingAmount=shippingUtil.getLocalShipping("NIGERIA",orders.getDeliveryAddress().getCountry(),orderReq.getItems().size());
                 }else {
                     if (!designerCities.contains(p.getDesigner().getCity().toUpperCase().trim())) {
-                        shippingAmount = shippingUtil.getLocalShipping(p.getDesigner().getCity().toUpperCase().trim(), orders.getDeliveryAddress().getCity().toUpperCase().trim(), items.getQuantity());
-                        designerCities.add(p.getDesigner().getCity().toUpperCase().trim());
+                        // Give free shipping for PromoCode of value type 'fs' (Free Shipping)
+                        if(promoCode!=null && promoCode.getValueType().equalsIgnoreCase("fs")){
+                            shippingAmount=0.0;
+                        }
+                        else {
+                            shippingAmount = shippingUtil.getLocalShipping(p.getDesigner().getCity().toUpperCase().trim(), orders.getDeliveryAddress().getCity().toUpperCase().trim(), items.getQuantity());
+                            designerCities.add(p.getDesigner().getCity().toUpperCase().trim());
+                        }
+
                     }
                     totalShippingAmount = totalShippingAmount+shippingAmount;
                 }
@@ -338,7 +367,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
 
-        HashMap hm = new HashMap();
+
         hm.put("totalAmount", totalAmount);
         hm.put("totalShippingAmount", totalShippingAmount);
        // hm.put("totalAmountWithoutShipping", totalAmountWithoutShipping);

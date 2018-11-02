@@ -21,19 +21,18 @@ public interface PromoCodeRepository extends JpaRepository<PromoCode,Long> {
     List<PromoCode> findByCodeAndValue(String code, String value);
 
     List<PromoCode> findByIsUsedStatusNot(String status);
+    @Query("Select pC from PromoCode pC  where pC.code =:code AND pC.expiryDate > CURRENT_TIMESTAMP ")
+    PromoCode findUniqueUnExpiredPromoCode(@Param("code") String code);
 
-    PromoCode findByCode(String code);
-
-    //PromoCode findByPromoItems(List<PromoItem> promoItems);
     @Query("select p from PromoCode p where p.promoItems in :myPromoItems")
     PromoCode findByPromoItems(@Param("myPromoItems") List<PromoItem> promoItems);
 
     List<PromoCode> findByExpiryDate(String expiryDate);
 
-    @Query("Select pC from PromoCode pC  where pC.expiryDate< CURRENT_DATE ")
+    @Query("Select pC from PromoCode pC  where pC.expiryDate< CURRENT_TIMESTAMP ")
     List<PromoCode> findExpiredPromoCodes();
 
-    @Query("Select pC from PromoCode pC  where pC.expiryDate > CURRENT_DATE ")
+    @Query("Select pC from PromoCode pC  where pC.expiryDate > CURRENT_TIMESTAMP ")
     List<PromoCode> findUnExpiredPromoCodes();
 
 }

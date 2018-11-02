@@ -18,7 +18,7 @@ public class PromoCode extends CommonFields implements Serializable {
 
     private String  isUsedStatus="N";
 
-    private String valueType="pd";// percentage discount(pd) other types are free shipping(fs) and normal(monetary) discount(nd)
+    private String valueType="pd";// percentage discount(pd) other types are free shipping(fs) and normal(monetary) value discount(vd)
 
     private String numberOfUsage="multiple"; // It can also be single
 
