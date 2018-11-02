@@ -4,10 +4,7 @@ import com.longbridge.Util.UserUtil;
 import com.longbridge.models.Code;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
-import com.longbridge.services.AdminService;
-import com.longbridge.services.CodeService;
-import com.longbridge.services.DesignerService;
-import com.longbridge.services.RefundService;
+import com.longbridge.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -43,10 +40,12 @@ public class AdminController {
     @Autowired
     DesignerService designerService;
 
+    @Autowired
+    VendorBespokeFormDetailsService vendorBespokeFormDetailsService;
+
 
     @GetMapping(value = "/getusers")
     public List<User> getUsers(){
-
         return userUtil.getUsers();
     }
 
@@ -64,6 +63,13 @@ public class AdminController {
     @GetMapping(value = "/getrefundinfo")
     public Response getRefundInfo(){
         return new Response("00","Operation Successful",refundService.getAll());
+
+    }
+
+
+    @GetMapping(value = "/getbespokeapplications")
+    public Response getBespokeApplications(){
+        return new Response("00","Operation Successful",vendorBespokeFormDetailsService.getAll());
 
     }
 

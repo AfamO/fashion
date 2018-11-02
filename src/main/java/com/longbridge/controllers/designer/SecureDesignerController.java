@@ -5,9 +5,11 @@ import com.longbridge.dto.*;
 import com.longbridge.models.Designer;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
+import com.longbridge.models.VendorBespokeFormDetails;
 import com.longbridge.services.DesignerService;
 import com.longbridge.services.OrderService;
 import com.longbridge.services.ProductService;
+import com.longbridge.services.VendorBespokeFormDetailsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +32,9 @@ public class SecureDesignerController {
 
     @Autowired
     DesignerService designerService;
+
+    @Autowired
+    VendorBespokeFormDetailsService vendorBespokeFormDetailsService;
 
     @GetMapping(value = "/getdesigner")
     public Response getDesignerById(){
@@ -79,6 +84,16 @@ public class SecureDesignerController {
         return new Response("00","Operation Successful","success");
 
     }
+
+
+
+    @PostMapping(value = "/bespoke/apply")
+    public Response applyForBespoke(@RequestBody VendorBespokeFormDetails vendorBespokeFormDetails){
+
+        vendorBespokeFormDetailsService.add(vendorBespokeFormDetails);
+        return new Response("00", "Operation Successful", "success");
+    }
+
 
     @PostMapping(value = "/ratedesigner")
     public Response rateDesigner(@RequestBody DesignerRatingDTO ratingDTO){

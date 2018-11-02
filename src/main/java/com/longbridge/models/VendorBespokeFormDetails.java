@@ -1,6 +1,8 @@
 package com.longbridge.models;
 
 import javax.persistence.Entity;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Longbridge on 01/11/2018.
@@ -8,12 +10,26 @@ import javax.persistence.Entity;
 @Entity
 public class VendorBespokeFormDetails extends CommonFields{
     private Long designerId;
+    private ArrayList<String> productType;
+    private ArrayList<String> category;
     private String visitWorkshopForVerification;
+
     private String workshopAddress;
     private String dayForVisitation;
     private String time;
     private String locationImage;
     private String phoneNumber;
+    private String locationVerificationType;
+    private String locationVerificationMethod;
+    private String locationVerificationMethodId;
+    private String workForceSize;
+    private String thresholdType;
+    private String thresholdValue;
+
+    private String facebookId;
+    private String instagramId;
+    private String websiteId;
+    private String twitterId;
 
 
     public Long getDesignerId() {
@@ -22,6 +38,22 @@ public class VendorBespokeFormDetails extends CommonFields{
 
     public void setDesignerId(Long designerId) {
         this.designerId = designerId;
+    }
+
+    public ArrayList<String> getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ArrayList<String> productType) {
+        this.productType = productType;
+    }
+
+    public ArrayList<String> getCategory() {
+        return category;
+    }
+
+    public void setCategory(ArrayList<String> category) {
+        this.category = category;
     }
 
     public String getVisitWorkshopForVerification() {
@@ -70,6 +102,86 @@ public class VendorBespokeFormDetails extends CommonFields{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getLocationVerificationType() {
+        return locationVerificationType;
+    }
+
+    public void setLocationVerificationType(String locationVerificationType) {
+        this.locationVerificationType = locationVerificationType;
+    }
+
+    public String getLocationVerificationMethod() {
+        return locationVerificationMethod;
+    }
+
+    public void setLocationVerificationMethod(String locationVerificationMethod) {
+        this.locationVerificationMethod = locationVerificationMethod;
+    }
+
+    public String getLocationVerificationMethodId() {
+        return locationVerificationMethodId;
+    }
+
+    public void setLocationVerificationMethodId(String locationVerificationMethodId) {
+        this.locationVerificationMethodId = locationVerificationMethodId;
+    }
+
+    public String getWorkForceSize() {
+        return workForceSize;
+    }
+
+    public void setWorkForceSize(String workForceSize) {
+        this.workForceSize = workForceSize;
+    }
+
+    public String getThresholdType() {
+        return thresholdType;
+    }
+
+    public void setThresholdType(String thresholdType) {
+        this.thresholdType = thresholdType;
+    }
+
+    public String getThresholdValue() {
+        return thresholdValue;
+    }
+
+    public void setThresholdValue(String thresholdValue) {
+        this.thresholdValue = thresholdValue;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public String getInstagramId() {
+        return instagramId;
+    }
+
+    public void setInstagramId(String instagramId) {
+        this.instagramId = instagramId;
+    }
+
+    public String getWebsiteId() {
+        return websiteId;
+    }
+
+    public void setWebsiteId(String websiteId) {
+        this.websiteId = websiteId;
+    }
+
+    public String getTwitterId() {
+        return twitterId;
+    }
+
+    public void setTwitterId(String twitterId) {
+        this.twitterId = twitterId;
     }
 
     public VendorBespokeFormDetails(String visitWorkshopForVerification, String workshopAddress, String dayForVisitation, String time, String locationImage, String phoneNumber) {
