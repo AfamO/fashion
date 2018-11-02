@@ -6,7 +6,7 @@ import javax.persistence.Entity;
  * Created by Longbridge on 01/11/2018.
  */
 @Entity
-public class VendorBespokeFormDetails {
+public class VendorBespokeFormDetails extends CommonFields{
     private Long designerId;
     private String visitWorkshopForVerification;
     private String workshopAddress;
