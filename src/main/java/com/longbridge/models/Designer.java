@@ -24,7 +24,6 @@ public class Designer extends CommonFields {
     private String country;
     private String localGovt;
     private String status="A";
-
     private String accountNumber;
     private String bankName;
     private String accountName;
