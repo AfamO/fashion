@@ -5,7 +5,6 @@ import com.longbridge.dto.ProductPictureIdListDTO;
 import com.longbridge.models.Events;
 import com.longbridge.models.Response;
 import com.longbridge.services.EventService;
-import com.longbridge.services.HibernateSearchService;
 import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

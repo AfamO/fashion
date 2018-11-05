@@ -8,6 +8,7 @@ import com.longbridge.respbodydto.ProductRespDTO;
 public class WishListDTO {
     private Long id;
     private Long productId;
+    private Long productColorStyleId;
     private ProductRespDTO products;
 
 
@@ -43,5 +44,13 @@ public class WishListDTO {
 
     public void setProducts(ProductRespDTO products) {
         this.products = products;
+    }
+
+    public Long getProductColorStyleId() {
+        return productColorStyleId;
+    }
+
+    public void setProductColorStyleId(Long productColorStyleId) {
+        this.productColorStyleId = productColorStyleId;
     }
 }

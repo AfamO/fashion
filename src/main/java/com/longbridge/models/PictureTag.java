@@ -20,7 +20,7 @@ public class PictureTag extends CommonFields {
     private String imageSize;
 
     @OneToOne
-    private Products products;
+    private Product product;
 
 
     public EventPictures getEventPictures() {
@@ -71,11 +71,11 @@ public class PictureTag extends CommonFields {
         this.imageSize = imageSize;
     }
 
-    public Products getProducts() {
-        return products;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProducts(Products products) {
-        this.products = products;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

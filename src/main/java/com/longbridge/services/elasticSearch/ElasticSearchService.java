@@ -8,7 +8,7 @@ import com.longbridge.controllers.elasticSearch.SearchApiController;
 import com.longbridge.dto.PageableDetailsDTO;
 import com.longbridge.dto.elasticSearch.ProductSearchDTO;
 import com.longbridge.exception.WawoohException;
-import com.longbridge.models.Products;
+import com.longbridge.models.Product;
 import com.longbridge.models.elasticSearch.ApiResponse;
 import com.longbridge.models.elasticSearch.Bool;
 import com.longbridge.models.elasticSearch.CreateIndexId;
@@ -17,14 +17,12 @@ import com.longbridge.models.elasticSearch.Multi_Match;
 import com.longbridge.models.elasticSearch.Query;
 import com.longbridge.models.elasticSearch.SearchQueryRequest;
 import com.longbridge.models.elasticSearch.SearchRequest;
-import com.longbridge.models.elasticSearch.Should;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.respbodydto.ProductRespDTO;
 import java.util.ArrayList;
-import org.apache.commons.lang3.math.NumberUtils;
+
 import org.apache.log4j.Level;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -189,11 +187,11 @@ import org.springframework.stereotype.Service;
        
         int page = pageableDetailsDTO.getPage();
         int size = pageableDetailsDTO.getSize(); 
-        Page<Products> products = productRepository.findAll(new PageRequest(page,size));
+        Page<Product> products = productRepository.findAll(new PageRequest(page,size));
         StringBuilder productDTOS = new StringBuilder();
         Index index=new Index();
         CreateIndexId createIndexId= new CreateIndexId(); 
-        for(Products p: products){
+        for(Product p: products){
             createIndexId._id=Long.toString(p.id);
             index.index=createIndexId;
             ProductRespDTO productDTO = generalUtil.convertEntityToDTO(p);

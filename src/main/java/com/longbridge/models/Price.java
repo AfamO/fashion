@@ -15,6 +15,6 @@ public class Price extends CommonFields{
 
     @JsonIgnore
     @ManyToOne
-    private Products products;
+    private Product product;
 
 }

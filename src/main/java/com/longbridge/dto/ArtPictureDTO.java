@@ -7,7 +7,7 @@ public class ArtPictureDTO {
     public Long id;
     public Long productId;
     public String artWorkPicture;
-
+    public Long bespokeProductId;
 
     public ArtPictureDTO() {
     }

@@ -1,14 +1,13 @@
 package com.longbridge.controllers.general;
 
-import com.longbridge.Util.UserUtil;
+
 import com.longbridge.dto.*;
-import com.longbridge.models.Events;
+
 import com.longbridge.models.Response;
-import com.longbridge.models.User;
+
 import com.longbridge.services.EventService;
-import com.longbridge.services.HibernateSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

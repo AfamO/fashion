@@ -1,8 +1,8 @@
 package com.longbridge.services.implementations;
 
 import com.longbridge.exception.WawoohException;
+import com.longbridge.models.Product;
 import com.longbridge.models.ProductRating;
-import com.longbridge.models.Products;
 import com.longbridge.models.User;
 import com.longbridge.repository.OrderRepository;
 import com.longbridge.repository.ProductRatingRepository;
@@ -35,9 +35,9 @@ public class ProductRatingServiceImpl implements ProductRatingService {
         try {
             User user = getCurrentUser();
             if(orderRepository.noOfTimesOrdered(productId, user.id) > 0){
-                Products products = productRepository.findOne(productId);
+                Product product = productRepository.findOne(productId);
                 productRating.setUser(user);
-                productRating.setProducts(products);
+                productRating.setProduct(product);
                 productRatingRepository.save(productRating);
                 return true;
             }else{
@@ -76,10 +76,10 @@ public class ProductRatingServiceImpl implements ProductRatingService {
     @Override
     public ProductRating getUserRating(Long id) {
 
-        Products products = productRepository.findOne(id);
+        Product product = productRepository.findOne(id);
 
-        if(products != null){
-            ProductRating productRating = productRatingRepository.findByUserAndProducts(getCurrentUser(), products);
+        if(product != null){
+            ProductRating productRating = productRatingRepository.findByUserAndProduct(getCurrentUser(), product);
             if(productRating != null){
                 productRating.setUser(null);
                 return productRating;

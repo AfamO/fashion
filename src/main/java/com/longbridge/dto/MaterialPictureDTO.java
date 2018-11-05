@@ -8,6 +8,7 @@ public class MaterialPictureDTO {
     private Long productId;
     private String materialPicture;
     private String materialName;
+    public Double materialPrice;
 
     public MaterialPictureDTO() {
     }
@@ -48,5 +49,13 @@ public class MaterialPictureDTO {
 
     public void setMaterialName(String materialName) {
         this.materialName = materialName;
+    }
+
+    public Double getMaterialPrice() {
+        return materialPrice;
+    }
+
+    public void setMaterialPrice(Double materialPrice) {
+        this.materialPrice = materialPrice;
     }
 }

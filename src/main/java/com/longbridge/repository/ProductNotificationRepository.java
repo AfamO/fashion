@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ProductNotificationRepository extends JpaRepository<ProductNotification,Long> {
-    ProductNotification findByEmailAndProductId(String email,Long productId);
+    ProductNotification findByEmailAndProductColorStyleId(String email,Long productColorStyleId);
 }

@@ -1,9 +1,11 @@
 package com.longbridge.repository;
 
+
 import com.longbridge.models.ItemStatus;
-import com.longbridge.models.ProductAttribute;
+
+import com.longbridge.models.Product;
+import com.longbridge.models.ProductColorStyle;
 import com.longbridge.models.ProductSizes;
-import com.longbridge.models.Products;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,8 +18,11 @@ import java.util.List;
  */
 @Repository
 public interface ProductSizesRepository extends JpaRepository<ProductSizes,Long>{
-    ProductSizes findByProductAttributeAndName(ProductAttribute productAttribute, String size);
-    List<ProductSizes> findByProductAttribute(ProductAttribute productAttribute);
     @Query("select pr from ProductSizes pr where name  in :itemSizes")
     List<ProductSizes> findByNamesOfSizes(@Param("itemSizes") List<String>  sizes);
+
+    ProductSizes findByProductColorStyleAndName(ProductColorStyle productAttribute, String size);
+    List<ProductSizes> findByProductColorStyle(ProductColorStyle productAttribute);
+    List<ProductSizes> findByProductColorStyle_ProductStyle_Product(Product product);
+
 }

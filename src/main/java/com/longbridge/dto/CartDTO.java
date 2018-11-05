@@ -23,7 +23,9 @@ public class CartDTO {
 
     private Long designerId;
 
-    private Long productAttributeId;
+    private Long productColorStyleId;
+
+    private Long productSizeId;
 
     private String designerName;
 
@@ -61,9 +63,11 @@ public class CartDTO {
 
     private int stockNo;
 
+
     private String hasPromoCode="N";
 
     public CartDTO(User user, Long id, Long productId, String productName, double slashedPrice, int quantity, Long designerId, Long productAttributeId, String designerName, String size, int sizeStockNo, Double price, Double totalPrice, String productPicture, String artWorkPicture, String materialPicture, Long artWorkPictureId, Long materialPictureId, String color, String materialStatus, Address materialLocation, String materialPickupDate, Date expiryDate, String measurementName, Long measurementId, int stockNo) {
+
         this.user = user;
         this.id = id;
         this.productId = productId;
@@ -71,7 +75,7 @@ public class CartDTO {
         this.slashedPrice = slashedPrice;
         this.quantity = quantity;
         this.designerId = designerId;
-        this.productAttributeId = productAttributeId;
+        this.productColorStyleId = productColorStyleId;
         this.designerName = designerName;
         this.size = size;
         this.sizeStockNo = sizeStockNo;
@@ -92,12 +96,12 @@ public class CartDTO {
         this.stockNo = stockNo;
     }
 
-    public Long getProductAttributeId() {
-        return productAttributeId;
+    public Long getProductColorStyleId() {
+        return productColorStyleId;
     }
 
-    public void setProductAttributeId(Long productAttributeId) {
-        this.productAttributeId = productAttributeId;
+    public void setProductColorStyleId(Long productColorStyleId) {
+        this.productColorStyleId = productColorStyleId;
     }
 
     public int getSizeStockNo() {
@@ -300,12 +304,22 @@ public class CartDTO {
         this.slashedPrice = slashedPrice;
     }
 
+
+    public Long getProductSizeId() {
+        return productSizeId;
+    }
+
+    public void setProductSizeId(Long productSizeId) {
+        this.productSizeId = productSizeId;
+    }
+
     public String getHasPromoCode() {
         return hasPromoCode;
     }
 
     public void setHasPromoCode(String hasPromoCode) {
         this.hasPromoCode = hasPromoCode;
+
     }
 
     public CartDTO() {

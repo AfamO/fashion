@@ -40,9 +40,12 @@ public class Cart extends CommonFields {
 
     private Date expiryDate;
 
-    private Long productAttributeId;
+    private Long productColorStyleId;
+
+    private Long productSizeId;
 
     private Long measurementId;
+
 
     public String getPromoCode() {
         return promoCode;
@@ -69,16 +72,16 @@ public class Cart extends CommonFields {
         this.materialPickUpAddressId = materialPickUpAddressId;
         this.materialPickupDate = materialPickupDate;
         this.expiryDate = expiryDate;
-        this.productAttributeId = productAttributeId;
+        this.productColorStyleId = productColorStyleId;
         this.measurementId = measurementId;
     }
 
-    public Long getProductAttributeId() {
-        return productAttributeId;
+    public Long getProductColorStyleId() {
+        return productColorStyleId;
     }
 
-    public void setProductAttributeId(Long productAttributeId) {
-        this.productAttributeId = productAttributeId;
+    public void setProductColorStyleId(Long productColorStyleId) {
+        this.productColorStyleId = productColorStyleId;
     }
 
     public User getUser() {
@@ -200,6 +203,14 @@ public class Cart extends CommonFields {
 
     public void setMaterialPickUpAddressId(Long materialPickUpAddressId) {
         this.materialPickUpAddressId = materialPickUpAddressId;
+    }
+
+    public Long getProductSizeId() {
+        return productSizeId;
+    }
+
+    public void setProductSizeId(Long productSizeId) {
+        this.productSizeId = productSizeId;
     }
 
     public Cart() {

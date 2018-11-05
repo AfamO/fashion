@@ -58,9 +58,6 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     CartRepository cartRepository;
 
     @Autowired
-    ProductAttributeRepository productAttributeRepository;
-
-    @Autowired
     ProductSizesRepository productSizesRepository;
     
     @Override
@@ -97,9 +94,9 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                         for(ProductSizes productSize:productSizesList)
                         {
                             // Then save the corresponding items details.
-                            Products products=productSize.getProductAttribute().getProducts();
+                            Product product=productSize.getProductColorStyle().getProduct();
                             PromoItem promoItem= new PromoItem();
-                            promoItem.setItemId(products.id);
+                            promoItem.setItemId(product.id);
                             promoItem.setItemType("p");
                             promoItem.setPromoCode(promoCode);
                             promoItemsRepository.save(promoItem);
@@ -193,12 +190,12 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     public Object[] applyPromoCode(PromoCodeApplyReqDTO promoCodeApplyReqDTO) {
 
         User user = getCurrentUser();
-        Products products = productRepository.findOne(promoCodeApplyReqDTO.getProductId());
+        Product product = productRepository.findOne(promoCodeApplyReqDTO.getProductId());
             Double amount;
-            if(products.getPriceSlash() != null && products.getPriceSlash().getSlashedPrice()>0){
-                amount=products.getPriceSlash().getSlashedPrice();
+            if(product.getProductPrice().getPriceSlash() != null && product.getProductPrice().getPriceSlash().getSlashedPrice()>0){
+                amount=product.getProductPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount=products.getAmount();
+                amount=product.getProductPrice().getAmount();
             }
             Double intialAmount = amount;
             PromoCodeApplyRespDTO promoCodeApplyRespDTO=null;
@@ -221,8 +218,8 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                                 for(PromoItem promoItem:promoCode.getPromoItems()){
 
                                     System.out.println("The Size Of the PromoCode Items Is::"+promoCode.getPromoItems().size());
-                                    System.out.println("ItemType=="+promoItem.getItemType()+", ItemId=="+promoItem.getItemId()+" While ProductId=="+products.id);
-                                    if(promoItem.getItemType().equalsIgnoreCase("p") && promoItem.getItemId()==products.id){
+                                    System.out.println("ItemType=="+promoItem.getItemType()+", ItemId=="+promoItem.getItemId()+" While ProductId=="+product.id);
+                                    if(promoItem.getItemType().equalsIgnoreCase("p") && promoItem.getItemId()==product.id){
                                         Double promoValue=Double.parseDouble(promoCode.getValue());
                                         // Is it percentage discount(pd)
                                         if(promoCode.getValueType().equalsIgnoreCase("pd")){
@@ -252,7 +249,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                                             for(SubCategory subCategory: category.subCategories){
                                                 promoCodeStatusMessage=null;
                                                 //Does the product belong to the subcategory of this category?
-                                                if(subCategory.id==products.getSubCategory().id){
+                                                if(subCategory.id==product.getSubCategory().id){
                                                     System.out.println("Product Subcategory is same as PromoCode Item SubCategory ");
                                                     //Then apply the promocode discount
                                                     Double promoValue=Double.parseDouble(promoCode.getValue());
@@ -355,7 +352,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 
     @Override
     public String generatePromoCode() {
-        String initials="FAS-";
+        String initials="WAW-";
         initials+=UUID.randomUUID().toString().substring(0,6).toUpperCase();
         return initials;
 

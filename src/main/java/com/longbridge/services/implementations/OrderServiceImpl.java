@@ -92,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
     ShippingUtil shippingUtil;
 
     @Autowired
-    ProductAttributeRepository productAttributeRepository;
+    ProductColorStyleRepository productColorStyleRepository;
 
     @Autowired
     DesignerRepository designerRepository;
@@ -105,6 +105,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     PromoCodeUserStatusRepository promoCodeUserStatusRepository;
+    
     @Transactional
     @Override
     public PaymentResponse addOrder(OrderReqDTO orderReq) {
@@ -123,11 +124,11 @@ public class OrderServiceImpl implements OrderService {
             List<ProductSizes> productSizes = new ArrayList<ProductSizes>();
 
             for (Items items: orderReq.getItems()) {
-                if(items.getProductAttributeId() != null){
-                    ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                if(items.getProductColorStyleId() != null){
+                    ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductColorStyleId());
 
                     if(itemAttribute != null){
-                        ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                        ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());
                         if(items.getMeasurementId() == null){
                             if(sizes.getNumberInStock() < items.getQuantity()){
                                 orderRespDTO.setStatus("false");
@@ -211,10 +212,10 @@ public class OrderServiceImpl implements OrderService {
 
 
             for (Items items: orderReq.getItems()) {
-                if(items.getProductAttributeId() != null){
-                    ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+                if(items.getProductColorStyleId() != null){
+                    ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductColorStyleId());
                     if(itemAttribute != null){
-                        ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                        ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());
                         if(items.getMeasurementId() == null){
                             sizes.setNumberInStock(sizes.getNumberInStock() - items.getQuantity());
                             productSizes.add(sizes);
@@ -269,40 +270,48 @@ public class OrderServiceImpl implements OrderService {
         Double totalAmount=0.0;
         Double shippingAmount = 0.0;
         Double totalShippingAmount = 0.0;
+
         HashMap hm = new HashMap();
+        MaterialPicture material = null;
+        Double materialPrice=0.0;
+        Double amount;
 
         List<String> designerCities = new ArrayList<>();
 
         for (Items items: orderReq.getItems()) {
-            Products p = productRepository.findOne(items.getProductId());
-            if(items.getMeasurementId() != null) {
-                Measurement measurement = measurementRepository.findOne(items.getMeasurementId());
-                try {
-                ObjectMapper mapper = new ObjectMapper();
-                String saveMeasurement=mapper.writeValueAsString(measurement);
-                    items.setMeasurement(saveMeasurement);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
+            Product p = productRepository.findOne(items.getProductId());
+            saveOrderMeasurement(items);
 
+            if(items.getBespokeProductId() != null){
+
+                if(items.getArtWorkPictureId() != null){
+                    items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).getPictureName());
                 }
-            }
-            if(items.getArtWorkPictureId() != null){
-                items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).getPictureName());
-            }
-            if(items.getMaterialPictureId() != null){
-                items.setMaterialPicture(materialPictureRepository.findOne(items.getMaterialPictureId()).getPictureName());
-            }
+                if(items.getMaterialPictureId() != null){
+                    material = materialPictureRepository.findOne(items.getMaterialPictureId());
+                    items.setMaterialPicture(material.getPictureName());
+                    materialPrice=material.getPrice();
+                    amount= p.getProductPrice().getSewingAmount()+materialPrice;
+                }
+                else {
+                    if(items.getMaterialStatus().equalsIgnoreCase("Y")){
+                       amount = p.getProductPrice().getSewingAmount();
+                    }
+                    else {
+                        amount = p.getProductPrice().getAmount();
+                    }
+                }
 
-            ProductAttribute productAttribute=productAttributeRepository.findOne(items.getProductAttributeId());
-            items.setProductPicture(productPictureRepository.findFirst1ByProductAttribute(productAttribute).getPictureName());
-
-            Double amount;
-            if(p.getPriceSlash() != null && p.getPriceSlash().getSlashedPrice() > 0){
-                amount = p.getPriceSlash().getSlashedPrice();
-            }else {
-                amount = p.getAmount();
             }
+            else {
 
+                if(p.getProductPrice().getPriceSlash() != null && p.getProductPrice().getPriceSlash().getSlashedPrice() > 0){
+                    amount = p.getProductPrice().getPriceSlash().getSlashedPrice();
+                }else {
+                    amount = p.getProductPrice().getAmount();
+                }
+
+            }
             //Apply PromoCode Here if the product/item has a promocode
             PromoCodeUserStatus promoCodeUserStatus= promoCodeService.getPromoCodeUserStatus();
             PromoCode promoCode=promoCodeUserStatus.getPromoCode();
@@ -317,6 +326,8 @@ public class OrderServiceImpl implements OrderService {
             }
 
             Double itemsAmount = amount*items.getQuantity();
+            ProductColorStyle productColorStyle =productColorStyleRepository.findOne(items.getProductColorStyleId());
+            items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle(productColorStyle).getPictureName());
 
             items.setAmount(itemsAmount);
             if(orderReq.getDeliveryType().equalsIgnoreCase("PICK_UP")){
@@ -348,20 +359,18 @@ public class OrderServiceImpl implements OrderService {
             items.setItemStatus(itemStatus);
             itemRepository.save(items);
             p.setNumOfTimesOrdered(p.getNumOfTimesOrdered()+1);
-            if(items.getMeasurement() == null) {
-                if (p.getStockNo() != 0) {
-                    p.setStockNo(p.getStockNo() - items.getQuantity());
-                   // ProductSizes productSizes = productSizesRepository.findByProductsAndName(p, items.getSize());
-                    //productSizes.setStockNo(productSizes.getStockNo() - items.getQuantity());
-                    //productSizesRepository.save(productSizes);
 
-                } else {
-                    p.setInStock("N");
+            if(items.getBespokeProductId() == null) {
+                if(items.getProductSizesId() != null){
+                    //todo later, write a reduce stock method
+                    ProductSizes productSizes = productSizesRepository.findOne(items.getProductSizesId());
+                    if(productSizes != null){
+                        if(productSizes.getNumberInStock() != 0){
+                            productSizes.setNumberInStock(productSizes.getNumberInStock()-items.getQuantity());
+                        }
+                    }
                 }
 
-                if (p.getStockNo() == 0) {
-                    p.setInStock("N");
-                }
             }
             productRepository.save(p);
         }
@@ -373,6 +382,20 @@ public class OrderServiceImpl implements OrderService {
        // hm.put("totalAmountWithoutShipping", totalAmountWithoutShipping);
 
         return hm;
+    }
+
+    private void saveOrderMeasurement(Items items) {
+        if(items.getMeasurementId() != null) {
+            Measurement measurement = measurementRepository.findOne(items.getMeasurementId());
+            try {
+            ObjectMapper mapper = new ObjectMapper();
+            String saveMeasurement=mapper.writeValueAsString(measurement);
+                items.setMeasurement(saveMeasurement);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+
+            }
+        }
     }
 
     @Override
@@ -478,12 +501,12 @@ public class OrderServiceImpl implements OrderService {
             }else if(cart.getMaterialPickUpAddressId() != null){
             cart.setMaterialLocation(addressRepository.findOne(cart.getMaterialPickUpAddressId()));
             }
-            Products products = productRepository.findOne(cart.getProductId());
+            Product product = productRepository.findOne(cart.getProductId());
             Double amount;
-            if(products.getPriceSlash() != null && products.getPriceSlash().getSlashedPrice()>0){
-                amount=products.getAmount()-products.getPriceSlash().getSlashedPrice();
+            if(product.getProductPrice().getPriceSlash() != null && product.getProductPrice().getPriceSlash().getSlashedPrice()>0){
+                amount= product.getProductPrice().getAmount()- product.getProductPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount=products.getAmount();
+                amount= product.getProductPrice().getAmount();
             }
             cart.setAmount(amount*cart.getQuantity());
             //cart.setAmount(newAmount);
@@ -507,11 +530,11 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date();
             Cart cartTemp = cartRepository.findOne(cart.id);
             double amount;
-            Products products = productRepository.findOne(cartTemp.getProductId());
-            if(products.getPriceSlash() != null && products.getPriceSlash().getSlashedPrice()>0){
-                amount = products.getPriceSlash().getSlashedPrice();
+            Product product = productRepository.findOne(cartTemp.getProductId());
+            if(product.getProductPrice().getPriceSlash() != null && product.getProductPrice().getPriceSlash().getSlashedPrice()>0){
+                amount = product.getProductPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount = products.getAmount();
+                amount = product.getProductPrice().getAmount();
             }
 
             int qty = cart.getQuantity();
@@ -688,11 +711,11 @@ public class OrderServiceImpl implements OrderService {
         String status = "";
 
         for (Items items: item) {
-            if(items.getProductAttributeId() != null){
-                ProductAttribute itemAttribute = productAttributeRepository.findOne(items.getProductAttributeId());
+            if(items.getProductColorStyleId() != null){
+                ProductColorStyle itemAttribute = productColorStyleRepository.findOne(items.getProductColorStyleId());
 
                 if(itemAttribute != null){
-                    ProductSizes sizes = productSizesRepository.findByProductAttributeAndName(itemAttribute, items.getSize());
+                    ProductSizes sizes = productSizesRepository.findByProductColorStyleAndName(itemAttribute, items.getSize());
                     if(items.getMeasurementId() == null){
                         if(sizes.getNumberInStock() < items.getQuantity()){
                             status = "false";

@@ -1,29 +1,29 @@
 package com.longbridge.dto;
 
-import com.longbridge.models.Products;
+import com.longbridge.models.Product;
 
 /**
  * Created by Longbridge on 09/05/2018.
  */
 public class ProductsWithRating {
-    private Products products;
+    private Product product;
 
     private int rating;
 
     public ProductsWithRating() {
     }
 
-    public ProductsWithRating(Products products, int rating) {
-        this.products = products;
+    public ProductsWithRating(Product product, int rating) {
+        this.product = product;
         this.rating = rating;
     }
 
-    public Products getProducts() {
-        return products;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProducts(Products products) {
-        this.products = products;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public int getRating() {

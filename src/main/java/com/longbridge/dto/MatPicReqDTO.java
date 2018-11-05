@@ -8,6 +8,7 @@ import java.util.List;
 public class MatPicReqDTO {
     public Long productId;
     public List<MaterialPictureDTO> materialPicture;
+    public Long bespokeProductId;
 
     public MatPicReqDTO() {
     }

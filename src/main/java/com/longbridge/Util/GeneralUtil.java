@@ -1,23 +1,16 @@
 package com.longbridge.Util;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.longbridge.dto.*;
-import com.longbridge.exception.WawoohException;
 import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.ItemsRespDTO;
 import com.longbridge.respbodydto.OrderDTO;
 import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.security.repository.UserRepository;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.math.BigInteger;
-import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.text.Format;
@@ -25,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Longbridge on 24/01/2018.
@@ -75,7 +67,10 @@ public class GeneralUtil {
     UserRepository userRepository;
 
     @Autowired
-    ProductAttributeRepository productAttributeRepository;
+    BespokeProductRepository bespokeProductRepository;
+
+    @Autowired
+    ProductColorStyleRepository productColorStyleRepository;
 
     @Autowired
     ProductSizesRepository productSizesRepository;
@@ -132,7 +127,7 @@ public class GeneralUtil {
         dto.setStatus(d.getStatus());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.createdDate = formatter.format(d.createdOn);
-        List<ProductRespDTO> products= convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d,"Y"));
+        List<ProductRespDTO> products= convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndProductStatuses_VerifiedFlag(d,"Y"));
         dto.setProducts(products);
 
         List<String> stats = new ArrayList<>();
@@ -188,10 +183,11 @@ public class GeneralUtil {
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.createdDate = formatter.format(d.createdOn);
         if(d.getStatus().equalsIgnoreCase("A")) {
-            List<ProductRespDTO> products = convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndVerifiedFlag(d, "Y"));
+            List<ProductRespDTO> products = convertProdEntToProdRespDTOs(productRepository.findFirst8ByDesignerAndProductStatuses_VerifiedFlag(d, "Y"));
             dto.setProducts(products);
         }
         return dto;
+
     }
 
     public List<DesignerDTO> convDesignerEntToDTOs(List<Designer> designers){
@@ -213,15 +209,14 @@ public class GeneralUtil {
         return productPictureDTOS;
     }
 
-
     public ProductPictureDTO convertProdPictureEntityToDTO(ProductPicture picture){
         ProductPictureDTO pictureDTO = new ProductPictureDTO();
         pictureDTO.id=picture.getId();
-        pictureDTO.productId=picture.getProducts().id;
+        pictureDTO.productId=picture.getProductColorStyle().getProductStyle().getProduct().id;
         pictureDTO.picture=picture.getPictureName();
         return pictureDTO;
-    }
 
+    }
 
     public List<ArtPictureDTO> convertArtPictureEntitiesToDTO(List<ArtWorkPicture> artWorkPictures){
         List<ArtPictureDTO> artPictureDTOS = new ArrayList<ArtPictureDTO>();
@@ -235,7 +230,7 @@ public class GeneralUtil {
     public ArtPictureDTO convertArtPictureEntityToDTO(ArtWorkPicture picture){
         ArtPictureDTO pictureDTO = new ArtPictureDTO();
         pictureDTO.id=picture.getId();
-        pictureDTO.productId=picture.getProducts().id;
+        pictureDTO.productId=picture.getBespokeProduct().getProduct().id;
         pictureDTO.artWorkPicture=picture.getPictureName();
         return pictureDTO;
 
@@ -254,7 +249,7 @@ public class GeneralUtil {
     public MaterialPictureDTO convertMatPictureEntityToDTO(MaterialPicture picture){
         MaterialPictureDTO pictureDTO = new MaterialPictureDTO();
         pictureDTO.setId(picture.getId());
-        pictureDTO.setProductId(picture.getProducts().id);
+        pictureDTO.setProductId(picture.getBespokeProduct().getProduct().id);
         pictureDTO.setMaterialPicture(picture.getPictureName());
         return pictureDTO;
 
@@ -262,14 +257,14 @@ public class GeneralUtil {
 
 
 
-    public List<ProductRespDTO> convertProdEntToProdRespDTOs(List<Products> products, User user){
+    public List<ProductRespDTO> convertProdEntToProdRespDTOs(List<Product> products, User user){
 
         List<ProductRespDTO> productDTOS = new ArrayList<ProductRespDTO>();
 
-        for(Products p: products){
+        for(Product p: products){
             ProductRespDTO productDTO = convertEntityToDTO(p);
             if(user != null){
-                if(wishListRepository.findByUserAndProducts(user,p) != null){
+                if(wishListRepository.findByUserAndProduct(user,p) != null){
                  productDTO.wishListFlag = "Y";
                 }
                 else {
@@ -282,13 +277,14 @@ public class GeneralUtil {
         return productDTOS;
     }
 
-    public List<ProductRespDTO> convertProdEntToProdRespDTOs(List<Products> products){
+    public List<ProductRespDTO> convertProdEntToProdRespDTOs(List<Product> products){
+
 
         List<ProductRespDTO> totalProductDTOS = new ArrayList<ProductRespDTO>();
         List<ProductRespDTO> verifiedProductDTOS = new ArrayList<ProductRespDTO>();
         List<ProductRespDTO> unVerfiedproductDTOS = new ArrayList<ProductRespDTO>();
-        for(Products p: products){
-            if(p.getVerifiedFlag().equalsIgnoreCase("Y")){
+        for(Product p: products){
+            if(p.getProductStatuses().getVerifiedFlag().equalsIgnoreCase("Y")){
                 ProductRespDTO productDTO = convertEntityToDTO(p);
                 verifiedProductDTOS.add(productDTO);
             }
@@ -296,72 +292,73 @@ public class GeneralUtil {
                 ProductRespDTO productDTO = convertEntityToDTO(p);
                 unVerfiedproductDTOS.add(productDTO);
             }
-
         }
         totalProductDTOS.addAll(verifiedProductDTOS);
         totalProductDTOS.addAll(unVerfiedproductDTOS);
         return totalProductDTOS;
     }
 
-    public ProductRespDTO convertEntityToDTO(Products products){
+    public ProductRespDTO convertEntityToDTO(Product product){
         ProductRespDTO productDTO = new ProductRespDTO();
         DecimalFormat df = new DecimalFormat("#.00");
-        productDTO.id=products.id;
-        productDTO.amount=products.getAmount();
-        productDTO.description=products.getProdDesc();
-        productDTO.prodSummary=products.getProdSummary();
-        productDTO.name=products.getName();
+        productDTO.id= product.id;
+        productDTO.description= product.getProdDesc();
+        productDTO.prodSummary= product.getProdSummary();
+        productDTO.name= product.getName();
 
-        productDTO.productAttributeDTOS=convertProductAttributeEntitiesToDTOs(products.getProductAttributes());
-        if(products.getStyle() != null) {
-            productDTO.styleId = products.getStyle().id.toString();
+        productDTO.productColorStyleDTOS =convertProductAttributeEntitiesToDTOs(product.getProductStyle().getProductColorStyles());
+
+      //  productDTO.productSizes=product.productSizes;
+        if(product.getProductStyle().getStyle() != null) {
+            productDTO.styleId = product.getProductStyle().getStyle().id.toString();
         }
-        productDTO.designerId=products.getDesigner().id.toString();
-        productDTO.designerStatus=products.getDesigner().getStatus();
-        productDTO.stockNo=products.getStockNo();
-        productDTO.inStock=products.getInStock();
-        productDTO.availability=products.getAvailability();
-        productDTO.acceptCustomSizes=products.getAcceptCustomSizes();
-        productDTO.designerName=products.getDesigner().getStoreName();
-        productDTO.status=products.getStatus();
-        productDTO.sponsoredFlag=products.getSponsoredFlag();
-        productDTO.unVerifiedReason=products.getUnVerifiedReason();
-        productDTO.verifiedFlag=products.getVerifiedFlag();
-        productDTO.subCategoryId=products.getSubCategory().id.toString();
-        productDTO.subCategoryName=products.getSubCategory().getSubCategory();
-        productDTO.categoryId=products.getSubCategory().getCategory().id.toString();
-        productDTO.categoryName=products.getSubCategory().getCategory().categoryName;
-        productDTO.numOfTimesOrdered = products.getNumOfTimesOrdered();
-        productDTO.numOfDaysToComplete=products.getNumOfDaysToComplete();
-        productDTO.mandatoryMeasurements=products.getMandatoryMeasurements();
+        productDTO.designerId= product.getDesigner().id.toString();
+        productDTO.designerStatus= product.getDesigner().getStatus();
+//        productDTO.stockNo= product.getProductItem().getStockNo();
+//        productDTO.inStock= product.getProductItem().getInStock();
+        productDTO.availability= product.getProductStatuses().getAvailability();
+        productDTO.acceptCustomSizes= product.getProductStatuses().getAcceptCustomSizes();
+        productDTO.designerName= product.getDesigner().getStoreName();
+        productDTO.status= product.getProductStatuses().getStatus();
+        productDTO.sponsoredFlag= product.getProductStatuses().getSponsoredFlag();
+        productDTO.unVerifiedReason= product.getProductStatuses().getUnVerifiedReason();
+        productDTO.verifiedFlag= product.getProductStatuses().getVerifiedFlag();
+        productDTO.subCategoryId= product.getSubCategory().id.toString();
+        productDTO.subCategoryName= product.getSubCategory().getSubCategory();
+        productDTO.categoryId= product.getSubCategory().getCategory().id.toString();
+        productDTO.categoryName= product.getSubCategory().getCategory().categoryName;
+        productDTO.numOfTimesOrdered = product.getNumOfTimesOrdered();
 
-        PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
-        if(priceSlash != null){
-            productDTO.slashedPrice = priceSlash.getSlashedPrice();
-            productDTO.percentageDiscount = Double.parseDouble(df.format(priceSlash.getPercentageDiscount()));
+        productDTO.amount=product.getProductPrice().getAmount();
+        if(product.getProductPrice().getPriceSlash() != null){
+            productDTO.slashedPrice = product.getProductPrice().getPriceSlash().getSlashedPrice();
+            productDTO.percentageDiscount = Double.parseDouble(df.format(product.getProductPrice().getPriceSlash().getPercentageDiscount()));
         }
 
-        List<ProductPicture> productPictures = products.getPicture();
-        productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
+        if(product.getProductStyle().getBespokeProduct() != null) {
+            BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
+            if(product.getProductType() == 1) {
 
-        if(products.getProductType() == 1){
-            List<ArtWorkPicture> artWorkPictures = products.getArtWorkPicture();
-            productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
+                bespokeProductDTO.setArtPictureDTOS(convertArtPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getArtWorkPicture()));
+                bespokeProductDTO.setMaterialPicture(convertMatPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getMaterialPicture()));
+            }
+            else{
+                bespokeProductDTO.setArtPictureDTOS(null);
+                bespokeProductDTO.setMaterialPicture(null);
+            }
+                bespokeProductDTO.setNumOfDaysToComplete(product.getProductStyle().getBespokeProduct().getNumOfDaysToComplete());
+                bespokeProductDTO.setMandatoryMeasurements(product.getProductStyle().getBespokeProduct().getMandatoryMeasurements());
 
-            List<MaterialPicture> materialPictures = products.getMaterialPicture();
-            productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
-        }else{
-            productDTO.artWorkPicture = null;
-            productDTO.materialPicture = null;
+            productDTO.bespokeProductDTO=bespokeProductDTO;
         }
 
         int sum = 0;
         int deliverySum = 0;
         int serviceSum = 0;
 
-        int noOfUsers = products.getReviews().size();
+        int noOfUsers = product.getReviews().size();
 
-        for (ProductRating productrating: products.getReviews()) {
+        for (ProductRating productrating: product.getReviews()) {
             sum = sum+productrating.getProductQualityRating();
             deliverySum += productrating.getDeliveryTimeRating();
             serviceSum += productrating.getServiceRating();
@@ -387,9 +384,9 @@ public class GeneralUtil {
             productDTO.productServiceRating = 0;
         }
 
-        productDTO.productType = products.getProductType();
+        productDTO.productType = product.getProductType();
 
-        SizeGuide sizeGuide = products.getDesigner().getSizeGuide();
+        SizeGuide sizeGuide = product.getDesigner().getSizeGuide();
         if(sizeGuide != null){
             productDTO.sizeGuide = new SizeGuideDTO();
             productDTO.sizeGuide.femaleSizeGuide = sizeGuide.getFemaleSizeGuide();
@@ -399,69 +396,76 @@ public class GeneralUtil {
         return productDTO;
     }
 
-    public ProductRespDTO convertEntityToDTOWithReviews(Products products){
+    public ProductRespDTO convertEntityToDTOWithReviews(Product product){
         ProductRespDTO productDTO = new ProductRespDTO();
         DecimalFormat df = new DecimalFormat("#.00");
-        productDTO.id=products.id;
-        productDTO.amount=products.getAmount();
-        productDTO.productAttributeDTOS=convertProductAttributeEntitiesToDTOs(products.getProductAttributes());
-        productDTO.description=products.getProdDesc();
-        productDTO.prodSummary=products.getProdSummary();
-        productDTO.name=products.getName();
-        if(products.getStyle() != null) {
-            productDTO.styleId = products.getStyle().id.toString();
+        productDTO.id= product.id;
+        productDTO.productColorStyleDTOS =convertProductAttributeEntitiesToDTOs(product.getProductStyle().getProductColorStyles());
+        productDTO.description= product.getProdDesc();
+        productDTO.prodSummary= product.getProdSummary();
+        productDTO.name= product.getName();
+        if(product.getProductStyle().getStyle() != null) {
+            productDTO.styleId = product.getProductStyle().getStyle().id.toString();
         }
-        productDTO.designerId=products.getDesigner().id.toString();
-        productDTO.stockNo=products.getStockNo();
-        productDTO.inStock=products.getInStock();
-        productDTO.acceptCustomSizes=products.getAcceptCustomSizes();
-        productDTO.availability=products.getAvailability();
-        productDTO.designerName=products.getDesigner().getStoreName();
-        productDTO.status=products.getStatus();
-        productDTO.sponsoredFlag=products.getSponsoredFlag();
-        productDTO.verifiedFlag=products.getVerifiedFlag();
-        productDTO.subCategoryId=products.getSubCategory().id.toString();
-        productDTO.subCategoryName=products.getSubCategory().getSubCategory();
-        productDTO.categoryId=products.getSubCategory().getCategory().id.toString();
-        productDTO.categoryName=products.getSubCategory().getCategory().categoryName;
-        productDTO.numOfTimesOrdered = products.getNumOfTimesOrdered();
-        productDTO.numOfDaysToComplete=products.getNumOfDaysToComplete();
-        productDTO.mandatoryMeasurements=products.getMandatoryMeasurements();
-        List<ProductPicture> productPictures = products.getPicture();
-        productDTO.picture=convertProdPictureEntitiesToDTO(productPictures);
+        productDTO.designerId= product.getDesigner().id.toString();
 
-        if(products.getProductType() == 1){
-            List<ArtWorkPicture> artWorkPictures = products.getArtWorkPicture();
-            productDTO.artWorkPicture=convertArtPictureEntitiesToDTO(artWorkPictures);
+        productDTO.acceptCustomSizes= product.getProductStatuses().getAcceptCustomSizes();
+        productDTO.availability= product.getProductStatuses().getAvailability();
+        productDTO.designerName= product.getDesigner().getStoreName();
+        productDTO.status= product.getProductStatuses().getStatus();
+        productDTO.sponsoredFlag= product.getProductStatuses().getSponsoredFlag();
+        productDTO.verifiedFlag= product.getProductStatuses().getVerifiedFlag();
+        productDTO.subCategoryId= product.getSubCategory().id.toString();
+        productDTO.subCategoryName= product.getSubCategory().getSubCategory();
+        productDTO.categoryId= product.getSubCategory().getCategory().id.toString();
+        productDTO.categoryName= product.getSubCategory().getCategory().categoryName;
+        productDTO.numOfTimesOrdered = product.getNumOfTimesOrdered();
 
-            List<MaterialPicture> materialPictures = products.getMaterialPicture();
-            productDTO.materialPicture=convertMatPictureEntitiesToDTO(materialPictures);
-        }else{
-            productDTO.artWorkPicture = null;
-            productDTO.materialPrice = null;
+        productDTO.amount=product.getProductPrice().getAmount();
+        if(product.getProductPrice().getPriceSlash() != null){
+            productDTO.slashedPrice = product.getProductPrice().getPriceSlash().getSlashedPrice();
+            productDTO.percentageDiscount = Double.parseDouble(df.format(product.getProductPrice().getPriceSlash().getPercentageDiscount()));
         }
 
-        productDTO.reviews=products.getReviews();
-        PriceSlash priceSlash = priceSlashRepository.findByProducts(products);
-        if(priceSlash != null){
-            productDTO.slashedPrice = priceSlash.getSlashedPrice();
-            productDTO.percentageDiscount = Double.parseDouble(df.format(priceSlash.getPercentageDiscount()));
+        if(product.getProductStyle().getBespokeProduct() != null) {
+            BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
+            if(product.getProductType() == 1) {
+
+                bespokeProductDTO.setArtPictureDTOS(convertArtPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getArtWorkPicture()));
+                bespokeProductDTO.setMaterialPicture(convertMatPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getMaterialPicture()));
+            }
+            else{
+                bespokeProductDTO.setArtPictureDTOS(null);
+                bespokeProductDTO.setMaterialPicture(null);
+            }
+            bespokeProductDTO.setNumOfDaysToComplete(product.getProductStyle().getBespokeProduct().getNumOfDaysToComplete());
+            bespokeProductDTO.setMandatoryMeasurements(product.getProductStyle().getBespokeProduct().getMandatoryMeasurements());
+
+            productDTO.bespokeProductDTO=bespokeProductDTO;
         }
 
-        productDTO.productType = products.getProductType();
 
-        SizeGuide sizeGuide = products.getDesigner().getSizeGuide();
+        productDTO.reviews= product.getReviews();
+
+
+        productDTO.productType = product.getProductType();
+
+        SizeGuide sizeGuide = product.getDesigner().getSizeGuide();
         if(sizeGuide != null){
             productDTO.sizeGuide = new SizeGuideDTO();
             productDTO.sizeGuide.femaleSizeGuide = sizeGuide.getFemaleSizeGuide();
             productDTO.sizeGuide.maleSizeGuide = sizeGuide.getMaleSizeGuide();
         }
+
         return productDTO;
+
     }
 
 
     public String getPicsName(String picsArrayType, String productName){
+
         String timeStamp = picsArrayType + getCurrentTime();
+
         String fName = productName.replaceAll("\\s","") + timeStamp;
         return  fName;
     }
@@ -472,6 +476,7 @@ public class GeneralUtil {
         int length = 10;
         SecureRandom random = new SecureRandom();
         BigInteger bigInteger = new BigInteger(130, random);
+
         String sessionId = String.valueOf(bigInteger.toString(length));
         return sessionId.toUpperCase();
     }
@@ -480,35 +485,42 @@ public class GeneralUtil {
 
     public EventPicturesDTO convertEntityToDTO(EventPictures eventPictures){
         EventPicturesDTO eventPicturesDTO = new EventPicturesDTO();
+
         eventPicturesDTO.setId(eventPictures.id);
         eventPicturesDTO.setPicture(eventPictures.pictureName);
         return eventPicturesDTO;
+
     }
 
 
-    public List<ProductAttributeDTO> convertProductAttributeEntitiesToDTOs(List<ProductAttribute> productAttributes){
-        List<ProductAttributeDTO> productAttributeDTOS = new ArrayList<ProductAttributeDTO>();
-        for(ProductAttribute p: productAttributes){
-            ProductAttributeDTO productAttributeDTO = convertProductAttributeEntityToDTO(p);
-            productAttributeDTOS.add(productAttributeDTO);
+    public List<ProductColorStyleDTO> convertProductAttributeEntitiesToDTOs(List<ProductColorStyle> productColorStyles){
+
+        List<ProductColorStyleDTO> productColorStyleDTOS = new ArrayList<ProductColorStyleDTO>();
+        for(ProductColorStyle p: productColorStyles){
+            ProductColorStyleDTO productColorStyleDTO = convertProductAttributeEntityToDTO(p);
+            productColorStyleDTOS.add(productColorStyleDTO);
         }
-        return productAttributeDTOS;
+        return productColorStyleDTOS;
     }
 
-    public ProductAttributeDTO convertProductAttributeEntityToDTO(ProductAttribute productAttribute){
-        ProductAttributeDTO productAttributeDTO = new ProductAttributeDTO();
-        productAttributeDTO.setId(productAttribute.id);
-        productAttributeDTO.setColourPicture(productAttribute.getColourPicture());
-        productAttributeDTO.setColourName(productAttribute.getColourName());
-        productAttributeDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductPictures()));
-        productAttributeDTO.setProductSizes(productAttribute.getProductSizes());
-        return productAttributeDTO;
+    public ProductColorStyleDTO convertProductAttributeEntityToDTO(ProductColorStyle productAttribute){
+        ProductColorStyleDTO productColorStyleDTO = new ProductColorStyleDTO();
+
+        productColorStyleDTO.setId(productAttribute.id);
+        productColorStyleDTO.setColourPicture(productAttribute.getColourPicture());
+        productColorStyleDTO.setColourName(productAttribute.getColourName());
+
+        productColorStyleDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductPictures()));
+        productColorStyleDTO.setProductSizes(productAttribute.getProductSizes());
+        return productColorStyleDTO;
 
     }
 
 
     public List<EventsDTO> convertEntitiesToDTOs(List<Events> events){
+
         List<EventsDTO> eventsDTOS = new ArrayList<EventsDTO>();
+
         for(Events events1: events){
             EventsDTO eventsDTO = convertEntityToDTO(events1);
             eventsDTOS.add(eventsDTO);
@@ -518,7 +530,9 @@ public class GeneralUtil {
 
 
     public List<EventPicturesDTO> convertEntsToDTOs(List<EventPictures> events){
+
         List<EventPicturesDTO> picturesDTOS = new ArrayList<EventPicturesDTO>();
+
         for(EventPictures eventsp: events){
             EventPicturesDTO picturesDTO = convertEntityToDTO(eventsp);
             picturesDTOS.add(picturesDTO);
@@ -531,17 +545,23 @@ public class GeneralUtil {
         eventsDTO.setId(events.id);
         eventsDTO.setDescription(events.getDescription());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         String stringDate = formatter.format(events.getEventDate());
         eventsDTO.setEventDate(stringDate);
         eventsDTO.setEventName(events.getEventName());
         eventsDTO.setLocation(events.getLocation());
+
         eventsDTO.setMainPicture(events.getMainPicture());
         eventsDTO.setEventPictures(convertEvtPicEntToDTOsMin(eventPictureRepository.findFirst6ByEvents(events)));
+
         return eventsDTO;
+
     }
 
     public List<EventPicturesDTO> convertEvtPicEntToDTOsMin(List<EventPictures> eventPictures){
+
         List<EventPicturesDTO> eventPicturesDTOS = new ArrayList<EventPicturesDTO>();
+
         for(EventPictures eventPictures1: eventPictures){
             EventPicturesDTO eventPicturesDTO = convertEntityToDTOMin(eventPictures1);
             eventPicturesDTOS.add(eventPicturesDTO);
@@ -557,11 +577,13 @@ public class GeneralUtil {
         eventPicturesDTO.setPicture(eventPictures.pictureName);
         eventPicturesDTO.setPictureDesc(eventPictures.getPictureDesc());
         return eventPicturesDTO;
+
     }
 
-    public List<Products> getRandomProducts(List<Products> products, int numberOfProducts) {
-        List<Products> randomProducts = new ArrayList<>();
-        List<Products> copy = new ArrayList<>(products);
+    public List<Product> getRandomProducts(List<Product> products, int numberOfProducts) {
+        List<Product> randomProducts = new ArrayList<>();
+        List<Product> copy = new ArrayList<>(products);
+
         SecureRandom rand = new SecureRandom();
         for (int i = 0; i < Math.min(numberOfProducts, products.size()); i++) {
             randomProducts.add( copy.remove( rand.nextInt( copy.size() ) ));
@@ -573,7 +595,9 @@ public class GeneralUtil {
 
 
     public List<ItemsRespDTO> convertItemsEntToDTOs(List<Items> items){
+
         List<ItemsRespDTO> itemsDTOS = new ArrayList<ItemsRespDTO>();
+
         for(Items items1: items){
             ItemsRespDTO itemsDTO = convertEntityToDTO(items1);
             itemsDTOS.add(itemsDTO);
@@ -582,7 +606,7 @@ public class GeneralUtil {
     }
 
 
-    public List<CartDTO>    convertCartEntsToDTOs(List<Cart> carts){
+    public List<CartDTO> convertCartEntsToDTOs(List<Cart> carts){
         List<CartDTO> cartDTOS = new ArrayList<>();
         for(Cart cart:carts){
             CartDTO cartDTO = convertCartEntToDTO(cart);
@@ -595,9 +619,12 @@ public class GeneralUtil {
 
         //System.out.println("The ProductId=="+cart.getProductId());
         CartDTO cartDTO = new CartDTO();
+
         cartDTO.setId(cart.id);
+
         cartDTO.setProductId(cart.getProductId());
-        Products products = productRepository.findOne(cart.getProductId());
+
+        Product product = productRepository.findOne(cart.getProductId());
         //System.out.println("The Saved Total Amount For this cart "+cart.id+"==="+cart.getAmount());
         // Hence search for itemtype of either 'product' or 'category'
         List<PromoItem> promoItemList=promoItemsRepository.findAllPromoItemsBelongToCategoryAndProduct(cart.getProductId(),"p","c");
@@ -613,26 +640,29 @@ public class GeneralUtil {
             }
 
         }
-        cartDTO.setProductName(products.getName());
-        cartDTO.setProductAttributeId(cart.getProductAttributeId());
+        cartDTO.setProductName(product.getName());
+        cartDTO.setProductColorStyleId(cart.getProductColorStyleId());
+
         cartDTO.setQuantity(cart.getQuantity());
-        cartDTO.setPrice(products.getAmount());
+        cartDTO.setPrice(product.getProductPrice().getAmount());
         cartDTO.setSlashedPrice(0.0);
 
-        if(products.getPriceSlash() != null) {
-            if(products.getPriceSlash().getSlashedPrice() > 0){
-                cartDTO.setSlashedPrice(products.getPriceSlash().getSlashedPrice());
+        if(product.getProductPrice().getPriceSlash() != null) {
+            if(product.getProductPrice().getPriceSlash().getSlashedPrice() > 0){
+                cartDTO.setSlashedPrice(product.getProductPrice().getPriceSlash().getSlashedPrice());
             }
         }
+
         if(cartDTO.getSlashedPrice() > 0){
             cartDTO.setTotalPrice(cartDTO.getSlashedPrice()*cartDTO.getQuantity());
         }else{
             cartDTO.setTotalPrice(cartDTO.getPrice()*cartDTO.getQuantity());
         }
 
-        ProductPicture p = productPictureRepository.findFirst1ByProducts(products);
+        ProductPicture p = productPictureRepository.findFirst1ByProductColorStyle_Product(product);
         cartDTO.setProductPicture(p.getPictureName());
-        cartDTO.setStockNo(products.getStockNo());
+
+        cartDTO.setStockNo(productSizesRepository.findOne(cart.getProductSizeId()).getNumberInStock());
 
         if(cart.getArtWorkPictureId() != null) {
             ArtWorkPicture a = artWorkPictureRepository.findOne(cart.getArtWorkPictureId());
@@ -649,14 +679,14 @@ public class GeneralUtil {
 
         cartDTO.setColor(cart.getColor());
         cartDTO.setSize(cart.getSize());
-        String acceptCustomSizes = productRepository.findOne(cart.getProductId()).getAcceptCustomSizes();
+        String acceptCustomSizes = productRepository.findOne(cart.getProductId()).getProductStatuses().getAcceptCustomSizes();
 
-        if(cart.getProductAttributeId() == null){
+        if(cart.getProductColorStyleId() == null){
             cartDTO.setSizeStockNo(1);
         }else{
-           ProductAttribute productAttribute =  productAttributeRepository.findOne(cart.getProductAttributeId());
+           ProductColorStyle productAttribute =  productColorStyleRepository.findOne(cart.getProductColorStyleId());
            if(productAttribute != null){
-               ProductSizes productSizes = productSizesRepository.findByProductAttributeAndName(productAttribute, cart.getSize());
+               ProductSizes productSizes = productSizesRepository.findByProductColorStyleAndName(productAttribute, cart.getSize());
                cartDTO.setSize(productSizes.getName());
                cartDTO.setSizeStockNo(productSizes.getNumberInStock());
            }
@@ -675,6 +705,7 @@ public class GeneralUtil {
             cartDTO.setMeasurementId(cart.getMeasurementId());
         }
         return cartDTO;
+
     }
 
 
@@ -688,9 +719,9 @@ public class GeneralUtil {
             }
             itemsDTO.setId(items.id);
             itemsDTO.setProductId(items.getProductId());
-            Products p = productRepository.findOne(items.getProductId());
+            Product p = productRepository.findOne(items.getProductId());
             itemsDTO.setProductName(p.getName());
-            itemsDTO.setProductAvailability(p.getAvailability());
+            itemsDTO.setProductAvailability(p.getProductStatuses().getAvailability());
 
             itemsDTO.setAmount(items.getAmount().toString());
             itemsDTO.setQuantity(items.getQuantity());
@@ -710,7 +741,8 @@ public class GeneralUtil {
             itemsDTO.setCustomerName(user.getLastName()+" "+user.getFirstName());
             itemsDTO.setCustomerId(user.id);
             itemsDTO.setProductPicture(items.getProductPicture());
-            itemsDTO.setCustomerEmail(user.getEmail());
+
+
             itemsDTO.setArtWorkPicture(items.getArtWorkPicture());
 
             itemsDTO.setMaterialPicture(items.getMaterialPicture());
@@ -763,12 +795,7 @@ public class GeneralUtil {
     public OrderDTO convertOrderEntToDTOs(Orders orders){
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(orders.id);
-        if(orders.getDeliveryAddress() != null) {
-            orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
-            orderDTO.setDeliveryPhoneNumber(orders.getDeliveryAddress().getPhoneNo());
-            orderDTO.setDeliveryName(orders.getDeliveryAddress().getFirstName() + " " + orders.getDeliveryAddress().getLastName() );
-        }
-        orderDTO.setDeliveryType(orders.getDeliveryType());
+        orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
         orderDTO.setDeliveryStatus(orders.getDeliveryStatus());
         orderDTO.setOrderNumber(orders.getOrderNum());
         orderDTO.setPaymentType(orders.getPaymentType());
@@ -776,6 +803,7 @@ public class GeneralUtil {
         orderDTO.setPaidAmount(orders.getPaidAmount());
         User user=userRepository.findById(orders.getUserId());
         orderDTO.setCustomerName(user.getLastName()+user.getFirstName());
+        orderDTO.setDeliveryPhoneNumber(orders.getDeliveryAddress().getPhoneNo());
         orderDTO.setCustomerPhoneNumber(user.getPhoneNo());
         orderDTO.setUserId(orders.getUserId());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

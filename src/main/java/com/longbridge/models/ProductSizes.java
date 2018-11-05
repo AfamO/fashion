@@ -13,7 +13,7 @@ public class ProductSizes extends CommonFields{
 
     @JsonIgnore
     @ManyToOne
-    private ProductAttribute productAttribute;
+    private ProductColorStyle productColorStyle;
 
 
     public ProductSizes() {
@@ -35,20 +35,11 @@ public class ProductSizes extends CommonFields{
         this.numberInStock = numberInStock;
     }
 
-    public ProductAttribute getProductAttribute() {
-        return productAttribute;
+    public ProductColorStyle getProductColorStyle() {
+        return productColorStyle;
     }
 
-    public void setProductAttribute(ProductAttribute productAttribute) {
-        this.productAttribute = productAttribute;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductSizes{" +
-                "name='" + name + '\'' +
-                ", numberInStock=" + numberInStock +
-                ", productAttribute=" + productAttribute +
-                '}';
+    public void setProductColorStyle(ProductColorStyle productColorStyle) {
+        this.productColorStyle = productColorStyle;
     }
 }

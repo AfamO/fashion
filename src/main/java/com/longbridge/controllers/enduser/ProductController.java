@@ -21,8 +21,7 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    @Autowired
-    HibernateSearchService searchService;
+
 
     @Autowired
     ProductRatingService productRatingService;
@@ -115,8 +114,8 @@ public class ProductController {
     @GetMapping(value = "/{search}/searchproduct")
     public Response searchProducts(@PathVariable String search){
         Map<String,Object> responseMap = new HashMap();
-        List<ProductRespDTO> products=searchService.productsFuzzySearch(search);
-        responseMap.put("result",products);
+        //List<ProductRespDTO> products=searchService.productsFuzzySearch(search);
+        //responseMap.put("result",products);
         return new Response("00","Operation Successful",responseMap);
 
     }

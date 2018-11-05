@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 @Entity
 public class ProductNotification extends CommonFields{
     private String email;
-    private Long productId;
+
+    private Long productColorStyleId;
+
+    private Long productSizesId;
 
     public String getEmail() {
         return email;
@@ -18,23 +21,27 @@ public class ProductNotification extends CommonFields{
         this.email = email;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Long getProductColorStyleId() {
+        return productColorStyleId;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setProductColorStyleId(Long productColorStyleId) {
+        this.productColorStyleId = productColorStyleId;
     }
 
+    public Long getProductSizesId() {
+        return productSizesId;
+    }
+
+    public void setProductSizesId(Long productSizesId) {
+        this.productSizesId = productSizesId;
+    }
+
+    public ProductNotification(String email, Long productColorStyleId) {
+        this.email = email;
+        this.productColorStyleId = productColorStyleId;
+    }
 
     public ProductNotification() {
     }
-
-    public ProductNotification(String email, Long productId) {
-        this.email = email;
-        this.productId = productId;
-    }
-
-
-
 }

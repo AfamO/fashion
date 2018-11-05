@@ -1,7 +1,7 @@
 package com.longbridge.repository;
 
 import com.longbridge.models.PriceSlash;
-import com.longbridge.models.Products;
+import com.longbridge.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PriceSlashRepository extends JpaRepository<PriceSlash,Long>{
-        PriceSlash findByProducts(Products products);
+        PriceSlash findByProductPrice_Product(Product product);
 }

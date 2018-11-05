@@ -24,7 +24,6 @@ public class Designer extends CommonFields {
     private String country;
     private String localGovt;
     private String status="A";
-
     private String accountNumber;
     private String bankName;
     private String accountName;
@@ -50,12 +49,12 @@ public class Designer extends CommonFields {
     private SizeGuide sizeGuide;
 
     @OneToMany(mappedBy = "designer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Products> products;
+    private List<Product> products;
 
     public Designer() {
     }
 
-    public Designer(Long userId, String logo, String storeName, String address, String status, List<Products> products) {
+    public Designer(Long userId, String logo, String storeName, String address, String status, List<Product> products) {
 //        this.userId = userId;
         this.logo = logo;
         this.storeName = storeName;
@@ -256,11 +255,11 @@ public class Designer extends CommonFields {
         this.sizeGuide = sizeGuide;
     }
 
-    public List<Products> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Products> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 }

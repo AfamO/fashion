@@ -1,8 +1,9 @@
 package com.longbridge.repository;
 
-import com.longbridge.models.ProductAttribute;
+import com.longbridge.models.Product;
+import com.longbridge.models.ProductColorStyle;
 import com.longbridge.models.ProductPicture;
-import com.longbridge.models.Products;
+import com.longbridge.models.ProductStyle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @Repository
 public interface ProductPictureRepository extends JpaRepository<ProductPicture, Long> {
-    List<ProductPicture> findByProducts(Products products);
-    ProductPicture findFirst1ByProducts(Products products);
-    ProductPicture findFirst1ByProductAttribute(ProductAttribute productAttribute);
+    List<ProductPicture> findByProductColorStyle_Product(Product product);
+    ProductPicture findFirst1ByProductColorStyle_Product(Product product);
+    ProductPicture findFirst1ByProductColorStyle(ProductColorStyle productColorStyle);
 }
