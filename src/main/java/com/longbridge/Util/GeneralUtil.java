@@ -720,8 +720,11 @@ public class GeneralUtil {
             itemsDTO.setId(items.id);
             itemsDTO.setProductId(items.getProductId());
             Product p = productRepository.findOne(items.getProductId());
-            itemsDTO.setProductName(p.getName());
-            itemsDTO.setProductAvailability(p.getProductStatuses().getAvailability());
+            if(p!=null){
+                itemsDTO.setProductName(p.getName());
+                itemsDTO.setProductAvailability(p.getProductStatuses().getAvailability());
+            }
+
 
             itemsDTO.setAmount(items.getAmount().toString());
             itemsDTO.setQuantity(items.getQuantity());
