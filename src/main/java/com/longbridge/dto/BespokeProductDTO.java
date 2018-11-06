@@ -1,5 +1,7 @@
 package com.longbridge.dto;
 
+import com.longbridge.models.ArtWorkPicture;
+
 import javax.persistence.Lob;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
 public class BespokeProductDTO {
     public Long id;
 
-    private ArrayList<String> artWorkPicture;
+    private ArrayList<ArtWorkPicture> artWorkPicture;
 
     private List<MaterialPictureDTO> materialPicture;
 
@@ -30,11 +32,11 @@ public class BespokeProductDTO {
         this.id = id;
     }
 
-    public ArrayList<String> getArtWorkPicture() {
+    public ArrayList<ArtWorkPicture> getArtWorkPicture() {
         return artWorkPicture;
     }
 
-    public void setArtWorkPicture(ArrayList<String> artWorkPicture) {
+    public void setArtWorkPicture(ArrayList<ArtWorkPicture> artWorkPicture) {
         this.artWorkPicture = artWorkPicture;
     }
 

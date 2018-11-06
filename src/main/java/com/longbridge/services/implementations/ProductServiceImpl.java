@@ -371,10 +371,10 @@ public class ProductServiceImpl implements ProductService {
                 materialPicture.setUpdatedOn(date);
                 materialPictureRepository.save(materialPicture);
             }
-            for (String ap : bespokeProductDTO.getArtWorkPicture()) {
+            for (ArtWorkPicture ap : bespokeProductDTO.getArtWorkPicture()) {
                 ArtWorkPicture artWorkPicture = new ArtWorkPicture();
                 String artName = generalUtil.getPicsName("artworkpic", subCategory);
-                CloudinaryResponse c = cloudinaryService.uploadToCloud(ap, artName, "artworkpictures");
+                CloudinaryResponse c = cloudinaryService.uploadToCloud(ap.getPicture(), artName, "artworkpictures");
                 artWorkPicture.setPictureName(c.getUrl());
                 artWorkPicture.setPicture(c.getPublicId());
                 artWorkPicture.setBespokeProduct(bespokeProduct);
@@ -467,9 +467,7 @@ public class ProductServiceImpl implements ProductService {
                 if(productDTO.styleId!=null)
                 {
                     product.getProductStyle().setStyle(styleRepository.findOne(productDTO.styleId));
-
                 }
-
 
             product.setUpdatedOn(date);
             product.getProductStatuses().setVerifiedFlag("N");
