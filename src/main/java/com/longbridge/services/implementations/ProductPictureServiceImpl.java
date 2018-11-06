@@ -445,6 +445,8 @@ public class ProductPictureServiceImpl implements ProductPictureService{
             }
     }
 
+
+
     @Override
     public void deleteProductImage(Long id) {
         try{
