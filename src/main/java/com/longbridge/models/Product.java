@@ -14,6 +14,8 @@ import java.util.List;
 @Entity
 public class Product extends CommonFields implements Serializable {
 
+    private String sku;
+
     private String name;
 
 
@@ -59,6 +61,15 @@ public class Product extends CommonFields implements Serializable {
 
 
     private int productType;
+
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
 
     public String getName() {
         return name;

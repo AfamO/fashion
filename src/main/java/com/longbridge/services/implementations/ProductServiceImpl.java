@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class ProductServiceImpl implements ProductService {
+
     @Autowired
     ProductRepository productRepository;
 
@@ -47,14 +48,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ArtWorkPictureRepository artWorkPictureRepository;
-    
-    @Autowired
-    ElasticSearchService searchService;
+
 
     @Autowired
     MaterialPictureRepository materialPictureRepository;
 
-
+    @Autowired
+    ElasticSearchService searchService; 
+    
     @Autowired
     CategoryRepository categoryRepository;
 
@@ -561,7 +562,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void updateProductStatus(Long id, String status) {
-
         try {
             Date date = new Date();
             //get the product to update
