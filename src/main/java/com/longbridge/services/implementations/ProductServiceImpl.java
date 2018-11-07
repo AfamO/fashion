@@ -48,7 +48,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ArtWorkPictureRepository artWorkPictureRepository;
-
     @Autowired
     ElasticSearchService searchService;
 
