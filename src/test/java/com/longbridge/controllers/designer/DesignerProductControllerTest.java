@@ -27,7 +27,7 @@ public class DesignerProductControllerTest {
         
     }
     // write test cases here
-    @Test
+    //@Test
     public void getproductbyid()
     throws Exception {
      ///**
