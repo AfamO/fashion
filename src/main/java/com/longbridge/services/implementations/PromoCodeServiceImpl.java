@@ -211,8 +211,9 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                 if(promoCode!=null){
                     //Has the promoCode expired?
                     if(promoCode.getExpiryDate().after(new Date())){
-                        //Has the PromoCode been used
-                        if((promoCode.getNumberOfUsage().equalsIgnoreCase("single") || promoCode.getNumberOfUsage().equalsIgnoreCase("multiple")) && promoCode.getIsUsedStatus().equalsIgnoreCase("N")){
+                        //Ensure the PromoCode hasn't been used(if it has single usage) and if true is multiple usage allowed or the usage counter  still less than number of usages allowed?
+                        if((promoCode.getNumberOfUsage()==1|| promoCode.getNumberOfUsage()==-1) && promoCode.getIsUsedStatus().equalsIgnoreCase("N")
+                        || promoCode.getUsageCounter()< promoCode.getNumberOfUsage()){
                             PromoCodeUserStatus promoCodeUserStatus= promoCodeUserStatusRepository.findByUserAndPromoCode(user,promoCode);
                             //This has not been used this user?
                             if(promoCodeUserStatus==null ) {
@@ -222,16 +223,40 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 
                                     System.out.println("The Size Of the PromoCode Items Is::"+promoCode.getPromoItems().size());
                                     System.out.println("ItemType=="+promoItem.getItemType()+", ItemId=="+promoItem.getItemId()+" While ProductId=="+products.id);
-                                    if(promoItem.getItemType().equalsIgnoreCase("p") && promoItem.getItemId()==products.id){
+                                    //Is the promocode applied only to ALL products ?
+                                    if(promoItem.getItemType().equalsIgnoreCase("ALL") && promoItem.getItemId()==-1){
                                         Double promoValue=Double.parseDouble(promoCode.getValue());
                                         // Is it percentage discount(pd)
-                                        if(promoCode.getValueType().equalsIgnoreCase("pd")){
+                                        if(promoCode.getValueType().equalsIgnoreCase("PD")){
                                             //multiply
                                             amount= amount- (amount*(promoValue/100));
                                             break;
                                         }
                                         //Is it normal monetary value discount(vd)
-                                        else if(promoCode.getValueType().equalsIgnoreCase("vd")){
+                                        else if(promoCode.getValueType().equalsIgnoreCase("VD")){
+                                            //multiply
+                                            amount-= promoValue;
+                                            break;
+                                        }
+                                        //It must be free shipping.
+                                        else {
+                                            // Apply free shipping discount here.
+                                            promoCodeStatusMessage="fs";
+                                            break;
+
+                                        }
+                                    }
+                                    //Is the promocode applied only to products of a particular id?
+                                    else if(promoItem.getItemType().equalsIgnoreCase("PRODUCT") && promoItem.getItemId()==products.id){
+                                        Double promoValue=Double.parseDouble(promoCode.getValue());
+                                        // Is it percentage discount(pd)
+                                        if(promoCode.getValueType().equalsIgnoreCase("PD")){
+                                            //multiply
+                                            amount= amount- (amount*(promoValue/100));
+                                            break;
+                                        }
+                                        //Is it normal monetary value discount(vd)
+                                        else if(promoCode.getValueType().equalsIgnoreCase("VD")){
                                             //multiply
                                             amount-= promoValue;
                                             break;
@@ -245,7 +270,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                                         }
                                     }
                                     // Is this promoCode applied to a category instead of to a product?
-                                    else if(promoItem.getItemType().equalsIgnoreCase("c")){
+                                    else if(promoItem.getItemType().equalsIgnoreCase("CATEGORY")){
                                         Category category= categoryRepository.findOne(promoItem.getItemId());
                                         if(category!=null){
                                             //look for the sub category
@@ -257,13 +282,13 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                                                     //Then apply the promocode discount
                                                     Double promoValue=Double.parseDouble(promoCode.getValue());
                                                     // Is it percentage discount(pd)
-                                                    if(promoCode.getValueType().equalsIgnoreCase("pd")){
+                                                    if(promoCode.getValueType().equalsIgnoreCase("PD")){
                                                         //multiply
                                                         amount= amount- (amount*(promoValue/100));
                                                         //break;
                                                     }
                                                     //Is it normal monetary value discount(vd)
-                                                    else if(promoCode.getValueType().equalsIgnoreCase("vd")){
+                                                    else if(promoCode.getValueType().equalsIgnoreCase("VD")){
                                                         //multiply
                                                         amount-= promoValue;
                                                         // break;
@@ -319,13 +344,17 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                 if(amount!=intialAmount){
                     //The promoCode must have been applied successfully
                     promoCodeStatusMessage="Operation Successful";
-                    // Update the used status if it is a 'single' use type
 
-                     if(promoCode.getNumberOfUsage().equalsIgnoreCase("single")){
+
+                    // Update the used status if it is a 'single' usage  type
+                     if(promoCode.getNumberOfUsage()==1){
                      promoCode.setIsUsedStatus("Y");
-                     promoCodeRepository.save(promoCode);
-                     }
 
+                     }
+                     //Increment the usage counter
+                     promoCode.setUsageCounter(promoCode.getUsageCounter()+1);
+                     promoCode.setUpdatedOn(new Date());
+                     promoCodeRepository.save(promoCode);// Update the PromoCode DB
                     //Then save the new amount to the cart.
                     Date date =new Date();
                     //Indicate that this user has used the PromoCode by setting the status to 'Y'
@@ -355,7 +384,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 
     @Override
     public String generatePromoCode() {
-        String initials="FAS-";
+        String initials="WAW-";
         initials+=UUID.randomUUID().toString().substring(0,6).toUpperCase();
         return initials;
 

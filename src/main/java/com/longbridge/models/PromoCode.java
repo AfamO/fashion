@@ -20,7 +20,9 @@ public class PromoCode extends CommonFields implements Serializable {
 
     private String valueType="pd";// percentage discount(pd) other types are free shipping(fs) and normal(monetary) value discount(vd)
 
-    private String numberOfUsage="multiple"; // It can also be single
+    private int numberOfUsage= -1; // The default is multiple times. It can also be 1, 8, etc
+
+    private  int usageCounter=0;
 
     @OneToMany(mappedBy = "promoCode",cascade = CascadeType.ALL)
     private List<PromoItem> promoItems;
@@ -73,11 +75,19 @@ public class PromoCode extends CommonFields implements Serializable {
         this.value = value;
     }
 
-    public String getNumberOfUsage() {
+    public int getNumberOfUsage() {
         return numberOfUsage;
     }
 
-    public void setNumberOfUsage(String numberOfUsage) {
+    public void setNumberOfUsage(int numberOfUsage) {
         this.numberOfUsage = numberOfUsage;
+    }
+
+    public int getUsageCounter() {
+        return usageCounter;
+    }
+
+    public void setUsageCounter(int usageCounter) {
+        this.usageCounter = usageCounter;
     }
 }

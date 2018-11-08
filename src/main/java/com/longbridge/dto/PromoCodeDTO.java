@@ -14,7 +14,7 @@ public class PromoCodeDTO {
 
     private String valueType="pd";
 
-    private String numberOfUsage="multiple"; // It can also be 'single'
+    private int numberOfUsage=-1; // The default is multiple times. It can also be 1, 8, etc
 
     public List<String> getPromoItemSizes() {
         return promoItemSizes;
@@ -89,11 +89,11 @@ public class PromoCodeDTO {
         this.expiryDate = expiryDate;
     }
 
-    public String getNumberOfUsage() {
+    public int getNumberOfUsage() {
         return numberOfUsage;
     }
 
-    public void setNumberOfUsage(String numberOfUsage) {
+    public void setNumberOfUsage(int numberOfUsage) {
         this.numberOfUsage = numberOfUsage;
     }
 }
