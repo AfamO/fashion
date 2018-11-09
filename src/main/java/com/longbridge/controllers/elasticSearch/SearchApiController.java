@@ -5,6 +5,7 @@ import com.longbridge.dto.PageableDetailsDTO;
 import com.longbridge.dto.elasticSearch.ProductSearchDTO;
 import com.longbridge.models.elasticSearch.ApiResponse;
 import com.longbridge.models.elasticSearch.SearchRequest;
+import com.longbridge.respbodydto.ProductRespDTO;
 import com.longbridge.services.elasticSearch.ElasticSearchService;
 import com.longbridge.services.elasticSearch.RemoteWebServiceLogger;
 
@@ -92,7 +93,7 @@ public class SearchApiController {
         
    }
     @PutMapping("/indexProduct")
-    public ApiResponse createProductIndex(@RequestBody ProductSearchDTO productSearchDTO) {
+    public ApiResponse createProductIndex(@RequestBody ProductRespDTO productSearchDTO) {
         if(productSearchDTO!=null){
          requestedServiceName="create_index";//This data is used for logging.
          return searchService.AddSearchProductIndex(host_api_url, productSearchDTO);
@@ -118,7 +119,7 @@ public class SearchApiController {
             apiLogger.log(Level.INFO,"The indexName must be provided");
            return new ApiResponse(HttpStatus.BAD_REQUEST.value(),"The indexName must be provided!");
         }
-        requestedEndPointPath="/"+indexName+"/_doc/"+id;
+        requestedEndPointPath="/_doc/"+id;
         requestedServiceName="query_index";//This data is used for logging.
         this.requestedIndexName=indexName;
         return searchService.makeRemoteRequest(host_api_url,requestedEndPointPath,"get",requestedServiceName, requestedIndexName, httpParameters);

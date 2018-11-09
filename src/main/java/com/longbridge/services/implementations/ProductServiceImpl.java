@@ -306,6 +306,7 @@ public class ProductServiceImpl implements ProductService {
                 productStatuses.setAcceptCustomSizes("N");
                 productStatuses.setAvailability("Y");
             }
+            product.setProductStyle(productStyle);
             productRepository.save(product);
             productStatuses.setProduct(product);
             productStatusesRepository.save(productStatuses);
@@ -317,6 +318,16 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
             throw new WawoohException();
         }
+    }
+    @Override
+    public void indexProductForSearch(Product product){
+
+        Gson gson= new Gson();
+        //Index search
+        ProductRespDTO productRespDTO= generalUtil.convertEntityToDTO(productRepository.findOne(product.id));
+        ApiResponse makeRemoteRequest = searchService.AddSearchProductIndex(elastic_host_api_url, productRespDTO);
+        apiLogger.log("The Result Of Indexing A New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
+
     }
 
 
@@ -472,6 +483,12 @@ public class ProductServiceImpl implements ProductService {
             product.setUpdatedOn(date);
             product.getProductStatuses().setVerifiedFlag("N");
             productRepository.save(product);
+            //Index search
+            ProductRespDTO productRespDTO= generalUtil.convertEntityToDTO(product);
+            //Update the search index to display verified product only
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url,productRespDTO);
+            apiLogger.log("The Result Of ReIndexing An Updated Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+
         }catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
@@ -519,19 +536,19 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             //get the product to update
-            ProductSearchDTO productSearchDTO=null;
             Product product = productRepository.findOne(id);
-//            if(product !=null){
-//                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, id));
-//                productSearchDTO.setVerifiedFlag(status);
-//            }
+            ProductRespDTO productSearchDTO = null;
+            if(product !=null){
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, id));
+                productSearchDTO.verifiedFlag=status;
+            }
             product.getProductStatuses().setVerifiedFlag(status);
             product.setVerfiedOn(date);
             productRepository.save(product);
             //Then save the Updated product status
             //Update the search index to display verified product only
-//            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
-//            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
+            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -546,6 +563,17 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             Product product = productRepository.findOne(verifyDTO.getId());
+            //  Get the product Search Index
+            ProductRespDTO productSearchDTO = null;
+            if(product !=null){
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, verifyDTO.getId()));
+                productSearchDTO.verifiedFlag=verifyDTO.getFlag();
+                productSearchDTO.unVerifiedReason=verifyDTO.getUnverifyReason();
+                //Then save the Updated product
+                //Update the search index with the updated product only
+                Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
+                apiLogger.log("The Result Of ReIndexing An UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+            }
             product.getProductStatuses().setVerifiedFlag(verifyDTO.getFlag());
             product.getProductStatuses().setUnVerifiedReason(verifyDTO.getUnverifyReason());
             product.setVerfiedOn(date);

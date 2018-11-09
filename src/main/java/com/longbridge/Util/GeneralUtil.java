@@ -305,7 +305,12 @@ public class GeneralUtil {
         productDTO.description= product.getProdDesc();
         productDTO.prodSummary= product.getProdSummary();
         productDTO.name= product.getName();
-
+        if(product.getProductStyle()==null){
+            System.out.println("Good!!!");
+        }
+        else {
+            System.out.println("False");
+        }
         productDTO.productColorStyleDTOS =convertProductAttributeEntitiesToDTOs(product.getProductStyle().getProductColorStyles());
 
       //  productDTO.productSizes=product.productSizes;
