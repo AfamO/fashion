@@ -306,10 +306,10 @@ public class GeneralUtil {
         productDTO.prodSummary= product.getProdSummary();
         productDTO.name= product.getName();
         if(product.getProductStyle()==null){
-            System.out.println("Good!!!");
+            //System.out.println("Good!!!");
         }
         else {
-            System.out.println("False");
+            //System.out.println("ProductStyle Not Null");
         }
         productDTO.productColorStyleDTOS =convertProductAttributeEntitiesToDTOs(product.getProductStyle().getProductColorStyles());
 
