@@ -113,7 +113,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductColorStyleRepository productColorStyleRepository;
 
-    RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass()); 
+    RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass());
+    private Long currentProductId;
     
     @Value("${search.url}")
     private String elastic_host_api_url; //host_api_url for elastic search
@@ -306,8 +307,9 @@ public class ProductServiceImpl implements ProductService {
                 productStatuses.setAcceptCustomSizes("N");
                 productStatuses.setAvailability("Y");
             }
-            product.setProductStyle(productStyle);
             productRepository.save(product);
+            currentProductId=product.id;
+            System.out.println("The Just Saved Product Id =="+currentProductId);
             productStatuses.setProduct(product);
             productStatusesRepository.save(productStatuses);
 
@@ -320,11 +322,11 @@ public class ProductServiceImpl implements ProductService {
         }
     }
     @Override
-    public void indexProductForSearch(Product product){
+    public void indexProductForSearch(){
 
         Gson gson= new Gson();
         //Index search
-        ProductRespDTO productRespDTO= generalUtil.convertEntityToDTO(productRepository.findOne(product.id));
+        ProductRespDTO productRespDTO= generalUtil.convertEntityToDTO(productRepository.findOne(currentProductId));
         ApiResponse makeRemoteRequest = searchService.AddSearchProductIndex(elastic_host_api_url, productRespDTO);
         apiLogger.log("The Result Of Indexing A New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
 

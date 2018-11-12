@@ -21,7 +21,7 @@ public interface ProductService {
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     String addProduct(ProductDTO productDTO) throws WawoohException;
 
-    void indexProductForSearch(Product product);
+    void indexProductForSearch();
 
     void updateProductVisibility(Long id, String status);
 

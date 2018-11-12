@@ -2,6 +2,7 @@ package com.longbridge.controllers.designer;
 
 import com.longbridge.dto.*;
 
+import com.longbridge.models.Product;
 import com.longbridge.models.Response;
 
 import com.longbridge.respbodydto.ProductRespDTO;
@@ -39,6 +40,7 @@ public class DesignerProductController {
     public Object addProduct(@RequestBody ProductDTO productDTO){
         Map<String,Object> responseMap = new HashMap();
         productService.addProduct(productDTO);
+        //productService.indexProductForSearch();
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
     }

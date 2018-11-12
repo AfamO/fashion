@@ -2,53 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="872f39b0-17d8-442d-8cd9-4ffabd04ac37" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/elasticSearch/SearchApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/elasticSearch/SearchApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerProductController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/elasticSearch/ElasticSearchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/elasticSearch/ElasticSearchService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/Util/UserUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/Util/UserUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/OrderReqDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/OrderReqDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductPictureDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/dto/ProductPictureDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Items.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Items.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/Measurement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/Measurement.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/models/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/models/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ArtWorkPictureRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ArtWorkPictureRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CartRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/CartRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/DesignerRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/DesignerRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ItemRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ItemRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MaterialPictureRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/MaterialPictureRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/OrderItemProcessingPictureRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/OrderItemProcessingPictureRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PictureTagRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PictureTagRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PriceSlashRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/PriceSlashRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductNotificationRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductNotificationRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductPictureRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductPictureRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductRatingRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductRatingRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductSizesRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/ProductSizesRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/repository/WishListRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/repository/WishListRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/DesignerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/DesignerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/OrderService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/PaymentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/PaymentService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/PriceSlashService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/PriceSlashService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductRatingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductRatingService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerProductController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/WishListService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/WishListService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/AdminServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/AdminServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/DesignerServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/EventServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/EventServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/InspireMeServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/InspireMeServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ItemStatusServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ItemStatusServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/MeasurementServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/MeasurementServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/OrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/OrderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/PaymentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/PaymentServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/PriceSlashServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/PriceSlashServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductRatingServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductRatingServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/RavePaymentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/RavePaymentServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ShippingPriceServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ShippingPriceServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WalletServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WalletServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WishListServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/WishListServiceImpl.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -63,7 +23,7 @@
         <counts>
           <entry key="class" value="1" />
           <entry key="gitignore" value="1" />
-          <entry key="java" value="13" />
+          <entry key="java" value="18" />
           <entry key="properties" value="2" />
           <entry key="xml" value="1" />
         </counts>
@@ -71,7 +31,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="1" />
-          <entry key="JAVA" value="13" />
+          <entry key="JAVA" value="18" />
           <entry key="PLAIN_TEXT" value="1" />
           <entry key="Properties" value="2" />
           <entry key="XML" value="1" />
@@ -80,13 +40,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="22" />
-          <entry key="java" value="350" />
+          <entry key="java" value="473" />
           <entry key="xml" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="350" />
+          <entry key="JAVA" value="473" />
           <entry key="PLAIN_TEXT" value="22" />
           <entry key="XML" value="3" />
         </counts>
@@ -102,11 +62,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-123">
-              <caret line="289" column="17" selection-start-line="289" selection-start-column="17" selection-end-line="289" selection-end-column="17" />
+            <state relative-caret-position="274">
+              <caret line="308" column="13" selection-start-line="308" selection-start-column="13" selection-end-line="308" selection-end-column="13" />
               <folding>
                 <element signature="e#2740#2741#0" expanded="true" />
                 <element signature="e#2786#2787#0" expanded="true" />
@@ -119,11 +79,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerProductController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
+            <state relative-caret-position="189">
+              <caret line="41" column="46" lean-forward="true" selection-start-line="41" selection-start-column="46" selection-end-line="41" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -132,7 +92,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/ProductService.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="121">
-              <caret line="21" column="10" lean-forward="true" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
+              <caret line="23" column="9" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -140,8 +100,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="313" selection-start-line="313" selection-end-line="313" />
+            <state relative-caret-position="287">
+              <caret line="313" column="80" lean-forward="true" selection-start-line="313" selection-start-column="80" selection-end-line="313" selection-end-column="105" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#6743#6756#0" expanded="true" />
@@ -158,6 +118,24 @@
                 <element signature="e#22696#22714#0" expanded="true" />
                 <element signature="e#24008#24022#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Product.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="275">
+              <caret line="47" column="18" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/ProductStyle.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="137">
+              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -218,9 +196,9 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/elasticSearch/ElasticSearchService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/elasticSearch/SearchApiController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerProductController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/ProductService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerProductController.java" />
       </list>
     </option>
   </component>
@@ -285,27 +263,7 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="longbridge" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fashion" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wawoohapi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="longbridge" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fashion" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wawoohapi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="longbridge" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="designer" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fashion" type="b2602c69:ProjectViewProjectNode" />
@@ -329,7 +287,7 @@
     <property name="RequestMappingsPanelWidth2" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541779383737" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542019320238" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -371,13 +329,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18966000" />
+    <option name="totallyTimeSpent" value="25611000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="717" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26979" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26979" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -387,7 +345,7 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3296" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2992" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2992" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -550,10 +508,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/ProductColorStyle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductPictureServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4752">
+          <caret line="359" selection-start-line="359" selection-end-line="359" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/ProductStatuses.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/ProductService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="121">
-          <caret line="313" selection-start-line="313" selection-end-line="313" />
+          <caret line="23" column="9" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/Product.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="47" column="18" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/ProductStyle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/GeneralUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="313" column="80" lean-forward="true" selection-start-line="313" selection-start-column="80" selection-end-line="313" selection-end-column="105" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#6743#6756#0" expanded="true" />
@@ -573,24 +573,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerProductController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/ProductService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="21" column="10" lean-forward="true" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-123">
-          <caret line="289" column="17" selection-start-line="289" selection-start-column="17" selection-end-line="289" selection-end-column="17" />
+        <state relative-caret-position="274">
+          <caret line="308" column="13" selection-start-line="308" selection-start-column="13" selection-end-line="308" selection-end-column="13" />
           <folding>
             <element signature="e#2740#2741#0" expanded="true" />
             <element signature="e#2786#2787#0" expanded="true" />
@@ -599,6 +585,13 @@
             <element signature="e#30591#30607#0" expanded="true" />
             <element signature="e#41633#41641#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/designer/DesignerProductController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="41" column="46" lean-forward="true" selection-start-line="41" selection-start-column="46" selection-end-line="41" selection-end-column="46" />
         </state>
       </provider>
     </entry>
