@@ -104,6 +104,9 @@ public class OrderServiceImpl implements OrderService {
     PromoCodeService promoCodeService;
 
     @Autowired
+    PromoCodeRepository promoCodeRepository;
+
+    @Autowired
     PromoCodeUserStatusRepository promoCodeUserStatusRepository;
     
     @Transactional
@@ -312,18 +315,36 @@ public class OrderServiceImpl implements OrderService {
                 }
 
             }
+            PromoCode promoCode=null;
             //Apply PromoCode Here if the product/item has a promocode
-            PromoCodeUserStatus promoCodeUserStatus= promoCodeService.getPromoCodeUserStatus();
-            PromoCode promoCode=promoCodeUserStatus.getPromoCode();
-            if(promoCodeUserStatus!=null && promoCodeUserStatus.getProductId()==p.id) { // Is the promocode assigned to this product?
-                //Is the value type free shipping?
-                if( !promoCode.getValueType().equalsIgnoreCase("fs")){ // It is either of type percentage discount or normal value discount
+            if(items.getPromoCode()!=null && !items.getPromoCode().equalsIgnoreCase("")){
+                promoCode=promoCodeRepository.findUniqueUnExpiredPromoCode(items.getPromoCode());
+                PromoCodeUserStatus promoCodeUserStatus= promoCodeUserStatusRepository.findByUserAndPromoCode(getCurrentUser(),promoCode);
+                if(promoCodeUserStatus!=null && promoCodeUserStatus.getProductId()==p.id) { // Is the promocode assigned to this product?
+                    System.out.println("This item ordered has a promoCode");
+                    //Is the value type free shipping?
+                    if( !promoCode.getValueType().equalsIgnoreCase("fs")){ // It is either of type percentage discount or normal value discount
 
-                    // Set the new amount to the discounted amount
-                    amount = promoCodeUserStatus.getDiscountedAmount();
+                        // Set the new amount to the discounted amount
+                        amount = promoCodeUserStatus.getDiscountedAmount();
+                    }
+                    //Update the promocode user status
+                    promoCodeUserStatus.setIsPromoCodeUsedByUser("Y");
+                    promoCodeUserStatus.setUpdatedOn(date);
+                    promoCodeUserStatusRepository.save(promoCodeUserStatus);
+                    // Update the used status if it is a 'single' usage  type or the  number of usage has reached just been reached
+                    if(promoCode.getNumberOfUsage()==1 ||(promoCode.getNumberOfUsage()==promoCode.getUsageCounter()+1)){
+                        promoCode.setIsUsedStatus("Y");
+
+                    }
+                    //Increment the usage counter
+                    promoCode.setUsageCounter(promoCode.getUsageCounter()+1);
+                    promoCode.setUpdatedOn(new Date());
+                    promoCodeRepository.save(promoCode);// Update the PromoCode DB
+
                 }
-
             }
+
 
             Double itemsAmount = amount*items.getQuantity();
             ProductColorStyle productColorStyle =productColorStyleRepository.findOne(items.getProductColorStyleId());

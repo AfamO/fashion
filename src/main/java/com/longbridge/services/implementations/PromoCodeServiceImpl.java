@@ -339,20 +339,10 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                 else {
                     promoCodeStatusMessage= "OOOps! The PromoCode You entered does not exist.";
                 }
-                if(amount!=intialAmount){
+                if(amount!=intialAmount || promoCodeStatusMessage.equalsIgnoreCase("fs")){
                     //The promoCode must have been applied successfully
                     promoCodeStatusMessage="Operation Successful";
 
-
-                    // Update the used status if it is a 'single' usage  type
-                     if(promoCode.getNumberOfUsage()==1){
-                     promoCode.setIsUsedStatus("Y");
-
-                     }
-                     //Increment the usage counter
-                     promoCode.setUsageCounter(promoCode.getUsageCounter()+1);
-                     promoCode.setUpdatedOn(new Date());
-                     promoCodeRepository.save(promoCode);// Update the PromoCode DB
                     //Then save the new amount to the cart.
                     Date date =new Date();
                     //Indicate that this user has used the PromoCode by setting the status to 'Y'
@@ -361,15 +351,14 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                     promoCodeUserStatus.setCreatedOn(date);
                     promoCodeUserStatus.setUpdatedOn(date);
                     promoCodeUserStatus.setPromoCode(promoCode);
-                    promoCodeUserStatus.setIsPromoCodeUsedByUser("Y");
                     promoCodeUserStatus.setProductId(promoCodeApplyReqDTO.getProductId());
                     promoCodeUserStatus.setDiscountedAmount(amount);
                     promoCodeUserStatusRepository.save(promoCodeUserStatus);
-                    promoCodeUserStatus=null;// Since it will be used during 'addOrder' method when checking out. This ensures that it is the same user this object.
                     // Set the new pricing details
                     promoCodeApplyRespDTO=new PromoCodeApplyRespDTO();
                     promoCodeApplyRespDTO.setPrice(amount);
                     promoCodeApplyRespDTO.setTotalPrice(amount);
+                    promoCodeApplyRespDTO.setValueType(promoCode.getValueType());
 
 
                 }

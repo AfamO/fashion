@@ -508,15 +508,15 @@ public class GeneralUtil {
         return productColorStyleDTOS;
     }
 
-    public ProductColorStyleDTO convertProductAttributeEntityToDTO(ProductColorStyle productAttribute){
+    public ProductColorStyleDTO convertProductAttributeEntityToDTO(ProductColorStyle productColorStyle){
         ProductColorStyleDTO productColorStyleDTO = new ProductColorStyleDTO();
 
-        productColorStyleDTO.setId(productAttribute.id);
-        productColorStyleDTO.setColourPicture(productAttribute.getColourPicture());
-        productColorStyleDTO.setColourName(productAttribute.getColourName());
+        productColorStyleDTO.setId(productColorStyle.id);
+        productColorStyleDTO.setColourPicture(productColorStyle.getColourPicture());
+        productColorStyleDTO.setColourName(productColorStyle.getColourName());
 
-        productColorStyleDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductPictures()));
-        productColorStyleDTO.setProductSizes(productAttribute.getProductSizes());
+        productColorStyleDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productColorStyle.getProductPictures()));
+        productColorStyleDTO.setProductSizes(productColorStyle.getProductSizes());
         return productColorStyleDTO;
 
     }
@@ -667,7 +667,7 @@ public class GeneralUtil {
             cartDTO.setTotalPrice(cartDTO.getPrice()*cartDTO.getQuantity());
         }
 
-        ProductPicture p = productPictureRepository.findFirst1ByProductColorStyle_Product(product);
+        ProductPicture p = productPictureRepository.findFirst1ByProductColorStyle_ProductStyle_Product(product);
         cartDTO.setProductPicture(p.getPictureName());
 
         cartDTO.setStockNo(productSizesRepository.findOne(cart.getProductSizeId()).getNumberInStock());
@@ -692,9 +692,10 @@ public class GeneralUtil {
         if(cart.getProductColorStyleId() == null){
             cartDTO.setSizeStockNo(1);
         }else{
-           ProductColorStyle productAttribute =  productColorStyleRepository.findOne(cart.getProductColorStyleId());
-           if(productAttribute != null){
-               ProductSizes productSizes = productSizesRepository.findByProductColorStyleAndName(productAttribute, cart.getSize());
+           ProductColorStyle productColorStyle =  productColorStyleRepository.findOne(cart.getProductColorStyleId());
+           if(productColorStyle != null){
+               System.out.println("The Cart Size Is::"+cart.getSize());
+               ProductSizes productSizes = productSizesRepository.findByProductColorStyleAndName(productColorStyle, cart.getSize());
                cartDTO.setSize(productSizes.getName());
                cartDTO.setSizeStockNo(productSizes.getNumberInStock());
            }
