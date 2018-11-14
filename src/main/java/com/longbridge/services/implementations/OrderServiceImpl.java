@@ -261,8 +261,10 @@ public class OrderServiceImpl implements OrderService {
         Double shippingAmount = 0.0;
         Double totalShippingAmount = 0.0;
         MaterialPicture material = null;
+        ArtWorkPicture artWorkPicture=null;
         Double materialPrice=0.0;
-        Double amount;
+        Double artWorkPrice=0.0;
+        Double amount=0.0;
         Double itemsAmount;
 
         List<String> designerCities = new ArrayList<>();
@@ -274,20 +276,23 @@ public class OrderServiceImpl implements OrderService {
             if(items.getBespokeProductId() != null){
 
                 if(items.getArtWorkPictureId() != null){
-                    items.setArtWorkPicture(artWorkPictureRepository.findOne(items.getArtWorkPictureId()).getPictureName());
+                    artWorkPicture=artWorkPictureRepository.findOne(items.getArtWorkPictureId());
+                    artWorkPrice=artWorkPicture.getPrice();
+                    items.setArtWorkPicture(artWorkPicture.getPictureName());
+
                 }
                 if(items.getMaterialPictureId() != null){
                     material = materialPictureRepository.findOne(items.getMaterialPictureId());
                     items.setMaterialPicture(material.getPictureName());
                     materialPrice=material.getPrice();
-                    amount= p.getProductPrice().getSewingAmount()+materialPrice;
+                    amount= p.getProductPrice().getSewingAmount()+materialPrice+artWorkPrice;
                 }
                 else {
                     if(items.getMaterialStatus().equalsIgnoreCase("Y")){
-                       amount = p.getProductPrice().getSewingAmount();
+                       amount = p.getProductPrice().getSewingAmount()+artWorkPrice;
                     }
                     else {
-                        amount = p.getProductPrice().getAmount();
+                        amount = p.getProductPrice().getAmount()+artWorkPrice;
                     }
                 }
 

@@ -44,7 +44,7 @@ public class CategoryController {
 
 
     @GetMapping(value = "/{subCategoryId}/getstyles")
-    public Object getStyles(@PathVariable Long subCategoryId, HttpServletRequest request){
+    public Object getStyles(@PathVariable Long subCategoryId){
         List<Style> styles= productService.getStyles(subCategoryId);
         return new Response("00","Operation Successful",styles);
 

@@ -5,14 +5,8 @@
  */
 package com.longbridge.services;
 
-import com.longbridge.dto.ArtPicReqDTO;
-import com.longbridge.dto.EventPicturesDTO;
-import com.longbridge.dto.MatPicReqDTO;
-import com.longbridge.dto.PageableDetailsDTO;
-import com.longbridge.dto.PictureTagDTO;
-import com.longbridge.dto.ProductDTO;
-import com.longbridge.dto.ProductPictureIdListDTO;
-import com.longbridge.dto.TagDTO;
+import com.longbridge.dto.*;
+
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -26,10 +20,10 @@ public interface ProductPictureService {
     void updateProductImages(ProductDTO p);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateArtWorkImages(ArtPicReqDTO artPictureDTO);
+    void updateArtWorkImages(BespokeProductDTO bespokeProductDTO);
 
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
-    void updateMaterialImages(MatPicReqDTO materialPictureDTO);
+    void updateMaterialImages(BespokeProductDTO BespokeProductDTO);
     
     @PreAuthorize("hasAuthority('ROLE_DESIGNER')")
     void deleteProductImages(ProductPictureIdListDTO pictureIdListDTO);

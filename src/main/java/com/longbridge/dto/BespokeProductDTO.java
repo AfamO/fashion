@@ -20,6 +20,8 @@ public class BespokeProductDTO {
 
     private int numOfDaysToComplete;
 
+    private Long productId;
+
     @Lob
     private String mandatoryMeasurements;
 
@@ -70,6 +72,14 @@ public class BespokeProductDTO {
 
     public void setArtPictureDTOS(List<ArtPictureDTO> artPictureDTOS) {
         this.artPictureDTOS = artPictureDTOS;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public BespokeProductDTO() {

@@ -2,6 +2,7 @@ package com.longbridge.exception;
 
 import com.longbridge.dto.DesignerOrderDTO;
 import com.longbridge.dto.ItemsDTO;
+import com.longbridge.models.User;
 
 /**
  * Created by Longbridge on 28/02/2018.
@@ -16,6 +17,9 @@ public class AppException extends RuntimeException{
     private String productName;
     private DesignerOrderDTO designerOrderDTO;
     private ItemsDTO itemsDTO;
+
+    private User user;
+
     public String getNewPassword() {
         return newPassword;
     }
@@ -88,6 +92,14 @@ public class AppException extends RuntimeException{
         this.itemsDTO = itemsDTO;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public AppException(String newPassword, String name, String recipient, String subject, String link) {
 //        super("Failed to perform the requested action");
         System.out.println("i got here");
@@ -146,6 +158,16 @@ public class AppException extends RuntimeException{
         this.subject=subject;
 
     }
+
+
+
+    public AppException(String recipient, String subject, User user) {
+        this.recipient=recipient;
+        this.subject=subject;
+        this.user=user;
+    }
+
+
 
 
 
