@@ -36,6 +36,7 @@
 =======
     <list id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="" />
     <list default="true" id="14f6daa9-ba47-43b9-9324-df3cac4945dc" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/templates/notifycustomercaretemplate.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerProductController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerProductController.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" />
@@ -80,6 +81,9 @@
 >>>>>>> skuandstuffs
 =======
 >>>>>>> notifycustomercare
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+>>>>>>> Added Elastic Search Service dependency injection
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -205,6 +209,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <file leaf-file-name="UserUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
 >>>>>>> notifycustomercare
@@ -262,14 +267,25 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java">
 =======
       <file leaf-file-name="UserUtil.java" pinned="false" current-in-tab="true">
+=======
+      <file leaf-file-name="UserUtil.java" pinned="false" current-in-tab="false">
+>>>>>>> Added Elastic Search Service dependency injection
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
 >>>>>>> notifycustomercare
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="123" column="36" lean-forward="true" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
-              <folding>
-                <element signature="e#2564#2572#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="184">
+              <caret line="123" column="36" lean-forward="false" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProductServiceImpl.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3369">
+              <caret line="296" column="70" lean-forward="true" selection-start-line="296" selection-start-column="70" selection-end-line="296" selection-end-column="70" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -451,10 +467,14 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="420">
               <caret line="52" column="33" lean-forward="false" selection-start-line="52" selection-start-column="33" selection-end-line="52" selection-end-column="33" />
+<<<<<<< HEAD
               <folding>
                 <element signature="imports" expanded="false" />
               </folding>
 >>>>>>> notifycustomercare
+=======
+              <folding />
+>>>>>>> Added Elastic Search Service dependency injection
             </state>
           </provider>
         </entry>
@@ -525,6 +545,7 @@
             <state relative-caret-position="225">
               <caret line="21" column="14" lean-forward="false" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       <file leaf-file-name="PromoItem.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/models/PromoItem.java">
@@ -554,6 +575,9 @@
 >>>>>>> Added Elastic Search Service dependency injection
 =======
 >>>>>>> notifycustomercare
+=======
+              <folding />
+>>>>>>> Added Elastic Search Service dependency injection
             </state>
           </provider>
         </entry>
@@ -676,6 +700,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1860">
               <caret line="166" column="23" lean-forward="false" selection-start-line="166" selection-start-column="23" selection-end-line="166" selection-end-column="23" />
+<<<<<<< HEAD
 >>>>>>> notifycustomercare
               <folding>
                 <element signature="imports" expanded="false" />
@@ -731,6 +756,9 @@
 >>>>>>> wednesdaycommit
 =======
 >>>>>>> notifycustomercare
+=======
+              <folding />
+>>>>>>> Added Elastic Search Service dependency injection
             </state>
           </provider>
         </entry>
@@ -951,6 +979,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
@@ -1040,6 +1069,8 @@
 =======
       <pane id="Scope" />
 >>>>>>> notifycustomercare
+=======
+>>>>>>> Added Elastic Search Service dependency injection
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1191,6 +1222,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
               <option name="myItemId" value="repository" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -1264,6 +1296,9 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="controllers" />
 >>>>>>> wednesdaycommit
+=======
+              <option name="myItemId" value="services" />
+>>>>>>> Added Elastic Search Service dependency injection
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1298,6 +1333,7 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="services" />
+<<<<<<< HEAD
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1697,6 +1733,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+=======
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+>>>>>>> Added Elastic Search Service dependency injection
               <option name="myItemId" value="implementations" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -2319,11 +2360,16 @@
 =======
       <workItem from="1541582417968" duration="31886000" />
       <workItem from="1542123452037" duration="1252000" />
+<<<<<<< HEAD
 >>>>>>> notifycustomercare
+=======
+      <workItem from="1542201182404" duration="570000" />
+>>>>>>> Added Elastic Search Service dependency injection
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -2361,6 +2407,9 @@
 =======
     <option name="totallyTimeSpent" value="121102000" />
 >>>>>>> notifycustomercare
+=======
+    <option name="totallyTimeSpent" value="121672000" />
+>>>>>>> Added Elastic Search Service dependency injection
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="717" extended-state="0" />
@@ -2417,6 +2466,7 @@
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3494996" sideWeight="0.47833332" order="0" side_tool="false" content_ui="tabs" />
 =======
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33872208" sideWeight="0.47833332" order="0" side_tool="false" content_ui="tabs" />
@@ -2424,6 +2474,9 @@
 =======
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34411085" sideWeight="0.47833332" order="0" side_tool="false" content_ui="tabs" />
 >>>>>>> notifycustomercare
+=======
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3494996" sideWeight="0.47833332" order="0" side_tool="false" content_ui="tabs" />
+>>>>>>> Added Elastic Search Service dependency injection
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3262891" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16012317" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16705337" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -3297,13 +3350,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="296" column="70" lean-forward="true" selection-start-line="296" selection-start-column="70" selection-end-line="296" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/general/CategoryController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
@@ -3316,8 +3362,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+<<<<<<< HEAD
 >>>>>>> notifycustomercare
           <folding />
+=======
+>>>>>>> Added Elastic Search Service dependency injection
         </state>
       </provider>
     </entry>
@@ -3466,7 +3515,6 @@
             <element signature="imports" expanded="true" />
 =======
           <caret line="18" column="86" lean-forward="true" selection-start-line="18" selection-start-column="86" selection-end-line="18" selection-end-column="86" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3482,6 +3530,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1860">
           <caret line="166" column="23" lean-forward="false" selection-start-line="166" selection-start-column="23" selection-end-line="166" selection-end-column="23" />
+<<<<<<< HEAD
           <folding>
             <element signature="imports" expanded="false" />
             <element signature="e#590#591#0" expanded="false" />
@@ -3585,6 +3634,9 @@
 >>>>>>> skuandstuffs
           <folding />
 >>>>>>> wednesdaycommit
+=======
+          <folding />
+>>>>>>> Added Elastic Search Service dependency injection
         </state>
       </provider>
     </entry>
@@ -3942,21 +3994,7 @@
           <caret line="28" column="9" lean-forward="false" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
 =======
           <caret line="21" column="14" lean-forward="false" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#296#297#0" expanded="false" />
-            <element signature="e#328#329#0" expanded="false" />
-            <element signature="e#381#382#0" expanded="false" />
-            <element signature="e#423#424#0" expanded="false" />
-            <element signature="e#503#504#0" expanded="false" />
-            <element signature="e#532#533#0" expanded="false" />
-            <element signature="e#574#575#0" expanded="false" />
-            <element signature="e#610#611#0" expanded="false" />
-            <element signature="e#645#646#0" expanded="false" />
-            <element signature="e#676#677#0" expanded="false" />
-            <element signature="e#724#725#0" expanded="false" />
-            <element signature="e#764#765#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -4045,21 +4083,39 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="52" column="33" lean-forward="false" selection-start-line="52" selection-start-column="33" selection-end-line="52" selection-end-column="33" />
+<<<<<<< HEAD
 >>>>>>> notifycustomercare
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
+=======
+          <folding />
+>>>>>>> Added Elastic Search Service dependency injection
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="161">
           <caret line="123" column="36" lean-forward="true" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
           <folding>
             <element signature="e#2564#2572#0" expanded="true" />
           </folding>
 >>>>>>> wednesdaycommit
+=======
+        <state relative-caret-position="184">
+          <caret line="123" column="36" lean-forward="false" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3369">
+          <caret line="296" column="70" lean-forward="true" selection-start-line="296" selection-start-column="70" selection-end-line="296" selection-end-column="70" />
+          <folding />
+>>>>>>> Added Elastic Search Service dependency injection
         </state>
       </provider>
     </entry>

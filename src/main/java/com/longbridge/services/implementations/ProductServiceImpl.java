@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ElasticSearchService searchService;
 
-
+   
     @Autowired
     MaterialPictureRepository materialPictureRepository;
     
