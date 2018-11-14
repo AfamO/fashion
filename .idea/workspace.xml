@@ -24,6 +24,7 @@
 =======
     <list id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="" />
     <list default="true" id="14f6daa9-ba47-43b9-9324-df3cac4945dc" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/templates/notifycustomercaretemplate.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerProductController.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/controllers/designer/DesignerProductController.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/longbridge/services/implementations/ProductServiceImpl.class" />
@@ -46,6 +47,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application-dev.properties" afterPath="$PROJECT_DIR$/target/classes/application-dev.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application.properties" afterPath="$PROJECT_DIR$/target/classes/application.properties" />
 >>>>>>> notifycustomercare
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+>>>>>>> Added Elastic Search Service dependency injection
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -145,15 +149,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UserUtil.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UserUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
 >>>>>>> notifycustomercare
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="123" column="36" lean-forward="true" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
-              <folding>
-                <element signature="e#2564#2572#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="184">
+              <caret line="123" column="36" lean-forward="false" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProductServiceImpl.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3369">
+              <caret line="296" column="70" lean-forward="true" selection-start-line="296" selection-start-column="70" selection-end-line="296" selection-end-column="70" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -238,10 +250,14 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="420">
               <caret line="52" column="33" lean-forward="false" selection-start-line="52" selection-start-column="33" selection-end-line="52" selection-end-column="33" />
+<<<<<<< HEAD
               <folding>
                 <element signature="imports" expanded="false" />
               </folding>
 >>>>>>> notifycustomercare
+=======
+              <folding />
+>>>>>>> Added Elastic Search Service dependency injection
             </state>
           </provider>
         </entry>
@@ -282,6 +298,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
               <caret line="21" column="14" lean-forward="false" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+<<<<<<< HEAD
               <folding>
                 <element signature="imports" expanded="false" />
                 <element signature="e#296#297#0" expanded="false" />
@@ -298,6 +315,9 @@
                 <element signature="e#764#765#0" expanded="false" />
               </folding>
 >>>>>>> notifycustomercare
+=======
+              <folding />
+>>>>>>> Added Elastic Search Service dependency injection
             </state>
           </provider>
         </entry>
@@ -378,6 +398,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1860">
               <caret line="166" column="23" lean-forward="false" selection-start-line="166" selection-start-column="23" selection-end-line="166" selection-end-column="23" />
+<<<<<<< HEAD
               <folding>
                 <element signature="imports" expanded="false" />
                 <element signature="e#590#591#0" expanded="false" />
@@ -424,6 +445,9 @@
                 <element signature="e#4466#4467#0" expanded="false" />
               </folding>
 >>>>>>> notifycustomercare
+=======
+              <folding />
+>>>>>>> Added Elastic Search Service dependency injection
             </state>
           </provider>
         </entry>
@@ -561,6 +585,7 @@
     </navigator>
     <panes>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
@@ -641,6 +666,8 @@
 =======
       <pane id="Scratches" />
       <pane id="Scope" />
+=======
+>>>>>>> Added Elastic Search Service dependency injection
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -775,7 +802,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="repository" />
+              <option name="myItemId" value="services" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -809,122 +836,18 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fashion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wawoohapi" />
+              <option name="myItemId" value="services" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="longbridge" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fashion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wawoohapi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="longbridge" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="general" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fashion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wawoohapi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="longbridge" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="enduser" />
+              <option name="myItemId" value="implementations" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
 <<<<<<< HEAD
       <pane id="Scope" />
@@ -1445,11 +1368,16 @@
 =======
       <workItem from="1541582417968" duration="31886000" />
       <workItem from="1542123452037" duration="1252000" />
+<<<<<<< HEAD
 >>>>>>> notifycustomercare
+=======
+      <workItem from="1542201182404" duration="570000" />
+>>>>>>> Added Elastic Search Service dependency injection
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <option name="totallyTimeSpent" value="24546000" />
@@ -1468,6 +1396,9 @@
 =======
     <option name="totallyTimeSpent" value="121102000" />
 >>>>>>> notifycustomercare
+=======
+    <option name="totallyTimeSpent" value="121672000" />
+>>>>>>> Added Elastic Search Service dependency injection
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="717" extended-state="0" />
@@ -1522,7 +1453,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42905983" sideWeight="0.49442676" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34411085" sideWeight="0.47833332" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3494996" sideWeight="0.47833332" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3262891" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16012317" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16705337" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1913,13 +1844,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="296" column="70" lean-forward="true" selection-start-line="296" selection-start-column="70" selection-end-line="296" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/general/CategoryController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
@@ -1932,8 +1856,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+<<<<<<< HEAD
           <folding />
 >>>>>>> notifycustomercare
+=======
+>>>>>>> Added Elastic Search Service dependency injection
         </state>
       </provider>
     </entry>
@@ -2148,7 +2075,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="18" column="86" lean-forward="true" selection-start-line="18" selection-start-column="86" selection-end-line="18" selection-end-column="86" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2164,51 +2090,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1860">
           <caret line="166" column="23" lean-forward="false" selection-start-line="166" selection-start-column="23" selection-end-line="166" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#590#591#0" expanded="false" />
-            <element signature="e#624#625#0" expanded="false" />
-            <element signature="e#678#679#0" expanded="false" />
-            <element signature="e#724#725#0" expanded="false" />
-            <element signature="e#755#756#0" expanded="false" />
-            <element signature="e#782#783#0" expanded="false" />
-            <element signature="e#822#823#0" expanded="false" />
-            <element signature="e#854#855#0" expanded="false" />
-            <element signature="e#890#891#0" expanded="false" />
-            <element signature="e#922#923#0" expanded="false" />
-            <element signature="e#972#973#0" expanded="false" />
-            <element signature="e#1014#1015#0" expanded="false" />
-            <element signature="e#1048#1049#0" expanded="false" />
-            <element signature="e#1078#1079#0" expanded="false" />
-            <element signature="e#1124#1125#0" expanded="false" />
-            <element signature="e#1162#1163#0" expanded="false" />
-            <element signature="e#1193#1194#0" expanded="false" />
-            <element signature="e#1220#1221#0" expanded="false" />
-            <element signature="e#1260#1261#0" expanded="false" />
-            <element signature="e#1292#1293#0" expanded="false" />
-            <element signature="e#1327#1328#0" expanded="false" />
-            <element signature="e#1358#1359#0" expanded="false" />
-            <element signature="e#1406#1407#0" expanded="false" />
-            <element signature="e#1446#1447#0" expanded="false" />
-            <element signature="e#1499#1500#0" expanded="false" />
-            <element signature="e#1538#1539#0" expanded="false" />
-            <element signature="e#1612#1613#0" expanded="false" />
-            <element signature="e#1668#1669#0" expanded="false" />
-            <element signature="e#1706#1707#0" expanded="false" />
-            <element signature="e#1740#1741#0" expanded="false" />
-            <element signature="e#1794#1795#0" expanded="false" />
-            <element signature="e#1840#1841#0" expanded="false" />
-            <element signature="e#1877#1878#0" expanded="false" />
-            <element signature="e#1908#1909#0" expanded="false" />
-            <element signature="e#1958#1959#0" expanded="false" />
-            <element signature="e#1998#1999#0" expanded="false" />
-            <element signature="e#4225#4226#0" expanded="false" />
-            <element signature="e#4295#4296#0" expanded="false" />
-            <element signature="e#4338#4339#0" expanded="false" />
-            <element signature="e#4368#4369#0" expanded="false" />
-            <element signature="e#4429#4430#0" expanded="false" />
-            <element signature="e#4466#4467#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2342,21 +2224,7 @@
           <caret line="28" column="9" lean-forward="false" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
 =======
           <caret line="21" column="14" lean-forward="false" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#296#297#0" expanded="false" />
-            <element signature="e#328#329#0" expanded="false" />
-            <element signature="e#381#382#0" expanded="false" />
-            <element signature="e#423#424#0" expanded="false" />
-            <element signature="e#503#504#0" expanded="false" />
-            <element signature="e#532#533#0" expanded="false" />
-            <element signature="e#574#575#0" expanded="false" />
-            <element signature="e#610#611#0" expanded="false" />
-            <element signature="e#645#646#0" expanded="false" />
-            <element signature="e#676#677#0" expanded="false" />
-            <element signature="e#724#725#0" expanded="false" />
-            <element signature="e#764#765#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2443,15 +2311,20 @@
 =======
         <state relative-caret-position="420">
           <caret line="52" column="33" lean-forward="false" selection-start-line="52" selection-start-column="33" selection-end-line="52" selection-end-column="33" />
+<<<<<<< HEAD
 >>>>>>> notifycustomercare
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
+=======
+          <folding />
+>>>>>>> Added Elastic Search Service dependency injection
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="161">
           <caret line="123" column="36" lean-forward="true" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
           <folding>
@@ -2464,6 +2337,19 @@
             <element signature="e#2564#2572#0" expanded="true" />
 >>>>>>> notifycustomercare
           </folding>
+=======
+        <state relative-caret-position="184">
+          <caret line="123" column="36" lean-forward="false" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3369">
+          <caret line="296" column="70" lean-forward="true" selection-start-line="296" selection-start-column="70" selection-end-line="296" selection-end-column="70" />
+          <folding />
+>>>>>>> Added Elastic Search Service dependency injection
         </state>
       </provider>
     </entry>

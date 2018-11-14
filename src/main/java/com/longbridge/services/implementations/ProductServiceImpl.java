@@ -49,12 +49,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ArtWorkPictureRepository artWorkPictureRepository;
 
+    @Autowired
+    ElasticSearchService searchService;
+
 
     @Autowired
     MaterialPictureRepository materialPictureRepository;
-
-    @Autowired
-    ElasticSearchService searchService; 
     
     @Autowired
     CategoryRepository categoryRepository;
@@ -85,6 +85,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductStatusesRepository productStatusesRepository;
+
 
     @Autowired
     public ProductServiceImpl(GeneralUtil generalUtil) {
