@@ -661,7 +661,7 @@ public class GeneralUtil {
             cartDTO.setTotalPrice(cartDTO.getPrice()*cartDTO.getQuantity());
         }
 
-        ProductPicture p = productPictureRepository.findFirst1ByProductColorStyle_Product(product);
+        ProductPicture p = productPictureRepository.findFirst1ByProductColorStyle_ProductStyle_Product(product);
         cartDTO.setProductPicture(p.getPictureName());
 
         cartDTO.setStockNo(productSizesRepository.findOne(cart.getProductSizeId()).getNumberInStock());
