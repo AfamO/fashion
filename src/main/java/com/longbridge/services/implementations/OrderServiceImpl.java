@@ -280,6 +280,7 @@ public class OrderServiceImpl implements OrderService {
         Double materialPrice=0.0;
         Double artWorkPrice=0.0;
         Double amount=0.0;
+        Double itemsAmount;
 
         List<String> designerCities = new ArrayList<>();
 
@@ -351,7 +352,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
 
-            Double itemsAmount = amount*items.getQuantity();
+            itemsAmount = amount*items.getQuantity();
             ProductColorStyle productColorStyle =productColorStyleRepository.findOne(items.getProductColorStyleId());
             items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle(productColorStyle).getPictureName());
 
