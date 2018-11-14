@@ -77,18 +77,18 @@ public class DesignerProductController {
     }
 
     @PostMapping(value = "/updateproductartwork")
-    public Object updateProdArtMaterial(@RequestBody ArtPicReqDTO artPicReqDTO){
+    public Object updateProdArtWork(@RequestBody BespokeProductDTO bespokeProductDTO){
         Map<String,Object> responseMap = new HashMap();
-        productPictureService.updateArtWorkImages(artPicReqDTO);
+        productPictureService.updateArtWorkImages(bespokeProductDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 
     }
 
     @PostMapping(value = "/updateproductmaterial")
-    public Object updateProdArtMaterial(@RequestBody MatPicReqDTO matPicReqDTO){
+    public Object updateProdArtMaterial(@RequestBody BespokeProductDTO bespokeProductDTO){
         Map<String,Object> responseMap = new HashMap();
-        productPictureService.updateMaterialImages(matPicReqDTO);
+        productPictureService.updateMaterialImages(bespokeProductDTO);
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
 

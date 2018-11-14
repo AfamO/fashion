@@ -13,6 +13,7 @@ import com.longbridge.repository.ItemRepository;
 import com.longbridge.repository.ProductRepository;
 import com.longbridge.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailException;
@@ -48,6 +49,9 @@ public class SendEmailAsync {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Value("${customer.care.email}")
+    String customerCareEmail;
 
 
     private Locale locale = LocaleContextHolder.getLocale();
@@ -314,6 +318,29 @@ public class SendEmailAsync {
         }
 
     }
+
+
+
+    @Async
+    public void notifyCustomerCare(User user) {
+
+        try {
+            Context context = new Context();
+            String message="";
+                context.setVariable("storename", designerRepository.findByUser(user).getStoreName());
+                context.setVariable("phonenumber", user.getPhoneNo());
+                message = templateEngine.process("notifycustomercaretemplate", context);
+                mailService.prepareAndSend(message,customerCareEmail,messageSource.getMessage("new.designer.subject", null, locale));
+
+        }catch (MailException me){
+            me.printStackTrace();
+            throw new AppException(customerCareEmail,messageSource.getMessage("new.designer.subject", null, locale),user);
+        }
+
+    }
+
+
+
 
 
     @Async

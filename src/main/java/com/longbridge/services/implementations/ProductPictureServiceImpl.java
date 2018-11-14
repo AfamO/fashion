@@ -7,18 +7,7 @@ package com.longbridge.services.implementations;
 
 import com.longbridge.Util.GeneralUtil;
 import com.longbridge.Util.SearchUtilities;
-import com.longbridge.dto.ArtPicReqDTO;
-import com.longbridge.dto.ArtPictureDTO;
-import com.longbridge.dto.CloudinaryResponse;
-import com.longbridge.dto.EventPicturesDTO;
-import com.longbridge.dto.MatPicReqDTO;
-import com.longbridge.dto.MaterialPictureDTO;
-import com.longbridge.dto.PageableDetailsDTO;
-import com.longbridge.dto.PictureTagDTO;
-import com.longbridge.dto.ProductColorStyleDTO;
-import com.longbridge.dto.ProductDTO;
-import com.longbridge.dto.ProductPictureIdListDTO;
-import com.longbridge.dto.TagDTO;
+import com.longbridge.dto.*;
 import com.longbridge.dto.elasticSearch.MaterialPictureSearchDTO;
 import com.longbridge.dto.elasticSearch.ProductAttributeSearchDTO;
 import com.longbridge.dto.elasticSearch.ProductPictureSearchDTO;
@@ -352,12 +341,14 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 
 
     @Override
-    public void updateArtWorkImages(ArtPicReqDTO artPicReqDTO) {
+    public void updateArtWorkImages(BespokeProductDTO bespokeProductDTO) {
 
         try {
             Date date = new Date();
-            Product product = productRepository.findOne(artPicReqDTO.productId);
-            for(ArtPictureDTO pp : artPicReqDTO.artWorkPicture){
+            Product product = productRepository.findOne(bespokeProductDTO.getProductId());
+
+
+            for(ArtPictureDTO pp : bespokeProductDTO.getArtPictureDTOS()){
                 if(pp.id != null) {
                     Long id = pp.id;
                     ArtWorkPicture artWorkPicture = artWorkPictureRepository.findOne(id);
@@ -374,13 +365,14 @@ public class ProductPictureServiceImpl implements ProductPictureService{
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.artWorkPicture, generalUtil.getPicsName("artworkpic", product.getSubCategory().getSubCategory()), "artworkpictures");
                     artWorkPicture.setPictureName(c.getUrl());
                     artWorkPicture.setPicture( c.getPublicId());
-                    artWorkPicture.setBespokeProduct(bespokeProductRepository.findOne(artPicReqDTO.bespokeProductId));
+                    artWorkPicture.setBespokeProduct(bespokeProductRepository.findOne(bespokeProductDTO.getId()));
                     artWorkPicture.createdOn = date;
                     artWorkPicture.setUpdatedOn(date);
                     artWorkPictureRepository.save(artWorkPicture);
                 }
 
             }
+
             product.getProductStatuses().setVerifiedFlag("N");
             productRepository.save(product);
 
@@ -391,12 +383,12 @@ public class ProductPictureServiceImpl implements ProductPictureService{
     }
 
     @Override
-    public void updateMaterialImages(MatPicReqDTO matPicReqDTO) {
+    public void updateMaterialImages(BespokeProductDTO bespokeProductDTO) {
         Date date = new Date();
         try {
 
-            Product product = productRepository.findOne(matPicReqDTO.productId);
-            for (MaterialPictureDTO pp : matPicReqDTO.materialPicture) {
+            Product product = productRepository.findOne(bespokeProductDTO.getProductId());
+            for (MaterialPictureDTO pp : bespokeProductDTO.getMaterialPicture()) {
                 if(pp.getId() != null) {
                     Long id = pp.getId();
                     MaterialPicture materialPicture = materialPictureRepository.findOne(id);
@@ -414,7 +406,7 @@ public class ProductPictureServiceImpl implements ProductPictureService{
                     CloudinaryResponse c = cloudinaryService.uploadToCloud(pp.getMaterialPicture(), generalUtil.getPicsName("materialpic", product.getSubCategory().getSubCategory()), "materialpictures");
                     materialPicture.setPictureName(c.getUrl());
                     materialPicture.setPicture(c.getPublicId());
-                    materialPicture.setBespokeProduct(bespokeProductRepository.findOne(matPicReqDTO.bespokeProductId));
+                    materialPicture.setBespokeProduct(bespokeProductRepository.findOne(bespokeProductDTO.getId()));
                     materialPicture.createdOn = date;
                     materialPicture.setUpdatedOn(date);
                     materialPictureRepository.save(materialPicture);

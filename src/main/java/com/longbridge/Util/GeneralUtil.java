@@ -232,6 +232,7 @@ public class GeneralUtil {
         pictureDTO.id=picture.getId();
         pictureDTO.productId=picture.getBespokeProduct().getProduct().id;
         pictureDTO.artWorkPicture=picture.getPictureName();
+
         return pictureDTO;
 
     }
@@ -343,7 +344,6 @@ public class GeneralUtil {
         if(product.getProductStyle().getBespokeProduct() != null) {
             BespokeProductDTO bespokeProductDTO = new BespokeProductDTO();
             if(product.getProductType() == 1) {
-
                 bespokeProductDTO.setArtPictureDTOS(convertArtPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getArtWorkPicture()));
                 bespokeProductDTO.setMaterialPicture(convertMatPictureEntitiesToDTO(product.getProductStyle().getBespokeProduct().getMaterialPicture()));
             }
@@ -351,6 +351,7 @@ public class GeneralUtil {
                 bespokeProductDTO.setArtPictureDTOS(null);
                 bespokeProductDTO.setMaterialPicture(null);
             }
+                 bespokeProductDTO.setId(product.getProductStyle().getBespokeProduct().id);
                 bespokeProductDTO.setNumOfDaysToComplete(product.getProductStyle().getBespokeProduct().getNumOfDaysToComplete());
                 bespokeProductDTO.setMandatoryMeasurements(product.getProductStyle().getBespokeProduct().getMandatoryMeasurements());
 
@@ -443,6 +444,7 @@ public class GeneralUtil {
                 bespokeProductDTO.setArtPictureDTOS(null);
                 bespokeProductDTO.setMaterialPicture(null);
             }
+            bespokeProductDTO.setId(product.getProductStyle().getBespokeProduct().id);
             bespokeProductDTO.setNumOfDaysToComplete(product.getProductStyle().getBespokeProduct().getNumOfDaysToComplete());
             bespokeProductDTO.setMandatoryMeasurements(product.getProductStyle().getBespokeProduct().getMandatoryMeasurements());
 

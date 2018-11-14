@@ -119,6 +119,7 @@ public class UserUtil {
                 designer.setUser(user);
                 designerRepository.save(designer);
                 sendToken(passedUser.getEmail());
+                sendEmailAsync.notifyCustomerCare(user);
             }
             getActivationLink(user);
             sendEmailAsync.sendWelcomeEmailToUser(user);
