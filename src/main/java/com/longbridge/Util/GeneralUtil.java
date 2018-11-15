@@ -90,6 +90,7 @@ public class GeneralUtil {
         dto.userId = d.getUser().id;
         dto.logo=d.getLogo();
         dto.storeName=d.getStoreName();
+        dto.setStoreId(d.getStoreId());
         User u = d.getUser();
         dto.firstName=u.getFirstName();
         dto.lastName=u.getLastName();
@@ -168,6 +169,7 @@ public class GeneralUtil {
         dto.userId = d.getUser().id;
         dto.logo=d.getLogo();
         dto.storeName=d.getStoreName();
+        dto.setStoreId(d.getStoreId());
         dto.address=d.getAddress();
         User u = d.getUser();
         dto.firstName=u.getFirstName();
@@ -306,6 +308,7 @@ public class GeneralUtil {
         productDTO.description= product.getProdDesc();
         productDTO.prodSummary= product.getProdSummary();
         productDTO.name= product.getName();
+        productDTO.sku = product.getSku();
 
         productDTO.productColorStyleDTOS =convertProductAttributeEntitiesToDTOs(product.getProductStyle().getProductColorStyles());
 
@@ -405,6 +408,7 @@ public class GeneralUtil {
         productDTO.description= product.getProdDesc();
         productDTO.prodSummary= product.getProdSummary();
         productDTO.name= product.getName();
+        productDTO.sku = product.getSku();
         if(product.getProductStyle().getStyle() != null) {
             productDTO.styleId = product.getProductStyle().getStyle().id.toString();
         }

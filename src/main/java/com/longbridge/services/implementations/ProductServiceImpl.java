@@ -305,6 +305,18 @@ public class ProductServiceImpl implements ProductService {
                 productStatuses.setAcceptCustomSizes("N");
                 productStatuses.setAvailability("Y");
             }
+
+
+            if(productDTO.name.length() >10){
+                productDTO.name = productDTO.name.substring(0,10);
+            }
+
+            if(designer.getStoreId().equalsIgnoreCase("") || designer.getStoreId()== null){
+                designer.setStoreId(designer.getStoreName().substring(0,3)+designer.id);
+                designerRepository.save(designer);
+            }
+            String sku =productDTO.name + "-"+designer.getStoreId()+"-" + UUID.randomUUID().toString().replace("-","").substring(0,10);
+            product.setSku(sku);
             productRepository.save(product);
             productStatuses.setProduct(product);
             productStatusesRepository.save(productStatuses);

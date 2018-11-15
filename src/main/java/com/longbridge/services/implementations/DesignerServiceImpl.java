@@ -156,6 +156,7 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.setState(user.getDesigner().state);
                 currentDesigner.setCountry(user.getDesigner().country);
                 currentDesigner.setStoreName(user.getDesigner().storeName);
+                currentDesigner.setStoreId(user.getDesigner().getStoreName().substring(0,3)+currentDesigner.id);
                 currentDesigner.setLocalGovt(user.getDesigner().localGovt);
                 currentDesigner.setSizeGuideFlag(user.getDesigner().sizeGuideFlag);
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);

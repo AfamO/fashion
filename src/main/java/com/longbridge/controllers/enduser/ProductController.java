@@ -152,6 +152,9 @@ public class ProductController {
     }
 
 
+
+
+
     @GetMapping(value = "/getallfeaturedproducts")
     public Response getAllFeaturedProducts(){
         return new Response("00", "Operation Successful", productService.getAllFeaturedProducts());

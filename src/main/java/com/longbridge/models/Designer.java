@@ -18,6 +18,7 @@ public class Designer extends CommonFields {
 
     private String publicId;
     private String storeName;
+    private String storeId;
     private String address;
     private String city;
     private String state;
@@ -50,6 +51,15 @@ public class Designer extends CommonFields {
 
     @OneToMany(mappedBy = "designer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Product> products;
+
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
 
     public Designer() {
     }

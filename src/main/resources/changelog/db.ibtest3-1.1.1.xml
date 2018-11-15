@@ -1,0 +1,3141 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="Longbridge (generated)" id="1542276110537-1">
+        <createTable tableName="address">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="address" type="LONGTEXT"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="local_govt" type="VARCHAR(255)"/>
+            <column name="phone_no" type="VARCHAR(255)"/>
+            <column name="postal_code" type="VARCHAR(255)"/>
+            <column name="preferred" type="VARCHAR(255)"/>
+            <column name="state" type="VARCHAR(255)"/>
+            <column name="zip_code" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-2">
+        <createTable tableName="anonymous_user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="local_govt" type="VARCHAR(255)"/>
+            <column name="phone_no" type="VARCHAR(255)"/>
+            <column name="postal_code" type="VARCHAR(255)"/>
+            <column name="state" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-3">
+        <createTable tableName="art_work_picture">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="picture_name" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bespoke_product_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-4">
+        <createTable tableName="bespoke_product">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="mandatory_measurements" type="LONGTEXT"/>
+            <column name="num_of_days_to_complete" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT"/>
+            <column name="product_style_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-5">
+        <createTable tableName="cart">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="amount" type="DOUBLE"/>
+            <column name="art_work_picture_id" type="BIGINT"/>
+            <column name="color" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="expiry_date" type="datetime"/>
+            <column name="material_pick_up_address_id" type="BIGINT"/>
+            <column name="material_pickup_date" type="VARCHAR(255)"/>
+            <column name="material_picture_id" type="BIGINT"/>
+            <column name="material_status" type="VARCHAR(255)"/>
+            <column name="measurement_id" type="BIGINT"/>
+            <column name="product_color_style_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="product_size_id" type="BIGINT"/>
+            <column name="promo_code" type="VARCHAR(255)"/>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size" type="VARCHAR(255)"/>
+            <column name="material_location_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-6">
+        <createTable tableName="category">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="category_name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-7">
+        <createTable tableName="code">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="type" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-8">
+        <createTable tableName="comments">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="comment" type="LONGTEXT"/>
+            <column name="event_pictures_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-9">
+        <createTable tableName="designer">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="account_name" type="VARCHAR(255)"/>
+            <column name="account_number" type="VARCHAR(255)"/>
+            <column name="address" type="VARCHAR(255)"/>
+            <column name="bank_name" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="country_code" type="VARCHAR(255)"/>
+            <column name="currency" type="VARCHAR(255)"/>
+            <column name="local_govt" type="VARCHAR(255)"/>
+            <column name="logo" type="LONGTEXT"/>
+            <column name="public_id" type="VARCHAR(255)"/>
+            <column name="registered_flag" type="VARCHAR(255)"/>
+            <column name="registration_document" type="VARCHAR(255)"/>
+            <column name="registration_document_public_id" type="VARCHAR(255)"/>
+            <column name="registration_number" type="VARCHAR(255)"/>
+            <column name="registration_progress" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size_guide_flag" type="VARCHAR(255)"/>
+            <column name="state" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="store_name" type="VARCHAR(255)"/>
+            <column name="swift_code" type="VARCHAR(255)"/>
+            <column name="threshold" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size_guide_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-10">
+        <createTable tableName="event_pictures">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="picture_desc" type="VARCHAR(255)"/>
+            <column name="picture_name" type="VARCHAR(255)"/>
+            <column name="events_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-11">
+        <createTable tableName="events">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="description" type="LONGTEXT"/>
+            <column name="event_date" type="datetime"/>
+            <column name="event_name" type="VARCHAR(255)"/>
+            <column name="event_type" type="VARCHAR(255)"/>
+            <column name="location" type="VARCHAR(255)"/>
+            <column name="main_picture" type="VARCHAR(255)"/>
+            <column name="main_picture_name" type="VARCHAR(255)"/>
+            <column name="trending_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-12">
+        <createTable tableName="general_feed_back">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="full_name" type="VARCHAR(255)"/>
+            <column name="message" type="LONGTEXT"/>
+            <column name="phone_number" type="VARCHAR(255)"/>
+            <column name="subject" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-13">
+        <createTable tableName="inspire_me">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="events" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="hash_tag" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-14">
+        <createTable tableName="inspire_me_pictures">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="public_id" type="VARCHAR(255)"/>
+            <column name="inspire_me_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-15">
+        <createTable tableName="inspire_me_product">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="designer_name" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_attribute_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="product_type_id" type="BIGINT"/>
+            <column name="inspire_me_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-16">
+        <createTable tableName="international_shipping">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="receiving" type="VARCHAR(255)"/>
+            <column name="sending" type="VARCHAR(255)"/>
+            <column name="zone" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-17">
+        <createTable tableName="international_zone_price">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="from_quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_eight_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_five_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_four_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_one_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_seven_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_six_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_three_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_two_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-18">
+        <createTable tableName="item_status">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="header_message" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-19">
+        <createTable tableName="items">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="amount" type="DOUBLE"/>
+            <column name="art_work_picture" type="VARCHAR(255)"/>
+            <column name="art_work_picture_id" type="BIGINT"/>
+            <column name="bespoke_product_id" type="BIGINT"/>
+            <column name="color" type="VARCHAR(255)"/>
+            <column name="complain" type="VARCHAR(255)"/>
+            <column name="delivery_date" type="datetime"/>
+            <column name="delivery_status" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="failed_inspection_reason" type="VARCHAR(255)"/>
+            <column name="material_location" type="BIGINT"/>
+            <column name="material_pickup_date" type="VARCHAR(255)"/>
+            <column name="material_picture" type="VARCHAR(255)"/>
+            <column name="material_picture_id" type="BIGINT"/>
+            <column name="material_status" type="VARCHAR(255)"/>
+            <column name="measurement" type="LONGTEXT"/>
+            <column name="measurement_id" type="BIGINT"/>
+            <column name="product_color_style_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="product_name" type="VARCHAR(255)"/>
+            <column name="product_picture" type="VARCHAR(255)"/>
+            <column name="product_sizes_id" type="BIGINT"/>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reject_reason" type="VARCHAR(255)"/>
+            <column name="size" type="VARCHAR(255)"/>
+            <column name="tracking_number" type="VARCHAR(255)"/>
+            <column name="status_id" type="BIGINT"/>
+            <column name="orders_id" type="BIGINT"/>
+            <column name="message_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-20">
+        <createTable tableName="likes">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="event_pictures_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-21">
+        <createTable tableName="mail_error">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(255)"/>
+            <column name="mail_type" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="new_password" type="VARCHAR(255)"/>
+            <column name="order_item_status" type="VARCHAR(255)"/>
+            <column name="order_num" type="VARCHAR(255)"/>
+            <column name="product_name" type="VARCHAR(255)"/>
+            <column name="recipient" type="VARCHAR(255)"/>
+            <column name="subject" type="VARCHAR(255)"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="wait_time" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-22">
+        <createTable tableName="material_picture">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="material_name" type="VARCHAR(255)"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="picture_name" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bespoke_product_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-23">
+        <createTable tableName="measurement">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="ankle" type="VARCHAR(255)"/>
+            <column name="arm_hole" type="VARCHAR(255)"/>
+            <column name="biceps" type="VARCHAR(255)"/>
+            <column name="bust" type="VARCHAR(255)"/>
+            <column name="butt" type="VARCHAR(255)"/>
+            <column name="crotch" type="VARCHAR(255)"/>
+            <column name="elbow" type="VARCHAR(255)"/>
+            <column name="fit_type" type="VARCHAR(255)"/>
+            <column name="full_chest" type="VARCHAR(255)"/>
+            <column name="full_length" type="VARCHAR(255)"/>
+            <column name="full_shoulder" type="VARCHAR(255)"/>
+            <column name="half_shoulder" type="VARCHAR(255)"/>
+            <column name="in_seam" type="VARCHAR(255)"/>
+            <column name="knee" type="VARCHAR(255)"/>
+            <column name="long_sleeve" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="neck" type="VARCHAR(255)"/>
+            <column name="out_seam" type="VARCHAR(255)"/>
+            <column name="over_breast" type="VARCHAR(255)"/>
+            <column name="seat" type="VARCHAR(255)"/>
+            <column name="shirt_length" type="VARCHAR(255)"/>
+            <column name="short_sleeve" type="VARCHAR(255)"/>
+            <column name="stomach" type="VARCHAR(255)"/>
+            <column name="thigh" type="VARCHAR(255)"/>
+            <column name="trouser_waist" type="VARCHAR(255)"/>
+            <column name="under_bust" type="VARCHAR(255)"/>
+            <column name="under_chest" type="VARCHAR(255)"/>
+            <column name="unit" type="VARCHAR(255)"/>
+            <column name="wrist" type="VARCHAR(255)"/>
+            <column name="items_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-24">
+        <createTable tableName="news_letter">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="email" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-25">
+        <createTable tableName="order_feed_back">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="feed_back_reaction" type="VARCHAR(255)"/>
+            <column name="order_number" type="VARCHAR(255)"/>
+            <column name="subject" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-26">
+        <createTable tableName="order_item_processing_picture">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="picture_name" type="VARCHAR(255)"/>
+            <column name="items_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-27">
+        <createTable tableName="orders">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="anonymous_buyer" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="anonymous_user_id" type="BIGINT"/>
+            <column name="authorization_code" type="VARCHAR(255)"/>
+            <column name="delivery_date" type="datetime"/>
+            <column name="delivery_status" type="VARCHAR(255)"/>
+            <column name="delivery_type" type="VARCHAR(255)"/>
+            <column name="order_date" type="datetime"/>
+            <column name="order_num" type="VARCHAR(255)"/>
+            <column name="paid_amount" type="DOUBLE"/>
+            <column name="payment_type" type="VARCHAR(255)"/>
+            <column name="paystack_fifty_already_deducted" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_amount" type="DOUBLE"/>
+            <column name="total_amount" type="DOUBLE"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+            <column name="delivery_address_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-28">
+        <createTable tableName="payment_request">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="currency" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="order_id" type="BIGINT"/>
+            <column name="transaction_amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_date" type="datetime"/>
+            <column name="transaction_reference" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-29">
+        <createTable tableName="picture_tag">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="image_size" type="VARCHAR(255)"/>
+            <column name="left_coordinate" type="VARCHAR(255)"/>
+            <column name="top_coordinate" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="event_pictures_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="sub_category_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-30">
+        <createTable tableName="pocket">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="balance" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pending_settlement" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-31">
+        <createTable tableName="price">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="sewing" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-32">
+        <createTable tableName="price_slash">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="percentage_discount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="slashed_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_price_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-33">
+        <createTable tableName="product">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="num_of_times_ordered" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prod_desc" type="LONGTEXT"/>
+            <column name="prod_summary" type="VARCHAR(255)"/>
+            <column name="product_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sku" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="sub_category_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-34">
+        <createTable tableName="product_color_style">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="colour_name" type="VARCHAR(255)"/>
+            <column name="colour_picture" type="VARCHAR(255)"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="product_style_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-35">
+        <createTable tableName="product_notification">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="product_color_style_id" type="BIGINT"/>
+            <column name="product_sizes_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-36">
+        <createTable tableName="product_picture">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="picture_name" type="VARCHAR(255)"/>
+            <column name="product_color_style_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-37">
+        <createTable tableName="product_price">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price_slash_enabled" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sewing_amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-38">
+        <createTable tableName="product_rating">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="delivery_time_rating" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_quality_rating" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="review" type="LONGTEXT"/>
+            <column name="service_rating" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject" type="VARCHAR(255)"/>
+            <column name="verified_flag" type="VARCHAR(255)"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-39">
+        <createTable tableName="product_sizes">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="number_in_stock" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_color_style_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-40">
+        <createTable tableName="product_statuses">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="accept_custom_sizes" type="VARCHAR(255)"/>
+            <column name="availability" type="VARCHAR(255)"/>
+            <column name="designer_status" type="VARCHAR(255)"/>
+            <column name="sponsored_flag" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="un_verified_reason" type="VARCHAR(255)"/>
+            <column name="verified_flag" type="VARCHAR(255)"/>
+            <column name="product_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-41">
+        <createTable tableName="product_style">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="style_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-42">
+        <createTable tableName="promo_code">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="code" type="VARCHAR(255)"/>
+            <column name="expiry_date" type="datetime"/>
+            <column name="is_used_status" type="VARCHAR(255)"/>
+            <column name="number_of_usage" type="VARCHAR(255)"/>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="value_type" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-43">
+        <createTable tableName="promo_item">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="item_id" type="BIGINT"/>
+            <column name="item_type" type="VARCHAR(255)"/>
+            <column name="promo_code_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-44">
+        <createTable tableName="rating">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="average_rating" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-45">
+        <createTable tableName="rave_payment">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="charge_code" type="VARCHAR(255)"/>
+            <column name="currency" type="VARCHAR(255)"/>
+            <column name="order_id" type="BIGINT"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="transaction_amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_date" type="datetime"/>
+            <column name="transaction_reference" type="VARCHAR(255)"/>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="valued" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-46">
+        <createTable tableName="refund">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="account_name" type="VARCHAR(255)"/>
+            <column name="account_number" type="VARCHAR(255)"/>
+            <column name="amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_name" type="VARCHAR(255)"/>
+            <column name="order_num" type="VARCHAR(255)"/>
+            <column name="product_name" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-47">
+        <createTable tableName="shipping">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="receiving" type="VARCHAR(255)"/>
+            <column name="sending" type="VARCHAR(255)"/>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="zone" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-48">
+        <createTable tableName="size">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-49">
+        <createTable tableName="size_guide">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="female_size_guide" type="VARCHAR(255)"/>
+            <column name="female_size_guide_public_id" type="VARCHAR(255)"/>
+            <column name="male_size_guide" type="VARCHAR(255)"/>
+            <column name="male_size_guide_public_id" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-50">
+        <createTable tableName="status_message">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="has_response" type="BIT(1)"/>
+            <column name="message" type="VARCHAR(255)"/>
+            <column name="item_status_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-51">
+        <createTable tableName="status_response_message">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="responsemessage" type="VARCHAR(255)"/>
+            <column name="response_status_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-52">
+        <createTable tableName="style">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="style" type="VARCHAR(255)"/>
+            <column name="sub_category_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-53">
+        <createTable tableName="sub_category">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="product_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sub_category" type="VARCHAR(255)"/>
+            <column name="category_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-54">
+        <createTable tableName="token">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="validated" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-55">
+        <createTable tableName="transfer_info">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="account_name" type="VARCHAR(500)"/>
+            <column name="amount_payed" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bank" type="VARCHAR(255)"/>
+            <column name="payment_date" type="datetime"/>
+            <column name="payment_note" type="VARCHAR(255)"/>
+            <column name="orders_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-56">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="activation_date" type="VARCHAR(255)"/>
+            <column name="activation_flag" type="VARCHAR(255)"/>
+            <column name="date_of_birth" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="email_verification_flag" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="link_clicked" type="VARCHAR(255)"/>
+            <column name="password" type="LONGTEXT"/>
+            <column name="phone_no" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(255)"/>
+            <column name="social_flag" type="VARCHAR(255)"/>
+            <column name="user_wallet_id" type="BIGINT"/>
+            <column name="wallet_balance" type="DOUBLE"/>
+            <column name="wallet_token" type="VARCHAR(255)"/>
+            <column name="pocket_id" type="BIGINT"/>
+            <column name="rating_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-57">
+        <createTable tableName="vendor_bespoke_form_details">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="category" type="TINYBLOB"/>
+            <column name="day_for_visitation" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="facebook_id" type="VARCHAR(255)"/>
+            <column name="instagram_id" type="VARCHAR(255)"/>
+            <column name="location_image" type="VARCHAR(255)"/>
+            <column name="location_verification_method" type="VARCHAR(255)"/>
+            <column name="location_verification_method_id" type="VARCHAR(255)"/>
+            <column name="location_verification_type" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(255)"/>
+            <column name="product_type" type="TINYBLOB"/>
+            <column name="threshold_type" type="VARCHAR(255)"/>
+            <column name="threshold_value" type="VARCHAR(255)"/>
+            <column name="time" type="VARCHAR(255)"/>
+            <column name="twitter_id" type="VARCHAR(255)"/>
+            <column name="visit_workshop_for_verification" type="VARCHAR(255)"/>
+            <column name="website_id" type="VARCHAR(255)"/>
+            <column name="work_force_size" type="VARCHAR(255)"/>
+            <column name="workshop_address" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-58">
+        <createTable tableName="wish_list">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-59">
+        <createTable tableName="zone_price">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="from_quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="to_quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_four_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_one_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_three_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_two_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-60">
+        <createIndex indexName="FK16qu2qp0vm8d9ou8atudlc40v" tableName="picture_tag">
+            <column name="event_pictures_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-61">
+        <createIndex indexName="FK1k3rvld4deghhpdcx7jbqrhh0" tableName="event_pictures">
+            <column name="events_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-62">
+        <createIndex indexName="FK1lmqvk6y7cjwya5dm20o33x0c" tableName="status_message">
+            <column name="item_status_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-63">
+        <createIndex indexName="FK34ia5wype65htfuoxtb6ms0sa" tableName="designer">
+            <column name="size_guide_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-64">
+        <createIndex indexName="FK40f3ksfppphy12i9vwwqcppnl" tableName="product_color_style">
+            <column name="product_style_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-65">
+        <createIndex indexName="FK5euldmiig0iqepqcp6b0481vs" tableName="picture_tag">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-66">
+        <createIndex indexName="FK63iw4l9xx1pydr8d57u6060ps" tableName="product_color_style">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-67">
+        <createIndex indexName="FK68lmn61erl01m1xvx6l71mjnh" tableName="product_rating">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-68">
+        <createIndex indexName="FK7mf93r37ceg3mwyw6nclbtg1h" tableName="items">
+            <column name="orders_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-69">
+        <createIndex indexName="FK82fx0dahlrta99te3tyg6wxur" tableName="inspire_me_product">
+            <column name="inspire_me_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-70">
+        <createIndex indexName="FK8462y9kc76hpxuom1ui7dvp7k" tableName="wish_list">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-71">
+        <createIndex indexName="FK89q90to90t4sj42jvnerxdfoi" tableName="picture_tag">
+            <column name="sub_category_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-72">
+        <createIndex indexName="FK97e3ue0yqpr6t5or31nm6ugij" tableName="product_sizes">
+            <column name="product_color_style_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-73">
+        <createIndex indexName="FK9dv05fubpxsoeu29f912i2lpo" tableName="likes">
+            <column name="event_pictures_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-74">
+        <createIndex indexName="FK9nvqlor7ebe82ls9n8bub2kr" tableName="measurement">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-75">
+        <createIndex indexName="FK9o2189x6qatu9x9xyu413qfmd" tableName="material_picture">
+            <column name="bespoke_product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-76">
+        <createIndex indexName="FKae4a4c016cqlst1r71fknu2l1" tableName="price_slash">
+            <column name="product_price_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-77">
+        <createIndex indexName="FKbwhiubtkxf94knbm9oo55wdbm" tableName="orders">
+            <column name="delivery_address_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-78">
+        <createIndex indexName="FKcsucyfsj1f0vjjdp38otg953k" tableName="order_item_processing_picture">
+            <column name="items_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-79">
+        <createIndex indexName="FKd9gfnsjgfwjtaxl57udrbocsp" tableName="product">
+            <column name="sub_category_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-80">
+        <createIndex indexName="FKda8tuywtf0gb6sedwk7la1pgi" tableName="address">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-81">
+        <createIndex indexName="FKe32ek7ixanakfqsdaokm4q9y2" tableName="token">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-82">
+        <createIndex indexName="FKeupemu63ifqfc4txkskyy1hyi" tableName="product_price">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-83">
+        <createIndex indexName="FKfjau3g9dmref9jvslc9ylorpp" tableName="product">
+            <column name="designer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-84">
+        <createIndex indexName="FKfy4qidu37a2vd07x2ciphlj9q" tableName="art_work_picture">
+            <column name="bespoke_product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-85">
+        <createIndex indexName="FKg2x64cj3mji2qxoy7cv1qhgwq" tableName="user">
+            <column name="pocket_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-86">
+        <createIndex indexName="FKh5t36ttupanhykmy60xlddi1o" tableName="promo_item">
+            <column name="promo_code_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-87">
+        <createIndex indexName="FKht5717hy8le5rljddo5pwwacb" tableName="product_picture">
+            <column name="product_color_style_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-88">
+        <createIndex indexName="FKi2wo4dyk4rok7v4kak8sgkwx0" tableName="likes">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-89">
+        <createIndex indexName="FKi3rquh19bceekbx15ulo5vdgk" tableName="comments">
+            <column name="event_pictures_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-90">
+        <createIndex indexName="FKibiwl80dj48ahdptd2oi18gvw" tableName="size_guide">
+            <column name="designer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-91">
+        <createIndex indexName="FKig3v6fjbvtdaex7ksf6s3201l" tableName="bespoke_product">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-92">
+        <createIndex indexName="FKikbvldd4kmv50t3wad4bqp6c9" tableName="items">
+            <column name="status_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-93">
+        <createIndex indexName="FKiyk4jmqkmjt4uuisc0wju3woc" tableName="product_statuses">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-94">
+        <createIndex indexName="FKk0lhscek5kduhlu81hhgroghh" tableName="style">
+            <column name="sub_category_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-95">
+        <createIndex indexName="FKk4mbgqf5yru5ib5b6w5l6ukkj" tableName="price">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-96">
+        <createIndex indexName="FKke5elqdgxt3ou3aevi7fmj1un" tableName="product_style">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-97">
+        <createIndex indexName="FKkoqlf8lv0hfa51uc2nwxqpnar" tableName="pocket">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-98">
+        <createIndex indexName="FKkvkm176hdrm8l0wwsndlyok6p" tableName="picture_tag">
+            <column name="designer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-99">
+        <createIndex indexName="FKl65dyy5me2ypoyj8ou1hnt64e" tableName="sub_category">
+            <column name="category_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-100">
+        <createIndex indexName="FKl70asp4l4w0jmbm1tqyofho4o" tableName="cart">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-101">
+        <createIndex indexName="FKlgegk9m34mtvl5nujk56lsv64" tableName="user">
+            <column name="rating_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-102">
+        <createIndex indexName="FKnbwgo39m2psuxx0smigpx6pep" tableName="bespoke_product">
+            <column name="product_style_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-103">
+        <createIndex indexName="FKnjwp2y0w52pc4ddloycpl7hwu" tableName="inspire_me_pictures">
+            <column name="inspire_me_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-104">
+        <createIndex indexName="FKnpqv53214mu4wuukjhfjw2rbu" tableName="product_style">
+            <column name="style_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-105">
+        <createIndex indexName="FKpn05vbx6usw0c65tcyuce4dw5" tableName="rating">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-106">
+        <createIndex indexName="FKq81flqnvyit98cpj6vnwjmo52" tableName="items">
+            <column name="message_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-107">
+        <createIndex indexName="FKq8wipoghdfe02g41wu9pe70ci" tableName="measurement">
+            <column name="items_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-108">
+        <createIndex indexName="FKqi14bvepnwtjbbaxm7m4v44yg" tableName="comments">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-109">
+        <createIndex indexName="FKqn4e0ta2823kynefeg4jektp0" tableName="wish_list">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-110">
+        <createIndex indexName="FKrsivokp3lpavfc4clgejm5v2f" tableName="transfer_info">
+            <column name="orders_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-111">
+        <createIndex indexName="FKt3mecsgki7hdg8srke4baeidk" tableName="product_rating">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-112">
+        <createIndex indexName="FKtjoivy0ud5nr0au5d6yl4pujt" tableName="cart">
+            <column name="material_location_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-113">
+        <createIndex indexName="FKvk4t8q3r5a77jokw6dlgempn" tableName="status_response_message">
+            <column name="response_status_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-114">
+        <createIndex indexName="FKwkvbbxjxa7y1ssmboghdq4ga" tableName="designer">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-115">
+        <addForeignKeyConstraint baseColumnNames="event_pictures_id" baseTableName="picture_tag" constraintName="FK16qu2qp0vm8d9ou8atudlc40v" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="event_pictures" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-116">
+        <addForeignKeyConstraint baseColumnNames="events_id" baseTableName="event_pictures" constraintName="FK1k3rvld4deghhpdcx7jbqrhh0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="events" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-117">
+        <addForeignKeyConstraint baseColumnNames="item_status_id" baseTableName="status_message" constraintName="FK1lmqvk6y7cjwya5dm20o33x0c" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="item_status" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-118">
+        <addForeignKeyConstraint baseColumnNames="size_guide_id" baseTableName="designer" constraintName="FK34ia5wype65htfuoxtb6ms0sa" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="size_guide" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-119">
+        <addForeignKeyConstraint baseColumnNames="product_style_id" baseTableName="product_color_style" constraintName="FK40f3ksfppphy12i9vwwqcppnl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_style" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-120">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="picture_tag" constraintName="FK5euldmiig0iqepqcp6b0481vs" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-121">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_color_style" constraintName="FK63iw4l9xx1pydr8d57u6060ps" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-122">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="product_rating" constraintName="FK68lmn61erl01m1xvx6l71mjnh" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-123">
+        <addForeignKeyConstraint baseColumnNames="orders_id" baseTableName="items" constraintName="FK7mf93r37ceg3mwyw6nclbtg1h" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="orders" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-124">
+        <addForeignKeyConstraint baseColumnNames="inspire_me_id" baseTableName="inspire_me_product" constraintName="FK82fx0dahlrta99te3tyg6wxur" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="inspire_me" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-125">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="wish_list" constraintName="FK8462y9kc76hpxuom1ui7dvp7k" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-126">
+        <addForeignKeyConstraint baseColumnNames="sub_category_id" baseTableName="picture_tag" constraintName="FK89q90to90t4sj42jvnerxdfoi" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="sub_category" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-127">
+        <addForeignKeyConstraint baseColumnNames="product_color_style_id" baseTableName="product_sizes" constraintName="FK97e3ue0yqpr6t5or31nm6ugij" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_color_style" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-128">
+        <addForeignKeyConstraint baseColumnNames="event_pictures_id" baseTableName="likes" constraintName="FK9dv05fubpxsoeu29f912i2lpo" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="event_pictures" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-129">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="measurement" constraintName="FK9nvqlor7ebe82ls9n8bub2kr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-130">
+        <addForeignKeyConstraint baseColumnNames="bespoke_product_id" baseTableName="material_picture" constraintName="FK9o2189x6qatu9x9xyu413qfmd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="bespoke_product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-131">
+        <addForeignKeyConstraint baseColumnNames="product_price_id" baseTableName="price_slash" constraintName="FKae4a4c016cqlst1r71fknu2l1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_price" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-132">
+        <addForeignKeyConstraint baseColumnNames="delivery_address_id" baseTableName="orders" constraintName="FKbwhiubtkxf94knbm9oo55wdbm" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="address" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-133">
+        <addForeignKeyConstraint baseColumnNames="items_id" baseTableName="order_item_processing_picture" constraintName="FKcsucyfsj1f0vjjdp38otg953k" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="items" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-134">
+        <addForeignKeyConstraint baseColumnNames="sub_category_id" baseTableName="product" constraintName="FKd9gfnsjgfwjtaxl57udrbocsp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="sub_category" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-135">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="address" constraintName="FKda8tuywtf0gb6sedwk7la1pgi" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-136">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="token" constraintName="FKe32ek7ixanakfqsdaokm4q9y2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-137">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_price" constraintName="FKeupemu63ifqfc4txkskyy1hyi" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-138">
+        <addForeignKeyConstraint baseColumnNames="designer_id" baseTableName="product" constraintName="FKfjau3g9dmref9jvslc9ylorpp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="designer" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-139">
+        <addForeignKeyConstraint baseColumnNames="bespoke_product_id" baseTableName="art_work_picture" constraintName="FKfy4qidu37a2vd07x2ciphlj9q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="bespoke_product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-140">
+        <addForeignKeyConstraint baseColumnNames="pocket_id" baseTableName="user" constraintName="FKg2x64cj3mji2qxoy7cv1qhgwq" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pocket" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-141">
+        <addForeignKeyConstraint baseColumnNames="promo_code_id" baseTableName="promo_item" constraintName="FKh5t36ttupanhykmy60xlddi1o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="promo_code" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-142">
+        <addForeignKeyConstraint baseColumnNames="product_color_style_id" baseTableName="product_picture" constraintName="FKht5717hy8le5rljddo5pwwacb" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_color_style" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-143">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="likes" constraintName="FKi2wo4dyk4rok7v4kak8sgkwx0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-144">
+        <addForeignKeyConstraint baseColumnNames="event_pictures_id" baseTableName="comments" constraintName="FKi3rquh19bceekbx15ulo5vdgk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="event_pictures" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-145">
+        <addForeignKeyConstraint baseColumnNames="designer_id" baseTableName="size_guide" constraintName="FKibiwl80dj48ahdptd2oi18gvw" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="designer" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-146">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="bespoke_product" constraintName="FKig3v6fjbvtdaex7ksf6s3201l" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-147">
+        <addForeignKeyConstraint baseColumnNames="status_id" baseTableName="items" constraintName="FKikbvldd4kmv50t3wad4bqp6c9" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="item_status" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-148">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_statuses" constraintName="FKiyk4jmqkmjt4uuisc0wju3woc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-149">
+        <addForeignKeyConstraint baseColumnNames="sub_category_id" baseTableName="style" constraintName="FKk0lhscek5kduhlu81hhgroghh" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="sub_category" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-150">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="price" constraintName="FKk4mbgqf5yru5ib5b6w5l6ukkj" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-151">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_style" constraintName="FKke5elqdgxt3ou3aevi7fmj1un" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-152">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="pocket" constraintName="FKkoqlf8lv0hfa51uc2nwxqpnar" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-153">
+        <addForeignKeyConstraint baseColumnNames="designer_id" baseTableName="picture_tag" constraintName="FKkvkm176hdrm8l0wwsndlyok6p" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="designer" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-154">
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="sub_category" constraintName="FKl65dyy5me2ypoyj8ou1hnt64e" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="category" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-155">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="cart" constraintName="FKl70asp4l4w0jmbm1tqyofho4o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-156">
+        <addForeignKeyConstraint baseColumnNames="rating_id" baseTableName="user" constraintName="FKlgegk9m34mtvl5nujk56lsv64" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="rating" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-157">
+        <addForeignKeyConstraint baseColumnNames="product_style_id" baseTableName="bespoke_product" constraintName="FKnbwgo39m2psuxx0smigpx6pep" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_style" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-158">
+        <addForeignKeyConstraint baseColumnNames="inspire_me_id" baseTableName="inspire_me_pictures" constraintName="FKnjwp2y0w52pc4ddloycpl7hwu" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="inspire_me" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-159">
+        <addForeignKeyConstraint baseColumnNames="style_id" baseTableName="product_style" constraintName="FKnpqv53214mu4wuukjhfjw2rbu" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="style" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-160">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="rating" constraintName="FKpn05vbx6usw0c65tcyuce4dw5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-161">
+        <addForeignKeyConstraint baseColumnNames="message_id" baseTableName="items" constraintName="FKq81flqnvyit98cpj6vnwjmo52" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="status_message" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-162">
+        <addForeignKeyConstraint baseColumnNames="items_id" baseTableName="measurement" constraintName="FKq8wipoghdfe02g41wu9pe70ci" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="items" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-163">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="comments" constraintName="FKqi14bvepnwtjbbaxm7m4v44yg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-164">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="wish_list" constraintName="FKqn4e0ta2823kynefeg4jektp0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-165">
+        <addForeignKeyConstraint baseColumnNames="orders_id" baseTableName="transfer_info" constraintName="FKrsivokp3lpavfc4clgejm5v2f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="orders" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-166">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_rating" constraintName="FKt3mecsgki7hdg8srke4baeidk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-167">
+        <addForeignKeyConstraint baseColumnNames="material_location_id" baseTableName="cart" constraintName="FKtjoivy0ud5nr0au5d6yl4pujt" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="address" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-168">
+        <addForeignKeyConstraint baseColumnNames="response_status_id" baseTableName="status_response_message" constraintName="FKvk4t8q3r5a77jokw6dlgempn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="item_status" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276110537-169">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="designer" constraintName="FKwkvbbxjxa7y1ssmboghdq4ga" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-1">
+        <createTable tableName="address">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="address" type="LONGTEXT"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="local_govt" type="VARCHAR(255)"/>
+            <column name="phone_no" type="VARCHAR(255)"/>
+            <column name="postal_code" type="VARCHAR(255)"/>
+            <column name="preferred" type="VARCHAR(255)"/>
+            <column name="state" type="VARCHAR(255)"/>
+            <column name="zip_code" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-2">
+        <createTable tableName="anonymous_user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="local_govt" type="VARCHAR(255)"/>
+            <column name="phone_no" type="VARCHAR(255)"/>
+            <column name="postal_code" type="VARCHAR(255)"/>
+            <column name="state" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-3">
+        <createTable tableName="art_work_picture">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="picture_name" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bespoke_product_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-4">
+        <createTable tableName="bespoke_product">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="mandatory_measurements" type="LONGTEXT"/>
+            <column name="num_of_days_to_complete" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT"/>
+            <column name="product_style_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-5">
+        <createTable tableName="cart">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="amount" type="DOUBLE"/>
+            <column name="art_work_picture_id" type="BIGINT"/>
+            <column name="color" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="expiry_date" type="datetime"/>
+            <column name="material_pick_up_address_id" type="BIGINT"/>
+            <column name="material_pickup_date" type="VARCHAR(255)"/>
+            <column name="material_picture_id" type="BIGINT"/>
+            <column name="material_status" type="VARCHAR(255)"/>
+            <column name="measurement_id" type="BIGINT"/>
+            <column name="product_color_style_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="product_size_id" type="BIGINT"/>
+            <column name="promo_code" type="VARCHAR(255)"/>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size" type="VARCHAR(255)"/>
+            <column name="material_location_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-6">
+        <createTable tableName="category">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="category_name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-7">
+        <createTable tableName="code">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="type" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-8">
+        <createTable tableName="comments">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="comment" type="LONGTEXT"/>
+            <column name="event_pictures_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-9">
+        <createTable tableName="designer">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="account_name" type="VARCHAR(255)"/>
+            <column name="account_number" type="VARCHAR(255)"/>
+            <column name="address" type="VARCHAR(255)"/>
+            <column name="bank_name" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="country_code" type="VARCHAR(255)"/>
+            <column name="currency" type="VARCHAR(255)"/>
+            <column name="local_govt" type="VARCHAR(255)"/>
+            <column name="logo" type="LONGTEXT"/>
+            <column name="public_id" type="VARCHAR(255)"/>
+            <column name="registered_flag" type="VARCHAR(255)"/>
+            <column name="registration_document" type="VARCHAR(255)"/>
+            <column name="registration_document_public_id" type="VARCHAR(255)"/>
+            <column name="registration_number" type="VARCHAR(255)"/>
+            <column name="registration_progress" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size_guide_flag" type="VARCHAR(255)"/>
+            <column name="state" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="store_name" type="VARCHAR(255)"/>
+            <column name="swift_code" type="VARCHAR(255)"/>
+            <column name="threshold" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size_guide_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-10">
+        <createTable tableName="event_pictures">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="picture_desc" type="VARCHAR(255)"/>
+            <column name="picture_name" type="VARCHAR(255)"/>
+            <column name="events_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-11">
+        <createTable tableName="events">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="description" type="LONGTEXT"/>
+            <column name="event_date" type="datetime"/>
+            <column name="event_name" type="VARCHAR(255)"/>
+            <column name="event_type" type="VARCHAR(255)"/>
+            <column name="location" type="VARCHAR(255)"/>
+            <column name="main_picture" type="VARCHAR(255)"/>
+            <column name="main_picture_name" type="VARCHAR(255)"/>
+            <column name="trending_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-12">
+        <createTable tableName="general_feed_back">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="full_name" type="VARCHAR(255)"/>
+            <column name="message" type="LONGTEXT"/>
+            <column name="phone_number" type="VARCHAR(255)"/>
+            <column name="subject" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-13">
+        <createTable tableName="inspire_me">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="events" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="hash_tag" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-14">
+        <createTable tableName="inspire_me_pictures">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="public_id" type="VARCHAR(255)"/>
+            <column name="inspire_me_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-15">
+        <createTable tableName="inspire_me_product">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="designer_name" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_attribute_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="product_type_id" type="BIGINT"/>
+            <column name="inspire_me_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-16">
+        <createTable tableName="international_shipping">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="receiving" type="VARCHAR(255)"/>
+            <column name="sending" type="VARCHAR(255)"/>
+            <column name="zone" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-17">
+        <createTable tableName="international_zone_price">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="from_quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_eight_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_five_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_four_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_one_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_seven_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_six_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_three_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_two_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-18">
+        <createTable tableName="item_status">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="header_message" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-19">
+        <createTable tableName="items">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="amount" type="DOUBLE"/>
+            <column name="art_work_picture" type="VARCHAR(255)"/>
+            <column name="art_work_picture_id" type="BIGINT"/>
+            <column name="bespoke_product_id" type="BIGINT"/>
+            <column name="color" type="VARCHAR(255)"/>
+            <column name="complain" type="VARCHAR(255)"/>
+            <column name="delivery_date" type="datetime"/>
+            <column name="delivery_status" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="failed_inspection_reason" type="VARCHAR(255)"/>
+            <column name="material_location" type="BIGINT"/>
+            <column name="material_pickup_date" type="VARCHAR(255)"/>
+            <column name="material_picture" type="VARCHAR(255)"/>
+            <column name="material_picture_id" type="BIGINT"/>
+            <column name="material_status" type="VARCHAR(255)"/>
+            <column name="measurement" type="LONGTEXT"/>
+            <column name="measurement_id" type="BIGINT"/>
+            <column name="product_color_style_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="product_name" type="VARCHAR(255)"/>
+            <column name="product_picture" type="VARCHAR(255)"/>
+            <column name="product_sizes_id" type="BIGINT"/>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reject_reason" type="VARCHAR(255)"/>
+            <column name="size" type="VARCHAR(255)"/>
+            <column name="tracking_number" type="VARCHAR(255)"/>
+            <column name="status_id" type="BIGINT"/>
+            <column name="orders_id" type="BIGINT"/>
+            <column name="message_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-20">
+        <createTable tableName="likes">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="event_pictures_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-21">
+        <createTable tableName="mail_error">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(255)"/>
+            <column name="mail_type" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="new_password" type="VARCHAR(255)"/>
+            <column name="order_item_status" type="VARCHAR(255)"/>
+            <column name="order_num" type="VARCHAR(255)"/>
+            <column name="product_name" type="VARCHAR(255)"/>
+            <column name="recipient" type="VARCHAR(255)"/>
+            <column name="subject" type="VARCHAR(255)"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="wait_time" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-22">
+        <createTable tableName="material_picture">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="material_name" type="VARCHAR(255)"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="picture_name" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bespoke_product_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-23">
+        <createTable tableName="measurement">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="ankle" type="VARCHAR(255)"/>
+            <column name="arm_hole" type="VARCHAR(255)"/>
+            <column name="biceps" type="VARCHAR(255)"/>
+            <column name="bust" type="VARCHAR(255)"/>
+            <column name="butt" type="VARCHAR(255)"/>
+            <column name="crotch" type="VARCHAR(255)"/>
+            <column name="elbow" type="VARCHAR(255)"/>
+            <column name="fit_type" type="VARCHAR(255)"/>
+            <column name="full_chest" type="VARCHAR(255)"/>
+            <column name="full_length" type="VARCHAR(255)"/>
+            <column name="full_shoulder" type="VARCHAR(255)"/>
+            <column name="half_shoulder" type="VARCHAR(255)"/>
+            <column name="in_seam" type="VARCHAR(255)"/>
+            <column name="knee" type="VARCHAR(255)"/>
+            <column name="long_sleeve" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="neck" type="VARCHAR(255)"/>
+            <column name="out_seam" type="VARCHAR(255)"/>
+            <column name="over_breast" type="VARCHAR(255)"/>
+            <column name="seat" type="VARCHAR(255)"/>
+            <column name="shirt_length" type="VARCHAR(255)"/>
+            <column name="short_sleeve" type="VARCHAR(255)"/>
+            <column name="stomach" type="VARCHAR(255)"/>
+            <column name="thigh" type="VARCHAR(255)"/>
+            <column name="trouser_waist" type="VARCHAR(255)"/>
+            <column name="under_bust" type="VARCHAR(255)"/>
+            <column name="under_chest" type="VARCHAR(255)"/>
+            <column name="unit" type="VARCHAR(255)"/>
+            <column name="wrist" type="VARCHAR(255)"/>
+            <column name="items_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-24">
+        <createTable tableName="news_letter">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="email" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-25">
+        <createTable tableName="order_feed_back">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="feed_back_reaction" type="VARCHAR(255)"/>
+            <column name="order_number" type="VARCHAR(255)"/>
+            <column name="subject" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-26">
+        <createTable tableName="order_item_processing_picture">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="picture_name" type="VARCHAR(255)"/>
+            <column name="items_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-27">
+        <createTable tableName="orders">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="anonymous_buyer" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="anonymous_user_id" type="BIGINT"/>
+            <column name="authorization_code" type="VARCHAR(255)"/>
+            <column name="delivery_date" type="datetime"/>
+            <column name="delivery_status" type="VARCHAR(255)"/>
+            <column name="delivery_type" type="VARCHAR(255)"/>
+            <column name="order_date" type="datetime"/>
+            <column name="order_num" type="VARCHAR(255)"/>
+            <column name="paid_amount" type="DOUBLE"/>
+            <column name="payment_type" type="VARCHAR(255)"/>
+            <column name="paystack_fifty_already_deducted" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_amount" type="DOUBLE"/>
+            <column name="total_amount" type="DOUBLE"/>
+            <column name="updated_by" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+            <column name="delivery_address_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-28">
+        <createTable tableName="payment_request">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="currency" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="order_id" type="BIGINT"/>
+            <column name="transaction_amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_date" type="datetime"/>
+            <column name="transaction_reference" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-29">
+        <createTable tableName="picture_tag">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="image_size" type="VARCHAR(255)"/>
+            <column name="left_coordinate" type="VARCHAR(255)"/>
+            <column name="top_coordinate" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="event_pictures_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="sub_category_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-30">
+        <createTable tableName="pocket">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="balance" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pending_settlement" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-31">
+        <createTable tableName="price">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="sewing" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-32">
+        <createTable tableName="price_slash">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="percentage_discount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="slashed_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_price_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-33">
+        <createTable tableName="product">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="num_of_times_ordered" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prod_desc" type="LONGTEXT"/>
+            <column name="prod_summary" type="VARCHAR(255)"/>
+            <column name="product_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sku" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="sub_category_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-34">
+        <createTable tableName="product_color_style">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="colour_name" type="VARCHAR(255)"/>
+            <column name="colour_picture" type="VARCHAR(255)"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="product_style_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-35">
+        <createTable tableName="product_notification">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="product_color_style_id" type="BIGINT"/>
+            <column name="product_sizes_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-36">
+        <createTable tableName="product_picture">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="picture" type="VARCHAR(255)"/>
+            <column name="picture_name" type="VARCHAR(255)"/>
+            <column name="product_color_style_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-37">
+        <createTable tableName="product_price">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price_slash_enabled" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sewing_amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-38">
+        <createTable tableName="product_rating">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="delivery_time_rating" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_quality_rating" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="review" type="LONGTEXT"/>
+            <column name="service_rating" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject" type="VARCHAR(255)"/>
+            <column name="verified_flag" type="VARCHAR(255)"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-39">
+        <createTable tableName="product_sizes">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="number_in_stock" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_color_style_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-40">
+        <createTable tableName="product_statuses">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="accept_custom_sizes" type="VARCHAR(255)"/>
+            <column name="availability" type="VARCHAR(255)"/>
+            <column name="designer_status" type="VARCHAR(255)"/>
+            <column name="sponsored_flag" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="un_verified_reason" type="VARCHAR(255)"/>
+            <column name="verified_flag" type="VARCHAR(255)"/>
+            <column name="product_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-41">
+        <createTable tableName="product_style">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="style_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-42">
+        <createTable tableName="promo_code">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="code" type="VARCHAR(255)"/>
+            <column name="expiry_date" type="datetime"/>
+            <column name="is_used_status" type="VARCHAR(255)"/>
+            <column name="number_of_usage" type="VARCHAR(255)"/>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="value_type" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-43">
+        <createTable tableName="promo_item">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="item_id" type="BIGINT"/>
+            <column name="item_type" type="VARCHAR(255)"/>
+            <column name="promo_code_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-44">
+        <createTable tableName="rating">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="average_rating" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-45">
+        <createTable tableName="rave_payment">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="charge_code" type="VARCHAR(255)"/>
+            <column name="currency" type="VARCHAR(255)"/>
+            <column name="order_id" type="BIGINT"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="transaction_amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_date" type="datetime"/>
+            <column name="transaction_reference" type="VARCHAR(255)"/>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="valued" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-46">
+        <createTable tableName="refund">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="account_name" type="VARCHAR(255)"/>
+            <column name="account_number" type="VARCHAR(255)"/>
+            <column name="amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_name" type="VARCHAR(255)"/>
+            <column name="order_num" type="VARCHAR(255)"/>
+            <column name="product_name" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-47">
+        <createTable tableName="shipping">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="receiving" type="VARCHAR(255)"/>
+            <column name="sending" type="VARCHAR(255)"/>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="zone" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-48">
+        <createTable tableName="size">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-49">
+        <createTable tableName="size_guide">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="female_size_guide" type="VARCHAR(255)"/>
+            <column name="female_size_guide_public_id" type="VARCHAR(255)"/>
+            <column name="male_size_guide" type="VARCHAR(255)"/>
+            <column name="male_size_guide_public_id" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-50">
+        <createTable tableName="status_message">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="has_response" type="BIT(1)"/>
+            <column name="message" type="VARCHAR(255)"/>
+            <column name="item_status_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-51">
+        <createTable tableName="status_response_message">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="responsemessage" type="VARCHAR(255)"/>
+            <column name="response_status_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-52">
+        <createTable tableName="style">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="style" type="VARCHAR(255)"/>
+            <column name="sub_category_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-53">
+        <createTable tableName="sub_category">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="product_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sub_category" type="VARCHAR(255)"/>
+            <column name="category_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-54">
+        <createTable tableName="token">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="validated" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-55">
+        <createTable tableName="transfer_info">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="account_name" type="VARCHAR(500)"/>
+            <column name="amount_payed" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bank" type="VARCHAR(255)"/>
+            <column name="payment_date" type="datetime"/>
+            <column name="payment_note" type="VARCHAR(255)"/>
+            <column name="orders_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-56">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="activation_date" type="VARCHAR(255)"/>
+            <column name="activation_flag" type="VARCHAR(255)"/>
+            <column name="date_of_birth" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="email_verification_flag" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="link_clicked" type="VARCHAR(255)"/>
+            <column name="password" type="LONGTEXT"/>
+            <column name="phone_no" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(255)"/>
+            <column name="social_flag" type="VARCHAR(255)"/>
+            <column name="user_wallet_id" type="BIGINT"/>
+            <column name="wallet_balance" type="DOUBLE"/>
+            <column name="wallet_token" type="VARCHAR(255)"/>
+            <column name="pocket_id" type="BIGINT"/>
+            <column name="rating_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-57">
+        <createTable tableName="vendor_bespoke_form_details">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="category" type="TINYBLOB"/>
+            <column name="day_for_visitation" type="VARCHAR(255)"/>
+            <column name="designer_id" type="BIGINT"/>
+            <column name="facebook_id" type="VARCHAR(255)"/>
+            <column name="instagram_id" type="VARCHAR(255)"/>
+            <column name="location_image" type="VARCHAR(255)"/>
+            <column name="location_verification_method" type="VARCHAR(255)"/>
+            <column name="location_verification_method_id" type="VARCHAR(255)"/>
+            <column name="location_verification_type" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(255)"/>
+            <column name="product_type" type="TINYBLOB"/>
+            <column name="threshold_type" type="VARCHAR(255)"/>
+            <column name="threshold_value" type="VARCHAR(255)"/>
+            <column name="time" type="VARCHAR(255)"/>
+            <column name="twitter_id" type="VARCHAR(255)"/>
+            <column name="visit_workshop_for_verification" type="VARCHAR(255)"/>
+            <column name="website_id" type="VARCHAR(255)"/>
+            <column name="work_force_size" type="VARCHAR(255)"/>
+            <column name="workshop_address" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-58">
+        <createTable tableName="wish_list">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime"/>
+            <column name="del_flag" type="VARCHAR(255)"/>
+            <column name="updated_on" type="datetime"/>
+            <column name="verfied_on" type="datetime"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-59">
+        <createTable tableName="zone_price">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="from_quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="to_quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_four_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_one_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_three_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_two_price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-60">
+        <createIndex indexName="FK16qu2qp0vm8d9ou8atudlc40v" tableName="picture_tag">
+            <column name="event_pictures_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-61">
+        <createIndex indexName="FK1k3rvld4deghhpdcx7jbqrhh0" tableName="event_pictures">
+            <column name="events_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-62">
+        <createIndex indexName="FK1lmqvk6y7cjwya5dm20o33x0c" tableName="status_message">
+            <column name="item_status_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-63">
+        <createIndex indexName="FK34ia5wype65htfuoxtb6ms0sa" tableName="designer">
+            <column name="size_guide_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-64">
+        <createIndex indexName="FK40f3ksfppphy12i9vwwqcppnl" tableName="product_color_style">
+            <column name="product_style_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-65">
+        <createIndex indexName="FK5euldmiig0iqepqcp6b0481vs" tableName="picture_tag">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-66">
+        <createIndex indexName="FK63iw4l9xx1pydr8d57u6060ps" tableName="product_color_style">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-67">
+        <createIndex indexName="FK68lmn61erl01m1xvx6l71mjnh" tableName="product_rating">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-68">
+        <createIndex indexName="FK7mf93r37ceg3mwyw6nclbtg1h" tableName="items">
+            <column name="orders_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-69">
+        <createIndex indexName="FK82fx0dahlrta99te3tyg6wxur" tableName="inspire_me_product">
+            <column name="inspire_me_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-70">
+        <createIndex indexName="FK8462y9kc76hpxuom1ui7dvp7k" tableName="wish_list">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-71">
+        <createIndex indexName="FK89q90to90t4sj42jvnerxdfoi" tableName="picture_tag">
+            <column name="sub_category_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-72">
+        <createIndex indexName="FK97e3ue0yqpr6t5or31nm6ugij" tableName="product_sizes">
+            <column name="product_color_style_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-73">
+        <createIndex indexName="FK9dv05fubpxsoeu29f912i2lpo" tableName="likes">
+            <column name="event_pictures_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-74">
+        <createIndex indexName="FK9nvqlor7ebe82ls9n8bub2kr" tableName="measurement">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-75">
+        <createIndex indexName="FK9o2189x6qatu9x9xyu413qfmd" tableName="material_picture">
+            <column name="bespoke_product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-76">
+        <createIndex indexName="FKae4a4c016cqlst1r71fknu2l1" tableName="price_slash">
+            <column name="product_price_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-77">
+        <createIndex indexName="FKbwhiubtkxf94knbm9oo55wdbm" tableName="orders">
+            <column name="delivery_address_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-78">
+        <createIndex indexName="FKcsucyfsj1f0vjjdp38otg953k" tableName="order_item_processing_picture">
+            <column name="items_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-79">
+        <createIndex indexName="FKd9gfnsjgfwjtaxl57udrbocsp" tableName="product">
+            <column name="sub_category_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-80">
+        <createIndex indexName="FKda8tuywtf0gb6sedwk7la1pgi" tableName="address">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-81">
+        <createIndex indexName="FKe32ek7ixanakfqsdaokm4q9y2" tableName="token">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-82">
+        <createIndex indexName="FKeupemu63ifqfc4txkskyy1hyi" tableName="product_price">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-83">
+        <createIndex indexName="FKfjau3g9dmref9jvslc9ylorpp" tableName="product">
+            <column name="designer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-84">
+        <createIndex indexName="FKfy4qidu37a2vd07x2ciphlj9q" tableName="art_work_picture">
+            <column name="bespoke_product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-85">
+        <createIndex indexName="FKg2x64cj3mji2qxoy7cv1qhgwq" tableName="user">
+            <column name="pocket_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-86">
+        <createIndex indexName="FKh5t36ttupanhykmy60xlddi1o" tableName="promo_item">
+            <column name="promo_code_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-87">
+        <createIndex indexName="FKht5717hy8le5rljddo5pwwacb" tableName="product_picture">
+            <column name="product_color_style_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-88">
+        <createIndex indexName="FKi2wo4dyk4rok7v4kak8sgkwx0" tableName="likes">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-89">
+        <createIndex indexName="FKi3rquh19bceekbx15ulo5vdgk" tableName="comments">
+            <column name="event_pictures_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-90">
+        <createIndex indexName="FKibiwl80dj48ahdptd2oi18gvw" tableName="size_guide">
+            <column name="designer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-91">
+        <createIndex indexName="FKig3v6fjbvtdaex7ksf6s3201l" tableName="bespoke_product">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-92">
+        <createIndex indexName="FKikbvldd4kmv50t3wad4bqp6c9" tableName="items">
+            <column name="status_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-93">
+        <createIndex indexName="FKiyk4jmqkmjt4uuisc0wju3woc" tableName="product_statuses">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-94">
+        <createIndex indexName="FKk0lhscek5kduhlu81hhgroghh" tableName="style">
+            <column name="sub_category_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-95">
+        <createIndex indexName="FKk4mbgqf5yru5ib5b6w5l6ukkj" tableName="price">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-96">
+        <createIndex indexName="FKke5elqdgxt3ou3aevi7fmj1un" tableName="product_style">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-97">
+        <createIndex indexName="FKkoqlf8lv0hfa51uc2nwxqpnar" tableName="pocket">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-98">
+        <createIndex indexName="FKkvkm176hdrm8l0wwsndlyok6p" tableName="picture_tag">
+            <column name="designer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-99">
+        <createIndex indexName="FKl65dyy5me2ypoyj8ou1hnt64e" tableName="sub_category">
+            <column name="category_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-100">
+        <createIndex indexName="FKl70asp4l4w0jmbm1tqyofho4o" tableName="cart">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-101">
+        <createIndex indexName="FKlgegk9m34mtvl5nujk56lsv64" tableName="user">
+            <column name="rating_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-102">
+        <createIndex indexName="FKnbwgo39m2psuxx0smigpx6pep" tableName="bespoke_product">
+            <column name="product_style_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-103">
+        <createIndex indexName="FKnjwp2y0w52pc4ddloycpl7hwu" tableName="inspire_me_pictures">
+            <column name="inspire_me_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-104">
+        <createIndex indexName="FKnpqv53214mu4wuukjhfjw2rbu" tableName="product_style">
+            <column name="style_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-105">
+        <createIndex indexName="FKpn05vbx6usw0c65tcyuce4dw5" tableName="rating">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-106">
+        <createIndex indexName="FKq81flqnvyit98cpj6vnwjmo52" tableName="items">
+            <column name="message_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-107">
+        <createIndex indexName="FKq8wipoghdfe02g41wu9pe70ci" tableName="measurement">
+            <column name="items_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-108">
+        <createIndex indexName="FKqi14bvepnwtjbbaxm7m4v44yg" tableName="comments">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-109">
+        <createIndex indexName="FKqn4e0ta2823kynefeg4jektp0" tableName="wish_list">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-110">
+        <createIndex indexName="FKrsivokp3lpavfc4clgejm5v2f" tableName="transfer_info">
+            <column name="orders_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-111">
+        <createIndex indexName="FKt3mecsgki7hdg8srke4baeidk" tableName="product_rating">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-112">
+        <createIndex indexName="FKtjoivy0ud5nr0au5d6yl4pujt" tableName="cart">
+            <column name="material_location_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-113">
+        <createIndex indexName="FKvk4t8q3r5a77jokw6dlgempn" tableName="status_response_message">
+            <column name="response_status_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-114">
+        <createIndex indexName="FKwkvbbxjxa7y1ssmboghdq4ga" tableName="designer">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-115">
+        <addForeignKeyConstraint baseColumnNames="event_pictures_id" baseTableName="picture_tag" constraintName="FK16qu2qp0vm8d9ou8atudlc40v" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="event_pictures" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-116">
+        <addForeignKeyConstraint baseColumnNames="events_id" baseTableName="event_pictures" constraintName="FK1k3rvld4deghhpdcx7jbqrhh0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="events" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-117">
+        <addForeignKeyConstraint baseColumnNames="item_status_id" baseTableName="status_message" constraintName="FK1lmqvk6y7cjwya5dm20o33x0c" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="item_status" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-118">
+        <addForeignKeyConstraint baseColumnNames="size_guide_id" baseTableName="designer" constraintName="FK34ia5wype65htfuoxtb6ms0sa" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="size_guide" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-119">
+        <addForeignKeyConstraint baseColumnNames="product_style_id" baseTableName="product_color_style" constraintName="FK40f3ksfppphy12i9vwwqcppnl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_style" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-120">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="picture_tag" constraintName="FK5euldmiig0iqepqcp6b0481vs" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-121">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_color_style" constraintName="FK63iw4l9xx1pydr8d57u6060ps" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-122">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="product_rating" constraintName="FK68lmn61erl01m1xvx6l71mjnh" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-123">
+        <addForeignKeyConstraint baseColumnNames="orders_id" baseTableName="items" constraintName="FK7mf93r37ceg3mwyw6nclbtg1h" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="orders" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-124">
+        <addForeignKeyConstraint baseColumnNames="inspire_me_id" baseTableName="inspire_me_product" constraintName="FK82fx0dahlrta99te3tyg6wxur" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="inspire_me" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-125">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="wish_list" constraintName="FK8462y9kc76hpxuom1ui7dvp7k" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-126">
+        <addForeignKeyConstraint baseColumnNames="sub_category_id" baseTableName="picture_tag" constraintName="FK89q90to90t4sj42jvnerxdfoi" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="sub_category" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-127">
+        <addForeignKeyConstraint baseColumnNames="product_color_style_id" baseTableName="product_sizes" constraintName="FK97e3ue0yqpr6t5or31nm6ugij" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_color_style" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-128">
+        <addForeignKeyConstraint baseColumnNames="event_pictures_id" baseTableName="likes" constraintName="FK9dv05fubpxsoeu29f912i2lpo" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="event_pictures" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-129">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="measurement" constraintName="FK9nvqlor7ebe82ls9n8bub2kr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-130">
+        <addForeignKeyConstraint baseColumnNames="bespoke_product_id" baseTableName="material_picture" constraintName="FK9o2189x6qatu9x9xyu413qfmd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="bespoke_product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-131">
+        <addForeignKeyConstraint baseColumnNames="product_price_id" baseTableName="price_slash" constraintName="FKae4a4c016cqlst1r71fknu2l1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_price" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-132">
+        <addForeignKeyConstraint baseColumnNames="delivery_address_id" baseTableName="orders" constraintName="FKbwhiubtkxf94knbm9oo55wdbm" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="address" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-133">
+        <addForeignKeyConstraint baseColumnNames="items_id" baseTableName="order_item_processing_picture" constraintName="FKcsucyfsj1f0vjjdp38otg953k" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="items" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-134">
+        <addForeignKeyConstraint baseColumnNames="sub_category_id" baseTableName="product" constraintName="FKd9gfnsjgfwjtaxl57udrbocsp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="sub_category" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-135">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="address" constraintName="FKda8tuywtf0gb6sedwk7la1pgi" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-136">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="token" constraintName="FKe32ek7ixanakfqsdaokm4q9y2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-137">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_price" constraintName="FKeupemu63ifqfc4txkskyy1hyi" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-138">
+        <addForeignKeyConstraint baseColumnNames="designer_id" baseTableName="product" constraintName="FKfjau3g9dmref9jvslc9ylorpp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="designer" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-139">
+        <addForeignKeyConstraint baseColumnNames="bespoke_product_id" baseTableName="art_work_picture" constraintName="FKfy4qidu37a2vd07x2ciphlj9q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="bespoke_product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-140">
+        <addForeignKeyConstraint baseColumnNames="pocket_id" baseTableName="user" constraintName="FKg2x64cj3mji2qxoy7cv1qhgwq" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pocket" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-141">
+        <addForeignKeyConstraint baseColumnNames="promo_code_id" baseTableName="promo_item" constraintName="FKh5t36ttupanhykmy60xlddi1o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="promo_code" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-142">
+        <addForeignKeyConstraint baseColumnNames="product_color_style_id" baseTableName="product_picture" constraintName="FKht5717hy8le5rljddo5pwwacb" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_color_style" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-143">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="likes" constraintName="FKi2wo4dyk4rok7v4kak8sgkwx0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-144">
+        <addForeignKeyConstraint baseColumnNames="event_pictures_id" baseTableName="comments" constraintName="FKi3rquh19bceekbx15ulo5vdgk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="event_pictures" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-145">
+        <addForeignKeyConstraint baseColumnNames="designer_id" baseTableName="size_guide" constraintName="FKibiwl80dj48ahdptd2oi18gvw" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="designer" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-146">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="bespoke_product" constraintName="FKig3v6fjbvtdaex7ksf6s3201l" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-147">
+        <addForeignKeyConstraint baseColumnNames="status_id" baseTableName="items" constraintName="FKikbvldd4kmv50t3wad4bqp6c9" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="item_status" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-148">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_statuses" constraintName="FKiyk4jmqkmjt4uuisc0wju3woc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-149">
+        <addForeignKeyConstraint baseColumnNames="sub_category_id" baseTableName="style" constraintName="FKk0lhscek5kduhlu81hhgroghh" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="sub_category" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-150">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="price" constraintName="FKk4mbgqf5yru5ib5b6w5l6ukkj" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-151">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_style" constraintName="FKke5elqdgxt3ou3aevi7fmj1un" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-152">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="pocket" constraintName="FKkoqlf8lv0hfa51uc2nwxqpnar" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-153">
+        <addForeignKeyConstraint baseColumnNames="designer_id" baseTableName="picture_tag" constraintName="FKkvkm176hdrm8l0wwsndlyok6p" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="designer" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-154">
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="sub_category" constraintName="FKl65dyy5me2ypoyj8ou1hnt64e" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="category" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-155">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="cart" constraintName="FKl70asp4l4w0jmbm1tqyofho4o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-156">
+        <addForeignKeyConstraint baseColumnNames="rating_id" baseTableName="user" constraintName="FKlgegk9m34mtvl5nujk56lsv64" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="rating" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-157">
+        <addForeignKeyConstraint baseColumnNames="product_style_id" baseTableName="bespoke_product" constraintName="FKnbwgo39m2psuxx0smigpx6pep" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_style" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-158">
+        <addForeignKeyConstraint baseColumnNames="inspire_me_id" baseTableName="inspire_me_pictures" constraintName="FKnjwp2y0w52pc4ddloycpl7hwu" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="inspire_me" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-159">
+        <addForeignKeyConstraint baseColumnNames="style_id" baseTableName="product_style" constraintName="FKnpqv53214mu4wuukjhfjw2rbu" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="style" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-160">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="rating" constraintName="FKpn05vbx6usw0c65tcyuce4dw5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-161">
+        <addForeignKeyConstraint baseColumnNames="message_id" baseTableName="items" constraintName="FKq81flqnvyit98cpj6vnwjmo52" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="status_message" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-162">
+        <addForeignKeyConstraint baseColumnNames="items_id" baseTableName="measurement" constraintName="FKq8wipoghdfe02g41wu9pe70ci" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="items" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-163">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="comments" constraintName="FKqi14bvepnwtjbbaxm7m4v44yg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-164">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="wish_list" constraintName="FKqn4e0ta2823kynefeg4jektp0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-165">
+        <addForeignKeyConstraint baseColumnNames="orders_id" baseTableName="transfer_info" constraintName="FKrsivokp3lpavfc4clgejm5v2f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="orders" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-166">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_rating" constraintName="FKt3mecsgki7hdg8srke4baeidk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-167">
+        <addForeignKeyConstraint baseColumnNames="material_location_id" baseTableName="cart" constraintName="FKtjoivy0ud5nr0au5d6yl4pujt" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="address" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-168">
+        <addForeignKeyConstraint baseColumnNames="response_status_id" baseTableName="status_response_message" constraintName="FKvk4t8q3r5a77jokw6dlgempn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="item_status" validate="true"/>
+    </changeSet>
+    <changeSet author="Longbridge (generated)" id="1542276371979-169">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="designer" constraintName="FKwkvbbxjxa7y1ssmboghdq4ga" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
