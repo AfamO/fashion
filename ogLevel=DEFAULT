@@ -1,0 +1,40 @@
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for com.longbridge:fashion:jar:0.0.1-SNAPSHOT
+[WARNING] 'build.plugins.plugin.version' for org.liquibase:liquibase-maven-plugin is missing. @ line 273, column 12
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building fashion 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- liquibase-maven-plugin:3.6.2:generateChangeLog (default-cli) @ fashion ---
+[INFO] ------------------------------------------------------------------------
+[INFO] Parsing Liquibase Properties File
+[INFO]   File: src/main/resources/changelog/liquibase.properties
+[INFO]   'classpath' in properties file is not being used by this task.
+[INFO] ------------------------------------------------------------------------
+[INFO] Starting Liquibase at Thu, 15 Nov 2018 11:06:08 WAT (version 3.6.2 built at 2018-07-03 11:28:09)
+[INFO] Executing on Database: jdbc:mysql://localhost:3306/fashionliqui
+[INFO] Generating Change Log from database root@localhost @ jdbc:mysql://localhost:3306/fashionliqui (Default Schema: fashionliqui)
+[INFO] CREATE TABLE TMP_DYTFBNFXCRCLZAOP (
+  id INT PRIMARY KEY,
+  self_ref INT NOT NULL,
+  CONSTRAINT c_self_ref FOREIGN KEY(self_ref) REFERENCES TMP_DYTFBNFXCRCLZAOP(id)
+)
+[INFO] DROP TABLE TMP_DYTFBNFXCRCLZAOP
+[INFO] src/main/resources/changelog/db.ibtest3-1.1.1.xml exists, appending
+[INFO] Output written to Change Log file, src/main/resources/changelog/db.ibtest3-1.1.1.xml
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 7.740 s
+[INFO] Finished at: 2018-11-15T11:06:13+01:00
+[INFO] Final Memory: 30M/290M
+[INFO] ------------------------------------------------------------------------

@@ -13,6 +13,7 @@ public class DesignerDTO {
     public Long userId;
     public String logo;
     public String storeName;
+    public String storeId;
     public String productsId;
     public String firstName;
     public String lastName;
@@ -112,6 +113,14 @@ public class DesignerDTO {
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
+    }
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
     }
 
     public String getAddress() {

@@ -11,6 +11,7 @@ import java.util.List;
 public class ProductRespDTO {
     public Long id;
     public String name;
+    public String sku;
     public double amount;
     public double percentageDiscount;
     public double slashedPrice;
