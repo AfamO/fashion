@@ -71,7 +71,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             Category category = categoryRepository.findOne(subCategoryDTO.categoryId);
             if(category != null) {
-                subCategories = subCategoryRepository.findByCategoryAndProductType(category, subCategoryDTO.productType);
+                subCategories = subCategoryRepository.findByDelFlagAndCategoryAndProductType("N",category, subCategoryDTO.productType);
             }
 
         } catch (Exception e) {
