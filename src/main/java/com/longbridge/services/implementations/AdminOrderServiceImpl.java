@@ -265,7 +265,29 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public String cancelOrder(OrderReqDTO orderReqDTO) {
-        return null;
+        try{
+
+            User customer = userRepository.findOne(orderReqDTO.getUserId());
+            Orders orders=orderRepository.findOne(orderReqDTO.getId());
+            Date date = new Date();
+            orders.setUpdatedOn(date);
+            for (Items items: orders.getItems()) {
+                items.setItemStatus(itemStatusRepository.findByStatus("C"));
+                itemRepository.save(items);
+                notifyDesigner(items);
+            }
+
+            orders.setDeliveryStatus("C");
+            orders.setUpdatedOn(date);
+            orders.setUpdatedBy(getCurrentUser().getEmail());
+            orderRepository.save(orders);
+            sendEmailAsync.sendPaymentConfEmailToUser(customer,orders.getOrderNum());
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+        return "success";
     }
 
     @Override
@@ -309,25 +331,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     @Override
     public List<ItemsRespDTO> getAllOrdersByQA() {
         try {
-//
-//                ItemStatus itemStatus1 = itemStatusRepository.findByStatus("RI");
-//                ItemStatus itemStatus2 = itemStatusRepository.findByStatus("RS");
-//                ItemStatus itemStatus3 = itemStatusRepository.findByStatus("OS");
-//                ItemStatus itemStatus4 = itemStatusRepository.findByStatus("CO");
-//                ItemStatus itemStatus5 = itemStatusRepository.findByStatus("WC");
-//                ItemStatus itemStatus6 = itemStatusRepository.findByStatus("WR");
-//                List<ItemStatus> itemStatuses = new ArrayList();
-//                itemStatuses.add(itemStatus1);
-//                itemStatuses.add(itemStatus2);
-//                itemStatuses.add(itemStatus3);
-//                itemStatuses.add(itemStatus4);
-//                itemStatuses.add(itemStatus5);
-//                itemStatuses.add(itemStatus6);
-
-            //   return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatusInOrderByOrders_OrderDateDesc(itemStatuses));
             return generalUtil.convertItemsEntToDTOs(itemRepository.findByItemStatus_StatusInOrderByOrders_OrderDateDesc(Arrays.asList("RI","RS","OS","CO","WC","WR")));
-
-
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();
