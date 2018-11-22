@@ -536,6 +536,8 @@ public class OrderServiceImpl implements OrderService {
                 amount= product.getProductPrice().getAmount();
             }
             cart.setAmount(amount*cart.getQuantity());
+            cart.setProductColorStyleId(cart.getProductColorStyleId());
+            cart.setProductSizeId(cart.getProductSizeId());
             //cart.setAmount(newAmount);
             cart.setCreatedOn(date);
             cart.setUpdatedOn(date);

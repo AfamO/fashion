@@ -29,6 +29,8 @@ public interface DesignerService {
 
     void updateDesignerLogo(DesignerDTO passedDesigner);
 
+    void updateDesignerBanner(DesignerDTO passedDesigner);
+
     void rateDesigner(DesignerRatingDTO ratingDTO);
 
     void deleteDesigner(Long id);

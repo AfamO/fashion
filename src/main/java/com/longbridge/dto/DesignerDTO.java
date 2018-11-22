@@ -12,6 +12,7 @@ public class DesignerDTO {
     public Long id;
     public Long userId;
     public String logo;
+    public String banner;
     public String storeName;
     public String storeId;
     public String productsId;

@@ -294,6 +294,7 @@ public class DesignerServiceImpl implements DesignerService{
     public void  updateDesignerLogo(DesignerDTO passedDesigner) {
         try {
             User userTemp = getCurrentUser();
+            System.out.println(passedDesigner.id);
             if(passedDesigner.id != null) {
 
                 if(passedDesigner.logo != null) {
@@ -325,6 +326,44 @@ public class DesignerServiceImpl implements DesignerService{
             throw new WawoohException();
         }
     }
+
+
+    @Override
+    public void  updateDesignerBanner(DesignerDTO passedDesigner) {
+        try {
+            User userTemp = getCurrentUser();
+            if(passedDesigner.id != null) {
+
+                if(passedDesigner.banner != null) {
+                    Designer d = designerRepository.findByUser(userTemp);
+                    if(d.getBannerPublicId() != null) {
+                        cloudinaryService.deleteFromCloud(d.getBannerPublicId(), d.getBanner());
+                    }
+                    try {
+                        String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
+                        String base64Img = passedDesigner.banner;
+
+                        CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img,fileName,"designerlogos");
+                        d.setLogo(c.getUrl());
+                        d.setBannerPublicId(c.getPublicId());
+
+                        designerRepository.save(d);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        throw new WawoohException();
+                    }
+                }
+            }
+            else {
+                throw new WawoohException();
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
 
     @Override
     public void rateDesigner(DesignerRatingDTO ratingDTO) {
