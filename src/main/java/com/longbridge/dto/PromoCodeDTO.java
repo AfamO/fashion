@@ -12,9 +12,11 @@ public class PromoCodeDTO {
 
     private String expiryDate;
 
-    private String valueType="pd";
+    private String valueType="PD";
 
     private int numberOfUsage=-1; // The default is multiple times. It can also be 1, 8, etc
+    
+    private List<Long> promoMakerCheckersUserIds;// Users that created and followed by those that checked the PromoCode Creation.
 
     public List<String> getPromoItemSizes() {
         return promoItemSizes;
@@ -25,6 +27,7 @@ public class PromoCodeDTO {
     }
 
     private List<String> promoItemSizes;
+    
 
     public String getValueType() {
         return valueType;
@@ -96,4 +99,14 @@ public class PromoCodeDTO {
     public void setNumberOfUsage(int numberOfUsage) {
         this.numberOfUsage = numberOfUsage;
     }
+
+    public List<Long> getPromoMakerCheckersUserIds() {
+        return promoMakerCheckersUserIds;
+    }
+
+    public void setPromoMakerCheckersUserIds(List<Long> promoMakerCheckersUserIds) {
+        this.promoMakerCheckersUserIds = promoMakerCheckersUserIds;
+    }
+    
+    
 }

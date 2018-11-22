@@ -23,6 +23,8 @@ public class PromoCode extends CommonFields implements Serializable {
     private int numberOfUsage= -1; // The default is multiple times. It can also be 1, 8, etc
 
     private  int usageCounter=0;
+    
+    private String makerCheckedByUsers;
 
     @OneToMany(mappedBy = "promoCode",cascade = CascadeType.ALL)
     private List<PromoItem> promoItems;
@@ -90,4 +92,14 @@ public class PromoCode extends CommonFields implements Serializable {
     public void setUsageCounter(int usageCounter) {
         this.usageCounter = usageCounter;
     }
+
+    public String getMakerCheckedByUsers() {
+        return makerCheckedByUsers;
+    }
+
+    public void setMakerCheckedByUsers(String makerCheckedByUsers) {
+        this.makerCheckedByUsers = makerCheckedByUsers;
+    }
+    
+    
 }

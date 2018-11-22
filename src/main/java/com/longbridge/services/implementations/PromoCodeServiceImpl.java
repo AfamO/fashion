@@ -10,6 +10,7 @@ import com.longbridge.models.*;
 import com.longbridge.repository.*;
 import com.longbridge.respbodydto.PromoCodeApplyRespDTO;
 import com.longbridge.security.JwtUser;
+import com.longbridge.security.repository.UserRepository;
 import com.longbridge.services.PromoCodeService;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     GeneralUtil generalUtil;
     
     @Autowired
+    UserRepository userRepository;
+    
+    @Autowired
     CategoryRepository categoryRepository;
 
     @Autowired
@@ -73,37 +77,70 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                     promoCodeStatusMessage="OOps! This promoCode has already expired. Check your expiry Date";
                 }
                 else{
-                    PromoCode promoCode= new PromoCode();
-                    promoCode.setCode(promoCodeDTO.getCode());
-                    promoCode.setValue(promoCodeDTO.getValue());
-                    promoCode.setExpiryDate(expiryDate);
-                    promoCode.setValueType(promoCodeDTO.getValueType());
-                    promoCode.setIsUsedStatus("N");
-                    promoCode.setNumberOfUsage(promoCodeDTO.getNumberOfUsage());
-                    promoCode.setCreatedOn(new Date());
-                    promoCode.setPromoItems(promoCodeDTO.getPromoItems());
-                    promoCodeRepository.save(promoCode);
-                    for (PromoItem promoItem:promoCodeDTO.getPromoItems()){
-                        promoItem.setPromoCode(promoCode);
-                        promoItemsRepository.save(promoItem);
-                    }
-
-                    // Are the items sizes sent?: I mean find out if the promocode is assigned to items of  particular size(s) range
-                    if(promoCodeDTO.getPromoItemSizes()!=null && promoCodeDTO.getPromoItemSizes().size()>0){
-                        List<ProductSizes> productSizesList= productSizesRepository.findByNamesOfSizes(promoCodeDTO.getPromoItemSizes());
-                        for(ProductSizes productSize:productSizesList)
+                        //Are there maker checkers for this promoCode?
+                        StringBuilder userMakerCheckers=null;
+                        if(promoCodeDTO.getPromoMakerCheckersUserIds()==null || promoCodeDTO.getPromoMakerCheckersUserIds().size()<=1)
                         {
-                            // Then save the corresponding items details.
-                            Product product=productSize.getProductColorStyle().getProduct();
-                            PromoItem promoItem= new PromoItem();
-                            promoItem.setItemId(product.id);
-                            promoItem.setItemType("p");
-                            promoItem.setPromoCode(promoCode);
-                            promoItemsRepository.save(promoItem);
-
+                            promoCodeStatusMessage="OOps! Atleast two users are needed to carry out this action.";
+                            return promoCodeStatusMessage;
                         }
-                    }
-                    promoCodeStatusMessage="Operation Successful";
+                        else{
+                            userMakerCheckers=new StringBuilder() ;
+                            for(Long userId:promoCodeDTO.getPromoMakerCheckersUserIds()){
+                                User user=userRepository.findById(userId);
+                                if(user!=null){
+                                    if(user.getRole().equalsIgnoreCase("admin") ||user.getRole().equalsIgnoreCase("super_admin")){
+                                        userMakerCheckers.append(Long.toString(userId)).append(",");
+                                    }
+                                    else{
+                                        promoCodeStatusMessage="OOps! This user named '"+user.getFirstName()+" "+user.getLastName()+"' is not permitted to carry out this action.";
+                                        return promoCodeStatusMessage;
+                                    }
+                                        
+                                }
+                                else{
+                                    promoCodeStatusMessage="OOps! The userId you sent doesn't exist.";
+                                    return promoCodeStatusMessage;
+                                }
+                            }
+                        }
+                        //Are there less than two UserIds?
+                        if(userMakerCheckers.toString().split(",").length<=1){
+                            promoCodeStatusMessage="OOps! Atleast two admin users are needed to carry out this action.";
+                        } else {
+                            PromoCode promoCode= new PromoCode();
+                            promoCode.setCode(promoCodeDTO.getCode());
+                            promoCode.setValue(promoCodeDTO.getValue());
+                            promoCode.setExpiryDate(expiryDate);
+                            promoCode.setValueType(promoCodeDTO.getValueType());
+                            promoCode.setIsUsedStatus("N");
+                            promoCode.setMakerCheckedByUsers(userMakerCheckers.toString());
+                            promoCode.setNumberOfUsage(promoCodeDTO.getNumberOfUsage());
+                            promoCode.setCreatedOn(new Date());
+                            promoCode.setPromoItems(promoCodeDTO.getPromoItems());
+                            promoCodeRepository.save(promoCode);
+                            for (PromoItem promoItem:promoCodeDTO.getPromoItems()){
+                                promoItem.setPromoCode(promoCode);
+                                promoItemsRepository.save(promoItem);
+                            }
+
+                            // Are the items sizes sent?: I mean find out if the promocode is assigned to items of  particular size(s) range
+                            if(promoCodeDTO.getPromoItemSizes()!=null && promoCodeDTO.getPromoItemSizes().size()>0){
+                                List<ProductSizes> productSizesList= productSizesRepository.findByNamesOfSizes(promoCodeDTO.getPromoItemSizes());
+                                for(ProductSizes productSize:productSizesList)
+                                {
+                                    // Then save the corresponding items details.
+                                    Product product=productSize.getProductColorStyle().getProduct();
+                                    PromoItem promoItem= new PromoItem();
+                                    promoItem.setItemId(product.id);
+                                    promoItem.setItemType("p");
+                                    promoItem.setPromoCode(promoCode);
+                                    promoItemsRepository.save(promoItem);
+
+                                }
+                            }
+                            promoCodeStatusMessage="Operation Successful";
+                        }
                 }
 
             }
