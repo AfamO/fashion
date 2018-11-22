@@ -15,5 +15,5 @@ public interface SubCategoryRepository extends JpaRepository<SubCategory, Long> 
     List<SubCategory> findBySubCategory(String subCategory);
 
     List<SubCategory> findByDelFlag(String delFlag);
-    List<SubCategory> findByCategoryAndProductType(Category category, int ProductType);
+    List<SubCategory> findByDelFlagAndCategoryAndProductType(String delFla, Category category, int ProductType);
 }
