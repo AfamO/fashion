@@ -263,6 +263,10 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         return "success";
     }
 
+    @Override
+    public String cancelOrder(OrderReqDTO orderReqDTO) {
+        return null;
+    }
 
     @Override
     public List<ItemsRespDTO> getAllOrdersByAdmin() {

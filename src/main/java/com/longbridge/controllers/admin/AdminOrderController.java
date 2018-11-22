@@ -83,6 +83,39 @@ public class AdminOrderController {
     }
 
 
+
+
+    @PostMapping(value = "/cancelorder")
+    public Response cancelOrder(@RequestBody OrderReqDTO orderReqDTO){
+        try{
+            String message =  adminOrderService.cancelOrder(orderReqDTO);
+            if(message.equalsIgnoreCase("nopayment")){
+                return new Response("56","Unable to confirm payment","No payment has been made");
+            }
+
+            else {
+                return new Response("99","Error occurred here","error");
+            }
+
+        }catch (AppException e){
+            e.printStackTrace();
+            String recipient = e.getRecipient();
+            String subject = e.getSubject();
+            MailError mailError = new MailError();
+            mailError.setProductName(e.getItemsDTO().getProductName());
+            mailError.setOrderItemStatus(e.getItemsDTO().getDeliveryStatus());
+            mailError.setRecipient(recipient);
+            mailError.setSubject(subject);
+            mailError.setLink(e.getLink());
+            mailError.setMailType("adminCancelOrder");
+            mailErrorRepository.save(mailError);
+            return new Response("00", "Operation Successful, Trying to send email", "success");
+
+        }
+
+    }
+
+
     @GetMapping(value = "/{id}/getorder")
     public Response getOrderById(@PathVariable Long id){
         return new Response("00","Operation Successful",orderService.getOrdersById(id));

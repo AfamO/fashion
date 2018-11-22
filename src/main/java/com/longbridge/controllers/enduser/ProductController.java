@@ -130,6 +130,10 @@ public class ProductController {
     }
 
 
+    @GetMapping(value = "/getfreqboughtproducts")
+    public Response getFreqBoughtProducts(){
+        return new Response("00", "Operation Successful", productService.getFreqBoughtProducts());
+    }
 
     //todo later
     //get top products based on the number of orders
@@ -139,12 +143,6 @@ public class ProductController {
         Response response = new Response("00", "Operation Successful", productService.getTopProducts());
         return response;
     }
-
-    @GetMapping(value = "/getfreqboughtproducts")
-    public Response getFreqBoughtProducts(){
-        return new Response("00", "Operation Successful", productService.getFreqBoughtProducts());
-    }
-
     @PostMapping(value = "/getfeaturedproducts")
     public Response getFeaturedProducts(@RequestBody PageableDetailsDTO pageableDetailsDTO){
         return new Response("00", "Operation Successful", productService.getFeaturedProducts(pageableDetailsDTO));
@@ -152,6 +150,11 @@ public class ProductController {
     }
 
 
+    @GetMapping(value = "/getfeaturedproducts")
+    public Response getFeaturedProds(){
+        return new Response("00", "Operation Successful", productService.getAllFeaturedProducts());
+
+    }
 
 
 

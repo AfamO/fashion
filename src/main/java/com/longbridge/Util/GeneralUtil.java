@@ -508,15 +508,16 @@ public class GeneralUtil {
         return productColorStyleDTOS;
     }
 
-    public ProductColorStyleDTO convertProductAttributeEntityToDTO(ProductColorStyle productColorStyle){
+    public ProductColorStyleDTO convertProductAttributeEntityToDTO(ProductColorStyle productAttribute){
         ProductColorStyleDTO productColorStyleDTO = new ProductColorStyleDTO();
 
-        productColorStyleDTO.setId(productColorStyle.id);
-        productColorStyleDTO.setColourPicture(productColorStyle.getColourPicture());
-        productColorStyleDTO.setColourName(productColorStyle.getColourName());
+        productColorStyleDTO.setId(productAttribute.id);
+        productColorStyleDTO.setColourPicture(productAttribute.getColourPicture());
+        productColorStyleDTO.setColourName(productAttribute.getColourName());
 
-        productColorStyleDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productColorStyle.getProductPictures()));
-        productColorStyleDTO.setProductSizes(productColorStyle.getProductSizes());
+
+        productColorStyleDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productPictureRepository.findByProductColorStyle(productAttribute)));
+        productColorStyleDTO.setProductSizes(productAttribute.getProductSizes());
         return productColorStyleDTO;
 
     }
