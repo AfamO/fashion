@@ -309,7 +309,6 @@ public class OrderServiceImpl implements OrderService {
 
             itemsAmount = amount*items.getQuantity();
 
-
             ProductColorStyle productColorStyle =productColorStyleRepository.findOne(items.getProductColorStyleId());
             items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle(productColorStyle).getPictureName());
 
@@ -486,6 +485,8 @@ public class OrderServiceImpl implements OrderService {
                 amount= product.getProductPrice().getAmount();
             }
             cart.setAmount(amount*cart.getQuantity());
+            cart.setProductColorStyleId(cart.getProductColorStyleId());
+            cart.setProductSizeId(cart.getProductSizeId());
             //cart.setAmount(newAmount);
             cart.setCreatedOn(date);
             cart.setUpdatedOn(date);

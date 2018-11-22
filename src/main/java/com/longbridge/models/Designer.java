@@ -16,7 +16,11 @@ public class Designer extends CommonFields {
     @Lob
     private String logo;
 
+    @Lob
+    private String banner;
+
     private String publicId;
+    private String bannerPublicId;
     private String storeName;
     private String storeId;
     private String address;
@@ -81,12 +85,29 @@ public class Designer extends CommonFields {
         this.logo = logo;
     }
 
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
+    }
+
     public String getPublicId() {
         return publicId;
     }
 
     public void setPublicId(String publicId) {
         this.publicId = publicId;
+    }
+
+
+    public String getBannerPublicId() {
+        return bannerPublicId;
+    }
+
+    public void setBannerPublicId(String bannerPublicId) {
+        this.bannerPublicId = bannerPublicId;
     }
 
     public String getStoreName() {

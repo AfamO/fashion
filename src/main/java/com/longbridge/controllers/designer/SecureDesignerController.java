@@ -43,7 +43,6 @@ public class SecureDesignerController {
     }
 
 
-
     @PostMapping(value = "/updateemailaddress")
     public Response updateEmailAddress(@RequestBody UserEmailTokenDTO userEmailTokenDTO, Device device){
 
@@ -79,8 +78,16 @@ public class SecureDesignerController {
 
     @PostMapping(value = "/updatedesignerlogo")
     public Response updateDesignerLogo(@RequestBody DesignerDTO designer){
-
         designerService.updateDesignerLogo(designer);
+        return new Response("00","Operation Successful","success");
+
+    }
+
+
+    @PostMapping(value = "/updatedesignerbanner")
+    public Response updateDesignerBanner(@RequestBody DesignerDTO designer){
+
+        designerService.updateDesignerBanner(designer);
         return new Response("00","Operation Successful","success");
 
     }

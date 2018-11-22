@@ -167,7 +167,8 @@ public class GeneralUtil {
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
         dto.userId = d.getUser().id;
-        dto.logo=d.getLogo();
+        dto.logo=d.getPublicId();
+        dto.banner=d.getBannerPublicId();
         dto.storeName=d.getStoreName();
         dto.setStoreId(d.getStoreId());
         dto.address=d.getAddress();
@@ -685,6 +686,7 @@ public class GeneralUtil {
 
         cartDTO.setColor(cart.getColor());
         cartDTO.setSize(cart.getSize());
+        cartDTO.setProductSizeId(cart.getProductSizeId());
         String acceptCustomSizes = productRepository.findOne(cart.getProductId()).getProductStatuses().getAcceptCustomSizes();
 
         if(cart.getProductColorStyleId() == null){
