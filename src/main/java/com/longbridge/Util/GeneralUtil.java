@@ -516,7 +516,7 @@ public class GeneralUtil {
         productColorStyleDTO.setColourPicture(productAttribute.getColourPicture());
         productColorStyleDTO.setColourName(productAttribute.getColourName());
 
-        productColorStyleDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productAttribute.getProductPictures()));
+        productColorStyleDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productPictureRepository.findByProductColorStyle(productAttribute)));
         productColorStyleDTO.setProductSizes(productAttribute.getProductSizes());
         return productColorStyleDTO;
 

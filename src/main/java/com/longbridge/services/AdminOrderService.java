@@ -13,6 +13,7 @@ import java.util.List;
 public interface AdminOrderService {
     void updateOrderItemByAdmin(ItemsDTO itemsDTO);
     String updateOrderByAdmin(OrderReqDTO orderReqDTO);
+    String cancelOrder(OrderReqDTO orderReqDTO);
     List<OrderDTO> getAllOrdersByAdmin2();
     List<OrderDTO> getIncompleteOrders();
     List<ItemsRespDTO> getAllOrdersByAdmin();

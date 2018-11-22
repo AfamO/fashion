@@ -1013,7 +1013,7 @@ public class ProductServiceImpl implements ProductService {
             List<Product> products = new ArrayList<>();
             List<Product> prods = productRepository.findByProductStatuses_SponsoredFlag("Y");
 
-            products=generalUtil.getRandomProducts(prods,prods.size());
+            products=generalUtil.getRandomProducts(prods,10);
             return generalUtil.convertProdEntToProdRespDTOs(products);
 
         } catch (Exception e) {
