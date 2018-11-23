@@ -311,7 +311,7 @@ public class ProductServiceImpl implements ProductService {
                 productDTO.name = productDTO.name.substring(0,10);
             }
 
-            if(designer.getStoreId().equalsIgnoreCase("") || designer.getStoreId()== null){
+            if("".equalsIgnoreCase(designer.getStoreId())){
                 designer.setStoreId(designer.getStoreName().substring(0,3)+designer.id);
                 designerRepository.save(designer);
             }

@@ -191,6 +191,30 @@ public class SendEmailAsync {
 
 
 
+    @Async
+    public void sendCancelledOrderEmailToUser(User user, String orderNumber) {
+        try {
+            try {
+                String mail = user.getEmail();
+                Context context = new Context();
+                context.setVariable("name", user.getFirstName() + " "+ user.getLastName());
+                context.setVariable("orderNum",orderNumber);
+                String message = templateEngine.process("admincancelordertemplate", context);
+                mailService.prepareAndSend(message,mail,messageSource.getMessage("order.status.subject", null, locale));
+
+            }catch (MailException me){
+                me.printStackTrace();
+                throw new AppException(user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("order.status.subject", null, locale),orderNumber,"null");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WawoohException();
+        }
+    }
+
+
+
 //    @Async
 //    public String sendEmailToAdmin(User user, String orderNumber) {
 //

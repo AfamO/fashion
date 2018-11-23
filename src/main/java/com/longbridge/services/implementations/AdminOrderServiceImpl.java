@@ -274,14 +274,14 @@ public class AdminOrderServiceImpl implements AdminOrderService {
             for (Items items: orders.getItems()) {
                 items.setItemStatus(itemStatusRepository.findByStatus("C"));
                 itemRepository.save(items);
-                notifyDesigner(items);
+                notifyDesignerForCancelledOrder(items);
             }
 
             orders.setDeliveryStatus("C");
             orders.setUpdatedOn(date);
             orders.setUpdatedBy(getCurrentUser().getEmail());
             orderRepository.save(orders);
-            sendEmailAsync.sendPaymentConfEmailToUser(customer,orders.getOrderNum());
+            sendEmailAsync.sendCancelledOrderEmailToUser(customer,orders.getOrderNum());
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -359,6 +359,22 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         else {
             message = String.format(messageSource.getMessage("order.designer.sendtoqa", null, locale), link);
         }
+        smsAlertUtil.sms(phoneNumbers,message);
+    }
+
+
+    private void notifyDesignerForCancelledOrder(Items items) throws IOException {
+        Product p = productRepository.findOne(items.getProductId());
+        String storeName = p.getDesigner().getStoreName();
+        storeName=storeName.replaceAll(" ","");
+        List<String> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(p.getDesigner().getUser().getPhoneNo());
+
+        String message = null;
+        if(items.getMeasurement() != null){
+            message = String.format(messageSource.getMessage("order.admin.cancel", null, locale));
+        }
+
         smsAlertUtil.sms(phoneNumbers,message);
     }
 
