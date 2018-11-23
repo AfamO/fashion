@@ -379,6 +379,7 @@ public class OrderServiceImpl implements OrderService {
                 totalAmount = totalAmount + itemsAmount + shippingAmount;
             }
 
+            items.setProductSizesId(items.getProductSizesId());
             items.setOrders(orders);
             items.setProductName(p.getName());
             items.setCreatedOn(date);
@@ -389,6 +390,7 @@ public class OrderServiceImpl implements OrderService {
 
             if(items.getBespokeProductId() == null) {
                 if(items.getProductSizesId() != null){
+
                     //todo later, write a reduce stock method
                     ProductSizes productSizes = productSizesRepository.findOne(items.getProductSizesId());
                     if(productSizes != null){

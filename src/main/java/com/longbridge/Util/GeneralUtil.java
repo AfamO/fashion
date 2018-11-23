@@ -787,11 +787,8 @@ public class GeneralUtil {
                 itemsDTO.setMeasurement(items.getMeasurement());
             }
             itemsDTO.setTrackingNumber(items.getTrackingNumber());
-
-
         }
         return itemsDTO;
-
     }
 
 
