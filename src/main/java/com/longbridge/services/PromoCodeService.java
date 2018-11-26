@@ -15,7 +15,7 @@ public interface PromoCodeService {
 
     String updatePromoCodeItems(PromoCodeDTO promoCodeDTO);
 
-    void updatePromoCode(PromoCodeDTO promoCodeDTO);
+    String updatePromoCode(PromoCodeDTO promoCodeDTO);
 
     void  deletePromoCode(Long id);
 

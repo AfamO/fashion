@@ -404,6 +404,7 @@ public class UserUtil {
                 //implement sessionid
 
                 logInResp.setToken(token);
+                logInResp.setId(user.id);
                // responseMap.put("token",token);
                 return new Response("00","Login successful",logInResp);
             }else{
