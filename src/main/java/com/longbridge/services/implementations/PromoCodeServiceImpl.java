@@ -23,6 +23,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -68,8 +69,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     public String addPromoCode(PromoCodeDTO promoCodeDTO) {
 
         try {
-
-            System.out.println("My Current  Time Is::"+new Date());
+            
             if(promoCodeRepository.findUniqueUnExpiredPromoCode(promoCodeDTO.getCode())==null ||promoCodeRepository.findUniqueUnExpiredPromoCode(promoCodeDTO.getCode()).getExpiryDate().before(new Date())){
                 Date expiryDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(promoCodeDTO.getExpiryDate());
                 //Has this date expired?
@@ -86,23 +86,30 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                         }
                         else{
                             userMakerCheckers=new StringBuilder() ;
-                            for(Long userId:promoCodeDTO.getPromoMakerCheckersUserIds()){
-                                User user=userRepository.findById(userId);
-                                if(user!=null){
-                                    if(user.getRole().equalsIgnoreCase("admin") ||user.getRole().equalsIgnoreCase("super_admin")){
-                                        userMakerCheckers.append(Long.toString(userId)).append(",");
-                                    }
-                                    else{
-                                        promoCodeStatusMessage="OOps! This user named '"+user.getFirstName()+" "+user.getLastName()+"' is not permitted to carry out this action.";
-                                        return promoCodeStatusMessage;
-                                    }
-                                        
-                                }
-                                else{
-                                    promoCodeStatusMessage="OOps! The userId you sent doesn't exist.";
+                            //Are the users(ids) the same?
+                            if(Objects.equals(promoCodeDTO.getPromoMakerCheckersUserIds().get(0), promoCodeDTO.getPromoMakerCheckersUserIds().get(1))){
+                                    promoCodeStatusMessage="OOps! Two different admin users are needed to carry out this action.";
                                     return promoCodeStatusMessage;
                                 }
-                            }
+                                else{
+                                    for(Long userId:promoCodeDTO.getPromoMakerCheckersUserIds()){
+                                    User user=userRepository.findById(userId);
+                                    if(user!=null){
+                                        if(user.getRole().equalsIgnoreCase("admin") ||user.getRole().equalsIgnoreCase("super_admin")){
+                                            userMakerCheckers.append(Long.toString(userId)).append(",");
+                                        }
+                                        else{
+                                            promoCodeStatusMessage="OOps! This user named '"+user.getFirstName()+" "+user.getLastName()+"' is not permitted to carry out this action.";
+                                            return promoCodeStatusMessage;
+                                        }
+                                        
+                                    }
+                                    else{
+                                        promoCodeStatusMessage="OOps! The userId you sent doesn't exist.";
+                                        return promoCodeStatusMessage;
+                                    }
+                                }
+                             }
                         }
                         //Are there less than two UserIds?
                         if(userMakerCheckers.toString().split(",").length<=1){
@@ -133,7 +140,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                                     Product product=productSize.getProductColorStyle().getProduct();
                                     PromoItem promoItem= new PromoItem();
                                     promoItem.setItemId(product.id);
-                                    promoItem.setItemType("p");
+                                    promoItem.setItemType("product");
                                     promoItem.setPromoCode(promoCode);
                                     promoItemsRepository.save(promoItem);
 
@@ -168,12 +175,57 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 
                 //Is the expiry date still in the future?
                 if(promoCode.getExpiryDate().after(new Date())){
-
-                    for (PromoItem promoItem:promoCodeDTO.getPromoItems()){
-                        promoItem.setPromoCode(promoCode);
-                        promoItemsRepository.save(promoItem);
-                    }
-                    promoCodeStatusMessage="Operation Successful";
+                    //Are there maker checkers for this promoCode?
+                    StringBuilder userMakerCheckers=null;
+                    if(promoCodeDTO.getPromoMakerCheckersUserIds()==null || promoCodeDTO.getPromoMakerCheckersUserIds().size()<=1)
+                            {
+                                promoCodeStatusMessage="OOps! Atleast two users are needed to carry out this action.";
+                                return promoCodeStatusMessage;
+                            }
+                            else{
+                                userMakerCheckers=new StringBuilder();
+                                //Are the users(ids) the same?
+                                if(Objects.equals(promoCodeDTO.getPromoMakerCheckersUserIds().get(0), promoCodeDTO.getPromoMakerCheckersUserIds().get(1))){
+                                    promoCodeStatusMessage="OOps! Two different admin users are needed to carry out this action.";
+                                    return promoCodeStatusMessage;
+                                }
+                                else{
+                                    for(Long userId:promoCodeDTO.getPromoMakerCheckersUserIds()){
+                                    User user=userRepository.findById(userId);
+                                    if(user!=null){
+                                        if(user.getRole().equalsIgnoreCase("admin") ||user.getRole().equalsIgnoreCase("super_admin")){
+                                            userMakerCheckers.append(Long.toString(userId)).append(",");
+                                        }
+                                        else{
+                                            promoCodeStatusMessage="OOps! This user named '"+user.getFirstName()+" "+user.getLastName()+"' is not permitted to carry out this action.";
+                                            return promoCodeStatusMessage;
+                                        }
+                                        
+                                    }
+                                    else{
+                                        promoCodeStatusMessage="OOps! The userId you sent doesn't exist.";
+                                        return promoCodeStatusMessage;
+                                    }
+                                }
+                             }
+                                
+                            }
+                            //Are there less than two UserIds?
+                            if(userMakerCheckers.toString().split(",").length<=1){
+                                promoCodeStatusMessage="OOps! Atleast two admin users are needed to carry out this action.";
+                            }
+                            else{
+                                
+                                promoCode.setMakerCheckedByUsers(userMakerCheckers.toString());
+                                promoCode.setUpdatedOn(new Date());
+                                promoCodeRepository.save(promoCode);
+                                for (PromoItem promoItem:promoCodeDTO.getPromoItems()){
+                                promoItem.setPromoCode(promoCode);
+                                promoItemsRepository.save(promoItem);
+                                }
+                                promoCodeStatusMessage="Operation Successful";
+                            }
+                    
                 }
                 else {
 
@@ -195,9 +247,121 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 
     }
     @Override
-    public void updatePromoCode(PromoCodeDTO promoCodeDTO) {
+    public String updatePromoCode(PromoCodeDTO promoCodeDTO) {
+        
+        System.out.println("The Previous promoCodeStatusMessage Is::"+promoCodeStatusMessage);
+        try{
+            if(promoCodeDTO.getCode()!=null){
+                //Since it has a promo Code, we check for it.
+                PromoCode promoCode=promoCodeRepository.findUniqueUnExpiredPromoCode(promoCodeDTO.getCode());
+                //Does it exist in the DB?
+                if(promoCode!=null){
+                    System.out.println("The PromoCode Is::"+promoCode.getCode());
+                    Date expiryDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(promoCodeDTO.getExpiryDate());
+                    //Is this sent date  expired-in the past?
+                    if(!expiryDate.before(new Date())){
+                        //Ensure the PromoCode hasn't been used(if it has single usage) and if true is multiple usage allowed or the usage counter  still less than number of usages allowed?
+                        if((promoCode.getNumberOfUsage()==1|| promoCode.getNumberOfUsage()==-1) && promoCode.getIsUsedStatus().equalsIgnoreCase("N")
+                                || promoCode.getUsageCounter()< promoCode.getNumberOfUsage()){
+                            //Are there maker checkers for this promoCode?
+                            StringBuilder userMakerCheckers=null;
+                            if(promoCodeDTO.getPromoMakerCheckersUserIds()==null || promoCodeDTO.getPromoMakerCheckersUserIds().size()<=1)
+                            {
+                                promoCodeStatusMessage="OOps! Atleast two users are needed to carry out this action.";
+                                return promoCodeStatusMessage;
+                            }
+                            else{
+                                userMakerCheckers=new StringBuilder();
+                                //Are the users(ids) the same?
+                                if(Objects.equals(promoCodeDTO.getPromoMakerCheckersUserIds().get(0), promoCodeDTO.getPromoMakerCheckersUserIds().get(1))){
+                                    promoCodeStatusMessage="OOps! Two different admin users are needed to carry out this action.";
+                                    return promoCodeStatusMessage;
+                                }
+                                else{
+                                    for(Long userId:promoCodeDTO.getPromoMakerCheckersUserIds()){
+                                    User user=userRepository.findById(userId);
+                                    if(user!=null){
+                                        if(user.getRole().equalsIgnoreCase("admin") ||user.getRole().equalsIgnoreCase("super_admin")){
+                                            userMakerCheckers.append(Long.toString(userId)).append(",");
+                                        }
+                                        else{
+                                            promoCodeStatusMessage="OOps! This user named '"+user.getFirstName()+" "+user.getLastName()+"' is not permitted to carry out this action.";
+                                            return promoCodeStatusMessage;
+                                        }
+                                        
+                                    }
+                                    else{
+                                        promoCodeStatusMessage="OOps! The userId you sent doesn't exist.";
+                                        return promoCodeStatusMessage;
+                                    }
+                                }
+                             }
+                                
+                            }
+                            //Are there less than two UserIds?
+                            if(userMakerCheckers.toString().split(",").length<=1){
+                                promoCodeStatusMessage="OOps! Atleast two admin users are needed to carry out this action.";
+                            } else {
+                                promoCode.setValue(promoCodeDTO.getValue());
+                                promoCode.setExpiryDate(expiryDate);
+                                promoCode.setValueType(promoCodeDTO.getValueType());
+                                promoCode.setIsUsedStatus("N");
+                                promoCode.setMakerCheckedByUsers(userMakerCheckers.toString());
+                                promoCode.setNumberOfUsage(promoCodeDTO.getNumberOfUsage());
+                                promoCode.setUpdatedOn(new Date());
+                                
+                                promoCodeRepository.save(promoCode);
+                                for (PromoItem promoItem:promoCodeDTO.getPromoItems()){
+                                    promoItem.setPromoCode(promoCode);
+                                    promoItemsRepository.save(promoItem);
+                                }
+                                
+                                // Are the items sizes sent?: I mean find out if the promocode is assigned to items of  particular size(s) range
+                                if(promoCodeDTO.getPromoItemSizes()!=null && promoCodeDTO.getPromoItemSizes().size()>0){
+                                    List<ProductSizes> productSizesList= productSizesRepository.findByNamesOfSizes(promoCodeDTO.getPromoItemSizes());
+                                    for(ProductSizes productSize:productSizesList)
+                                    {
+                                        // Then save the corresponding items details.
+                                        Product product=productSize.getProductColorStyle().getProduct();
+                                        PromoItem promoItem= new PromoItem();
+                                        promoItem.setItemId(product.id);
+                                        promoItem.setItemType("product");
+                                        promoItem.setPromoCode(promoCode);
+                                        promoItemsRepository.save(promoItem);
+                                        
+                                    }
+                                }
+                                promoCodeStatusMessage="Operation Successful";
+                            }
+                        }
+                        else {
+                            promoCodeStatusMessage= "OOOps! This PromoCode has already been used.";
+                        }
 
+                    }
+                    else{
+                        promoCodeStatusMessage="OOps! The date is in the past. Check your expiry Date";
+                    }
+                        
+                    }
+                    else {
+                        System.out.println("The PromoCode Is Null::");
+                        promoCodeStatusMessage= "OOOps! This PromoCode doesn't exist or  has  expired!";
+                    }
+
+                }
+                else {
+                    promoCodeStatusMessage= "OOOps! You did not send any promocode.";
+                }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
+        
+        return promoCodeStatusMessage;
     }
+                        
 
     @Override
     public void deletePromoCode(Long id) {

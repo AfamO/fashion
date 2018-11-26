@@ -6,6 +6,7 @@ package com.longbridge.respbodydto;
 public class LogInResp {
     private String token;
     private int role;
+    private Long id;
 
 
     public LogInResp(String token, int role) {
@@ -28,7 +29,16 @@ public class LogInResp {
     public void setRole(int role) {
         this.role = role;
     }
+    
 
     public LogInResp() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

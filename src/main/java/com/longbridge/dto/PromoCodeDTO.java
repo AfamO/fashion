@@ -5,7 +5,8 @@ import com.longbridge.models.PromoItem;
 import java.util.List;
 
 public class PromoCodeDTO {
-
+    
+    private Long id;
     private String code;
 
     private String value;
@@ -107,6 +108,15 @@ public class PromoCodeDTO {
     public void setPromoMakerCheckersUserIds(List<Long> promoMakerCheckersUserIds) {
         this.promoMakerCheckersUserIds = promoMakerCheckersUserIds;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     
     
 }
