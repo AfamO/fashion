@@ -381,7 +381,7 @@ public class UserUtil {
                 if(user.getRole().equalsIgnoreCase("designer")){
                     logInResp.setRole(2);
                 }
-                else if(user.getRole().equalsIgnoreCase("admin")){
+                else if(user.getRole().equalsIgnoreCase("admin")||user.getRole().equalsIgnoreCase("super_admin")){
                     logInResp.setRole(3);
                 }
                 else if(user.getRole().equalsIgnoreCase("superadmin")){

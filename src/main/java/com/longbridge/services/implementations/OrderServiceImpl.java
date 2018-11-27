@@ -323,9 +323,9 @@ public class OrderServiceImpl implements OrderService {
             PromoCode promoCode=null;
             //Apply PromoCode Here if the product/item has a promocode
             if(items.getPromoCode()!=null && !items.getPromoCode().equalsIgnoreCase("")){
-                promoCode=promoCodeRepository.findUniqueUnExpiredPromoCode(items.getPromoCode());
+                promoCode=promoCodeRepository.findUniqueUnExpiredAndVerifiedPromoCode(items.getPromoCode(),"Y");
                 PromoCodeUserStatus promoCodeUserStatus= promoCodeUserStatusRepository.findByUserAndPromoCode(getCurrentUser(),promoCode);
-                if(promoCodeUserStatus!=null && promoCodeUserStatus.getProductId()==p.id) { // Is the promocode assigned to this product?
+                if(promoCodeUserStatus!=null && Objects.equals(promoCodeUserStatus.getProductId(), p.id)) { // Is the promocode assigned to this product?
                     System.out.println("This item ordered has a promoCode");
                     //Is the value type free shipping?
                     if( !promoCode.getValueType().equalsIgnoreCase("fs")){ // It is either of type percentage discount or normal value discount

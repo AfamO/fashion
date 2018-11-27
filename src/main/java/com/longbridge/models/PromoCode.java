@@ -6,6 +6,7 @@ import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.OneToOne;
 
 @Entity
 public class PromoCode extends CommonFields implements Serializable {
@@ -24,8 +25,14 @@ public class PromoCode extends CommonFields implements Serializable {
 
     private  int usageCounter=0;
     
-    private String makerCheckedByUsers;
-
+    @OneToOne
+    private User createdBy;
+    
+    @OneToOne
+    private User verifiedBy;
+    
+    private String verifiedFlag="N";
+    
     @OneToMany(mappedBy = "promoCode",cascade = CascadeType.ALL)
     private List<PromoItem> promoItems;
 
@@ -93,13 +100,30 @@ public class PromoCode extends CommonFields implements Serializable {
         this.usageCounter = usageCounter;
     }
 
-    public String getMakerCheckedByUsers() {
-        return makerCheckedByUsers;
+    public String getVerifiedFlag() {
+        return verifiedFlag;
     }
 
-    public void setMakerCheckedByUsers(String makerCheckedByUsers) {
-        this.makerCheckedByUsers = makerCheckedByUsers;
+    public void setVerifiedFlag(String verifiedFlag) {
+        this.verifiedFlag = verifiedFlag;
     }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public User getVerifiedBy() {
+        return verifiedBy;
+    }
+
+    public void setVerifiedBy(User verifiedBy) {
+        this.verifiedBy = verifiedBy;
+    }
+    
     
     
 }
