@@ -868,6 +868,13 @@ public class GeneralUtil {
         promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
         promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
         promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
+        promoCodeDTO.setVerifiedFlag(promoCode.getVerifiedFlag());
+        if(promoCode.getVerifiedFlag().equalsIgnoreCase("Y")){
+         promoCodeDTO.setVerifierId(promoCode.getVerifiedBy().id);  
+         promoCodeDTO.setVerifiedBy(promoCode.getVerifiedBy());
+        }
+        promoCodeDTO.setCreatorId(promoCode.getCreatedBy().id);
+        promoCodeDTO.setCreatedBy(promoCode.getCreatedBy());
 
 
         return promoCodeDTO;

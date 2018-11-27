@@ -16,6 +16,10 @@ public interface PromoCodeService {
     String updatePromoCodeItems(PromoCodeDTO promoCodeDTO);
 
     String updatePromoCode(PromoCodeDTO promoCodeDTO);
+    
+    String verifyPromoCode(PromoCodeDTO promoCodeDTO);
+    
+    String unVerifyPromoCode(PromoCodeDTO promoCodeDTO);
 
     void  deletePromoCode(Long id);
 

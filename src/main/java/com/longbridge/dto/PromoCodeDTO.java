@@ -1,8 +1,10 @@
 package com.longbridge.dto;
 
 import com.longbridge.models.PromoItem;
+import com.longbridge.models.User;
 
 import java.util.List;
+import javax.persistence.OneToOne;
 
 public class PromoCodeDTO {
     
@@ -14,10 +16,17 @@ public class PromoCodeDTO {
     private String expiryDate;
 
     private String valueType="PD";
+    
+    private Long creatorId;// The Id of the User that created it
+    
+    private Long verifierId;// The Id of the User that verified-maker checked- it
 
     private int numberOfUsage=-1; // The default is multiple times. It can also be 1, 8, etc
     
-    private List<Long> promoMakerCheckersUserIds;// Users that created and followed by those that checked the PromoCode Creation.
+    private User createdBy;
+    
+    private User verifiedBy;
+    private String verifiedFlag="N";
 
     public List<String> getPromoItemSizes() {
         return promoItemSizes;
@@ -101,20 +110,52 @@ public class PromoCodeDTO {
         this.numberOfUsage = numberOfUsage;
     }
 
-    public List<Long> getPromoMakerCheckersUserIds() {
-        return promoMakerCheckersUserIds;
-    }
-
-    public void setPromoMakerCheckersUserIds(List<Long> promoMakerCheckersUserIds) {
-        this.promoMakerCheckersUserIds = promoMakerCheckersUserIds;
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getVerifiedFlag() {
+        return verifiedFlag;
+    }
+
+    public void setVerifiedFlag(String verifiedFlag) {
+        this.verifiedFlag = verifiedFlag;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public Long getVerifierId() {
+        return verifierId;
+    }
+
+    public void setVerifierId(Long verifierId) {
+        this.verifierId = verifierId;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public User getVerifiedBy() {
+        return verifiedBy;
+    }
+
+    public void setVerifiedBy(User verifiedBy) {
+        this.verifiedBy = verifiedBy;
     }
     
     

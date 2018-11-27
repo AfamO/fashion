@@ -91,6 +91,13 @@ public class AdminPromoCodeController {
         //responseMap.put("success", "success");
         return new Response("00", statusMessage, responseMap);
     }
+    @PostMapping(value = "/verifypromocode")
+    public Object verifyPromoCode(@RequestBody PromoCodeDTO promoCodeDTO){
+        Map<String,Object> responseMap = new HashMap();
+        String statusMessage = promoCodeService.verifyPromoCode(promoCodeDTO);
+        //responseMap.put("success", "success");
+        return new Response("00", statusMessage, responseMap);
+    }
     @PostMapping(value = "/updatePromocodeItems")
     public Object addPromoCodeItems(@RequestBody PromoCodeDTO promoCodeDTO){
         Map<String,Object> responseMap = new HashMap();
