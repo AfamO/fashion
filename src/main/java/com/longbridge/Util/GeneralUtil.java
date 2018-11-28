@@ -844,23 +844,7 @@ public class GeneralUtil {
 
         List<PromoCodeDTO> promoCodeDTOLists= new ArrayList<>();
         for(PromoCode promoCode :promoCodeList){
-            PromoCodeDTO promoCodeDTO=new PromoCodeDTO();
-            promoCodeDTO.setCode(promoCode.getCode());
-            List<PromoItemDTO> promoItemDTOLists = new ArrayList<>();
-            for(PromoItem promoItem: promoCode.getPromoItems())
-            {
-                PromoItemDTO promoItemDTO =new PromoItemDTO();
-                promoItemDTO.setItemId(promoItem.getItemId());
-                promoItemDTO.setItemType(promoItem.getItemType());
-                promoItemDTOLists.add(promoItemDTO);
-            }
-            promoCodeDTO.setPromoItemsDTO(promoItemDTOLists);
-            promoCodeDTO.setValue(promoCode.getValue());
-            promoCodeDTO.setValueType(promoCode.getValueType());
-            promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
-            promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
-            promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
-            promoCodeDTOLists.add(promoCodeDTO);
+            promoCodeDTOLists.add(this.convertSinglePromoCodeToDTO(promoCode));
         }
         return promoCodeDTOLists;
     }
@@ -879,10 +863,18 @@ public class GeneralUtil {
         }
         promoCodeDTO.setPromoItemsDTO(promoItemDTOLists);
         promoCodeDTO.setValue(promoCode.getValue());
+        promoCodeDTO.setId(promoCode.id);
         promoCodeDTO.setValueType(promoCode.getValueType());
         promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
         promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
         promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
+        promoCodeDTO.setVerifiedFlag(promoCode.getVerifiedFlag());
+        if(promoCode.getVerifiedFlag().equalsIgnoreCase("Y")){
+         promoCodeDTO.setVerifierId(promoCode.getVerifiedBy().id);  
+         promoCodeDTO.setVerifiedBy(promoCode.getVerifiedBy());
+        }
+        promoCodeDTO.setCreatorId(promoCode.getCreatedBy().id);
+        promoCodeDTO.setCreatedBy(promoCode.getCreatedBy());
 
 
         return promoCodeDTO;

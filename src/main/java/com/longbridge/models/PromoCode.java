@@ -6,6 +6,7 @@ import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.OneToOne;
 
 @Entity
 public class PromoCode extends CommonFields implements Serializable {
@@ -23,7 +24,15 @@ public class PromoCode extends CommonFields implements Serializable {
     private int numberOfUsage= -1; // The default is multiple times. It can also be 1, 8, etc
 
     private  int usageCounter=0;
-
+    
+    @OneToOne
+    private User createdBy;
+    
+    @OneToOne
+    private User verifiedBy;
+    
+    private String verifiedFlag="N";
+    
     @OneToMany(mappedBy = "promoCode",cascade = CascadeType.ALL)
     private List<PromoItem> promoItems;
 
@@ -90,4 +99,31 @@ public class PromoCode extends CommonFields implements Serializable {
     public void setUsageCounter(int usageCounter) {
         this.usageCounter = usageCounter;
     }
+
+    public String getVerifiedFlag() {
+        return verifiedFlag;
+    }
+
+    public void setVerifiedFlag(String verifiedFlag) {
+        this.verifiedFlag = verifiedFlag;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public User getVerifiedBy() {
+        return verifiedBy;
+    }
+
+    public void setVerifiedBy(User verifiedBy) {
+        this.verifiedBy = verifiedBy;
+    }
+    
+    
+    
 }

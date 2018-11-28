@@ -10,25 +10,13 @@
     <div style = "padding: 15px; margin: 15px 10px 0;">
         <h4> Dear <span th:text="${name}"> </span>,</h4>
         <p style = "line-height: 25px; font-size: 1em; color: #333;">
-            We are unable to meet your order for Item :<b><span th:text="${productName}"></span></b> at this time as the designer is currently out of stock or over whelmed with orders from many other customers.
+            Your order with Order Number :<b><span th:text="${orderNum}"></span></b>
+            has been cancelled.
+
         </p>
 
-
-        <!--<p style = "line-height: 25px; font-size: 1em; color: #333;">-->
-            <!--Wait time :<b><span th:text="${waitTime}"></span></b>-->
-        <!--</p>-->
-
-        <span style = "line-height: 25px; font-size: 1em; color: #333;">
-            You may proceed to make a decision <a target='_blank' th:href="${link}"><button>Here</button></a>
-            <!-- <br/>
-           <ul style = "list-style: none;">
-               <li>Please kindly check other retailer’s store for similar designs here</li>
-               <li>Wait and obtain the designer available time</li>
-               <li>Request a refund here</li>
-           </ul> -->
-            </span>
         <p style = "line-height: 25px; font-size: 1em; color: #333;">
-            We are so sorry for any inconveniences this might cause. For inquiries and any other information,
+            For inquiries and any other information,
             please contact 07000-0-WAWOOH or send us a mail at <span style="color: blue">customercare@wawooh.com</span>
         </p>
 
