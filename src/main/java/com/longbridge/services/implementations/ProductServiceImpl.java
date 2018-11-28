@@ -306,7 +306,6 @@ public class ProductServiceImpl implements ProductService {
                 productStatuses.setAvailability("Y");
             }
 
-
             if(productDTO.name.length() >10){
                 productDTO.name = productDTO.name.substring(0,10);
             }
@@ -320,9 +319,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(product);
             productStatuses.setProduct(product);
             productStatusesRepository.save(productStatuses);
-
             return "true";
-
 
         } catch (Exception e) {
             e.printStackTrace();
