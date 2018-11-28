@@ -671,8 +671,9 @@ public class GeneralUtil {
 
         ProductPicture p = productPictureRepository.findFirst1ByProductColorStyle_ProductStyle_Product(product);
         cartDTO.setProductPicture(p.getPictureName());
-
-        cartDTO.setStockNo(productSizesRepository.findOne(cart.getProductSizeId()).getNumberInStock());
+        //To check whether the cart item is Bespoke or Ready To Wear base on whether the ProductSizeId is null or not.
+        if(cart.getProductSizeId()!=null)
+            cartDTO.setStockNo(productSizesRepository.findOne(cart.getProductSizeId()).getNumberInStock());
 
         if(cart.getArtWorkPictureId() != null) {
             ArtWorkPicture a = artWorkPictureRepository.findOne(cart.getArtWorkPictureId());
@@ -698,9 +699,14 @@ public class GeneralUtil {
            ProductColorStyle productColorStyle =  productColorStyleRepository.findOne(cart.getProductColorStyleId());
            if(productColorStyle != null){
                System.out.println("The Cart Size Is::"+cart.getSize());
-               ProductSizes productSizes = productSizesRepository.findByProductColorStyleAndName(productColorStyle, cart.getSize());
-               cartDTO.setSize(productSizes.getName());
-               cartDTO.setSizeStockNo(productSizes.getNumberInStock());
+               //Check wether the product is bespoke or ready to wear depending on whether it has size or not.
+               if(cart.getSize()!=null){
+                   ProductSizes productSizes = productSizesRepository.findByProductColorStyleAndName(productColorStyle, cart.getSize());
+                   if(productSizes!=null){
+                       cartDTO.setSize(productSizes.getName());
+                       cartDTO.setSizeStockNo(productSizes.getNumberInStock());
+                   }
+               }
            }
         }
 
