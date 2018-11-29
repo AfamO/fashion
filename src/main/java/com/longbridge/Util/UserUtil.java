@@ -273,10 +273,9 @@ public class UserUtil {
         try {
             User user = userRepository.findByEmail(passedUser.getEmail());
             if(user!=null){
-                //todo removed by owolabi 29112018 as requested by Mike
-//                if(!"Y".equalsIgnoreCase(user.getActivationFlag())){
-//                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
-//                }
+                if(!"Y".equalsIgnoreCase(user.getActivationFlag())){
+                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
+                }
                 newPassword=UUID.randomUUID().toString().substring(0,10);
                 user.setPassword(Hash.createPassword(newPassword));
                 user.setLinkClicked("N");
