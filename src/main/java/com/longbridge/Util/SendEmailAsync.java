@@ -363,6 +363,10 @@ public class SendEmailAsync {
 
         }catch (MailException me){
             me.printStackTrace();
+            if(messageSource.getMessage("new.designer.subject", null, locale)==null){
+                System.out.println("OOOps! There is an error message property for new.designer.subject ");
+            }
+            System.out.println("OOOps! The content of message property for new.designer.subject is::"+messageSource.getMessage("new.designer.subject", null, locale));
             throw new AppException(customerCareEmail,messageSource.getMessage("new.designer.subject", null, locale),user);
         }
 

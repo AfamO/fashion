@@ -193,7 +193,7 @@ public class UserUtil {
 
                 }catch (MailException me){
                     me.printStackTrace();
-                    throw new AppException("",passedUser.getFirstName() + passedUser.getLastName(),passedUser.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
+                    //throw new AppException("",passedUser.getFirstName() + passedUser.getLastName(),passedUser.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
 
                 }
                 return new Response("00","Link successfully sent",responseMap);
