@@ -54,11 +54,6 @@ public class AdminPromoCodeController {
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", promoCodeService.getPromoCode(id));
     }
-    @GetMapping(value = "/generatepromocode")
-    public Object generatePromocode(){
-
-        return new Response("00", "Operation Successful", promoCodeService.generatePromoCode());
-    }
 
     @GetMapping(value = "/getexpiredpromocode")
     public Object getExpiredPromocode(){

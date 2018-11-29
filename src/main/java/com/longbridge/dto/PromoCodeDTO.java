@@ -102,11 +102,11 @@ public class PromoCodeDTO {
         this.expiryDate = expiryDate;
     }
 
-    public int getNumberOfUsage() {
+    public String getNumberOfUsage() {
         return numberOfUsage;
     }
 
-    public void setNumberOfUsage(int numberOfUsage) {
+    public void setNumberOfUsage(String numberOfUsage) {
         this.numberOfUsage = numberOfUsage;
     }
 

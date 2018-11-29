@@ -50,20 +50,12 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @Autowired
-    PromoCodeUserStatusRepository promoCodeUserStatusRepository;
-
     Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     private String promoCodeStatusMessage="Operation Successful";
 
-    private PromoCodeUserStatus promoCodeUserStatus=null;
-
     @Autowired
     CartRepository cartRepository;
-
-    @Autowired
-    ProductSizesRepository productSizesRepository;
     
     @Override
     public String addPromoCode(PromoCodeDTO promoCodeDTO) {
@@ -272,67 +264,42 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     }
 
     @Override
-    public PromoCodeUserStatus getPromoCodeUserStatus() {
-        return promoCodeUserStatus;
-    }
-
-    @Override
-    public Object[] applyPromoCode(PromoCodeApplyReqDTO promoCodeApplyReqDTO) {
+    public Object[] applyPromoCode(Cart cart) {
 
         User user = getCurrentUser();
-        Product product = productRepository.findOne(promoCodeApplyReqDTO.getProductId());
+        Product products = productRepository.findOne(cart.getProductId());
             Double amount;
-            if(product.getProductPrice().getPriceSlash() != null && product.getProductPrice().getPriceSlash().getSlashedPrice()>0){
-                amount=product.getProductPrice().getPriceSlash().getSlashedPrice();
+            if(products.getProductPrice().getPriceSlash() != null && products.getProductPrice().getPriceSlash().getSlashedPrice()>0){
+                amount=products.getProductPrice().getAmount()-products.getProductPrice().getPriceSlash().getSlashedPrice();
             }else {
-                amount=product.getProductPrice().getAmount();
+                amount=products.getProductPrice().getAmount();
             }
-            Double intialAmount = amount;
+            Double intialAmount=amount;
             PromoCodeApplyRespDTO promoCodeApplyRespDTO=null;
             System.out.println("The Initial Amount Is::"+amount);
             // Apply PromoCode Here if any
-            if(promoCodeApplyReqDTO.getPromoCode()!=null){
+            if(cart.getPromoCode()!=null){
                 //Since this item has a promo Code, we check for it before applying it.
                 PromoCode promoCode=promoCodeRepository.findUniqueUnExpiredAndVerifiedPromoCode(promoCodeApplyReqDTO.getPromoCode(),"Y");
                 //Does it exist in the DB?
                 if(promoCode!=null){
                     //Has the promoCode expired?
                     if(promoCode.getExpiryDate().after(new Date())){
-                        //Ensure the PromoCode hasn't been used(if it has single usage) and if true is multiple usage allowed or the usage counter  still less than number of usages allowed?
-                        if((promoCode.getNumberOfUsage()==1|| promoCode.getNumberOfUsage()==-1) && promoCode.getIsUsedStatus().equalsIgnoreCase("N")
-                        || promoCode.getUsageCounter()< promoCode.getNumberOfUsage()){
-                            PromoCodeUserStatus promoCodeUserStatus= promoCodeUserStatusRepository.findByUserAndPromoCode(user,promoCode);
-                            //This has not been used this user?
-                            if(promoCodeUserStatus==null ) {
+                        //Has the PromoCode been used
+                        if((promoCode.getNumberOfUsage().equalsIgnoreCase("single") ||promoCode.getNumberOfUsage().equalsIgnoreCase("multiple")) && promoCode.getIsUsedStatus().equalsIgnoreCase("N")){
 
-                                //Find out if this product has a promo code assigned to it.
-                                for(PromoItem promoItem:promoCode.getPromoItems()){
+                            //Find out if this product has a promo code assigned to it.
+                            for(PromoItem promoItem:promoCode.getPromoItems()){
 
-                                    System.out.println("The Size Of the PromoCode Items Is::"+promoCode.getPromoItems().size());
-                                    System.out.println("ItemType=="+promoItem.getItemType()+", ItemId=="+promoItem.getItemId()+" While ProductId=="+product.id);
-                                    //Is the promocode applied only to ALL products ?
-                                    if(promoItem.getItemType().equalsIgnoreCase("ALL") && promoItem.getItemId()==-1){
-
-                                        Double promoValue=Double.parseDouble(promoCode.getValue());
-                                        // Is it percentage discount(pd)
-                                        if(promoCode.getValueType().equalsIgnoreCase("PD")){
-                                            //multiply
-                                            amount= amount- (amount*(promoValue/100));
-                                            break;
-                                        }
-                                        //Is it normal monetary value discount(vd)
-                                        else if(promoCode.getValueType().equalsIgnoreCase("VD")){
-                                            //multiply
-                                            amount-= promoValue;
-                                            break;
-                                        }
-                                        //It must be free shipping.
-                                        else {
-                                            // Apply free shipping discount here.
-                                            promoCodeStatusMessage="fs";
-                                            break;
-
-                                        }
+                                System.out.println("The Size Of the PromoCode Items Is::"+promoCode.getPromoItems().size());
+                                System.out.println("ItemType=="+promoItem.getItemType()+", ItemId=="+promoItem.getItemId()+" While ProductId=="+products.id);
+                                if(promoItem.getItemType().equalsIgnoreCase("p") && promoItem.getItemId()==products.id){
+                                    Double promoValue=Double.parseDouble(promoCode.getValue());
+                                    // Is it percentage discount(pd)
+                                    if(promoCode.getValueType().equalsIgnoreCase("pd")){
+                                        //multiply
+                                        amount= amount- (amount*(promoValue)/100);
+                                        break;
                                     }
                                     //Is the promocode applied only to products of a particular id?
                                     else if(promoItem.getItemType().equalsIgnoreCase("PRODUCT") && Objects.equals(promoItem.getItemId(), product.id)){
@@ -387,34 +354,57 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                                                         promoCodeStatusMessage="fs";
                                                         //break;
 
-                                                    }
-                                                    System.out.println("The current deducted balance is "+amount);
-                                                    break;  // To avoid deducting a product id of same category
-
+                                    }
+                                }
+                                // Is this promoCode applied to a category instead of to a product?
+                                else if(promoItem.getItemType().equalsIgnoreCase("c")){
+                                    Category category= categoryRepository.findOne(promoItem.getItemId());
+                                    if(category!=null){
+                                        //look for the sub category
+                                        for(SubCategory subCategory: category.subCategories){
+                                            promoCodeStatusMessage=null;
+                                            //Does the product belong to the subcategory of this category?
+                                            if(subCategory.id==products.getSubCategory().id){
+                                                System.out.println("Product Subcategory is same as PromoCode Item SubCategory ");
+                                                //Then apply the promocode discount
+                                                Double promoValue=Double.parseDouble(promoCode.getValue());
+                                                // Is it percentage discount(pd)
+                                                if(promoCode.getValueType().equalsIgnoreCase("pd")){
+                                                    //multiply
+                                                    amount= amount- (amount*(promoValue/100));
+                                                    break;
                                                 }
+                                                //Is it normal monetary value discount(vd)
+                                                else if(promoCode.getValueType().equalsIgnoreCase("vd")){
+                                                    //multiply
+                                                    amount-= promoValue;
+                                                    break;
+                                                }
+                                                //It must be free shipping.
                                                 else {
-                                                    promoCodeStatusMessage= "OOOps! The PromoCode You entered is not applicable to this item.";
+                                                    // Apply free shipping discount here.
+                                                    break;
+
                                                 }
 
                                             }
-                                        }
-                                        else
-                                        {
-                                            promoCodeStatusMessage= "OOOps! The item category for this PromoCode can't be found .";
+                                            else {
+                                                promoCodeStatusMessage= "OOOps! The PromoCode You entered is not applicable to this item.";
+                                            }
                                         }
                                     }
-                                    else {
-                                        promoCodeStatusMessage= "OOOps! The PromoCode You entered is not applicable to this item.";
+                                    else
+                                    {
+                                        promoCodeStatusMessage= "OOOps! The item category for this PromoCode can't be found .";
                                     }
                                     if(!Objects.equals(amount, intialAmount)){
                                         break; // Break the outer loop to avoid deducting again a product id of same category or product
                                     }
                                 }
+                                else {
+                                    promoCodeStatusMessage= "OOOps! The PromoCode You entered is not applicable to this item.";
+                                }
                             }
-                            else {
-                                promoCodeStatusMessage="OOOps! This PromoCode has already been used by you.";
-                            }
-
                         }
                         else {
                             promoCodeStatusMessage= "OOOps! This PromoCode has already been used.";
@@ -432,23 +422,28 @@ public class PromoCodeServiceImpl implements PromoCodeService {
                 if(!Objects.equals(amount, intialAmount) || promoCodeStatusMessage.equalsIgnoreCase("fs")){
                     //The promoCode must have been applied successfully
                     promoCodeStatusMessage="Operation Successful";
+                    // Update the used status if it is a 'single' use type
+
+                     if(promoCode.getNumberOfUsage().equalsIgnoreCase("single")){
+                     promoCode.setIsUsedStatus("Y");
+                     promoCodeRepository.save(promoCode);
+                     }
 
                     //Then save the new amount to the cart.
                     Date date =new Date();
-                    //Indicate that this user has used the PromoCode by setting the status to 'Y'
-                    promoCodeUserStatus= new PromoCodeUserStatus();
-                    promoCodeUserStatus.setUser(user);
-                    promoCodeUserStatus.setCreatedOn(date);
-                    promoCodeUserStatus.setUpdatedOn(date);
-                    promoCodeUserStatus.setPromoCode(promoCode);
-                    promoCodeUserStatus.setProductId(promoCodeApplyReqDTO.getProductId());
-                    promoCodeUserStatus.setDiscountedAmount(amount);
-                    promoCodeUserStatusRepository.save(promoCodeUserStatus);
+                    cart.setAmount(amount*cart.getQuantity());
+                    cart.setCreatedOn(date);
+                    cart.setUpdatedOn(date);
+                    cart.setExpiryDate(DateUtils.addDays(date,7));
+                    cart.setUser(user);
+                    //Indicate that this user has used the PromoCode
+                    cart.setPromoCode("USER_USED");
+                    cartRepository.save(cart);
                     // Set the new pricing details
                     promoCodeApplyRespDTO=new PromoCodeApplyRespDTO();
                     promoCodeApplyRespDTO.setPrice(amount);
-                    promoCodeApplyRespDTO.setTotalPrice(amount);
-                    promoCodeApplyRespDTO.setValueType(promoCode.getValueType());
+                    promoCodeApplyRespDTO.setQuantity(cart.getQuantity());
+                    promoCodeApplyRespDTO.setTotalPrice(cart.getAmount());
 
 
                 }
@@ -458,15 +453,6 @@ public class PromoCodeServiceImpl implements PromoCodeService {
             //Return the PromoCode Response DTO and the Status Message
             return new Object [] {promoCodeStatusMessage,promoCodeApplyRespDTO};
     }
-
-    @Override
-    public String generatePromoCode() {
-        String initials="WAW-";
-        initials+=UUID.randomUUID().toString().substring(0,6).toUpperCase();
-        return initials;
-
-    }
-
     private User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JwtUser jwtUser = (JwtUser) authentication.getPrincipal();

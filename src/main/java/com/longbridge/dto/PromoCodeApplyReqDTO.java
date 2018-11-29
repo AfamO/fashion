@@ -6,7 +6,16 @@ public class PromoCodeApplyReqDTO {
 
     private String promoCode;
 
-    private Long productId;
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    private Cart cart;
+
 
     public String getPromoCode() {
         return promoCode;
@@ -16,11 +25,5 @@ public class PromoCodeApplyReqDTO {
         this.promoCode = promoCode;
     }
 
-    public Long getProductId() {
-        return productId;
-    }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
 }

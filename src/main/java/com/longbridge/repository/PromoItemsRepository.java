@@ -22,8 +22,8 @@ public interface PromoItemsRepository extends JpaRepository<PromoItem,Long> {
     PromoItem findByItemType(Long itemId, String itemType);
 
 
-    @Query("Select pI from PromoItem pI  where pI.itemId=:itemId AND (pI.itemType in  :itemTypesLists) ")
-    List<PromoItem> findAllPromoItemsBelongingToCategoryAndProduct(@Param("itemId") Long itemId,@Param("itemTypesLists") List<String> itemTypesLists);
+    @Query("Select pI from PromoItem pI  where pI.itemId=:itemId AND (pI.itemType =:itemTypeP OR pI.itemType =:itemTypeC ) ")
+    List<PromoItem> findAllPromoItemsBelongToCategoryAndProduct(@Param("itemId") Long itemId,@Param("itemTypeP") String itemTypeP,@Param("itemTypeC")String itemTypeC);
 
 
 }

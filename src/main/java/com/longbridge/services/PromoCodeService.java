@@ -5,7 +5,6 @@ import com.longbridge.dto.PromoCodeApplyReqDTO;
 import com.longbridge.dto.PromoCodeDTO;
 import com.longbridge.models.Cart;
 import com.longbridge.models.PromoCode;
-import com.longbridge.models.PromoCodeUserStatus;
 
 import java.util.List;
 
@@ -25,11 +24,7 @@ public interface PromoCodeService {
 
     PromoCodeDTO getPromoCode(Long id);
 
-    PromoCodeUserStatus getPromoCodeUserStatus();
-
-    Object[] applyPromoCode(PromoCodeApplyReqDTO promoCodeApplyReqDTO);
-
-    String generatePromoCode();
+    Object[] applyPromoCode(Cart cart);
 
     List<PromoCodeDTO> getAllPromoCodes(PageableDetailsDTO pageableDetailsDTO);
 

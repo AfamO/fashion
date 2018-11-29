@@ -5,8 +5,6 @@ public class PromoCodeApplyRespDTO {
 
     private Double totalPrice;
 
-    private String valueType="";
-
     private int quantity;
 
     public Double getPrice() {
@@ -31,13 +29,5 @@ public class PromoCodeApplyRespDTO {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public String getValueType() {
-        return valueType;
-    }
-
-    public void setValueType(String valueType) {
-        this.valueType = valueType;
     }
 }

@@ -63,9 +63,8 @@ public class Items extends CommonFields{
 
     private String complain;
 
-    private String promoCode;
-
     private String trackingNumber;
+
     @Lob
     private String measurement;
 
@@ -380,13 +379,5 @@ public class Items extends CommonFields{
                 ", itemStatus=" + itemStatus +
                 ", statusMessage=" + statusMessage +
                 '}';
-    }
-
-    public String getPromoCode() {
-        return promoCode;
-    }
-
-    public void setPromoCode(String promoCode) {
-        this.promoCode = promoCode;
     }
 }

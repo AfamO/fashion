@@ -9,5 +9,8 @@
         <module name="fashion" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="fashion" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

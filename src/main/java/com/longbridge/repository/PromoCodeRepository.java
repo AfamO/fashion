@@ -27,6 +27,9 @@ public interface PromoCodeRepository extends JpaRepository<PromoCode,Long> {
     @Query("Select pC from PromoCode pC  where pC.code =:code AND pC.expiryDate > CURRENT_TIMESTAMP AND pC.verifiedFlag =:verifiedFlag ")
     PromoCode findUniqueUnExpiredAndVerifiedPromoCode(@Param("code") String code,@Param("verifiedFlag")String verifiedFlag);
 
+    PromoCode findByCode(String code);
+
+    //PromoCode findByPromoItems(List<PromoItem> promoItems);
     @Query("select p from PromoCode p where p.promoItems in :myPromoItems")
     PromoCode findByPromoItems(@Param("myPromoItems") List<PromoItem> promoItems);
 

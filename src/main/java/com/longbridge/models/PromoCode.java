@@ -19,9 +19,9 @@ public class PromoCode extends CommonFields implements Serializable {
 
     private String  isUsedStatus="N";
 
-    private String valueType="PD";// percentage discount(pd) other types are free shipping(fs) and normal(monetary) value discount(VD)
+    private String valueType="pd";// percentage discount(pd) other types are free shipping(fs) and normal(monetary) discount(nd)
 
-    private int numberOfUsage= -1; // The default is multiple times. It can also be 1, 8, etc
+    private String numberOfUsage="multiple"; // It can also be single
 
     private  int usageCounter=0;
     
@@ -84,11 +84,11 @@ public class PromoCode extends CommonFields implements Serializable {
         this.value = value;
     }
 
-    public int getNumberOfUsage() {
+    public String getNumberOfUsage() {
         return numberOfUsage;
     }
 
-    public void setNumberOfUsage(int numberOfUsage) {
+    public void setNumberOfUsage(String numberOfUsage) {
         this.numberOfUsage = numberOfUsage;
     }
 
