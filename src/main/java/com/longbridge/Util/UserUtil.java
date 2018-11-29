@@ -73,6 +73,8 @@ public class UserUtil {
     @Autowired
     private UserDetailsService userDetailsService;
 
+
+
     private Locale locale = LocaleContextHolder.getLocale();
 
 
@@ -89,12 +91,13 @@ public class UserUtil {
             if(passedUser.getRole() == null){
                 return new Response("99", "User has no role", null);
             }
-            if(passedUser.getRole().equalsIgnoreCase("designer")){
-                User user2 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
-                if(user2 != null){
-                    errors.add("Phone number already exist");
-                }
-            }
+
+//            if(passedUser.getRole().equalsIgnoreCase("designer")){
+//                User user2 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
+//                if(user2 != null){
+//                    errors.add("Phone number already exist");
+//                }
+//            }
             if(errors.size() > 0){
                 return new Response("99",StringUtils.join(errors, ","), null);
             }else{
@@ -107,7 +110,6 @@ public class UserUtil {
                 user.setDateOfBirth(passedUser.getDateOfBirth());
                 user.setGender(passedUser.getGender());
                 user.setRole(passedUser.getRole());
-
                 //todo create user wallet, call wallet api
                 //walletService.createWallet(passedUser,user);
             }
@@ -121,12 +123,14 @@ public class UserUtil {
                 sendToken(passedUser.getEmail());
                 sendEmailAsync.notifyCustomerCare(user);
             }
-            getActivationLink(user);
-            sendEmailAsync.sendWelcomeEmailToUser(user);
+//          getActivationLink(user);
+            Token token = tokenRepository.findByUser(user);
+            sendEmailAsync.sendWelcomeEmailToUser(user,token.getToken());
             userRepository.save(user);
             return new Response("00","Registration successful",responseMap);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return new Response("99","Error occurred internally",responseMap);
 
@@ -166,6 +170,15 @@ public class UserUtil {
             token.setToken(tokenString);
             token.setUser(user);
             tokenRepository.save(token);
+        }
+    }
+
+    public String fetchToken(User user){
+        Token token = tokenRepository.findByUser(user);
+        if(token!=null){
+            return token.getToken();
+        }else{
+            return null;
         }
     }
 
@@ -273,10 +286,9 @@ public class UserUtil {
         try {
             User user = userRepository.findByEmail(passedUser.getEmail());
             if(user!=null){
-                //todo removed by owolabi 29112018 as requested by Mike
-//                if(!"Y".equalsIgnoreCase(user.getActivationFlag())){
-//                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
-//                }
+                if(!"Y".equalsIgnoreCase(user.getActivationFlag())){
+                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
+                }
                 newPassword=UUID.randomUUID().toString().substring(0,10);
                 user.setPassword(Hash.createPassword(newPassword));
                 user.setLinkClicked("N");

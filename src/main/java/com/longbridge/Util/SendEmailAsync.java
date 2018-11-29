@@ -54,6 +54,7 @@ public class SendEmailAsync {
     @Autowired
     TokenRepository tokenRepository;
 
+
     @Value("${customer.care.email}")
     String customerCareEmail;
 
@@ -320,13 +321,14 @@ public class SendEmailAsync {
 
 
     @Async
-    public void sendWelcomeEmailToUser(User user) {
+    public void sendWelcomeEmailToUser(User user,String tokenString) {
         String activationLink="";
         try {
             Context context = new Context();
 
             String encryptedMail = Base64.getEncoder().encodeToString(user.getEmail().getBytes());
-            activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
+//            activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
+            activationLink = tokenString;
             String message="";
             context.setVariable("link", activationLink); 
              if(user.getRole().equalsIgnoreCase("designer")) {

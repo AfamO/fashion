@@ -681,7 +681,7 @@ public class ProductServiceImpl implements ProductService {
 
         try {
 
-            List<Product> products = productRepository.findByDesigner(designerRepository.findOne(designerId));
+            List<Product> products = productRepository.findByDesignerOrderByVerfiedOnDesc(designerRepository.findOne(designerId));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
             return productDTOS;
 
@@ -755,7 +755,7 @@ public class ProductServiceImpl implements ProductService {
             Date startDate = calendar.getTime();
             Date endDate = new Date();
 
-            Page<Product> products = productRepository.findByProductStatuses_VerifiedFlagAndProductStatuses_DelFlagAndCreatedOnBetween
+            Page<Product> products = productRepository.findByProductStatuses_VerifiedFlagAndProductStatuses_DelFlagAndVerfiedOnBetweenOrderByVerfiedOnDesc
                     ("Y","N",startDate,endDate,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
@@ -873,7 +873,8 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> products;
         try {
             SubCategory subCategory = subCategoryRepository.findOne(p.getSubcategoryId());
-                products = productRepository.findBySubCategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatus(new PageRequest(page, size), subCategory, "Y","A");
+                products = productRepository.findBySubCategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatusOrderByVerfiedOnDesc
+                        (new PageRequest(page, size), subCategory, "Y","A");
 
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
@@ -889,7 +890,7 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> products;
         try {
             Category category = categoryRepository.findOne(p.getCategoryId());
-            products = productRepository.findBySubCategory_CategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatus(new PageRequest(p.getPage(), p.getSize()), category, "Y","A");
+            products = productRepository.findBySubCategory_CategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatusOrderByVerfiedOnDesc(new PageRequest(p.getPage(), p.getSize()), category, "Y","A");
 
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;

@@ -21,8 +21,11 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> findByDesignerAndProductStatuses_VerifiedFlag(Designer designer, String flag);
     List<Product> findByDesigner(Designer designer);
+    List<Product> findByDesignerOrderByVerfiedOnDesc(Designer designer);
     Page<Product> findBySubCategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatus(Pageable pageable, SubCategory subCategory, String flag, String status);
+    Page<Product> findBySubCategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatusOrderByVerfiedOnDesc(Pageable pageable, SubCategory subCategory, String flag, String status);
     Page<Product> findBySubCategory_CategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatus(Pageable pageable, Category category, String flag, String status);
+    Page<Product> findBySubCategory_CategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatusOrderByVerfiedOnDesc(Pageable pageable, Category category, String flag, String status);
     List<Product> findFirst9BySubCategoryAndProductStatuses_SponsoredFlagAndProductStatuses_VerifiedFlag(SubCategory subCategory, String sponsoredFlag, String flag);
     List<Product> findFirst10BySubCategoryAndProductStatuses_SponsoredFlagAndProductStatuses_VerifiedFlag(SubCategory subCategory, String sponsoredFlag, String flag);
     Page<Product> findByDesignerAndSubCategoryAndProductStatuses_VerifiedFlag(Pageable pageable, Designer designer, SubCategory subCategory, String flag);
@@ -41,7 +44,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     Page<Product> findByProductStatuses_VerifiedFlagOrderByCreatedOnDesc(Pageable pageable);
 
-    Page<Product> findByProductStatuses_VerifiedFlagAndProductStatuses_DelFlagAndCreatedOnBetween
+    Page<Product> findByProductStatuses_VerifiedFlagAndProductStatuses_DelFlagAndVerfiedOnBetweenOrderByVerfiedOnDesc
             (String  verifiedFlg,String delFlg,Date startDate, Date endDate, Pageable pageable);
 
 
