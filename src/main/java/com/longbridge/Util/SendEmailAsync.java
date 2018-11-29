@@ -11,6 +11,7 @@ import com.longbridge.models.User;
 import com.longbridge.repository.DesignerRepository;
 import com.longbridge.repository.ItemRepository;
 import com.longbridge.repository.ProductRepository;
+import com.longbridge.repository.TokenRepository;
 import com.longbridge.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +50,9 @@ public class SendEmailAsync {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    TokenRepository tokenRepository;
 
 
     @Value("${customer.care.email}")
@@ -317,19 +321,17 @@ public class SendEmailAsync {
 
 
     @Async
-    public void sendWelcomeEmailToUser(User user,String tokenString) {
+    public void sendWelcomeEmailToUser(User user) {
         String activationLink="";
         try {
             Context context = new Context();
-
-            String encryptedMail = Base64.getEncoder().encodeToString(user.getEmail().getBytes());
+//            String encryptedMail = Base64.getEncoder().encodeToString(user.getEmail().getBytes());
 //            activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
-            activationLink = tokenString;
             String message="";
-            context.setVariable("link", activationLink);
+//            context.setVariable("link", activationLink);
             if(user.getRole().equalsIgnoreCase("designer")) {
-
                 context.setVariable("name", designerRepository.findByUser(user).getStoreName());
+                context.setVariable("token", tokenRepository.findByUser(user).getToken());
                 message = templateEngine.process("designerwelcomeemail", context);
             }
             else {

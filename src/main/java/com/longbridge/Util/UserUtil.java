@@ -81,38 +81,24 @@ public class UserUtil {
     public Response registerUser(UserDTO passedUser){
         Map<String,Object> responseMap = new HashMap();
         try {
+            boolean hasExistingUserAccount = false;
             Date date = new Date();
             User user = userRepository.findByEmail(passedUser.getEmail());
             List<String> errors = new ArrayList<String>();
 
-            if(user != null){
-                errors.add("Email already exists");
-            }
             if(passedUser.getRole() == null){
                 return new Response("99", "User has no role", null);
             }
 
-//            if(passedUser.getRole().equalsIgnoreCase("designer")){
-//                User user2 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
-//                if(user2 != null){
-//                    errors.add("Phone number already exist");
-//                }
-//            }
-            if(errors.size() > 0){
-                return new Response("99",StringUtils.join(errors, ","), null);
-            }else{
-                user=new User();
-                user.setEmail(passedUser.getEmail());
-                user.setPhoneNo(passedUser.getPhoneNo());
-                user.setPassword(Hash.createPassword(passedUser.getPassword()));
-                user.setFirstName(passedUser.getFirstName());
-                user.setLastName(passedUser.getLastName());
-                user.setDateOfBirth(passedUser.getDateOfBirth());
-                user.setGender(passedUser.getGender());
-                user.setRole(passedUser.getRole());
-                //todo create user wallet, call wallet api
-                //walletService.createWallet(passedUser,user);
+            if(user != null){
+                if(user.getRole().equalsIgnoreCase("user")){
+                    hasExistingUserAccount = true;
+                }else{
+                    errors.add("Email already exists");
+                    return new Response("99",StringUtils.join(errors, ","), null);
+                }
             }
+            createWallet(passedUser);
 
             if(passedUser.getRole().equalsIgnoreCase("designer")){
                 Designer designer = new Designer();
@@ -123,10 +109,11 @@ public class UserUtil {
                 sendToken(passedUser.getEmail());
                 sendEmailAsync.notifyCustomerCare(user);
             }
-//          getActivationLink(user);
-            Token token = tokenRepository.findByUser(user);
-            sendEmailAsync.sendWelcomeEmailToUser(user,token.getToken());
-            userRepository.save(user);
+//            getActivationLink(user);
+            if(!hasExistingUserAccount){
+                userRepository.save(user);
+            }
+            sendEmailAsync.sendWelcomeEmailToUser(user);
             return new Response("00","Registration successful",responseMap);
 
         }
@@ -136,6 +123,20 @@ public class UserUtil {
 
         }
 
+    }
+
+    public Response checkEmail(UserDTO userDTO){
+        Map<String,Object> responseMap = new HashMap();
+        User user = userRepository.findByEmail(userDTO.getEmail());
+        if(user != null){
+            if(user.getRole().equalsIgnoreCase("user")){
+                return new Response("03","Email is attached to end user",null);
+            }else{
+                return new Response("04","Email is attached to vendor",null);
+            }
+        }else{
+            return new Response("02","Email does not exist",null);
+        }
     }
 
     public void sendToken(String email){
@@ -155,8 +156,6 @@ public class UserUtil {
         }
     }
 
-
-
     private void saveToken(String tokenString,User user){
         Token token = tokenRepository.findByUser(user);
         if(token != null){
@@ -173,13 +172,22 @@ public class UserUtil {
         }
     }
 
-    public String fetchToken(User user){
-        Token token = tokenRepository.findByUser(user);
-        if(token!=null){
-            return token.getToken();
-        }else{
-            return null;
+    private void createWallet(UserDTO passedUser){
+        User user=new User();
+        user.setEmail(passedUser.getEmail());
+        user.setPhoneNo(passedUser.getPhoneNo());
+        try {
+            user.setPassword(Hash.createPassword(passedUser.getPassword()));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        user.setFirstName(passedUser.getFirstName());
+        user.setLastName(passedUser.getLastName());
+        user.setDateOfBirth(passedUser.getDateOfBirth());
+        user.setGender(passedUser.getGender());
+        user.setRole(passedUser.getRole());
+        //todo create user wallet, call wallet api
+        //walletService.createWallet(passedUser,user);
     }
 
 @Async
@@ -222,7 +230,6 @@ public class UserUtil {
 
     }
 
-
     public Response createAdmin(User passedUser){
         Map<String,Object> responseMap = new HashMap();
         try {
@@ -259,7 +266,6 @@ public class UserUtil {
         }
     }
 
-
     public void forgotEmail(String userPhoneNumber){
 
         try{
@@ -286,9 +292,6 @@ public class UserUtil {
         try {
             User user = userRepository.findByEmail(passedUser.getEmail());
             if(user!=null){
-                if(!"Y".equalsIgnoreCase(user.getActivationFlag())){
-                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
-                }
                 newPassword=UUID.randomUUID().toString().substring(0,10);
                 user.setPassword(Hash.createPassword(newPassword));
                 user.setLinkClicked("N");
@@ -428,8 +431,6 @@ public class UserUtil {
         return new Response("99","Error occurred internally",logInResp);
     }
 
-
-
     public User fetchUserDetails2(String token){
         JwtUser user = getAuthenticationDetails(token);
         if(user!=null){
@@ -439,7 +440,6 @@ public class UserUtil {
             return null;
         }
     }
-
 
     public List<User> getUsers(){
             return userRepository.findByRole("user");
