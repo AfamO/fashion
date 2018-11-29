@@ -624,7 +624,6 @@ public class GeneralUtil {
 
     public CartDTO convertCartEntToDTO(Cart cart){
 
-        //System.out.println("The ProductId=="+cart.getProductId());
         CartDTO cartDTO = new CartDTO();
 
         cartDTO.setId(cart.id);
@@ -633,15 +632,19 @@ public class GeneralUtil {
 
         Product product = productRepository.findOne(cart.getProductId());
         //System.out.println("The Saved Total Amount For this cart "+cart.id+"==="+cart.getAmount());
-        // Hence search for itemtype of either 'product' or 'category'
-        List<PromoItem> promoItemList=promoItemsRepository.findAllPromoItemsBelongToCategoryAndProduct(cart.getProductId(),"p","c");
-        //System.out.println("Retrieved promoItemsList Size=="+promoItemList.size());
-        if(promoItemList!=null && promoItemList.size()>0){
+        // Hence search for itemtype of either 'product' or 'category' or 'cart'
+        List<String> itemTypesLists= new ArrayList<>();
+        itemTypesLists.add("product");itemTypesLists.add("category");itemTypesLists.add("cart");
+        List<PromoItem> promoItemLists = new ArrayList<>();
+        promoItemLists=promoItemsRepository.findAllPromoItemsBelongingToCategoryAndProduct(cart.getProductId(),itemTypesLists);
+        promoItemLists.addAll(promoItemsRepository.findByItemType("all")); // Search and include itemtype of 'all' if any is found in DB
+        System.out.println("Retrieved promoItemsList Size=="+promoItemLists.size()+" The ProductId=="+cart.getProductId());
+        if(promoItemLists!=null && promoItemLists.size()>0){
 
-            PromoCode promoCode=promoItemList.get(0).getPromoCode(); // Ensure that alteast one of the items has a promoCode attached to it.
+            PromoCode promoCode=promoItemLists.get(0).getPromoCode(); // Ensure that alteast one of the items has a promoCode attached to it.
             //System.out.println("Retrieved PromoCode=="+promoCode.getCode());
-            //Does this product have a promocode and it has not been used by the same user?
-            if(promoCode!=null && !cart.getPromoCode().equalsIgnoreCase("USER_USED")){
+            //Does this product have a promocode irrespective of whether it been used?
+            if(promoCode!=null ){
                 //Then set 'Y' for yes so that the user is allowed to enter the promocode and use it.
                 cartDTO.setHasPromoCode("Y");
             }
@@ -722,6 +725,7 @@ public class GeneralUtil {
         return cartDTO;
 
     }
+
 
 
     public ItemsRespDTO convertEntityToDTO(Items items){
@@ -852,6 +856,9 @@ public class GeneralUtil {
     public PromoCodeDTO convertSinglePromoCodeToDTO(PromoCode promoCode){
 
         PromoCodeDTO promoCodeDTO=new PromoCodeDTO();
+        if(promoCode==null){
+            System.out.println("The PromoCode Is NULL HERE");
+        }
         promoCodeDTO.setCode(promoCode.getCode());
         List<PromoItemDTO> promoItemDTOLists = new ArrayList<>();
         for(PromoItem promoItem: promoCode.getPromoItems())

@@ -95,6 +95,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     DesignerRepository designerRepository;
+    
+    @Autowired
+    PromoCodeService promoCodeService;
+
+    @Autowired
+    PromoCodeRepository promoCodeRepository;
+
+    @Autowired
+    PromoCodeUserStatusRepository promoCodeUserStatusRepository;
 
     @Transactional
     @Override

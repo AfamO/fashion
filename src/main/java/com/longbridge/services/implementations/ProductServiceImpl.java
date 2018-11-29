@@ -116,6 +116,8 @@ public class ProductServiceImpl implements ProductService {
 
     RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass()); 
     
+    Product searchProduct;
+    
     @Value("${search.url}")
     private String elastic_host_api_url; //host_api_url for elastic search
 
@@ -330,7 +332,16 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
+    public void indexProductForSearch(){
 
+        Gson gson= new Gson();
+        //Index search
+        ProductRespDTO productRespDTO= generalUtil.convertEntityToDTO(searchProduct);
+        ApiResponse makeRemoteRequest = searchService.AddSearchProductIndex(elastic_host_api_url, productRespDTO);
+        apiLogger.log("The Result Of Indexing A New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
+
+    }
     private Product saveProduct(ProductDTO productDTO, Designer designer, Date date) {
         Product product = new Product();
         Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
@@ -358,6 +369,7 @@ public class ProductServiceImpl implements ProductService {
             saveBespokeProduct(productDTO.productType, productDTO.bespokeProductDTO, new Date(),productStyle,product.getSubCategory().getSubCategory());
 
         }
+        searchProduct.setProductStyle(productStyle);
         return productStyle;
     }
 
@@ -369,6 +381,8 @@ public class ProductServiceImpl implements ProductService {
             bespokeProduct.setMandatoryMeasurements(bespokeProductDTO.getMandatoryMeasurements());
             bespokeProduct.setProductStyle(productStyle);
             bespokeProductRepository.save(bespokeProduct);
+            List<MaterialPicture> materialPictureList =new ArrayList<>();
+            List<ArtWorkPicture> artWorkPictureList =new ArrayList<>();
             for (MaterialPictureDTO mp : bespokeProductDTO.getMaterialPicture()) {
                 MaterialPicture materialPicture = new MaterialPicture();
                 String matName = generalUtil.getPicsName("materialpic", subCategory);
@@ -381,7 +395,9 @@ public class ProductServiceImpl implements ProductService {
                 materialPicture.createdOn = date;
                 materialPicture.setUpdatedOn(date);
                 materialPictureRepository.save(materialPicture);
+                materialPictureList.add(materialPicture);
             }
+            bespokeProduct.setMaterialPicture(materialPictureList);
             for (ArtWorkPicture ap : bespokeProductDTO.getArtWorkPicture()) {
                 ArtWorkPicture artWorkPicture = new ArtWorkPicture();
                 String artName = generalUtil.getPicsName("artworkpic", subCategory);
@@ -392,7 +408,11 @@ public class ProductServiceImpl implements ProductService {
                 artWorkPicture.createdOn = date;
                 artWorkPicture.setUpdatedOn(date);
                 artWorkPictureRepository.save(artWorkPicture);
+                artWorkPictureList.add(artWorkPicture);
             }
+            bespokeProduct.setArtWorkPicture(artWorkPictureList);
+            productStyle.setBespokeProduct(bespokeProduct);
+            searchProduct.setProductStyle(productStyle);//Update it for search purposes
         }
     }
 
@@ -418,10 +438,13 @@ public class ProductServiceImpl implements ProductService {
         }
         productPrice.setPriceSlash(priceSlash);
         productPriceRepository.save(productPrice);
+        searchProduct.setProductPrice(productPrice);
     }
 
     private void saveProductColorStyle(List<ProductColorStyleDTO> productColorStyleDTOS,ProductDTO productDTO, String subCategory, ProductStyle productStyle) {
         Date date = new Date();
+        List<ProductColorStyle> productColorStyleList = new ArrayList<>();
+        List<ProductRating> productRatingList= new ArrayList<>();
         for (ProductColorStyleDTO pa: productColorStyleDTOS) {
             ProductColorStyle productColorStyle=new ProductColorStyle();
            // productColorStyle.setProduct(product);
@@ -432,7 +455,7 @@ public class ProductServiceImpl implements ProductService {
             productColorStyle.setColourPicture(c.getUrl());
             productColorStyle.setProductStyle(productStyle);
             productColorStyleRepository.save(productColorStyle);
-
+            List<ProductSizes> productSizesList = new ArrayList<>();
             for (ProductSizes p: pa.getProductSizes()){
                 ProductSizes productSizes = new ProductSizes();
                 productSizes.setName(p.getName());
@@ -440,14 +463,22 @@ public class ProductServiceImpl implements ProductService {
                 productSizes.setProductColorStyle(productColorStyle);
                 productSizes.setProductColorStyle(productColorStyle);
                 productSizesRepository.save(productSizes);
+                productSizesList.add(productSizes);
             }
-                saveProductPicture(pa.getPicture(),date,subCategory,productColorStyle);
+                productColorStyle.setProductSizes(productSizesList);
 
+                List<ProductPicture> productPictureList = saveProductPicture(pa.getPicture(), date, subCategory, productColorStyle);
 
+                productColorStyle.setProductPictures(productPictureList);
+                productColorStyleList.add(productColorStyle);
         }
+        productStyle.setProductColorStyles(productColorStyleList);
+        searchProduct.setProductStyle(productStyle);
+        searchProduct.setReviews(productRatingList);
     }
 
-    private void saveProductPicture(List<String> pictures, Date date, String subCategory, ProductColorStyle productColorStyle) {
+    private List<ProductPicture> saveProductPicture(List<String> pictures, Date date, String subCategory, ProductColorStyle productColorStyle) {
+        List<ProductPicture> productPictureList = new ArrayList<>();
         for(String p:pictures){
             ProductPicture productPicture = new ProductPicture();
             String  productPictureName= generalUtil.getPicsName("prodpic", subCategory);
@@ -458,7 +489,10 @@ public class ProductServiceImpl implements ProductService {
             productPicture.createdOn = date;
             productPicture.setUpdatedOn(date);
             productPictureRepository.save(productPicture);
+            productPictureList.add(productPicture);
         }
+        return productPictureList;
+
     }
 
     @Override
@@ -483,6 +517,12 @@ public class ProductServiceImpl implements ProductService {
             product.setUpdatedOn(date);
             product.getProductStatuses().setVerifiedFlag("N");
             productRepository.save(product);
+            //Index search
+            ProductRespDTO productRespDTO= generalUtil.convertEntityToDTO(product);
+            //Update the search index to display verified product only
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url,productRespDTO);
+            apiLogger.log("The Result Of ReIndexing An Updated Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+
         }catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
@@ -529,19 +569,19 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             //get the product to update
-            ProductSearchDTO productSearchDTO=null;
             Product product = productRepository.findOne(id);
-//            if(product !=null){
-//                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, id));
-//                productSearchDTO.setVerifiedFlag(status);
-//            }
+            ProductRespDTO productSearchDTO = null;
+            if(product !=null){
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, id));
+                productSearchDTO.verifiedFlag=status;
+            }
             product.getProductStatuses().setVerifiedFlag(status);
             product.setVerfiedOn(date);
             productRepository.save(product);
             //Then save the Updated product status
             //Update the search index to display verified product only
-//            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
-//            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
+            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -556,6 +596,17 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             Product product = productRepository.findOne(verifyDTO.getId());
+            //  Get the product Search Index
+            ProductRespDTO productSearchDTO = null;
+            if(product !=null){
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, verifyDTO.getId()));
+                productSearchDTO.verifiedFlag=verifyDTO.getFlag();
+                productSearchDTO.unVerifiedReason=verifyDTO.getUnverifyReason();
+                //Then save the Updated product
+                //Update the search index with the updated product only
+                Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
+                apiLogger.log("The Result Of ReIndexing An UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+            }
             product.getProductStatuses().setVerifiedFlag(verifyDTO.getFlag());
             product.getProductStatuses().setUnVerifiedReason(verifyDTO.getUnverifyReason());
             product.setVerfiedOn(date);
@@ -566,7 +617,6 @@ public class ProductServiceImpl implements ProductService {
             throw new WawoohException();
         }
     }
-
     @Override
     public void sponsorProduct(Long id, String status) {
         try {
