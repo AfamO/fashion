@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,10 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
 
     Page<Product> findByProductStatuses_VerifiedFlagOrderByCreatedOnDesc(Pageable pageable);
+
+    Page<Product> findByProductStatuses_VerifiedFlagAndProductStatuses_DelFlagAndCreatedOnBetween
+            (String  verifiedFlg,String delFlg,Date startDate, Date endDate, Pageable pageable);
+
 
     Page<Product> findByProductStatuses_VerifiedFlag(String verifiedFlag, Pageable pageable);
 

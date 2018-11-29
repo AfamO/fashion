@@ -695,8 +695,15 @@ public class ProductServiceImpl implements ProductService {
         int size = pageableDetailsDTO.getSize();
         try {
             //Page<Product> products = productRepository.findByVerfiedOnIsNull(new PageRequest(page,size));
+//            Page<Product> products = productRepository.findByProductStatuses_VerifiedFlagOrderByCreatedOnDesc(new PageRequest(page,size));
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH,-3);
 
-            Page<Product> products = productRepository.findByProductStatuses_VerifiedFlagOrderByCreatedOnDesc(new PageRequest(page,size));
+            Date startDate = calendar.getTime();
+            Date endDate = new Date();
+
+            Page<Product> products = productRepository.findByProductStatuses_VerifiedFlagAndProductStatuses_DelFlagAndCreatedOnBetween
+                    ("Y","N",startDate,endDate,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
 
@@ -704,6 +711,8 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
             throw new WawoohException();
         }
+
+
     }
 
     @Override
