@@ -174,6 +174,8 @@ public class UserController {
     public Object validateToken(@RequestBody User user){
         try {
             userUtil.sendToken(user.getEmail());
+
+            userUtil.sendTokenAsMail(user.getEmail());
             return new Response("00", "Operation Successful", "success");
 
         }catch (Exception e){

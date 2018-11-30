@@ -74,60 +74,65 @@ public class UserUtil {
     private UserDetailsService userDetailsService;
 
 
-
     private Locale locale = LocaleContextHolder.getLocale();
 
 
     public Response registerUser(UserDTO passedUser){
         Map<String,Object> responseMap = new HashMap();
+        Boolean hasExistingUserAccount = false;
         try {
             Date date = new Date();
             User user = userRepository.findByEmail(passedUser.getEmail());
             List<String> errors = new ArrayList<String>();
 
-            if(user != null){
-                errors.add("Email already exists");
-            }
             if(passedUser.getRole() == null){
                 return new Response("99", "User has no role", null);
             }
-            if(passedUser.getRole().equalsIgnoreCase("designer")){
-                User user2 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
-                if(user2 != null){
-                    errors.add("Phone number already exist");
+
+            if(passedUser.getRole().equalsIgnoreCase("user") && user != null){
+                errors.add("Email already exists");
+            }else if(passedUser.getRole().equalsIgnoreCase("designer") && user != null){
+                if(user.getRole().equalsIgnoreCase("designer")){
+                    errors.add("Email already exists");
+                }else{
+                    hasExistingUserAccount = true;
                 }
             }
+
             if(errors.size() > 0){
                 return new Response("99",StringUtils.join(errors, ","), null);
             }else{
-                user=new User();
-                user.setEmail(passedUser.getEmail());
-                user.setPhoneNo(passedUser.getPhoneNo());
-                user.setPassword(Hash.createPassword(passedUser.getPassword()));
-                user.setFirstName(passedUser.getFirstName());
-                user.setLastName(passedUser.getLastName());
-                user.setDateOfBirth(passedUser.getDateOfBirth());
-                user.setGender(passedUser.getGender());
-                user.setRole(passedUser.getRole());
+                if(!hasExistingUserAccount){
+                    user=new User();
+                    user.setEmail(passedUser.getEmail());
+                    user.setPhoneNo(passedUser.getPhoneNo());
+                    user.setPassword(Hash.createPassword(passedUser.getPassword()));
+                    user.setFirstName(passedUser.getFirstName());
+                    user.setLastName(passedUser.getLastName());
+                    user.setDateOfBirth(passedUser.getDateOfBirth());
+                    user.setGender(passedUser.getGender());
+                    user.setRole(passedUser.getRole());
+                    //todo create user wallet, call wallet api
+                    //walletService.createWallet(passedUser,user);
+                    userRepository.save(user);
+                }else{
+                    user.setRole("designer");
+                }
 
-                //todo create user wallet, call wallet api
-                //walletService.createWallet(passedUser,user);
+                if(passedUser.getRole().equalsIgnoreCase("designer")){
+                    Designer designer = new Designer();
+                    designer.setCreatedOn(date);
+                    designer.setUpdatedOn(date);
+                    designer.setUser(user);
+                    designerRepository.save(designer);
+                    sendToken(passedUser.getEmail());
+                    sendEmailAsync.notifyCustomerCare(user);
+                }
+                //getActivationLink(user);
+                sendEmailAsync.sendWelcomeEmailToUser(user);
+
+                return new Response("00","Registration successful",responseMap);
             }
-
-            if(passedUser.getRole().equalsIgnoreCase("designer")){
-                Designer designer = new Designer();
-                designer.setCreatedOn(date);
-                designer.setUpdatedOn(date);
-                designer.setUser(user);
-                designerRepository.save(designer);
-                sendToken(passedUser.getEmail());
-                sendEmailAsync.notifyCustomerCare(user);
-            }
-            //getActivationLink(user);
-            sendEmailAsync.sendWelcomeEmailToUser(user);
-            userRepository.save(user);
-            return new Response("00","Registration successful",responseMap);
-
         } catch (Exception e) {
             e.printStackTrace();
             return new Response("99","Error occurred internally",responseMap);
@@ -163,6 +168,13 @@ public class UserUtil {
         catch (Exception e){
             e.printStackTrace();
             throw new WawoohException();
+        }
+    }
+
+    public void sendTokenAsMail(String email){
+        User user = userRepository.findByEmail(email);
+        if(user!=null){
+            sendEmailAsync.sendTokenAsEmail(user);
         }
     }
 
@@ -631,8 +643,6 @@ public class UserUtil {
             throw new WawoohException();
         }
     }
-
-
 
     private String getCurrentTime(){
         Calendar now = Calendar.getInstance();

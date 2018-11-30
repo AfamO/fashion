@@ -349,6 +349,28 @@ public class SendEmailAsync {
 
     }
 
+    @Async
+    public void sendTokenAsEmail(User user) {
+        String activationLink="";
+        try {
+            Context context = new Context();
+            String message="";
+            if(user.getRole().equalsIgnoreCase("designer")) {
+                context.setVariable("token", tokenRepository.findByUser(user).getToken());
+                message = templateEngine.process("tokentemplate", context);
+                System.out.println("The Designer Email Message text With Token Is::"+message);
+            }
+            else {
+
+            }
+            mailService.prepareAndSend(message,user.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale));
+        }catch (MailException me){
+            me.printStackTrace();
+            throw new AppException("",user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
+        }
+
+    }
+
 
 
     @Async

@@ -51,10 +51,10 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ElasticSearchService searchService;
 
-   
+
     @Autowired
     MaterialPictureRepository materialPictureRepository;
-    
+
     @Autowired
     CategoryRepository categoryRepository;
 
@@ -410,6 +410,9 @@ public class ProductServiceImpl implements ProductService {
                 CloudinaryResponse c = cloudinaryService.uploadToCloud(ap.getPicture(), artName, "artworkpictures");
                 artWorkPicture.setPictureName(c.getUrl());
                 artWorkPicture.setPicture(c.getPublicId());
+
+                artWorkPicture.setPrice(ap.getPrice());
+
                 artWorkPicture.setBespokeProduct(bespokeProduct);
                 artWorkPicture.createdOn = date;
                 artWorkPicture.setUpdatedOn(date);

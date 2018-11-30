@@ -110,6 +110,9 @@ public class DesignerServiceImpl implements DesignerService{
             User usert = userRepository.findByEmail(userEmailTokenDTO.getEmail());
             if(usert == null){
                 userUtil.sendToken(userTemp.getEmail());
+
+                userUtil.sendTokenAsMail(userTemp.getEmail());
+
                 return new Response("50", "Verify email change", null);
             }else{
                 return new Response("99", "Email already registered to another user", null);
