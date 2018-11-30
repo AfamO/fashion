@@ -54,8 +54,6 @@ public class SendEmailAsync {
     @Autowired
     TokenRepository tokenRepository;
 
-    @Autowired
-    TokenRepository tokenRepository;
 
 
     @Value("${customer.care.email}")
