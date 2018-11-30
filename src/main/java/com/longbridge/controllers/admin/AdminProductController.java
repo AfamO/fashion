@@ -69,6 +69,15 @@ public class AdminProductController {
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", responseMap);
     }
+    @GetMapping(value = {"/getproductbyid/{id}"})
+    public Object getProductById(@PathVariable Long id){
+
+        ProductRespDTO products = productService.getProductById(id,false);
+
+        return new Response("00","Operation Successful", products);
+
+
+    }
 
 
 

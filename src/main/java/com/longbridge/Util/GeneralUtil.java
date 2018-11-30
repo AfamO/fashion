@@ -166,18 +166,20 @@ public class GeneralUtil {
     public DesignerDTO convertDesignerEntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
-        dto.userId = d.getUser().id;
         dto.logo=d.getPublicId();
         dto.banner=d.getBannerPublicId();
         dto.storeName=d.getStoreName();
         dto.setStoreId(d.getStoreId());
         dto.address=d.getAddress();
         User u = d.getUser();
-        dto.firstName=u.getFirstName();
-        dto.lastName=u.getLastName();
-        dto.phoneNo=u.getPhoneNo();
-        dto.email=u.getEmail();
-        dto.gender=u.getGender();
+        if(u!=null){
+            dto.userId = u.id;
+            dto.firstName=u.getFirstName();
+            dto.lastName=u.getLastName();
+            dto.phoneNo=u.getPhoneNo();
+            dto.email=u.getEmail();
+            dto.gender=u.getGender();
+        }
         dto.accountName=d.getAccountName();
         dto.accountNumber=d.getAccountNumber();
         dto.swiftCode=d.getSwiftCode();
@@ -343,11 +345,8 @@ public class GeneralUtil {
         productDTO.amount=product.getProductPrice().getAmount();
 
         if(product.getProductPrice().getPriceSlash() != null){
-            System.out.println("got here: "+product.getProductPrice().getPriceSlash().getSlashedPrice());
             productDTO.slashedPrice = product.getProductPrice().getPriceSlash().getSlashedPrice();
             productDTO.percentageDiscount = Double.parseDouble(df.format(product.getProductPrice().getPriceSlash().getPercentageDiscount()));
-        }else{
-            System.out.println("product is null: "+product.getProdDesc());
         }
 
         if(product.getProductStyle().getBespokeProduct() != null) {
