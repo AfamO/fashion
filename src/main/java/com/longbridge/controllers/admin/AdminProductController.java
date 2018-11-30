@@ -74,7 +74,7 @@ public class AdminProductController {
 
         ProductRespDTO products = productService.getProductById(id,false);
 
-        return new Response("00","Operation Successful",products);
+        return new Response("00","Operation Successful", products);
 
 
     }
