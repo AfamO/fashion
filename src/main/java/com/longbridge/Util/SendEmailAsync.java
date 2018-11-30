@@ -54,6 +54,9 @@ public class SendEmailAsync {
     @Autowired
     TokenRepository tokenRepository;
 
+    @Autowired
+    TokenRepository tokenRepository;
+
 
     @Value("${customer.care.email}")
     String customerCareEmail;
@@ -325,15 +328,13 @@ public class SendEmailAsync {
         String activationLink="";
         try {
             Context context = new Context();
-
-            String encryptedMail = Base64.getEncoder().encodeToString(user.getEmail().getBytes());
-           activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
-
+//            String encryptedMail = Base64.getEncoder().encodeToString(user.getEmail().getBytes());
+//            activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
             String message="";
-            context.setVariable("link", activationLink); 
-             if(user.getRole().equalsIgnoreCase("designer")) {
-                context.setVariable("userToken",tokenRepository.findByUser(user).getToken());
+//            context.setVariable("link", activationLink);
+            if(user.getRole().equalsIgnoreCase("designer")) {
                 context.setVariable("name", designerRepository.findByUser(user).getStoreName());
+                context.setVariable("token", tokenRepository.findByUser(user).getToken());
                 message = templateEngine.process("designerwelcomeemail", context);
                 System.out.println("The Designer Email Message text With Token Is::"+message);
             }
