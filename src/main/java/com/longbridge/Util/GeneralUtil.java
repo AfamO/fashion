@@ -166,18 +166,20 @@ public class GeneralUtil {
     public DesignerDTO convertDesignerEntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
-        dto.userId = d.getUser().id;
         dto.logo=d.getPublicId();
         dto.banner=d.getBannerPublicId();
         dto.storeName=d.getStoreName();
         dto.setStoreId(d.getStoreId());
         dto.address=d.getAddress();
         User u = d.getUser();
-        dto.firstName=u.getFirstName();
-        dto.lastName=u.getLastName();
-        dto.phoneNo=u.getPhoneNo();
-        dto.email=u.getEmail();
-        dto.gender=u.getGender();
+        if(u!=null){
+            dto.userId = u.id;
+            dto.firstName=u.getFirstName();
+            dto.lastName=u.getLastName();
+            dto.phoneNo=u.getPhoneNo();
+            dto.email=u.getEmail();
+            dto.gender=u.getGender();
+        }
         dto.accountName=d.getAccountName();
         dto.accountNumber=d.getAccountNumber();
         dto.swiftCode=d.getSwiftCode();
