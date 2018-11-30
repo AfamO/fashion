@@ -81,24 +81,38 @@ public class UserUtil {
     public Response registerUser(UserDTO passedUser){
         Map<String,Object> responseMap = new HashMap();
         try {
-            boolean hasExistingUserAccount = false;
             Date date = new Date();
             User user = userRepository.findByEmail(passedUser.getEmail());
             List<String> errors = new ArrayList<String>();
 
+            if(user != null){
+                errors.add("Email already exists");
+            }
             if(passedUser.getRole() == null){
                 return new Response("99", "User has no role", null);
             }
-
-            if(user != null){
-                if(user.getRole().equalsIgnoreCase("user")){
-                    hasExistingUserAccount = true;
-                }else{
-                    errors.add("Email already exists");
-                    return new Response("99",StringUtils.join(errors, ","), null);
+            if(passedUser.getRole().equalsIgnoreCase("designer")){
+                User user2 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
+                if(user2 != null){
+                    errors.add("Phone number already exist");
                 }
             }
-            createWallet(passedUser);
+            if(errors.size() > 0){
+                return new Response("99",StringUtils.join(errors, ","), null);
+            }else{
+                user=new User();
+                user.setEmail(passedUser.getEmail());
+                user.setPhoneNo(passedUser.getPhoneNo());
+                user.setPassword(Hash.createPassword(passedUser.getPassword()));
+                user.setFirstName(passedUser.getFirstName());
+                user.setLastName(passedUser.getLastName());
+                user.setDateOfBirth(passedUser.getDateOfBirth());
+                user.setGender(passedUser.getGender());
+                user.setRole(passedUser.getRole());
+
+                //todo create user wallet, call wallet api
+                //walletService.createWallet(passedUser,user);
+            }
 
             if(passedUser.getRole().equalsIgnoreCase("designer")){
                 Designer designer = new Designer();
@@ -109,22 +123,18 @@ public class UserUtil {
                 sendToken(passedUser.getEmail());
                 sendEmailAsync.notifyCustomerCare(user);
             }
-//            getActivationLink(user);
-            if(!hasExistingUserAccount){
-                userRepository.save(user);
-            }
+            //getActivationLink(user);
             sendEmailAsync.sendWelcomeEmailToUser(user);
+            userRepository.save(user);
             return new Response("00","Registration successful",responseMap);
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new Response("99","Error occurred internally",responseMap);
 
         }
 
     }
-
     public Response checkEmail(UserDTO userDTO){
         Map<String,Object> responseMap = new HashMap();
         User user = userRepository.findByEmail(userDTO.getEmail());

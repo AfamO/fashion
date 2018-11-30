@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd5c5934-d7a4-4996-9b72-7b1da744ba7c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,7 +44,7 @@
         <counts>
           <entry key="class" value="8" />
           <entry key="gitignore" value="19" />
-          <entry key="java" value="4" />
+          <entry key="java" value="18" />
           <entry key="txt" value="6" />
         </counts>
       </usages-collector>
@@ -51,7 +52,7 @@
         <counts>
           <entry key="CLASS" value="8" />
           <entry key="Git file" value="19" />
-          <entry key="JAVA" value="4" />
+          <entry key="JAVA" value="18" />
           <entry key="PLAIN_TEXT" value="6" />
         </counts>
       </usages-collector>
@@ -71,8 +72,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+            <state relative-caret-position="207">
+              <caret line="126" column="38" lean-forward="true" selection-start-line="126" selection-start-column="38" selection-end-line="126" selection-end-column="38" />
+              <folding>
+                <element signature="e#2566#2574#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -80,8 +84,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="58" column="12" lean-forward="true" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
+            <state relative-caret-position="202">
+              <caret line="337" column="13" lean-forward="true" selection-start-line="337" selection-start-column="13" selection-end-line="337" selection-end-column="13" />
               <folding>
                 <element signature="e#1672#1696#1" expanded="true" />
               </folding>
@@ -150,10 +154,10 @@
         <option value="$PROJECT_DIR$/src/main/resources/application-test.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/repository/ProductRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/ProductServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/designerwelcomeemail.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java" />
       </list>
     </option>
   </component>
@@ -252,7 +256,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/target/classes/com/longbridge/services/ProductService.class" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543572319144" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543578798763" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -311,7 +315,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39945000" />
+    <option name="totallyTimeSpent" value="42861000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="717" extended-state="0" />
@@ -323,7 +327,7 @@
       <window_info id="Image Layers" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info id="Nl-Palette" order="5" />
-      <window_info active="true" content_ui="combo" id="Project" order="6" visible="true" weight="0.24959612" />
+      <window_info content_ui="combo" id="Project" order="6" visible="true" weight="0.24959612" />
       <window_info id="Structure" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Application Servers" order="0" />
       <window_info anchor="bottom" id="Messages" order="1" weight="0.328" />
@@ -333,7 +337,7 @@
       <window_info anchor="bottom" id="Event Log" order="5" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="6" />
       <window_info anchor="bottom" id="Find" order="7" />
-      <window_info anchor="bottom" id="Run" order="8" weight="0.3264" />
+      <window_info active="true" anchor="bottom" id="Run" order="8" visible="true" weight="0.3264" />
       <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
@@ -753,13 +757,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/designerwelcomeemail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -767,10 +764,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/UserUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="126" column="38" lean-forward="true" selection-start-line="126" selection-start-column="38" selection-end-line="126" selection-end-column="38" />
+          <folding>
+            <element signature="e#2566#2574#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/Util/SendEmailAsync.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="58" column="12" lean-forward="true" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
+        <state relative-caret-position="202">
+          <caret line="337" column="13" lean-forward="true" selection-start-line="337" selection-start-column="13" selection-end-line="337" selection-end-column="13" />
           <folding>
             <element signature="e#1672#1696#1" expanded="true" />
           </folding>
