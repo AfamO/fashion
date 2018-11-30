@@ -114,10 +114,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductColorStyleRepository productColorStyleRepository;
 
-    RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass()); 
-    
+    RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass());
+
+    private Long currentProductId;
+
     Product searchProduct;
-    
+
     @Value("${search.url}")
     private String elastic_host_api_url; //host_api_url for elastic search
 
@@ -299,6 +301,7 @@ public class ProductServiceImpl implements ProductService {
             Designer designer = designerRepository.findByUser(user);
             Date date = new Date();
             Product product = saveProduct(productDTO, designer, date);
+            searchProduct=product;
             ProductStyle productStyle = saveProductStyle(productDTO.styleId, product,productDTO);
             saveProductColorStyle(productDTO.productColorStyleDTOS, productDTO,product.getSubCategory().getSubCategory(), productStyle);
             savePriceDetails(productDTO.productPriceDTO,product);
@@ -322,7 +325,10 @@ public class ProductServiceImpl implements ProductService {
             String sku =productDTO.name + "-"+designer.getStoreId()+"-" + UUID.randomUUID().toString().replace("-","").substring(0,10);
             product.setSku(sku);
             productRepository.save(product);
+            currentProductId=product.id;
+            System.out.println("The Just Saved Product Id =="+currentProductId);
             productStatuses.setProduct(product);
+            searchProduct.setProductStatuses(productStatuses);
             productStatusesRepository.save(productStatuses);
             return "true";
 

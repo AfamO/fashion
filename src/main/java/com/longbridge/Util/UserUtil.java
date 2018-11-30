@@ -124,9 +124,8 @@ public class UserUtil {
                 sendEmailAsync.notifyCustomerCare(user);
             }
 //          getActivationLink(user);
-            Token token = tokenRepository.findByUser(user);
-            sendEmailAsync.sendWelcomeEmailToUser(user,token.getToken());
             userRepository.save(user);
+            sendEmailAsync.sendWelcomeEmailToUser(user);
             return new Response("00","Registration successful",responseMap);
 
         }
