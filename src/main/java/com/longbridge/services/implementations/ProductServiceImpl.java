@@ -436,16 +436,17 @@ public class ProductServiceImpl implements ProductService {
             productPrice.setPriceSlashEnabled(true);
             priceSlash.setSlashedPrice(productPriceDTO.getSlashedPrice());
             priceSlash.setPercentageDiscount(((productPriceDTO.getAmount() - productPriceDTO.getSlashedPrice())/productPriceDTO.getAmount())*100);
-            priceSlashRepository.save(priceSlash);
+//            priceSlashRepository.save(priceSlash);
         } else if(productPriceDTO.getPercentageDiscount() > 0){
             priceSlash=new PriceSlash();
             productPrice.setPriceSlashEnabled(true);
-            productPrice.setProduct(product);
             priceSlash.setSlashedPrice(productPriceDTO.getAmount() - ((productPriceDTO.getPercentageDiscount()/100)* productPrice.getAmount()));
             priceSlash.setPercentageDiscount(productPriceDTO.getPercentageDiscount());
-            priceSlashRepository.save(priceSlash);
+//            priceSlashRepository.save(priceSlash);
         }
         productPrice.setPriceSlash(priceSlash);
+        priceSlash.setProductPrice(productPrice);
+        priceSlashRepository.save(priceSlash);
         productPriceRepository.save(productPrice);
         searchProduct.setProductPrice(productPrice);
     }
@@ -460,8 +461,8 @@ public class ProductServiceImpl implements ProductService {
             String name = pa.getColourName().replace("&","");
             String colourName= generalUtil.getPicsName("prodcolour",name);
             CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
-            productColorStyle.setColourName(pa.getColourName());
             productColorStyle.setColourPicture(c.getUrl());
+
             productColorStyle.setProductStyle(productStyle);
             productColorStyleRepository.save(productColorStyle);
             List<ProductSizes> productSizesList = new ArrayList<>();
@@ -494,6 +495,7 @@ public class ProductServiceImpl implements ProductService {
             CloudinaryResponse c = cloudinaryService.uploadToCloud(p,productPictureName,"productpictures");
             productPicture.setPictureName(c.getUrl());
             productPicture.setPicture(c.getPublicId());
+
             productPicture.setProductColorStyle(productColorStyle);
             productPicture.createdOn = date;
             productPicture.setUpdatedOn(date);

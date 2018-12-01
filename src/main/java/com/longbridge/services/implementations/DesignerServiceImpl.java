@@ -149,7 +149,7 @@ public class DesignerServiceImpl implements DesignerService{
     @Override
     public SizeGuide updateDesignerBusinessInformation(UserDTO user) {
         try {
-            SizeGuide currentSizeGuide;
+            SizeGuide sizeGuide = null;
             User userTemp = getCurrentUser();
             if(userTemp.getRole().equalsIgnoreCase("designer")){
                 User currentUser = userTemp;
@@ -161,32 +161,35 @@ public class DesignerServiceImpl implements DesignerService{
                 currentDesigner.setStoreName(user.getDesigner().storeName);
                 currentDesigner.setStoreId(user.getDesigner().getStoreName().substring(0,3)+currentDesigner.id);
                 currentDesigner.setLocalGovt(user.getDesigner().localGovt);
-                currentDesigner.setSizeGuideFlag(user.getDesigner().sizeGuideFlag);
+                currentDesigner.setSizeGuideFlag(user.getDesigner().sizeGuideFlag==null?"N":user.getDesigner().sizeGuideFlag);
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
                 currentDesigner.setRegistrationProgress(20);
                 currentDesigner.setThreshold(user.getDesigner().threshold);
+
+                if(currentDesigner.getSizeGuide()!=null){
+                    sizeGuide = currentDesigner.getSizeGuide();
+                }else{
+                    sizeGuide = new SizeGuide();
+                }
+
                 if(currentDesigner.getSizeGuideFlag().equalsIgnoreCase("Y")){
-
-                    if(currentDesigner.getSizeGuide() == null){
-                        currentSizeGuide = new SizeGuide();
-                        sizeGuideRepository.save(currentSizeGuide);
-                        currentDesigner.setSizeGuide(currentSizeGuide);
-                    }
-
-                    currentSizeGuide = currentDesigner.getSizeGuide();
-
+//                    if(currentDesigner.getSizeGuide() == null){
+//                        sizeGuide = new SizeGuide();
+//                        sizeGuideRepository.save(sizeGuide);
+//                        currentDesigner.setSizeGuide(sizeGuide);
+//                    }
                     if(user.getDesigner().femaleSizeGuide != null){
                         if(!isUrl(user.getDesigner().femaleSizeGuide)){
-                            if(currentSizeGuide.getFemaleSizeGuide() != null){
-                                cloudinaryService.deleteFromCloud(currentSizeGuide.getFemaleSizeGuidePublicId(), currentSizeGuide.getFemaleSizeGuide());
+                            if(sizeGuide.getFemaleSizeGuide() != null){
+                                cloudinaryService.deleteFromCloud(sizeGuide.getFemaleSizeGuidePublicId(),sizeGuide.getFemaleSizeGuide());
                             }
                             try {
                                 String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
                                 String base64Img = user.getDesigner().femaleSizeGuide;
 
                                 CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
-                                currentSizeGuide.setFemaleSizeGuide(c.getUrl());
-                                currentSizeGuide.setFemaleSizeGuidePublicId(c.getPublicId());
+                                sizeGuide.setFemaleSizeGuide(c.getUrl());
+                                sizeGuide.setFemaleSizeGuidePublicId(c.getPublicId());
                             }catch (Exception e){
                                 e.printStackTrace();
                                 throw new WawoohException();
@@ -196,18 +199,17 @@ public class DesignerServiceImpl implements DesignerService{
 
                     if(user.getDesigner().maleSizeGuide != null){
                         if(!isUrl(user.getDesigner().maleSizeGuide)){
-                            if(currentSizeGuide.getMaleSizeGuide() != null){
-                                cloudinaryService.deleteFromCloud(currentSizeGuide.getMaleSizeGuidePublicId(), currentSizeGuide.getMaleSizeGuide());
+                            if(sizeGuide.getMaleSizeGuide() != null){
+                                cloudinaryService.deleteFromCloud(sizeGuide.getMaleSizeGuidePublicId(), sizeGuide.getMaleSizeGuide());
                             }
                             try {
                                 String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
 
                                 String base64Img = user.getDesigner().maleSizeGuide;
 
-
                                 CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img, fileName, "designersizeguides");
-                                currentSizeGuide.setMaleSizeGuide(c.getUrl());
-                                currentSizeGuide.setMaleSizeGuidePublicId(c.getPublicId());
+                                sizeGuide.setMaleSizeGuide(c.getUrl());
+                                sizeGuide.setMaleSizeGuidePublicId(c.getPublicId());
                             }catch (Exception e){
                                 e.printStackTrace();
                                 throw new WawoohException();
@@ -215,20 +217,20 @@ public class DesignerServiceImpl implements DesignerService{
                         }
                     }
                 }else{
-                    if(currentDesigner.getSizeGuide() == null){
-                        currentSizeGuide = new SizeGuide();
+//                    if(currentDesigner.getSizeGuide() == null){
+//                        sizeGuide = new SizeGuide();
+//
+//                        sizeGuideRepository.save(sizeGuide);
+//                        currentDesigner.setSizeGuide(sizeGuide);
+//                    }
+                    sizeGuide.setMaleSizeGuide(user.getDesigner().maleSizeGuide);
+                    sizeGuide.setFemaleSizeGuide(user.getDesigner().femaleSizeGuide);
 
-                        sizeGuideRepository.save(currentSizeGuide);
-                        currentDesigner.setSizeGuide(currentSizeGuide);
-                    }
-                    currentSizeGuide = currentDesigner.getSizeGuide();
-
-
-                    currentSizeGuide.setMaleSizeGuide(user.getDesigner().maleSizeGuide);
-                    currentSizeGuide.setFemaleSizeGuide(user.getDesigner().femaleSizeGuide);
-                    sizeGuideRepository.save(currentSizeGuide);
-                    currentDesigner.setSizeGuide(currentSizeGuide);
                 }
+
+                sizeGuide.setDesigner(currentDesigner);
+                sizeGuideRepository.save(sizeGuide);
+                currentDesigner.setSizeGuide(sizeGuide);
 
                 currentDesigner.setRegisteredFlag(user.getDesigner().registeredFlag);
                 currentDesigner.setRegistrationNumber(user.getDesigner().registeredFlag);
@@ -252,7 +254,7 @@ public class DesignerServiceImpl implements DesignerService{
                     }
                 }
                 designerRepository.save(currentDesigner);
-                return currentSizeGuide;
+                return sizeGuide;
             }else{
                 throw new WawoohException();
             }

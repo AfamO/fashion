@@ -237,8 +237,7 @@ public class GeneralUtil {
         pictureDTO.id=picture.getId();
         pictureDTO.productId=picture.getBespokeProduct().getProduct().id;
         pictureDTO.artWorkPicture=picture.getPictureName();
-
-        pictureDTO.price=picture.getPrice();//todo changes added by owolabi
+        pictureDTO.price=picture.getPrice();
 
         return pictureDTO;
 
@@ -259,10 +258,8 @@ public class GeneralUtil {
         pictureDTO.setId(picture.getId());
         pictureDTO.setProductId(picture.getBespokeProduct().getProduct().id);
         pictureDTO.setMaterialPicture(picture.getPictureName());
-
-
-        pictureDTO.setMaterialPrice(picture.getPrice());//todo added by owolabi
-        pictureDTO.setMaterialName(picture.getMaterialName());//todo added by owolabi
+        pictureDTO.setMaterialPrice(picture.getPrice());
+        pictureDTO.setMaterialName(picture.getMaterialName());
 
         return pictureDTO;
 
@@ -346,6 +343,7 @@ public class GeneralUtil {
 
         if(product.getProductPrice().getPriceSlash() != null){
             productDTO.slashedPrice = product.getProductPrice().getPriceSlash().getSlashedPrice();
+            productDTO.sewingPrice = product.getProductPrice().getSewingAmount();
             productDTO.percentageDiscount = Double.parseDouble(df.format(product.getProductPrice().getPriceSlash().getPercentageDiscount()));
         }
 
