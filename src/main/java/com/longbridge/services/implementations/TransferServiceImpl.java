@@ -8,6 +8,7 @@ import com.longbridge.repository.OrderRepository;
 import com.longbridge.repository.TransferInfoRepository;
 import com.longbridge.services.TransferService;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,9 @@ public class TransferServiceImpl implements TransferService{
 
     @Autowired
     OrderRepository orderRepository;
+
     Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     public void saveOrderTransferInfo(TransferInfoDTO transferInfoDTO) {
@@ -46,7 +49,13 @@ public class TransferServiceImpl implements TransferService{
                     else {
                         transferInfo = new TransferInfo();
                         transferInfo.setOrders(orders);
-                        transferInfo.setPaymentDate(new Date(transferInfoDTO.getPaymentDate()));
+//                        transferInfo.setPaymentDate(new Date(transferInfoDTO.getPaymentDate()));
+                        try {
+                            transferInfo.setPaymentDate(dateFormatter.parse(transferInfoDTO.getPaymentDate()));
+                        } catch (ParseException e) {
+                            transferInfo.setPaymentDate(new Date());
+                            e.printStackTrace();
+                        }
                         transferInfo.setAccountName(transferInfoDTO.getAccountName());
                         transferInfo.setAmountPayed(transferInfoDTO.getAmountPayed());
                         transferInfo.setBank(transferInfoDTO.getBank());
