@@ -53,6 +53,8 @@ public class VendorBespokeFormDetailsServiceImpl implements VendorBespokeFormDet
         VendorBespokeFormDetails vendorBespokeFormDetails= vendorBespokeFormDetailsRepository.findOne(id);
         Designer designer = designerRepository.findById(vendorBespokeFormDetails.getDesignerId());
         vendorBespokeFormDetails.setStoreName(designer.getStoreName());
+        vendorBespokeFormDetails.setPhoneNumber(designer.getUser().getPhoneNo());
+        vendorBespokeFormDetails.setBespokeEligibility(designer.getBespokeEligible());
         vendorBespokeFormDetails.setRegistrationDate(designer.getCreatedOn().toString());
         return vendorBespokeFormDetails;
     }

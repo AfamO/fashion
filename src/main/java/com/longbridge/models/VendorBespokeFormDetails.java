@@ -34,6 +34,7 @@ public class VendorBespokeFormDetails extends CommonFields{
     private String bespokeApplicationRejectReason;
 
     private String storeName;
+    private String bespokeEligibility;
     private String registrationDate;
 
     public Long getDesignerId() {
@@ -207,6 +208,14 @@ public class VendorBespokeFormDetails extends CommonFields{
 
     public String getBespokeApplicationRejectReason() {
         return bespokeApplicationRejectReason;
+    }
+
+    public String getBespokeEligibility() {
+        return bespokeEligibility;
+    }
+
+    public void setBespokeEligibility(String bespokeEligibility) {
+        this.bespokeEligibility = bespokeEligibility;
     }
 
     public void setBespokeApplicationRejectReason(String bespokeApplicationRejectReason) {
