@@ -481,7 +481,8 @@ public class GeneralUtil {
 
         String timeStamp = picsArrayType + getCurrentTime();
 
-        String fName = productName.replaceAll("\\s","") + timeStamp;
+        String fName = productName.replaceAll("\\s","");
+        fName = fName.replaceAll("&","") + timeStamp;
         return  fName;
     }
 
