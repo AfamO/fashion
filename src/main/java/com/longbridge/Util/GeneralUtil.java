@@ -822,6 +822,7 @@ public class GeneralUtil {
         orderDTO.setId(orders.id);
         if(orders.getDeliveryAddress() != null) {
             orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
+            orderDTO.setDeliveryPhoneNumber(orders.getDeliveryAddress().getPhoneNo());
         }
         orderDTO.setDeliveryStatus(orders.getDeliveryStatus());
         orderDTO.setOrderNumber(orders.getOrderNum());
@@ -830,7 +831,7 @@ public class GeneralUtil {
         orderDTO.setPaidAmount(orders.getPaidAmount());
         User user=userRepository.findById(orders.getUserId());
         orderDTO.setCustomerName(user.getLastName()+user.getFirstName());
-        orderDTO.setDeliveryPhoneNumber(orders.getDeliveryAddress().getPhoneNo());
+
         orderDTO.setCustomerPhoneNumber(user.getPhoneNo());
         orderDTO.setUserId(orders.getUserId());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
