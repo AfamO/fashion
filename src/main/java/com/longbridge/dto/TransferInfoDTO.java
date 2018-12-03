@@ -12,6 +12,7 @@ public class TransferInfoDTO {
     private String paymentNote;
     private String orderNum;
 
+
     public TransferInfoDTO() {
 
     }

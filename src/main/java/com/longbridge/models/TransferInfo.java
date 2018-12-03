@@ -14,6 +14,7 @@ public class TransferInfo extends CommonFields {
     private String accountName;
 
     private double amountPayed;
+
     private String bank;
 
     private String paymentNote;

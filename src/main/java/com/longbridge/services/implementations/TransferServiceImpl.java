@@ -38,31 +38,30 @@ public class TransferServiceImpl implements TransferService{
             Orders orders = orderRepository.findByOrderNum(transferInfoDTO.getOrderNum());
             if(orders != null){
                 if(orders.getDeliveryStatus().equalsIgnoreCase("P")) {
-                    TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
-                    if(transferInfo != null){
-                        transferInfo.setPaymentDate(new Date(transferInfoDTO.getPaymentDate()));
-                        transferInfo.setAccountName(transferInfoDTO.getAccountName());
-                        transferInfo.setAmountPayed(transferInfoDTO.getAmountPayed());
-                        transferInfo.setBank(transferInfoDTO.getBank());
-                        transferInfo.setPaymentNote(transferInfoDTO.getPaymentNote());
+                    if(transferInfoDTO.getId() != null){
+                        TransferInfo transferInfo1=transferInfoRepository.findOne(transferInfoDTO.getId());
+                        transferInfo1.setPaymentDate(new Date(transferInfoDTO.getPaymentDate()));
+                        transferInfo1.setAccountName(transferInfoDTO.getAccountName());
+                        transferInfo1.setAmountPayed(transferInfoDTO.getAmountPayed());
+                        transferInfo1.setBank(transferInfoDTO.getBank());
+                        transferInfo1.setPaymentNote(transferInfoDTO.getPaymentNote());
+                        transferInfoRepository.save(transferInfo1);
                     }
                     else {
-                        transferInfo = new TransferInfo();
-                        transferInfo.setOrders(orders);
-//                        transferInfo.setPaymentDate(new Date(transferInfoDTO.getPaymentDate()));
+                        TransferInfo transInfo = new TransferInfo();
+                        transInfo.setOrders(orders);
                         try {
-                            transferInfo.setPaymentDate(dateFormatter.parse(transferInfoDTO.getPaymentDate()));
+                            transInfo.setPaymentDate(dateFormatter.parse(transferInfoDTO.getPaymentDate()));
                         } catch (ParseException e) {
-                            transferInfo.setPaymentDate(new Date());
+                            transInfo.setPaymentDate(new Date());
                             e.printStackTrace();
                         }
-                        transferInfo.setAccountName(transferInfoDTO.getAccountName());
-                        transferInfo.setAmountPayed(transferInfoDTO.getAmountPayed());
-                        transferInfo.setBank(transferInfoDTO.getBank());
-                        transferInfo.setPaymentNote(transferInfoDTO.getPaymentNote());
+                        transInfo.setAccountName(transferInfoDTO.getAccountName());
+                        transInfo.setAmountPayed(transferInfoDTO.getAmountPayed());
+                        transInfo.setBank(transferInfoDTO.getBank());
+                        transInfo.setPaymentNote(transferInfoDTO.getPaymentNote());
+                        transferInfoRepository.save(transInfo);
                     }
-
-                    transferInfoRepository.save(transferInfo);
                 }
                 else {
                     //means admin has updated tp PC. it cant be updated....
@@ -77,43 +76,48 @@ public class TransferServiceImpl implements TransferService{
     }
 
     @Override
-    public TransferInfoDTO getOrderTransferInfo(String orderNum) {
-
+    public List<TransferInfoDTO> getOrderTransferInfo(String orderNum) {
+        List<TransferInfoDTO> transferInfoDTOS= new ArrayList<>();
         Orders orders = orderRepository.findByOrderNum(orderNum);
         if(orders != null){
-            TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
-            TransferInfoDTO transferInfoDTO = new TransferInfoDTO();
-            transferInfoDTO.setPaymentDate(formatter.format(transferInfo.getPaymentDate()));
-            transferInfoDTO.setAccountName(transferInfo.getAccountName());
-            transferInfoDTO.setAmountPayed(transferInfo.getAmountPayed());
-            transferInfoDTO.setBank(transferInfo.getBank());
-            transferInfoDTO.setPaymentNote(transferInfo.getPaymentNote());
-
-            return transferInfoDTO;
+            List<TransferInfo> transferInfo = transferInfoRepository.findByOrders(orders);
+            transferInfoDTOS=convertTransferInfoEntitiesToDTOs(transferInfo);
         }
-        return null;
+        return transferInfoDTOS;
+    }
+
+    private TransferInfoDTO convertTransferInfoToDTO(TransferInfo transferInfo) {
+        TransferInfoDTO transferInfoDTO = new TransferInfoDTO();
+        transferInfoDTO.setId(transferInfo.id);
+        if(transferInfo.getPaymentDate() != null) {
+            transferInfoDTO.setPaymentDate(formatter.format(transferInfo.getPaymentDate()));
+        }
+        transferInfoDTO.setAccountName(transferInfo.getAccountName());
+        transferInfoDTO.setAmountPayed(transferInfo.getAmountPayed());
+        transferInfoDTO.setBank(transferInfo.getBank());
+        transferInfoDTO.setPaymentNote(transferInfo.getPaymentNote());
+        transferInfoDTO.setOrderNum(transferInfo.getOrders().getOrderNum());
+        return transferInfoDTO;
     }
 
     @Override
     public List<TransferInfoDTO> getAllTransferInfo() {
 
         List<TransferInfo> transferInfos = transferInfoRepository.findAll();
-        List<TransferInfoDTO> transferInfoDTOS = new ArrayList<TransferInfoDTO>();
-        for (TransferInfo transferInfo : transferInfos) {
-            TransferInfoDTO transferInfoDTO = new TransferInfoDTO();
-            transferInfoDTO.setId(transferInfo.id);
-            if(transferInfo.getPaymentDate() != null) {
-                transferInfoDTO.setPaymentDate(formatter.format(transferInfo.getPaymentDate()));
-            }
-            transferInfoDTO.setAccountName(transferInfo.getAccountName());
-            transferInfoDTO.setAmountPayed(transferInfo.getAmountPayed());
-            transferInfoDTO.setBank(transferInfo.getBank());
-            transferInfoDTO.setPaymentNote(transferInfo.getPaymentNote());
-            transferInfoDTO.setOrderNum(transferInfo.getOrders().getOrderNum());
+        return convertTransferInfoEntitiesToDTOs(transferInfos);
+    }
 
+    @Override
+    public TransferInfoDTO getTransferInfoById(Long id) {
+        return convertTransferInfoToDTO(transferInfoRepository.findOne(id));
+    }
+
+    private List<TransferInfoDTO> convertTransferInfoEntitiesToDTOs(List<TransferInfo> transferInfos) {
+        List<TransferInfoDTO> transferInfoDTOS = new ArrayList<>() ;
+        for (TransferInfo transferInfo : transferInfos) {
+            TransferInfoDTO transferInfoDTO = convertTransferInfoToDTO(transferInfo);
             transferInfoDTOS.add(transferInfoDTO);
         }
-
         return transferInfoDTOS;
     }
 

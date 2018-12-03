@@ -177,6 +177,7 @@ public class OrderServiceImpl implements OrderService {
                itemStatus = itemStatusRepository.findByStatus("NV");
                orders.setDeliveryStatus("NV");
             }
+
             else if(orderReq.getPaymentType().equalsIgnoreCase("BANK_TRANSFER")){
                itemStatus = itemStatusRepository.findByStatus("P");
                orders.setDeliveryStatus("P");
@@ -186,6 +187,7 @@ public class OrderServiceImpl implements OrderService {
                 itemStatus = itemStatusRepository.findByStatus("P");
                 orders.setDeliveryStatus("P");
             }
+
             else {
                 System.out.println("Invalid payment type");
                 throw new WawoohException();

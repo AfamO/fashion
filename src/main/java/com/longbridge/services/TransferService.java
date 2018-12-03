@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface TransferService {
     void saveOrderTransferInfo(TransferInfoDTO transferInfoDTO);
-    TransferInfoDTO getOrderTransferInfo(String orderNum);
+    List<TransferInfoDTO> getOrderTransferInfo(String orderNum);
     List<TransferInfoDTO> getAllTransferInfo();
+    TransferInfoDTO getTransferInfoById(Long id);
 }

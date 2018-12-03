@@ -228,12 +228,15 @@ public class AdminOrderServiceImpl implements AdminOrderService {
             Orders orders=orderRepository.findOne(orderReqDTO.getId());
             Date date = new Date();
             orders.setUpdatedOn(date);
-//            if(orders.getDeliveryStatus().equalsIgnoreCase("A")){
-            TransferInfo transferInfo = transferInfoRepository.findByOrders(orders);
-            if(transferInfo == null){
+            Double totalAmountPayed=0.0;
+            List<TransferInfo> transferInfo = transferInfoRepository.findByOrders(orders);
+            if(transferInfo.size() < 0){
                 return "nopayment";
             }
-            if(transferInfo.getAmountPayed() < orders.getTotalAmount()){
+            for (TransferInfo t:transferInfo) {
+                totalAmountPayed=totalAmountPayed+t.getAmountPayed();
+            }
+            if(totalAmountPayed < orders.getTotalAmount()){
                 return "lesspayment";
             }
             for (Items items: orders.getItems()) {
@@ -247,7 +250,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 notifyDesigner(items);
             }
             //update wallet balance
-            pocketService.updatePocketForOrderPayment(customer,transferInfo.getAmountPayed(),"BANK_TRANSFER");
+            pocketService.updatePocketForOrderPayment(customer,totalAmountPayed,"BANK_TRANSFER");
             //update orders
 
             orders.setDeliveryStatus("PC");

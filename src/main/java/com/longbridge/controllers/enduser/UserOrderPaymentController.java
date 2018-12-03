@@ -33,6 +33,12 @@ public class UserOrderPaymentController {
         return new Response("00", "Operation Successful", transferService.getOrderTransferInfo(orderNum));
     }
 
+
+    @GetMapping(value = "/{id}/gettransferinfobyid")
+    public Response getOrderTransferInfoById(@PathVariable Long id){
+        return new Response("00", "Operation Successful", transferService.getTransferInfoById(id));
+    }
+
     @PostMapping(value = "/savetransferinfo")
     public Response saveOrderTransferInfo(@RequestBody TransferInfoDTO transferInfoDTO){
         transferService.saveOrderTransferInfo(transferInfoDTO);
