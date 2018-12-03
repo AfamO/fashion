@@ -69,6 +69,13 @@ public class AdminController {
 
 
     @GetMapping(value = "/getbespokeapplications")
+    public Response getBespokeApplication(){
+        return new Response("00","Operation Successful",vendorBespokeFormDetailsService.getAll());
+
+    }
+
+
+    @GetMapping(value = "/{id}/getbespokeapplication")
     public Response getBespokeApplications(){
         return new Response("00","Operation Successful",vendorBespokeFormDetailsService.getAll());
 
@@ -80,6 +87,7 @@ public class AdminController {
         vendorBespokeFormDetailsService.updateBespokeRequest(bespokeRequestUpdateDTO);
         return new Response("00","Operation Successful","success");
     }
+
 
 
 

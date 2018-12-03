@@ -49,6 +49,15 @@ public class VendorBespokeFormDetailsServiceImpl implements VendorBespokeFormDet
 
 
     @Override
+    public VendorBespokeFormDetails getVendorBespokeFormDetails(Long id) {
+        VendorBespokeFormDetails vendorBespokeFormDetails= vendorBespokeFormDetailsRepository.findOne(id);
+        Designer designer = designerRepository.findById(vendorBespokeFormDetails.getDesignerId());
+        vendorBespokeFormDetails.setStoreName(designer.getStoreName());
+        vendorBespokeFormDetails.setRegistrationDate(designer.getCreatedOn().toString());
+        return vendorBespokeFormDetails;
+    }
+
+    @Override
     public void updateBespokeRequest(BespokeRequestUpdateDTO bespokeRequestUpdateDTO) {
         try {
 

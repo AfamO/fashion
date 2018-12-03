@@ -11,5 +11,6 @@ import java.util.List;
 public interface VendorBespokeFormDetailsService {
     String add(VendorBespokeFormDetails vendorBespokeFormDetails);
     List<VendorBespokeFormDetails> getAll();
+    VendorBespokeFormDetails getVendorBespokeFormDetails(Long id);
     void updateBespokeRequest(BespokeRequestUpdateDTO bespokeRequestUpdateDTO);
 }
