@@ -4,8 +4,6 @@
     <list id="81eae1b7-3ba2-4e17-b782-e19265983107" name="Default" comment="" />
     <list default="true" id="14f6daa9-ba47-43b9-9324-df3cac4945dc" name="Default Changelist" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserOrderPaymentController.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserOrderPaymentController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/TransferServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/TransferServiceImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/orderpaymenttemplate.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/orderpaymenttemplate.html" />
     </list>
@@ -132,18 +130,18 @@
       <file leaf-file-name="orderemailtemplate.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="71">
-              <caret line="14" column="73" lean-forward="true" selection-start-line="14" selection-start-column="73" selection-end-line="14" selection-end-column="73" />
+            <state relative-caret-position="161">
+              <caret line="20" column="70" lean-forward="false" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="70" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="orderpaymenttemplate.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="orderpaymenttemplate.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderpaymenttemplate.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="46">
-              <caret line="22" column="72" lean-forward="true" selection-start-line="22" selection-start-column="72" selection-end-line="22" selection-end-column="72" />
+            <state relative-caret-position="61">
+              <caret line="23" column="89" lean-forward="false" selection-start-line="23" selection-start-column="89" selection-end-line="23" selection-end-column="89" />
               <folding />
             </state>
           </provider>
@@ -159,11 +157,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TransferServiceImpl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TransferServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/TransferServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="125">
-              <caret line="45" column="41" lean-forward="false" selection-start-line="45" selection-start-column="41" selection-end-line="45" selection-end-column="41" />
+              <caret line="45" column="67" lean-forward="true" selection-start-line="45" selection-start-column="67" selection-end-line="45" selection-end-column="67" />
               <folding />
             </state>
           </provider>
@@ -292,9 +290,9 @@
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/AdminOrderServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/TransferService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserOrderPaymentController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/TransferServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/orderpaymenttemplate.html" />
-        <option value="$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/TransferServiceImpl.java" />
       </list>
     </option>
   </component>
@@ -1343,12 +1341,12 @@
       <workItem from="1542201182404" duration="1879000" />
       <workItem from="1542381009438" duration="4203000" />
       <workItem from="1542878910994" duration="19902000" />
-      <workItem from="1543827142023" duration="18845000" />
+      <workItem from="1543827142023" duration="19481000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="175057000" />
+    <option name="totallyTimeSpent" value="175693000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="5" y="23" width="1341" height="677" extended-state="0" />
@@ -1822,22 +1820,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderpaymenttemplate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="22" column="72" lean-forward="true" selection-start-line="22" selection-start-column="72" selection-end-line="22" selection-end-column="72" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="71">
-          <caret line="14" column="73" lean-forward="true" selection-start-line="14" selection-start-column="73" selection-end-line="14" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/controllers/enduser/UserOrderPaymentController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1857,7 +1839,23 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/longbridge/services/implementations/TransferServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
-          <caret line="45" column="41" lean-forward="false" selection-start-line="45" selection-start-column="41" selection-end-line="45" selection-end-column="41" />
+          <caret line="45" column="67" lean-forward="true" selection-start-line="45" selection-start-column="67" selection-end-line="45" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderemailtemplate.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="20" column="70" lean-forward="false" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/orderpaymenttemplate.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="23" column="89" lean-forward="false" selection-start-line="23" selection-start-column="89" selection-end-line="23" selection-end-column="89" />
           <folding />
         </state>
       </provider>
