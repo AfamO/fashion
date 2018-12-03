@@ -76,8 +76,8 @@ public class AdminController {
 
 
     @GetMapping(value = "/{id}/getbespokeapplication")
-    public Response getBespokeApplications(){
-        return new Response("00","Operation Successful",vendorBespokeFormDetailsService.getAll());
+    public Response getBespokeApplication(@PathVariable Long id){
+        return new Response("00","Operation Successful",vendorBespokeFormDetailsService.getVendorBespokeFormDetails(id));
 
     }
 

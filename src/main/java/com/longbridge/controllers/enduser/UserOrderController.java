@@ -97,12 +97,13 @@ public class UserOrderController {
         return new Response("00","Operation Successful","success");
     }
 
+
     @PostMapping(value = "/decision")
     public Response rejectDecision(@RequestBody ItemsDTO itemsDTO){
         orderService.userRejectDecision(itemsDTO);
         return new Response("00","Operation Successful","success");
-
     }
+
 
     @PostMapping(value = "/addtocart")
     public Response addToCart(@RequestBody Cart cart){
@@ -162,9 +163,6 @@ public class UserOrderController {
     public Response getOrderShippingPrice(@RequestBody OrderReqDTO orderReqDTO){
         return new Response("00", "Operation successful", shippingPriceService.getLocalShippingPrice(orderReqDTO.getDeliveryAddressId()));
     }
-
-
-
 
 
     @GetMapping(value = "/{orderNum}/getorderbynum")

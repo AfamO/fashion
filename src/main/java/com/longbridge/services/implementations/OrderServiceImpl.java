@@ -482,11 +482,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Orders> getOrdersByUser() {
+    public List<OrderDTO> getOrdersByUser() {
         try {
             User user=getCurrentUser();
-            List<Orders> orders= orderRepository.findByUserId(user.id);
-            return orders;
+            return generalUtil.convertOrderEntsToDTOs(orderRepository.findByUserId(user.id));
         }catch (Exception ex){
             ex.printStackTrace();
             throw new WawoohException();

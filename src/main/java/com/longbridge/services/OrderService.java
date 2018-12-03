@@ -15,7 +15,7 @@ public interface OrderService {
 
     PaymentResponse addOrder(OrderReqDTO orders);
     void userRejectDecision(ItemsDTO itemsDTO);
-    List<Orders> getOrdersByUser();
+    List<OrderDTO> getOrdersByUser();
 
 
     String addToCart(Cart cart);
