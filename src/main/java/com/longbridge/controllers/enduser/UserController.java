@@ -54,16 +54,23 @@ public class UserController {
             MailError mailError = new MailError();
             mailError.setName(e.getName());
             mailError.setRecipient(recipient);
-            mailError.setSubject(subject);
             mailError.setLink(e.getLink());
+            mailError.setSubject(subject);
             mailError.setMailType("welcome");
             mailErrorRepository.save(mailError);
             return new Response("00", "Registration successful, Trying to send welcome email", "success");
         }
     }
 
-
-
+    @PostMapping(value = "/validatemail")
+    public Object validateEmail(@RequestBody UserDTO userDTO){
+        try {
+            return userUtil.checkEmail(userDTO);
+        }catch (AppException e){
+            e.printStackTrace();
+            return new Response("96", "Error occurred validating Email", null);
+        }
+    }
 
 
 //this code handles it better.. for cases when d email fails
@@ -167,6 +174,8 @@ public class UserController {
     public Object validateToken(@RequestBody User user){
         try {
             userUtil.sendToken(user.getEmail());
+
+            userUtil.sendTokenAsMail(user.getEmail());
             return new Response("00", "Operation Successful", "success");
 
         }catch (Exception e){

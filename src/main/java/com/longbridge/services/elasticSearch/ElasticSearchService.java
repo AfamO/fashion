@@ -51,7 +51,7 @@ import org.springframework.stereotype.Service;
       JSONObject remoteJsonObjectNewAggs=null;
       String currentColumName="";
      String[] productTextColumns= {"name", "categoryName","description","designerName","status","designerStatus","subCategoryName","colourName","prodSummary","materialName", "inStock","availability", "mandatoryMeasurements","sizeGuide","acceptCustomSizes"};
-     String[] productNumberColumns= {"amount","percentageDiscount","materialPrice", "stockNo","slashedPrice","numOfTimesOrdered","productQualityRating","productDeliveryRating","productServiceRating","numOfDaysToComplete","totalSales","salesInQueue"};
+     String[] productNumberColumns= {"amount", "numberInStock","numOfTimesOrdered","productQualityRating","productDeliveryRating","productServiceRating","totalSales","salesInQueue"};
      String[] productAggreationsFieldColumns= {"name", "categoryName","designerName","status","subCategoryName","materialName", "inStock","availability","acceptCustomSizes"};
    public ApiResponse makeRemoteRequest(String host_api_url,String path,String httpMethod,String requestedServiceName,String requestedIndexName,Object httpParameters)
    {
@@ -222,11 +222,11 @@ import org.springframework.stereotype.Service;
         return makeRemoteRequestIndexProducts;
          
    }
-   public ApiResponse UpdateProductIndex(String host_api_url,ProductSearchDTO productSearchDTO){
+   public ApiResponse UpdateProductIndex(String host_api_url,ProductRespDTO productSearchDTO){
        if(productSearchDTO!=null){
             this.httpParameters=new JSONObject().put("doc",new JSONObject(SearchUtilities.convertObjectToJson(productSearchDTO)));
             //apiLogger.log(Level.INFO," Received JSON Object To Be Updated Is :::"+httpParameters); 
-            requestedEndPointPath="/_doc/"+productSearchDTO.getId()+"/_update";
+            requestedEndPointPath="/_doc/"+productSearchDTO.id+"/_update";
             requestedServiceName="update_index";//This data is used for logging.
             this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
             return makeRemoteRequest(host_api_url,requestedEndPointPath,"post",requestedServiceName, requestedIndexName, httpParameters);
@@ -236,11 +236,11 @@ import org.springframework.stereotype.Service;
         }
        
    }
-   public ApiResponse AddSearchProductIndex(String host_api_url,ProductSearchDTO productSearchDTO){
+   public ApiResponse AddSearchProductIndex(String host_api_url,ProductRespDTO productSearchDTO){
        if(productSearchDTO!=null){
             this.httpParameters=new JSONObject(SearchUtilities.convertObjectToJson(productSearchDTO));
             //apiLogger.log(Level.INFO," Received JSON Object To Be Indexed Is :::"+httpParameters); 
-            requestedEndPointPath="/_doc/"+productSearchDTO.getId()+"/";
+            requestedEndPointPath="/_doc/"+productSearchDTO.id+"/";
             requestedServiceName="create_index";//This data is used for logging.
             this.requestedIndexName=host_api_url.substring(host_api_url.lastIndexOf('/')+1, host_api_url.length());
             return makeRemoteRequest(host_api_url,requestedEndPointPath,"put",requestedServiceName, requestedIndexName, httpParameters);
@@ -250,10 +250,10 @@ import org.springframework.stereotype.Service;
         }
        
    }
-   public ProductSearchDTO convertIndexApiReponseToProductDTO(ApiResponse apiResponse){
+   public ProductRespDTO convertIndexApiReponseToProductDTO(ApiResponse apiResponse){
        JSONObject productObjectResponse=new JSONObject(SearchUtilities.convertObjectToJson(apiResponse));
        ObjectMapper objectMapper = new ObjectMapper();
-       ProductSearchDTO  productSearchDTO = objectMapper.convertValue(productObjectResponse.getJSONObject("data").getJSONObject("_source").toMap(),ProductSearchDTO.class);
+       ProductRespDTO  productSearchDTO = objectMapper.convertValue(productObjectResponse.getJSONObject("data").getJSONObject("_source").toMap(),ProductRespDTO.class);
        return productSearchDTO;
        
    }

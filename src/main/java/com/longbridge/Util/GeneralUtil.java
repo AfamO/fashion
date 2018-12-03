@@ -166,18 +166,20 @@ public class GeneralUtil {
     public DesignerDTO convertDesignerEntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
-        dto.userId = d.getUser().id;
         dto.logo=d.getPublicId();
         dto.banner=d.getBannerPublicId();
         dto.storeName=d.getStoreName();
         dto.setStoreId(d.getStoreId());
         dto.address=d.getAddress();
         User u = d.getUser();
-        dto.firstName=u.getFirstName();
-        dto.lastName=u.getLastName();
-        dto.phoneNo=u.getPhoneNo();
-        dto.email=u.getEmail();
-        dto.gender=u.getGender();
+        if(u!=null){
+            dto.userId = u.id;
+            dto.firstName=u.getFirstName();
+            dto.lastName=u.getLastName();
+            dto.phoneNo=u.getPhoneNo();
+            dto.email=u.getEmail();
+            dto.gender=u.getGender();
+        }
         dto.accountName=d.getAccountName();
         dto.accountNumber=d.getAccountNumber();
         dto.swiftCode=d.getSwiftCode();
@@ -235,6 +237,7 @@ public class GeneralUtil {
         pictureDTO.id=picture.getId();
         pictureDTO.productId=picture.getBespokeProduct().getProduct().id;
         pictureDTO.artWorkPicture=picture.getPictureName();
+        pictureDTO.price=picture.getPrice();
 
         return pictureDTO;
 
@@ -255,6 +258,9 @@ public class GeneralUtil {
         pictureDTO.setId(picture.getId());
         pictureDTO.setProductId(picture.getBespokeProduct().getProduct().id);
         pictureDTO.setMaterialPicture(picture.getPictureName());
+        pictureDTO.setMaterialPrice(picture.getPrice());
+        pictureDTO.setMaterialName(picture.getMaterialName());
+
         return pictureDTO;
 
     }
@@ -310,7 +316,6 @@ public class GeneralUtil {
         productDTO.prodSummary= product.getProdSummary();
         productDTO.name= product.getName();
         productDTO.sku = product.getSku();
-
         productDTO.productColorStyleDTOS =convertProductAttributeEntitiesToDTOs(product.getProductStyle().getProductColorStyles());
 
       //  productDTO.productSizes=product.productSizes;
@@ -335,8 +340,10 @@ public class GeneralUtil {
         productDTO.numOfTimesOrdered = product.getNumOfTimesOrdered();
 
         productDTO.amount=product.getProductPrice().getAmount();
+
         if(product.getProductPrice().getPriceSlash() != null){
             productDTO.slashedPrice = product.getProductPrice().getPriceSlash().getSlashedPrice();
+            productDTO.sewingPrice = product.getProductPrice().getSewingAmount();
             productDTO.percentageDiscount = Double.parseDouble(df.format(product.getProductPrice().getPriceSlash().getPercentageDiscount()));
         }
 
@@ -430,6 +437,7 @@ public class GeneralUtil {
         productDTO.amount=product.getProductPrice().getAmount();
         if(product.getProductPrice().getPriceSlash() != null){
             productDTO.slashedPrice = product.getProductPrice().getPriceSlash().getSlashedPrice();
+            productDTO.sewingPrice = product.getProductPrice().getSewingAmount();
             productDTO.percentageDiscount = Double.parseDouble(df.format(product.getProductPrice().getPriceSlash().getPercentageDiscount()));
         }
 
@@ -516,6 +524,7 @@ public class GeneralUtil {
         productColorStyleDTO.setId(productAttribute.id);
         productColorStyleDTO.setColourPicture(productAttribute.getColourPicture());
         productColorStyleDTO.setColourName(productAttribute.getColourName());
+
 
         productColorStyleDTO.setProductPictureDTOS(convertProdPictureEntitiesToDTO(productPictureRepository.findByProductColorStyle(productAttribute)));
         productColorStyleDTO.setProductSizes(productAttribute.getProductSizes());
@@ -624,7 +633,6 @@ public class GeneralUtil {
 
     public CartDTO convertCartEntToDTO(Cart cart){
 
-        //System.out.println("The ProductId=="+cart.getProductId());
         CartDTO cartDTO = new CartDTO();
 
         cartDTO.setId(cart.id);
@@ -633,15 +641,19 @@ public class GeneralUtil {
 
         Product product = productRepository.findOne(cart.getProductId());
         //System.out.println("The Saved Total Amount For this cart "+cart.id+"==="+cart.getAmount());
-        // Hence search for itemtype of either 'product' or 'category'
-        List<PromoItem> promoItemList=promoItemsRepository.findAllPromoItemsBelongToCategoryAndProduct(cart.getProductId(),"p","c");
-        //System.out.println("Retrieved promoItemsList Size=="+promoItemList.size());
-        if(promoItemList!=null && promoItemList.size()>0){
+        // Hence search for itemtype of either 'product' or 'category' or 'cart'
+        List<String> itemTypesLists= new ArrayList<>();
+        itemTypesLists.add("product");itemTypesLists.add("category");itemTypesLists.add("cart");
+        List<PromoItem> promoItemLists = new ArrayList<>();
+        promoItemLists=promoItemsRepository.findAllPromoItemsBelongingToCategoryAndProduct(cart.getProductId(),itemTypesLists);
+        promoItemLists.addAll(promoItemsRepository.findByItemType("all")); // Search and include itemtype of 'all' if any is found in DB
+        System.out.println("Retrieved promoItemsList Size=="+promoItemLists.size()+" The ProductId=="+cart.getProductId());
+        if(promoItemLists!=null && promoItemLists.size()>0){
 
-            PromoCode promoCode=promoItemList.get(0).getPromoCode(); // Ensure that alteast one of the items has a promoCode attached to it.
+            PromoCode promoCode=promoItemLists.get(0).getPromoCode(); // Ensure that alteast one of the items has a promoCode attached to it.
             //System.out.println("Retrieved PromoCode=="+promoCode.getCode());
-            //Does this product have a promocode and it has not been used by the same user?
-            if(promoCode!=null && !cart.getPromoCode().equalsIgnoreCase("USER_USED")){
+            //Does this product have a promocode irrespective of whether it been used?
+            if(promoCode!=null ){
                 //Then set 'Y' for yes so that the user is allowed to enter the promocode and use it.
                 cartDTO.setHasPromoCode("Y");
             }
@@ -668,8 +680,9 @@ public class GeneralUtil {
 
         ProductPicture p = productPictureRepository.findFirst1ByProductColorStyle_ProductStyle_Product(product);
         cartDTO.setProductPicture(p.getPictureName());
-
-        cartDTO.setStockNo(productSizesRepository.findOne(cart.getProductSizeId()).getNumberInStock());
+        //To check whether the cart item is Bespoke or Ready To Wear base on whether the ProductSizeId is null or not.
+        if(cart.getProductSizeId()!=null)
+            cartDTO.setStockNo(productSizesRepository.findOne(cart.getProductSizeId()).getNumberInStock());
 
         if(cart.getArtWorkPictureId() != null) {
             ArtWorkPicture a = artWorkPictureRepository.findOne(cart.getArtWorkPictureId());
@@ -692,11 +705,17 @@ public class GeneralUtil {
         if(cart.getProductColorStyleId() == null){
             cartDTO.setSizeStockNo(1);
         }else{
-           ProductColorStyle productAttribute =  productColorStyleRepository.findOne(cart.getProductColorStyleId());
-           if(productAttribute != null){
-               ProductSizes productSizes = productSizesRepository.findByProductColorStyleAndName(productAttribute, cart.getSize());
-               cartDTO.setSize(productSizes.getName());
-               cartDTO.setSizeStockNo(productSizes.getNumberInStock());
+           ProductColorStyle productColorStyle =  productColorStyleRepository.findOne(cart.getProductColorStyleId());
+           if(productColorStyle != null){
+               System.out.println("The Cart Size Is::"+cart.getSize());
+               //Check wether the product is bespoke or ready to wear depending on whether it has size or not.
+               if(cart.getSize()!=null){
+                   ProductSizes productSizes = productSizesRepository.findByProductColorStyleAndName(productColorStyle, cart.getSize());
+                   if(productSizes!=null){
+                       cartDTO.setSize(productSizes.getName());
+                       cartDTO.setSizeStockNo(productSizes.getNumberInStock());
+                   }
+               }
            }
         }
 
@@ -715,6 +734,7 @@ public class GeneralUtil {
         return cartDTO;
 
     }
+
 
 
     public ItemsRespDTO convertEntityToDTO(Items items){
@@ -800,7 +820,9 @@ public class GeneralUtil {
     public OrderDTO convertOrderEntToDTOs(Orders orders){
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(orders.id);
-        orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
+        if(orders.getDeliveryAddress() != null) {
+            orderDTO.setDeliveryAddress(orders.getDeliveryAddress().getAddress());
+        }
         orderDTO.setDeliveryStatus(orders.getDeliveryStatus());
         orderDTO.setOrderNumber(orders.getOrderNum());
         orderDTO.setPaymentType(orders.getPaymentType());
@@ -837,23 +859,7 @@ public class GeneralUtil {
 
         List<PromoCodeDTO> promoCodeDTOLists= new ArrayList<>();
         for(PromoCode promoCode :promoCodeList){
-            PromoCodeDTO promoCodeDTO=new PromoCodeDTO();
-            promoCodeDTO.setCode(promoCode.getCode());
-            List<PromoItemDTO> promoItemDTOLists = new ArrayList<>();
-            for(PromoItem promoItem: promoCode.getPromoItems())
-            {
-                PromoItemDTO promoItemDTO =new PromoItemDTO();
-                promoItemDTO.setItemId(promoItem.getItemId());
-                promoItemDTO.setItemType(promoItem.getItemType());
-                promoItemDTOLists.add(promoItemDTO);
-            }
-            promoCodeDTO.setPromoItemsDTO(promoItemDTOLists);
-            promoCodeDTO.setValue(promoCode.getValue());
-            promoCodeDTO.setValueType(promoCode.getValueType());
-            promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
-            promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
-            promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
-            promoCodeDTOLists.add(promoCodeDTO);
+            promoCodeDTOLists.add(this.convertSinglePromoCodeToDTO(promoCode));
         }
         return promoCodeDTOLists;
     }
@@ -861,6 +867,9 @@ public class GeneralUtil {
     public PromoCodeDTO convertSinglePromoCodeToDTO(PromoCode promoCode){
 
         PromoCodeDTO promoCodeDTO=new PromoCodeDTO();
+        if(promoCode==null){
+            System.out.println("The PromoCode Is NULL HERE");
+        }
         promoCodeDTO.setCode(promoCode.getCode());
         List<PromoItemDTO> promoItemDTOLists = new ArrayList<>();
         for(PromoItem promoItem: promoCode.getPromoItems())
@@ -872,10 +881,18 @@ public class GeneralUtil {
         }
         promoCodeDTO.setPromoItemsDTO(promoItemDTOLists);
         promoCodeDTO.setValue(promoCode.getValue());
+        promoCodeDTO.setId(promoCode.id);
         promoCodeDTO.setValueType(promoCode.getValueType());
         promoCodeDTO.setExpiryDate(promoCode.getExpiryDate().toString());
         promoCodeDTO.setIsUsedStatus(promoCode.getIsUsedStatus());
         promoCodeDTO.setNumberOfUsage(promoCode.getNumberOfUsage());
+        promoCodeDTO.setVerifiedFlag(promoCode.getVerifiedFlag());
+        if(promoCode.getVerifiedFlag().equalsIgnoreCase("Y")){
+         promoCodeDTO.setVerifierId(promoCode.getVerifiedBy().id);  
+         promoCodeDTO.setVerifiedBy(promoCode.getVerifiedBy());
+        }
+        promoCodeDTO.setCreatorId(promoCode.getCreatedBy().id);
+        promoCodeDTO.setCreatedBy(promoCode.getCreatedBy());
 
 
         return promoCodeDTO;

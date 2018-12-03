@@ -48,11 +48,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ArtWorkPictureRepository artWorkPictureRepository;
+    @Autowired
+    ElasticSearchService searchService;
 
 
     @Autowired
     MaterialPictureRepository materialPictureRepository;
-
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -84,6 +85,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductStatusesRepository productStatusesRepository;
 
+
     @Autowired
     public ProductServiceImpl(GeneralUtil generalUtil) {
         this.generalUtil = generalUtil;
@@ -112,8 +114,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductColorStyleRepository productColorStyleRepository;
 
-    RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass()); 
-    
+    RemoteWebServiceLogger apiLogger=new RemoteWebServiceLogger(this.getClass());
+
+    private Long currentProductId;
+
+    Product searchProduct;
+
     @Value("${search.url}")
     private String elastic_host_api_url; //host_api_url for elastic search
 
@@ -295,6 +301,7 @@ public class ProductServiceImpl implements ProductService {
             Designer designer = designerRepository.findByUser(user);
             Date date = new Date();
             Product product = saveProduct(productDTO, designer, date);
+            searchProduct=product;
             ProductStyle productStyle = saveProductStyle(productDTO.styleId, product,productDTO);
             saveProductColorStyle(productDTO.productColorStyleDTOS, productDTO,product.getSubCategory().getSubCategory(), productStyle);
             savePriceDetails(productDTO.productPriceDTO,product);
@@ -305,6 +312,7 @@ public class ProductServiceImpl implements ProductService {
                 productStatuses.setAcceptCustomSizes("N");
                 productStatuses.setAvailability("Y");
             }
+
 
             if(productDTO.name.length() >10){
                 productDTO.name = productDTO.name.substring(0,10);
@@ -317,7 +325,10 @@ public class ProductServiceImpl implements ProductService {
             String sku =productDTO.name + "-"+designer.getStoreId()+"-" + UUID.randomUUID().toString().replace("-","").substring(0,10);
             product.setSku(sku);
             productRepository.save(product);
+            currentProductId=product.id;
+            System.out.println("The Just Saved Product Id =="+currentProductId);
             productStatuses.setProduct(product);
+            searchProduct.setProductStatuses(productStatuses);
             productStatusesRepository.save(productStatuses);
             return "true";
 
@@ -327,7 +338,16 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
+    public void indexProductForSearch(){
 
+        Gson gson= new Gson();
+        //Index search
+        ProductRespDTO productRespDTO= generalUtil.convertEntityToDTO(searchProduct);
+        ApiResponse makeRemoteRequest = searchService.AddSearchProductIndex(elastic_host_api_url, productRespDTO);
+        apiLogger.log("The Result Of Indexing A New Product For Elastic Search Is:"+gson.toJson(makeRemoteRequest));
+
+    }
     private Product saveProduct(ProductDTO productDTO, Designer designer, Date date) {
         Product product = new Product();
         Long subCategoryId = Long.parseLong(productDTO.subCategoryId);
@@ -355,6 +375,7 @@ public class ProductServiceImpl implements ProductService {
             saveBespokeProduct(productDTO.productType, productDTO.bespokeProductDTO, new Date(),productStyle,product.getSubCategory().getSubCategory());
 
         }
+        searchProduct.setProductStyle(productStyle);
         return productStyle;
     }
 
@@ -366,6 +387,8 @@ public class ProductServiceImpl implements ProductService {
             bespokeProduct.setMandatoryMeasurements(bespokeProductDTO.getMandatoryMeasurements());
             bespokeProduct.setProductStyle(productStyle);
             bespokeProductRepository.save(bespokeProduct);
+            List<MaterialPicture> materialPictureList =new ArrayList<>();
+            List<ArtWorkPicture> artWorkPictureList =new ArrayList<>();
             for (MaterialPictureDTO mp : bespokeProductDTO.getMaterialPicture()) {
                 MaterialPicture materialPicture = new MaterialPicture();
                 String matName = generalUtil.getPicsName("materialpic", subCategory);
@@ -378,18 +401,27 @@ public class ProductServiceImpl implements ProductService {
                 materialPicture.createdOn = date;
                 materialPicture.setUpdatedOn(date);
                 materialPictureRepository.save(materialPicture);
+                materialPictureList.add(materialPicture);
             }
+            bespokeProduct.setMaterialPicture(materialPictureList);
             for (ArtWorkPicture ap : bespokeProductDTO.getArtWorkPicture()) {
                 ArtWorkPicture artWorkPicture = new ArtWorkPicture();
                 String artName = generalUtil.getPicsName("artworkpic", subCategory);
                 CloudinaryResponse c = cloudinaryService.uploadToCloud(ap.getPicture(), artName, "artworkpictures");
                 artWorkPicture.setPictureName(c.getUrl());
                 artWorkPicture.setPicture(c.getPublicId());
+
+                artWorkPicture.setPrice(ap.getPrice());
+
                 artWorkPicture.setBespokeProduct(bespokeProduct);
                 artWorkPicture.createdOn = date;
                 artWorkPicture.setUpdatedOn(date);
                 artWorkPictureRepository.save(artWorkPicture);
+                artWorkPictureList.add(artWorkPicture);
             }
+            bespokeProduct.setArtWorkPicture(artWorkPictureList);
+            productStyle.setBespokeProduct(bespokeProduct);
+            searchProduct.setProductStyle(productStyle);//Update it for search purposes
         }
     }
 
@@ -404,32 +436,36 @@ public class ProductServiceImpl implements ProductService {
             productPrice.setPriceSlashEnabled(true);
             priceSlash.setSlashedPrice(productPriceDTO.getSlashedPrice());
             priceSlash.setPercentageDiscount(((productPriceDTO.getAmount() - productPriceDTO.getSlashedPrice())/productPriceDTO.getAmount())*100);
-            priceSlashRepository.save(priceSlash);
+//            priceSlashRepository.save(priceSlash);
         } else if(productPriceDTO.getPercentageDiscount() > 0){
             priceSlash=new PriceSlash();
             productPrice.setPriceSlashEnabled(true);
-            productPrice.setProduct(product);
             priceSlash.setSlashedPrice(productPriceDTO.getAmount() - ((productPriceDTO.getPercentageDiscount()/100)* productPrice.getAmount()));
             priceSlash.setPercentageDiscount(productPriceDTO.getPercentageDiscount());
-            priceSlashRepository.save(priceSlash);
+//            priceSlashRepository.save(priceSlash);
         }
         productPrice.setPriceSlash(priceSlash);
+        priceSlash.setProductPrice(productPrice);
+        priceSlashRepository.save(priceSlash);
         productPriceRepository.save(productPrice);
+        searchProduct.setProductPrice(productPrice);
     }
 
     private void saveProductColorStyle(List<ProductColorStyleDTO> productColorStyleDTOS,ProductDTO productDTO, String subCategory, ProductStyle productStyle) {
         Date date = new Date();
+        List<ProductColorStyle> productColorStyleList = new ArrayList<>();
+        List<ProductRating> productRatingList= new ArrayList<>();
         for (ProductColorStyleDTO pa: productColorStyleDTOS) {
             ProductColorStyle productColorStyle=new ProductColorStyle();
            // productColorStyle.setProduct(product);
             String name = pa.getColourName().replace("&","");
             String colourName= generalUtil.getPicsName("prodcolour",name);
             CloudinaryResponse c = cloudinaryService.uploadToCloud(pa.getColourPicture(),colourName,"materialpictures");
-            productColorStyle.setColourName(pa.getColourName());
             productColorStyle.setColourPicture(c.getUrl());
+
             productColorStyle.setProductStyle(productStyle);
             productColorStyleRepository.save(productColorStyle);
-
+            List<ProductSizes> productSizesList = new ArrayList<>();
             for (ProductSizes p: pa.getProductSizes()){
                 ProductSizes productSizes = new ProductSizes();
                 productSizes.setName(p.getName());
@@ -437,25 +473,37 @@ public class ProductServiceImpl implements ProductService {
                 productSizes.setProductColorStyle(productColorStyle);
                 productSizes.setProductColorStyle(productColorStyle);
                 productSizesRepository.save(productSizes);
+                productSizesList.add(productSizes);
             }
-                saveProductPicture(pa.getPicture(),date,subCategory,productColorStyle);
+                productColorStyle.setProductSizes(productSizesList);
 
+                List<ProductPicture> productPictureList = saveProductPicture(pa.getPicture(), date, subCategory, productColorStyle);
 
+                productColorStyle.setProductPictures(productPictureList);
+                productColorStyleList.add(productColorStyle);
         }
+        productStyle.setProductColorStyles(productColorStyleList);
+        searchProduct.setProductStyle(productStyle);
+        searchProduct.setReviews(productRatingList);
     }
 
-    private void saveProductPicture(List<String> pictures, Date date, String subCategory, ProductColorStyle productColorStyle) {
+    private List<ProductPicture> saveProductPicture(List<String> pictures, Date date, String subCategory, ProductColorStyle productColorStyle) {
+        List<ProductPicture> productPictureList = new ArrayList<>();
         for(String p:pictures){
             ProductPicture productPicture = new ProductPicture();
             String  productPictureName= generalUtil.getPicsName("prodpic", subCategory);
             CloudinaryResponse c = cloudinaryService.uploadToCloud(p,productPictureName,"productpictures");
             productPicture.setPictureName(c.getUrl());
             productPicture.setPicture(c.getPublicId());
+
             productPicture.setProductColorStyle(productColorStyle);
             productPicture.createdOn = date;
             productPicture.setUpdatedOn(date);
             productPictureRepository.save(productPicture);
+            productPictureList.add(productPicture);
         }
+        return productPictureList;
+
     }
 
     @Override
@@ -480,6 +528,12 @@ public class ProductServiceImpl implements ProductService {
             product.setUpdatedOn(date);
             product.getProductStatuses().setVerifiedFlag("N");
             productRepository.save(product);
+            //Index search
+            ProductRespDTO productRespDTO= generalUtil.convertEntityToDTO(product);
+            //Update the search index to display verified product only
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url,productRespDTO);
+            apiLogger.log("The Result Of ReIndexing An Updated Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+
         }catch (Exception e) {
             e.printStackTrace();
             throw new WawoohException();
@@ -526,19 +580,19 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             //get the product to update
-            ProductSearchDTO productSearchDTO=null;
             Product product = productRepository.findOne(id);
-//            if(product !=null){
-//                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, id));
-//                productSearchDTO.setVerifiedFlag(status);
-//            }
+            ProductRespDTO productSearchDTO = null;
+            if(product !=null){
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, id));
+                productSearchDTO.verifiedFlag=status;
+            }
             product.getProductStatuses().setVerifiedFlag(status);
             product.setVerfiedOn(date);
             productRepository.save(product);
             //Then save the Updated product status
             //Update the search index to display verified product only
-//            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
-//            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+            Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
+            apiLogger.log("The Result Of ReIndexing A Verified/UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -553,6 +607,17 @@ public class ProductServiceImpl implements ProductService {
         try {
             Date date = new Date();
             Product product = productRepository.findOne(verifyDTO.getId());
+            //  Get the product Search Index
+            ProductRespDTO productSearchDTO = null;
+            if(product !=null){
+                productSearchDTO=searchService.convertIndexApiReponseToProductDTO(searchService.getProduct(elastic_host_api_url, verifyDTO.getId()));
+                productSearchDTO.verifiedFlag=verifyDTO.getFlag();
+                productSearchDTO.unVerifiedReason=verifyDTO.getUnverifyReason();
+                //Then save the Updated product
+                //Update the search index with the updated product only
+                Object saveEditedProduct=searchService.UpdateProductIndex(elastic_host_api_url, productSearchDTO);
+                apiLogger.log("The Result Of ReIndexing An UnVerified Product For Elastic Search Is:"+SearchUtilities.convertObjectToJson(saveEditedProduct));
+            }
             product.getProductStatuses().setVerifiedFlag(verifyDTO.getFlag());
             product.getProductStatuses().setUnVerifiedReason(verifyDTO.getUnverifyReason());
             product.setVerfiedOn(date);
@@ -563,7 +628,6 @@ public class ProductServiceImpl implements ProductService {
             throw new WawoohException();
         }
     }
-
     @Override
     public void sponsorProduct(Long id, String status) {
         try {
@@ -628,7 +692,7 @@ public class ProductServiceImpl implements ProductService {
 
         try {
 
-            List<Product> products = productRepository.findByDesigner(designerRepository.findOne(designerId));
+            List<Product> products = productRepository.findByDesignerOrderByVerfiedOnDesc(designerRepository.findOne(designerId));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products);
             return productDTOS;
 
@@ -695,8 +759,15 @@ public class ProductServiceImpl implements ProductService {
         int size = pageableDetailsDTO.getSize();
         try {
             //Page<Product> products = productRepository.findByVerfiedOnIsNull(new PageRequest(page,size));
+//            Page<Product> products = productRepository.findByProductStatuses_VerifiedFlagOrderByCreatedOnDesc(new PageRequest(page,size));
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH,-3);
 
-            Page<Product> products = productRepository.findByProductStatuses_VerifiedFlagOrderByCreatedOnDesc(new PageRequest(page,size));
+            Date startDate = calendar.getTime();
+            Date endDate = new Date();
+
+            Page<Product> products = productRepository.findByProductStatuses_VerifiedFlagAndProductStatuses_DelFlagAndVerfiedOnBetweenOrderByVerfiedOnDesc
+                    ("Y","N",startDate,endDate,new PageRequest(page,size));
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
 
@@ -704,6 +775,8 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
             throw new WawoohException();
         }
+
+
     }
 
     @Override
@@ -811,7 +884,8 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> products;
         try {
             SubCategory subCategory = subCategoryRepository.findOne(p.getSubcategoryId());
-                products = productRepository.findBySubCategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatus(new PageRequest(page, size), subCategory, "Y","A");
+                products = productRepository.findBySubCategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatusOrderByVerfiedOnDesc
+                        (new PageRequest(page, size), subCategory, "Y","A");
 
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;
@@ -827,7 +901,7 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> products;
         try {
             Category category = categoryRepository.findOne(p.getCategoryId());
-            products = productRepository.findBySubCategory_CategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatus(new PageRequest(p.getPage(), p.getSize()), category, "Y","A");
+            products = productRepository.findBySubCategory_CategoryAndProductStatuses_VerifiedFlagAndProductStatuses_DesignerStatusOrderByVerfiedOnDesc(new PageRequest(p.getPage(), p.getSize()), category, "Y","A");
 
             List<ProductRespDTO> productDTOS=generalUtil.convertProdEntToProdRespDTOs(products.getContent());
             return productDTOS;

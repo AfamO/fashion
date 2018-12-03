@@ -46,6 +46,8 @@ public class Designer extends CommonFields {
     private int threshold;
     private double registrationProgress = 10;
 
+    private String bespokeEligible;
+
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
@@ -292,5 +294,14 @@ public class Designer extends CommonFields {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+
+    public String getBespokeEligible() {
+        return bespokeEligible;
+    }
+
+    public void setBespokeEligible(String bespokeEligible) {
+        this.bespokeEligible = bespokeEligible;
     }
 }

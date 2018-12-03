@@ -39,6 +39,7 @@ public class DesignerProductController {
     public Object addProduct(@RequestBody ProductDTO productDTO){
         Map<String,Object> responseMap = new HashMap();
         productService.addProduct(productDTO);
+        productService.indexProductForSearch();
         responseMap.put("success","success");
         return new Response("00","Operation Successful",responseMap);
     }

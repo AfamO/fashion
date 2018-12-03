@@ -1,6 +1,7 @@
 package com.longbridge.controllers.admin;
 
 import com.longbridge.Util.UserUtil;
+import com.longbridge.dto.BespokeRequestUpdateDTO;
 import com.longbridge.models.Code;
 import com.longbridge.models.Response;
 import com.longbridge.models.User;
@@ -72,6 +73,14 @@ public class AdminController {
         return new Response("00","Operation Successful",vendorBespokeFormDetailsService.getAll());
 
     }
+
+
+    @PostMapping(value = "/updatebespokerequest")
+    public Response updateBespokeRequest(@RequestBody BespokeRequestUpdateDTO bespokeRequestUpdateDTO){
+        vendorBespokeFormDetailsService.updateBespokeRequest(bespokeRequestUpdateDTO);
+        return new Response("00","Operation Successful","success");
+    }
+
 
 
     @PostMapping(value = "/{id}/verifyrefund")

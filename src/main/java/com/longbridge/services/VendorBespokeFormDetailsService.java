@@ -1,5 +1,6 @@
 package com.longbridge.services;
 
+import com.longbridge.dto.BespokeRequestUpdateDTO;
 import com.longbridge.models.VendorBespokeFormDetails;
 
 import java.util.List;
@@ -10,4 +11,5 @@ import java.util.List;
 public interface VendorBespokeFormDetailsService {
     String add(VendorBespokeFormDetails vendorBespokeFormDetails);
     List<VendorBespokeFormDetails> getAll();
+    void updateBespokeRequest(BespokeRequestUpdateDTO bespokeRequestUpdateDTO);
 }

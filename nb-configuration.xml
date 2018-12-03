@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-shared-configuration>
+    <!--
+This file contains additional configuration written by modules in the NetBeans IDE.
+The configuration is intended to be shared among all the users of project and
+therefore it is assumed to be part of version control checkout.
+Without this configuration present, some functionality in the IDE may be limited or fail altogether.
+-->
+    <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
+        <configurations>
+            <configuration id="dev" profiles="dev">
+                <property name="jwt.header"> Authorization</property>
+                <property name="spring.mail.username">noreply@wawooh.com</property>
+                <property name="spring.mail.port">58</property>
+                <property name="get.wallet.endpoint">https://digitalwalletapi.herokuapp.com/api/v1/wallets/</property>
+                <property name="search.auth">rUqwEul8K9NjojoptrKASlndMgT66D</property>
+                <property name="spring.mail.properties.mail.smtp.trust">smtp.gmail.com</property>
+                <property name="spring.jpa.hibernate.ddl-auto">update</property>
+                <property name="spring.datasource.driver-class-name">com.mysql.jdbc.Driver</property>
+                <property name="jwt.route.authentication.path"> auth</property>
+                <property name="spring.mail.properties.mail.smtp.starttls.enable">true</property>
+                <property name="spring.jpa.properties.hibernate.enable_lazy_load_no_trans"> true</property>
+                <property name="jwt.route.authentication.refresh"> refresh</property>
+                <property name="spring.mail.properties.mail.smtp.auth">true</property>
+                <property name="management.security.enabled">false</property>
+                <property name="paystack.secret">Bearer sk_test_de16e4849001756d1965ccb8a78df8d2617f7dca</property>
+                <property name="server.port"> 8094</property>
+                <property name="wawooh.status.check.rate">*/10 * * * * *</property>
+                <property name="create.wallet.endpoint">https://digitalwalletapi.herokuapp.com/api/v1/wallets/</property>
+                <property name="jwt.expiration">3000000000000000</property>
+                <property name="paystack.holdamount">5000</property>
+                <property name="productpicfile">"file:/Users/user/IdeaProjects/imageswawooh/productpictures/"</property>
+                <property name="spring.jpa.properties.hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+                <property name="spring.mail.host">smtp.zoho.com</property>
+                <property name="mail.from">noreply@wawooh.com</property>
+                <property name="spring.mail.protocol">smtp</property>
+                <property name="rave.secret">FLWSECK-848602b2c0338527588b84139b561589-X</property>
+                <property name="materialpicfile">"file:/Users/user/IdeaProjects/imageswawooh/materialpictures/"</property>
+                <property name="jwt.secret"> mySecret</property>
+                <property name="spring.session.store-type">none</property>
+                <property name="spring.datasource.password">mysql</property>
+                <property name="customer.care.email">customercare@wawooh.com</property>
+                <property name="spring.datasource.username">root</property>
+                <property name="eventpicturesfile">"file:/Users/user/IdeaProjects/imageswawooh/eventpictures/"</property>
+                <property name="create.user.endpoint">https://digitalwalletapi.herokuapp.com/api/v1/users/</property>
+                <property name="spring.datasource.url">jdbc:mysql://localhost:3306/Fashion</property>
+                <property name="spring.mail.properties.mail.smtp.ssl.enable">false</property>
+                <property name="spring.mail.password">Longbridge2$</property>
+                <property name="artworkpicfile">"file:/Users/user/IdeaProjects/imageswawooh/artworkpictures/"</property>
+                <property name="eventmainpicturefile">"file:/Users/user/IdeaProjects/imageswawooh/eventmainpictures/
+designerlogofile=file:/Users/user/IdeaProjects/imageswawooh/designerlogos/
+#--------------------------------------------------------------------------------</property>
+                <property name="spring.mail.defaultEncoding">UTF-8</property>
+                <property name="charge.wallet.endpoint">https://digitalwalletapi.herokuapp.com/api/v1/transactions/cashout</property>
+                <property name="search.url">http://138.197.223.94:9200/test_products</property>
+            </configuration>
+        </configurations>
+    </config-data>
+</project-shared-configuration>

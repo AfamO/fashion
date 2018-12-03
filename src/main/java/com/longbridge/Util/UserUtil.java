@@ -73,65 +73,85 @@ public class UserUtil {
     @Autowired
     private UserDetailsService userDetailsService;
 
+
     private Locale locale = LocaleContextHolder.getLocale();
 
 
     public Response registerUser(UserDTO passedUser){
         Map<String,Object> responseMap = new HashMap();
+        Boolean hasExistingUserAccount = false;
         try {
             Date date = new Date();
             User user = userRepository.findByEmail(passedUser.getEmail());
             List<String> errors = new ArrayList<String>();
 
-            if(user != null){
-                errors.add("Email already exists");
-            }
             if(passedUser.getRole() == null){
                 return new Response("99", "User has no role", null);
             }
-            if(passedUser.getRole().equalsIgnoreCase("designer")){
-                User user2 = userRepository.findByPhoneNo(passedUser.getPhoneNo());
-                if(user2 != null){
-                    errors.add("Phone number already exist");
+
+            if(passedUser.getRole().equalsIgnoreCase("user") && user != null){
+                errors.add("Email already exists");
+            }else if(passedUser.getRole().equalsIgnoreCase("designer") && user != null){
+                if(user.getRole().equalsIgnoreCase("designer")){
+                    errors.add("Email already exists");
+                }else{
+                    hasExistingUserAccount = true;
                 }
             }
+
             if(errors.size() > 0){
                 return new Response("99",StringUtils.join(errors, ","), null);
             }else{
-                user=new User();
-                user.setEmail(passedUser.getEmail());
-                user.setPhoneNo(passedUser.getPhoneNo());
-                user.setPassword(Hash.createPassword(passedUser.getPassword()));
-                user.setFirstName(passedUser.getFirstName());
-                user.setLastName(passedUser.getLastName());
-                user.setDateOfBirth(passedUser.getDateOfBirth());
-                user.setGender(passedUser.getGender());
-                user.setRole(passedUser.getRole());
+                if(!hasExistingUserAccount){
+                    user=new User();
+                    user.setEmail(passedUser.getEmail());
+                    user.setPhoneNo(passedUser.getPhoneNo());
+                    user.setPassword(Hash.createPassword(passedUser.getPassword()));
+                    user.setFirstName(passedUser.getFirstName());
+                    user.setLastName(passedUser.getLastName());
+                    user.setDateOfBirth(passedUser.getDateOfBirth());
+                    user.setGender(passedUser.getGender());
+                    user.setRole(passedUser.getRole());
+                    //todo create user wallet, call wallet api
+                    //walletService.createWallet(passedUser,user);
+                    userRepository.save(user);
+                }else{
+                    user.setRole("designer");
+                }
 
-                //todo create user wallet, call wallet api
-                //walletService.createWallet(passedUser,user);
+                if(passedUser.getRole().equalsIgnoreCase("designer")){
+                    Designer designer = new Designer();
+                    designer.setCreatedOn(date);
+                    designer.setUpdatedOn(date);
+                    designer.setUser(user);
+                    designerRepository.save(designer);
+                    sendToken(passedUser.getEmail());
+                    sendEmailAsync.notifyCustomerCare(user);
+                }
+                //getActivationLink(user);
+                sendEmailAsync.sendWelcomeEmailToUser(user);
+
+                return new Response("00","Registration successful",responseMap);
             }
-
-            if(passedUser.getRole().equalsIgnoreCase("designer")){
-                Designer designer = new Designer();
-                designer.setCreatedOn(date);
-                designer.setUpdatedOn(date);
-                designer.setUser(user);
-                designerRepository.save(designer);
-                sendToken(passedUser.getEmail());
-                sendEmailAsync.notifyCustomerCare(user);
-            }
-            getActivationLink(user);
-            sendEmailAsync.sendWelcomeEmailToUser(user);
-            userRepository.save(user);
-            return new Response("00","Registration successful",responseMap);
-
         } catch (Exception e) {
             e.printStackTrace();
             return new Response("99","Error occurred internally",responseMap);
 
         }
 
+    }
+    public Response checkEmail(UserDTO userDTO){
+        Map<String,Object> responseMap = new HashMap();
+        User user = userRepository.findByEmail(userDTO.getEmail());
+        if(user != null){
+            if(user.getRole().equalsIgnoreCase("user")){
+                return new Response("03","Email is attached to end user",null);
+            }else{
+                return new Response("04","Email is attached to vendor",null);
+            }
+        }else{
+            return new Response("02","Email does not exist",null);
+        }
     }
 
     public void sendToken(String email){
@@ -151,7 +171,12 @@ public class UserUtil {
         }
     }
 
-
+    public void sendTokenAsMail(String email){
+        User user = userRepository.findByEmail(email);
+        if(user!=null){
+            sendEmailAsync.sendTokenAsEmail(user);
+        }
+    }
 
     private void saveToken(String tokenString,User user){
         Token token = tokenRepository.findByUser(user);
@@ -167,6 +192,24 @@ public class UserUtil {
             token.setUser(user);
             tokenRepository.save(token);
         }
+    }
+
+    private void createWallet(UserDTO passedUser){
+        User user=new User();
+        user.setEmail(passedUser.getEmail());
+        user.setPhoneNo(passedUser.getPhoneNo());
+        try {
+            user.setPassword(Hash.createPassword(passedUser.getPassword()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        user.setFirstName(passedUser.getFirstName());
+        user.setLastName(passedUser.getLastName());
+        user.setDateOfBirth(passedUser.getDateOfBirth());
+        user.setGender(passedUser.getGender());
+        user.setRole(passedUser.getRole());
+        //todo create user wallet, call wallet api
+        //walletService.createWallet(passedUser,user);
     }
 
 @Async
@@ -193,7 +236,7 @@ public class UserUtil {
 
                 }catch (MailException me){
                     me.printStackTrace();
-                    throw new AppException("",passedUser.getFirstName() + passedUser.getLastName(),passedUser.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
+                    //throw new AppException("",passedUser.getFirstName() + passedUser.getLastName(),passedUser.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
 
                 }
                 return new Response("00","Link successfully sent",responseMap);
@@ -208,7 +251,6 @@ public class UserUtil {
         }
 
     }
-
 
     public Response createAdmin(User passedUser){
         Map<String,Object> responseMap = new HashMap();
@@ -246,7 +288,6 @@ public class UserUtil {
         }
     }
 
-
     public void forgotEmail(String userPhoneNumber){
 
         try{
@@ -273,9 +314,6 @@ public class UserUtil {
         try {
             User user = userRepository.findByEmail(passedUser.getEmail());
             if(user!=null){
-                if(!"Y".equalsIgnoreCase(user.getActivationFlag())){
-                return new Response("57","Account not verified, Kindly click the link sent to your email to verify your account",responseMap);
-                }
                 newPassword=UUID.randomUUID().toString().substring(0,10);
                 user.setPassword(Hash.createPassword(newPassword));
                 user.setLinkClicked("N");
@@ -381,7 +419,7 @@ public class UserUtil {
                 if(user.getRole().equalsIgnoreCase("designer")){
                     logInResp.setRole(2);
                 }
-                else if(user.getRole().equalsIgnoreCase("admin")){
+                else if(user.getRole().equalsIgnoreCase("admin")||user.getRole().equalsIgnoreCase("super_admin")){
                     logInResp.setRole(3);
                 }
                 else if(user.getRole().equalsIgnoreCase("superadmin")){
@@ -404,6 +442,7 @@ public class UserUtil {
                 //implement sessionid
 
                 logInResp.setToken(token);
+                logInResp.setId(user.id);
                // responseMap.put("token",token);
                 return new Response("00","Login successful",logInResp);
             }else{
@@ -415,8 +454,6 @@ public class UserUtil {
         return new Response("99","Error occurred internally",logInResp);
     }
 
-
-
     public User fetchUserDetails2(String token){
         JwtUser user = getAuthenticationDetails(token);
         if(user!=null){
@@ -426,7 +463,6 @@ public class UserUtil {
             return null;
         }
     }
-
 
     public List<User> getUsers(){
             return userRepository.findByRole("user");
@@ -607,8 +643,6 @@ public class UserUtil {
             throw new WawoohException();
         }
     }
-
-
 
     private String getCurrentTime(){
         Calendar now = Calendar.getInstance();

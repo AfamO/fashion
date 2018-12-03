@@ -31,6 +31,7 @@ public class VendorBespokeFormDetails extends CommonFields{
     private String websiteId;
     private String twitterId;
 
+    private String bespokeApplicationRejectReason;
 
     public Long getDesignerId() {
         return designerId;
@@ -182,6 +183,14 @@ public class VendorBespokeFormDetails extends CommonFields{
 
     public void setTwitterId(String twitterId) {
         this.twitterId = twitterId;
+    }
+
+    public String getBespokeApplicationRejectReason() {
+        return bespokeApplicationRejectReason;
+    }
+
+    public void setBespokeApplicationRejectReason(String bespokeApplicationRejectReason) {
+        this.bespokeApplicationRejectReason = bespokeApplicationRejectReason;
     }
 
     public VendorBespokeFormDetails(String visitWorkshopForVerification, String workshopAddress, String dayForVisitation, String time, String locationImage, String phoneNumber) {

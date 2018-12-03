@@ -95,6 +95,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     DesignerRepository designerRepository;
+    
+    @Autowired
+    PromoCodeService promoCodeService;
+
+    @Autowired
+    PromoCodeRepository promoCodeRepository;
+
+    @Autowired
+    PromoCodeUserStatusRepository promoCodeUserStatusRepository;
 
     @Transactional
     @Override
@@ -306,9 +315,29 @@ public class OrderServiceImpl implements OrderService {
                 }
 
             }
+            PromoCode promoCode=null;
+            //Apply PromoCode Here if the product/item has a promocode
+            if(items.getPromoCode()!=null && !items.getPromoCode().equalsIgnoreCase("")){
+                promoCode=promoCodeRepository.findUniqueUnExpiredAndVerifiedPromoCode(items.getPromoCode(),"Y");
+                PromoCodeUserStatus promoCodeUserStatus= promoCodeUserStatusRepository.findByUserAndPromoCode(getCurrentUser(),promoCode);
+                if(promoCodeUserStatus!=null && Objects.equals(promoCodeUserStatus.getProductId(), p.id)) { // Is the promocode assigned to this product?
+                    System.out.println("This item ordered has a promoCode");
+                    //Is the value type free shipping?
+                    if( !promoCode.getValueType().equalsIgnoreCase("fs")){ // It is either of type percentage discount or normal value discount
 
             itemsAmount = amount*items.getQuantity();
 
+                    }
+                    //Increment the usage counter
+                    promoCode.setUsageCounter(promoCode.getUsageCounter()+1);
+                    promoCode.setUpdatedOn(new Date());
+                    promoCodeRepository.save(promoCode);// Update the PromoCode DB
+
+                }
+            }
+
+
+            itemsAmount = amount*items.getQuantity();
             ProductColorStyle productColorStyle =productColorStyleRepository.findOne(items.getProductColorStyleId());
             items.setProductPicture(productPictureRepository.findFirst1ByProductColorStyle(productColorStyle).getPictureName());
 

@@ -6,6 +6,7 @@ import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.OneToOne;
 
 @Entity
 public class PromoCode extends CommonFields implements Serializable {
@@ -18,10 +19,20 @@ public class PromoCode extends CommonFields implements Serializable {
 
     private String  isUsedStatus="N";
 
-    private String valueType="pd";// percentage discount(pd) other types are free shipping(fs) and normal(monetary) discount(nd)
+    private String valueType="PD";// percentage discount(pd) other types are free shipping(fs) and normal(monetary) value discount(VD)
 
-    private String numberOfUsage="multiple"; // It can also be single
+    private int numberOfUsage= -1; // The default is multiple times. It can also be 1, 8, etc
 
+    private  int usageCounter=0;
+    
+    @OneToOne
+    private User createdBy;
+    
+    @OneToOne
+    private User verifiedBy;
+    
+    private String verifiedFlag="N";
+    
     @OneToMany(mappedBy = "promoCode",cascade = CascadeType.ALL)
     private List<PromoItem> promoItems;
 
@@ -73,11 +84,46 @@ public class PromoCode extends CommonFields implements Serializable {
         this.value = value;
     }
 
-    public String getNumberOfUsage() {
+    public int getNumberOfUsage() {
         return numberOfUsage;
     }
 
-    public void setNumberOfUsage(String numberOfUsage) {
+    public void setNumberOfUsage(int numberOfUsage) {
         this.numberOfUsage = numberOfUsage;
     }
+
+    public int getUsageCounter() {
+        return usageCounter;
+    }
+
+    public void setUsageCounter(int usageCounter) {
+        this.usageCounter = usageCounter;
+    }
+
+    public String getVerifiedFlag() {
+        return verifiedFlag;
+    }
+
+    public void setVerifiedFlag(String verifiedFlag) {
+        this.verifiedFlag = verifiedFlag;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public User getVerifiedBy() {
+        return verifiedBy;
+    }
+
+    public void setVerifiedBy(User verifiedBy) {
+        this.verifiedBy = verifiedBy;
+    }
+    
+    
+    
 }

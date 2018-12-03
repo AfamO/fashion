@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:font-style="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+<div style="width: 85%; margin: 16px auto 0; border: 1px solid rgba(0,0,0,0.2); height: auto;">
+    <div style="padding: 15px;text-align: center;">
+        <img style="width: 100px; background-size: contain;" src="http://wawooh.com/img/logo.png" alt="wawooh-logo"/></div>
+    <div style="padding: 15px; margin: 15px 10px 0;">
+        <h4> Hi,</h4>
+        <p style="line-height: 25px; font-size: 1em; color: #333;">
+           Kindly use this token:  <strong th:text="${token}"></strong>
+        </p>
+        <div style="color: red; font-family: Verdana">
+            Follow us on social media and read our blog!
+            <ul style = "list-style: none; padding: 0;">
+                <li><a style = "float: left; margin: 5px; text-decoration: none; border-radius: 50px;   font-family: FontAwesome; padding: 5px 6px;    background: #fff; border: 1px solid #3b5999;    color: #fff;" href=""><img src="http://www.wawooh.com/img/facebook.png" style = "width: 15px; height: 13px; background-size: contain;" alt="f" /></a></li>
+
+                <li><a style = "float: left; margin: 5px; text-decoration: none; border-radius: 50px;   font-family: FontAwesome; padding: 5px 6px;    background: #fff; border: 1px solid #55acee;  color: #fff;" href=""><img src="http://www.wawooh.com/img/twitter.png" alt="t" style = "width: 15px; height: 13px; background-size: contain;"/></a></li>
+
+                <li><a style = "float: left; margin: 5px; text-decoration: none; border-radius: 50px;   font-family: FontAwesome; padding: 5px 6px;    background: #fff; border: 1px solid #66cdaa;  color: #fff;" href=""><img src="http://www.wawooh.com/img/medium.png" alt="m" style = "width: 15px; height: 13px; background-size: contain;"/></a></li>
+
+                <li><a style = "float: left; margin: 5px; text-decoration: none; border-radius: 50px;   font-family: FontAwesome; padding: 5px 6px;    background: #fff; border: 1px solid #e4405f;  color: #fff;" href=""><img src="http://www.wawooh.com/img/instagram.png" alt="I" style = "width: 15px; height: 13px; background-size: contain;"/></a></li>
+            </ul>
+        </div>
+        <p style="line-height: 25px; font-size: 1em; color: #333; clear: both;">Thank you,
+            <br/> Team Wawooh
+        </p>
+    </div>
+    <div style="color: #fff;margin-top: 10px; background: #cd9933; padding: 7px; text-align: center; font-style: italic;">
+        <span>Powered By Wawooh</span>
+    </div>
+</div>
+</body>
+</html>

@@ -11,6 +11,7 @@ import com.longbridge.models.User;
 import com.longbridge.repository.DesignerRepository;
 import com.longbridge.repository.ItemRepository;
 import com.longbridge.repository.ProductRepository;
+import com.longbridge.repository.TokenRepository;
 import com.longbridge.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +50,11 @@ public class SendEmailAsync {
 
     @Autowired
     ProductRepository productRepository;
+    
+    @Autowired
+    TokenRepository tokenRepository;
+
+
 
     @Value("${customer.care.email}")
     String customerCareEmail;
@@ -320,15 +326,15 @@ public class SendEmailAsync {
         String activationLink="";
         try {
             Context context = new Context();
-
-            String encryptedMail = Base64.getEncoder().encodeToString(user.getEmail().getBytes());
-            activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
+//            String encryptedMail = Base64.getEncoder().encodeToString(user.getEmail().getBytes());
+//            activationLink = messageSource.getMessage("activation.url.link",null,locale)+encryptedMail;
             String message="";
-            context.setVariable("link", activationLink);
+//            context.setVariable("link", activationLink);
             if(user.getRole().equalsIgnoreCase("designer")) {
-
                 context.setVariable("name", designerRepository.findByUser(user).getStoreName());
+                context.setVariable("token", tokenRepository.findByUser(user).getToken());
                 message = templateEngine.process("designerwelcomeemail", context);
+                System.out.println("The Designer Email Message text With Token Is::"+message);
             }
             else {
                 context.setVariable("name", user.getFirstName()+" " +user.getLastName());
@@ -336,6 +342,28 @@ public class SendEmailAsync {
             }
             mailService.prepareAndSend(message,user.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale));
 
+        }catch (MailException me){
+            me.printStackTrace();
+            throw new AppException("",user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
+        }
+
+    }
+
+    @Async
+    public void sendTokenAsEmail(User user) {
+        String activationLink="";
+        try {
+            Context context = new Context();
+            String message="";
+            if(user.getRole().equalsIgnoreCase("designer")) {
+                context.setVariable("token", tokenRepository.findByUser(user).getToken());
+                message = templateEngine.process("tokentemplate", context);
+                System.out.println("The Designer Email Message text With Token Is::"+message);
+            }
+            else {
+
+            }
+            mailService.prepareAndSend(message,user.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale));
         }catch (MailException me){
             me.printStackTrace();
             throw new AppException("",user.getFirstName() + user.getLastName(),user.getEmail(),messageSource.getMessage("user.welcome.subject", null, locale),activationLink);
@@ -358,6 +386,10 @@ public class SendEmailAsync {
 
         }catch (MailException me){
             me.printStackTrace();
+            if(messageSource.getMessage("new.designer.subject", null, locale)==null){
+                System.out.println("OOOps! There is an error message property for new.designer.subject ");
+            }
+            System.out.println("OOOps! The content of message property for new.designer.subject is::"+messageSource.getMessage("new.designer.subject", null, locale));
             throw new AppException(customerCareEmail,messageSource.getMessage("new.designer.subject", null, locale),user);
         }
 

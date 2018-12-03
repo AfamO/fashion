@@ -15,6 +15,7 @@ public class ProductRespDTO {
     public double amount;
     public double percentageDiscount;
     public double slashedPrice;
+    public double sewingPrice;
     public String designerId;
     public String designerStatus;
     public String designerName;

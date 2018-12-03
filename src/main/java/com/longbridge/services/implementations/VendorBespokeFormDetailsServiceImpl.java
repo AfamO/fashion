@@ -1,6 +1,8 @@
 package com.longbridge.services.implementations;
 
+import com.longbridge.dto.BespokeRequestUpdateDTO;
 import com.longbridge.exception.WawoohException;
+import com.longbridge.models.Designer;
 import com.longbridge.models.User;
 import com.longbridge.models.VendorBespokeFormDetails;
 import com.longbridge.repository.DesignerRepository;
@@ -38,9 +40,30 @@ public class VendorBespokeFormDetailsServiceImpl implements VendorBespokeFormDet
         }
     }
 
+
+
     @Override
     public List<VendorBespokeFormDetails> getAll() {
         return vendorBespokeFormDetailsRepository.findAll();
+    }
+
+
+    @Override
+    public void updateBespokeRequest(BespokeRequestUpdateDTO bespokeRequestUpdateDTO) {
+        try {
+
+            VendorBespokeFormDetails vendorBespokeFormDetails =  vendorBespokeFormDetailsRepository.findOne(bespokeRequestUpdateDTO.getId());
+            Designer designer = designerRepository.findById(vendorBespokeFormDetails.getDesignerId());
+            if(bespokeRequestUpdateDTO.getBespokeEligibleFlag().equalsIgnoreCase("N")){
+                vendorBespokeFormDetails.setBespokeApplicationRejectReason(bespokeRequestUpdateDTO.getReason());
+                vendorBespokeFormDetailsRepository.save(vendorBespokeFormDetails);
+            }
+            designer.setBespokeEligible(bespokeRequestUpdateDTO.getBespokeEligibleFlag());
+            designerRepository.save(designer);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new WawoohException();
+        }
     }
 
     private User getCurrentUser(){

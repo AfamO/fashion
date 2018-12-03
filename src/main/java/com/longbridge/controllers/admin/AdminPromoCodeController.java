@@ -54,6 +54,11 @@ public class AdminPromoCodeController {
         responseMap.put("success", "success");
         return new Response("00", "Operation Successful", promoCodeService.getPromoCode(id));
     }
+    @GetMapping(value = "/generatepromocode")
+    public Object generatePromocode(){
+
+        return new Response("00", "Operation Successful", promoCodeService.generatePromoCode());
+    }
 
     @GetMapping(value = "/getexpiredpromocode")
     public Object getExpiredPromocode(){
@@ -76,6 +81,27 @@ public class AdminPromoCodeController {
     public Object addPromoCode(@RequestBody PromoCodeDTO promoCodeDTO){
         Map<String,Object> responseMap = new HashMap();
         String statusMessage = promoCodeService.addPromoCode(promoCodeDTO);
+        //responseMap.put("success", "success");
+        return new Response("00", statusMessage, responseMap);
+    }
+    @PostMapping(value = "/updatepromocode")
+    public Object updatePromoCode(@RequestBody PromoCodeDTO promoCodeDTO){
+        Map<String,Object> responseMap = new HashMap();
+        String statusMessage = promoCodeService.updatePromoCode(promoCodeDTO);
+        //responseMap.put("success", "success");
+        return new Response("00", statusMessage, responseMap);
+    }
+    @PostMapping(value = "/verifypromocode")
+    public Object verifyPromoCode(@RequestBody PromoCodeDTO promoCodeDTO){
+        Map<String,Object> responseMap = new HashMap();
+        String statusMessage = promoCodeService.verifyPromoCode(promoCodeDTO);
+        //responseMap.put("success", "success");
+        return new Response("00", statusMessage, responseMap);
+    }
+    @PostMapping(value = "/updatePromocodeItems")
+    public Object addPromoCodeItems(@RequestBody PromoCodeDTO promoCodeDTO){
+        Map<String,Object> responseMap = new HashMap();
+        String statusMessage = promoCodeService.updatePromoCodeItems(promoCodeDTO);
         //responseMap.put("success", "success");
         return new Response("00", statusMessage, responseMap);
     }
