@@ -40,7 +40,12 @@ public class TransferServiceImpl implements TransferService{
                 if(orders.getDeliveryStatus().equalsIgnoreCase("P")) {
                     if(transferInfoDTO.getId() != null){
                         TransferInfo transferInfo1=transferInfoRepository.findOne(transferInfoDTO.getId());
-                        transferInfo1.setPaymentDate(new Date(transferInfoDTO.getPaymentDate()));
+                        try {
+                            transferInfo1.setPaymentDate(dateFormatter.parse(transferInfoDTO.getPaymentDate()));
+                        } catch (ParseException e) {
+                            transferInfo1.setPaymentDate(new Date());
+                            e.printStackTrace();
+                        }
                         transferInfo1.setAccountName(transferInfoDTO.getAccountName());
                         transferInfo1.setAmountPayed(transferInfoDTO.getAmountPayed());
                         transferInfo1.setBank(transferInfoDTO.getBank());
