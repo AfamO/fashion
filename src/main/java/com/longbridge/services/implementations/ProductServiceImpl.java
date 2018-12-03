@@ -437,18 +437,18 @@ public class ProductServiceImpl implements ProductService {
             priceSlash.setSlashedPrice(productPriceDTO.getSlashedPrice());
             priceSlash.setPercentageDiscount(((productPriceDTO.getAmount() - productPriceDTO.getSlashedPrice())/productPriceDTO.getAmount())*100);
             priceSlash.setProductPrice(productPrice);
-//            priceSlashRepository.save(priceSlash);
+            priceSlashRepository.save(priceSlash);
         } else if(productPriceDTO.getPercentageDiscount() > 0){
             priceSlash=new PriceSlash();
             productPrice.setPriceSlashEnabled(true);
             priceSlash.setSlashedPrice(productPriceDTO.getAmount() - ((productPriceDTO.getPercentageDiscount()/100)* productPrice.getAmount()));
             priceSlash.setPercentageDiscount(productPriceDTO.getPercentageDiscount());
             priceSlash.setProductPrice(productPrice);
-//            priceSlashRepository.save(priceSlash);
+            priceSlashRepository.save(priceSlash);
         }
         productPrice.setPriceSlash(priceSlash);
 
-        priceSlashRepository.save(priceSlash);
+
         productPriceRepository.save(productPrice);
         searchProduct.setProductPrice(productPrice);
     }
