@@ -86,14 +86,8 @@ public class AdminOrderController {
     @PostMapping(value = "/cancelorder")
     public Response cancelOrder(@RequestBody OrderReqDTO orderReqDTO){
         try{
-            String message =  adminOrderService.cancelOrder(orderReqDTO);
-            if(message.equalsIgnoreCase("nopayment")){
-                return new Response("56","Unable to confirm payment","No payment has been made");
-            }
-
-            else {
-                return new Response("99","Error occurred here","error");
-            }
+            adminOrderService.cancelOrder(orderReqDTO);
+            return new Response("00","Operation Successful","success");
 
         }catch (AppException e){
             e.printStackTrace();
