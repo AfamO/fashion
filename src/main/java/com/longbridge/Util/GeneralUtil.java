@@ -89,6 +89,7 @@ public class GeneralUtil {
         dto.id=d.id;
         dto.userId = d.getUser().id;
         dto.logo=d.getLogo();
+        dto.banner=d.getBanner();
         dto.storeName=d.getStoreName();
         dto.setStoreId(d.getStoreId());
         User u = d.getUser();
@@ -168,7 +169,7 @@ public class GeneralUtil {
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
         dto.logo=d.getPublicId();
-        dto.banner=d.getBannerPublicId();
+        dto.banner=d.getBanner();
         dto.storeName=d.getStoreName();
         dto.setStoreId(d.getStoreId());
         dto.address=d.getAddress();

@@ -345,13 +345,11 @@ public class DesignerServiceImpl implements DesignerService{
                         cloudinaryService.deleteFromCloud(d.getBannerPublicId(), d.getBanner());
                     }
                     try {
-                        String fileName = userTemp.getEmail().substring(0, 3) + generalUtil.getCurrentTime();
+                        String fileName = userTemp.getEmail().substring(0, 2) + generalUtil.getCurrentTime();
                         String base64Img = passedDesigner.banner;
-
                         CloudinaryResponse c = cloudinaryService.uploadToCloud(base64Img,fileName,"designerlogos");
-                        d.setLogo(c.getUrl());
+                        d.setBanner(c.getUrl());
                         d.setBannerPublicId(c.getPublicId());
-
                         designerRepository.save(d);
                     } catch (Exception ex) {
                         ex.printStackTrace();

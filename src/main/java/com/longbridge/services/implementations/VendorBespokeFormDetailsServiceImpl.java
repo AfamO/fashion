@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,13 +45,22 @@ public class VendorBespokeFormDetailsServiceImpl implements VendorBespokeFormDet
 
     @Override
     public List<VendorBespokeFormDetails> getAll() {
-        return vendorBespokeFormDetailsRepository.findAll();
+        List<VendorBespokeFormDetails> vList= new ArrayList<>();
+        for (VendorBespokeFormDetails v:vendorBespokeFormDetailsRepository.findAll()) {
+            getDesignerDetails(v);
+            vList.add(v);
+        }
+        return vList;
     }
 
 
     @Override
     public VendorBespokeFormDetails getVendorBespokeFormDetails(Long id) {
         VendorBespokeFormDetails vendorBespokeFormDetails= vendorBespokeFormDetailsRepository.findOne(id);
+        return getDesignerDetails(vendorBespokeFormDetails);
+    }
+
+    private VendorBespokeFormDetails getDesignerDetails(VendorBespokeFormDetails vendorBespokeFormDetails) {
         Designer designer = designerRepository.findById(vendorBespokeFormDetails.getDesignerId());
         vendorBespokeFormDetails.setStoreName(designer.getStoreName());
         vendorBespokeFormDetails.setPhoneNumber(designer.getUser().getPhoneNo());

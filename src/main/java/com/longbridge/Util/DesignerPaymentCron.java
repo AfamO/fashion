@@ -31,7 +31,7 @@ public class DesignerPaymentCron {
     @Autowired
     DesignerPaymentRepository designerPaymentRepository;
 
-    //@Scheduled(cron = "${wawooh.status.check.rate}")
+    @Scheduled(cron = "${wawooh.status.check.rate}")
     private String checkPocketForDebit(){
       //  System.out.println("cron running..........");
         Date date = new Date();
