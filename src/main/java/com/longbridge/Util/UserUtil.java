@@ -492,11 +492,11 @@ public class UserUtil {
                  */
 //                refreshAuthenticationDetails(user,token);
 
-                Pocket pocket = pocketRepository.findByUser(user);
-                if(pocket==null){
-                    user.setPocket(new Pocket());
+                List<Pocket> pocket = pocketRepository.findByUser(user);
+                if(pocket.size() <0){
+                    user.setPocketBalance(0.0);
                 }else {
-                    user.setPocket(pocket);
+                    user.setPocketBalance(pocketRepository.getPocketSum(user,"N"));
                 }
                 responseMap.put("userDetails",user);
                 return new Response("00","User found",responseMap);

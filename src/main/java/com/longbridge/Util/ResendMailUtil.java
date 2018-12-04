@@ -61,6 +61,7 @@ public class ResendMailUtil {
 
     @Scheduled(cron = "${wawooh.status.check.rate}")
     private String resendMail(){
+
         List<MailError> mailErrorList = mailErrorRepository.findByDelFlag("N");
         String message = null;
         if (mailErrorList.size() > 0) {

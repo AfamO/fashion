@@ -108,6 +108,7 @@ public class GeneralUtil {
         dto.countryCode = designer.getCountryCode();
         dto.currency = designer.getCurrency();
 
+
         dto.address = d.getAddress();
         dto.localGovt = d.getLocalGovt();
         dto.city = d.getCity();
@@ -117,7 +118,7 @@ public class GeneralUtil {
         dto.registeredFlag = d.getRegisteredFlag();
         dto.registrationNumber = d.getRegistrationNumber();
         dto.registrationDocument = d.getRegistrationDocument();
-
+        dto.bespokeEligible=d.getBespokeEligible();
         dto.sizeGuideFlag = d.getSizeGuideFlag();
         if(d.getSizeGuide() != null){
             dto.maleSizeGuide = d.getSizeGuide().getMaleSizeGuide();
@@ -184,6 +185,7 @@ public class GeneralUtil {
         dto.accountNumber=d.getAccountNumber();
         dto.swiftCode=d.getSwiftCode();
         dto.bankName=d.getBankName();
+        dto.bespokeEligible=d.getBespokeEligible();
         dto.setStatus(d.getStatus());
         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.createdDate = formatter.format(d.createdOn);

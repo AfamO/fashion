@@ -71,7 +71,6 @@ public class AdminController {
     @GetMapping(value = "/getbespokeapplications")
     public Response getBespokeApplication(){
         return new Response("00","Operation Successful",vendorBespokeFormDetailsService.getAll());
-
     }
 
 

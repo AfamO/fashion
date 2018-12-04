@@ -261,8 +261,8 @@ public class PaymentServiceImpl implements PaymentService {
             AnonymousUser anonymousUser = anonymousUserRepository.findOne(orders.getAnonymousUserId());
             user.setEmail(anonymousUser.getEmail());
             user.setPhoneNo(anonymousUser.getPhoneNo());
-            user.setFirstName("Sir");
-            user.setLastName("sir");
+            user.setFirstName("Anonymous");
+            user.setLastName("P");
         }else{
             user = userRepository.findById(orders.getUserId());
             deleteCart(user);

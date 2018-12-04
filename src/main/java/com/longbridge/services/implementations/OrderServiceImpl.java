@@ -444,7 +444,7 @@ public class OrderServiceImpl implements OrderService {
             if (items == null) {
                 throw new WawoohException();
             }else {
-                Pocket pocket = pocketRepository.findByUser(user);
+                Pocket pocket = pocketRepository.findByUserAndItemId(user,items.id);
                 ItemStatus itemStatus = itemStatusRepository.findByStatus("OR");
                 if(items.getItemStatus() != itemStatus){
                     throw new WawoohException();

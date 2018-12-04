@@ -166,7 +166,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     if(itemsDTO.getStatus().equalsIgnoreCase("D")){
                         items.setItemStatus(itemStatus);
                         //update wallet balance by removing item amount  from user wallet since item has been delivered
-                        pocketService.updateWalletForOrderDelivery(items, customer);
+                        //pocketService.updateWalletForOrderDelivery(items, customer);
+                        pocketService.setDueDateForPocketDebit(customer,items.getAmount(),items.id);
                         //end updating wallet balance
                         String encryptedMail = Base64.getEncoder().encodeToString(customerEmail.getBytes());
                         String link = messageSource.getMessage("order.complain",null, locale);
@@ -239,6 +240,10 @@ public class AdminOrderServiceImpl implements AdminOrderService {
             if(totalAmountPayed < orders.getTotalAmount()){
                 return "lesspayment";
             }
+            else if(totalAmountPayed >orders.getTotalAmount()){
+                //creditwalletwithdexcessamount
+            }
+            Boolean isShippingAdded=false;
             for (Items items: orders.getItems()) {
                 if (items.getMeasurement() != null) {
                     items.setItemStatus(itemStatusRepository.findByStatus("PC"));
@@ -246,12 +251,21 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 else {
                     items.setItemStatus(itemStatusRepository.findByStatus("RI"));
                 }
+                Double itemsAmount =0.0;
+                if(!isShippingAdded){
+                   itemsAmount = items.getAmount();
+                }
+                else{
+                    itemsAmount = itemsAmount+orders.getShippingAmount();
+                    isShippingAdded=true;
+                }
+                //update pocket balance
+                pocketService.updatePocketForOrderPayment(customer,itemsAmount,"BANK_TRANSFER",items.id);
+
                 itemRepository.save(items);
                 notifyDesigner(items);
             }
-            //update wallet balance
-            pocketService.updatePocketForOrderPayment(customer,totalAmountPayed,"BANK_TRANSFER");
-            //update orders
+          //update orders
 
             orders.setDeliveryStatus("PC");
             orders.setUpdatedOn(date);

@@ -248,11 +248,9 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                 }
             }
             else if(items.getItemStatus().getStatus().equalsIgnoreCase("WR")){
-
                 if (itemsDTO.getStatus().equalsIgnoreCase("OP")) {
                     items.setItemStatus(itemStatusRepository.findByStatus("OP"));
                 }
-
                 else {
                     throw new InvalidStatusUpdateException();
                 }
@@ -270,6 +268,8 @@ public class DesignerOrderServiceImpl implements DesignerOrderService {
                     else if(items.getOrders().getPaymentType().equalsIgnoreCase("CARD_PAYMENT")){
                         items.setItemStatus(itemStatus);
                         PaymentResponse p = paymentService.chargeAuthorization(items);
+                        //update wallet balance
+
                         if(p.getStatus().equalsIgnoreCase("99")){
                             //unable to charge customer, cancel transaction
                             items.setItemStatus(itemStatusRepository.findByStatus("P"));

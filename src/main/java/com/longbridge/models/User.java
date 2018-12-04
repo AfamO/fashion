@@ -37,6 +37,8 @@ public class User extends CommonFields implements Serializable {
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Pocket pocket;
 
+    private Double pocketBalance;
+
     private Long userWalletId;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -70,8 +72,15 @@ public class User extends CommonFields implements Serializable {
 
     private Double walletBalance;
 
+    public Double getPocketBalance() {
+        return pocketBalance;
+    }
 
-    public User(String firstName, String lastName, String email,String gender, String password, String phoneNo, String role,
+    public void setPocketBalance(Double pocketBalance) {
+        this.pocketBalance = pocketBalance;
+    }
+
+    public User(String firstName, String lastName, String email, String gender, String password, String phoneNo, String role,
                 List<Address> addresses, List<Orders> orders, List<Cart> carts,
                 List<WishList> wishLists, Rating rating) {
         this.firstName = firstName;

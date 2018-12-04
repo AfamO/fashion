@@ -72,7 +72,7 @@ public class ItemsUtil {
         }
         items.setItemStatus(itemStatus);
 
-        pocketService.updatePocketForOrderPayment(user,amount,orders.getPaymentType());
+        pocketService.updatePocketForOrderPayment(user,amount,orders.getPaymentType(),items.id);
         itemRepository.save(items);
         sendEmailAsync.sendPaymentConfEmailToUser(user, items.getOrders().getOrderNum());
 

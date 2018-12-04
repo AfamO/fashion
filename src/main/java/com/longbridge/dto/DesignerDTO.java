@@ -32,6 +32,7 @@ public class DesignerDTO {
     public int quantityOfPendingOrders;
     public int qualityRating;
     public int threshold;
+    public String bespokeEligible;
 
     public String accountNumber;
     public String bankName;
