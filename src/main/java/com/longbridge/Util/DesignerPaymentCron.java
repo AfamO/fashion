@@ -31,18 +31,19 @@ public class DesignerPaymentCron {
     @Autowired
     DesignerPaymentRepository designerPaymentRepository;
 
-   // @Scheduled(cron = "${wawooh.status.check.rate}")
+    //@Scheduled(cron = "${wawooh.status.check.rate}")
     private String checkPocketForDebit(){
       //  System.out.println("cron running..........");
         Date date = new Date();
         List<Pocket> pocketList=pocketRepository.findByDueDateForDebitIsLessThanEqualAndDebitFlag(date,"N");
-if(pocketList.size() >0){
+        if(pocketList.size() >0){
     for (Pocket p:pocketList) {
         Items items = itemRepository.findOne(p.getItemId());
         DesignerPayment designerPayment = new DesignerPayment();
         designerPayment.setItems(items);
         designerPayment.setAmount(items.getAmount());
         designerPayment.setPaidFlag("N");
+        designerPaymentRepository.save(designerPayment);
     }
 }
         return "true";
