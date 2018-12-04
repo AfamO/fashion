@@ -37,6 +37,7 @@ public class PocketServiceImpl implements PocketService{
             pocket.setBalance(amount);
             pocket.setPendingSettlement(amount);
             pocket.setUser(user);
+            pocket.setDebitFlag("N");
             pocket.setItemId(itemId);
         }
 

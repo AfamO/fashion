@@ -168,7 +168,7 @@ public class GeneralUtil {
     public DesignerDTO convertDesignerEntToDTO(Designer d){
         DesignerDTO dto = new DesignerDTO();
         dto.id=d.id;
-        dto.logo=d.getPublicId();
+        dto.logo=d.getLogo();
         dto.banner=d.getBanner();
         dto.storeName=d.getStoreName();
         dto.setStoreId(d.getStoreId());

@@ -259,6 +259,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     itemsAmount = itemsAmount+orders.getShippingAmount();
                     isShippingAdded=true;
                 }
+
                 //update pocket balance
                 pocketService.updatePocketForOrderPayment(customer,itemsAmount,"BANK_TRANSFER",items.id);
 
